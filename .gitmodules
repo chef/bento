@@ -1,0 +1,3 @@
+[submodule "definitions"]
+	path = definitions
+	url = git@github.com:opscode/basebox.git
