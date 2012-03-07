@@ -2,6 +2,8 @@ We currently have the following 'official' Vagrant base boxes available for inte
 usage:
 
 * opscode-ubuntu-10.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
+* opscode-centos-6.0 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.0.box
+* opscode-centos-6.2 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.2.box
 
 Projects like [opscode-dev-vm](https://github.com/opscode/opscode-dev-vm) and
 [opscode-omnibus](https://github.com/opscode/opscode-omnibus) are already taking
@@ -106,7 +108,7 @@ Go get some coffee and let Veewee work it's magic.  Once your base box is built,
     vagrant ssh
 
 For any base boxes you expect to share with the company as a whole be sure to
-namespace the box with {{opscode-*}}:
+namespace the box with `opscode-*`:
 
     $ mv ubuntu-10.04 opscode-ubuntu-10.04
 
@@ -125,12 +127,42 @@ bucket (vagrant/boxes folder) on our [preprod AWS account](https://wiki.corp.ops
 This box has an additional hard disk so we can properly emulate Private Chef HA
 configurations.  There is no automated way to add this additional SATA drive.
 After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the {{ubuntu-10.04}} VM and create a second SATA
+open the VirtualBox settings for the `ubuntu-10.04` VM and create a second SATA
 Hard Disk with the following settings:
 
-*File Type:* VDI (VirtualBox Disk Image)
-*Storage Details:* Dynamically allocated
-*Location:* ubuntu-10.04-2.vdi
-*Size*: 9.90 GB
+* **File Type:** VDI (VirtualBox Disk Image)
+* **Storage Details:** Dynamically allocated
+* **Location:** ubuntu-10.04-2.vdi
+* **Size**: 9.90 GB
+
+Once this step is complete re-export the box.
+
+## opscode-centos-6.0
+
+This box has an additional hard disk so we can properly emulate Private Chef HA
+configurations.  There is no automated way to add this additional SATA drive.
+After the initial basebox *build*, *validate* and *export* commands succeeds
+open the VirtualBox settings for the `centos-6.0` VM and create a second SATA
+Hard Disk with the following settings:
+
+* **File Type:* VDI (VirtualBox Disk Image)
+* **Storage Details:* Dynamically allocated
+* **Location:* centos-6.0-2.vdi
+* **Size*: 9.90 GB
+
+Once this step is complete re-export the box.
+
+## opscode-centos-6.2
+
+This box has an additional hard disk so we can properly emulate Private Chef HA
+configurations.  There is no automated way to add this additional SATA drive.
+After the initial basebox *build*, *validate* and *export* commands succeeds
+open the VirtualBox settings for the `centos-6.2` VM and create a second SATA
+Hard Disk with the following settings:
+
+* **File Type:** VDI (VirtualBox Disk Image)
+* **Storage Details:** Dynamically allocated
+* **Location:** centos-6.2-2.vdi
+* **Size**: 9.90 GB
 
 Once this step is complete re-export the box.
