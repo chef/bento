@@ -30,6 +30,9 @@ Next initialize the 'definitions' submodule:
     $ git submodule init
     $ git submodule update
 
+On newer versions of `git`, the above commands are not necessary. For more information
+on using the rest of the `git submodule` features, see [this page](http://chrisjean.com/2009/04/20/git-submodules-adding-using-removing-and-updating/).
+
 Now we can easily list the available base box definitions:
 
     $ bundle exec vagrant basebox list
@@ -134,6 +137,42 @@ Hard Disk with the following settings:
 * **Storage Details:** Dynamically allocated
 * **Location:** ubuntu-10.04-2.vdi
 * **Size**: 9.90 GB
+
+Once this step is complete re-export the box.
+
+## opscode-ubuntu-11.04
+
+This box has a primary HDD of 40.0 GB, as specified in the updated basebox
+definitions.
+
+This box has an additional hard disk so we can properly emulate Private Chef HA
+configurations.  There is no automated way to add this additional SATA drive.
+After the initial basebox *build*, *validate* and *export* commands succeeds
+open the VirtualBox settings for the `ubuntu-11.04` VM and create a second SATA
+Hard Disk with the following settings:
+
+* **File Type:** VDI (VirtualBox Disk Image)
+* **Storage Details:** Dynamically allocated
+* **Location:** ubuntu-11.04-2.vdi
+* **Size**: 40.0 GB
+
+Once this step is complete re-export the box.
+
+## opscode-centos-5.7
+
+This box has a primary HDD of 40.0 GB, as specified in the updated basebox
+definitions.
+
+This box has an additional hard disk so we can properly emulate Private Chef HA
+configurations.  There is no automated way to add this additional SATA drive.
+After the initial basebox *build*, *validate* and *export* commands succeeds
+open the VirtualBox settings for the `centos-5.7` VM and create a second SATA
+Hard Disk with the following settings:
+
+* **File Type:* VDI (VirtualBox Disk Image)
+* **Storage Details:* Dynamically allocated
+* **Location:* centos-5.7-2.vdi
+* **Size*: 40.0 GB
 
 Once this step is complete re-export the box.
 
