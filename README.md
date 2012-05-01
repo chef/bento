@@ -3,6 +3,7 @@ usage:
 
 * opscode-ubuntu-10.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
 * opscode-ubuntu-11.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-11.04.box
+* opscode-ubuntu-12.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
 * opscode-centos-5.5 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.5.box
 * opscode-centos-5.7 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.7.box
 * opscode-centos-6.0 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.0.box
@@ -157,6 +158,24 @@ Hard Disk with the following settings:
 * **File Type:** VDI (VirtualBox Disk Image)
 * **Storage Details:** Dynamically allocated
 * **Location:** ubuntu-11.04-2.vdi
+* **Size**: 40.0 GB
+
+Once this step is complete re-export the box.
+
+## opscode-ubuntu-12.04
+
+This box has a primary HDD of 40.0 GB, as specified in the updated basebox
+definitions.
+
+This box has an additional hard disk so we can properly emulate Private Chef HA
+configurations.  There is no automated way to add this additional SATA drive.
+After the initial basebox *build*, *validate* and *export* commands succeeds
+open the VirtualBox settings for the `ubuntu-12.04` VM and create a second SATA
+Hard Disk with the following settings:
+
+* **File Type:** VDI (VirtualBox Disk Image)
+* **Storage Details:** Dynamically allocated
+* **Location:** ubuntu-12.04-2.vdi
 * **Size**: 40.0 GB
 
 Once this step is complete re-export the box.
