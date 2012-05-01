@@ -2,6 +2,9 @@ We currently have the following 'official' Vagrant base boxes available for inte
 usage:
 
 * opscode-ubuntu-10.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
+* opscode-ubuntu-11.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-11.04.box
+* opscode-centos-5.5 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.5.box
+* opscode-centos-5.7 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.7.box
 * opscode-centos-6.0 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.0.box
 * opscode-centos-6.2 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.2.box
 
