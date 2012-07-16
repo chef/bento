@@ -5,7 +5,7 @@ CENTOS_SESSION =
                          [ 'linux text ks=http://%IP%:%PORT%/ks.cfg<Enter>' ],
                          :kickstart_file => "ks.cfg",
                          :os_type_id => 'RedHat_64',
-                         :postinstall_files => [ "ruby.sh",
+                         :postinstall_files => [ "chef-client.sh",
                                                  "vagrant.sh",
                                                  "cleanup.sh",
                                                  "minimize.sh" ],
