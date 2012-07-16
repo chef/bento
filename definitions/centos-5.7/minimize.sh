@@ -1,0 +1,1 @@
+../.common/minimize.sh
