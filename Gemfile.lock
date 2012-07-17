@@ -88,4 +88,4 @@ PLATFORMS
 DEPENDENCIES
   rake
   vagrant (~> 1.0.3)
-  veewee (~> 0.3.0.alpha)
+  veewee (>= 0.3.0.alpha)
