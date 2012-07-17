@@ -1,5 +1,5 @@
 source :rubygems
 
-gem "vagrant", "~> 0.9.7"
-gem "veewee", "~> 0.2.3"
+gem "vagrant", "~> 1.0.3"
+gem "veewee", ">= 0.3.0.alpha"
 gem "rake"
