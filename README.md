@@ -1,5 +1,14 @@
-We currently have the following 'official' Vagrant base boxes available for internal
-usage:
+Bento is a project that encapsulates
+[Veewee](https://github.com/jedi4ever/veewee/) definitions for
+building [Vagrant](http://vagrantup.com) baseboxes. We use these boxes
+internally at Opscode for testing Hosted Chef, Private Chef and
+our open source [cookbooks](http://community.opscode.com/users/Opscode).
+
+These basebox definitions are originally based on
+[work done by Tim Dysinger](https://github.com/dysinger/basebox) to
+make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
+
+The following baseboxes are publicly available and were built using this project.
 
 * opscode-ubuntu-10.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
 * opscode-ubuntu-11.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-11.04.box
@@ -9,224 +18,93 @@ usage:
 * opscode-centos-6.0 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.0.box
 * opscode-centos-6.2 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.2.box
 
-Projects like [opscode-dev-vm](https://github.com/opscode/opscode-dev-vm) and
-[opscode-omnibus](https://github.com/opscode/opscode-omnibus) are already taking
-advantage of the above base boxes.  For many people these base boxes will be enough.
-That being said, it is important to understand how we construct base boxes.  This
-will be useful information if you ever have to create a new base box or rebuild
-an existing one.
+# Getting Started
 
-# Build a New Base Box
+First, clone the project, then install the required Gems with Bundler.
 
-Building a new base box is a fairly painless affair.  This project uses
-[Veewee](https://github.com/jedi4ever/veewee) to automate construction of a new
-base boxes but replaces the crufty templates that ship with Veewee with a more
-sane set of DRY, vetted definitions originally put together by Tim Dysinger.
-
-First thing you need to do is checkout [bento](https://github.com/opscode/bento):
-
-    $ git clone git@github.com:opscode/bento.git
+    $ git clone git://github.com/opscode/bento.git
     $ cd bento
     $ bundle install --binstubs
 
-Now we can easily list the available base box definitions:
+List available baseboxes that can be built:
 
     $ bundle exec vagrant basebox list
-    The following defined baseboxes exist:
-    - centos-5.5
-    - centos-5.6
-    - centos-5.7
-    - centos-6.0
-    - centos-6.2
-    - LICENSE
-    - README.org
-    - ubuntu-10.04
-    - ubuntu-10.10
-    - ubuntu-11.04
-    - ubuntu-11.10
 
-Building a base box is one, simple command:
+Build, for example, the ubuntu-12.04 basebox.
 
-    $ bundle exec vagrant basebox build ubuntu-10.04
-    Verifying the isofile ubuntu-10.04.4-server-amd64.iso is ok.
-    Setting VM Flag ioapic to on
-    Setting VM Flag pae to on
-    Creating vm ubuntu-10.04 : 384M - 1 CPU - Ubuntu_64
-    Creating new harddrive of size 10140
-    VBoxManage createhd --filename '/Users/schisamo/VirtualBox VMs/ubuntu-10.04/ubuntu-10.04.vdi' --size '10140' --format vdi > /dev/null
-    Attaching disk: /Users/schisamo/VirtualBox VMs/ubuntu-10.04/ubuntu-10.04.vdi
-    Mounting cdrom: /Users/schisamo/dev/code/opscode/opscode-dev-vm/iso/ubuntu-10.04.4-server-amd64.iso
-    Waiting for the machine to boot
+    $ bundle exec vagrant basebox build ubuntu-12.04
 
-    Typing:[1]: <Esc>
-    Typing:[2]: <Esc>
-    Typing:[3]: <Enter>
-    Typing:[4]: /install/vmlinuz
-    Typing:[5]:  auto
-    ...
+You can validate the basebox using Veewee's built in validator.
+However note that the test for Ruby (and Puppet) will fail. The Ruby
+installation is in `/opt/chef/embedded`, and we do not add the bin
+directory to the `$PATH`, and we don't use Puppet internally.
 
-Go get some coffee and let Veewee work it's magic.  Once your base box is built, validate it...
+    $ bundle exec vagrant basebox validate ubuntu-12.04
 
-    $ bundle exec vagrant basebox validate ubuntu-10.04
-    Feature: vagrant box validation
-      As a valid vagrant box
-      I need to comply to a set of rules
+Aside from that, the basebox should be ready to use. Export it:
 
-      Scenario: Checking login
+    $ bundle exec vagrant export ubuntu-12.04
 
-    ...
+Congratulations! You now have `./ubuntu-12.04.box`, a fully functional
+basebox that you can then add to Vagrant and start testing cookbooks.
 
-    7 scenarios (7 passed)
-    21 steps (21 passed)
-    0m8.622s
+# How It Works
 
-...and export it:
+Veewee reads the definition specified and automatically builds a
+VirtualBox machine. The VirtualBox guest additions and the target OS
+ISO are downloaded into the `iso/` directory.
 
+We use Veewee version 0.3.0.alpha+ because it contains fixes for
+building CentOS boxes under certain circumstances.
 
-    $ bundle exec vagrant basebox export ubuntu-10.04
-    Vagrant requires the box to be shutdown, before it can export
-    Sudo also needs to work for user vagrant
-    Performing a clean shutdown now.
-    Executing command: sudo shutdown -P now
+# Definitions
 
-    Broadcast message from vagrant@vagrant
-      (/dev/pts/0) at 0:19 ...
+The definitions themselves are split up into directories that get
+symlinked into specific basebox directories.
 
-    The system is going down for power off NOW!
-    ....
-    Machine ubuntu-10.04 is powered off cleanly
-    Executing vagrant voodoo:
-    vagrant package --base 'ubuntu-10.04' --output 'ubuntu-10.04.box'
+Most of the files are symlinked for a particular box. The one
+exception is the `definition.rb` file, which contains the specific
+configuration for the Veewee session for a basebox, including the ISO
+filename, its source URL, and the MD5 checksum of the file.
 
-    To import it into vagrant type:
-    vagrant box add 'ubuntu-10.04' 'ubuntu-10.04.box'
+## Common
 
-    To use it:
-    vagrant init 'ubuntu-10.04'
-    vagrant up
-    vagrant ssh
+* `chef-client.sh`: Installs Chef and Ruby with
+  [Opscode's full stack installer](http://opscode.com/chef/install)
+* `minimize.sh`: Zeroes out the root disk to reduce file size of the box
+* `ruby.sh`: **Deprecated** Use `chef-client.sh`
+* `session.rb`: Baseline session settings for Veewee
+* `vagrant.sh`: Installs VirtualBox Guest Additions, adds the Vagrant
+  SSH key
 
-For any base boxes you expect to share with the company as a whole be sure to
-namespace the box with `opscode-*`:
+## CentOS
 
-    $ mv ubuntu-10.04 opscode-ubuntu-10.04
+* `cleanup.sh`: Removes unneeded packages, cleans up package cache,
+  and removes the VBox ISO and Chef rpm
+* `ks.cfg`: Kickstart file for automated OS installation
+* `session.rb`: General CentOS session settings for Veewee
 
-Now you have a few choices...you can import the base box into your local Vagrant
-environment:
+## Ubuntu
 
-    $ bundle exec vagrant box add opscode-ubuntu-10.04 opscode-ubuntu-10.04.box
-
-If it is a box you want to share with the company upload the box to the `opscode-vm`
-bucket (vagrant/boxes folder) on our [preprod AWS account](https://wiki.corp.opscode.com/display/CORP/Summary+of+AWS+Accounts#SummaryofAWSAccounts-%22rspreprod%22)
-
-# Individual Base Box Build Notes
-
-## opscode-ubuntu-10.04
-
-This box has an additional hard disk so we can properly emulate Private Chef HA
-configurations.  There is no automated way to add this additional SATA drive.
-After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the `ubuntu-10.04` VM and create a second SATA
-Hard Disk with the following settings:
-
-* **File Type:** VDI (VirtualBox Disk Image)
-* **Storage Details:** Dynamically allocated
-* **Location:** ubuntu-10.04-2.vdi
-* **Size**: 9.90 GB
-
-Once this step is complete re-export the box.
-
-## opscode-ubuntu-11.04
-
-This box has a primary HDD of 40.0 GB, as specified in the updated basebox
-definitions.
-
-This box has an additional hard disk so we can properly emulate Private Chef HA
-configurations.  There is no automated way to add this additional SATA drive.
-After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the `ubuntu-11.04` VM and create a second SATA
-Hard Disk with the following settings:
-
-* **File Type:** VDI (VirtualBox Disk Image)
-* **Storage Details:** Dynamically allocated
-* **Location:** ubuntu-11.04-2.vdi
-* **Size**: 40.0 GB
-
-Once this step is complete re-export the box.
-
-## opscode-ubuntu-12.04
-
-This box has a primary HDD of 40.0 GB, as specified in the updated basebox
-definitions.
-
-This box has an additional hard disk so we can properly emulate Private Chef HA
-configurations.  There is no automated way to add this additional SATA drive.
-After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the `ubuntu-12.04` VM and create a second SATA
-Hard Disk with the following settings:
-
-* **File Type:** VDI (VirtualBox Disk Image)
-* **Storage Details:** Dynamically allocated
-* **Location:** ubuntu-12.04-2.vdi
-* **Size**: 40.0 GB
-
-Once this step is complete re-export the box.
-
-## opscode-centos-5.7
-
-This box has a primary HDD of 40.0 GB, as specified in the updated basebox
-definitions.
-
-This box has an additional hard disk so we can properly emulate Private Chef HA
-configurations.  There is no automated way to add this additional SATA drive.
-After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the `centos-5.7` VM and create a second SATA
-Hard Disk with the following settings:
-
-* **File Type:* VDI (VirtualBox Disk Image)
-* **Storage Details:* Dynamically allocated
-* **Location:* centos-5.7-2.vdi
-* **Size*: 40.0 GB
-
-Once this step is complete re-export the box.
-
-## opscode-centos-6.0
-
-This box has an additional hard disk so we can properly emulate Private Chef HA
-configurations.  There is no automated way to add this additional SATA drive.
-After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the `centos-6.0` VM and create a second SATA
-Hard Disk with the following settings:
-
-* **File Type:* VDI (VirtualBox Disk Image)
-* **Storage Details:* Dynamically allocated
-* **Location:* centos-6.0-2.vdi
-* **Size*: 9.90 GB
-
-Once this step is complete re-export the box.
-
-## opscode-centos-6.2
-
-This box has an additional hard disk so we can properly emulate Private Chef HA
-configurations.  There is no automated way to add this additional SATA drive.
-After the initial basebox *build*, *validate* and *export* commands succeeds
-open the VirtualBox settings for the `centos-6.2` VM and create a second SATA
-Hard Disk with the following settings:
-
-* **File Type:** VDI (VirtualBox Disk Image)
-* **Storage Details:** Dynamically allocated
-* **Location:** centos-6.2-2.vdi
-* **Size**: 9.90 GB
-
-Once this step is complete re-export the box.
+* `cleanup.sh`: Removes unneeded packages, cleans up package cache,
+  and removes the VBox ISO and Chef deb
+* `networking.sh`: Removes networking setup like udev that may
+  interfere with Vagrant network setup
+* `preseed.cfg`: The Debian Preseed file for automated OS installation
+* `session.rb`: General Ubuntu session settings for Veewee
+* `sudoers.sh`: Customization for `/etc/sudoers`
+* `update.sh`: Ensures that the OS installation is updated
 
 License and Authors
 ===================
 
 Author:: Seth Chisamore (<schisamo@opscode.com>)
 Author:: Stephen Delano (<stephen@opscode.com>)
+Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Tim Dysinger (<tim@dysinger.net>)
 
 Copyright:: 2012, Opscode, Inc (<legal@opscode.com>)
+Copyright:: 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
