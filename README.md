@@ -10,13 +10,12 @@ make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 The following baseboxes are publicly available and were built using this project.
 
-* opscode-ubuntu-10.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
-* opscode-ubuntu-11.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-11.04.box
-* opscode-ubuntu-12.04 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
-* opscode-centos-5.5 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.5.box
-* opscode-centos-5.7 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.7.box
-* opscode-centos-6.0 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.0.box
-* opscode-centos-6.2 - http://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.2.box
+* [opscode-centos-5.8-i386](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8-i386.box)
+* [opscode-centos-5.8](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8.box)
+* [opscode-centos-6.3-i386](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3-i386.box)
+* [opscode-centos-6.3](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3.box)
+* [opscode-ubuntu-10.04](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box)
+* [opscode-ubuntu-12.04](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box)
 
 # Getting Started
 
