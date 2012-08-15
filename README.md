@@ -42,7 +42,7 @@ directory to the `$PATH`, and we don't use Puppet internally.
 
 Aside from that, the basebox should be ready to use. Export it:
 
-    $ bundle exec vagrant export ubuntu-12.04
+    $ bundle exec vagrant basebox export ubuntu-12.04
 
 Congratulations! You now have `./ubuntu-12.04.box`, a fully functional
 basebox that you can then add to Vagrant and start testing cookbooks.
