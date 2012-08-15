@@ -94,6 +94,18 @@ filename, its source URL, and the MD5 checksum of the file.
 * `sudoers.sh`: Customization for `/etc/sudoers`
 * `update.sh`: Ensures that the OS installation is updated
 
+Bugs and Issues
+===============
+
+Use the
+[issue tracker](http://tickets.opscode.com/browse/BENTO) to
+report bugs, features or other issues.
+
+Contributing
+============
+
+[How to contribute to Opscode open source software projects](http://wiki.opscode.com/display/chef/How+to+Contribute)
+
 License and Authors
 ===================
 
