@@ -15,7 +15,9 @@ The following baseboxes are publicly available and were built using this project
 * [opscode-centos-6.3-i386](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3-i386.box)
 * [opscode-centos-6.3](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3.box)
 * [opscode-ubuntu-10.04](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box)
+* [opscode-ubuntu-10.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04-i386.box)
 * [opscode-ubuntu-12.04](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box)
+* [opscode-ubuntu-12.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04-i386.box)
 
 # Getting Started
 
