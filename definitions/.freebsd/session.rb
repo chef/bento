@@ -71,7 +71,7 @@ FREEBSD_SESSION =
                           'echo "/dev/gpt/swap0 none swap sw 0 0" > /mnt/etc/fstab<Enter>',
                           # Set up user accounts
                           'zfs create zroot/usr/home/vagrant<Enter>',
-                          'echo "vagrant" | pw -V /mnt/etc useradd vagrant -h 0 -s csh -d /home/vagrant -c "Vagrant User"<Enter>',
+                          'echo "vagrant" | pw -V /mnt/etc useradd vagrant -h 0 -s csh -G wheel -d /home/vagrant -c "Vagrant User"<Enter>',
                           'echo "vagrant" | pw -V /mnt/etc usermod root<Enter>',
                           'chown 1001:1001 /mnt/home/vagrant<Enter>',
                           # Finalize zfs
