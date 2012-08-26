@@ -54,6 +54,8 @@ FREEBSD_SESSION =
                           '<Wait><Wait><Wait><Wait><Wait>',
                           'cat kernel.txz | tar --unlink -xpJf - -C /mnt<Enter>',
                           '<Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait>',
+                          'cat src.txz | tar --unlink -xpJf - -C /mnt<Enter>',
+                          '<Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait>',
                           'cp /tmp/zpool.cache /mnt/boot/zfs/zpool.cache<Enter>',
                           # Enable required services
                           "echo 'zfs_enable=\"YES\"' >> /mnt/etc/rc.conf<Enter>",
@@ -69,6 +71,18 @@ FREEBSD_SESSION =
                           "echo 'vfs.zfs.vdev.cache.size=\"5M\"' >> /mnt/boot/loader.conf<Enter>",
                           # Enable swap
                           'echo "/dev/gpt/swap0 none swap sw 0 0" > /mnt/etc/fstab<Enter>',
+                          # Install a few requirements
+                          'echo "nameserver 8.8.8.8" > /mnt/etc/resolv.conf<Enter>',
+                          'pkg_add -C /mnt -r bash-static<Enter>',
+                          '<Wait><Wait><Wait><Wait><Wait>',
+                          'cd /mnt/bin<Enter>',
+                          'ln -s /usr/local/bin/bash bash<Enter>',
+                          'pkg_add -C /mnt -r sudo<Enter>',
+                          '<Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait>',
+                          '<Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait>',
+                          "echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /mnt/usr/local/etc/sudoers<Enter>",
+                          'rm /mnt/etc/resolv.conf<Enter>',
+                          'cd /<Enter>',
                           # Set up user accounts
                           'zfs create zroot/usr/home/vagrant<Enter>',
                           'echo "vagrant" | pw -V /mnt/etc useradd vagrant -h 0 -s csh -G wheel -d /home/vagrant -c "Vagrant User"<Enter>',
@@ -85,4 +99,11 @@ FREEBSD_SESSION =
                           'reboot<Enter>'
                          ],
                          :memory_size=> "512",
-                         :os_type_id => 'FreeBSD_64' })
+                         :os_type_id => 'FreeBSD_64',
+                         :postinstall_files => [
+                           "update.sh",
+                           "chef-client.sh",
+                           "vagrant.sh",
+                           "cleanup.sh"
+                         ]
+                        })
