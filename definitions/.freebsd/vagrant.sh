@@ -1,11 +1,34 @@
-#!/usr/local/bin/bash -leux
+#!/bin/sh -x
 
-sed 's/\[ ! -t 0 \]/true/' /usr/sbin/portsnap > /tmp/portsnap
+MAKE_OPS="-DWITHOUT_X11"
+
+depends() {
+  echo $1
+  cd $1
+  for d in $(make $MAKE_OPTS build-depends-list) ; do
+    depends $d | xargs -n1 echo
+  done  
+}
+
+sed 's/\[ ! -t 0 \]/false/' /usr/sbin/portsnap > /tmp/portsnap
 chmod +x /tmp/portsnap
 /tmp/portsnap fetch extract update
 
 cd /usr/ports/emulators/virtualbox-ose-additions
-make -DWITHOUT_X11 install clean
+for d in $(make $MAKE_OPTS build-depends-list) ; do
+  echo $d
+  depends $d | xargs -n1 echo
+done | sort | uniq | awk -F'/' '{print $5}' | xargs pkg_add -r
+
+cat >> /etc/make.conf << EOT
+WITHOUT_X11="YES"
+MASTER_SITE_OVERRIDE="http://ftp.freebsd.org/pub/FreeBSD/ports/distfiles/"
+EOT
+
+cd /usr/ports/emulators/virtualbox-ose-additions
+make -DBATCH install clean
+
+sed -i '' -e '/^MASTER_SITE_OVERRIDE/d' /etc/make.conf
 
 cat >> /etc/rc.conf << EOT
 vboxguest_enable="YES"
