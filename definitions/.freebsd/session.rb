@@ -25,6 +25,9 @@ FREEBSD_SESSION =
                            "update.sh",
                            "chef-client.sh",
                            "vagrant.sh",
-                           "cleanup.sh"
-                         ]
+                           "cleanup.sh",
+                           "minimize.sh"
+                         ],
+                         :ssh_login_timeout => "2000",
+                         :shutdown_cmd => "shutdown -p now"
                         })
