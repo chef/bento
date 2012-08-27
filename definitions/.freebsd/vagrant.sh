@@ -24,10 +24,6 @@ vboxguest_enable="YES"
 vboxservice_enable="YES"
 EOT
 
-# start the services
-service vboxguest start
-service vboxservice start
-
 # install vagrant insecure ssh key
 mkdir /home/vagrant/.ssh
 fetch -o /home/vagrant/.ssh/authorized_keys \
