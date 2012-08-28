@@ -24,19 +24,19 @@ zfs set checksum=fletcher4 zroot
 zfs create zroot/usr
 zfs create zroot/usr/home
 zfs create zroot/var
-zfs create -o compression=on -o exec=on -o setuid=off zroot/tmp
-zfs create -o compression=lzjb -o setuid=off zroot/usr/ports
-zfs create -o compression=off -o exec=off -o setuid=off zroot/usr/ports/distfiles
-zfs create -o compression=off -o exec=off -o setuid=off zroot/usr/ports/packages
+zfs create -o compression=on   -o exec=on  -o setuid=off zroot/tmp
+zfs create -o compression=lzjb             -o setuid=off zroot/usr/ports
+zfs create -o compression=off  -o exec=off -o setuid=off zroot/usr/ports/distfiles
+zfs create -o compression=off  -o exec=off -o setuid=off zroot/usr/ports/packages
 zfs create -o compression=lzjb -o exec=off -o setuid=off zroot/usr/src
 zfs create -o compression=lzjb -o exec=off -o setuid=off zroot/var/crash
-zfs create -o exec=off -o setuid=off zroot/var/db
-zfs create -o compression=lzjb -o exec=on -o setuid=off zroot/var/db/pkg
-zfs create -o exec=off -o setuid=off zroot/var/empty
+zfs create                     -o exec=off -o setuid=off zroot/var/db
+zfs create -o compression=lzjb -o exec=on  -o setuid=off zroot/var/db/pkg
+zfs create                     -o exec=off -o setuid=off zroot/var/empty
 zfs create -o compression=lzjb -o exec=off -o setuid=off zroot/var/log
 zfs create -o compression=gzip -o exec=off -o setuid=off zroot/var/mail
-zfs create -o exec=off -o setuid=off zroot/var/run
-zfs create -o compression=lzjb -o exec=on -o setuid=off zroot/var/tmp
+zfs create                     -o exec=off -o setuid=off zroot/var/run
+zfs create -o compression=lzjb -o exec=on  -o setuid=off zroot/var/tmp
 
 # set up swap
 zfs create -V 2G zroot/swap
