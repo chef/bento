@@ -6,16 +6,21 @@ NAME=$1
 
 # create disks
 gpart create -s gpt ada0
-gpart add -b 34 -s 64k -t freebsd-boot ada0
-gpart add -s 2G -t freebsd-swap -l swap0 ada0
+gpart add -b 34 -s 94 -t freebsd-boot ada0
 gpart add -t freebsd-zfs -l disk0 ada0
 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0
 
-# set up zfs pools
-zpool create zroot /dev/gpt/disk0
+# align disks
+gnop create -S 4096 /dev/gpt/disk0
+zpool create -o altroot=/mnt -o cachefile=/tmp/zpool.cache zroot /dev/gpt/disk0.nop
+zpool export zroot
+gnop destroy /dev/gpt/disk0.nop
+zpool import -o altroot=/mnt -o cachefile=/tmp/zpool.cache zroot
+
 zpool set bootfs=zroot zroot
 zfs set checksum=fletcher4 zroot
-zfs set mountpoint=/mnt zroot
+
+# set up zfs pools
 zfs create zroot/usr
 zfs create zroot/usr/home
 zfs create zroot/var
@@ -32,8 +37,13 @@ zfs create -o compression=lzjb -o exec=off -o setuid=off zroot/var/log
 zfs create -o compression=gzip -o exec=off -o setuid=off zroot/var/mail
 zfs create -o exec=off -o setuid=off zroot/var/run
 zfs create -o compression=lzjb -o exec=on -o setuid=off zroot/var/tmp
-zpool export zroot
-zpool import -o cachefile=/tmp/zpool.cache zroot
+
+# set up swap
+zfs create -V 2G zroot/swap
+zfs set org.freebsd:swap=on zroot/swap
+zfs set checksum=off zroot/swap
+
+# fixup
 chmod 1777 /mnt/tmp
 cd /mnt ; ln -s usr/home home
 chmod 1777 /mnt/var/tmp
