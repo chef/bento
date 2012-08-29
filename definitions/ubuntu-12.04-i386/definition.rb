@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + "/../.ubuntu/session.rb"
 
-iso = "ubuntu-12.04-server-i386.iso"
+iso = "ubuntu-12.04.1-server-i386.iso"
 
 session =
   UBUNTU_SESSION.merge( :iso_file => iso,
