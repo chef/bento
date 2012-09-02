@@ -9,6 +9,6 @@ session =
                         :os_type_id => 'RedHat',
                         :iso_file => iso,
                         :iso_md5 => "8c976288ed53dc97439f7ab5854f2648",
-                        :iso_src => "http://mirrors.kernel.org/centos/6.2/isos/i386/#{iso}" )
+                        :iso_src => "http://vault.centos.org/6.2/isos/i386/#{iso}" )
 
 Veewee::Session.declare session
