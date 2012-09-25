@@ -6,7 +6,7 @@ OMNIOS_SESSION =
                          :memory_size => '1024',
                          :disk_size => '40960',
                          :postinstall_files => [
-                            "guest-additions.sh",
+                            "guestadditions.sh",
                             "vagrant.sh",
                             "chef-solo.sh",
                             "cleanup.sh",

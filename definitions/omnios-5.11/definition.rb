@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + "/../.omnios/session.rb"
 
-iso = "OmniOS_Text_r151002l.iso"
+iso = "OmniOS_Text_r151002w.iso"
 
 session = OMNIOS_SESSION.merge({
   :iso_file => iso,
   :iso_src  => "http://omnios.omniti.com/media/#{iso}",
-  :iso_md5  => "f5d8f0c5531791b877a6f0d1986e4329",
+  :iso_md5  => "37fa468bd4aa8f44b34f0a0618afa9a3",
   :iso_download_timeout => "1000",
   :boot_wait => "30",
   :boot_cmd_sequence => [
