@@ -1,0 +1,1 @@
+../.omnios/guest-additions.sh
