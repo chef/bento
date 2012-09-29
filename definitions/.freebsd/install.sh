@@ -38,14 +38,10 @@ zfs create -o compression=gzip -o exec=off -o setuid=off zroot/var/mail
 zfs create                     -o exec=off -o setuid=off zroot/var/run
 zfs create -o compression=lzjb -o exec=on  -o setuid=off zroot/var/tmp
 
-# set up swap
-zfs create -V 2G zroot/swap
-zfs set org.freebsd:swap=on zroot/swap
-zfs set checksum=off zroot/swap
-
 # fixup
 chmod 1777 /mnt/tmp
 cd /mnt ; ln -s usr/home home
+sleep 10
 chmod 1777 /mnt/var/tmp
 
 # Install the OS
@@ -55,8 +51,14 @@ cat lib32.txz | tar --unlink -xpJf - -C /mnt
 cat kernel.txz | tar --unlink -xpJf - -C /mnt
 cat src.txz | tar --unlink -xpJf - -C /mnt
 
+# set up swap
+zfs create -V 2G zroot/swap
+zfs set org.freebsd:swap=on zroot/swap
+zfs set checksum=off zroot/swap
+
 cp /tmp/zpool.cache /mnt/boot/zfs/zpool.cache
 
+sleep 10
 # Enable required services
 cat >> /mnt/etc/rc.conf << EOT
 zfs_enable="YES"
@@ -95,14 +97,6 @@ echo "vagrant" | pw -V /mnt/etc useradd vagrant -h 0 -s csh -G wheel -d /home/va
 echo "vagrant" | pw -V /mnt/etc usermod root
 
 chown 1001:1001 /mnt/home/vagrant
-
-# Finalize zfs
-zfs set readonly=on zroot/var/empty
-zfs umount -a
-zfs set mountpoint=legacy zroot
-zfs set mountpoint=/tmp zroot/tmp
-zfs set mountpoint=/usr zroot/usr
-zfs set mountpoint=/var zroot/var
 
 # Reboot
 reboot

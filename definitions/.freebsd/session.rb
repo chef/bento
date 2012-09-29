@@ -12,7 +12,7 @@ FREEBSD_SESSION =
                           '<Enter>',
                           '<Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait>',
                           '/bin/sh<Enter>',
-                          'mdmfs -s 10m md1 /tmp<Enter>',
+                          'mdmfs -s 100m md1 /tmp<Enter>',
                           'dhclient -l /tmp/dhclient.lease.em0 em0<Enter>',
                           '<Wait><Wait><Wait>',
                           'echo "Sleeping for 10 seconds, then running install script."<Enter>',
