@@ -123,6 +123,7 @@ License and Authors
 - Author:: Stephen Delano (<stephen@opscode.com>)
 - Author:: Joshua Timberman (<joshua@opscode.com>)
 - Author:: Tim Dysinger (<tim@dysinger.net>)
+- Author:: Chris McClimans (<chris@hippiehacker.org>)
 
 Copyright:: 2012, Opscode, Inc (<legal@opscode.com>)
 Copyright:: 2011-2012, Tim Dysinger (<tim@dysinger.net>)
