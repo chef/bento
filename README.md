@@ -118,6 +118,14 @@ filename, its source URL, and the MD5 checksum of the file.
 * `sudoers.sh`: Customization for `/etc/sudoers`
 * `update.sh`: Ensures that the OS installation is updated
 
+## Windows
+
+* `install-chef.bat`: Installs Chef and Ruby with
+  [Opscode's full stack installer](http://opscode.com/chef/install)
+* `oracle-cert.cer`: Needed for automated install via install-vbox.bat
+* `install-vbox.bat`: Installs VirtualBox Guest Additions
+* `mount-validation.bat`: Mounts the validation drive
+
 Bugs and Issues
 ===============
 
@@ -137,6 +145,7 @@ License and Authors
 - Author:: Stephen Delano (<stephen@opscode.com>)
 - Author:: Joshua Timberman (<joshua@opscode.com>)
 - Author:: Tim Dysinger (<tim@dysinger.net>)
+- Author:: Chris McClimans (<chris@hippiehacker.org>)
 
 Copyright:: 2012, Opscode, Inc (<legal@opscode.com>)
 Copyright:: 2011-2012, Tim Dysinger (<tim@dysinger.net>)
