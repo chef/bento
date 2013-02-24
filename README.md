@@ -11,13 +11,24 @@ make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 ## Current Baseboxes
 
 The following baseboxes are publicly available and were built using
-this project, and Chef 10.18.2. Future releases of Chef and baseboxes
+this project, and Chef 11.2.0. Future releases of Chef and baseboxes
 will follow the naming convention used here:
 
     opscode_PLATFORM-VERSION_chef-VERSION.box
 
 And located in the opscode-vm S3 bucket's vagrant directory as linked
 below.
+
+* [opscode-centos-5.8](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.8_chef-11.2.0.box)
+* [opscode-centos-6.3](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box)
+* [opscode-ubuntu-10.04](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-11.2.0.box)
+* [opscode-ubuntu-12.04](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.2.0.box)
+
+At this time, 32 bit boxes have not yet been built with Chef 11.2.0.
+
+## Older Baseboxes
+
+The following base boxes were built with Chef 10.18.2.
 
 * [opscode-centos-5.8-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.8-i386_chef-10.18.2.box)
 * [opscode-centos-5.8](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.8_chef-10.18.2.box)
@@ -27,8 +38,6 @@ below.
 * [opscode-ubuntu-10.04](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-10.18.2.box)
 * [opscode-ubuntu-12.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-10.18.2.box)
 * [opscode-ubuntu-12.04](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-10.18.2.box)
-
-## Older Baseboxes
 
 The following base boxes were built with Chef 10.14.4.
 
