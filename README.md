@@ -60,7 +60,7 @@ First, clone the project, then install the required Gems with Bundler.
 
 List available baseboxes that can be built:
 
-    $ bundle exec vagrant basebox list
+    $ bundle exec veewee vbox list
 
 Build, for example, the ubuntu-12.04 basebox.
 
