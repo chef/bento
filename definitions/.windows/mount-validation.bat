@@ -1,3 +1,3 @@
-# This is so we can pass the validation test
+REM This is so we can pass the validation test
 cmd /c net use z: \\vboxsrv\veewee-validation
 
