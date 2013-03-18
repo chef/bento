@@ -9,8 +9,7 @@ session = WINDOWS_SESSION.merge({
     :iso_src => iso_src,
     :iso_file => File.basename(iso_src),
     :iso_md5 => "4263be2cf3c59177c45085c0a7bc6ca5",
-    :kickstart_port => "7150"
-
+    :kickstart_port => "7140"
   })
 
 Veewee::Session.declare session 
