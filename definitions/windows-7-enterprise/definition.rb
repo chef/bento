@@ -8,7 +8,9 @@ session = WINDOWS_SESSION.merge({
     :iso_download_instructions => "Download Windows 7 Enterprise 90-day Trial at http://technet.microsoft.com/en-us/evalcenter/cc442495.aspx",
     :iso_file => File.basename(iso_src),
     :iso_src => iso_src,
-    :iso_md5 => "1d0d239a252cb53e466d39e752b17c28"
+    :iso_md5 => "1d0d239a252cb53e466d39e752b17c28",
+    :kickstart_port => "7150"
+
   })
 
 Veewee::Session.declare session
