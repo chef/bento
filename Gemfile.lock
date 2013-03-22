@@ -1,3 +1,21 @@
+GIT
+  remote: http://github.com/jedi4ever/veewee.git
+  revision: 4bd5f18b82fe751e71e8f4555497e8de70e60f9d
+  specs:
+    veewee (0.3.7)
+      ansi (~> 1.3.0)
+      childprocess
+      fission (= 0.4.0)
+      fog (~> 1.8)
+      grit
+      highline
+      i18n
+      net-ssh (>= 2.2.0)
+      popen4 (~> 0.1.2)
+      progressbar
+      ruby-vnc (~> 1.0.0)
+      thor (~> 0.15)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -13,12 +31,7 @@ GEM
     builder (3.1.4)
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
-    cucumber (1.2.1)
-      builder (>= 2.1.2)
-      diff-lcs (>= 1.1.3)
-      gherkin (~> 2.11.0)
-      json (>= 1.4.6)
-    diff-lcs (1.1.3)
+    diff-lcs (1.2.1)
     em-winrm (0.5.4)
       eventmachine (= 1.0.0.beta.3)
       mixlib-log (>= 1.3.0)
@@ -26,7 +39,7 @@ GEM
       winrm (~> 1.1.0)
     erubis (2.7.0)
     eventmachine (1.0.0.beta.3)
-    excon (0.16.10)
+    excon (0.19.5)
     ffi (1.3.1)
     fission (0.4.0)
       CFPropertyList (~> 2.0.17)
@@ -41,8 +54,6 @@ GEM
       nokogiri (~> 1.5.0)
       ruby-hmac
     formatador (0.2.4)
-    gherkin (2.11.5)
-      json (>= 1.4.6)
     grit (2.5.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
@@ -57,14 +68,14 @@ GEM
       rack
     i18n (0.6.1)
     json (1.5.4)
-    libxml-ruby (2.4.0)
+    libxml-ruby (2.6.0)
     little-plugger (1.1.3)
     log4r (1.1.10)
     logging (1.6.2)
       little-plugger (>= 1.1.3)
-    mime-types (1.19)
+    mime-types (1.21)
     mixlib-log (1.4.1)
-    multi_json (1.5.0)
+    multi_json (1.6.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.2.2)
@@ -75,17 +86,9 @@ GEM
       Platform (>= 0.4.0)
       open4 (>= 0.4.0)
     posix-spawn (0.3.6)
-    progressbar (0.12.0)
+    progressbar (0.20.0)
     rack (1.5.0)
     rake (10.0.3)
-    rspec (2.12.0)
-      rspec-core (~> 2.12.0)
-      rspec-expectations (~> 2.12.0)
-      rspec-mocks (~> 2.12.0)
-    rspec-core (2.12.2)
-    rspec-expectations (2.12.1)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.12.1)
     ruby-hmac (0.4.0)
     ruby-vnc (1.0.1)
     rubyntlm (0.1.1)
@@ -97,7 +100,7 @@ GEM
       nokogiri (>= 1.4.0)
       nori (~> 1.0)
       wasabi (~> 1.0)
-    thor (0.16.0)
+    thor (0.17.0)
     uuidtools (2.1.3)
     vagrant (1.0.5)
       archive-tar-minitar (= 0.5.2)
@@ -108,22 +111,6 @@ GEM
       log4r (~> 1.1.9)
       net-scp (~> 1.0.4)
       net-ssh (~> 2.2.2)
-    veewee (0.3.7)
-      ansi (~> 1.3.0)
-      childprocess
-      cucumber (>= 1.0.0)
-      fission (= 0.4.0)
-      fog (~> 1.8)
-      grit
-      highline
-      i18n
-      net-ssh (~> 2.2.0)
-      popen4 (~> 0.1.2)
-      progressbar
-      rspec (~> 2.5)
-      ruby-vnc (~> 1.0.0)
-      thor (~> 0.15)
-      vagrant (>= 0.9)
     wasabi (1.0.0)
       nokogiri (>= 1.4.0)
     winrm (1.1.2)
@@ -141,5 +128,5 @@ PLATFORMS
 DEPENDENCIES
   em-winrm
   rake
-  vagrant (~> 1.0.5)
-  veewee (>= 0.3.7)
+  vagrant (~> 1.0)
+  veewee!

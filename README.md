@@ -60,22 +60,22 @@ First, clone the project, then install the required Gems with Bundler.
 
 List available baseboxes that can be built:
 
-    $ bundle exec vagrant basebox list
+    $ bundle exec veewee vbox list
 
 Build, for example, the ubuntu-12.04 basebox.
 
-    $ bundle exec vagrant basebox build ubuntu-12.04
+    $ bundle exec veewee vbox build ubuntu-12.04
 
 You can validate the basebox using Veewee's built in validator.
 However note that the test for Ruby (and Puppet) will fail. The Ruby
 installation is in `/opt/chef/embedded`, and we do not add the bin
 directory to the `$PATH`, and we don't use Puppet internally.
 
-    $ bundle exec vagrant basebox validate ubuntu-12.04
+    $ bundle exec veewee vbox validate ubuntu-12.04
 
 Aside from that, the basebox should be ready to use. Export it:
 
-    $ bundle exec vagrant basebox export ubuntu-12.04
+    $ bundle exec veewee basebox export ubuntu-12.04
 
 Congratulations! You now have `./ubuntu-12.04.box`, a fully functional
 basebox that you can then add to Vagrant and start testing cookbooks.
