@@ -9,6 +9,7 @@ session = WINDOWS_SESSION.merge({
     :iso_src => iso_src,
     :iso_file => File.basename(iso_src),
     :iso_md5 => "4263be2cf3c59177c45085c0a7bc6ca5",
+    :winrm_host_port => "2008",
     :kickstart_port => "7150"
 
   })

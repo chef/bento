@@ -24,7 +24,7 @@
                             <Letter>C</Letter>
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
-                            <Label>Windows 2008R2</Label>
+                            <Label>Windows 8</Label>
                         </ModifyPartition>
                     </ModifyPartitions>
 
@@ -223,7 +223,7 @@
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>                        
 	<!-- Rename computer here. -->
-            <ComputerName>vagrant-2008R2</ComputerName>
+            <ComputerName>vagrant-8</ComputerName>
             <TimeZone>Pacific Standard Time</TimeZone>
             <RegisteredOwner></RegisteredOwner>
 	</component>

@@ -24,7 +24,7 @@
                             <Letter>C</Letter>
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
-                            <Label>Windows 2008R2</Label>
+                            <Label>Windows 2012</Label>
                         </ModifyPartition>
                     </ModifyPartitions>
 
@@ -57,7 +57,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows Server 2008 R2 SERVERSTANDARD</Value>
+                            <Value>Windows Server 2012 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
                 </OSImage>
@@ -102,6 +102,11 @@
                 <HideEULAPage>true</HideEULAPage>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
                 <NetworkLocation>Home</NetworkLocation>
+                <ProtectYourPC>1</ProtectYourPC>
+                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+                <HideLocalAccountScreen>true</HideLocalAccountScreen>
+                <SkipUserOOBE>true</SkipUserOOBE>
+                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
             </OOBE>
             <AutoLogon>
                 <Password>
@@ -218,7 +223,7 @@
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>                        
 	<!-- Rename computer here. -->
-            <ComputerName>vagrant-2008R2</ComputerName>
+            <ComputerName>vagrant-2012</ComputerName>
             <TimeZone>Pacific Standard Time</TimeZone>
             <RegisteredOwner></RegisteredOwner>
 	</component>
