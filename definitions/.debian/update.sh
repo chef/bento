@@ -1,4 +1,9 @@
 #!/bin/bash -eux
 
-apt-get update
-apt-get -y upgrade
+aptitude update
+aptitude -y full-upgrade
+
+reboot
+sleep 10
+
+exit
