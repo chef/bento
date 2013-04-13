@@ -1,0 +1,1 @@
+../.centos/cleanup.sh
