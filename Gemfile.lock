@@ -32,6 +32,15 @@ GIT
       net-scp (~> 1.1.0)
       net-ssh (~> 2.6.6)
 
+GIT
+  remote: https://github.com/sneal/vagrant-windows.git
+  revision: fbe11646d674e2ee5253089b958fdc2e573aab78
+  branch: vagrant-1.1-plugin-architecture-vbox4.1
+  specs:
+    vagrant-windows (0.2.0)
+      highline
+      winrm (~> 1.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -135,4 +144,5 @@ DEPENDENCIES
   em-winrm
   rake
   vagrant!
+  vagrant-windows!
   veewee!
