@@ -24,7 +24,7 @@
                             <Letter>C</Letter>
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
-                            <Label>Windows 8</Label>
+                            <Label>Windows 2012</Label>
                         </ModifyPartition>
                     </ModifyPartitions>
 
@@ -57,7 +57,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows 8 Enterprise Evaluation</Value>
+                            <Value>Windows Server 2012 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
                 </OSImage>
@@ -223,7 +223,7 @@
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>                        
 	<!-- Rename computer here. -->
-            <ComputerName>vagrant-8</ComputerName>
+            <ComputerName>vagrant-2012</ComputerName>
             <TimeZone>Pacific Standard Time</TimeZone>
             <RegisteredOwner></RegisteredOwner>
 	</component>

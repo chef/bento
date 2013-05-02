@@ -1,4 +1,3 @@
-
 @REM Loop ten times to make sure outbound networking is up
 FOR /L %%n IN (1,1,10) DO (
   PING -n 1 www.opscode.com
