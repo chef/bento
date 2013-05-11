@@ -7,6 +7,7 @@ CENTOS_SESSION =
                          :os_type_id => 'Centos_64',
                          :postinstall_files => [ "chef-client.sh",
                                                  "vagrant.sh",
+                                                 "sshd.sh",
                                                  "cleanup.sh",
                                                  "minimize.sh" ],
                          :shutdown_cmd => "/sbin/halt -h -p" })
