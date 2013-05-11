@@ -30,6 +30,7 @@ UBUNTU_SESSION =
                          :postinstall_files => [ "update.sh",
                                                  "chef-client.sh",
                                                  "vagrant.sh",
+                                                 "sshd.sh",
                                                  "networking.sh",
                                                  "sudoers.sh",
                                                  "cleanup.sh",
