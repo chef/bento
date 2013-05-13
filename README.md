@@ -11,13 +11,29 @@ make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 ## Current Baseboxes
 
 The following baseboxes are publicly available and were built using
-this project, and Chef 11.4.4. Future releases of Chef and baseboxes
-will follow the naming convention used here:
+this project. Note that our baseboxes no longer include Chef Client.
+Vagrant can be instructed to install Chef at runtime using the
+[vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus) plugin.
 
-    opscode_PLATFORM-VERSION_chef-VERSION.box
+64-bit boxes:
 
-and located in the opscode-vm S3 bucket's vagrant directory as linked
-below.
+* [opscode-centos-5.9](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box)
+* [opscode-centos-6.4](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box)
+* [opscode-ubuntu-10.04](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box)
+* [opscode-ubuntu-12.04](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box)
+
+32-bit boxes:
+
+* [opscode-centos-5.9-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.9-i386_provisionerless.box)
+* [opscode-centos-6.4-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4-i386_provisionerless.box)
+* [opscode-ubuntu-10.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_provisionerless.box)
+* [opscode-ubuntu-12.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_provisionerless.box)
+
+## Older Baseboxes
+
+Older baseboxes include Chef.
+
+The following base boxes were built with Chef 11.4.4.
 
 64-bit boxes:
 
@@ -32,8 +48,6 @@ below.
 * [opscode-centos-6.4-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4-i386_chef-11.4.4.box)
 * [opscode-ubuntu-10.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_chef-11.4.4.box)
 * [opscode-ubuntu-12.04-i386](https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-11.4.4.box)
-
-## Older Baseboxes
 
 The following base boxes were built with Chef 11.4.0.
 
