@@ -1,1 +1,0 @@
-../.common/chef-client.sh
