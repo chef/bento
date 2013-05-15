@@ -10,6 +10,7 @@ DEBIAN_SESSION =
                            'auto ',
                            'locale=en_US ',
                            'kbd-chooser/method=us ',
+                           'keyboard-configuration/xkb-keymap=us ',
                            'netcfg/get_hostname=%NAME% ',
                            'netcfg/get_domain=vagrantup.com ',
                            'fb=false ',
