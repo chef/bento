@@ -10,7 +10,6 @@ session = WINDOWS_SESSION.merge({
     :iso_src => iso_src,
     :iso_md5 => "1d0d239a252cb53e466d39e752b17c28",
     :kickstart_port => "7150"
-
   })
 
 Veewee::Session.declare session
