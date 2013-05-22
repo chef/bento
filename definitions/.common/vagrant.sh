@@ -3,7 +3,7 @@
 if [ -f /home/vagrant/.vbox_version ]; then
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
-    mount -o loop VBoxGuestAdditions_$VER.iso /tmp/vbox
+    mount -o loop VBoxGuestAdditions_$VER.iso /tmp/vbox 
     sh /tmp/vbox/VBoxLinuxAdditions.run
     umount /tmp/vbox
     rmdir /tmp/vbox
