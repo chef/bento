@@ -49,9 +49,6 @@
                 </OSImage>
             </ImageInstall>
             <UserData>
-                <ProductKey>
-                    <Key>XC9B7-NBPP2-83J2H-RHMBY-92BT4</Key>
-                </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Vagrant</FullName>
                 <Organization>Vagrant</Organization>
@@ -97,24 +94,24 @@
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <Order>2</Order>
-                    <CommandLine>cmd.exe /c winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="300"}'</CommandLine>
+                    <CommandLine>cmd.exe /c winrm set winrm/config/winrs @{MaxMemoryPerShellMB="300"}</CommandLine>
                     <RequiresUserInput>true</RequiresUserInput>
                     <Description>winrm memory</Description>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config '@{MaxTimeoutms="1800000"}'</CommandLine>
+                    <CommandLine>cmd.exe /c winrm set winrm/config @{MaxTimeoutms="1800000"}</CommandLine>
                     <Description>winrm timeout</Description>
                     <Order>3</Order>
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config/service '@{AllowUnencrypted="true"}'</CommandLine>
+                    <CommandLine>cmd.exe /c winrm set winrm/config/service @{AllowUnencrypted="true"}</CommandLine>
                     <Description>winrm encryption</Description>
                     <Order>4</Order>
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>winrm set winrm/config/service/auth '@{Basic="true"}'</CommandLine>
+                    <CommandLine>winrm set winrm/config/service/auth @{Basic="true"}</CommandLine>
                     <Description>winrm basic auth</Description>
                     <Order>5</Order>
                     <RequiresUserInput>true</RequiresUserInput>
