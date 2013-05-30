@@ -150,6 +150,7 @@ filename, its source URL, and the MD5 checksum of the file.
 * `minimize.sh`: Zeroes out the root disk to reduce file size of the box
 * `ruby.sh`: **Deprecated** Use `chef-client.sh`
 * `session.rb`: Baseline session settings for Veewee
+* `sshd.sh`: Adds some sshd configs to speed up vagrant
 * `vagrant.sh`: Installs VirtualBox Guest Additions, adds the Vagrant
   SSH key
 
