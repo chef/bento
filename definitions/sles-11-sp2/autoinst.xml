@@ -609,7 +609,6 @@
       <pattern>apparmor</pattern>
       <pattern>base</pattern>
       <pattern>sdk_kernel</pattern>
-      <pattern>sdk_libs</pattern>
     </patterns>
     <remove-packages config:type="list">
       <package>3ddiag</package>

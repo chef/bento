@@ -609,8 +609,6 @@
       <pattern>apparmor</pattern>
       <pattern>base</pattern>
       <pattern>sdk_kernel</pattern>
-      <pattern>sdk_libs</pattern>
-      <pattern>sdk_ruby</pattern>
     </patterns>
     <remove-packages config:type="list">
       <package>3ddiag</package>
@@ -690,6 +688,7 @@
       <package>audiofile</package>
       <package>audiofile-devel</package>
       <package>audit-devel</package>
+      <package>augeas-lenses</package>
       <package>automoc4</package>
       <package>avahi</package>
       <package>avahi-compat-howl-devel</package>
@@ -1936,6 +1935,9 @@
       <package>rrdtool</package>
       <package>rrdtool-devel</package>
       <package>rsyslog</package>
+      <package>ruby</package>
+      <package>rubygems</package>
+      <package>ruby-devel</package>
       <package>ruby-doc-html</package>
       <package>ruby-doc-ri</package>
       <package>ruby-examples</package>
