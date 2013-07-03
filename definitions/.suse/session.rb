@@ -13,6 +13,7 @@ SUSE_SESSION =
                          :os_type_id => 'OpenSUSE_64',
                          :postinstall_files => [ "vagrant.sh",
                                                  "sshd.sh",
+                                                 "sudoers.sh",
                                                  "cleanup.sh",
                                                  "minimize.sh" ],
                          :shutdown_cmd => "/sbin/halt -h -p" })
