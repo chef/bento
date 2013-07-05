@@ -19,13 +19,17 @@ Vagrant can be instructed to install Chef at runtime using the
 
 * [opscode-centos-5.9](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box)
 * [opscode-centos-6.4](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box)
+* [opscode-debian-7.1.0](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-7.1.0_provisionerless.box)
+* [opscode-fedora-18](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode-fedora-18_provisionerless.box)
 * [opscode-ubuntu-10.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box)
 * [opscode-ubuntu-12.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box)
+* [opscode-ubuntu-13.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-13.04_provisionerless.box)
 
 32-bit boxes:
 
 * [opscode-centos-5.9-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9-i386_provisionerless.box)
 * [opscode-centos-6.4-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4-i386_provisionerless.box)
+* [opscode-debian-7.1.0-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-7.1.0-i386_provisionerless.box)
 * [opscode-ubuntu-10.04-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_provisionerless.box)
 * [opscode-ubuntu-12.04-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_provisionerless.box)
 
