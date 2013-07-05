@@ -6,8 +6,8 @@ FEDORA_SESSION =
                          :kickstart_file => "ks.cfg",
                          :os_type_id => 'Fedora_64',
                          :memory_size=> "512",
-                         :postinstall_files => [ "chef-client.sh",
-                                                 "vagrant.sh",
+                         :postinstall_files => [ "vagrant.sh",
+                                                 "sshd.sh",
                                                  "cleanup.sh",
                                                  "minimize.sh" ],
                          :shutdown_cmd => "/sbin/halt -h -p" })
