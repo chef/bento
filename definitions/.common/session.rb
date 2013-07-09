@@ -3,7 +3,7 @@ COMMON_SESSION = {
   :cpu_count => "1",
   :disk_format => "VDI",
   :disk_size => "40960",
-  :hostiocache => "off",
+  :hostiocache => "on",
   :iso_download_timeout => "1000",
   :kickstart_port => "7122",
   :kickstart_timeout => "10000",
@@ -19,7 +19,8 @@ COMMON_SESSION = {
   :virtualbox => {
     :vm_options => {
       :ioapic => "on",
-      :pae => "on"
+      :pae => "on",
+      :chipset => "ich9"
     }
   }
  
