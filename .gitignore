@@ -4,5 +4,7 @@ iso/
 *.box
 virtualfloppy.vfd
 packer_cache/
+packer.log
 vmware/
 virtualbox/
+.DS_Store
