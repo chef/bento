@@ -6,3 +6,5 @@ virtualfloppy.vfd
 packer_cache/
 vmware/
 virtualbox/
+packer.log
+.DS_Store

@@ -57,16 +57,16 @@
     {
       "override": {
         "vmware": {
-          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+          "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'"
         }
       },
       "scripts": [
         "../.ubuntu/update.sh",
-        "../.common/vagrant.sh",
         "../.common/sshd.sh",
         "../.ubuntu/networking.sh",
         "../.common/sudoers.sh",
         "../.ubuntu/cleanup.sh",
+        "../.common/vagrant.sh",
         "../.common/minimize.sh",
         "../.common/chef_omnibus.sh"
       ],

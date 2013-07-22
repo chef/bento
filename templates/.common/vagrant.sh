@@ -1,16 +1,16 @@
 #!/bin/bash
 
-if [ -f /home/vagrant/.vbox_version ]; then
-    mkdir /tmp/vbox
-    VER=$(cat /home/vagrant/.vbox_version)
-    mount -o loop VBoxGuestAdditions_$VER.iso /tmp/vbox 
-    sh /tmp/vbox/VBoxLinuxAdditions.run
-    umount /tmp/vbox
-    rmdir /tmp/vbox
-    rm *.iso
-fi
+#if [ -f /home/vagrant/.vbox_version ]; then
+#    mkdir /tmp/vbox
+#    VER=$(cat /home/vagrant/.vbox_version)
+#    mount -o loop VBoxGuestAdditions_$VER.iso /tmp/vbox 
+#    sh /tmp/vbox/VBoxLinuxAdditions.run
+#    umount /tmp/vbox
+#    rmdir /tmp/vbox
+#    rm *.iso
+#fi
 
-if [ "$PACKER_BUILDER_TYPE" = "vmware" ]; then
+if [ -f /home/vagrant/vmware_tools.iso ]; then
     echo "Installing VMWare Tools"
     #Set Linux-specific paths and ISO filename
     home_dir="/home/vagrant"
