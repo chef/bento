@@ -3,3 +3,6 @@ bin/
 iso/
 *.box
 virtualfloppy.vfd
+packer_cache/
+vmware/
+virtualbox/
