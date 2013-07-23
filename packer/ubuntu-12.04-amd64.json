@@ -22,7 +22,7 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-12.04/preseed.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
@@ -76,7 +76,7 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-12.04/preseed.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
@@ -105,7 +105,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "ubuntu-12.04-{{.Provider}}.box"
+      "output": "ubuntu-12.04-amd64-{{.Provider}}.box"
     }
   ],
   "provisioners": [
@@ -125,8 +125,9 @@
         "scripts/common/sudoers.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/vagrant.sh",
-        "scripts/common/minimize.sh",
-        "scripts/common/chef_omnibus.sh"
+        "scripts/common/vmtools.sh",
+        "scripts/common/chef_omnibus.sh",
+        "scripts/common/minimize.sh"
       ],
       "type": "shell"
     }
