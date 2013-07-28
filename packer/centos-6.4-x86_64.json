@@ -60,7 +60,7 @@
   ],
   "post-processors": [
     {
-      "output": "centos-6.4-x86_64-{{.Provisioner}}.box",
+      "output": "centos-6.4-x86_64-{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
