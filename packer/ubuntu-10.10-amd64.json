@@ -30,9 +30,9 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
-      "iso_checksum": "ab66a1d59a8d78e9ea8ef9b021d6574a",
+      "iso_checksum": "bed7dd99084f555297d7c04138dbea10",
       "iso_checksum_type": "md5",
-      "iso_url": "http://releases.ubuntu.com/10.10/ubuntu-10.10-server-amd64.iso",
+      "iso_url": "http://old-releases.ubuntu.com/releases/10.10/ubuntu-10.10-beta-server-amd64.iso",
       "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -84,9 +84,9 @@
       "disk_size": 40960,
       "guest_os_type": "ubuntu-64",
       "http_directory": "http",
-      "iso_checksum": "ab66a1d59a8d78e9ea8ef9b021d6574a",
+      "iso_checksum": "bed7dd99084f555297d7c04138dbea10",
       "iso_checksum_type": "md5",
-      "iso_url": "http://releases.ubuntu.com/10.10/ubuntu-10.10-server-amd64.iso",
+      "iso_url": "http://old-releases.ubuntu.com/releases/10.10/ubuntu-10.10-beta-server-amd64.iso",
       "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -100,9 +100,9 @@
       }
     }
   ],
-  "post-provisioner": [
+  "post-processors": [
     {
-      "output": "ubuntu-10.10-amd64-{{.Provisioner}}.box",
+      "output": "ubuntu-10.10-amd64-{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
