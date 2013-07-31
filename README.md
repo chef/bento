@@ -1,10 +1,9 @@
-Bento is a project that encapsulates
-[Veewee](https://github.com/jedi4ever/veewee/) definitions for
-building [Vagrant](http://vagrantup.com) baseboxes. We use these boxes
-internally at Opscode for testing Hosted Chef, Private Chef and
-our open source [cookbooks](http://community.opscode.com/users/Opscode).
+Bento is a project that encapsulates [Packer](http://packer.io) templates for building
+[Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Opscode for
+testing Hosted Chef, Private Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
 
-These basebox definitions are originally based on
+These basebox templates were converted from [VeeWee](https://github.com/jedi4ever/veewee)
+definitions originally based on
 [work done by Tim Dysinger](https://github.com/dysinger/basebox) to
 make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
