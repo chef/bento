@@ -2,6 +2,7 @@
   "builders": [
     {
       "type": "virtualbox",
+      "name": "ubuntu-12.04-amd64-vbox",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -87,13 +88,14 @@
       "iso_checksum": "983cfa31d1a376e0c6d2e431af7e0e5757f8d28a",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.2-server-amd64.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "tools_upload_path": "/home/vagrant/vmware_tools.iso",
+      "name": "ubuntu-12.04-amd64-vmware",
       "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
