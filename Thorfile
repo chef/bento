@@ -1,8 +1,9 @@
+# vi: ft=ruby
 
 require 'bundler'
-require 'thor/rake_compat'
+require 'thor'
 require 'fileutils'
-
+require 'timeout'
 
 class Packer < Thor
 
@@ -18,8 +19,44 @@ class Packer < Thor
     end
   end
 
-  desc 'clearcache', "Clear the packer_cache"
-  def clearcache
-    FileUtils.rm_rf(Dir.glob('packer/packer_cache/*'))
+  desc 'clean', "Description goes here"
+  def clean(what)
+    if what == "cache"
+      FileUtils.rm_rf(Dir.glob('./packer/packer_cache/*'))
+    elsif what == "boxes"
+      FileUtils.rm_rf(Dir.glob('./packer/*.box'))
+    end
   end
+
+  desc 'build', "Execute the packer builder"
+  option :os, :banner => "<os>", :default => "*"
+  option :ver, :banner => "<version>", :default => "*"
+  option :bits, :banner => "<bits>"
+  option :only, :banner => "<only>"
+
+
+  def build
+    Dir.chdir './packer' do
+
+      if options[:bits] 
+        processor = options[:bits] == "64" ? "{amd64,x86_64}" : "i386"
+      else
+        processor = "*"
+      end
+
+      templates = Dir.glob("#{options[:os]}-#{options[:ver]}-#{processor}.json")
+
+      if options[:only]
+        templates.each do |template|
+          name = template.chomp(".json").split("-")
+          system "packer build -only=#{name[0]}-#{name[1]}-#{name[2]}-#{options[:only]} #{template}"
+        end
+      else
+        templates.each do |template|
+          system "packer build #{template}"
+        end
+      end
+    end
+  end
+
 end

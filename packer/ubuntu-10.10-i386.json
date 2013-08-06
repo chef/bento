@@ -28,17 +28,17 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Ubuntu_64",
+      "guest_os_type": "Ubuntu",
       "http_directory": "http",
-      "iso_checksum": "7ddd92b514aeb15e15e9862bb1c71e8faf9b4d54",
+      "iso_checksum": "8af9f7dc342e51ee3c3efe71bc7931c756ab3026",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://old-releases.ubuntu.com/releases/10.10/ubuntu-10.10-beta-server-amd64.iso",
+      "iso_url": "http://old-releases.ubuntu.com/releases/10.10/ubuntu-10.10-beta-server-i386.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "name": "ubuntu-10.10-amd64-vbox",
+      "name": "ubuntu-10.10-i386-vbox",
       "type": "virtualbox",
       "vboxmanage": [
         [
@@ -83,11 +83,11 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "ubuntu-64",
+      "guest_os_type": "ubuntu",
       "http_directory": "http",
-      "iso_checksum": "7ddd92b514aeb15e15e9862bb1c71e8faf9b4d54",
+      "iso_checksum": "8af9f7dc342e51ee3c3efe71bc7931c756ab3026",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://old-releases.ubuntu.com/releases/10.10/ubuntu-10.10-beta-server-amd64.iso",
+      "iso_url": "http://old-releases.ubuntu.com/releases/10.10/ubuntu-10.10-beta-server-i386.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -95,7 +95,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "tools_upload_path": "/home/vagrant/vmware_tools.iso",
-      "name": "ubuntu-10.10-amd64-vmware",
+      "name": "ubuntu-10.10-i386-vmware",
       "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
@@ -106,7 +106,7 @@
   ],
   "post-processors": [
     {
-      "output": "ubuntu-10.10-amd64-{{.Provider}}.box",
+      "output": "ubuntu-10.10-i386-{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
@@ -125,7 +125,6 @@
         "scripts/ubuntu/sudoers.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef_omnibus.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
