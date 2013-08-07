@@ -9,14 +9,15 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "RedHat_64",
       "http_directory": "http",
-      "iso_checksum": "bb795391846e76a7071893cbdf6163c3",
-      "iso_checksum_type": "md5",
+      "iso_checksum": "c12e01b546f00a965b8414abf0860b08d0bba3c9",
+      "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/5.9/isos/x86_64/CentOS-5.9-x86_64-bin-DVD-1of2.iso",
       "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "name": "centos-5.9-x86_64-vbox"
       "type": "virtualbox",
       "vboxmanage": [
         [
@@ -42,14 +43,15 @@
       "disk_size": 40960,
       "guest_os_type": "centos-64",
       "http_directory": "http",
-      "iso_checksum": "bb795391846e76a7071893cbdf6163c3",
-      "iso_checksum_type": "md5",
+      "iso_checksum": "c12e01b546f00a965b8414abf0860b08d0bba3c9",
+      "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/5.9/isos/x86_64/CentOS-5.9-x86_64-bin-DVD-1of2.iso",
       "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "name": "centos-5.9-x86_64-vmware"
       "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
