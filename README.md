@@ -21,6 +21,7 @@ Vagrant can be instructed to install Chef at runtime using the
 * [opscode-centos-6.4](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box)
 * [opscode-debian-7.1.0](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-7.1.0_provisionerless.box)
 * [opscode-fedora-18](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode-fedora-18_provisionerless.box)
+* [opscode-fedora-19](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode-fedora-19_provisionerless.box)
 * [opscode-ubuntu-10.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box)
 * [opscode-ubuntu-12.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box)
 * [opscode-ubuntu-13.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-13.04_provisionerless.box)
