@@ -20,14 +20,13 @@ GIT
 
 GIT
   remote: https://github.com/mitchellh/vagrant.git
-  revision: 7e400d00a3c5a0fdf2809c8b5001a035415a607b
-  tag: v1.2.2
+  revision: 7ec0ee1d00a916f80b109a298bab08e391945243
+  tag: v1.2.7
   specs:
-    vagrant (1.2.2)
+    vagrant (1.2.7)
       childprocess (~> 0.3.7)
       erubis (~> 2.7.0)
       i18n (~> 0.6.0)
-      json (>= 1.5.1, < 1.8.0)
       log4r (~> 1.1.9)
       net-scp (~> 1.1.0)
       net-ssh (~> 2.6.6)
