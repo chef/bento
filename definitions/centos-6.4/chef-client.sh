@@ -1,0 +1,1 @@
+../.centos/chef-client.sh
