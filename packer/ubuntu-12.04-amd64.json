@@ -31,7 +31,7 @@
       "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
-      "iso_checksum": "983cfa31d1a376e0c6d2e431af7e0e5757f8d28a",
+      "iso_checksum": "4e36c272dde245cfadf14ff8895566571a38f4d2",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.3-server-amd64.iso",
       "ssh_username": "vagrant",
