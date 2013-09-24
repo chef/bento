@@ -68,14 +68,7 @@
   ],
   "provisioners": [
     {
-      "override": {
-        "virtualbox": {
-          "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'"
-        },
-        "vmware": {
-          "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'"
-        }
-      },
+      "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
