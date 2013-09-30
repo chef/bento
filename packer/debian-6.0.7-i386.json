@@ -1,7 +1,6 @@
 {
   "builders": [
     {
-      "name": "debian-6.0.7-i386-vbox",
       "type": "virtualbox",
       "boot_command": [
         "<esc><wait>",
@@ -50,7 +49,6 @@
       ]
     },
     {
-      "name": "debian-6.0.7-i386-vmware",
       "type": "vmware",
       "boot_command": [
         "<esc><wait>",
