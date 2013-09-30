@@ -80,9 +80,6 @@ EOT
 # Enable swap
 echo '/dev/gpt/swap0 none swap sw 0 0' > /mnt/etc/fstab
 
-# Install a few requirements
-echo 'nameserver 8.8.8.8' > /mnt/etc/resolv.conf
-
 # Set up user accounts
 zfs create zroot/usr/home/vagrant
 echo "vagrant" | pw -V /mnt/etc useradd vagrant -h 0 -s csh -G wheel -d /home/vagrant -c "Vagrant User"
