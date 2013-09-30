@@ -2,7 +2,6 @@
   "builders": [
     {
       "type": "virtualbox",
-      "name": "ubuntu-12.04-amd64-vbox",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -95,7 +94,6 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "tools_upload_path": "/home/vagrant/vmware_tools.iso",
-      "name": "ubuntu-12.04-amd64-vmware",
       "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",

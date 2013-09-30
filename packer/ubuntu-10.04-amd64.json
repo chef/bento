@@ -38,7 +38,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "name": "ubuntu-10.04-amd64-vbox",
       "type": "virtualbox",
       "vboxmanage": [
         [
@@ -95,7 +94,6 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "tools_upload_path": "/home/vagrant/vmware_tools.iso",
-      "name": "ubuntu-10.04-amd64-vmware",
       "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
