@@ -12,7 +12,7 @@
       "iso_checksum": "8672dc087f1b0eda60b9efaa41b82f034f185e24",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/6.4/isos/x86_64/CentOS-6.4-x86_64-bin-DVD1.iso",
-      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -45,7 +45,7 @@
       "iso_checksum": "8672dc087f1b0eda60b9efaa41b82f034f185e24",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/6.4/isos/x86_64/CentOS-6.4-x86_64-bin-DVD1.iso",
-      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -66,7 +66,7 @@
   ],
   "provisioners": [
     {
-      "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
