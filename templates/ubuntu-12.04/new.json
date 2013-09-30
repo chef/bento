@@ -1,0 +1,77 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "ubuntu-64",
+      "http_directory": "http",
+      "iso_checksum": "af5f788aee1b32c4b2634734309cc9e9",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.2-server-amd64.iso",
+      "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "tools_upload_path": "/home/vagrant/vmware_tools.iso",
+      "type": "vmware",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "384",
+        "numvcpus": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "ubuntu-12.04-{{.Provider}}.box"
+    }
+  ],
+  "provisioners": [
+    {
+      "override": {
+        "vmware": {
+          "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'"
+        }
+      },
+      "scripts": [
+        "../.ubuntu/update.sh",
+        "../.common/sshd.sh",
+        "../.ubuntu/networking.sh",
+        "../.common/sudoers.sh",
+        "../.ubuntu/cleanup.sh",
+        "../.common/vagrant.sh",
+        "../.common/minimize.sh",
+        "../.common/chef_omnibus.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}
+

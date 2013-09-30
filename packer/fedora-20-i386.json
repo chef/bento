@@ -1,0 +1,88 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "Fedora",
+      "http_directory": "http",
+      "iso_checksum": "24e3a6446b7e2e2b0a3591271c896c41eae01f733a65aa4f5bf43e99bfcfc25e",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirrors.kernel.org/fedora/releases/20/Fedora/i386/iso/Fedora-20-i386-DVD.iso",
+      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "name": "fedora-20-i386-vbox",
+      "type": "virtualbox",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
+    },
+    {
+      "boot_command": [
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "fedora",
+      "http_directory": "http",
+      "iso_checksum": "0da29695c4f503e2b27350406c1ceb7a4e5b9b699ea722774368fd16ab277bce",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirrors.kernel.org/fedora/releases/19/Fedora/i386/iso/Fedora-19-i386-DVD.iso",
+      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "name": "fedora-19-i386-vmware",
+      "type": "vmware",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "512",
+        "numvcpus": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "fedora-19-i386-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/fedora/shutdown.sh",
+      "destination": "/tmp/shutdown.sh"
+    },
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "scripts": [
+        "scripts/common/sshd.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/fedora/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}
+

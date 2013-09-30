@@ -1,0 +1,88 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/vagrant.sh",
+        "scripts/sshd.sh",
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
+      ],
+      "override": {
+        "virtualbox": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        },
+        "vmware": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox",
+      "boot_command": [
+        "linux text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "RedHat",
+      "http_directory": "http",
+      "iso_checksum": "0fdd45c43b5d8fb9e05f4255c5855f9c",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://vault.centos.org/5.8/isos/i386/CentOS-5.8-i386-bin-DVD-1of2.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "384"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "iso_md5": "0fdd45c43b5d8fb9e05f4255c5855f9c"
+    },
+    {
+      "type": "vmware",
+      "boot_command": [
+        "linux text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "centos",
+      "http_directory": "http",
+      "iso_checksum": "0fdd45c43b5d8fb9e05f4255c5855f9c",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://vault.centos.org/5.8/isos/i386/CentOS-5.8-i386-bin-DVD-1of2.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "vmx_data": {
+        "memsize": "384",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      },
+      "iso_md5": "0fdd45c43b5d8fb9e05f4255c5855f9c"
+    }
+  ],
+  "post-provisioner": [
+    {
+      "type": "vagrant",
+      "output": "centos-5.8-i386-{{.Provisioner}}.box"
+    }
+  ]
+}
