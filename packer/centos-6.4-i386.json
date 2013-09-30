@@ -17,7 +17,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "name": "centos-6.4-i386-vbox",
       "type": "virtualbox",
       "vboxmanage": [
         [
@@ -51,7 +50,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "name": "centos-6.4-i386-vmware",
       "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
