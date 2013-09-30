@@ -1,0 +1,101 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/freebsd/postinstall.csh"
+      ],
+      "execute_command": "cat '{{.Path}}' | su -"
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox",
+      "boot_command": [
+        "<esc><wait>",
+        "load geom_mbr<wait>",
+        "<enter><wait>",
+        "load zfs<wait>",
+        "<enter><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "echo \"Sleeping for 10 seconds, then running install script.\"<enter><wait>",
+        "sleep 10 ; fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 10140,
+      "guest_os_type": "FreeBSD_64",
+      "http_directory": "http",
+      "iso_checksum": "f0a320fd52383c42649d48ea545915a9",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-amd64-disc1.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ]
+    },
+    {
+      "type": "vmware",
+      "boot_command": [
+        "<esc><wait>",
+        "load geom_mbr<wait>",
+        "<enter><wait>",
+        "load zfs<wait>",
+        "<enter><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><Wait><wait>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "<Wait><Wait><Wait><wait>",
+        "echo \"Sleeping for 10 seconds, then running install script.\"<enter><wait>",
+        "sleep 10 ; fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 10140,
+      "guest_os_type": "freebsd-64",
+      "http_directory": "http",
+      "iso_checksum": "f0a320fd52383c42649d48ea545915a9",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-amd64-disc1.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
+      "vmx_data": {
+        "memsize": "512",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "freebsd-9.1-amd64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ]
+}
