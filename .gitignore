@@ -5,7 +5,4 @@ iso/
 virtualfloppy.vfd
 packer_cache/
 packer.log
-vmware/
-virtualbox/
-packer.log
 .DS_Store
