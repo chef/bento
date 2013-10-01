@@ -5,10 +5,17 @@
 NAME=$1
 
 # create disks
-gpart create -s gpt ada0
-gpart add -b 34 -s 94 -t freebsd-boot ada0
-gpart add -t freebsd-zfs -l disk0 ada0
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0
+# for variations in the root disk device name between VMware and Virtualbox
+if [ -e /dev/ada0 ]; then
+  DISKSLICE=ada0
+else
+  DISKSLICE=da0
+fi
+
+gpart create -s gpt $DISKSLICE
+gpart add -b 34 -s 94 -t freebsd-boot $DISKSLICE
+gpart add -t freebsd-zfs -l disk0 $DISKSLICE
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 $DISKSLICE
 
 # align disks
 gnop create -S 4096 /dev/gpt/disk0
