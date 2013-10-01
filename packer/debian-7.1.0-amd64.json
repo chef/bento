@@ -79,7 +79,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "debian-7.1.0-amd64-{{.Provider}}.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-7.1.0_provisionerless.box"
     }
   ],
   "provisioners": [

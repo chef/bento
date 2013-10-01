@@ -92,7 +92,7 @@
   ],
   "post-processors": [
     {
-      "output": "freebsd-9.1-amd64-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1_provisionerless.box",
       "type": "vagrant"
     }
   ]

@@ -50,7 +50,7 @@
   ],
   "post-processors": [
     {
-      "output": "centos-5.9-i386-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_centos-5.9-i386_provisionerless.box",
       "type": "vagrant"
     }
   ],
