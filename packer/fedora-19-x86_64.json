@@ -12,25 +12,15 @@
       "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
       "iso_checksum_type": "sha256",
       "iso_url": "http://mirrors.kernel.org/fedora/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "512"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version"
     },
@@ -45,7 +35,7 @@
       "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
       "iso_checksum_type": "sha256",
       "iso_url": "http://mirrors.kernel.org/fedora/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -66,12 +56,7 @@
   ],
   "provisioners": [
     {
-      "type": "file",
-      "source": "scripts/fedora/shutdown.sh",
-      "destination": "/tmp/shutdown.sh"
-    },
-    {
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",

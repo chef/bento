@@ -12,25 +12,15 @@
       "iso_checksum": "4bd3a1de6f6dfcd7a2199487abf5a9304d696cae",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/6.4/isos/i386/CentOS-6.4-i386-bin-DVD1.iso",
-      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "480"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version"
     },
@@ -45,7 +35,7 @@
       "iso_checksum": "4bd3a1de6f6dfcd7a2199487abf5a9304d696cae",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/6.4/isos/i386/CentOS-6.4-i386-bin-DVD1.iso",
-      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -66,7 +56,7 @@
   ],
   "provisioners": [
     {
-      "execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",

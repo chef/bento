@@ -30,22 +30,12 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '/sbin/shutdown -hP now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "384"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ]
     },
     {
@@ -78,7 +68,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo '/sbin/shutdown -hP now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "vmx_data": {
         "memsize": "384",
         "numvcpus": "1",
@@ -105,7 +95,7 @@
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'"
     }
   ]
 }

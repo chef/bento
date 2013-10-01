@@ -33,25 +33,15 @@
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-i386.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "384"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version"
     },
@@ -87,7 +77,7 @@
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-i386.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -110,12 +100,7 @@
   ],
   "provisioners": [
     {
-      "type": "file",
-      "source": "scripts/common/shutdown.sh",
-      "destination": "/tmp/shutdown.sh"
-    },
-    {
-      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
         "scripts/common/sshd.sh",
