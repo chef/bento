@@ -34,12 +34,10 @@ EOT
 # get new ports
 /tmp/portsnap fetch extract
 
-# build packages for sudo and bash
+# build package for sudo
 pkg_delete -af
 cd /usr/ports/security/sudo
 make -DBATCH package-recursive clean
-cd /usr/ports/shells/bash-static
-make -DBATCH package clean
 
 #Installing vagrant keys
 mkdir /home/vagrant/.ssh
@@ -68,10 +66,6 @@ echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /usr/local/etc/sudoers
 # Restore correct su permissions
 # I'll leave that up to the reader :)
 
-cd /usr/ports/devel/libtool
-make clean
-make install -DBATCH
-
 # disable X11 because vagrants are (usually) headless
 cat >> /etc/make.conf << EOT
 WITHOUT_X11="YES"
@@ -85,7 +79,6 @@ make -DBATCH install
 
 # undo our customizations
 sed -i '' -e '/^REFUSE /d' /etc/portsnap.conf
-# sed -i '' -e '/^WITHOUT_X11/d' /etc/make.conf
 
 echo 'vboxdrv_load="YES"' >> /boot/loader.conf
 echo 'vboxnet_enable="YES"' >> /etc/rc.conf
@@ -108,9 +101,6 @@ echo 'ifconfig_vtnet3_name="em3"' >> /etc/rc.conf
 
 pw groupadd vboxusers
 pw groupmod vboxusers -m vagrant
-
-#Bash needs to be the shell for tests to validate
-pw usermod vagrant -s /usr/local/bin/bash
 
 echo "=============================================================================="
 echo "NOTE: FreeBSD - Vagrant"
