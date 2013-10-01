@@ -33,7 +33,7 @@
       "iso_checksum": "27bbe172d66d4ce634d10fd655e840f72fe56130",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-i386.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -77,7 +77,7 @@
       "iso_checksum": "27bbe172d66d4ce634d10fd655e840f72fe56130",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-i386.iso",
-      "shutdown_command": "echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -105,7 +105,7 @@
       "destination": "/tmp/shutdown.sh"
     },
     {
-      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
         "scripts/common/sshd.sh",
