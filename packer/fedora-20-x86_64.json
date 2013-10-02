@@ -50,16 +50,11 @@
   ],
   "post-processors": [
     {
-      "output": "fedora-20-x86_64-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_fedora-20-x86_64_provisionerless.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
-    {
-      "type": "file",
-      "source": "scripts/fedora/shutdown.sh",
-      "destination": "/tmp/shutdown.sh"
-    },
     {
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [

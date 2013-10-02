@@ -50,7 +50,7 @@
   ],
   "post-processors": [
     {
-      "output": "fedora-19-i386-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_fedora-19-i386_provisionerless.box",
       "type": "vagrant"
     }
   ],

@@ -95,7 +95,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "ubuntu-12.04-amd64-{{.Provider}}.box"
+      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.04_provisionerless.box"
     }
   ],
   "provisioners": [

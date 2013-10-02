@@ -94,7 +94,7 @@
   ],
   "post-processors": [
     {
-      "output": "ubuntu-13.04-i386-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_ubuntu-13.04-i386_provisionerless.box",
       "type": "vagrant"
     }
   ],

@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.4/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.9/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
@@ -50,7 +50,7 @@
   ],
   "post-processors": [
     {
-      "output": "centos-5.9-i386-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_centos-5.9-i386_provisionerless.box",
       "type": "vagrant"
     }
   ],
