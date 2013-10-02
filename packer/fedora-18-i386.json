@@ -52,7 +52,7 @@
   ],
   "post-processors": [
     {
-      "output": "fedora-18-x86_64-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_fedora-18_provisionerless.box",
       "type": "vagrant"
     }
   ],

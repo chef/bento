@@ -41,18 +41,8 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "512"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ]
     },
     {
@@ -93,7 +83,7 @@
   ],
   "post-processors": [
     {
-      "output": "freebsd-9.1-amd64-{{.Provider}}.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1_provisionerless.box",
       "type": "vagrant"
     }
   ]
