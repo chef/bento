@@ -110,7 +110,7 @@
         "scripts/ubuntu/update.sh",
         "scripts/common/sshd.sh",
         "scripts/ubuntu/networking.sh",
-        "scripts/ubuntu/sudoers.sh",
+        "scripts/common/sudoers.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/ubuntu/cleanup.sh",
