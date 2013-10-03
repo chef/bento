@@ -94,7 +94,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.10-amd64_provisionerless.box",
+      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.10_provisionerless.box",
       "type": "vagrant"
     }
   ],
