@@ -46,6 +46,7 @@
       ]
     },
     {
+      "type": "vmware",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -84,7 +85,6 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "tools_upload_path": "/home/vagrant/vmware_tools.iso",
-      "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
@@ -115,4 +115,3 @@
     }
   ]
 }
-
