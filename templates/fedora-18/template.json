@@ -1,0 +1,88 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/vagrant.sh",
+        "scripts/sshd.sh",
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
+      ],
+      "override": {
+        "virtualbox": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        },
+        "vmware": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "Fedora_64",
+      "http_directory": "http",
+      "iso_checksum": "17d5c860bf9dc83e035882a7b33ffc77",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://mirrors.kernel.org/fedora/releases/18/Fedora/x86_64/iso/Fedora-18-x86_64-DVD.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "iso_md5": "17d5c860bf9dc83e035882a7b33ffc77"
+    },
+    {
+      "type": "vmware",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "fedora-64",
+      "http_directory": "http",
+      "iso_checksum": "17d5c860bf9dc83e035882a7b33ffc77",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://mirrors.kernel.org/fedora/releases/18/Fedora/x86_64/iso/Fedora-18-x86_64-DVD.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "vmx_data": {
+        "memsize": "512",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      },
+      "iso_md5": "17d5c860bf9dc83e035882a7b33ffc77"
+    }
+  ],
+  "post-provisioner": [
+    {
+      "type": "vagrant",
+      "output": "fedora-18-{{.Provisioner}}.box"
+    }
+  ]
+}
