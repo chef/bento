@@ -36,6 +36,7 @@
       "iso_checksum": "c12e01b546f00a965b8414abf0860b08d0bba3c9",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/5.9/isos/x86_64/CentOS-5.9-x86_64-bin-DVD-1of2.iso",
+      "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,

@@ -26,6 +26,7 @@
       "iso_checksum": "de0d9ce1eb8d238dd3747a28586655b526b398a2",
       "iso_checksum_type": "sha1",
       "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.7/i386/iso-cd/debian-6.0.7-i386-CD-1.iso",
+      "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,

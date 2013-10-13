@@ -36,6 +36,7 @@
       "iso_checksum": "0da29695c4f503e2b27350406c1ceb7a4e5b9b699ea722774368fd16ab277bce",
       "iso_checksum_type": "sha256",
       "iso_url": "http://mirrors.kernel.org/fedora/releases/19/Fedora/i386/iso/Fedora-19-i386-DVD.iso",
+      "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,

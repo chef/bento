@@ -36,6 +36,7 @@
       "iso_checksum": "4bd3a1de6f6dfcd7a2199487abf5a9304d696cae",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/6.4/isos/i386/CentOS-6.4-i386-bin-DVD1.iso",
+      "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
