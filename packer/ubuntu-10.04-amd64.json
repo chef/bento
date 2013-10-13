@@ -1,6 +1,7 @@
 {
   "builders": [
     {
+      "type": "virtualbox",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -38,7 +39,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "type": "virtualbox",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -46,6 +46,7 @@
       "virtualbox_version_file": ".vbox_version"
     },
     {
+      "type": "vmware,"
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -77,14 +78,12 @@
       "iso_checksum": "796e80702d65f2ee96e88874a1ab437e24df9cd6",
       "iso_checksum_type": "sha1",
       "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-amd64.iso",
+      "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "linux",
-      "tools_upload_path": "/home/vagrant/vmware_tools.iso",
-      "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
