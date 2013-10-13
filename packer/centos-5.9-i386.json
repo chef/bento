@@ -1,6 +1,7 @@
 {
   "builders": [
     {
+      "type": "virtualbox",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.9/ks.cfg<enter><wait>"
       ],
@@ -17,7 +18,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "type": "virtualbox",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -25,6 +25,7 @@
       "virtualbox_version_file": ".vbox_version"
     },
     {
+      "type": "vmware",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.9/ks.cfg<enter><wait>"
       ],
@@ -35,12 +36,12 @@
       "iso_checksum": "78f976b190ce44716eb672f71203df978474dfb4",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/5.9/isos/i386/CentOS-5.9-i386-bin-DVD-1of2.iso",
+      "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "type": "vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",

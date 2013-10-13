@@ -10,18 +10,14 @@ if [ -f /home/vagrant/.vbox_version ]; then
     rm /home/vagrant/*.iso
 fi
 
-if [ -f /home/vagrant/vmware_tools.iso ]; then
-    echo "Installing VMWare Tools"
-    #Set Linux-specific paths and ISO filename
-    home_dir="/home/vagrant"
-    iso_name="vmware_tools.iso"
-    mount_point="/tmp/vmware-tools"
-    #Run install, unmount ISO and remove it
-    mkdir ${mount_point}
-    cd ${home_dir}
-    /bin/mount -o loop ${iso_name} ${mount_point}
-    tar zxf ${mount_point}/*.tar.gz && cd vmware-tools-distrib && ./vmware-install.pl --default
-    /bin/umount ${mount_point}
-    /bin/rm -rf ${home_dir}/${iso_name} ${home_dir}/vmware-tools-distrib
-    rmdir ${mount_point}
+if [ $PACKER_BUILDER_TYPE == 'vmware' ]; then
+    mkdir /tmp/vmfusion
+    mkdir /tmp/vmfusion-archive
+    mount -o loop /home/vagrant/linux.iso /tmp/vmfusion
+    tar xzf /tmp/vmfusion/VMwareTools-*.tar.gz -C /tmp/vmfusion-archive
+    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
+    umount /tmp/vmfusion
+    rm -rf  /tmp/vmfusion
+    rm -rf  /tmp/vmfusion-archive
+    rm /home/vagrant/*.iso
 fi

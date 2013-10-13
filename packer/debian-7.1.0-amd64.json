@@ -26,6 +26,7 @@
       "iso_checksum": "a294e443f3bd09414b4c314f1328c170620f879f",
       "iso_checksum_type": "sha1",
       "iso_url": "http://cdimage.debian.org/debian-cd/7.1.0/amd64/iso-cd/debian-7.1.0-amd64-CD-1.iso",
+      "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
