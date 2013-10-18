@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f /home/vagrant/.vbox_version ]; then
+if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
     mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox 
