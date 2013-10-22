@@ -5,7 +5,7 @@
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.7/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.8/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -23,9 +23,9 @@
       "disk_size": 40960,
       "guest_os_type": "Debian_64",
       "http_directory": "http",
-      "iso_checksum": "33877b8bff3a7def4ba1b551615d8459a3a7b268",
+      "iso_checksum": "144194cea77f0e527fd07bd6aa28d1ab50cb5a95",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.7/amd64/iso-cd/debian-6.0.7-amd64-CD-1.iso",
+      "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.8/amd64/iso-cd/debian-6.0.8-amd64-CD-1.iso",
       "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
@@ -44,7 +44,7 @@
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.7/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.8/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -62,9 +62,9 @@
       "disk_size": 40960,
       "guest_os_type": "debian5-64",
       "http_directory": "http",
-      "iso_checksum": "33877b8bff3a7def4ba1b551615d8459a3a7b268",
+      "iso_checksum": "144194cea77f0e527fd07bd6aa28d1ab50cb5a95",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.7/amd64/iso-cd/debian-6.0.7-amd64-CD-1.iso",
+      "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.8/amd64/iso-cd/debian-6.0.8-amd64-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,7 +80,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-6.0.7_provisionerless.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-6.0.8_provisionerless.box"
     }
   ],
   "provisioners": [
