@@ -5,7 +5,7 @@
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7.1.0/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7.2.0/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -21,11 +21,11 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "Debian",
+      "guest_os_type": "Debian_64",
       "http_directory": "http",
-      "iso_checksum": "fecd8856e6cf5e248a52e31deb9ebb0e61129f82",
+      "iso_checksum": "c7c1e2bf7ec4760b9fecf77fefa6062b73330359",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/debian-cd/7.1.0/i386/iso-cd/debian-7.1.0-i386-CD-1.iso",
+      "iso_url": "http://cdimage.debian.org/debian-cd/7.2.0/amd64/iso-cd/debian-7.2.0-amd64-CD-1.iso",
       "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
@@ -44,7 +44,7 @@
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7.1.0/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7.2.0/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -60,11 +60,11 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "debian5",
+      "guest_os_type": "debian5-64",
       "http_directory": "http",
-      "iso_checksum": "fecd8856e6cf5e248a52e31deb9ebb0e61129f82",
+      "iso_checksum": "c7c1e2bf7ec4760b9fecf77fefa6062b73330359",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/debian-cd/7.1.0/i386/iso-cd/debian-7.1.0-i386-CD-1.iso",
+      "iso_url": "http://cdimage.debian.org/debian-cd/7.2.0/amd64/iso-cd/debian-7.2.0-amd64-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,7 +80,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-7.1.0-i386_provisionerless.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-7.2.0_provisionerless.box"
     }
   ],
   "provisioners": [
