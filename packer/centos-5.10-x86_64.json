@@ -3,16 +3,16 @@
     {
       "type": "virtualbox",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.9/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat",
+      "guest_os_type": "RedHat_64",
       "http_directory": "http",
-      "iso_checksum": "78f976b190ce44716eb672f71203df978474dfb4",
+      "iso_checksum": "d8403b3fe4972eda3e147ee76d682a4a3beae1e1",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://mirrors.kernel.org/centos/5.9/isos/i386/CentOS-5.9-i386-bin-DVD-1of2.iso",
+      "iso_url": "http://mirrors.kernel.org/centos/5.10/isos/x86_64/CentOS-5.10-x86_64-bin-DVD-1of2.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -27,15 +27,15 @@
     {
       "type": "vmware",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.9/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "centos",
+      "guest_os_type": "centos-64",
       "http_directory": "http",
-      "iso_checksum": "78f976b190ce44716eb672f71203df978474dfb4",
+      "iso_checksum": "d8403b3fe4972eda3e147ee76d682a4a3beae1e1",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://mirrors.kernel.org/centos/5.9/isos/i386/CentOS-5.9-i386-bin-DVD-1of2.iso",
+      "iso_url": "http://mirrors.kernel.org/centos/5.10/isos/x86_64/CentOS-5.10-x86_64-bin-DVD-1of2.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
@@ -51,7 +51,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_centos-5.9-i386_provisionerless.box",
+      "output": "../builds/{{.Provider}}/opscode_centos-5.10_provisionerless.box",
       "type": "vagrant"
     }
   ],
@@ -61,7 +61,6 @@
       "scripts": [
         "scripts/common/vagrant.sh",
         "scripts/common/sshd.sh",
-        "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
