@@ -5,7 +5,7 @@
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.7/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7.2.0/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -23,9 +23,9 @@
       "disk_size": 40960,
       "guest_os_type": "Debian_64",
       "http_directory": "http",
-      "iso_checksum": "33877b8bff3a7def4ba1b551615d8459a3a7b268",
+      "iso_checksum": "c7c1e2bf7ec4760b9fecf77fefa6062b73330359",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.7/amd64/iso-cd/debian-6.0.7-amd64-CD-1.iso",
+      "iso_url": "http://cdimage.debian.org/debian-cd/7.2.0/amd64/iso-cd/debian-7.2.0-amd64-CD-1.iso",
       "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
@@ -44,7 +44,7 @@
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.7/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7.2.0/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -62,9 +62,9 @@
       "disk_size": 40960,
       "guest_os_type": "debian5-64",
       "http_directory": "http",
-      "iso_checksum": "33877b8bff3a7def4ba1b551615d8459a3a7b268",
+      "iso_checksum": "c7c1e2bf7ec4760b9fecf77fefa6062b73330359",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.7/amd64/iso-cd/debian-6.0.7-amd64-CD-1.iso",
+      "iso_url": "http://cdimage.debian.org/debian-cd/7.2.0/amd64/iso-cd/debian-7.2.0-amd64-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,7 +80,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-6.0.7_provisionerless.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-7.2.0_provisionerless.box"
     }
   ],
   "provisioners": [
@@ -96,7 +96,7 @@
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'"
+      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
     }
   ]
 }
