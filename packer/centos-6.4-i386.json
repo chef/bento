@@ -19,7 +19,7 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "480" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version"
