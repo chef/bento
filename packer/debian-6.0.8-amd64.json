@@ -26,7 +26,6 @@
       "iso_checksum": "144194cea77f0e527fd07bd6aa28d1ab50cb5a95",
       "iso_checksum_type": "sha1",
       "iso_url": "http://cdimage.debian.org/cdimage/archive/6.0.8/amd64/iso-cd/debian-6.0.8-amd64-CD-1.iso",
-      "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -70,6 +69,7 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
+      "tools_upload_flavor": "linux",
       "vmx_data": {
         "memsize": "384",
         "numvcpus": "1",

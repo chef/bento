@@ -1,7 +1,7 @@
 {
   "builders": [
     {
-      "type": "virtualbox,"
+      "type": "virtualbox",
       "boot_command": [
         "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-18/ks.cfg<enter><wait>"
       ],
