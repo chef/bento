@@ -1,6 +1,6 @@
 bin/
 .bundle/
-iso/
+iso
 *.box
 virtualfloppy.vfd
 packer_cache/
