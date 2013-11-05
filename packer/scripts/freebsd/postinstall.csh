@@ -31,6 +31,9 @@ fetch -am -o authorized_keys 'https://raw.github.com/mitchellh/vagrant/master/ke
 chown -R vagrant /home/vagrant/.ssh
 chmod -R go-rwsx /home/vagrant/.ssh
 
+# change the vagrant users shell to bash
+chsh -s bash vagrant
+
 # Cleaning portstree to save space
 # http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/ports-using.html
 pkg_add -r portupgrade
