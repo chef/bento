@@ -19,10 +19,6 @@ env PAGER=/bin/cat /tmp/freebsd-update install
 #Install sudo and bash and curl
 pkg_add -r sudo bash-static curl
 
-#Need /bin/bash for omnibus chef to work
-cd /bin/
-ln -s /usr/local/bin/bash bash
-
 #Installing vagrant keys
 mkdir /home/vagrant/.ssh
 chmod 700 /home/vagrant/.ssh
@@ -30,9 +26,6 @@ cd /home/vagrant/.ssh
 fetch -am -o authorized_keys 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub'
 chown -R vagrant /home/vagrant/.ssh
 chmod -R go-rwsx /home/vagrant/.ssh
-
-# change the vagrant users shell to bash
-chsh -s bash vagrant
 
 # Cleaning portstree to save space
 # http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/ports-using.html
