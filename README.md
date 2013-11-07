@@ -1,8 +1,10 @@
+# Bento
+
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Opscode for
-testing Hosted Chef, Private Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
+testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode) via [test-kitchen](http://github.com/opscode/test-kitchen).
 
-These basebox templates were converted from [VeeWee](https://github.com/jedi4ever/veewee)
+These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee)
 definitions originally based on
 [work done by Tim Dysinger](https://github.com/dysinger/basebox) to
 make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
@@ -114,12 +116,14 @@ If you only have VMware or VirtualBox available, you may also tell Packer to bui
 Congratulations! You now have `./debian-7.1.0-i386-virtualbox.box` and `./debian-7.1.0-i386-vmware.box`, fully-functional
 baseboxes that you can then add to Vagrant and start testing cookbooks.
 
-# Legacy Veewee Definitions
+# Veewee Definitions
 
 The legacy veewee definitions are still in the "definitions" directory. These are unsupported and will be removed in the future.
 
-Packer does not yet support Windows, so the veewee definitions are still used for building those boxes. You must build these
-boxes yourself due to licensing constraints.
+Packer does not yet support Windows, so the veewee definitions are still used for building those boxes. You must build these boxes yourself due to licensing constraints. You can build these as follows:
+
+    $ bundle install
+    $ bundle exec veewee vbox build [definition-name]
 
 Bugs and Issues
 ===============
@@ -145,8 +149,8 @@ License and Authors
 - Author:: Tom Duffield (<tom@opscode.com>)
 - Author:: Ross Timson (<ross@rosstimson.com>)
 
-Copyright:: 2012-2013, Opscode, Inc (<legal@opscode.com>)
-Copyright:: 2011-2012, Tim Dysinger (<tim@dysinger.net>)
+* Copyright:: 2012-2013, Opscode, Inc (<legal@opscode.com>)
+* Copyright:: 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
