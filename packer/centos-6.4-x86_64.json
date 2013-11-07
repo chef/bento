@@ -54,7 +54,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_centos-6.4_chef_{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_centos-6.4_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
