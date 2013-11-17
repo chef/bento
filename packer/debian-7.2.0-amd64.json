@@ -85,7 +85,7 @@
   ],
   "provisioners": [
     {
-      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/debian/update.sh",
         "scripts/common/sshd.sh",
@@ -96,7 +96,7 @@
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+      "type": "shell"
     }
   ]
 }
