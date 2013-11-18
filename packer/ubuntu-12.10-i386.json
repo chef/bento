@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "chef_version": "provisionerless"
+  },
   "builders": [
     {
       "boot_command": [
@@ -93,12 +96,13 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.10-i386_provisionerless.box",
+      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.10-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
       "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
@@ -107,6 +111,7 @@
         "scripts/common/sudoers.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
