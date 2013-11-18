@@ -1,6 +1,10 @@
 {
+  "variables": {
+    "chef_version": "provisionerless"
+  },
   "provisioners": [
     {
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
       "type": "shell",
       "scripts": [
         "scripts/freebsd/postinstall.csh",
@@ -83,7 +87,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1_provisionerless.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]

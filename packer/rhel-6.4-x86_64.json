@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "chef_version": "provisionerless"
+  },
   "builders": [
     {
       "type": "virtualbox",
@@ -51,17 +54,19 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_redhat-6.4_provisionerless.box",
+      "output": "../builds/{{.Provider}}/opscode_redhat-6.4_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
