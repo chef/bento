@@ -100,7 +100,7 @@
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "type": "shell"
+      "type": "shell",
       "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ]
     }
   ]
