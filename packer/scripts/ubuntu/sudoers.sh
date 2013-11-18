@@ -9,10 +9,9 @@ fi
 
 if [ ! -z "$major_version" -a "$major_version" -lt 12 ]
 then
-  exempt_group="admin"
+  sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=admin' /etc/sudoers
+  sed -i -e 's/%admin\s*ALL=(ALL) ALL/%admin\tALL=NOPASSWD:ALL/g' /etc/sudoers
 else
-  exempt_group="sudo"
+  sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=sudo' /etc/sudoers
+  sed -i -e 's/%sudo\s*ALL=(ALL:ALL) ALL/%sudo\tALL=NOPASSWD:ALL/g' /etc/sudoers
 fi
-
-sed -i -e "/Defaults\s\+env_reset/a Defaults\texempt_group=${exempt_group}" /etc/sudoers
-sed -i -e "s/%${exempt_group}  ALL=(ALL:ALL) ALL/%${exempt_group}  ALL=NOPASSWD:ALL/g" /etc/sudoers
