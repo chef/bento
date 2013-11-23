@@ -13,9 +13,9 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "RedHat",
       "http_directory": "http",
-      "iso_checksum": "d953b7e1cc9fcc0415b78dcd79737929842575ae8b903d6868e337a2a21dcaee",
+      "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
       "iso_checksum_type": "sha256",
-      "iso_url": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.4/md5sum/2f1927af5bca9a34f2d9488655b4fdf4/rhel-server-6.4-i386-dvd.iso",
+      "iso_url": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef/rhel-server-6.5-i386-dvd.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -36,9 +36,9 @@
       "disk_size": 40960,
       "guest_os_type": "redhat",
       "http_directory": "http",
-      "iso_checksum": "d953b7e1cc9fcc0415b78dcd79737929842575ae8b903d6868e337a2a21dcaee",
+      "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
       "iso_checksum_type": "sha256",
-      "iso_url": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.4/md5sum/2f1927af5bca9a34f2d9488655b4fdf4/rhel-server-6.4-i386-dvd.iso",
+      "iso_url": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef/rhel-server-6.5-i386-dvd.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
@@ -54,7 +54,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_rhel-6.4-i386_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_rhel-6.5-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
