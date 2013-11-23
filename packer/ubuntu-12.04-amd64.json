@@ -44,6 +44,7 @@
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
       "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-ubuntu-12.04-amd64",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
