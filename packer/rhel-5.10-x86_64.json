@@ -25,7 +25,9 @@
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
-      "virtualbox_version_file": ".vbox_version"
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-rhel-5.10-x86_64",
+      "output_directory": "packer-rhel-5.10-x86_64"
     },
     {
       "type": "vmware",
@@ -45,6 +47,8 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "vm_name": "packer-rhel-5.10-x86_64",
+      "output_directory": "packer-rhel-5.10-x86_64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
