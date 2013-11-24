@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://mirrors.kernel.org/fedora"
   }, 
   "builders": [
     {
@@ -15,7 +16,7 @@
       "http_directory": "http",
       "iso_checksum": "d98caa59fa72c4817e040060149ca3951aef6c16ccf485522527e7efa3ebbd74",
       "iso_checksum_type": "sha256",
-      "iso_url": "http://download.fedoraproject.org/pub/fedora/linux/releases/test/20-Beta/Fedora/i386/iso/Fedora-20-Beta-i386-DVD.iso",
+      "iso_url": "{{user `mirror`}}/releases/test/20-Beta/Fedora/i386/iso/Fedora-20-Beta-i386-DVD.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -38,7 +39,7 @@
       "http_directory": "http",
       "iso_checksum": "d98caa59fa72c4817e040060149ca3951aef6c16ccf485522527e7efa3ebbd74",
       "iso_checksum_type": "sha256",
-      "iso_url": "http://download.fedoraproject.org/pub/fedora/linux/releases/test/20-Beta/Fedora/i386/iso/Fedora-20-Beta-i386-DVD.iso",
+      "iso_url": "{{user `mirror`}}/releases/test/20-Beta/Fedora/i386/iso/Fedora-20-Beta-i386-DVD.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
