@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
   },
   "provisioners": [
     {
@@ -36,7 +37,7 @@
       "http_directory": "http",
       "iso_checksum": "e37d86ce83908bf4b667fdae7298bca5",
       "iso_checksum_type": "md5",
-      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/i386/i386/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-i386-disc1.iso",
+      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -72,7 +73,7 @@
       "http_directory": "http",
       "iso_checksum": "e37d86ce83908bf4b667fdae7298bca5",
       "iso_checksum_type": "md5",
-      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/i386/i386/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-i386-disc1.iso",
+      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
