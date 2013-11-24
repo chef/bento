@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://cdimage.debian.org/debian-cd"
   },
   "builders": [
     {
@@ -28,7 +29,7 @@
       "http_directory": "http",
       "iso_checksum": "011d42505fdafeb9be2bd0379a12d4042f24cfd5",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/debian-cd/7.2.0/i386/iso-cd/debian-7.2.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.2.0/i386/iso-cd/debian-7.2.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -66,7 +67,7 @@
       "http_directory": "http",
       "iso_checksum": "011d42505fdafeb9be2bd0379a12d4042f24cfd5",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://cdimage.debian.org/debian-cd/7.2.0/i386/iso-cd/debian-7.2.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.2.0/i386/iso-cd/debian-7.2.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,

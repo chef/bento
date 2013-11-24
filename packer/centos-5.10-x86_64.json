@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://mirrors.kernel.org/centos"
   },
   "builders": [
     {
@@ -15,7 +16,7 @@
       "http_directory": "http",
       "iso_checksum": "d8403b3fe4972eda3e147ee76d682a4a3beae1e1",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://mirrors.kernel.org/centos/5.10/isos/x86_64/CentOS-5.10-x86_64-bin-DVD-1of2.iso",
+      "iso_url": "{{user `mirror`}}/5.10/isos/x86_64/CentOS-5.10-x86_64-bin-DVD-1of2.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,

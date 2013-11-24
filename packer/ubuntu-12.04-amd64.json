@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://releases.ubuntu.com"
   },
   "builders": [
     {
@@ -35,7 +36,7 @@
       "http_directory": "http",
       "iso_checksum": "4e36c272dde245cfadf14ff8895566571a38f4d2",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.3-server-amd64.iso",
+      "iso_url": "{{user `mirror`}}/12.04/ubuntu-12.04.3-server-amd64.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,7 +81,7 @@
       "http_directory": "http",
       "iso_checksum": "4e36c272dde245cfadf14ff8895566571a38f4d2",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.3-server-amd64.iso",
+      "iso_url": "{{user `mirror`}}/12.04/ubuntu-12.04.3-server-amd64.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",

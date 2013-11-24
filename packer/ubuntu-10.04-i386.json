@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://releases.ubuntu.com"
   },
   "builders": [
     {
@@ -36,7 +37,7 @@
       "http_directory": "http",
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-i386.iso",
+      "iso_url": "{{user `mirror`}}/10.04.4/ubuntu-10.04.4-server-i386.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,7 +81,7 @@
       "http_directory": "http",
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-i386.iso",
+      "iso_url": "{{user `mirror`}}/10.04.4/ubuntu-10.04.4-server-i386.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
