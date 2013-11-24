@@ -17,7 +17,7 @@ env PAGER=/bin/cat /tmp/freebsd-update fetch
 env PAGER=/bin/cat /tmp/freebsd-update install
 
 #Install sudo and bash and curl
-pkg_add -r sudo bash-static curl
+pkg_add -r sudo curl
 
 #Installing vagrant keys
 mkdir /home/vagrant/.ssh
@@ -26,12 +26,6 @@ cd /home/vagrant/.ssh
 fetch -am -o authorized_keys 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub'
 chown -R vagrant /home/vagrant/.ssh
 chmod -R go-rwsx /home/vagrant/.ssh
-
-# Cleaning portstree to save space
-# http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/ports-using.html
-pkg_add -r portupgrade
-
-/usr/local/sbin/portsclean -C
 
 # As sharedfolders are not in defaults ports tree
 # We will use vagrant via NFS
