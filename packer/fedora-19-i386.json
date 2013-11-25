@@ -27,7 +27,8 @@
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-fedora-19-i386"
+      "vm_name": "packer-fedora-19-i386",
+      "output_directory": "packer-fedora-19-i386"
     },
     {
       "type": "vmware",
@@ -47,6 +48,8 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "vm_name": "packer-fedora-19-i386",
+      "output_directory": "packer-fedora-19-i386",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
