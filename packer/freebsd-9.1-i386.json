@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "chef_version": "provisionerless"
+  },
   "provisioners": [
     {
       "type": "shell",
