@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "http://download.fedoraproject.org/pub/fedora/linux"
   },
   "builders": [
     {
