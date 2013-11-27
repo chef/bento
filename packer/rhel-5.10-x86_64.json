@@ -34,7 +34,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "redhat-64",
+      "guest_os_type": "rhel5-64",
       "http_directory": "http",
       "iso_checksum": "8b38e74b0993d478aad9c950f51a3e3441199639a3422e06fc3beca1f8825bf2",
       "iso_checksum_type": "sha256",
