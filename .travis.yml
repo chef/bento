@@ -3,6 +3,6 @@ rvm:
   - 2.0.0
 
 before_install: wget --no-check-certificate https://dl.bintray.com/mitchellh/packer/0.4.0_linux_amd64.zip && unzip -d packer 0.4.0_linux_amd64.zip
-before_script: export PATH=$PATH:$HOME/packer
+before_script: export PATH=$PATH:$PWD/packer
 
-script: thor packer:validate
+script: bundle exec thor packer:validate
