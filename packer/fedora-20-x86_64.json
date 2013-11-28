@@ -55,7 +55,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_fedora-20-x86_64_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_fedora-20_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
