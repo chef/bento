@@ -74,7 +74,7 @@
       "http_directory": "http",
       "iso_checksum": "f0a320fd52383c42649d48ea545915a9",
       "iso_checksum_type": "md5",
-      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-amd64-disc1.iso",
+      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-amd64-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
