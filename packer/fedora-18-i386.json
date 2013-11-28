@@ -55,7 +55,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_fedora-18_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_fedora-18-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
