@@ -88,7 +88,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1_provisionerless.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]
