@@ -45,6 +45,8 @@
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-freebsd-9.1-i386",
+      "output_directory": "packer-freebsd-9.1-i386",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "768" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -79,6 +81,8 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
+      "vm_name": "packer-freebsd-9.1-i386",
+      "output_directory": "packer-freebsd-9.1-i386",
       "vmx_data": {
         "memsize": "768",
         "numvcpus": "1",
