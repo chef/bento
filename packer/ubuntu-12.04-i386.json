@@ -81,7 +81,7 @@
       "disk_size": 40960,
       "guest_os_type": "ubuntu",
       "http_directory": "http",
-      "iso_checksum": "f6fb4e12e12e6ba4247aee5985dd92cc5a653122",
+      "iso_checksum": "2ec0e913959f6c2ba7a558e8bfa361428bb00e56",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/12.04/ubuntu-12.04.3-server-i386.iso",
       "tools_upload_flavor": "linux",
