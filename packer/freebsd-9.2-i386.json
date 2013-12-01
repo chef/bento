@@ -5,7 +5,6 @@
   },
   "provisioners": [
     {
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
       "type": "shell",
       "scripts": [
         "scripts/freebsd/postinstall.csh",
@@ -29,16 +28,17 @@
         "<wait10><wait10>",
         "/bin/sh<enter><wait>",
         "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.2/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
-      "guest_os_type": "FreeBSD_64",
+      "guest_os_type": "FreeBSD",
       "http_directory": "http",
-      "iso_checksum": "f0a320fd52383c42649d48ea545915a9",
-      "iso_checksum_type": "md5",
-      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-amd64-disc1.iso",
+      "iso_checksum": "76093c27288f0ab939a5de14b621ec8eb1420d96343132c2b7c382747d35b67c",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/releases/i386/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -46,8 +46,8 @@
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-freebsd-9.1-amd64",
-      "output_directory": "packer-freebsd-9.1-amd64",
+      "vm_name": "packer-freebsd-9.2-i386",
+      "output_directory": "packer-freebsd-9.2-i386",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "768" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -66,24 +66,25 @@
         "<wait10><wait10>",
         "/bin/sh<enter><wait>",
         "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
         "<wait5>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.2/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
-      "guest_os_type": "freebsd-64",
+      "guest_os_type": "freebsd",
       "http_directory": "http",
-      "iso_checksum": "f0a320fd52383c42649d48ea545915a9",
-      "iso_checksum_type": "md5",
-      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.1/FreeBSD-9.1-RELEASE-amd64-disc1.iso",
+      "iso_checksum": "76093c27288f0ab939a5de14b621ec8eb1420d96343132c2b7c382747d35b67c",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/releases/i386/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
-      "vm_name": "packer-freebsd-9.1-amd64",
-      "output_directory": "packer-freebsd-9.1-amd64",
+      "vm_name": "packer-freebsd-9.2-i386",
+      "output_directory": "packer-freebsd-9.2-i386",
       "vmx_data": {
         "memsize": "768",
         "numvcpus": "1",
@@ -93,7 +94,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-9.1_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-9.2-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]
