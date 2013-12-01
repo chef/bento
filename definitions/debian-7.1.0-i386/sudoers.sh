@@ -1,1 +1,0 @@
-../.debian/sudoers.sh

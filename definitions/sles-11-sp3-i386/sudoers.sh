@@ -1,1 +1,0 @@
-../.suse/sudoers.sh

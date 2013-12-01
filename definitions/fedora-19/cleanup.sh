@@ -1,1 +1,0 @@
-../.fedora/cleanup.sh
