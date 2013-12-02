@@ -2,38 +2,78 @@
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Opscode for
-testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode) via [test-kitchen](http://github.com/opscode/test-kitchen).
-
-These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee)
-definitions originally based on
-[work done by Tim Dysinger](https://github.com/dysinger/basebox) to
-make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
+testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
+via [test-kitchen](http://github.com/opscode/test-kitchen).
 
 ## Current Baseboxes
 
 The following baseboxes are publicly available and were built using
-this project. Note that our baseboxes no longer include Chef Client.
+this project. Note that our baseboxes do not include Chef Client.
 Vagrant can be instructed to install Chef at runtime using the
 [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus) plugin.
 
-64-bit boxes:
+### VirtualBox
 
-* [opscode-centos-5.9](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box)
-* [opscode-centos-6.4](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box)
-* [opscode-debian-7.1.0](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-7.1.0_provisionerless.box)
-* [opscode-fedora-18](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode-fedora-18_provisionerless.box)
-* [opscode-fedora-19](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode-fedora-19_provisionerless.box)
-* [opscode-ubuntu-10.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box)
-* [opscode-ubuntu-12.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box)
-* [opscode-ubuntu-13.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-13.04_provisionerless.box)
+These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.2, and have that format of Guest Extensions.
 
-32-bit boxes:
+* [opscode-centos-5.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10-i386_chef-provisionerless.box)
+* [opscode-centos-5.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10_chef-provisionerless.box)
+* [opscode-centos-6.4-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4-i386_chef-provisionerless.box)
+* [opscode-centos-6.4](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4_chef-provisionerless.box)
+* [opscode-debian-6.0.8-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.8-i386_chef-provisionerless.box)
+* [opscode-debian-6.0.8](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.8_chef-provisionerless.box)
+* [opscode-debian-7.2.0-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0-i386_chef-provisionerless.box)
+* [opscode-debian-7.2.0](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0_chef-provisionerless.box)
+* [opscode-fedora-18-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-18-i386_chef-provisionerless.box)
+* [opscode-fedora-18](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-18_chef-provisionerless.box)
+* [opscode-fedora-19-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19-i386_chef-provisionerless.box)
+* [opscode-fedora-19](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19_chef-provisionerless.box)
+* [opscode-fedora-20-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20-i386_chef-provisionerless.box)
+* [opscode-fedora-20](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20_chef-provisionerless.box)
+* [opscode-freebsd-9.2-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.2-i386_chef-provisionerless.box)
+* [opscode-freebsd-9.2](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.2_chef-provisionerless.box)
+* [opscode-ubuntu-10.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04-i386_chef-provisionerless.box)
+* [opscode-ubuntu-10.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box)
+* [opscode-ubuntu-12.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box)
+* [opscode-ubuntu-12.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box)
+* [opscode-ubuntu-12.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10-i386_chef-provisionerless.box)
+* [opscode-ubuntu-12.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10_chef-provisionerless.box)
+* [opscode-ubuntu-13.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.04-i386_chef-provisionerless.box)
+* [opscode-ubuntu-13.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.04_chef-provisionerless.box)
+* [opscode-ubuntu-13.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.10-i386_chef-provisionerless.box)
+* [opscode-ubuntu-13.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.10_chef-provisionerless.box)
 
-* [opscode-centos-5.9-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9-i386_provisionerless.box)
-* [opscode-centos-6.4-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4-i386_provisionerless.box)
-* [opscode-debian-7.1.0-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-7.1.0-i386_provisionerless.box)
-* [opscode-ubuntu-10.04-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_provisionerless.box)
-* [opscode-ubuntu-12.04-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_provisionerless.box)
+### VMWare
+
+These baseboxes were all built using a Mac OS X host running VMWare Fusion 6.0.3, and have that version of VMWare Tools.
+The boxes should work unchanged in VMWare Workstation for Windows or Linux.
+
+* [opscode-centos-5.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10-i386_chef-provisionerless.box)
+* [opscode-centos-5.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10_chef-provisionerless.box)
+* [opscode-centos-6.4-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.4-i386_chef-provisionerless.box)
+* [opscode-centos-6.4](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.4_chef-provisionerless.box)
+* [opscode-debian-6.0.8-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.8-i386_chef-provisionerless.box)
+* [opscode-debian-6.0.8](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.8_chef-provisionerless.box)
+* [opscode-debian-7.2.0-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.2.0-i386_chef-provisionerless.box)
+* [opscode-debian-7.2.0](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.2.0_chef-provisionerless.box)
+* [opscode-fedora-18-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-18-i386_chef-provisionerless.box)
+* [opscode-fedora-18](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-18_chef-provisionerless.box)
+* [opscode-fedora-19-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-19-i386_chef-provisionerless.box)
+* [opscode-fedora-19](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-19_chef-provisionerless.box)
+* [opscode-fedora-20-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20-i386_chef-provisionerless.box)
+* [opscode-fedora-20](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20_chef-provisionerless.box)
+* [opscode-freebsd-9.2-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.2-i386_chef-provisionerless.box)
+* [opscode-freebsd-9.2](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.2_chef-provisionerless.box)
+* [opscode-ubuntu-10.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04-i386_chef-provisionerless.box)
+* [opscode-ubuntu-10.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04_chef-provisionerless.box)
+* [opscode-ubuntu-12.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box)
+* [opscode-ubuntu-12.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box)
+* [opscode-ubuntu-12.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.10-i386_chef-provisionerless.box)
+* [opscode-ubuntu-12.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.10_chef-provisionerless.box)
+* [opscode-ubuntu-13.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.04-i386_chef-provisionerless.box)
+* [opscode-ubuntu-13.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.04_chef-provisionerless.box)
+* [opscode-ubuntu-13.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.10-i386_chef-provisionerless.box)
+* [opscode-ubuntu-13.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.10_chef-provisionerless.box)
 
 ## Older Baseboxes
 
@@ -141,8 +181,13 @@ Contributing
 
 [How to contribute to Opscode open source software projects](http://wiki.opscode.com/display/chef/How+to+Contribute)
 
-License and Authors
-===================
+Authors and Contributors
+========================
+
+These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee)
+definitions originally based on
+[work done by Tim Dysinger](https://github.com/dysinger/basebox) to
+make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 - Author:: Seth Chisamore (<schisamo@opscode.com>)
 - Author:: Stephen Delano (<stephen@opscode.com>)
@@ -153,7 +198,10 @@ License and Authors
 - Author:: Tom Duffield (<tom@opscode.com>)
 - Author:: Ross Timson (<ross@rosstimson.com>)
 
-* Copyright:: 2012-2013, Opscode, Inc (<legal@opscode.com>)
+License and Copyright
+=====================
+
+* Copyright:: 2012-2013, Opscode, Inc. (<legal@opscode.com>)
 * Copyright:: 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
