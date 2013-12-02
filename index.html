@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Bento by opscode</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Bento</h1>
+        <p class="header">Modularized Packer definitions for building Vagrant baseboxes</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/opscode/bento/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/opscode/bento/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/opscode/bento">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/opscode">opscode</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="bento" class="anchor" href="#bento"><span class="octicon octicon-link"></span></a>Bento</h1>
+
+<p>Bento is a project that encapsulates <a href="http://packer.io">Packer</a> templates for building
+<a href="http://vagrantup.com">Vagrant</a> baseboxes. We use these boxes internally at Opscode for
+testing Hosted Enterprise Chef, Private Enterprise Chef and our open source <a href="http://community.opscode.com/users/Opscode">cookbooks</a>
+via <a href="http://github.com/opscode/test-kitchen">test-kitchen</a>.</p>
+
+<h2>
+<a name="current-baseboxes" class="anchor" href="#current-baseboxes"><span class="octicon octicon-link"></span></a>Current Baseboxes</h2>
+
+<p>The following baseboxes are publicly available and were built using
+this project. Note that our baseboxes do not include Chef Client.
+Vagrant can be instructed to install Chef at runtime using the
+<a href="https://github.com/schisamo/vagrant-omnibus">vagrant-omnibus</a> plugin.</p>
+
+<h3>
+<a name="virtualbox" class="anchor" href="#virtualbox"><span class="octicon octicon-link"></span></a>VirtualBox</h3>
+
+<p>These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.2, and have that format of Guest Extensions.</p>
+
+<ul>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10-i386_chef-provisionerless.box">opscode-centos-5.10-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10_chef-provisionerless.box">opscode-centos-5.10</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4-i386_chef-provisionerless.box">opscode-centos-6.4-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4_chef-provisionerless.box">opscode-centos-6.4</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.8-i386_chef-provisionerless.box">opscode-debian-6.0.8-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.8_chef-provisionerless.box">opscode-debian-6.0.8</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0-i386_chef-provisionerless.box">opscode-debian-7.2.0-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0_chef-provisionerless.box">opscode-debian-7.2.0</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-18-i386_chef-provisionerless.box">opscode-fedora-18-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-18_chef-provisionerless.box">opscode-fedora-18</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19-i386_chef-provisionerless.box">opscode-fedora-19-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19_chef-provisionerless.box">opscode-fedora-19</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20-i386_chef-provisionerless.box">opscode-fedora-20-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20_chef-provisionerless.box">opscode-fedora-20</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.2-i386_chef-provisionerless.box">opscode-freebsd-9.2-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.2_chef-provisionerless.box">opscode-freebsd-9.2</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04-i386_chef-provisionerless.box">opscode-ubuntu-10.04-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box">opscode-ubuntu-10.04</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box">opscode-ubuntu-12.04-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box">opscode-ubuntu-12.04</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10-i386_chef-provisionerless.box">opscode-ubuntu-12.10-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10_chef-provisionerless.box">opscode-ubuntu-12.10</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.04-i386_chef-provisionerless.box">opscode-ubuntu-13.04-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.04_chef-provisionerless.box">opscode-ubuntu-13.04</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.10-i386_chef-provisionerless.box">opscode-ubuntu-13.10-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.10_chef-provisionerless.box">opscode-ubuntu-13.10</a></li>
+</ul><h3>
+<a name="vmware" class="anchor" href="#vmware"><span class="octicon octicon-link"></span></a>VMWare</h3>
+
+<p>These baseboxes were all built using a Mac OS X host running VMWare Fusion 6.0.3, and have that version of VMWare Tools.
+The boxes should work unchanged in VMWare Workstation for Windows or Linux.</p>
+
+<ul>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10-i386_chef-provisionerless.box">opscode-centos-5.10-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10_chef-provisionerless.box">opscode-centos-5.10</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.4-i386_chef-provisionerless.box">opscode-centos-6.4-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.4_chef-provisionerless.box">opscode-centos-6.4</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.8-i386_chef-provisionerless.box">opscode-debian-6.0.8-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.8_chef-provisionerless.box">opscode-debian-6.0.8</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.2.0-i386_chef-provisionerless.box">opscode-debian-7.2.0-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.2.0_chef-provisionerless.box">opscode-debian-7.2.0</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-18-i386_chef-provisionerless.box">opscode-fedora-18-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-18_chef-provisionerless.box">opscode-fedora-18</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-19-i386_chef-provisionerless.box">opscode-fedora-19-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-19_chef-provisionerless.box">opscode-fedora-19</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20-i386_chef-provisionerless.box">opscode-fedora-20-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20_chef-provisionerless.box">opscode-fedora-20</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.2-i386_chef-provisionerless.box">opscode-freebsd-9.2-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.2_chef-provisionerless.box">opscode-freebsd-9.2</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04-i386_chef-provisionerless.box">opscode-ubuntu-10.04-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04_chef-provisionerless.box">opscode-ubuntu-10.04</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box">opscode-ubuntu-12.04-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box">opscode-ubuntu-12.04</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.10-i386_chef-provisionerless.box">opscode-ubuntu-12.10-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.10_chef-provisionerless.box">opscode-ubuntu-12.10</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.04-i386_chef-provisionerless.box">opscode-ubuntu-13.04-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.04_chef-provisionerless.box">opscode-ubuntu-13.04</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.10-i386_chef-provisionerless.box">opscode-ubuntu-13.10-i386</a></li>
+<li><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.10_chef-provisionerless.box">opscode-ubuntu-13.10</a></li>
+</ul><h2>
+<a name="older-baseboxes" class="anchor" href="#older-baseboxes"><span class="octicon octicon-link"></span></a>Older Baseboxes</h2>
+
+<p>Older baseboxes include Chef.</p>
+
+<p>The following base boxes were built with Chef 11.4.4.</p>
+
+<p>64-bit boxes:</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_chef-11.4.4.box">opscode-centos-5.9</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_chef-11.4.4.box">opscode-centos-6.4</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-11.4.4.box">opscode-ubuntu-10.04</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.4.4.box">opscode-ubuntu-12.04</a></li>
+</ul><p>32-bit boxes:</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9-i386_chef-11.4.4.box">opscode-centos-5.9-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4-i386_chef-11.4.4.box">opscode-centos-6.4-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_chef-11.4.4.box">opscode-ubuntu-10.04-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-11.4.4.box">opscode-ubuntu-12.04-i386</a></li>
+</ul><p>The following base boxes were built with Chef 11.4.0.</p>
+
+<p>64-bit boxes:</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_chef-11.4.0.box">opscode-centos-5.9</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_chef-11.4.0.box">opscode-centos-6.4</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-11.4.0.box">opscode-ubuntu-10.04</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.4.0.box">opscode-ubuntu-12.04</a></li>
+</ul><p>32-bit boxes:</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9-i386_chef-11.4.0.box">opscode-centos-5.9-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4-i386_chef-11.4.0.box">opscode-centos-6.4-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_chef-11.4.0.box">opscode-ubuntu-10.04-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-11.4.0.box">opscode-ubuntu-12.04-i386</a></li>
+</ul><p>The following base boxes were built with Chef 11.2.0. (No 32-bit boxes were built for Chef 11.2.0.)</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.8_chef-11.2.0.box">opscode-centos-5.8</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box">opscode-centos-6.3</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-11.2.0.box">opscode-ubuntu-10.04</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.2.0.box">opscode-ubuntu-12.04</a></li>
+</ul><p>The following base boxes were built with Chef 10.18.2.</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.8-i386_chef-10.18.2.box">opscode-centos-5.8-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.8_chef-10.18.2.box">opscode-centos-5.8</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.3-i386_chef-10.18.2.box">opscode-centos-6.3-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-10.18.2.box">opscode-centos-6.3</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04-i386_chef-10.18.2.box">opscode-ubuntu-10.04-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-10.18.2.box">opscode-ubuntu-10.04</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-10.18.2.box">opscode-ubuntu-12.04-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-10.18.2.box">opscode-ubuntu-12.04</a></li>
+</ul><p>The following base boxes were built with Chef 10.14.4.</p>
+
+<ul>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8-i386.box">opscode-centos-5.8-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8.box">opscode-centos-5.8</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3-i386.box">opscode-centos-6.3-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3.box">opscode-centos-6.3</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box">opscode-ubuntu-10.04</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04-i386.box">opscode-ubuntu-10.04-i386</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box">opscode-ubuntu-12.04</a></li>
+<li><a href="https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04-i386.box">opscode-ubuntu-12.04-i386</a></li>
+</ul><h1>
+<a name="build-your-own-boxes" class="anchor" href="#build-your-own-boxes"><span class="octicon octicon-link"></span></a>Build Your Own Boxes</h1>
+
+<p>First, install <a href="http://packer.io">Packer</a> and then clone this project.</p>
+
+<p>Inside the <code>packer</code> directory, a JSON file describes each box that can be built. You can use <code>packer build</code> to build the
+boxes.</p>
+
+<pre><code>$ packer build debian-7.2.0-i386.json
+</code></pre>
+
+<p>If you want to use a another mirror site, use mirror variable.</p>
+
+<pre><code>$ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-7.2.0-i386.json
+</code></pre>
+
+<p>If you only have VMware or VirtualBox available, you may also tell Packer to build only that box.</p>
+
+<pre><code>$ packer build -only=virtualbox debian-7.2.0-i386.json
+</code></pre>
+
+<p>Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.</p>
+
+<h1>
+<a name="veewee-definitions" class="anchor" href="#veewee-definitions"><span class="octicon octicon-link"></span></a>Veewee Definitions</h1>
+
+<p>Packer does not yet support Windows, so the veewee definitions are still used for building those boxes. You must build these
+boxes yourself due to licensing constraints. You can build these as follows:</p>
+
+<pre><code>$ bundle install
+$ bundle exec veewee vbox build [definition-name]
+</code></pre>
+
+<h1>
+<a name="bugs-and-issues" class="anchor" href="#bugs-and-issues"><span class="octicon octicon-link"></span></a>Bugs and Issues</h1>
+
+<p>Use the
+<a href="http://tickets.opscode.com/browse/BENTO">issue tracker</a> to
+report bugs, features or other issues.</p>
+
+<h1>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h1>
+
+<p><a href="http://wiki.opscode.com/display/chef/How+to+Contribute">How to contribute to Opscode open source software projects</a></p>
+
+<h1>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h1>
+
+<p>These basebox templates were converted from <a href="https://github.com/jedi4ever/veewee">veewee</a>
+definitions originally based on
+<a href="https://github.com/dysinger/basebox">work done by Tim Dysinger</a> to
+make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!</p>
+
+<ul>
+<li>Author:: Seth Chisamore (<a href="mailto:schisamo@opscode.com">schisamo@opscode.com</a>)</li>
+<li>Author:: Stephen Delano (<a href="mailto:stephen@opscode.com">stephen@opscode.com</a>)</li>
+<li>Author:: Joshua Timberman (<a href="mailto:joshua@opscode.com">joshua@opscode.com</a>)</li>
+<li>Author:: Tim Dysinger (<a href="mailto:tim@dysinger.net">tim@dysinger.net</a>)</li>
+<li>Author:: Chris McClimans (<a href="mailto:chris@hippiehacker.org">chris@hippiehacker.org</a>)</li>
+<li>Author:: Julian Dunn (<a href="mailto:jdunn@opscode.com">jdunn@opscode.com</a>)</li>
+<li>Author:: Tom Duffield (<a href="mailto:tom@opscode.com">tom@opscode.com</a>)</li>
+<li>Author:: Ross Timson (<a href="mailto:ross@rosstimson.com">ross@rosstimson.com</a>)</li>
+</ul><h1>
+<a name="license-and-copyright" class="anchor" href="#license-and-copyright"><span class="octicon octicon-link"></span></a>License and Copyright</h1>
+
+<ul>
+<li>Copyright:: 2012-2013, Opscode, Inc. (<a href="mailto:legal@opscode.com">legal@opscode.com</a>)</li>
+<li>Copyright:: 2011-2012, Tim Dysinger (<a href="mailto:tim@dysinger.net">tim@dysinger.net</a>)</li>
+</ul><p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
