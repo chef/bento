@@ -140,7 +140,7 @@ The following base boxes were built with Chef 10.14.4.
 * [opscode-ubuntu-12.04](https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box)
 * [opscode-ubuntu-12.04-i386](https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04-i386.box)
 
-# Getting Started
+# Build Your Own Boxes
 
 First, install [Packer](http://packer.io) and then clone this project.
 
@@ -157,14 +157,12 @@ If you only have VMware or VirtualBox available, you may also tell Packer to bui
 
     $ packer build -only=virtualbox debian-7.2.0-i386.json
 
-Congratulations! You now have `./debian-7.2.0-i386-virtualbox.box` and `./debian-7.2.0-i386-vmware.box`, fully-functional
-baseboxes that you can then add to Vagrant and start testing cookbooks.
+Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.
 
 # Veewee Definitions
 
-The legacy veewee definitions are still in the "definitions" directory. These are unsupported and will be removed in the future.
-
-Packer does not yet support Windows, so the veewee definitions are still used for building those boxes. You must build these boxes yourself due to licensing constraints. You can build these as follows:
+Packer does not yet support Windows, so the veewee definitions are still used for building those boxes. You must build these
+boxes yourself due to licensing constraints. You can build these as follows:
 
     $ bundle install
     $ bundle exec veewee vbox build [definition-name]
