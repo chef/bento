@@ -49,7 +49,7 @@
       "vm_name": "packer-freebsd-9.2-i386",
       "output_directory": "packer-freebsd-9.2-i386",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "768" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ]
     },
@@ -86,7 +86,7 @@
       "vm_name": "packer-freebsd-9.2-i386",
       "output_directory": "packer-freebsd-9.2-i386",
       "vmx_data": {
-        "memsize": "768",
+        "memsize": "512",
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
