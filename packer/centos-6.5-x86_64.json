@@ -39,7 +39,7 @@
       "disk_size": 40960,
       "guest_os_type": "centos-64",
       "http_directory": "http",
-      "iso_checksum": "8672dc087f1b0eda60b9efaa41b82f034f185e24",
+      "iso_checksum": "32c7695b97f7dcd1f59a77a71f64f2957dddf738",
       "iso_checksum_type": "sha1",
       "iso_url": "http://mirrors.kernel.org/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-bin-DVD1.iso",
       "tools_upload_flavor": "linux",
