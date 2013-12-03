@@ -1,0 +1,101 @@
+{
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://cdn2.novell.com/prot/FkjGyLMMiss~"
+  },
+  "builders": [
+    {
+      "type": "virtualbox",
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles-11/sles-11-sp2-i386-autoinst.xml<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 20480,
+      "guest_os_type": "OpenSUSE",
+      "http_directory": "http",
+      "iso_checksum": "a0b34f6237b2b2a6b2174c82b40ed326",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/SLES-11-SP2-DVD-i586-GM-DVD1.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-sles-11-sp2-x86_64",
+      "output_directory": "packer-sles-11-sp2-x86_64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "480"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ]
+    },
+    {
+      "type": "vmware",
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles-11/sles-11-sp2-i386-autoinst.xml",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 20480,
+      "guest_os_type": "sles11",
+      "http_directory": "http",
+      "iso_checksum": "a0b34f6237b2b2a6b2174c82b40ed326",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/SLES-11-SP2-DVD-i586-GM-DVD1.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "tools_upload_flavor": "linux",
+      "vmx_data": {
+        "memsize": "480",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      },
+      "vm_name": "packer-sles11sp2-x86_64",
+      "output_directory": "packer-sles11sp2-x86_64"
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "../builds/{{.Provider}}/opscode_sles-11sp2-i386_chef-{{user `chef_version`}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
+      "scripts": [
+        "scripts/common/sshd.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/sles/sudoers.sh",
+        "scripts/sles/zypper-locks.sh",
+        "scripts/sles/remove-dvd-source.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'"
+    }
+  ]
+}
