@@ -9,7 +9,7 @@ fi
 patchlevel=`grep PATCHLEVEL /etc/SuSE-release | awk '{ print $3 }'`
 if [ $patchlevel == '2' ]; then
   repo_ver="11.2.2-1.234"
-elif [ $patchlevel == '3']; then
+elif [ $patchlevel == '3' ]; then
   repo_ver="11.3.3-1.138"
 else
   echo "Failed to remove DVD source; don't know how to deal with patchlevel $patchlevel"
