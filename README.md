@@ -1,13 +1,12 @@
-Bento
-=====
+# Bento
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Opscode for
 testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
 via [test-kitchen](http://github.com/opscode/test-kitchen).
 
-Current Baseboxes
------------------
+## Current Baseboxes
+
 The following baseboxes are publicly available and were built using
 this project. Note that our baseboxes do not include Chef Client.
 Vagrant can be instructed to install Chef at runtime using the
@@ -46,7 +45,7 @@ These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.2, a
 
 ### VMWare
 
-These baseboxes were all built using a Mac OS X host running VMWare Fusion 6.0.3, and have that version of VMWare Tools.
+These baseboxes were all built using a Mac OS X host running VMWare Fusion 6.0.2, and have that version of VMWare Tools.
 The boxes should work unchanged in VMWare Workstation for Windows or Linux.
 
 * [opscode-centos-5.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10-i386_chef-provisionerless.box)
@@ -76,13 +75,13 @@ The boxes should work unchanged in VMWare Workstation for Windows or Linux.
 * [opscode-ubuntu-13.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.10-i386_chef-provisionerless.box)
 * [opscode-ubuntu-13.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-13.10_chef-provisionerless.box)
 
-Older Baseboxes
----------------
+## Older Baseboxes
+
 Older baseboxes include Chef and therefore are not compatible with some
 new plugins. The full list of old boxes are available in the [old boxes file](https://github.com/opscode/bento/blob/master/OLD-BOXES.md).
 
-Build Your Own Boxes
---------------------
+## Build Your Own Boxes
+
 First, install [Packer](http://packer.io) and then clone this project.
 
 Inside the `packer` directory, a JSON file describes each box that can be built. You can use `packer build` to build the
@@ -100,25 +99,29 @@ If you only have VMware or VirtualBox available, you may also tell Packer to bui
 
 Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.
 
+### Proprietary Boxes
+
+Red Hat Enterprise Linux and SUSE Linux Enterprise Server templates are provided; however, their ISOs are not publicly retrievable. The URLs in those templates are bogus; you should substitute your server where you host the ISOs, using the mirror variable as above.
+
 ### Veewee Definitions
 
-Packer does not yet support Windows, so the veewee definitions are still used for building those boxes. You must build these
+Packer does not yet support Windows, so veewee definitions are still used for building those boxes. You must build these
 boxes yourself due to licensing constraints. You can build these as follows:
 
     $ bundle install
     $ bundle exec veewee vbox build [definition-name]
 
-Bugs and Issues
----------------
+## Bugs and Issues
+
 Use the [issue tracker](http://tickets.opscode.com/browse/BENTO) to report
 bugs, features or other issues.
 
-Contributing
-------------
+## Contributing
+
 [How to contribute to Opscode open source software projects](http://wiki.opscode.com/display/chef/How+to+Contribute)
 
-License & Authors
------------------
+## License & Authors
+
 These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee)
 definitions originally based on
 [work done by Tim Dysinger](https://github.com/dysinger/basebox) to
