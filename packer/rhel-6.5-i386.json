@@ -1,6 +1,7 @@
 {
   "variables": {
-    "chef_version": "provisionerless"
+    "chef_version": "provisionerless",
+    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef"
   },
   "builders": [
     {
@@ -15,7 +16,7 @@
       "http_directory": "http",
       "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
       "iso_checksum_type": "sha256",
-      "iso_url": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef/rhel-server-6.5-i386-dvd.iso",
+      "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -40,7 +41,7 @@
       "http_directory": "http",
       "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
       "iso_checksum_type": "sha256",
-      "iso_url": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef/rhel-server-6.5-i386-dvd.iso",
+      "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
