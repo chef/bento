@@ -6,7 +6,7 @@
     {
       "type": "virtualbox",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.4/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
@@ -26,13 +26,13 @@
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-rhel-6.4-x86_64",
-      "output_directory": "packer-rhel-6.4-x86_64"
+      "vm_name": "packer-rhel-6.5-x86_64",
+      "output_directory": "packer-rhel-6.5-x86_64"
     },
     {
       "type": "vmware",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.4/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
@@ -48,8 +48,8 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "vm_name": "packer-rhel-6.4-x86_64",
-      "output_directory": "packer-rhel-6.4-x86_64",
+      "vm_name": "packer-rhel-6.5-x86_64",
+      "output_directory": "packer-rhel-6.5-x86_64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "480",
