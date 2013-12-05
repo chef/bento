@@ -1,9 +1,11 @@
 # Bento
 
+[![Build Status](https://travis-ci.org/opscode/bento.png)](https://travis-ci.org/opscode/bento)
+
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Opscode for
 testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
-via [test-kitchen](http://github.com/opscode/test-kitchen).
+via [test-kitchen](http://kitchen.ci/).
 
 ## Current Baseboxes
 
