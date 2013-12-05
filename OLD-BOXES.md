@@ -1,5 +1,20 @@
-Bento Old Boxes
+Old Bento Boxes
 ===============
+
+Provisionerless
+---------------
+
+Boxes for obsolete operating systems will be placed here.
+
+### VirtualBox
+
+* [opscode-centos-6.4-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4-i386_chef-provisionerless.box)
+* [opscode-centos-6.4](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4_chef-provisionerless.box)
+
+### VMWare
+
+* [opscode-centos-6.4-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.4-i386_chef-provisionerless.box)
+* [opscode-centos-6.4](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.4_chef-provisionerless.box)
 
 Chef 11.4.4
 -----------
