@@ -13,7 +13,9 @@ class Packer < Thor
       templates = Dir.glob("*.json")
       templates.each do |template|
         puts "#{template}"
-        system "packer validate #{template}"
+        unless system "packer validate #{template}"
+          fail "Validation failed!"
+        end
         puts "\n"
       end
     end
