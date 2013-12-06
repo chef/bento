@@ -8,11 +8,12 @@
       "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
       "type": "shell",
       "scripts": [
-        "scripts/freebsd/postinstall.csh",
+        "scripts/freebsd/postinstall.sh",
+        "scripts/common/chef.sh",
         "scripts/freebsd/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "execute_command": "cat '{{.Path}}' | su -"
+      "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m"
     }
   ],
   "builders": [

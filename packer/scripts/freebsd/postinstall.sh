@@ -1,5 +1,4 @@
-#!/bin/csh -x
-# NB: at the point when this script is run, vagrant's shell is csh
+#!/bin/sh -x
 
 set echo
 
@@ -16,8 +15,12 @@ chmod +x /tmp/freebsd-update
 env PAGER=/bin/cat /tmp/freebsd-update fetch
 env PAGER=/bin/cat /tmp/freebsd-update install
 
-#Install sudo and bash and curl
-pkg_add -r sudo curl
+#Install sudo, curl and ca_root_nss
+pkg_add -r sudo curl ca_root_nss
+
+# Emulate the ETCSYMLINK behavior of ca_root_nss; this is for FreeBSD 10, where fetch(1) was
+# massively refactored and doesn't come with SSL CAcerts anymore
+ln -sf /usr/local/share/certs/ca-root-nss.crt /etc/ssl/cert.pem
 
 #Installing vagrant keys
 mkdir /home/vagrant/.ssh
@@ -36,8 +39,6 @@ echo 'mountd_flags="-r"' >> /etc/rc.conf
 
 # Enable passwordless sudo
 echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /usr/local/etc/sudoers
-# Restore correct su permissions
-# I'll leave that up to the reader :)
 
 # disable X11 because vagrants are (usually) headless
 cat >> /etc/make.conf << EOT
