@@ -7,7 +7,7 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/freebsd/postinstall.csh",
+        "scripts/freebsd/postinstall.sh",
         "scripts/freebsd/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
