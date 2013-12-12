@@ -1,7 +1,5 @@
 #!/bin/sh -x
 
-set echo
-
 #Set the time correctly
 ntpdate -v -b in.pool.ntp.org
 
@@ -44,30 +42,6 @@ echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /usr/local/etc/sudoers
 cat >> /etc/make.conf << EOT
 WITHOUT_X11="YES"
 EOT
-
-pkg_add -r virtualbox-ose-additions virtio-kmod
-
-# undo our customizations
-sed -i '' -e '/^REFUSE /d' /etc/portsnap.conf
-
-echo 'vboxdrv_load="YES"' >> /boot/loader.conf
-echo 'vboxnet_enable="YES"' >> /etc/rc.conf
-echo 'vboxguest_enable="YES"' >> /etc/rc.conf
-echo 'vboxservice_enable="YES"' >> /etc/rc.conf
-
-cat >> /boot/loader.conf << EOT
-virtio_load="YES"
-virtio_pci_load="YES"
-virtio_blk_load="YES"
-if_vtnet_load="YES"
-virtio_balloon_load="YES"
-EOT
-
-# sed -i.bak -Ee 's|/dev/ada?|/dev/vtbd|' /etc/fstab
-echo 'ifconfig_vtnet0_name="em0"' >> /etc/rc.conf
-echo 'ifconfig_vtnet1_name="em1"' >> /etc/rc.conf
-echo 'ifconfig_vtnet2_name="em2"' >> /etc/rc.conf
-echo 'ifconfig_vtnet3_name="em3"' >> /etc/rc.conf
 
 pw groupadd vboxusers
 pw groupmod vboxusers -m vagrant
