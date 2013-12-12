@@ -2,7 +2,6 @@
 
 # Purge files we don't need any longer
 rm -f /tmp/chef*
-rm -f /home/vagrant/*.iso
 rm -rf /var/db/freebsd-update/files
 mkdir /var/db/freebsd-update/files
 rm -f /var/db/freebsd-update/*-rollback
