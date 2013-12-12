@@ -1,6 +1,5 @@
 # vi: ft=ruby
 
-require 'bundler'
 require 'thor'
 require 'fileutils'
 require 'timeout'
