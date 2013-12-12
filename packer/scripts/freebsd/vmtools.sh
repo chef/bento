@@ -2,23 +2,16 @@
 
 if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
   # disable X11 because vagrants are (usually) headless
-  cat >> /etc/make.conf << EOT
-  WITHOUT_X11="YES"
-  EOT
+  echo 'WITHOUT_X11="YES"' >> /etc/make.conf
 
   pkg_add -r virtualbox-ose-additions
-
-  # undo our customizations
-  sed -i '' -e '/^REFUSE /d' /etc/portsnap.conf
 
   echo 'vboxdrv_load="YES"' >> /boot/loader.conf
   echo 'vboxnet_enable="YES"' >> /etc/rc.conf
   echo 'vboxguest_enable="YES"' >> /etc/rc.conf
   echo 'vboxservice_enable="YES"' >> /etc/rc.conf
 
-  cat >> /boot/loader.conf << EOT
-  if_vtnet_load="YES"
-  EOT
+  echo 'if_vtnet_load="YES"' >> /boot/loader.conf
 
   echo 'ifconfig_vtnet0_name="em0"' >> /etc/rc.conf
   echo 'ifconfig_vtnet1_name="em1"' >> /etc/rc.conf
