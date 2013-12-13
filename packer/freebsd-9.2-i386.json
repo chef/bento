@@ -13,7 +13,7 @@
         "scripts/freebsd/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "execute_command": "cat '{{.Path}}' | su -"
+      "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m"
     }
   ],
   "builders": [
