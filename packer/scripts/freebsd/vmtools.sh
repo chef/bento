@@ -1,10 +1,19 @@
 #!/bin/sh
 
+freebsd_major=`uname -r | awk -F. '{ print $1 }'`
+if [ $freebsd_major -gt 9 ]; then
+  pkg_command="pkg install -y"
+  perl_pkg="perl5"
+else
+  pkg_command="pkg_add -r"
+  perl_pkg="perl"
+fi
+
 if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
   # disable X11 because vagrants are (usually) headless
   echo 'WITHOUT_X11="YES"' >> /etc/make.conf
 
-  pkg_add -r virtualbox-ose-additions
+  $pkg_command virtualbox-ose-additions
 
   echo 'vboxdrv_load="YES"' >> /boot/loader.conf
   echo 'vboxnet_enable="YES"' >> /etc/rc.conf
@@ -25,9 +34,9 @@ if [ $PACKER_BUILDER_TYPE == 'vmware' ]; then
   mdconfig -a -t vnode -f /home/vagrant/freebsd.iso -u 0
   mount -t cd9660 /dev/md0 /tmp/vmfusion
   tar xzf /tmp/vmfusion/vmware-freebsd-tools.tar.gz -C /tmp/vmfusion-archive
-  pkg_add -r perl
+  $pkg_command $perl_pkg
   # Welcome to 2005. Have you heard of this "YouTube" thing?
-  pkg_add -r compat6x-`uname -m`
+  $pkg_command compat6x-`uname -m`
   /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
 
   echo 'ifconfig_vxn0="dhcp"' >> /etc/rc.conf
