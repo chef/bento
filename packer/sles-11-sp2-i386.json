@@ -28,7 +28,7 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "packer-sles-11-sp2-x86_64",
-      "output_directory": "packer-sles-11-sp2-x86_64",
+      "output_directory": "packer-sles-11-sp2-x86_64-virtualbox",
       "vboxmanage": [
         [
           "modifyvm",
@@ -72,7 +72,7 @@
         "cpuid.coresPerSocket": "1"
       },
       "vm_name": "packer-sles11sp2-x86_64",
-      "output_directory": "packer-sles11sp2-x86_64"
+      "output_directory": "packer-sles11sp2-x86_64-vmware"
     }
   ],
   "post-processors": [
