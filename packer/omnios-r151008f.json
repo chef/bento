@@ -82,6 +82,7 @@
       "boot_wait": "30s",
       "disk_size": 40960,
       "ssh_port": 22,
+      "floppy_files": [ "floppy/omnios/README.TXT" ],
       "tools_upload_flavor": "solaris",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
