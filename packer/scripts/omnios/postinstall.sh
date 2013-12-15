@@ -1,19 +1,8 @@
+#!/bin/sh
+
 echo "Creating vagrant user"
 useradd -m -k /etc/skel/ -b /export/home -s /usr/bin/bash vagrant
 passwd -N vagrant
-
-echo "Installing VirtualBox Guest Additions"
-echo "mail=\ninstance=overwrite\npartial=quit" > /tmp/noask.admin
-echo "runlevel=nocheck\nidepend=quit\nrdepend=quit" >> /tmp/noask.admin
-echo "space=quit\nsetuid=nocheck\nconflict=nocheck" >> /tmp/noask.admin
-echo "action=nocheck\nbasedir=default" >> /tmp/noask.admin
-mkdir /mnt/vbga
-VBGADEV=`lofiadm -a VBoxGuestAdditions.iso`
-mount -o ro -F hsfs $VBGADEV /mnt/vbga
-pkgadd -a /tmp/noask.admin -G -d /mnt/vbga/VBoxSolarisAdditions.pkg all
-umount /mnt/vbga
-lofiadm -d $VBGADEV
-rm -f VBoxGuestAdditions.iso
 
 echo "Adding Vagrant user to sudoers"
 echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
