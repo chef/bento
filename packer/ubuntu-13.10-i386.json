@@ -49,7 +49,7 @@
       ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "packer-ubuntu-13.10-i386",
-      "output_directory": "packer-ubuntu-13.10-i386"
+      "output_directory": "packer-ubuntu-13.10-i386-virtualbox"
     },
     {
       "type": "vmware",
@@ -91,7 +91,7 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "vm_name": "packer-ubuntu-13.10-i386",
-      "output_directory": "packer-ubuntu-13.10-i386",
+      "output_directory": "packer-ubuntu-13.10-i386-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
