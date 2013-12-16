@@ -20,6 +20,9 @@ pkg_add -r sudo curl ca_root_nss
 # massively refactored and doesn't come with SSL CAcerts anymore
 ln -sf /usr/local/share/certs/ca-root-nss.crt /etc/ssl/cert.pem
 
+# Change vagrant user shell, since bash might not be present
+chsh -s /bin/sh vagrant
+
 #Installing vagrant keys
 mkdir /home/vagrant/.ssh
 chmod 700 /home/vagrant/.ssh
