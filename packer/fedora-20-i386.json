@@ -1,7 +1,7 @@
 {
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://mirrors.kernel.org/fedora"
+    "mirror": "http://download.fedoraproject.org/pub/fedora/linux"
   }, 
   "builders": [
     {
@@ -14,9 +14,9 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Fedora",
       "http_directory": "http",
-      "iso_checksum": "d98caa59fa72c4817e040060149ca3951aef6c16ccf485522527e7efa3ebbd74",
+      "iso_checksum": "284ea30ddd50db1b30cd5cd9fae7495dad8714ef1e4428d69a8c8ce80e03b6a9",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/test/20-Beta/Fedora/i386/iso/Fedora-20-Beta-i386-DVD.iso",
+      "iso_url": "{{user `mirror`}}/releases/20/Fedora/i386/iso/Fedora-20-i386-DVD.iso",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -39,9 +39,9 @@
       "disk_size": 40960,
       "guest_os_type": "fedora",
       "http_directory": "http",
-      "iso_checksum": "d98caa59fa72c4817e040060149ca3951aef6c16ccf485522527e7efa3ebbd74",
+      "iso_checksum": "284ea30ddd50db1b30cd5cd9fae7495dad8714ef1e4428d69a8c8ce80e03b6a9",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/test/20-Beta/Fedora/i386/iso/Fedora-20-Beta-i386-DVD.iso",
+      "iso_url": "{{user `mirror`}}/releases/20/Fedora/i386/iso/Fedora-20-i386-DVD.iso",
       "tools_upload_flavor": "linux",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
