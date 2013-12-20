@@ -8,9 +8,11 @@
       "type": "shell",
       "scripts": [
         "scripts/omnios/vmtools.sh",
+        "scripts/common/chef.sh",
         "scripts/omnios/postinstall.sh"
       ],
-      "execute_command": "{{.Vars}} sh '{{.Path}}'"
+      "execute_command": "export {{.Vars}} && sh '{{.Path}}'",
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ]
     }
   ],
   "post-processors": [

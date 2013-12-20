@@ -185,14 +185,15 @@ do_download() {
 
 if [ x$CHEF_VERSION != x'provisionerless' ]; then
   do_download "$chef_installer_url" "$chef_installer"
+  chmod +x $chef_installer
   if [ x$CHEF_VERSION == x'latest' ]; then
-    sh "$chef_installer"
+    $chef_installer
   elif [ x$CHEF_VERSION == x'prerelease' ]; then
-    sh "$chef_installer" -p
+    $chef_installer -p
   else
-    sh "$chef_installer" -v $CHEF_VERSION
+    $chef_installer -v $CHEF_VERSION
   fi
-  rm -f "$chef_installer"
+  rm -f $chef_installer
 else
   echo "Building a box without Chef"
 fi
