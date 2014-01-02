@@ -24,7 +24,7 @@
   ],
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "guest_os_type": "OpenSolaris_64",
       "iso_url": "{{user `mirror`}}/OmniOS_Text_r151008f.iso",
       "iso_checksum": "d64d206c1e5aeeb61c5b579dd39ed11a86ef5737",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "type": "vmware",
+      "type": "vmware-iso",
       "guest_os_type": "solaris11-64",
       "iso_url": "{{user `mirror`}}/OmniOS_Text_r151008f.iso",
       "iso_checksum": "d64d206c1e5aeeb61c5b579dd39ed11a86ef5737",

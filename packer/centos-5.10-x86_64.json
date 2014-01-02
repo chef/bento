@@ -5,7 +5,7 @@
   },
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
@@ -31,7 +31,7 @@
       "output_directory": "packer-centos-5.10-x86_64-virtualbox"
     },
     {
-      "type": "vmware",
+      "type": "vmware-iso",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],

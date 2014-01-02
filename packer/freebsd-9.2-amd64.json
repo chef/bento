@@ -19,7 +19,7 @@
   ],
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "boot_command": [
         "<esc><wait>",
         "load geom_mbr<wait>",
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "type": "vmware",
+      "type": "vmware-iso",
       "boot_command": [
         "<esc><wait>",
         "load geom_mbr<wait>",

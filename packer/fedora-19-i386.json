@@ -5,7 +5,7 @@
   },
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "boot_command": [
         "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
       ],
@@ -31,7 +31,7 @@
       "output_directory": "packer-fedora-19-i386-virtualbox"
     },
     {
-      "type": "vmware",
+      "type": "vmware-iso",
       "boot_command": [
         "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
       ],
