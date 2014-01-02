@@ -5,7 +5,7 @@
   },
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "boot_command": [
         "<esc><enter><wait>",
         "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "type": "vmware",
+      "type": "vmware-iso",
       "boot_command": [
         "<esc><enter><wait>",
         "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
