@@ -1,6 +1,8 @@
 #!/bin/bash
 
-if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
+case "$PACKER_BUILDER_TYPE" in 
+
+virtualbox-iso|virtualbox-ovf) 
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
     mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox 
@@ -8,9 +10,9 @@ if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
     umount /tmp/vbox
     rmdir /tmp/vbox
     rm /home/vagrant/*.iso
-fi
+    ;;
 
-if [ $PACKER_BUILDER_TYPE == 'vmware' ]; then
+vmware-iso|vmware-ovf) 
     mkdir /tmp/vmfusion
     mkdir /tmp/vmfusion-archive
     mount -o loop /home/vagrant/linux.iso /tmp/vmfusion
@@ -20,4 +22,11 @@ if [ $PACKER_BUILDER_TYPE == 'vmware' ]; then
     rm -rf  /tmp/vmfusion
     rm -rf  /tmp/vmfusion-archive
     rm /home/vagrant/*.iso
-fi
+    ;;
+
+*)
+    echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected."
+    echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-ovf."
+    ;;
+
+esac
