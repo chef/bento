@@ -1,47 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://omnios.omniti.com/media"
-  },
-  "provisioners": [
-    {
-      "type": "shell",
-      "scripts": [
-        "scripts/omnios/vmtools.sh",
-        "scripts/common/chef.sh",
-        "scripts/omnios/postinstall.sh"
-      ],
-      "execute_command": "export {{.Vars}} && sh '{{.Path}}'",
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ]
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "compression_level": 9,
-      "output": "../builds/{{.Provider}}/opscode_omnios-r151008f_chef-{{user `chef_version`}}.box"
-    }
-  ],
   "builders": [
     {
-      "type": "virtualbox",
-      "guest_os_type": "OpenSolaris_64",
-      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151008f.iso",
-      "iso_checksum": "d64d206c1e5aeeb61c5b579dd39ed11a86ef5737",
-      "iso_checksum_type": "sha1",
-      "ssh_username": "root",
-      "ssh_password": "vagrant",
-      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
-      "boot_wait": "30s",
-      "disk_size": 40960,
-      "ssh_port": 22,
-      "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "1024"],
-        ["modifyvm", "{{.Name}}", "--cpus", "1"]
-      ],
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-omnios-r151008f",
-      "output_directory": "packer-omnios-r151008f-virtualbox",
       "boot_command": [
         "<enter><wait10><wait5>",
         "1<enter><wait10>",
@@ -70,29 +29,37 @@
         "cp /etc/nsswitch.dns /etc/nsswitch.conf<enter><wait>",
         "sed -i -e 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config<enter><wait>",
         "svcadm restart ssh<enter><wait>"
-      ]
-    },
-    {
-      "type": "vmware",
-      "guest_os_type": "solaris11-64",
-      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151008f.iso",
-      "iso_checksum": "d64d206c1e5aeeb61c5b579dd39ed11a86ef5737",
-      "iso_checksum_type": "sha1",
-      "ssh_username": "root",
-      "ssh_password": "vagrant",
-      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
+      ],
       "boot_wait": "30s",
       "disk_size": 40960,
+      "guest_os_type": "OpenSolaris_64",
+      "iso_checksum": "d64d206c1e5aeeb61c5b579dd39ed11a86ef5737",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151008f.iso",
+      "output_directory": "packer-omnios-r151008f-virtualbox",
+      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
+      "ssh_password": "vagrant",
       "ssh_port": 22,
-      "floppy_files": [ "floppy/omnios/README.TXT" ],
-      "tools_upload_flavor": "solaris",
-      "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "1024",
-        "numvcpus": "1"
-      },
-      "vm_name": "packer-omnios-r151008f",
-      "output_directory": "packer-omnios-r151008f-vmware",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-omnios-r151008f"
+    },
+    {
       "boot_command": [
         "<enter><wait10><wait5>",
         "1<enter><wait10>",
@@ -123,7 +90,55 @@
         "cp /etc/nsswitch.dns /etc/nsswitch.conf<enter><wait>",
         "sed -i -e 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config<enter><wait>",
         "svcadm restart ssh<enter><wait>"
-      ]
+      ],
+      "boot_wait": "30s",
+      "disk_size": 40960,
+      "floppy_files": [
+        "floppy/omnios/README.TXT"
+      ],
+      "guest_os_type": "solaris11-64",
+      "iso_checksum": "d64d206c1e5aeeb61c5b579dd39ed11a86ef5737",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151008f.iso",
+      "output_directory": "packer-omnios-r151008f-vmware",
+      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "root",
+      "tools_upload_flavor": "solaris",
+      "type": "vmware-iso",
+      "vm_name": "packer-omnios-r151008f",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "1024",
+        "numvcpus": "1"
+      }
     }
-  ]
+  ],
+  "post-processors": [
+    {
+      "compression_level": 9,
+      "output": "../builds/{{.Provider}}/opscode_omnios-r151008f_chef-{{user `chef_version`}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "export {{.Vars}} \u0026\u0026 sh '{{.Path}}'",
+      "scripts": [
+        "scripts/omnios/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/omnios/postinstall.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://omnios.omniti.com/media"
+  }
 }
+

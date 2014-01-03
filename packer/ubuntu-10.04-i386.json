@@ -1,11 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://releases.ubuntu.com"
-  },
   "builders": [
     {
-      "type": "virtualbox",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -38,21 +33,31 @@
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/10.04.4/ubuntu-10.04.4-server-i386.iso",
+      "output_directory": "packer-ubuntu-10.04-i386-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "384"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-ubuntu-10.04-i386",
-      "output_directory": "packer-ubuntu-10.04-i386-virtualbox"
+      "vm_name": "packer-ubuntu-10.04-i386"
     },
     {
-      "type": "vmware",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -84,14 +89,15 @@
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/10.04.4/ubuntu-10.04.4-server-i386.iso",
-      "tools_upload_flavor": "linux",
+      "output_directory": "packer-ubuntu-10.04-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
       "vm_name": "packer-ubuntu-10.04-i386",
-      "output_directory": "packer-ubuntu-10.04-i386-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
@@ -107,7 +113,9 @@
   ],
   "provisioners": [
     {
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
       "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
@@ -122,5 +130,10 @@
       ],
       "type": "shell"
     }
-  ]
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://releases.ubuntu.com"
+  }
 }
+

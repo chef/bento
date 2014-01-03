@@ -1,11 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://releases.ubuntu.com"
-  },
   "builders": [
     {
-      "type": "virtualbox",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -32,27 +27,37 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
+      "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
       "iso_checksum": "4e36c272dde245cfadf14ff8895566571a38f4d2",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/12.04/ubuntu-12.04.3-server-amd64.iso",
-      "ssh_username": "vagrant",
+      "output_directory": "packer-ubuntu-12.04-amd64-virtualbox",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-ubuntu-12.04-amd64",
-      "output_directory": "packer-ubuntu-12.04-amd64-virtualbox",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-      ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "384"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-ubuntu-12.04-amd64"
     },
     {
-      "type": "vmware",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -84,14 +89,15 @@
       "iso_checksum": "4e36c272dde245cfadf14ff8895566571a38f4d2",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/12.04/ubuntu-12.04.3-server-amd64.iso",
-      "tools_upload_flavor": "linux",
+      "output_directory": "packer-ubuntu-12.04-amd64-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
       "vm_name": "packer-ubuntu-12.04-amd64",
-      "output_directory": "packer-ubuntu-12.04-amd64-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
@@ -101,13 +107,15 @@
   ],
   "post-processors": [
     {
-      "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.04_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.04_chef-{{user `chef_version`}}.box",
+      "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
@@ -122,5 +130,10 @@
       ],
       "type": "shell"
     }
-  ]
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://releases.ubuntu.com"
+  }
 }
+

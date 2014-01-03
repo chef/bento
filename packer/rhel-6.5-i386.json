@@ -1,11 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef"
-  },
   "builders": [
     {
-      "type": "virtualbox",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
       ],
@@ -17,21 +12,31 @@
       "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
+      "output_directory": "packer-rhel-6.5-i386-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "480" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "480"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-rhel-6.5-i386",
-      "output_directory": "packer-rhel-6.5-i386-virtualbox"
+      "vm_name": "packer-rhel-6.5-i386"
     },
     {
-      "type": "vmware",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
       ],
@@ -42,14 +47,15 @@
       "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
-      "tools_upload_flavor": "linux",
+      "output_directory": "packer-rhel-6.5-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
       "vm_name": "packer-rhel-6.5-i386",
-      "output_directory": "packer-rhel-6.5-i386-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "480",
@@ -65,7 +71,9 @@
   ],
   "provisioners": [
     {
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
@@ -77,6 +85,10 @@
       ],
       "type": "shell"
     }
-  ]
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef"
+  }
 }
 

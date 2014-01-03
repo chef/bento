@@ -1,11 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://mirrors.kernel.org/fedora"
-  },
   "builders": [
     {
-      "type": "virtualbox",
       "boot_command": [
         "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
       ],
@@ -17,21 +12,31 @@
       "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
+      "output_directory": "packer-fedora-19-x86_64-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-fedora-19-x86_64",
-      "output_directory": "packer-fedora-19-x86_64-virtualbox"
+      "vm_name": "packer-fedora-19-x86_64"
     },
     {
-      "type": "vmware",
       "boot_command": [
         "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
       ],
@@ -42,14 +47,15 @@
       "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
-      "tools_upload_flavor": "linux",
+      "output_directory": "packer-fedora-19-x86_64-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
       "vm_name": "packer-fedora-19-x86_64",
-      "output_directory": "packer-fedora-19-x86_64-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
@@ -65,7 +71,9 @@
   ],
   "provisioners": [
     {
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
@@ -77,6 +85,10 @@
       ],
       "type": "shell"
     }
-  ]
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://mirrors.kernel.org/fedora"
+  }
 }
 
