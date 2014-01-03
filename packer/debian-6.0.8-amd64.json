@@ -1,11 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://cdimage.debian.org/cdimage/archive"
-  },
   "builders": [
     {
-      "type": "virtualbox",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
@@ -25,27 +20,37 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Debian_64",
       "http_directory": "http",
       "iso_checksum": "d0ec1c64c00ff601995139dbacfb54109a23788f",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/6.0.8/amd64/iso-cd/debian-6.0.8-amd64-CD-1.iso",
-      "ssh_username": "vagrant",
+      "output_directory": "packer-debian-6.0.8-amd64-virtualbox",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-6.0.8-amd64",
-      "output_directory": "packer-debian-6.0.8-amd64-virtualbox",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-      ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "384"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-debian-6.0.8-amd64"
     },
     {
-      "type": "vmware",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
@@ -70,30 +75,34 @@
       "iso_checksum": "d0ec1c64c00ff601995139dbacfb54109a23788f",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/6.0.8/amd64/iso-cd/debian-6.0.8-amd64-CD-1.iso",
-      "ssh_username": "vagrant",
+      "output_directory": "packer-debian-6.0.8-amd64-vmware",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
       "vm_name": "packer-debian-6.0.8-amd64",
-      "output_directory": "packer-debian-6.0.8-amd64-vmware",
       "vmx_data": {
+        "cpuid.coresPerSocket": "1",
         "memsize": "384",
-        "numvcpus": "1",
-        "cpuid.coresPerSocket": "1"
+        "numvcpus": "1"
       }
     }
   ],
   "post-processors": [
     {
-      "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-6.0.8_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-6.0.8_chef-{{user `chef_version`}}.box",
+      "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "type": "shell",
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/debian/update.sh",
         "scripts/common/sshd.sh",
@@ -105,8 +114,12 @@
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
-      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'"
+      "type": "shell"
     }
-  ]
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://cdimage.debian.org/cdimage/archive"
+  }
 }
+
