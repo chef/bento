@@ -80,7 +80,7 @@ Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
   <service version="1" name="network/physical">
     <instance enabled="true" name="default">
       <property_group type="application" name="netcfg">
-        <propval name="active_ncp" value="DefaultFixed"/>
+        <propval name="active_ncp" value="Automatic"/>
       </property_group>
     </instance>
   </service>

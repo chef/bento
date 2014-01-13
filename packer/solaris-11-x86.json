@@ -7,26 +7,28 @@
         "scripts/solaris/vagrant.sh"
       ],
       "override": {
-        "virtualbox": {
-          "execute_command": "echo 'vagrant'|sudo -S bash ./{{.Path}}"
+        "virtualbox-iso": {
+          "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}"
         }
       }
     }
   ],
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "boot_command": [
         "e<wait>",
-        "<Down><Down><Down><Down><Down><wait>",
-        "<End><wait>",
+        "<down><down><down><down><down><wait>",
+        "<end><wait>",
         "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
         "false<wait>",
-        "<F10><wait>",
-        "<wait10>",
-        "<wait10>",
+        "<f10><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
         "root<enter><wait><wait>",
         "solaris<enter><wait><wait>",
+        "<wait10>",
         "while (true); do sleep 5; test -f /a/etc/sudoers && grep -v \"vagrant\" \"/a/etc/sudoers\" 2> /dev/null<wait>",
         " && echo \"vagrant ALL=(ALL) NOPASSWD: ALL\" >> /a/etc/sudoers && break ; done &<enter><wait>",
         "<enter>while (true); do grep \"You may wish to reboot\" \"/var/svc/log/application-auto-installer:default.log\" 2> /dev/null<wait>",
@@ -42,7 +44,7 @@
         "<enter><wait>",
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "disk_size": 15360,
       "guest_os_type": "Solaris11_64",
       "http_directory": "http/solaris-11",
@@ -53,7 +55,8 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S bash ./shutdown.sh",
+      "shutdown_command": "echo 'vagrant'|sudo -i init 5",
+      "shutdown_timeout": "10m",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [

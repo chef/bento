@@ -4,7 +4,7 @@ if [ -f /home/vagrant/.vbox_version ]; then
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
     ls
-    pkgadd -d /media/VBoxGuestAdditions/VBoxSolarisAdditions.pkg
+    sudo pkgadd -d /media/VBoxGuestAdditions/VBoxSolarisAdditions.pkg
 fi
 
 mkdir /home/vagrant/.ssh
