@@ -97,7 +97,7 @@ If you want to use a another mirror site, use mirror variable.
 
 If you only have VMware or VirtualBox available, you may also tell Packer to build only that box.
 
-    $ packer build -only=virtualbox debian-7.2.0-i386.json
+    $ packer build -only=virtualbox-iso debian-7.2.0-i386.json
 
 Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.
 
