@@ -1,0 +1,14 @@
+# Detect text files automatically
+* text=auto
+
+# Force LF line ending on these files
+*.sh eol=lf
+
+ks.cfg eol=lf
+preseed.cfg eol=lf
+
+# Force CRLF line ending on these files
+*.bat eol=crlf
+
+# Force binary on these files
+*.cer binary
