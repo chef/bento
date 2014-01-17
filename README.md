@@ -113,7 +113,7 @@ boxes yourself due to licensing constraints. You can build these as follows:
     $ bundle install
     $ bundle exec veewee vbox build [definition-name]
 
-### Windows Hosts
+### Special Note About Building from Windows Hosts
 
 When building boxes from a Windows host system, you must ensure that kickstart configuration files (`ks.cfg` for RHEL
 based systems) and preseed files (`preseed.cfg` for Debian based systems) have Unix line endings (i.e. lines end with
@@ -131,9 +131,9 @@ up machine with an error message that looks like this:
 Since Packer tries to log in with user `vagrant` but it was not created successfully in the pre-seed phase, it is unable
 to connect to the machine and the packaging process stops.
 
-By default, when cloning this repository, git should normalized `ks.cfg`, `preseed.cfg` and `*.sh` to Unix line endings
+By default, when cloning this repository, git should normalize `ks.cfg`, `preseed.cfg` and `*.sh` to Unix line endings
 and `*.bat` to Windows line endings, thanks to the [.gitattributes](.gitattributes) file in the repository. However, if
-it's not the case, convert the offending files so they have the correct line endings.
+it's not the case because you have overridden line-ending conversion in your own git configuration, convert the offending files so they have the correct line endings.
 
 ## Bugs and Issues
 
