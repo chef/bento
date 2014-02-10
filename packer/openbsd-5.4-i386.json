@@ -1,0 +1,153 @@
+{
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://ftp.openbsd.org"
+  },
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}",
+        "MIRROR={{user `mirror`}}"
+      ],
+      "type": "shell",
+      "scripts": [
+        "scripts/openbsd/postinstall.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/openbsd/chef.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m"
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "I<enter><wait>",
+        "us<enter><wait>",
+        "openbsd54<enter><wait>",
+        "<enter><wait>",
+        "dhcp<enter><wait>",
+        "none<enter><wait>",
+        "done<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "yes<enter><wait>",
+        "no<enter><wait>",
+        "no<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "no<enter><wait>",
+        "UTC<enter><wait>",
+        "<enter><wait>",
+        "yes<enter><wait>",
+        "W<enter><wait>",
+        "A<enter><wait10>",
+        "<wait10>",
+        "cd<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "-game54.tgz<enter><wait>",
+        "-xbase54.tgz<enter><wait>",
+        "-xetc54.tgz<enter><wait>",
+        "-xshare54.tgz<enter><wait>",
+        "-xfont54.tgz<enter><wait>",
+        "-xserv54.tgz<enter><wait>",
+        "done<enter><wait10>",
+        "<wait10><wait10><wait10>",
+        "done<enter><wait>",
+        "yes<enter><wait5>",
+        "reboot<enter>"
+      ],
+      "boot_wait": "45s",
+      "disk_size": 10140,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "OpenBSD",
+      "iso_checksum": "64261b5438fd04c9efded4dd17e44c6b033b69e00cc1ae4a0c55f1ff3a93e469",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/pub/OpenBSD/5.4/i386/install54.iso",
+      "output_directory": "packer-openbsd-5.4-i386-virtualbox",
+      "shutdown_command": "/sbin/halt -p",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-openbsd-5.4-i386"
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "I<enter><wait>",
+        "us<enter><wait>",
+        "openbsd54<enter><wait>",
+        "<enter><wait>",
+        "dhcp<enter><wait>",
+        "none<enter><wait>",
+        "done<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "yes<enter><wait>",
+        "no<enter><wait>",
+        "no<enter><wait>",
+        "no<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "no<enter><wait>",
+        "UTC<enter><wait>",
+        "<enter><wait>",
+        "yes<enter><wait>",
+        "W<enter><wait>",
+        "A<enter><wait10>",
+        "<wait10>",
+        "cd<enter><wait>",
+        "<enter><wait>",
+        "<enter><wait>",
+        "-game54.tgz<enter><wait>",
+        "-xbase54.tgz<enter><wait>",
+        "-xetc54.tgz<enter><wait>",
+        "-xshare54.tgz<enter><wait>",
+        "-xfont54.tgz<enter><wait>",
+        "-xserv54.tgz<enter><wait>",
+        "done<enter><wait10>",
+        "<wait10><wait10><wait10>",
+        "done<enter><wait>",
+        "yes<enter><wait5>",
+        "reboot<enter>"
+      ],
+      "boot_wait": "45s",
+      "disk_size": 10140,
+      "guest_os_type": "other",
+      "iso_checksum": "64261b5438fd04c9efded4dd17e44c6b033b69e00cc1ae4a0c55f1ff3a93e469",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/pub/OpenBSD/5.4/i386/install54.iso",
+      "output_directory": "packer-openbsd-5.4-i386-vmware",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "/sbin/halt -p",
+      "vm_name": "packer-openbsd-5.4-i386",
+      "vmx_data": {
+        "memsize": "384",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "../builds/{{.Provider}}/openbsd-5.4-i386_chef-{{user `chef_version`}}.box",
+      "vagrantfile_template": "vagrantfiles/openbsd"
+    }
+  ]
+}
