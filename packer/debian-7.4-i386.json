@@ -25,11 +25,11 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "Debian_64",
+      "guest_os_type": "Debian",
       "http_directory": "http",
-      "iso_checksum": "d68c40dfdca601f912c0f1ae991cdb439d1c572e",
+      "iso_checksum": "b6daf1584bf9e7748ebd160b09745984c244c3bb",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.4.0/amd64/iso-cd/debian-7.4.0-amd64-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.4.0/i386/iso-cd/debian-7.4.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -37,8 +37,8 @@
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-7.4.0-amd64",
-      "output_directory": "packer-debian-7.4.0-amd64-virtualbox",
+      "vm_name": "packer-debian-7.4-i386",
+      "output_directory": "packer-debian-7.4-i386-virtualbox",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -65,19 +65,19 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "debian5-64",
+      "guest_os_type": "debian5",
       "http_directory": "http",
-      "iso_checksum": "d68c40dfdca601f912c0f1ae991cdb439d1c572e",
+      "iso_checksum": "b6daf1584bf9e7748ebd160b09745984c244c3bb",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.4.0/amd64/iso-cd/debian-7.4.0-amd64-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.4.0/i386/iso-cd/debian-7.4.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "tools_upload_flavor": "linux",
-      "vm_name": "packer-debian-7.4.0-amd64",
-      "output_directory": "packer-debian-7.4.0-amd64-vmware",
+      "vm_name": "packer-debian-7.4-i386",
+      "output_directory": "packer-debian-7.4-i386-vmware",
       "vmx_data": {
         "memsize": "384",
         "numvcpus": "1",
@@ -88,7 +88,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-7.4.0_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-7.4-i386_chef-{{user `chef_version`}}.box"
     }
   ],
   "provisioners": [
