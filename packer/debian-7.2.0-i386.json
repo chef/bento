@@ -119,7 +119,7 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://cdimage.debian.org/debian-cd"
+    "mirror": "http://cdimage.debian.org/cdimage/archive"
   }
 }
 
