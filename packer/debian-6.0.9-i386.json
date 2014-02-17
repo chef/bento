@@ -1,10 +1,15 @@
 {
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://cdimage.debian.org/cdimage/archive"
+  },
   "builders": [
     {
+      "type": "virtualbox-iso",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.8/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -23,38 +28,28 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Debian",
       "http_directory": "http",
-      "iso_checksum": "144194cea77f0e527fd07bd6aa28d1ab50cb5a95",
+      "iso_checksum": "bc2886211bce0e9c54bdf779f21a35d5e5a122fd",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.0.8/i386/iso-cd/debian-6.0.8-i386-CD-1.iso",
-      "output_directory": "packer-debian-6.0.8-i386-virtualbox",
+      "iso_url": "{{user `mirror`}}/6.0.9/i386/iso-cd/debian-6.0.9-i386-CD-1.iso",
+      "output_directory": "packer-debian-6.0.9-i386-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "type": "virtualbox-iso",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "384"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "384" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-6.0.8-i386"
+      "vm_name": "packer-debian-6.0.9-i386"
     },
     {
+      "type": "vmware-iso",
       "boot_command": [
         "<esc><wait>",
         "install <wait>",
-        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0.8/preseed.cfg <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-6.0/preseed.cfg <wait>",
         "debian-installer=en_US <wait>",
         "auto <wait>",
         "locale=en_US <wait>",
@@ -72,18 +67,17 @@
       "disk_size": 40960,
       "guest_os_type": "debian5",
       "http_directory": "http",
-      "iso_checksum": "144194cea77f0e527fd07bd6aa28d1ab50cb5a95",
+      "iso_checksum": "bc2886211bce0e9c54bdf779f21a35d5e5a122fd",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.0.8/i386/iso-cd/debian-6.0.8-i386-CD-1.iso",
-      "output_directory": "packer-debian-6.0.8-i386-vmware",
+      "iso_url": "{{user `mirror`}}/6.0.9/i386/iso-cd/debian-6.0.9-i386-CD-1.iso",
+      "output_directory": "packer-debian-6.0.9-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
-      "type": "vmware-iso",
-      "vm_name": "packer-debian-6.0.8-i386",
+      "vm_name": "packer-debian-6.0.9-i386",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
@@ -93,15 +87,14 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_debian-6.0.8-i386_chef-{{user `chef_version`}}.box",
-      "type": "vagrant"
+      "type": "vagrant",
+      "output": "../builds/{{.Provider}}/opscode_debian-6.0.9-i386_chef-{{user `chef_version`}}.box"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "type": "shell",
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/debian/update.sh",
@@ -113,13 +106,7 @@
         "scripts/common/chef.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
-      ],
-      "type": "shell"
+      ]
     }
-  ],
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://cdimage.debian.org/cdimage/archive"
-  }
+  ]
 }
-
