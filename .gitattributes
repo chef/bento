@@ -9,6 +9,7 @@ preseed.cfg eol=lf
 
 # Force CRLF line ending on these files
 *.bat eol=crlf
+Autounattend.xml eol=crlf
 
 # Force binary on these files
 *.cer binary
