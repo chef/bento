@@ -97,7 +97,7 @@ Congratulations! You now have box(es) in the ../builds directory that you can th
 
 ### Proprietary Boxes
 
-** Mac OS X (10.7, 10.8, and 10.9), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided; however, their ISOs are not publicly retrievable. The URLs in those templates are bogus. **  For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
+Mac OS X (10.7, 10.8, and 10.9), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
 
 #### Mac OS X Boxes
 
@@ -107,7 +107,7 @@ To build a Mac OS X box, you will need to start with an installer for your desir
 
     $ packer build -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.9.json
 
-There is a known issue where test-kitchen starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually. 
+There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually. 
 
 ### Veewee Definitions
 
