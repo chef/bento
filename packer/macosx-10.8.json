@@ -1,8 +1,8 @@
 {
   "variables": {
     "autologin_vagrant_user": "",
-    "iso_url": "",
-    "iso_checksum": "",
+    "iso_url": "http://fakeurl",
+    "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
     "chef_version": "provisionerless"
   },
   "provisioners": [
@@ -41,7 +41,7 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `iso_url`}}",
-      "output_directory": "packer-macosx-10.9-vmware",
+      "output_directory": "packer-macosx-10.8-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
       "skip_compaction": true,
       "ssh_password": "vagrant",
