@@ -99,11 +99,11 @@ Congratulations! You now have box(es) in the ../builds directory that you can th
 
 ### Proprietary Boxes
 
-Mac OS X (10.7, 10.8, and 10.9), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided; however, their ISOs are not publicly retrievable. The URLs in those templates are bogus.  For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
+** Mac OS X (10.7, 10.8, and 10.9), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided; however, their ISOs are not publicly retrievable. The URLs in those templates are bogus. **  For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
 
 #### Mac OS X Boxes
 
-Mac OS X builds are supported for VMware only.
+Mac OS X builds are supported for VMware only.  We would welcome a contribution to add VirtualBox support.
 
 To build a Mac OS X box, you will need to start with an installer for your desired version of OS X.  You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer.  The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.: 
 

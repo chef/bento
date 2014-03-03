@@ -1,7 +1,7 @@
 {
   "variables": {
     "autologin_vagrant_user": "",
-    "iso_url": "http://fakeurl",
+    "iso_url": "http://fakeurl/OSX_InstallESD_10.9.1_13B42.dmg",
     "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
     "chef_version": "provisionerless"
   },
