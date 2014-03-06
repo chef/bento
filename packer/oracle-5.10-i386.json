@@ -9,7 +9,7 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Oracle",
       "http_directory": "http",
-      "iso_checksum": "5a9216dd69f17b9dd8f64ed539629741"
+      "iso_checksum": "5a9216dd69f17b9dd8f64ed539629741",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/Enterprise-R5-U10-Server-i386-dvd.iso",
       "output_directory": "packer-oracle-5.10-i386-virtualbox",
@@ -44,7 +44,7 @@
       "disk_size": 40960,
       "guest_os_type": "oraclelinux",
       "http_directory": "http",
-      "iso_checksum": "5a9216dd69f17b9dd8f64ed539629741"
+      "iso_checksum": "5a9216dd69f17b9dd8f64ed539629741",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/Enterprise-R5-U10-Server-i386-dvd.iso",
       "output_directory": "packer-oracle-5.10-i386-vmware",
