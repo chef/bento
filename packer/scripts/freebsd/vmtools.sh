@@ -9,7 +9,7 @@ else
   perl_pkg="perl"
 fi
 
-if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
+if [ $PACKER_BUILDER_TYPE == 'virtualbox-iso' ]; then
   # disable X11 because vagrants are (usually) headless
   echo 'WITHOUT_X11="YES"' >> /etc/make.conf
 
@@ -34,7 +34,7 @@ if [ $PACKER_BUILDER_TYPE == 'virtualbox' ]; then
   echo 'ifconfig_vtnet3_name="em3"' >> /etc/rc.conf
 fi
 
-if [ $PACKER_BUILDER_TYPE == 'vmware' ]; then
+if [ $PACKER_BUILDER_TYPE == 'vmware-iso' ]; then
   mkdir /tmp/vmfusion
   mkdir /tmp/vmfusion-archive
   mdconfig -a -t vnode -f /home/vagrant/freebsd.iso -u 0

@@ -88,6 +88,7 @@
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "vm_name": "packer-freebsd-10.0-amd64",
       "output_directory": "packer-freebsd-10.0-amd64-vmware",
+      "tools_upload_flavor": "freebsd",
       "vmx_data": {
         "memsize": "512",
         "numvcpus": "1",
