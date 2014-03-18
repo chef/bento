@@ -117,6 +117,17 @@
       "environment_vars": [
         "CHEF_VERSION={{user `chef_version`}}"
       ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "scripts/ubuntu/dist-upgrade.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "pause_before": "10s",
       "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
