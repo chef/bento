@@ -109,13 +109,19 @@ To build a Mac OS X box, you will need to start with an installer for your desir
 
 There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually. 
 
-### Veewee Definitions
+### Windows Boxes
 
 Packer does not yet support Windows, so veewee definitions are still used for building those boxes. You must build these
 boxes yourself due to licensing constraints. You can build these as follows:
 
     $ bundle install
     $ bundle exec veewee vbox build [definition-name]
+
+These veewee definitions are lightly maintained. For other approaches to building Windows boxes, please see the following
+community projects:
+
+* [Mischa Taylor's basebox project](https://github.com/misheska/basebox-packer/)
+* [Vagrant Windows Boxes and Puppet](https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes)
 
 ### Special Note About Building from Windows Hosts
 
@@ -141,12 +147,8 @@ it's not the case because you have overridden line-ending conversion in your own
 
 ## Bugs and Issues
 
-Use the [issue tracker](http://tickets.opscode.com/browse/BENTO) to report
-bugs, features or other issues.
-
-## Contributing
-
-[How to contribute to Opscode open source software projects](http://wiki.opscode.com/display/chef/How+to+Contribute)
+Please use GitHub issues to report bugs, features, or other problems. Please note:
+the [JIRA issue tracker](http://tickets.opscode.com/browse/BENTO) is no longer being used.
 
 ## License & Authors
 
@@ -157,18 +159,18 @@ make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
 
-- Author: Seth Chisamore (<schisamo@opscode.com>)
-- Author: Stephen Delano (<stephen@opscode.com>)
-- Author: Joshua Timberman (<joshua@opscode.com>)
+- Author: Seth Chisamore (<schisamo@getchef.com>)
+- Author: Stephen Delano (<stephen@getchef.com>)
+- Author: Joshua Timberman (<joshua@getchef.com>)
 - Author: Tim Dysinger (<tim@dysinger.net>)
 - Author: Chris McClimans (<chris@hippiehacker.org>)
-- Author: Julian Dunn (<jdunn@opscode.com>)
-- Author: Tom Duffield (<tom@opscode.com>)
+- Author: Julian Dunn (<jdunn@getchef.com>)
+- Author: Tom Duffield (<tom@getchef.com>)
 - Author: Ross Timson (<ross@rosstimson.com>)
 - Author: Fletcher Nichol (<fnichol@nichol.ca>)
 
 ```text
-Copyright 2012-2013, Opscode, Inc. (<legal@opscode.com>)
+Copyright 2012-2014, Chef Software, Inc. (<legal@getchef.com>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
