@@ -1,7 +1,8 @@
 #!/bin/bash
 
 mkdir /home/vagrant/.ssh
-curl -o /home/vagrant/.ssh/authorized_keys -L \
-    'https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub'
+wget --no-check-certificate \
+    'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub' \
+    -O /home/vagrant/.ssh/authorized_keys
 chown -R vagrant /home/vagrant/.ssh
 chmod -R go-rwsx /home/vagrant/.ssh
