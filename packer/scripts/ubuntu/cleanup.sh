@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 #
 # this removes specific linux kernels, such as
-# linux-image-3.11.0-15-generic but 
+# linux-image-3.11.0-15-generic but
 # * keeps the current kernel
 # * does not touch the virtual packages, e.g.'linux-image-generic', etc.
 #
@@ -31,4 +31,5 @@ apt-get -y purge popularity-contest
 apt-get -y autoremove
 apt-get -y clean
 rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
+rm -rf /tmp/vmfusion
 rm -f /tmp/chef*deb
