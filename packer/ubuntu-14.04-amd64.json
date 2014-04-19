@@ -85,7 +85,6 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "ubuntu-64",
-      "headless": true,
       "http_directory": "http",
       "iso_checksum": "4d94f6111b8fe47da94396180ce499d8c0bb44f3",
       "iso_checksum_type": "sha1",

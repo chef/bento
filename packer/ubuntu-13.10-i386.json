@@ -113,11 +113,6 @@
   ],
   "provisioners": [
     {
-      "destination": "/tmp/shutdown.sh",
-      "source": "scripts/common/shutdown.sh",
-      "type": "file"
-    },
-    {
       "environment_vars": [
         "CHEF_VERSION={{user `chef_version`}}"
       ],
