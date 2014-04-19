@@ -45,13 +45,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "384"
+          "{{ user `ram` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -100,8 +100,8 @@
       "vm_name": "packer-ubuntu-12.04-amd64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "384",
-        "numvcpus": "1"
+        "memsize": "{{ user `ram` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     }
   ],
@@ -119,19 +119,16 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
-        "scripts/common/sshd.sh",
-        "scripts/ubuntu/networking.sh",
-        "scripts/ubuntu/sudoers.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef.sh",
-        "scripts/ubuntu/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/ubuntu/cleanup.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
+    "ram": "1024",
+    "cpus": "2",
     "chef_version": "provisionerless",
     "mirror": "http://releases.ubuntu.com"
   }
