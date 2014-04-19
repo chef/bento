@@ -1,35 +1,73 @@
-#!/bin/bash -eux
-#
-# this removes specific linux kernels, such as
-# linux-image-3.11.0-15-generic but
-# * keeps the current kernel
-# * does not touch the virtual packages, e.g.'linux-image-generic', etc.
-#
-dpkg --list | awk '{ print $2 }' | grep 'linux-image-3.*-generic' | grep -v `uname -r` | xargs apt-get -y purge
+#!/bin/bash
 
-# delete all linux headers
-dpkg --list | awk '{ print $2 }' | grep linux-headers | xargs apt-get -y purge
+set -x
+set -e
 
-# delete linux source
-dpkg --list | awk '{ print $2 }' | grep linux-source | xargs apt-get -y purge
+# Packages
+# ------------------------------
 
-# delete development packages
-dpkg --list | awk '{ print $2 }' | grep -- '-dev$' | xargs apt-get -y purge
+# Delete old package states if present
+rm -rf /var/lib/aptitude/pkgstates*
 
-# delete compilers and other development tools
-apt-get -y purge cpp gcc g++
+# Mark all packages as "Automatically installed"
+aptitude -y markauto ~i --schedule-only
 
-# delete X11 libraries
-apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6
+# Mark things we want to keep as a manual install - this is the most minimal
+# running Ubuntu system I can package...
+aptitude -y install --schedule-only \
+  linux-generic \
+  ubuntu-minimal \
+  language-pack-en-base
 
-# delete obsolete networking
-apt-get -y purge ppp pppconfig pppoeconf
+# Remove all the other packages
+aptitude -y install
 
-# delete oddities
-apt-get -y purge popularity-contest
-
-apt-get -y autoremove
+# Be extra sure with apt
+apt-get -y autoremove --purge
 apt-get -y clean
-rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
-rm -rf /tmp/vmfusion
-rm -f /tmp/chef*deb
+apt-get -y autoclean
+
+# Temporary files
+# ------------------------------
+# rm -rf /tmp/*
+
+# Zero free space
+# ------------------------------
+dd if=/dev/zero of=/EMPTY bs=1M
+rm -f /EMPTY
+
+# Bash history
+# ------------------------------
+unset HISTFILE
+rm -f /root/.bash_history
+rm -f /home/vagrant/.bash_history
+
+# Log files
+# ------------------------------
+find /var/log -type f | while read f; do echo -ne '' > $f; done;
+
+# Whiteout root
+# ------------------------------
+count=`df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}'`;
+let count--
+dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count;
+rm /tmp/whitespace;
+
+# Whiteout /boot
+# ------------------------------
+count=`df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}'`;
+let count--
+dd if=/dev/zero of=/boot/whitespace bs=1024 count=$count;
+rm /boot/whitespace;
+
+# Whiteout swaps
+# ------------------------------
+swappart=`cat /proc/swaps | tail -n1 | awk -F ' ' '{print $1}'`
+swapoff $swappart;
+dd if=/dev/zero of=$swappart;
+mkswap $swappart;
+swapon $swappart;
+
+# Wait (othwerise Packer will cry)
+# ------------------------------
+sync
