@@ -88,7 +88,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-6.0.9-i386_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/bento_debian-6.0.9-i386_chef-{{user `chef_version`}}.box"
     }
   ],
   "provisioners": [

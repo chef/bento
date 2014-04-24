@@ -118,7 +118,7 @@
   "post-processors": [
     {
       "compression_level": 9,
-      "output": "../builds/{{.Provider}}/opscode_omnios-r151008j_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/bento_omnios-r151008j_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],

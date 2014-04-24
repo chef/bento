@@ -69,7 +69,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_macosx-10.8_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/bento_macosx-10.8_chef-{{user `chef_version`}}.box"
     }
   ]
 }

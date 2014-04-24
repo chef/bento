@@ -65,7 +65,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_fedora-20-i386_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/bento_fedora-20-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],

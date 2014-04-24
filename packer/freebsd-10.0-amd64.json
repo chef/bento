@@ -98,7 +98,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-10.0_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/bento_freebsd-10.0_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]
