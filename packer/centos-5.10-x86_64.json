@@ -65,7 +65,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_centos-5.10_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/bento_centos-5.10_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
