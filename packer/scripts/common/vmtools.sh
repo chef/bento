@@ -10,6 +10,8 @@ virtualbox-iso|virtualbox-ovf)
     umount /tmp/vbox
     rmdir /tmp/vbox
     rm /home/vagrant/*.iso
+    # http://stackoverflow.com/questions/22717428/vagrant-error-failed-to-mount-folders-in-linux-guest
+    sudo ln -s /opt/VBoxGuestAdditions-$VER/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
     ;;
 
 vmware-iso|vmware-ovf)
