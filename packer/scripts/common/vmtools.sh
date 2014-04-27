@@ -29,6 +29,7 @@ vmware-iso|vmware-ovf)
 *)
     echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected."
     echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-ovf."
+    exit 1
     ;;
 
 esac
