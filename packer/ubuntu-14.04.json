@@ -30,10 +30,10 @@
       "guest_os_type": "Ubuntu_64",
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "796e80702d65f2ee96e88874a1ab437e24df9cd6",
+      "iso_checksum": "4d94f6111b8fe47da94396180ce499d8c0bb44f3",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-amd64.iso",
-      "output_directory": "chef-ubuntu-10.04-virtualbox",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "output_directory": "chef-ubuntu-14.04-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -45,7 +45,7 @@
         ["modifyvm", "{{ .Name }}", "--cpus", "1"]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "chef-ubuntu-10.04-{{ timestamp }}"
+      "vm_name": "chef-ubuntu-14.04-{{ timestamp }}"
     },
     {
       "boot_command": [
@@ -76,10 +76,10 @@
       "guest_os_type": "ubuntu-64",
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "796e80702d65f2ee96e88874a1ab437e24df9cd6",
+      "iso_checksum": "4d94f6111b8fe47da94396180ce499d8c0bb44f3",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://releases.ubuntu.com/10.04.4/ubuntu-10.04.4-server-amd64.iso",
-      "output_directory": "chef-ubuntu-10.04-vmware",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "output_directory": "chef-ubuntu-14.04-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -87,7 +87,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "chef-ubuntu-10.04-{{ timestamp }}",
+      "vm_name": "chef-ubuntu-14.04-{{ timestamp }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
@@ -97,7 +97,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/ubuntu-10.04/{{ .Provider }}/{{ timestamp }}.box",
+      "output": "../builds/ubuntu-14.04/{{ .Provider }}/{{ timestamp }}.box",
       "type": "vagrant",
       "compression_level": 9
     }

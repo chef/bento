@@ -21,18 +21,19 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-12.10/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
       "guest_os_type": "Ubuntu_64",
+      "headless": true,
       "http_directory": "http",
       "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/12.10/ubuntu-12.10-server-amd64.iso",
-      "output_directory": "packer-ubuntu-12.10-amd64-virtualbox",
+      "iso_url": "http://releases.ubuntu.com/12.10/ubuntu-12.10-server-amd64.iso",
+      "output_directory": "chef-ubuntu-12.10-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -40,21 +41,11 @@
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "384"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        ["modifyvm", "{{ .Name }}", "--memory", "512"],
+        ["modifyvm", "{{ .Name }}", "--cpus", "1"]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-ubuntu-12.10-amd64"
+      "vm_name": "chef-ubuntu-12.10-{{ timestamp }}"
     },
     {
       "boot_command": [
@@ -77,17 +68,18 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-12.10/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
       "guest_os_type": "ubuntu-64",
       "http_directory": "http",
+      "headless": true,
       "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/12.10/ubuntu-12.10-server-amd64.iso",
-      "output_directory": "packer-ubuntu-12.10-amd64-vmware",
+      "iso_url": "http://releases.ubuntu.com/12.10/ubuntu-12.10-server-amd64.iso",
+      "output_directory": "chef-ubuntu-12.10-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -95,43 +87,32 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "packer-ubuntu-12.10-amd64",
+      "vm_name": "chef-ubuntu-12.10-{{ timestamp }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "384",
+        "memsize": "512",
         "numvcpus": "1"
       }
     }
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_ubuntu-12.10_chef-{{user `chef_version`}}.box",
-      "type": "vagrant"
+      "output": "../builds/ubuntu-12.10/{{ .Provider }}/{{ timestamp }}.box",
+      "type": "vagrant",
+      "compression_level": 9
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
-      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'",
       "scripts": [
         "scripts/ubuntu/update.sh",
-        "scripts/common/sshd.sh",
-        "scripts/ubuntu/networking.sh",
-        "scripts/ubuntu/sudoers.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef.sh",
-        "scripts/ubuntu/cleanup.sh",
-        "scripts/common/minimize.sh"
-      ],
-      "type": "shell"
+        "scripts/ubuntu/cleanup.sh"
+      ]
     }
-  ],
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://releases.ubuntu.com"
-  }
+  ]
 }
 
