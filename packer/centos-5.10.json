@@ -5,7 +5,6 @@
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "RedHat_64",
       "http_directory": "http",
@@ -41,7 +40,6 @@
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_os_type": "centos-64",
       "http_directory": "http",
       "iso_checksum": "d8403b3fe4972eda3e147ee76d682a4a3beae1e1",

@@ -5,7 +5,6 @@
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Oracle_64",
       "http_directory": "http",
@@ -41,7 +40,6 @@
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_os_type": "oraclelinux-64",
       "http_directory": "http",
       "iso_checksum": "1aa0a1246b1a55108abf20aa2bcac00e",

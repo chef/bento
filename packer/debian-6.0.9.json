@@ -24,7 +24,6 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Debian_64",
       "http_directory": "http",
@@ -64,7 +63,6 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_os_type": "debian5-64",
       "http_directory": "http",
       "iso_checksum": "3f3ec3e1adb4c2904a1234799f4775c10cf47cce",

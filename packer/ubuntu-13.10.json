@@ -26,7 +26,6 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
@@ -83,7 +82,6 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
       "guest_os_type": "ubuntu-64",
       "http_directory": "http",
       "iso_checksum": "5dd72c694c3a7e06a3b4dd651ca26cfc70985004",
