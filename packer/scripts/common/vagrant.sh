@@ -4,10 +4,22 @@
 # Setup passwordless sudo for vagrant
 #
 tmpsudo=/tmp/sudo-vagrant
-echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > $tmpsudo
-echo 'Defaults:vagrant !requiretty,env_reset' >> $tmpsudo
+echo 'vagrant  ALL=(ALL) NOPASSWD:ALL' >  $tmpsudo
+echo '%vagrant ALL=(ALL) NOPASSWD:ALL' >> $tmpsudo
+echo 'Defaults:vagrant !requiretty'    >> $tmpsudo
+echo ''                                >> $tmpsudo
 chmod 0440 $tmpsudo
 mv $tmpsudo /etc/sudoers.d/vagrant
+
+# Remove the includedir for sudoers. On older Ubuntu's (10.04), the includedir
+# occurs BEFORE some other definitions. So it is impossible to set passwordless
+# sudo for a user that belongs in the admin group (since later rules take
+# precedence). These two lines remove the existing includedir and appends it at
+# the very end of the file.
+sed -i '/#includedir\ \/etc\/sudoers\.d/d' /etc/sudoers
+echo ''                           >> /etc/sudoers
+echo '#includedir /etc/sudoers.d' >> /etc/sudoers
+echo ''                           >> /etc/sudoers
 
 #
 # Setup the vagrant authorized key (the user is created as part of the preseed)
