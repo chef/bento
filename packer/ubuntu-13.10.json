@@ -109,6 +109,7 @@
         "scripts/ubuntu/update.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
+        "scripts/ubuntu/networking.sh",
         "scripts/ubuntu/cleanup.sh"
       ]
     }
