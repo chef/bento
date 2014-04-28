@@ -1,16 +1,19 @@
 {
+  "variables": {
+    "chef_version": "provisionerless"
+  },
   "provisioners": [
     {
       "type": "shell",
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
       "scripts": [
         "scripts/solaris/update.sh",
-        "scripts/solaris/vagrant.sh"
+        "scripts/solaris/vmtools.sh",
+        "scripts/common/vagrant.sh"
       ],
-      "override": {
-        "virtualbox-iso": {
-          "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}"
-        }
-      }
+      "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}"
     }
   ],
   "builders": [
@@ -39,9 +42,8 @@
         "mkdir /system/volatile/profile;<wait>",
         "cp profile.xml /system/volatile/profile/profile.xml;<wait>",
         "svcadm enable svc:/application/auto-installer:default;<wait>",
-        "<enter><wait>",
-        "<wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait>",
-        "<enter><wait>",
+        "<enter><wait10><wait><wait>",
+	"<enter><wait>",
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
@@ -50,7 +52,7 @@
       "http_directory": "http/solaris-11",
       "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
       "iso_checksum_type": "md5",
-      "iso_url": "iso/sol-11_1-ai-x86.iso",
+      "iso_url": "../iso/sol-11_1-ai-x86.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -59,6 +61,8 @@
       "shutdown_timeout": "10m",
       "guest_additions_mode": "attach",
       "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-solaris-11.1-x86_64",
+      "output_directory": "packer-solaris-11.1-x86_64-virtualbox",
       "vboxmanage": [
         [
           "modifyvm",
@@ -73,10 +77,61 @@
           "1"
         ]
       ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "e<wait>",
+        "<down><down><down><down><down><wait>",
+        "<end><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "false<wait>",
+        "<f10><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "root<enter><wait><wait>",
+        "solaris<enter><wait><wait>",
+        "<wait10>",
+        "while (true); do sleep 5; test -f /a/etc/sudoers && grep -v \"vagrant\" \"/a/etc/sudoers\" 2> /dev/null<wait>",
+        " && echo \"vagrant ALL=(ALL) NOPASSWD: ALL\" >> /a/etc/sudoers && break ; done &<enter><wait>",
+        "<enter>while (true); do grep \"You may wish to reboot\" \"/var/svc/log/application-auto-installer:default.log\" 2> /dev/null<wait>",
+        " && reboot; sleep 10; done &<enter><wait>",
+        "sleep 5; curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/default.xml -o default.xml;<wait>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/profile.xml -o profile.xml;<wait>",
+        "cp default.xml /system/volatile/ai.xml;<wait>",
+        "mkdir /system/volatile/profile;<wait>",
+        "cp profile.xml /system/volatile/profile/profile.xml;<wait>",
+        "svcadm enable svc:/application/auto-installer:default;<wait>",
+        "<enter><wait10><wait><wait>",
+	"<enter><wait>",
+        "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 15360,
+      "guest_os_type": "solaris11_64Guest",
+      "http_directory": "http/solaris-11",
+      "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
+      "iso_checksum_type": "md5",
+      "iso_url": "../iso/sol-11_1-ai-x86.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -i init 5",
+      "shutdown_timeout": "10m",
+      "vm_name": "packer-solaris-11.1-x86_64",
+      "output_directory": "packer-solaris-11.1-x86_64-vmware",
+      "vmx_data": {
+          "memsize": "768",
+          "cpuid.coresPerSocket": "1",
+	  "numvcpus": "1"
+      }
     }
   ],
   "post-processors": [
     {
+      "output": "../builds/{{.Provider}}/opscode_solaris-11.1_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]

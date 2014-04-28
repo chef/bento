@@ -24,9 +24,3 @@ if [ -f /home/vagrant/.vbox_version ]; then
     sudo -i pkgadd -a /tmp/nocheck -d /media/VBOXADDITIONS_*/VBoxSolarisAdditions.pkg < /tmp/allfiles
 fi
 
-mkdir /home/vagrant/.ssh
-wget --no-check-certificate \
-    'https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub' \
-    -O /home/vagrant/.ssh/authorized_keys
-chown -R vagrant /home/vagrant/.ssh
-chmod -R go-rwsx /home/vagrant/.ssh
