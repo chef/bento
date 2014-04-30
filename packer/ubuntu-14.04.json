@@ -107,11 +107,11 @@
       "type": "shell",
       "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'",
       "scripts": [
-        "scripts/ubuntu/update.sh",
+        "scripts/debian/update.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/ubuntu/networking.sh",
-        "scripts/ubuntu/cleanup.sh"
+        "scripts/debian/networking.sh",
+        "scripts/debian/cleanup.sh"
       ]
     }
   ]
