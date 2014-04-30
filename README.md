@@ -9,6 +9,8 @@ Bento is a project that encapsulates [Packer](http://packer.io) templates for bu
 testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
 via [test-kitchen](http://kitchen.ci/).
 
+This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the [CHEF Release Engineering OSS Management Guide](https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit).
+
 ## Current Baseboxes
 
 The following baseboxes are publicly available and were built using
