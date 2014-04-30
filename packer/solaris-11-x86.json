@@ -11,8 +11,7 @@
       "scripts": [
         "scripts/solaris/update.sh",
         "scripts/solaris/vmtools.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/common/minimize.sh"
+        "scripts/common/vagrant.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}"
     }
