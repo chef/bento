@@ -1,5 +1,8 @@
 {
   "variables": {
+    "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
+    "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
+    "mirror": "http://myserver OR ./packer_cache",
     "chef_version": "provisionerless"
   },
   "provisioners": [
@@ -53,7 +56,7 @@
       "http_directory": "http/solaris-11",
       "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
       "iso_checksum_type": "md5",
-      "iso_url": "../iso/sol-11_1-ai-x86.iso",
+      "iso_url": "{{user `mirror`}}/sol-11_1-ai-x86.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -114,7 +117,7 @@
       "http_directory": "http/solaris-11",
       "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
       "iso_checksum_type": "md5",
-      "iso_url": "../iso/sol-11_1-ai-x86.iso",
+      "iso_url": "{{user `mirror`}}/sol-11_1-ai-x86.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
