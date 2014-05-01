@@ -1,1 +1,0 @@
-/sbin/halt -h -p
