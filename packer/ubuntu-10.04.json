@@ -108,6 +108,7 @@
       "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'",
       "scripts": [
         "scripts/debian/update.sh",
+        "scripts/debian/sudoers-fix.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/debian/networking.sh",
