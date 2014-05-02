@@ -14,17 +14,16 @@
         "mdmfs -s 100m md1 /tmp<enter><wait>",
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.2/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 10140,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "FreeBSD_64",
       "http_directory": "http",
       "iso_checksum": "a8c1751b83646530148766618a89a97009e7500e7057a5cbe3afd74ef480c915",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-amd64-disc1.iso",
-      "output_directory": "packer-freebsd-9.2-amd64-virtualbox",
+      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-amd64-disc1.iso",
+      "output_directory": "chef-freebsd-9.2-virtualbox",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -32,21 +31,11 @@
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "512"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-freebsd-9.2-amd64"
+      "vm_name": "chef-freebsd-9.2-{{ timestamp }}"
     },
     {
       "boot_command": [
@@ -63,16 +52,15 @@
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
         "<wait5>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.2/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 10140,
       "guest_os_type": "freebsd-64",
       "http_directory": "http",
       "iso_checksum": "a8c1751b83646530148766618a89a97009e7500e7057a5cbe3afd74ef480c915",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-amd64-disc1.iso",
-      "output_directory": "packer-freebsd-9.2-amd64-vmware",
+      "iso_url": "http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-amd64-disc1.iso",
+      "output_directory": "chef-freebsd-9.2-vmware",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,39 +68,31 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "freebsd",
       "type": "vmware-iso",
-      "vm_name": "packer-freebsd-9.2-amd64",
+      "vm_name": "chef-freebsd-9.2-{{ timestamp }}",
       "vmx_data": {
-        "cpuid.coresPerSocket": "1",
         "memsize": "512",
-        "numvcpus": "1"
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
       }
     }
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-9.2_chef-{{user `chef_version`}}.box",
-      "type": "vagrant"
+      "output": "../builds/freebsd-9.2/{{ .Provider }}/{{ timestamp }}.box",
+      "type": "vagrant",
+      "compression_level": 1
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
-      "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m",
+      "type": "shell",
+      "execute_command": "export {{ .Vars }} && cat {{ .Path }} | su -m",
       "scripts": [
         "scripts/freebsd/postinstall.sh",
         "scripts/freebsd/vmtools.sh",
-        "scripts/common/chef.sh",
-        "scripts/freebsd/cleanup.sh",
-        "scripts/common/minimize.sh"
-      ],
-      "type": "shell"
+        "scripts/freebsd/cleanup.sh"
+      ]
     }
-  ],
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
-  }
+  ]
 }
 
