@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.0/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
@@ -38,7 +38,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel-7.0/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel-7/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
@@ -81,7 +81,7 @@
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
-        "scripts/centos/cleanup.sh",
+        "scripts/rhel/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
       "type": "shell"
