@@ -80,7 +80,7 @@
     {
       "output": "../builds/freebsd-9.2/{{ .Provider }}/{{ timestamp }}.box",
       "type": "vagrant",
-      "compression_level": 1
+      "compression_level": 9
     }
   ],
   "provisioners": [
