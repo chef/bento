@@ -86,6 +86,7 @@
   "provisioners": [
     {
       "type": "shell",
+      "execute_command": "export {{ .Vars }} && cat {{ .Path }} | su -m",
       "scripts": [
         "scripts/freebsd/postinstall.sh",
         "scripts/freebsd/cleanup.sh",
