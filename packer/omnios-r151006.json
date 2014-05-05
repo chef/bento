@@ -32,10 +32,10 @@
       ],
       "boot_wait": "30s",
       "guest_os_type": "OpenSolaris_64",
-      "iso_checksum": "a20aefc31640732087ea235dd027ab23b39c2ea1",
+      "iso_checksum": "c67bb871b33474a099b3ad0893e08f70169eee04",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151008t.iso",
-      "output_directory": "chef-omnios-r151008t-virtualbox",
+      "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151006_049.iso",
+      "output_directory": "chef-omnios-r151006-virtualbox",
       "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -46,7 +46,7 @@
         ["modifyvm", "{{ .Name }}", "--cpus", "1"]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "chef-omnios-r151008t-{{ timestamp }}"
+      "vm_name": "chef-omnios-r151006-{{ timestamp }}"
     },
     {
       "boot_command": [
@@ -85,17 +85,17 @@
         "floppy/omnios/README.TXT"
       ],
       "guest_os_type": "solaris11-64",
-      "iso_checksum": "a20aefc31640732087ea235dd027ab23b39c2ea1",
+      "iso_checksum": "c67bb871b33474a099b3ad0893e08f70169eee04",
       "iso_checksum_type": "sha1",
-      "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151008t.iso",
-      "output_directory": "chef-omnios-r151008t-vmware",
+      "iso_url": "http://omnios.omniti.com/media/OmniOS_Text_r151006_049.iso",
+      "output_directory": "chef-omnios-r151006-vmware",
       "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "root",
       "tools_upload_flavor": "solaris",
       "type": "vmware-iso",
-      "vm_name": "chef-omnios-r151008t-{{ timestamp }}",
+      "vm_name": "chef-omnios-r151006-{{ timestamp }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "1024",
@@ -105,19 +105,19 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/omnios-r151008t/{{ .Provider }}/{{ timestamp }}.box",
+      "output": "../builds/omnios-r151006/{{ .Provider }}/{{ timestamp }}.box",
       "type": "vagrant",
       "compression_level": 9
     }
   ],
   "provisioners": [
     {
-      "type": "shell",
+      "execute_command": "export {{.Vars}} \u0026\u0026 sh '{{.Path}}'",
       "scripts": [
-        "scripts/omnios/postinstall.sh",
-        "scripts/omnios/vmtools.sh"
-      ]
+        "scripts/omnios/vmtools.sh",
+        "scripts/omnios/postinstall.sh"
+      ],
+      "type": "shell"
     }
   ]
 }
-

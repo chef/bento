@@ -1,1 +1,0 @@
-shutdown -P now

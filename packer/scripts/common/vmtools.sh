@@ -1,32 +1,25 @@
-#!/bin/bash
+#!/bin/bash -eux
 
-case "$PACKER_BUILDER_TYPE" in 
+if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
+  echo '==> Installling VMWare guest additions'
 
-virtualbox-iso|virtualbox-ovf) 
-    mkdir /tmp/vbox
-    VER=$(cat /home/vagrant/.vbox_version)
-    mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox 
-    sh /tmp/vbox/VBoxLinuxAdditions.run
-    umount /tmp/vbox
-    rmdir /tmp/vbox
-    rm /home/vagrant/*.iso
-    ;;
+  cd /tmp
+  mkdir -p /mnt/cdrom
+  mount -o loop /home/vagrant/linux.iso /mnt/cdrom
+  tar zxf /mnt/cdrom/VMwareTools-*.tar.gz -C /tmp/
+  /tmp/vmware-tools-distrib/vmware-install.pl --default
+  rm /home/vagrant/linux.iso
+  umount /mnt/cdrom
+  rmdir /mnt/cdrom
+elif [[ $PACKER_BUILDER_TYPE =~ virtualbox ]]; then
+  echo '==> Installling VirtualBox guest additions'
 
-vmware-iso|vmware-ovf) 
-    mkdir /tmp/vmfusion
-    mkdir /tmp/vmfusion-archive
-    mount -o loop /home/vagrant/linux.iso /tmp/vmfusion
-    tar xzf /tmp/vmfusion/VMwareTools-*.tar.gz -C /tmp/vmfusion-archive
-    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
-    umount /tmp/vmfusion
-    rm -rf  /tmp/vmfusion
-    rm -rf  /tmp/vmfusion-archive
-    rm /home/vagrant/*.iso
-    ;;
+  VBOX_VERSION=$(cat /home/vagrant/.vbox_version)
+  mount -o loop /home/vagrant/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
+  sh /mnt/VBoxLinuxAdditions.run --nox11
+  umount /mnt
+  rm -rf /home/vagrant/VBoxGuestAdditions_$VBOX_VERSION.iso
 
-*)
-    echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected."
-    echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-ovf."
-    ;;
-
-esac
+  # http://stackoverflow.com/questions/22717428/vagrant-error-failed-to-mount-folders-in-linux-guest
+  ln -s /opt/VBoxGuestAdditions-$VBOX_VERSION/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+fi

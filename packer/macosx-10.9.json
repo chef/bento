@@ -41,7 +41,7 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `iso_url`}}",
-      "output_directory": "packer-macosx-10.9-vmware",
+      "output_directory": "chef-macosx-10.9-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
       "skip_compaction": true,
       "ssh_password": "vagrant",
@@ -51,7 +51,7 @@
       "tools_upload_flavor": "darwin",
       "tools_upload_path": "/Users/vagrant/{{.Flavor}}.iso",
       "type": "vmware-iso",
-      "vm_name": "packer-macosx-10.9-vmware",
+      "vm_name": "chef-macosx-10.9-{{ timestamp }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "2048",
@@ -68,8 +68,9 @@
   ],
   "post-processors": [
     {
+      "output": "../builds/macosx-10.9/{{ .Provider }}/{{ timestamp }}.box",
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_macosx-10.9_chef-{{user `chef_version`}}.box"
+      "compression_level": 9
     }
   ]
 }
