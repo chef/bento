@@ -113,7 +113,7 @@
       ],
       "boot_wait": "5s",
       "disk_size": 15360,
-      "guest_os_type": "solaris11_64Guest",
+      "guest_os_type": "solaris11-64",
       "http_directory": "http/solaris-11",
       "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
       "iso_checksum_type": "md5",
