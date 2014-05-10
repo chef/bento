@@ -103,7 +103,67 @@
         "memsize": "384",
         "numvcpus": "1"
       }
+    },
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-12.10/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "parallels_tools_guest_path": "prl-tools-lin.iso",
+      "parallels_tools_host_path": "/Applications/Parallels Desktop.app/Contents/Resources/Tools/prl-tools-lin.iso",
+      "guest_os_type": "linux",
+      "guest_os_distribution": "ubuntu",
+      "http_directory": "http",
+      "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/12.10/ubuntu-12.10-server-amd64.iso",
+      "output_directory": "packer-ubuntu-12.10-amd64-parallels",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "384"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "prlctl_version_file": ".prlctl_version",
+      "vm_name": "packer-ubuntu-12.10-amd64"
     }
+
   ],
   "post-processors": [
     {

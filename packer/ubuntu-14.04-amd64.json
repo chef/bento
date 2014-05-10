@@ -163,6 +163,7 @@
       "prlctl_version_file": ".prlctl_version",
       "vm_name": "packer-ubuntu-14.04-amd64"
     }
+
   ],
   "post-processors": [
     {
