@@ -1,18 +1,18 @@
 #!/bin/bash
 
-case "$PACKER_BUILDER_TYPE" in 
+case "$PACKER_BUILDER_TYPE" in
 
-virtualbox-iso|virtualbox-ovf) 
+virtualbox-iso|virtualbox-ovf)
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
-    mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox 
+    mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox
     sh /tmp/vbox/VBoxLinuxAdditions.run
     umount /tmp/vbox
     rmdir /tmp/vbox
     rm /home/vagrant/*.iso
     ;;
 
-vmware-iso|vmware-ovf) 
+vmware-iso|vmware-vmx) 
     mkdir /tmp/vmfusion
     mkdir /tmp/vmfusion-archive
     mount -o loop /home/vagrant/linux.iso /tmp/vmfusion
