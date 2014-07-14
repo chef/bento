@@ -27,9 +27,9 @@
       "disk_size": 40960,
       "guest_os_type": "Debian",
       "http_directory": "http",
-      "iso_checksum": "24e8e0ac74a12848e2601f3bb1821c52fc9049c5",
+      "iso_checksum": "ac7abf86a6077a242ac367aef3d4f18a8232098b",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.5.0/i386/iso-cd/debian-7.5.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.6.0/i386/iso-cd/debian-7.6.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -37,8 +37,8 @@
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-7.5-i386",
-      "output_directory": "packer-debian-7.5-i386-virtualbox",
+      "vm_name": "packer-debian-7.6-i386",
+      "output_directory": "packer-debian-7.6-i386-virtualbox",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -67,17 +67,17 @@
       "disk_size": 40960,
       "guest_os_type": "debian5",
       "http_directory": "http",
-      "iso_checksum": "24e8e0ac74a12848e2601f3bb1821c52fc9049c5",
+      "iso_checksum": "ac7abf86a6077a242ac367aef3d4f18a8232098b",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.5.0/i386/iso-cd/debian-7.5.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.6.0/i386/iso-cd/debian-7.6.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "tools_upload_flavor": "linux",
-      "vm_name": "packer-debian-7.5-i386",
-      "output_directory": "packer-debian-7.5-i386-vmware",
+      "vm_name": "packer-debian-7.6-i386",
+      "output_directory": "packer-debian-7.6-i386-vmware",
       "vmx_data": {
         "memsize": "384",
         "numvcpus": "1",
@@ -88,7 +88,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-7.5-i386_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-7.6-i386_chef-{{user `chef_version`}}.box"
     }
   ],
   "provisioners": [
