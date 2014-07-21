@@ -1,7 +1,10 @@
 #!/bin/bash -eux
 
+# Update the package list
 apt-get update
-apt-get -y upgrade
+
+# Upgrade all installed packages incl. kernel and kernel headers
+apt-get -y upgrade linux-server linux-headers-server
 
 # ensure the correct kernel headers are installed
 apt-get -y install linux-headers-$(uname -r)
