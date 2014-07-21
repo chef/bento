@@ -34,15 +34,15 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-centos-7.0-x86_64"
+      "vm_name": "packer-rhel-7.0-x86_64"
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel-7.0/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.0/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "redhat-64",
+      "guest_os_type": "rhel7-64",
       "http_directory": "http",
       "iso_checksum": "85a9fedc2bf0fc825cc7817056aa00b3ea87d7e111e0cf8de77d3ba643f8646c",
       "iso_checksum_type": "sha256",
@@ -55,7 +55,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "packer-centos-7.0-x86_64",
+      "vm_name": "packer-rhel-7.0-x86_64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "480",
