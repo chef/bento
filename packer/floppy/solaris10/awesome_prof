@@ -1,0 +1,13 @@
+install_type initial_install
+system_type standalone
+cluster SUNWCrnet add
+package SUNWwgetr add
+package SUNWwgetu add
+package SUNWsshdr add
+package SUNWsshdu add
+package SUNWsshcu add
+package SUNWPython add
+package SUNWgcmn add
+package SUNWuiu8 add
+package SUNWbash add
+package SUNWtoo add

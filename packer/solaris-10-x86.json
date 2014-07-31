@@ -1,0 +1,118 @@
+{
+  "variables": {
+    "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
+    "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html",
+    "mirror": "./packer_cache",
+    "chef_version": "provisionerless"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "/opt/csw/bin/sudo {{.Path}}",
+      "scripts": [
+        "scripts/solaris10/post_install.sh",
+        "scripts/solaris10/vmtools.sh",
+        "scripts/solaris10/minimize.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "e",
+        "e",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left>",
+        " - install<enter>",
+        "b"
+      ],
+      "floppy_files": [
+        "floppy/solaris10/sysidcfg",
+        "floppy/solaris10/awesome_prof",
+        "floppy/solaris10/rules.ok",
+        "floppy/solaris10/S99startup.sh",
+        "floppy/solaris10/finish.sh"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 15360,
+      "guest_os_type": "Solaris_64",
+      "http_directory": "http/solaris-10",
+      "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "50000s",
+      "shutdown_command": "/opt/csw/bin/sudo /usr/sbin/init 5",
+      "shutdown_timeout": "10m",
+      "guest_additions_mode": "upload",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-solaris-10u11-x86_64",
+      "output_directory": "packer-solaris-10u11-x86_64-virtualbox",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1536"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "e",
+        "e",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left>",
+        " - install<enter>",
+        "b"
+      ],
+      "floppy_files": [
+        "floppy/solaris10/sysidcfg",
+        "floppy/solaris10/awesome_prof",
+        "floppy/solaris10/rules.ok",
+        "floppy/solaris10/S99startup.sh",
+        "floppy/solaris10/finish.sh"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 15360,
+      "guest_os_type": "solaris10-64",
+      "http_directory": "http/solaris-10",
+      "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "50000s",
+      "shutdown_command": "/opt/csw/bin/sudo /usr/sbin/init 5",
+      "shutdown_timeout": "10m",
+      "vm_name": "packer-solaris-10u11-x86_64",
+      "output_directory": "packer-solaris-10u11-x86_64-virtualbox",
+      "tools_upload_flavor": "solaris",
+      "tools_upload_path": "/home/vagrant/solaris.iso",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "1536",
+        "numvcpus": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "../builds/{{.Provider}}/opscode_solaris-10.11_chef-{{user `chef_version`}}.box",
+      "type": "vagrant"
+    }
+  ]
+}
