@@ -31,6 +31,7 @@ echo LookupClientHostnames no >> /etc/ssh/sshd_config
 /usr/sfw/bin/wget --no-check-certificate 'http://get.opencsw.org/now' -O /tmp/pkgutil.pkg
 echo "mail=\ninstance=overwrite\npartial=nocheck\nrunlevel=nocheck\nidepend=nocheck\nrdepend=nocheck\nspace=nocheck\nsetuid=nocheck\nconflict=nocheck\naction=nocheck\nbasedir=default" > /tmp/noask
 pkgadd -a /tmp/noask -d /tmp/pkgutil.pkg all
+rm -rf /tmp/pkgutil.pkg
 
 # install sudo so that packer functions correctly
 /opt/csw/bin/pkgutil -U
