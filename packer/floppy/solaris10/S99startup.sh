@@ -41,6 +41,9 @@ ln -s /opt/csw/bin/sudo /usr/bin/sudo
 # install scp so packer can copy stuff
 /opt/csw/bin/pkgutil -y -i openssh_client
 
+# we're going to need gtar since solaris default tar is less than full featured
+/opt/csw/bin/pkgutil -y -i gtar
+
 # add the /opt/csw/lib libraries to the library path the nice way
 crle -u -l /lib:/usr/lib:/opt/csw/lib
 
