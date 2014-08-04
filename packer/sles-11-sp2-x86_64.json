@@ -89,7 +89,6 @@
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
         "scripts/sles/sudoers.sh",
-        "scripts/sles/zypper-locks.sh",
         "scripts/sles/remove-dvd-source.sh",
         "scripts/common/minimize.sh"
       ],
@@ -98,7 +97,7 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://cdn2.novell.com/free/h0AOp5AT-18~"
+    "mirror": "http://cdn.novell.com/free/h0AOp5AT-18~"
   }
 }
 
