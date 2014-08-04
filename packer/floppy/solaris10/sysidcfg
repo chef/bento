@@ -1,5 +1,5 @@
 keyboard=US-English
-timezone=US/Pacific
+timezone=UTC
 auto_reg=disable
 network_interface=PRIMARY
                   {dhcp protocol_ipv6=yes}

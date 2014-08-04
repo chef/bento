@@ -14,7 +14,7 @@ mkdir /home
 groupadd vagrant
 useradd -m -s /usr/bin/bash -d /home/vagrant -G vagrant vagrant
 
-# set password
+# set password - there is no way to set a password non-interactively
 perl -pi -e 's/vagrant:UP/vagrant:VrvarmJYR3SHs/g' /etc/shadow
 
 # set up ssh
@@ -31,19 +31,17 @@ echo LookupClientHostnames no >> /etc/ssh/sshd_config
 /usr/sfw/bin/wget --no-check-certificate 'http://get.opencsw.org/now' -O /tmp/pkgutil.pkg
 echo "mail=\ninstance=overwrite\npartial=nocheck\nrunlevel=nocheck\nidepend=nocheck\nrdepend=nocheck\nspace=nocheck\nsetuid=nocheck\nconflict=nocheck\naction=nocheck\nbasedir=default" > /tmp/noask
 pkgadd -a /tmp/noask -d /tmp/pkgutil.pkg all
-rm -rf /tmp/pkgutil.pkg
+rm -f /tmp/pkgutil.pkg
 
 # install sudo so that packer functions correctly
 /opt/csw/bin/pkgutil -U
 /opt/csw/bin/pkgutil -y -i sudo
 echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/opt/csw/sudoers
+echo "Defaults secure_path=/opt/csw/bin:/usr/sfw/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 ln -s /opt/csw/bin/sudo /usr/bin/sudo
 
 # install scp so packer can copy stuff
 /opt/csw/bin/pkgutil -y -i openssh_client
-
-# we're going to need gtar since solaris default tar is less than full featured
-/opt/csw/bin/pkgutil -y -i gtar
 
 # add the /opt/csw/lib libraries to the library path the nice way
 crle -u -l /lib:/usr/lib:/opt/csw/lib

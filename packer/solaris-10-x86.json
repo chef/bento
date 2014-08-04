@@ -8,7 +8,9 @@
   "provisioners": [
     {
       "type": "shell",
+      "execute_command": "/opt/csw/bin/sudo {{.Path}}",
       "scripts": [
+        "scripts/solaris10/post_install.sh",
         "scripts/solaris10/vmtools.sh",
         "scripts/solaris10/minimize.sh"
       ]

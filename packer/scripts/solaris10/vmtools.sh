@@ -15,28 +15,26 @@ echo "basedir=default" >> /tmp/nocheck
 
 echo "all" > /tmp/allfiles
 
-echo "PATH = \$PATH"
-
 if [ -f /home/vagrant/.vbox_version ]; then
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
-    /opt/csw/bin/sudo mkdir /cdrom
-    VBGADEV=`/opt/csw/bin/sudo /usr/sbin/lofiadm -a /home/vagrant/VBoxGuestAdditions.iso`
-    /opt/csw/bin/sudo /usr/sbin/mount -o ro -F hsfs $VBGADEV /cdrom
-    /opt/csw/bin/sudo /usr/sbin/pkgadd -a /tmp/nocheck -d /cdrom/VBoxSolarisAdditions.pkg < /tmp/allfiles
-    /opt/csw/bin/sudo /usr/sbin/umount /cdrom
-    /opt/csw/bin/sudo /usr/sbin/lofiadm -d $VBGADEV
-    /opt/csw/bin/sudo rm -f /home/vagrant/VBoxGuestAdditions.iso
+    mkdir /cdrom
+    VBGADEV=`lofiadm -a /home/vagrant/VBoxGuestAdditions.iso`
+    mount -o ro -F hsfs $VBGADEV /cdrom
+    pkgadd -a /tmp/nocheck -d /cdrom/VBoxSolarisAdditions.pkg < /tmp/allfiles
+    umount /cdrom
+    lofiadm -d $VBGADEV
+    rm -f /home/vagrant/VBoxGuestAdditions.iso
 else
-    VMTOOLSDEV=`/opt/csw/bin/sudo /usr/sbin/lofiadm -a /home/vagrant/solaris.iso`
-    /opt/csw/bin/sudo mkdir /cdrom
-    /opt/csw/bin/sudo /usr/sbin/mount -o ro -F hsfs $VMTOOLSDEV /cdrom
-    /opt/csw/bin/sudo mkdir /tmp/vmfusion-archive
-    /opt/csw/bin/sudo /opt/csw/bin/gtar zxvf /cdrom/vmware-solaris-tools.tar.gz -C /tmp/vmfusion-archive
-    /opt/csw/bin/sudo /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
-    /opt/csw/bin/sudo /usr/sbin/umount /cdrom
-    /opt/csw/bin/sudo /usr/sbin/lofiadm -d $VMTOOLSDEV
-    /opt/csw/bin/sudo rm -rf /mnt/vmtools
-    /opt/csw/bin/sudo rm -rf /tmp/vmfusion-archive
-    /opt/csw/bin/sudo rm -f /home/vagrant/solaris.iso
+    VMTOOLSDEV=`/usr/sbin/lofiadm -a /home/vagrant/solaris.iso`
+    mkdir /cdrom
+    mount -o ro -F hsfs $VMTOOLSDEV /cdrom
+    mkdir /tmp/vmfusion-archive
+    gtar zxvf /cdrom/vmware-solaris-tools.tar.gz -C /tmp/vmfusion-archive
+    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
+    umount /cdrom
+    lofiadm -d $VMTOOLSDEV
+    rm -rf /mnt/vmtools
+    rm -rf /tmp/vmfusion-archive
+    rm -f /home/vagrant/solaris.iso
 fi
