@@ -1,4 +1,5 @@
 {
+  "min_packer_version": "0.6.0",
   "variables": {
     "autologin_vagrant_user": "",
     "iso_url": "http://fakeurl/OSX_InstallESD_10.9.1_13B42.dmg",
