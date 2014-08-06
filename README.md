@@ -109,13 +109,13 @@ Mac OS X (10.7, 10.8, and 10.9), Red Hat Enterprise Linux, and SUSE Linux Enterp
 
 #### Mac OS X Boxes
 
-Mac OS X builds are supported for VMware only.  We would welcome a contribution to add VirtualBox support.
-
 To build a Mac OS X box, you will need to start with an installer for your desired version of OS X.  You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer.  The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.:
 
     $ packer build -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.9.json
 
 There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually.
+
+Note that, while it is possible to build OS X boxes for VirtualBox, it may not be ideal. VirtualBox provides no "guest additions" for OS X. Boxes consequently have limited networking configurability and must rely on rsync for folder syncing. VMWare, when available, is generally preferred.
 
 ### Windows Boxes
 
