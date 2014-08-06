@@ -1,4 +1,5 @@
 {
+  "min_packer_version": "0.6.0",
   "variables": {
     "autologin_vagrant_user": "",
     "iso_url": "http://fakeurl/OSX_InstallESD_10.7.5_11G63.dmg",
@@ -64,11 +65,65 @@
         "ehci.present": "TRUE",
         "usb.present": "TRUE"
       }
+    },
+    {
+      "boot_wait": "2s",
+      "disk_size": 20480,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "MacOS107_64",
+      "hard_drive_interface": "sata",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `iso_url`}}",
+      "output_directory": "packer-macosx-10.7-virtualbox",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "vm_name": "packer-macosx-10.7-virtualbox",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--audiocontroller", "hda"],
+        ["modifyvm", "{{.Name}}", "--boot1", "dvd"],
+        ["modifyvm", "{{.Name}}", "--boot2", "disk"],
+        ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
+        ["modifyvm", "{{.Name}}", "--cpus", "1"],
+        ["modifyvm", "{{.Name}}", "--firmware", "efi"],
+        ["modifyvm", "{{.Name}}", "--hpet", "on"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["modifyvm", "{{.Name}}", "--memory", "2048"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usbtablet"],
+        ["modifyvm", "{{.Name}}", "--vram", "9"],
+        [
+          "storageattach", "{{.Name}}",
+          "--storagectl", "SATA Controller",
+          "--port", "1",
+          "--type", "dvddrive",
+          "--medium", "{{user `iso_url`}}"
+        ]
+      ],
+      "vboxmanage_post": [
+        [
+          "storageattach", "{{.Name}}",
+          "--storagectl", "SATA Controller",
+          "--port", "1",
+          "--type", "dvddrive",
+          "--medium", "none"
+        ],
+        [
+          "storagectl", "{{.Name}}",
+          "--name", "IDE Controller",
+          "--remove"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
+      "vagrantfile_template": "vagrantfile_templates/macosx.rb",
       "output": "../builds/{{.Provider}}/opscode_macosx-10.7_chef-{{user `chef_version`}}.box"
     }
   ]
