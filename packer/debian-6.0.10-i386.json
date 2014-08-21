@@ -26,12 +26,12 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Debian_64",
+      "guest_os_type": "Debian",
       "http_directory": "http",
-      "iso_checksum": "3f3ec3e1adb4c2904a1234799f4775c10cf47cce",
+      "iso_checksum": "e8f77720e30f669e731fe3166ad6c3d2da33d93a",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.0.9/amd64/iso-cd/debian-6.0.9-amd64-CD-1.iso",
-      "output_directory": "packer-debian-6.0.9-amd64-virtualbox",
+      "iso_url": "{{user `mirror`}}/6.0.10/i386/iso-cd/debian-6.0.10-i386-CD-1.iso",
+      "output_directory": "packer-debian-6.0.10-i386-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -42,7 +42,7 @@
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-6.0.9-amd64"
+      "vm_name": "packer-debian-6.0.10-i386"
     },
     {
       "type": "vmware-iso",
@@ -65,19 +65,19 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "debian5-64",
+      "guest_os_type": "debian5",
       "http_directory": "http",
-      "iso_checksum": "3f3ec3e1adb4c2904a1234799f4775c10cf47cce",
+      "iso_checksum": "e8f77720e30f669e731fe3166ad6c3d2da33d93a",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.0.9/amd64/iso-cd/debian-6.0.9-amd64-CD-1.iso",
-      "output_directory": "packer-debian-6.0.9-amd64-vmware",
+      "iso_url": "{{user `mirror`}}/6.0.10/i386/iso-cd/debian-6.0.10-i386-CD-1.iso",
+      "output_directory": "packer-debian-6.0.10-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
-      "vm_name": "packer-debian-6.0.9-amd64",
+      "vm_name": "packer-debian-6.0.10-i386",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
@@ -88,7 +88,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-6.0.9_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-6.0.10-i386_chef-{{user `chef_version`}}.box"
     }
   ],
   "provisioners": [
