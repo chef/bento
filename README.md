@@ -6,7 +6,7 @@
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Chef Software, Inc. for
-testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](http://community.opscode.com/users/Opscode)
+testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](https://supermarket.getchef.com/users/chef)
 via [test-kitchen](http://kitchen.ci/).
 
 This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the [CHEF Release Engineering OSS Management Guide](https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit).
@@ -20,7 +20,7 @@ Vagrant can be instructed to install Chef at runtime using the
 
 ### VirtualBox
 
-These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.8, and have that format of Guest Extensions.
+These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.14, and have that format of Guest Extensions.
 
 * [opscode-centos-5.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10-i386_chef-provisionerless.box)
 * [opscode-centos-5.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10_chef-provisionerless.box)
@@ -43,8 +43,6 @@ These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.8, a
 * [opscode-ubuntu-10.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box)
 * [opscode-ubuntu-12.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box)
 * [opscode-ubuntu-12.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box)
-* [opscode-ubuntu-12.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10-i386_chef-provisionerless.box)
-* [opscode-ubuntu-12.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10_chef-provisionerless.box)
 * [opscode-ubuntu-14.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04-i386_chef-provisionerless.box)
 * [opscode-ubuntu-14.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box)
 
@@ -74,8 +72,6 @@ The boxes should work unchanged in VMWare Workstation for Windows or Linux.
 * [opscode-ubuntu-10.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04_chef-provisionerless.box)
 * [opscode-ubuntu-12.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box)
 * [opscode-ubuntu-12.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box)
-* [opscode-ubuntu-12.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.10-i386_chef-provisionerless.box)
-* [opscode-ubuntu-12.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.10_chef-provisionerless.box)
 * [opscode-ubuntu-14.04-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04-i386_chef-provisionerless.box)
 * [opscode-ubuntu-14.04](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box)
 
