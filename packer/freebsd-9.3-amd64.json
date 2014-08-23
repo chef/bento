@@ -14,17 +14,17 @@
         "mdmfs -s 100m md1 /tmp<enter><wait>",
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.2/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.3/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "FreeBSD_64",
       "http_directory": "http",
-      "iso_checksum": "a8c1751b83646530148766618a89a97009e7500e7057a5cbe3afd74ef480c915",
+      "iso_checksum": "5a3c82653d77bba7d7ded8bd7efbedc09d52cf4045d98ce52a82c9e0f8fa9b0e",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-amd64-disc1.iso",
-      "output_directory": "packer-freebsd-9.2-amd64-virtualbox",
+      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.3/FreeBSD-9.3-RELEASE-amd64-disc1.iso",
+      "output_directory": "packer-freebsd-9.3-amd64-virtualbox",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -46,7 +46,7 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-freebsd-9.2-amd64"
+      "vm_name": "packer-freebsd-9.3-amd64"
     },
     {
       "boot_command": [
@@ -63,16 +63,16 @@
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
         "<wait5>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.2/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.3/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
       "guest_os_type": "freebsd-64",
       "http_directory": "http",
-      "iso_checksum": "a8c1751b83646530148766618a89a97009e7500e7057a5cbe3afd74ef480c915",
+      "iso_checksum": "5a3c82653d77bba7d7ded8bd7efbedc09d52cf4045d98ce52a82c9e0f8fa9b0e",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.2/FreeBSD-9.2-RELEASE-amd64-disc1.iso",
-      "output_directory": "packer-freebsd-9.2-amd64-vmware",
+      "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.3/FreeBSD-9.3-RELEASE-amd64-disc1.iso",
+      "output_directory": "packer-freebsd-9.3-amd64-vmware",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -80,7 +80,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "freebsd",
       "type": "vmware-iso",
-      "vm_name": "packer-freebsd-9.2-amd64",
+      "vm_name": "packer-freebsd-9.3-amd64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
@@ -90,7 +90,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-9.2_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-9.3_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
