@@ -6,7 +6,7 @@ wget --no-check-certificate \
     -O /home/vagrant/.ssh/authorized_keys
 
 # Guard for empty authorized_keys file, wget with error creates an empty file
-if [ ! -s $file ]; then
+if [ ! -s /home/vagrant/.ssh/authorized_keys ]; then
     echo "Unable to download Vagrant public key"
     exit 1
 fi
