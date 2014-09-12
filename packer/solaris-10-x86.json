@@ -99,7 +99,7 @@
       "shutdown_command": "/opt/csw/bin/sudo /usr/sbin/init 5",
       "shutdown_timeout": "10m",
       "vm_name": "packer-solaris-10u11-x86_64",
-      "output_directory": "packer-solaris-10u11-x86_64-virtualbox",
+      "output_directory": "packer-solaris-10u11-x86_64-vmware",
       "tools_upload_flavor": "solaris",
       "tools_upload_path": "/home/vagrant/solaris.iso",
       "vmx_data": {
