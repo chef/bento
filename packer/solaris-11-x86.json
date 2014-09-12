@@ -51,12 +51,12 @@
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 15360,
+      "disk_size": 10360,
       "guest_os_type": "Solaris11_64",
       "http_directory": "http/solaris-11",
-      "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
+      "iso_checksum": "2b3859bb7532cfe42214349dff9fcc23",
       "iso_checksum_type": "md5",
-      "iso_url": "{{user `mirror`}}/sol-11_1-ai-x86.iso",
+      "iso_url": "{{user `mirror`}}/sol-11_2-ai-x86.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -65,14 +65,14 @@
       "shutdown_timeout": "10m",
       "guest_additions_mode": "attach",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-solaris-11.1-x86_64",
-      "output_directory": "packer-solaris-11.1-x86_64-virtualbox",
+      "vm_name": "packer-solaris-11.2-x86_64",
+      "output_directory": "packer-solaris-11.2-x86_64-virtualbox",
       "vboxmanage": [
         [
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "768"
+          "2048"
         ],
         [
           "modifyvm",
@@ -112,22 +112,22 @@
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 15360,
+      "disk_size": 10360,
       "guest_os_type": "solaris11-64",
       "http_directory": "http/solaris-11",
-      "iso_checksum": "f697fe5bc9cc4c901a52ce43229ab0d6",
+      "iso_checksum": "2b3859bb7532cfe42214349dff9fcc23",
       "iso_checksum_type": "md5",
-      "iso_url": "{{user `mirror`}}/sol-11_1-ai-x86.iso",
+      "iso_url": "{{user `mirror`}}/sol-11_2-ai-x86.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -i init 5",
       "shutdown_timeout": "10m",
-      "vm_name": "packer-solaris-11.1-x86_64",
-      "output_directory": "packer-solaris-11.1-x86_64-vmware",
+      "vm_name": "packer-solaris-11.2-x86_64",
+      "output_directory": "packer-solaris-11.2-x86_64-vmware",
       "vmx_data": {
-          "memsize": "768",
+          "memsize": "2048",
           "cpuid.coresPerSocket": "1",
 	  "numvcpus": "1"
       }
@@ -135,7 +135,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_solaris-11.1_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_solaris-11.2_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]
