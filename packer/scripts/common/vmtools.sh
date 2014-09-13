@@ -12,7 +12,7 @@ virtualbox-iso|virtualbox-ovf)
     rm /home/vagrant/*.iso
     ;;
 
-vmware-iso|vmware-vmx) 
+vmware-iso|vmware-vmx)
     mkdir /tmp/vmfusion
     mkdir /tmp/vmfusion-archive
     mount -o loop /home/vagrant/linux.iso /tmp/vmfusion
@@ -24,9 +24,18 @@ vmware-iso|vmware-vmx)
     rm /home/vagrant/*.iso
     ;;
 
+parallels-iso|parallels-pvm)
+    mkdir /tmp/parallels
+    mount -o loop /home/vagrant/prl-tools-lin.iso /tmp/parallels
+    /tmp/parallels/install --install-unattended-with-deps
+    umount /tmp/parallels
+    rmdir /tmp/parallels
+    rm /home/vagrant/*.iso
+    ;;
+
 *)
     echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected."
-    echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-ovf."
+    echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-vmx|parallels-iso|parallels-pvm."
     ;;
 
 esac

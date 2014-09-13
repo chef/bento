@@ -61,6 +61,42 @@
         "memsize": "512",
         "numvcpus": "1"
       }
+    },
+    {
+      "boot_command": [
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-20/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "parallels_tools_flavor": "lin",
+      "guest_os_type": "fedora-core",
+      "http_directory": "http",
+      "iso_checksum": "f2eeed5102b8890e9e6f4b9053717fe73031e699c4b76dc7028749ab66e7f917",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/releases/20/Fedora/x86_64/iso/Fedora-20-x86_64-DVD.iso",
+      "output_directory": "packer-fedora-20-x86_64-parallels",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "512"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "prlctl_version_file": ".prlctl_version",
+      "vm_name": "packer-fedora-20-x86_64"
     }
   ],
   "post-processors": [

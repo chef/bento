@@ -83,6 +83,46 @@
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
+    },
+    {
+      "type": "parallels-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-7/preseed.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "netcfg/get_hostname={{ .Name }} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "debian",
+      "http_directory": "http",
+      "iso_checksum": "ba6f8194b5970be964a5de86522423135358908a",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/7.6.0/amd64/iso-cd/debian-7.6.0-amd64-CD-1.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
+      "parallels_tools_flavor": "lin",
+      "prlctl_version_file": ".prlctl_version",
+      "vm_name": "packer-debian-7.6-amd64",
+      "output_directory": "packer-debian-7.6-amd64-parallels",
+      "prlctl": [
+        [ "set", "{{.Name}}", "--memsize", "384" ],
+        [ "set", "{{.Name}}", "--cpus", "1" ]
+      ]
     }
   ],
   "post-processors": [

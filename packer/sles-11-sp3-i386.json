@@ -69,7 +69,48 @@
         "memsize": "480",
         "numvcpus": "1"
       }
+    },
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles-11/sles-11-sp3-i386-autoinst.xml<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 20480,
+      "parallels_tools_flavor": "lin",
+      "guest_os_type": "suse",
+      "http_directory": "http",
+      "iso_checksum": "5c30a409fc8fb3343b4dc90d93ff2c89",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/SLES-11-SP3-DVD-i586-GM-DVD1.iso",
+      "output_directory": "packer-sles-11-sp3-i386-parallels",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "480"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "prlctl_version_file": ".prlctl_version",
+      "vm_name": "packer-sles-11-sp3-i386"
     }
+
   ],
   "post-processors": [
     {

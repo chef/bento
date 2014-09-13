@@ -61,7 +61,44 @@
         "memsize": "480",
         "numvcpus": "1"
       }
+    },
+    {
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "parallels_tools_flavor": "lin",
+      "guest_os_type": "rhel",
+      "http_directory": "http",
+      "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
+      "output_directory": "packer-rhel-6.5-i386-parallels",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "480"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "prlctl_version_file": ".prlctl_version",
+      "vm_name": "packer-rhel-6.5-i386"
     }
+
   ],
   "post-processors": [
     {
