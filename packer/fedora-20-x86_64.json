@@ -112,6 +112,7 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
+        "scripts/fedora/update.sh",
         "scripts/fedora/fix-slow-dns.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",

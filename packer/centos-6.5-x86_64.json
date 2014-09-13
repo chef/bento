@@ -113,6 +113,7 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/centos/update.sh",
         "scripts/centos/fix-slow-dns.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
