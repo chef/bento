@@ -51,7 +51,7 @@
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 40360,
+      "disk_size": 10360,
       "guest_os_type": "Solaris11_64",
       "http_directory": "http/solaris-11",
       "iso_checksum": "2b3859bb7532cfe42214349dff9fcc23",
@@ -112,7 +112,7 @@
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 40360,
+      "disk_size": 10360,
       "guest_os_type": "solaris11-64",
       "http_directory": "http/solaris-11",
       "iso_checksum": "2b3859bb7532cfe42214349dff9fcc23",
