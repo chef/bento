@@ -86,11 +86,56 @@
         "memsize": "512",
         "numvcpus": "1"
       }
+    },
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "load geom_mbr<wait>",
+        "<enter><wait>",
+        "load zfs<wait>",
+        "<enter><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-9.3/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 10140,
+      "http_directory": "http",
+      "iso_checksum": "cab6aad9c3d5ea6a3fb4059f808225c67f1edaea730c555a86a9707ac41ba75d",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/9.3/FreeBSD-9.3-RELEASE-i386-disc1.iso",
+      "output_directory": "packer-freebsd-9.3-i386-parallels",
+      "prlctl": [
+        [ "set", "{{.Name}}", "--memsize", "512" ],
+        [ "set", "{{.Name}}", "--cpus", "1" ],
+        [ "set", "{{.Name}}", "--device-set", "cdrom0", "--iface", "ide" ],
+        [ "set", "{{.Name}}", "--device-del", "fdd0" ],
+        [ "set", "{{.Name}}", "--device-del", "parallel0" ]
+      ],
+      "prlctl_version_file": ".prlctl_version",
+      "parallels_tools_mode": "disable",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
+      "vm_name": "packer-freebsd-9.3-i386"
     }
   ],
   "post-processors": [
     {
       "output": "../builds/{{.Provider}}/opscode_freebsd-9.3-i386_chef-{{user `chef_version`}}.box",
+      "override": {
+        "parallels": {
+          "vagrantfile_template": "vagrantfile_templates/parallels/freebsd.rb"
+        }
+      },
       "type": "vagrant"
     }
   ],
