@@ -4,7 +4,7 @@
 dpkg --list | awk '{ print $2 }' | grep linux-headers | xargs apt-get -y purge
 
 # this removes specific linux kernels, such as
-# linux-image-3.11.0-15-generic but 
+# linux-image-3.11.0-15-generic but
 # * keeps the current kernel
 # * does not touch the virtual packages, e.g.'linux-image-generic', etc.
 #
@@ -28,6 +28,8 @@ apt-get -y purge ppp pppconfig pppoeconf
 # delete oddities
 apt-get -y purge popularity-contest
 
+# ensure curl wasn't removed
+apt-get -y install curl
 apt-get -y autoremove
 apt-get -y clean
 rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
