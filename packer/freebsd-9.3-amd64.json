@@ -105,7 +105,7 @@
         "scripts/freebsd/vmtools.sh",
         "scripts/common/chef.sh",
         "scripts/freebsd/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/freebsd/minimize.sh"
       ],
       "type": "shell"
     }
