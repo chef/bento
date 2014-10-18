@@ -2,17 +2,17 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat",
+      "guest_os_type": "Oracle",
       "http_directory": "http",
-      "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
-      "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
-      "output_directory": "packer-rhel-6.5-i386-virtualbox",
+      "iso_url": "{{user `mirror`}}/OracleLinux-R6-U6-Server-i386-dvd.iso",
+      "iso_checksum": "81f0c85217f40763dea5053ec5594e4958498bbc",
+      "iso_checksum_type": "sha1",
+      "output_directory": "packer-oracle-6.6-i386-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -34,20 +34,20 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-rhel-6.5-i386"
+      "vm_name": "packer-oracle-6.6-i386"
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "redhat",
+      "guest_os_type": "oraclelinux",
       "http_directory": "http",
-      "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
-      "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
-      "output_directory": "packer-rhel-6.5-i386-vmware",
+      "iso_url": "{{user `mirror`}}/OracleLinux-R6-U6-Server-i386-dvd.iso",
+      "iso_checksum": "81f0c85217f40763dea5053ec5594e4958498bbc",
+      "iso_checksum_type": "sha1",
+      "output_directory": "packer-oracle-6.6-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -55,7 +55,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "packer-rhel-6.5-i386",
+      "vm_name": "packer-oracle-6.6-i386",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "480",
@@ -64,17 +64,17 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.5/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "parallels_tools_flavor": "lin",
-      "guest_os_type": "rhel",
+      "guest_os_type": "centos",
       "http_directory": "http",
-      "iso_checksum": "eec692b436193ba9fc365cafe2b8f85323d98192dc99b23b02ae75045667fe4a",
-      "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/rhel-server-6.5-i386-dvd.iso",
-      "output_directory": "packer-rhel-6.5-i386-parallels",
+      "iso_url": "{{user `mirror`}}/OracleLinux-R6-U6-Server-i386-dvd.iso",
+      "iso_checksum": "81f0c85217f40763dea5053ec5594e4958498bbc",
+      "iso_checksum_type": "sha1",
+      "output_directory": "packer-oracle-6.6-i386-parallels",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -96,13 +96,13 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "vm_name": "packer-rhel-6.5-i386"
+      "vm_name": "packer-oracle-6.6-i386"
     }
 
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_rhel-6.5-i386_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_oracle-6.6-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
@@ -126,7 +126,6 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.5/md5sum/04a1fa06a6b7e70cd586535eea83c0ef"
+    "mirror": "http://mirrors.dotsrc.org/oracle-linux/OL6/U6/i386"
   }
 }
-
