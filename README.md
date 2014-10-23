@@ -52,6 +52,10 @@ These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.14, 
 These baseboxes were all built using a Mac OS X host running VMWare Fusion 6.0.2, and have that version of VMWare Tools.
 The boxes should work unchanged in VMWare Workstation for Windows or Linux.
 
+If you're using the [Vagrant VMWare Fusion](https://www.vagrantup.com/vmware)
+provider, using `vagrant box add --provider vmware_desktop ...` will work for
+these boxes. Using `--provider vmware_fusion`, will not.
+
 * [opscode-centos-5.10-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10-i386_chef-provisionerless.box)
 * [opscode-centos-5.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.10_chef-provisionerless.box)
 * [opscode-centos-6.5-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.5-i386_chef-provisionerless.box)
