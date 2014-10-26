@@ -12,7 +12,7 @@
         "scripts/common/chef.sh",
         "scripts/freebsd/cleanup.sh",
         "scripts/freebsd/vmtools.sh",
-        "scripts/common/minimize.sh"
+        "scripts/freebsd/minimize.sh"
       ],
       "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m"
     }

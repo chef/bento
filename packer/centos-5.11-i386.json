@@ -2,17 +2,17 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.11/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "RedHat",
       "http_directory": "http",
-      "iso_checksum": "3a4db78ab70d866057c5285e0064d78125e1b8fd9dcaefea28818f6604b3515d",
-      "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/rhel-server-5.10-i386-dvd.iso",
-      "output_directory": "packer-rhel-5.10-i386-virtualbox",
+      "iso_checksum": "ec3a89b4edc8e391d13c1ecce4e6ce3917719e39",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/5.11/isos/i386/CentOS-5.11-i386-bin-DVD-1of2.iso",
+      "output_directory": "packer-centos-5.11-i386-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -34,20 +34,20 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-rhel-5.10-i386"
+      "vm_name": "packer-centos-5.11-i386"
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.11/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "redhat",
+      "guest_os_type": "centos",
       "http_directory": "http",
-      "iso_checksum": "3a4db78ab70d866057c5285e0064d78125e1b8fd9dcaefea28818f6604b3515d",
-      "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/rhel-server-5.10-i386-dvd.iso",
-      "output_directory": "packer-rhel-5.10-i386-vmware",
+      "iso_checksum": "ec3a89b4edc8e391d13c1ecce4e6ce3917719e39",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/5.11/isos/i386/CentOS-5.11-i386-bin-DVD-1of2.iso",
+      "output_directory": "packer-centos-5.11-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -55,7 +55,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "packer-rhel-5.10-i386",
+      "vm_name": "packer-centos-5.11-i386",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "384",
@@ -64,17 +64,17 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.10/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.11/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "parallels_tools_flavor": "lin",
-      "guest_os_type": "rhel",
+      "guest_os_type": "centos",
       "http_directory": "http",
-      "iso_checksum": "3a4db78ab70d866057c5285e0064d78125e1b8fd9dcaefea28818f6604b3515d",
-      "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/rhel-server-5.10-i386-dvd.iso",
-      "output_directory": "packer-rhel-5.10-i386-parallels",
+      "iso_checksum": "ec3a89b4edc8e391d13c1ecce4e6ce3917719e39",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/5.11/isos/i386/CentOS-5.11-i386-bin-DVD-1of2.iso",
+      "output_directory": "packer-centos-5.11-i386-parallels",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -96,13 +96,13 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "vm_name": "packer-rhel-5.10-i386"
+      "vm_name": "packer-centos-5.11-i386"
     }
 
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_rhel-5.10-i386_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_centos-5.11-i386_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
@@ -125,7 +125,7 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-5.10/md5sum/1ab756241a4a209b8d39abe6bace84a9"
+    "mirror": "http://mirrors.kernel.org/centos"
   }
 }
 

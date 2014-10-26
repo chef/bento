@@ -69,7 +69,7 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "parallels_tools_flavor": "lin",
-      "guest_os_flavor": "centos",
+      "guest_os_type": "centos",
       "http_directory": "http",
       "iso_url": "{{user `mirror`}}/OracleLinux-R6-U5-Server-i386-dvd.iso",
       "iso_checksum": "5bd0a06295a4e50907da16d99a2f6cff54596b30",
