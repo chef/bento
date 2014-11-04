@@ -1,8 +1,13 @@
 install_type initial_install
 system_type standalone
+filesys any 5000 /
+filesys any 5000 /opt
 cluster SUNWCrnet add
 package SUNWwgetr add
 package SUNWwgetu add
+package SUNWgss add
+package SUNWgssk add
+package SUNWgssc add
 package SUNWsshdr add
 package SUNWsshdu add
 package SUNWsshcu add
