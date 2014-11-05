@@ -111,7 +111,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/solaris-10.1-x86-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/solaris-10.5-x86-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ]
