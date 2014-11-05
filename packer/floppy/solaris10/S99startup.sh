@@ -16,6 +16,8 @@ useradd -m -s /usr/bin/bash -d /home/vagrant -G vagrant vagrant
 
 # set password - there is no way to set a password non-interactively
 perl -pi -e 's/vagrant:UP/vagrant:VrvarmJYR3SHs/g' /etc/shadow
+# defaults to a locked account, unlock it
+passwd -u vagrant
 
 # set up ssh
 mkdir /home/vagrant/.ssh
