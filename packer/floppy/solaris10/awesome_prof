@@ -16,3 +16,8 @@ package SUNWgcmn add
 package SUNWuiu8 add
 package SUNWbash add
 package SUNWtoo add
+# minimal support for build environment
+package SUNWarc add
+package SUNWhea add
+package SUNWlibm add
+package SUNWscpu add
