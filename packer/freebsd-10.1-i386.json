@@ -33,15 +33,15 @@
         "mdmfs -s 100m md1 /tmp<enter><wait>",
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-10.0/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-10.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
       "guest_os_type": "FreeBSD",
       "http_directory": "http",
-      "iso_checksum": "2c09643b3f79c703e424c03408882369025cec655c24a6d81ee073081ee75ebc",
+      "iso_checksum": "fe31790b762b01c99791d33e7fd9ab97323654785ce21f588116c8b4eb381cd0",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-i386-disc1.iso",
+      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/10.1/FreeBSD-10.1-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -49,8 +49,8 @@
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-freebsd-10.0-i386",
-      "output_directory": "packer-freebsd-10.0-i386-virtualbox",
+      "vm_name": "packer-freebsd-10.1-i386",
+      "output_directory": "packer-freebsd-10.1-i386-virtualbox",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "512" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -72,22 +72,22 @@
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
         "<wait5>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-10.0/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-10.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
       "guest_os_type": "freebsd",
       "http_directory": "http",
-      "iso_checksum": "2c09643b3f79c703e424c03408882369025cec655c24a6d81ee073081ee75ebc",
+      "iso_checksum": "fe31790b762b01c99791d33e7fd9ab97323654785ce21f588116c8b4eb381cd0",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-i386-disc1.iso",
+      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/10.1/FreeBSD-10.1-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
-      "vm_name": "packer-freebsd-10.0-i386",
-      "output_directory": "packer-freebsd-10.0-i386-vmware",
+      "vm_name": "packer-freebsd-10.1-i386",
+      "output_directory": "packer-freebsd-10.1-i386-vmware",
       "tools_upload_flavor": "freebsd",
       "vmx_data": {
         "memsize": "512",
@@ -110,15 +110,15 @@
         "mdmfs -s 100m md1 /tmp<enter><wait>",
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-10.0/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd-10.1/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
       "guest_os_type": "freebsd",
       "http_directory": "http",
-      "iso_checksum": "2c09643b3f79c703e424c03408882369025cec655c24a6d81ee073081ee75ebc",
+      "iso_checksum": "fe31790b762b01c99791d33e7fd9ab97323654785ce21f588116c8b4eb381cd0",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-i386-disc1.iso",
+      "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/10.1/FreeBSD-10.1-RELEASE-i386-disc1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -126,8 +126,8 @@
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "parallels_tools_mode": "disable",
       "prlctl_version_file": ".prlctl_version",
-      "vm_name": "packer-freebsd-10.0-amd64",
-      "output_directory": "packer-freebsd-10.0-i386-parallels",
+      "vm_name": "packer-freebsd-10.1-amd64",
+      "output_directory": "packer-freebsd-10.1-i386-parallels",
       "prlctl": [
         [ "set", "{{.Name}}", "--memsize", "512" ],
         [ "set", "{{.Name}}", "--cpus", "1" ],
@@ -139,7 +139,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-10.0_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-10.1_chef-{{user `chef_version`}}.box",
       "override": {
         "parallels": {
           "vagrantfile_template": "vagrantfile_templates/parallels/freebsd.rb"
