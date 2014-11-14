@@ -22,10 +22,6 @@
       "type": "virtualbox-iso",
       "boot_command": [
         "<esc><wait>",
-        "load geom_mbr<wait>",
-        "<enter><wait>",
-        "load zfs<wait>",
-        "<enter><wait>",
         "boot -s<wait>",
         "<enter><wait>",
         "<wait10><wait10>",
@@ -60,10 +56,6 @@
       "type": "vmware-iso",
       "boot_command": [
         "<esc><wait>",
-        "load geom_mbr<wait>",
-        "<enter><wait>",
-        "load zfs<wait>",
-        "<enter><wait>",
         "boot -s<wait>",
         "<enter><wait>",
         "<wait10><wait10>",
@@ -99,10 +91,6 @@
       "type": "parallels-iso",
       "boot_command": [
         "<esc><wait>",
-        "load geom_mbr<wait>",
-        "<enter><wait>",
-        "load zfs<wait>",
-        "<enter><wait>",
         "boot -s<wait>",
         "<enter><wait>",
         "<wait10><wait10>",

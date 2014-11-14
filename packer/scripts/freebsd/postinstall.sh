@@ -18,7 +18,7 @@ env PAGER=/bin/cat /tmp/freebsd-update install
 #Install sudo, curl and ca_root_nss
 if [ $freebsd_major -gt 9 ]; then
   # Use pkgng
-  env ASSUME_ALWAYS_YES=1 pkg bootstrap
+  env ASSUME_ALWAYS_YES=true pkg bootstrap
   pkg update
   pkg install -y sudo
   pkg install -y curl
@@ -58,12 +58,3 @@ EOT
 pw groupadd vboxusers
 pw groupmod vboxusers -m vagrant
 
-echo "=============================================================================="
-echo "NOTE: FreeBSD - Vagrant"
-echo "When using this basebox you need to do some special stuff in your Vagrantfile"
-echo "1) Enable HostOnly network"
-echo '	 config.vm.network "private_network", ip: "192.168.33.10"'
-echo "2) Use nfs instead of shared folders"
-echo '		config.vm.synced_folder "v-root", "/vagrant", :nfs => true'
-echo "============================================================================="
-exit
