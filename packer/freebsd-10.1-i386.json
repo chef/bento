@@ -127,7 +127,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_freebsd-10.1_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_freebsd-10.1-i386_chef-{{user `chef_version`}}.box",
       "override": {
         "parallels": {
           "vagrantfile_template": "vagrantfile_templates/parallels/freebsd.rb"
