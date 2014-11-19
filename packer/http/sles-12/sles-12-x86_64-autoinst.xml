@@ -514,7 +514,6 @@
           <crypt_fs config:type="boolean">false</crypt_fs>
           <filesystem config:type="symbol">btrfs</filesystem>
           <format config:type="boolean">true</format>
-          <fstopt>acl,user_xattr</fstopt>
           <loop_fs config:type="boolean">false</loop_fs>
           <mount>/</mount>
           <mountby config:type="symbol">device</mountby>
@@ -578,6 +577,15 @@
       <timeout config:type="integer">0</timeout>
     </yesno_messages>
   </report>
+  <services-manager>
+    <default_target>graphical</default_target>
+    <services>
+      <disable config:type="list"/>
+      <enable config:type="list">
+        <service>sshd</service>
+      </enable>
+    </services>
+  </services-manager>
   <software>
     <packages config:type="list">
       <package>glibc</package>
