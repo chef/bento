@@ -608,6 +608,13 @@
       <pattern>Minimal</pattern>
       <pattern>apparmor</pattern>
     </patterns>
+    <remove-packages config:type="list">
+      <package>adaptec-firmware</package>
+      <package>atmel-firmware</package>
+      <package>augeas-lenses</package>
+      <package>ipw-firmware</package>
+      <package>mpt-firmware</package>
+    </remove-packages>
   </software>
   <timezone>
     <hwclock>UTC</hwclock>
