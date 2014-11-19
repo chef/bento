@@ -131,6 +131,7 @@
         "scripts/sles/sudoers.sh",
         "scripts/sles/zypper-locks.sh",
         "scripts/sles/remove-dvd-source.sh",
+        "scripts/sles/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
       "type": "shell"

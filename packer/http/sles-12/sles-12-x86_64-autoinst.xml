@@ -597,12 +597,16 @@
       <package>SuSEfirewall2</package>
       <package>kexec-tools</package>
       <package>perl-Bootloader-YAML</package>
+      <package>kernel-default-devel</package>
+      <package>sudo</package>
+      <package>gcc</package>
+      <package>wget</package>
+      <package>perl</package>
+      <package>make</package>
     </packages>
     <patterns config:type="list">
-      <pattern>Basis-Devel</pattern>
       <pattern>Minimal</pattern>
       <pattern>apparmor</pattern>
-      <pattern>base</pattern>
     </patterns>
   </software>
   <timezone>
