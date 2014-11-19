@@ -612,8 +612,15 @@
       <package>adaptec-firmware</package>
       <package>atmel-firmware</package>
       <package>augeas-lenses</package>
+      <package>bash-completion</package>
+      <package>bash-doc</package>
+      <package>cifs-utils</package>
+      <package>cups-libs</package>
       <package>ipw-firmware</package>
       <package>mpt-firmware</package>
+      <package>postfix</package>
+      <package>samba-libs</package>
+      <package>ucode-intel</package>
     </remove-packages>
   </software>
   <timezone>
