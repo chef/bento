@@ -128,6 +128,7 @@
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
+        "scripts/sles/unsupported-modules.sh",
         "scripts/sles/sudoers.sh",
         "scripts/sles/zypper-locks.sh",
         "scripts/sles/remove-dvd-source.sh",
