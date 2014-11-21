@@ -6,3 +6,5 @@ wget --no-check-certificate \
     -O ~vagrant/.ssh/authorized_keys
 chown -R vagrant ~vagrant/.ssh
 chmod -R go-rwsx ~vagrant/.ssh
+
+rsync -avP --delete --no-o --no-g ~vagrant/.ssh/ ~root/.ssh
