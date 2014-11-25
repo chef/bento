@@ -1,11 +1,10 @@
 #!/bin/sh
 
 freebsd_major=`uname -r | awk -F. '{ print $1 }'`
+pkg_command="pkg install -y"
 if [ $freebsd_major -gt 9 ]; then
-  pkg_command="pkg install -y"
   perl_pkg="perl5"
 else
-  pkg_command="pkg_add -r"
   perl_pkg="perl"
 fi
 
