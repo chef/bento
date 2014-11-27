@@ -156,15 +156,10 @@
       <pattern>minimal_base</pattern>
     </patterns>
     <remove-packages config:type="list">
-      <package>augeas-lenses</package>
       <package>bash-completion</package>
-      <package>bash-doc</package>
-      <package>exim</package>
-      <package>kexec-tools</package>
       <package>telnet</package>
       <package>virtualbox-guest-kmp-default</package>
       <package>virtualbox-guest-tools</package>
-      <package>wireless-regdb</package>
     </remove-packages>
   </software>
   <services-manager>
