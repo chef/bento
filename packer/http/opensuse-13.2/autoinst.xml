@@ -142,6 +142,7 @@
       <package>gcc</package>
       <package>make</package>
       <package>sudo</package>
+      <package>rsyslog</package>
       <package>yast2</package>
       <package>yast2-firstboot</package>
       <package>zypper</package>
@@ -162,29 +163,16 @@
       <package>virtualbox-guest-tools</package>
     </remove-packages>
   </software>
-
-  <runlevel>
-    <services config:type="list">
-      <service>
-        <service_name>sshd</service_name>
-        <service_start>3 5</service_start>
-      </service>
+  <services-manager>
+    <default_target>graphical</default_target>
+    <services>
+      <disable config:type="list"/>
+      <enable config:type="list">
+        <service>rsyslog</service>
+        <service>sshd</service>
+      </enable>
     </services>
-  </runlevel>
-
-  <scripts>
-    <init-scripts config:type="list">
-      <script>
-        <debug config:type="boolean">true</debug>
-        <filename>restart_sshd.sh</filename>
-        <interpreter>shell</interpreter>
-        <source><![CDATA[#!/bin/bash
-systemctl restart sshd
-]]></source>
-      </script>
-    </init-scripts>
-  </scripts>
-
+  </services-manager>
   <groups config:type="list">
     <group>
       <gid>100</gid>
@@ -192,7 +180,6 @@ systemctl restart sshd
       <userlist/>
     </group>
   </groups>
-
   <user_defaults>
     <expire/>
     <group>100</group>
