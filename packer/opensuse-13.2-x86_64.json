@@ -73,7 +73,7 @@
     {
       "boot_command": [
         "<esc><enter><wait>",
-        "linux netsetup=dhcp install=cd:/<wait>",
+        "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
         " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse-13.2/autoinst.xml<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
