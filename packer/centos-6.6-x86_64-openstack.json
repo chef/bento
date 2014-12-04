@@ -1,0 +1,50 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks-openstack.cfg<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "10s",
+      "disk_size": 2048,
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "2560335ef975907799251ae9d6a0fa2e4d289704",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/6.6/isos/x86_64/CentOS-6.6-x86_64-netinstall.iso",
+      "output_directory": "packer-centos-6.6-x86_64-openstack",
+      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemu_binary": "qemu-kvm",
+      "shutdown_command": "echo 'centos'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "centos",
+      "ssh_port": 22,
+      "ssh_username": "centos",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-centos-6.6-x86_64"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "echo 'centos' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "scripts/centos/osuosl.sh",
+        "scripts/centos/fix-slow-dns.sh",
+        "scripts/common/sshd.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/centos/openstack.sh",
+        "scripts/centos/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://centos.osuosl.org"
+  }
+}
