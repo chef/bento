@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-yum -y cloud-init cloud-utils dracut-modules-growroot
+yum -y install cloud-init cloud-utils dracut-modules-growroot
 dracut -f
 
 sed -i -e \
