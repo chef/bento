@@ -38,6 +38,7 @@
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
         "scripts/common/ganeti.sh",
+        "scripts/centos/ganeti-centos-7.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
