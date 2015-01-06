@@ -5,6 +5,9 @@ yum -y clean all
 rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
 rm -f /tmp/chef*rpm
 
+# Remove EPEL remove if it exists
+yum -y remove epel-release
+
 # clean up redhat interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules
 if [ -r /etc/sysconfig/network-scripts/ifcfg-eth0 ]; then
