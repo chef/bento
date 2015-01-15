@@ -117,6 +117,7 @@
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
         "scripts/common/vagrant.sh",
+        "scripts/fedora/sudoers.sh",
         "scripts/fedora/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
