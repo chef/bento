@@ -6,7 +6,7 @@
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Chef Software, Inc. for
-testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](https://supermarket.getchef.com/users/chef)
+testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef)
 via [test-kitchen](http://kitchen.ci/).
 
 This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the [CHEF Release Engineering OSS Management Guide](https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit).
@@ -171,18 +171,18 @@ make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
 
-- Author: Seth Chisamore (<schisamo@getchef.com>)
-- Author: Stephen Delano (<stephen@getchef.com>)
-- Author: Joshua Timberman (<joshua@getchef.com>)
+- Author: Seth Chisamore (<schisamo@chef.io>)
+- Author: Stephen Delano (<stephen@chef.io>)
+- Author: Joshua Timberman (<joshua@chef.io>)
 - Author: Tim Dysinger (<tim@dysinger.net>)
 - Author: Chris McClimans (<chris@hippiehacker.org>)
-- Author: Julian Dunn (<jdunn@getchef.com>)
-- Author: Tom Duffield (<tom@getchef.com>)
+- Author: Julian Dunn (<jdunn@chef.io>)
+- Author: Tom Duffield (<tom@chef.io>)
 - Author: Ross Timson (<ross@rosstimson.com>)
 - Author: Fletcher Nichol (<fnichol@nichol.ca>)
 
 ```text
-Copyright 2012-2014, Chef Software, Inc. (<legal@getchef.com>)
+Copyright 2012-2014, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
