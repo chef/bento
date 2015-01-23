@@ -1,8 +1,8 @@
 # Bento
 
-[![Build Status](http://img.shields.io/travis/opscode/bento.svg)][travis]
+[![Build Status](http://img.shields.io/travis/chef/bento.svg)][travis]
 
-[travis]: https://travis-ci.org/opscode/bento
+[travis]: https://travis-ci.org/chef/bento
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Chef Software, Inc. for
