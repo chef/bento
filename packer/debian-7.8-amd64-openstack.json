@@ -1,7 +1,7 @@
 {
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://debian.osuosl.org/debian-cd"
+    "mirror": "http://debian.osuosl.org/debian-cdimage"
   },
   "builders": [
     {
