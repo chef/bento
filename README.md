@@ -70,6 +70,8 @@ these boxes. Using `--provider vmware_fusion`, will not.
 * [opscode-debian-7.7](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.7_chef-provisionerless.box)
 * [opscode-fedora-20-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20-i386_chef-provisionerless.box)
 * [opscode-fedora-20](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20_chef-provisionerless.box)
+* [opscode-fedora-21-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21-i386_chef-provisionerless.box)
+* [opscode-fedora-21](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21_chef-provisionerless.box)
 * [opscode-freebsd-9.3-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3-i386_chef-provisionerless.box)
 * [opscode-freebsd-9.3](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3_chef-provisionerless.box)
 * [opscode-freebsd-10.1](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.1_chef-provisionerless.box)
