@@ -76,7 +76,7 @@
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "tools_upload_flavor": "linux",
-      "vm_name": "packer-debian-7.7-amd64",
+      "vm_name": "packer-debian-7.8-amd64",
       "output_directory": "packer-debian-7.8-amd64-vmware",
       "vmx_data": {
         "memsize": "384",
