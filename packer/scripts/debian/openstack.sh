@@ -21,10 +21,9 @@ rm -f /etc/cloud/cloud.cfg.d/90_dpkg.cfg
 
 # change GRUB so log tab and console tab in openstack work
 if [ -e /etc/default/grub ] ; then
-  sed -i -e 's/quiet/console=ttyS0,115200n8 console=tty0 quiet/' \
+  sed -i -e 's/quiet/console=tty0 console=ttyS0,115200n8 quiet/' \
     /etc/default/grub
   sed -i -e 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' /etc/default/grub
-  sed -i -e 's/#GRUB_TERMINAL.*/GRUB_TERMINAL=console/' /etc/default/grub
   update-grub
 fi
 
