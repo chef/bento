@@ -16,6 +16,9 @@ datasource:
      max_wait: 10 # (defaults to 120 seconds)
 EOF
 
+# Remove default datasource_list
+rm -f /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+
 # change GRUB so log tab and console tab in openstack work
 if [ -e /etc/default/grub ] ; then
   sed -i -e 's/quiet/console=ttyS0,115200n8 console=tty0 quiet/' \
