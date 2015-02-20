@@ -4,10 +4,17 @@ apt-get -y remove isc-dhcp-client
 apt-get -y install pump cloud-utils cloud-init cloud-initramfs-growroot \
   bash-completion
 
-# use our specific config
-#mv -f /tmp/cloud.cfg /etc/cloud/cloud.cfg
-# remove distro installed package to ensure Ec2 is only enabled
-#rm -f /etc/cloud/cloud.cfg.d/90_*
+# Speed up cloud-init by only using Ec2 and a specific metadata url
+cat >> /etc/cloud/cloud.cfg << EOF
+
+# Force only Ec2 being enabled
+datasource_list: ['Ec2']
+datasource:
+   Ec2:
+     metadata_urls: [ 'http://169.254.169.254' ]
+     timeout: 5 # (defaults to 50 seconds)
+     max_wait: 10 # (defaults to 120 seconds)
+EOF
 
 # change GRUB so log tab and console tab in openstack work
 if [ -e /etc/default/grub ] ; then
