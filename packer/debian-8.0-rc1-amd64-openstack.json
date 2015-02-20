@@ -36,7 +36,7 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'debian'|sudo -S /sbin/shutdown -hP now",
-      "vm_name": "packer-debian-7.8-amd64",
+      "vm_name": "packer-debian-8.0-rc1-amd64",
       "output_directory": "packer-debian-8.0-rc1-amd64-openstack",
       "qemuargs": [ [ "-m", "1024m" ] ],
       "qemu_binary": "qemu-kvm"
