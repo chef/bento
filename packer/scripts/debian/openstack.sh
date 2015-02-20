@@ -3,6 +3,7 @@
 apt-get -y remove isc-dhcp-client
 apt-get -y install pump cloud-utils cloud-init cloud-initramfs-growroot \
   bash-completion
+apt-get -y remove gcc-4.8 cpp-4.9
 
 # Speed up cloud-init by only using Ec2 and a specific metadata url
 cat >> /etc/cloud/cloud.cfg << EOF
