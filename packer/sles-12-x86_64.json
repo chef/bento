@@ -12,6 +12,7 @@
       "disk_size": 20480,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "OpenSUSE_64",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
       "iso_checksum": "58086fca0441b1d44c7a51c5ee64e1bd4365466fcee48ec92c4f39d07739aeed",
       "iso_checksum_type": "sha256",

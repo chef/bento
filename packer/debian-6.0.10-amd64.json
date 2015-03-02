@@ -27,6 +27,7 @@
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Debian_64",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
       "iso_checksum": "f3e70528664f174a121b26491c59cd66daaf8274",
       "iso_checksum_type": "sha1",
