@@ -8,6 +8,7 @@
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Fedora",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
       "iso_checksum": "284ea30ddd50db1b30cd5cd9fae7495dad8714ef1e4428d69a8c8ce80e03b6a9",
       "iso_checksum_type": "sha256",

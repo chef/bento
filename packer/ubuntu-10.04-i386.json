@@ -29,6 +29,7 @@
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Ubuntu",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
       "iso_checksum": "5695d8b6b914269d1374ac8d4c3dd3786e92d3fe",
       "iso_checksum_type": "sha1",

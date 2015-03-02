@@ -8,6 +8,7 @@
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "RedHat",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
       "iso_checksum": "d16aa4a8e6f71fb01fcc26d8ae0e3443ed514c8e",
       "iso_checksum_type": "sha1",
