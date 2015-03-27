@@ -1,7 +1,6 @@
 install_type initial_install
 system_type standalone
-filesys any 5000 /
-filesys any 5000 /opt
+pool rpool 16g 2g 2g any
 cluster SUNWCrnet add
 package SUNWwgetr add
 package SUNWwgetu add
@@ -11,13 +10,21 @@ package SUNWgssc add
 package SUNWsshdr add
 package SUNWsshdu add
 package SUNWsshcu add
-package SUNWPython add
+package SUNWsshr add
+package SUNWsshu add
 package SUNWgcmn add
 package SUNWuiu8 add
 package SUNWbash add
-package SUNWtoo add
-# minimal support for build environment
 package SUNWarc add
 package SUNWhea add
 package SUNWlibm add
 package SUNWscpu add
+package SUNWlibm
+package SUNWlibmr
+package SUNWlibms
+package SUNWlibmsr
+package SUNWggrp
+package SUNWscpr
+package SUNWscpu
+package SUNWgcc
+package SUNWgccruntime

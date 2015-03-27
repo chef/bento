@@ -8,9 +8,8 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "/opt/csw/bin/sudo {{.Path}}",
+      "execute_command": "/usr/local/bin/sudo {{.Path}}",
       "scripts": [
-        "scripts/solaris10/post_install.sh",
         "scripts/solaris10/vmtools.sh",
         "scripts/solaris10/minimize.sh"
       ]
@@ -36,7 +35,7 @@
         "floppy/solaris10/finish.sh"
       ],
       "boot_wait": "5s",
-      "disk_size": 15360,
+      "disk_size": 20000,
       "guest_os_type": "Solaris_64",
       "http_directory": "http/solaris-10",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
@@ -46,7 +45,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "50000s",
-      "shutdown_command": "/opt/csw/bin/sudo /usr/sbin/init 5",
+      "shutdown_command": "/usr/local/bin/sudo /usr/sbin/init 5",
       "shutdown_timeout": "10m",
       "guest_additions_mode": "upload",
       "virtualbox_version_file": ".vbox_version",
@@ -86,7 +85,7 @@
         "floppy/solaris10/finish.sh"
       ],
       "boot_wait": "5s",
-      "disk_size": 15360,
+      "disk_size": 20000,
       "guest_os_type": "solaris10-64",
       "http_directory": "http/solaris-10",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
@@ -96,7 +95,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "50000s",
-      "shutdown_command": "/opt/csw/bin/sudo /usr/sbin/init 5",
+      "shutdown_command": "/usr/local/bin/sudo /usr/sbin/init 5",
       "shutdown_timeout": "10m",
       "vm_name": "packer-solaris-10u11-x86_64",
       "output_directory": "packer-solaris-10u11-x86_64-vmware",
