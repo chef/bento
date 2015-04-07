@@ -1,12 +1,12 @@
 # Bento
 
-[![Build Status](http://img.shields.io/travis/opscode/bento.svg)][travis]
+[![Build Status](http://img.shields.io/travis/chef/bento.svg)][travis]
 
-[travis]: https://travis-ci.org/opscode/bento
+[travis]: https://travis-ci.org/chef/bento
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
 [Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Chef Software, Inc. for
-testing Hosted Enterprise Chef, Private Enterprise Chef and our open source [cookbooks](https://supermarket.getchef.com/users/chef)
+testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef)
 via [test-kitchen](http://kitchen.ci/).
 
 This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the [CHEF Release Engineering OSS Management Guide](https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit).
@@ -31,8 +31,6 @@ These baseboxes were all built using a Mac OS X host running VirtualBox 4.3.16, 
 * [opscode-debian-6.0.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10_chef-provisionerless.box)
 * [opscode-debian-7.7-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.7-i386_chef-provisionerless.box)
 * [opscode-debian-7.7](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.7_chef-provisionerless.box)
-* [opscode-fedora-19-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19-i386_chef-provisionerless.box)
-* [opscode-fedora-19](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19_chef-provisionerless.box)
 * [opscode-fedora-20-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20-i386_chef-provisionerless.box)
 * [opscode-fedora-20](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20_chef-provisionerless.box)
 * [opscode-freebsd-9.3-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3-i386_chef-provisionerless.box)
@@ -68,8 +66,6 @@ these boxes. Using `--provider vmware_fusion`, will not.
 * [opscode-debian-6.0.10](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.10_chef-provisionerless.box)
 * [opscode-debian-7.7-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.7-i386_chef-provisionerless.box)
 * [opscode-debian-7.7](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.7_chef-provisionerless.box)
-* [opscode-fedora-19-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-19-i386_chef-provisionerless.box)
-* [opscode-fedora-19](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-19_chef-provisionerless.box)
 * [opscode-fedora-20-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20-i386_chef-provisionerless.box)
 * [opscode-fedora-20](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-20_chef-provisionerless.box)
 * [opscode-freebsd-9.3-i386](http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3-i386_chef-provisionerless.box)
@@ -175,18 +171,18 @@ make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
 
-- Author: Seth Chisamore (<schisamo@getchef.com>)
-- Author: Stephen Delano (<stephen@getchef.com>)
-- Author: Joshua Timberman (<joshua@getchef.com>)
+- Author: Seth Chisamore (<schisamo@chef.io>)
+- Author: Stephen Delano (<stephen@chef.io>)
+- Author: Joshua Timberman (<joshua@chef.io>)
 - Author: Tim Dysinger (<tim@dysinger.net>)
 - Author: Chris McClimans (<chris@hippiehacker.org>)
-- Author: Julian Dunn (<jdunn@getchef.com>)
-- Author: Tom Duffield (<tom@getchef.com>)
+- Author: Julian Dunn (<jdunn@chef.io>)
+- Author: Tom Duffield (<tom@chef.io>)
 - Author: Ross Timson (<ross@rosstimson.com>)
 - Author: Fletcher Nichol (<fnichol@nichol.ca>)
 
 ```text
-Copyright 2012-2014, Chef Software, Inc. (<legal@getchef.com>)
+Copyright 2012-2014, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");

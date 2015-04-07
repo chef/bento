@@ -2,17 +2,17 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-21/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Fedora_64",
       "http_directory": "http",
-      "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
+      "iso_checksum": "a6a2e83bb409d6b8ee3072ad07faac0a54d79c9ecbe3a40af91b773e2d843d8e",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
-      "output_directory": "packer-fedora-19-x86_64-virtualbox",
+      "iso_url": "{{user `mirror`}}/releases/21/Server/x86_64/iso/Fedora-Server-DVD-x86_64-21.iso",
+      "output_directory": "packer-fedora-21-x86_64-virtualbox",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -34,20 +34,20 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-fedora-19-x86_64"
+      "vm_name": "packer-fedora-21-x86_64"
     },
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-21/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "fedora-64",
       "http_directory": "http",
-      "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
+      "iso_checksum": "a6a2e83bb409d6b8ee3072ad07faac0a54d79c9ecbe3a40af91b773e2d843d8e",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
-      "output_directory": "packer-fedora-19-x86_64-vmware",
+      "iso_url": "{{user `mirror`}}/releases/21/Server/x86_64/iso/Fedora-Server-DVD-x86_64-21.iso",
+      "output_directory": "packer-fedora-21-x86_64-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -55,7 +55,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "packer-fedora-19-x86_64",
+      "vm_name": "packer-fedora-21-x86_64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
@@ -64,17 +64,17 @@
     },
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-19/ks.cfg<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-21/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "parallels_tools_flavor": "lin",
       "guest_os_type": "fedora-core",
       "http_directory": "http",
-      "iso_checksum": "6e7e263e607cfcadc90ea2ef5668aa3945d9eca596485a7a1f8a9f2478cc7084",
+      "iso_checksum": "a6a2e83bb409d6b8ee3072ad07faac0a54d79c9ecbe3a40af91b773e2d843d8e",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/19/Fedora/x86_64/iso/Fedora-19-x86_64-DVD.iso",
-      "output_directory": "packer-fedora-19-x86_64-parallels",
+      "iso_url": "{{user `mirror`}}/releases/21/Server/x86_64/iso/Fedora-Server-DVD-x86_64-21.iso",
+      "output_directory": "packer-fedora-21-x86_64-parallels",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -96,13 +96,12 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "vm_name": "packer-fedora-19-x86_64"
+      "vm_name": "packer-fedora-21-x86_64"
     }
-
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_fedora-19_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/opscode_fedora-21_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
   ],
@@ -126,7 +125,7 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://mirrors.kernel.org/fedora"
+    "mirror": "http://download.fedoraproject.org/pub/fedora/linux"
   }
 }
 
