@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 if [ -e /usr/bin/dnf ] ; then
-  dnf -y install cloud-init cloud-utils
+  dnf -y install cloud-init cloud-utils yum
 else
   yum -y install cloud-init cloud-utils dracut-modules-growroot
 fi
