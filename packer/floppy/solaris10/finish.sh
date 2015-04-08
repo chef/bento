@@ -25,8 +25,8 @@ echo "      PS1='\$ '" >> /a/etc/profile
 echo "    fi" >> /a/etc/profile
 echo "  fi" >> /a/etc/profile
 echo "fi" >> /a/etc/profile
-echo "PATH=/opt/csw/bin:/usr/local/bin:/usr/sfw/bin:/usr/sbin:/usr/bin:\$PATH" >> /a/etc/profile
+echo "PATH=/usr/local/bin:/usr/sfw/bin:/usr/ccs/bin:/usr/sbin:/usr/bin:\$PATH" >> /a/etc/profile
 echo "export PATH" >> /a/etc/profile
 
-echo "PATH=/opt/csw/bin:/usr/local/bin:/usr/sfw/bin:/usr/sbin:/usr/bin" >> /a/etc/default/login
-echo "SUPATH=/opt/csw/bin:/usr/local/bin:/usr/sfw/bin:/usr/sbin:/usr/bin" >> /a/etc/default/login
+echo "PATH=/usr/local/bin:/usr/sfw/bin:/usr/ccs/bin:/usr/sbin:/usr/bin" >> /a/etc/default/login
+echo "SUPATH=/usr/local/bin:/usr/sfw/bin:/usr/ccs/bin:/usr/sbin:/usr/bin" >> /a/etc/default/login
