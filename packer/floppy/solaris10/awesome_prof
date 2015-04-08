@@ -28,3 +28,6 @@ package SUNWscpr
 package SUNWscpu
 package SUNWgcc
 package SUNWgccruntime
+package SUNWgtar
+package SUNWtoo
+package SUNWgmake

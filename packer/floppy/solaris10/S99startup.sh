@@ -19,7 +19,7 @@ perl -pi -e 's/vagrant:UP/vagrant:VrvarmJYR3SHs/g' /etc/shadow
 # defaults to a locked account, unlock it
 passwd -u vagrant
 
-echo "vagrant user created Installed" >> /tmp/s99log
+echo "vagrant user created" >> /tmp/s99log
 
 # set up ssh
 mkdir /home/vagrant/.ssh
