@@ -30,4 +30,5 @@ if [ -e /usr/lib/systemd/system/cloud-init.service ] ; then
   FILE=/usr/lib/systemd/system/cloud-init.service
   sed -i '/^Wants/s/$/ sshd.service/' $FILE
   grep -q Before $FILE && sed -i '/Before/s/$/ sshd.service/' $FILE ||  sed -i '/\[Unit\]/aBefore=sshd.service' $FILE
+  systemctl enable cloud-init
 fi
