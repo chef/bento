@@ -20,7 +20,8 @@
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
       "vm_name": "packer-fedora-22-x86_64"
-    },
+    }
+  ],
   "provisioners": [
     {
       "environment_vars": [
