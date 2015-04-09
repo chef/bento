@@ -1,5 +1,8 @@
 #!/bin/bash -eux
 
+# Install growpart
+yum -y install cloud-utils-growpart
+
 # Install denyhosts from our local repo
 yum -y install http://packages.osuosl.org/repositories/centos-7/osl/x86_64/denyhosts-2.6-19.el7.centos.noarch.rpm
 chkconfig denyhosts on
