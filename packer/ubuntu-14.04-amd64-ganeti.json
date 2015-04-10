@@ -31,7 +31,7 @@
       "headless": true,
       "http_directory": "http",
       "iso_checksum": "8acd2f56bfcba2f7ac74a7e4a5e565ce68c024c38525c0285573e41c86ae90c0",
-      "iso_checksum_type": "sha1",
+      "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/14.04/ubuntu-14.04.2-server-amd64.iso",
       "output_directory": "packer-ubuntu-14.04-amd64-ganeti",
       "qemuargs": [ [ "-m", "1024m" ] ],
