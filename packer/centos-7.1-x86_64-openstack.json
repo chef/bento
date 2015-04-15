@@ -11,7 +11,7 @@
       "http_directory": "http",
       "iso_checksum": "498bb78789ddc7973fe14358822eb1b48521bbaca91c17bd132c7f8c903d79b3",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/7.1.1503/isos/x86_64/CentOS-7.1-x86_64-NetInstall-1503.iso",
+      "iso_url": "{{user `mirror`}}/7.1.1503/isos/x86_64/CentOS-7-x86_64-NetInstall-1503.iso",
       "output_directory": "packer-centos-7.1-x86_64-openstack",
       "qemuargs": [ [ "-m", "1024m" ] ],
       "qemu_binary": "qemu-kvm",
