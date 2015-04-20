@@ -4,8 +4,12 @@
 yum -y install cloud-init cloud-utils-growpart
 chkconfig cloud-init on
 
-# Install denyhosts from our local repo
-yum -y install http://packages.osuosl.org/repositories/centos-7/osl/x86_64/denyhosts-2.6-19.el7.centos.noarch.rpm
+if -n "$(grep \'CentOS Linux release 6\' /etc/redhat-release)" ; then
+  yum -y install denyhosts
+else
+  # Install denyhosts from our local repo
+  yum -y install http://packages.osuosl.org/repositories/centos-7/osl/x86_64/denyhosts-2.6-19.el7.centos.noarch.rpm
+fi
 chkconfig denyhosts on
 sed -i -e 's/^PURGE_DENY.*/PURGE_DENY = 5d/' /etc/denyhosts.conf
 
