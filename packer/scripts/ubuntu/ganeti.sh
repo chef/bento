@@ -3,7 +3,7 @@
 # Install growpart
 apt-get -y install cloud-guest-utils cloud-init
 
-if "$(lsb_release -rs)" == '12.04' ; then
+if [ "$(lsb_release -rs)" == "12.04" ] ; then
     apt-get -y install denyhosts
 else
   # Install denyhosts from our local repo since its not included
