@@ -3,10 +3,14 @@
 # Install growpart
 apt-get -y install cloud-guest-utils cloud-init
 
-# Install denyhosts from our local repo
-wget -q -O - \
-  http://packages.osuosl.org/repositories/denyhosts/denyhosts_2.6-10_all.deb | \
-  dpkg -y --install -
+if "$(lsb_release -rs)" == '12.04' ; then
+    apt-get -y install denyhosts
+else
+  # Install denyhosts from our local repo since its not included
+  wget -q -O - \
+    http://packages.osuosl.org/repositories/denyhosts/denyhosts_2.6-10_all.deb | \
+    dpkg -y --install -
+fi
 
 #chkconfig denyhosts on
 sed -i -e 's/^PURGE_DENY.*/PURGE_DENY = 5d/' /etc/denyhosts.conf
