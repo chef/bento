@@ -4,7 +4,7 @@
 yum -y install cloud-init cloud-utils-growpart
 chkconfig cloud-init on
 
-if -n "$(grep \'CentOS Linux release 6\' /etc/redhat-release)" ; then
+if -n "$(grep \'CentOS release 6\' /etc/redhat-release)" ; then
   yum -y install denyhosts
 else
   # Install denyhosts from our local repo
