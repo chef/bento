@@ -13,9 +13,17 @@ fi
 chkconfig denyhosts on
 sed -i -e 's/^PURGE_DENY.*/PURGE_DENY = 5d/' /etc/denyhosts.conf
 
-# No timeout for grub menu
-sed -i -e 's/^GRUB_TIMEOUT.*/GRUB_TIMEOUT=0/' /etc/default/grub
-# No fancy boot screen
-grep -q rhgb /etc/default/grub && sed -e 's/rhgb //' /etc/default/grub
-# Write out the config
-grub2-mkconfig -o /boot/grub2/grub.cfg
+if [ -e /etc/default/grub ] ; then
+  # No timeout for grub menu
+  sed -i -e 's/^GRUB_TIMEOUT.*/GRUB_TIMEOUT=0/' /etc/default/grub
+  # No fancy boot screen
+  grep -q rhgb /etc/default/grub && sed -e 's/rhgb //' /etc/default/grub
+  # Write out the config
+  grub2-mkconfig -o /boot/grub2/grub.cfg
+else
+  # No timeout for grub menu
+  sed -i -e 's/^timeout.*/timeout=0/' /boot/grub/grub.conf
+  # No fancy boot screen
+  grep -q rhgb /boot/grub/grub.conf && \
+    sed -i -e 's/rhgb //' /boot/grub/grub.conf
+fi
