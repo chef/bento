@@ -5,7 +5,7 @@ apt-get -y install cloud-init
 apt-get -y remove landscape-common
 
 if [ "$(lsb_release -rs)" == "12.04" ] ; then
-    apt-get -y install denyhosts cloud-utils
+    apt-get -y install denyhosts cloud-utils cloud-initramfs-growroot
 else
   apt-get -y install cloud-guest-utils
   # Install denyhosts from our local repo since its not included
