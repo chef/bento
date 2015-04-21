@@ -2,6 +2,7 @@
 
 # Install growpart
 apt-get -y install cloud-guest-utils cloud-init
+apt-get -y remove resolvconf
 
 if [ "$(lsb_release -rs)" == "12.04" ] ; then
     apt-get -y install denyhosts
