@@ -5,7 +5,8 @@ yum -y install cloud-init cloud-utils-growpart
 chkconfig cloud-init on
 
 if [ -n "$(grep "CentOS release 6" /etc/redhat-release)" ] ; then
-  yum -y install denyhosts
+  yum -y install denyhosts dracut-modules-growroot
+  dracut -f
 else
   # Install denyhosts from our local repo
   yum -y install http://packages.osuosl.org/repositories/centos-7/osl/x86_64/denyhosts-2.6-19.el7.centos.noarch.rpm
