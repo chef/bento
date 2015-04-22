@@ -1,8 +1,16 @@
 #!/bin/bash -eux
 
 apt-get -y remove isc-dhcp-client
-apt-get -y install pump cloud-utils cloud-init cloud-initramfs-growroot \
-  denyhosts
+apt-get -y install pump cloud-utils cloud-init cloud-initramfs-growroot
+
+if [ "$(lsb_release -cs)" == "jessie" ] ; then
+  wget -q -O denyhosts.deb \
+    http://packages.osuosl.org/repositories/denyhosts/denyhosts_2.6-10_all.deb
+  dpkg -i denyhosts.deb
+  rm -f denyhosts.deb
+else
+  apt-get -y install denyhosts
+fi
 
 #chkconfig denyhosts on
 sed -i -e 's/^PURGE_DENY.*/PURGE_DENY = 5d/' /etc/denyhosts.conf
