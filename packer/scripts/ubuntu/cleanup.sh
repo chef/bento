@@ -14,7 +14,7 @@ dpkg --list | awk '{ print $2 }' | grep 'linux-image-3.*-generic' | grep -v `una
 dpkg --list | awk '{ print $2 }' | grep linux-source | xargs apt-get -y purge
 
 # delete development packages
-dpkg --list | awk '{ print $2 }' | grep -- '-dev$' | xargs apt-get -y purge
+dpkg --list | awk '{ print $2 }' | grep -- '-dev$' | grep -v python-dbus-dev | xargs apt-get -y purge
 
 # delete compilers and other development tools
 apt-get -y purge cpp gcc g++
