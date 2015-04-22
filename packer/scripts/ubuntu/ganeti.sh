@@ -15,9 +15,10 @@ if [ "$(lsb_release -rs)" == "12.04" ] ; then
 else
   apt-get -y install cloud-guest-utils
   # Install denyhosts from our local repo since its not included
-  wget -q -O - \
-    http://packages.osuosl.org/repositories/denyhosts/denyhosts_2.6-10_all.deb | \
-    dpkg -y --install -
+  wget -q -O denyhosts.deb
+    http://packages.osuosl.org/repositories/denyhosts/denyhosts_2.6-10_all.deb
+  dpkg -i denyhosts.deb
+  rm -f denyhosts.deb
 fi
 
 #chkconfig denyhosts on
