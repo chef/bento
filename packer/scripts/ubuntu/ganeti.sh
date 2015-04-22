@@ -8,9 +8,10 @@ if [ "$(lsb_release -rs)" == "12.04" ] ; then
   apt-get -y install denyhosts cloud-initramfs-growroot python-requests \
     software-properties-common python-prettytable python-serial python-jsonpatch
   # Install newer version of cloud-init which supports None data source
-  wget -q -O - \
-    https://launchpad.net/ubuntu/+archive/primary/+files/cloud-init_0.7.5-0ubuntu1.5_all.deb | \
-    dpkg -y --install -
+  wget -q -O cloud-init.deb \
+    https://launchpad.net/ubuntu/+archive/primary/+files/cloud-init_0.7.5-0ubuntu1.5_all.deb
+  dpkg -i cloud-init.deb
+  rm -f cloud-init.deb
 else
   apt-get -y install cloud-guest-utils
   # Install denyhosts from our local repo since its not included
