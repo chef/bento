@@ -1,0 +1,62 @@
+{
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://cdimage.debian.org/cdimage/"
+  },
+  "builders": [
+    {
+      "type": "qemu",
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian-8/preseed-openstack.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "netcfg/get_hostname={{ .Name }} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "10s",
+      "disk_size": 2048,
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "669fadb2e3112d177626bb573c49c1d513aea351",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/jessie_di_rc1/amd64/iso-cd/debian-jessie-DI-rc1-amd64-CD-1.iso",
+      "ssh_username": "debian",
+      "ssh_password": "debian",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'debian'|sudo -S /sbin/shutdown -hP now",
+      "vm_name": "packer-debian-8.0-rc1-amd64",
+      "output_directory": "packer-debian-8.0-rc1-amd64-openstack",
+      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemu_binary": "qemu-kvm"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "echo 'debian' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/debian/update.sh",
+        "scripts/common/sshd.sh",
+        "scripts/debian/networking.sh",
+        "scripts/debian/openstack.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/debian/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell",
+      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ]
+    }
+  ]
+}
