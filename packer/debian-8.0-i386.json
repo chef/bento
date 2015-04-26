@@ -1,7 +1,9 @@
 {
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://cdimage.debian.org/debian-cd"
+    "mirror": "http://cdimage.debian.org/debian-cd",
+    "iso_checksum": "a8101b2e4ef3bdc5051796eda91263c71c90eb90",
+    "iso_type": "CD-1"
   },
   "builders": [
     {
@@ -28,9 +30,9 @@
       "guest_os_type": "Debian",
       "hard_drive_interface": "sata",
       "http_directory": "http",
-      "iso_checksum": "5a3a023633552b2ceee0d34c541e840c0f7c50ff",
+      "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/8.0.0/i386/iso-cd/debian-8.0.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/8.0.0/i386/iso-cd/debian-8.0.0-i386-{{user `iso_type`}}.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -68,9 +70,9 @@
       "disk_size": 40960,
       "guest_os_type": "debian8",
       "http_directory": "http",
-      "iso_checksum": "5a3a023633552b2ceee0d34c541e840c0f7c50ff",
+      "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/8.0.0/i386/iso-cd/debian-8.0.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/8.0.0/i386/iso-cd/debian-8.0.0-i386-{{user `iso_type`}}.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -108,9 +110,9 @@
       "disk_size": 40960,
       "guest_os_type": "debian",
       "http_directory": "http",
-      "iso_checksum": "5a3a023633552b2ceee0d34c541e840c0f7c50ff",
+      "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/8.0.0/i386/iso-cd/debian-8.0.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/8.0.0/i386/iso-cd/debian-8.0.0-i386-{{user `iso_type`}}.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
