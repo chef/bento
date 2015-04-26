@@ -1,4 +1,8 @@
 {
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://cdimage.debian.org/cdimage/archive"
+  },
   "builders": [
     {
       "boot_command": [
