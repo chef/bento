@@ -1,7 +1,7 @@
 {
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://cdimage.debian.org/cdimage/"
+    "mirror": "http://debian.osuosl.org/debian-cdimage"
   },
   "builders": [
     {
@@ -28,16 +28,16 @@
       "disk_size": 2048,
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "669fadb2e3112d177626bb573c49c1d513aea351",
+      "iso_checksum": "5a3a023633552b2ceee0d34c541e840c0f7c50ff",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/jessie_di_rc1/amd64/iso-cd/debian-jessie-DI-rc1-amd64-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/8.0.0/amd64/iso-cd/debian-8.0.0-amd64-CD-1.iso",
       "ssh_username": "debian",
       "ssh_password": "debian",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'debian'|sudo -S /sbin/shutdown -hP now",
-      "vm_name": "packer-debian-8.0-rc1-amd64",
-      "output_directory": "packer-debian-8.0-rc1-amd64-openstack",
+      "vm_name": "packer-debian-8.0-amd64",
+      "output_directory": "packer-debian-8.0-amd64-openstack",
       "qemuargs": [ [ "-m", "1024m" ] ],
       "qemu_binary": "qemu-kvm"
     }
