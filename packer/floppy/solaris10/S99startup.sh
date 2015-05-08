@@ -19,6 +19,8 @@ perl -pi -e 's/vagrant:UP/vagrant:VrvarmJYR3SHs/g' /etc/shadow
 # defaults to a locked account, unlock it
 passwd -u vagrant
 
+echo "vagrant user created" >> /tmp/s99log
+
 # set up ssh
 mkdir /home/vagrant/.ssh
 /usr/sfw/bin/wget --no-check-certificate 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub' -O /home/vagrant/.ssh/authorized_keys
@@ -29,27 +31,26 @@ chmod -R go-rwsx /home/vagrant/.ssh
 echo GSSAPIAuthentication no >> /etc/ssh/sshd_config
 echo LookupClientHostnames no >> /etc/ssh/sshd_config
 
-# install pkgutil because yay
-/usr/sfw/bin/wget --no-check-certificate 'http://get.opencsw.org/now' -O /tmp/pkgutil.pkg
+echo "SSH Installed" >> /tmp/s99log
+
+# install omnibus-build-essential package
+cd /tmp
 echo "mail=\ninstance=overwrite\npartial=nocheck\nrunlevel=nocheck\nidepend=nocheck\nrdepend=nocheck\nspace=nocheck\nsetuid=nocheck\nconflict=nocheck\naction=nocheck\nbasedir=default" > /tmp/noask
-pkgadd -a /tmp/noask -d /tmp/pkgutil.pkg all
-rm -f /tmp/pkgutil.pkg
 
 # install sudo so that packer functions correctly
-/opt/csw/bin/pkgutil -U
-/opt/csw/bin/pkgutil -y -i sudo
-echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/opt/csw/sudoers
-echo "Defaults secure_path=/opt/csw/bin:/usr/sfw/bin:/usr/bin:/usr/sbin:/bin:/sbin"
-ln -s /opt/csw/bin/sudo /usr/bin/sudo
+# NOTE - LOOK HERE FIRST IF THE URL CHANGES!
+/usr/sfw/bin/wget http://www.sudo.ws/sudo/dist/packages/Solaris/10/TCMsudo-1.8.13-i386.pkg.gz
+gunzip TCMsudo-1.8.13-i386.pkg.gz
+pkgadd -a /tmp/noask -d TCMsudo-1.8.13-i386.pkg all
+echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "Defaults secure_path=/usr/local/bin:/usr/sfw/bin:/usr/ccs/bin:/usr/sbin:/usr/bin:/bin:/sbin" >> /etc/sudoers
 
-# install scp so packer can copy stuff
-/opt/csw/bin/pkgutil -y -i openssh_client
-
-# add the /opt/csw/lib libraries to the library path the nice way
-crle -u -l /lib:/usr/lib:/opt/csw/lib
+echo "sudo Installed" >> /tmp/s99log
 
 # reenable ssh because we should be good to go now
 svcadm enable network/ssh
 
 # delete ourself!
 rm /etc/rc2.d/S99startup.sh
+
+echo "Successfully Finished" >> /tmp/s99log

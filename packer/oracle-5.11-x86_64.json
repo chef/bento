@@ -8,6 +8,7 @@
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Oracle_64",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
       "iso_checksum": "8af2121088c7e6f5ebdb6d5900403240",
       "iso_checksum_type": "md5",

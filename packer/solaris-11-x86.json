@@ -2,7 +2,7 @@
   "variables": {
     "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
     "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
-    "mirror": "http://myserver OR ./packer_cache",
+    "mirror": "./packer_cache",
     "chef_version": "provisionerless"
   },
   "provisioners": [

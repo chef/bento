@@ -26,10 +26,11 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "Debian",
+      "hard_drive_interface": "sata",
       "http_directory": "http",
-      "iso_checksum": "ca22b069189ab6b7a1f931ee64c7a2a81ac73c99",
+      "iso_checksum": "d87664e590f39aba725ec9705dc58a8c75417fef",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.7.0/i386/iso-cd/debian-7.7.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.8.0/i386/iso-cd/debian-7.8.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -37,8 +38,8 @@
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-debian-7.7-i386",
-      "output_directory": "packer-debian-7.7-i386-virtualbox",
+      "vm_name": "packer-debian-7.8-i386",
+      "output_directory": "packer-debian-7.8-i386-virtualbox",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "384" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
@@ -65,19 +66,19 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "debian5",
+      "guest_os_type": "debian7",
       "http_directory": "http",
-      "iso_checksum": "ca22b069189ab6b7a1f931ee64c7a2a81ac73c99",
+      "iso_checksum": "d87664e590f39aba725ec9705dc58a8c75417fef",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.7.0/i386/iso-cd/debian-7.7.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.8.0/i386/iso-cd/debian-7.8.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "tools_upload_flavor": "linux",
-      "vm_name": "packer-debian-7.7-i386",
-      "output_directory": "packer-debian-7.7-i386-vmware",
+      "vm_name": "packer-debian-7.8-i386",
+      "output_directory": "packer-debian-7.8-i386-vmware",
       "vmx_data": {
         "memsize": "384",
         "numvcpus": "1",
@@ -107,9 +108,9 @@
       "disk_size": 40960,
       "guest_os_type": "debian",
       "http_directory": "http",
-      "iso_checksum": "ca22b069189ab6b7a1f931ee64c7a2a81ac73c99",
+      "iso_checksum": "d87664e590f39aba725ec9705dc58a8c75417fef",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/7.7.0/i386/iso-cd/debian-7.7.0-i386-CD-1.iso",
+      "iso_url": "{{user `mirror`}}/7.8.0/i386/iso-cd/debian-7.8.0-i386-CD-1.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -117,8 +118,8 @@
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "parallels_tools_flavor": "lin",
       "prlctl_version_file": ".prlctl_version",
-      "vm_name": "packer-debian-7.7-i386",
-      "output_directory": "packer-debian-7.7-i386-parallels",
+      "vm_name": "packer-debian-7.8-i386",
+      "output_directory": "packer-debian-7.8-i386-parallels",
       "prlctl": [
         [ "set", "{{.Name}}", "--memsize", "384" ],
         [ "set", "{{.Name}}", "--cpus", "1" ]
@@ -129,7 +130,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "../builds/{{.Provider}}/opscode_debian-7.7-i386_chef-{{user `chef_version`}}.box"
+      "output": "../builds/{{.Provider}}/opscode_debian-7.8-i386_chef-{{user `chef_version`}}.box"
     }
   ],
   "provisioners": [

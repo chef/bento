@@ -10,7 +10,10 @@ yum -y remove epel-release
 
 # clean up redhat interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules
-if [ -r /etc/sysconfig/network-scripts/ifcfg-eth0 ]; then
-  sed -i 's/^HWADDR.*$//' /etc/sysconfig/network-scripts/ifcfg-eth0
-  sed -i 's/^UUID.*$//' /etc/sysconfig/network-scripts/ifcfg-eth0
-fi
+
+for ndev in $(ls /etc/sysconfig/network-scripts/ifcfg-*); do
+  if [ "$(basename ${ndev})" != "ifcfg-lo" ]; then
+    sed -i '/^HWADDR/d' ${ndev}
+    sed -i '/^UUID/d' ${ndev}
+  fi
+done
