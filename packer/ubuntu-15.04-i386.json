@@ -1,6 +1,14 @@
 {
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://releases.ubuntu.com",
+    "locale": "en_US",
+    "language": "us",
+    "layout": "USA"
+  },
   "builders": [
     {
+      "type": "virtualbox-iso",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -8,16 +16,16 @@
         "/install/vmlinuz<wait>",
         " auto<wait>",
         " console-setup/ask_detect=false<wait>",
-        " console-setup/layoutcode=us<wait>",
+        " console-setup/layoutcode={{user `language`}}<wait>",
         " console-setup/modelcode=pc105<wait>",
         " debconf/frontend=noninteractive<wait>",
-        " debian-installer=en_US<wait>",
+        " debian-installer={{user `locale`}}<wait>",
         " fb=false<wait>",
         " initrd=/install/initrd.gz<wait>",
-        " kbd-chooser/method=us<wait>",
-        " keyboard-configuration/layout=USA<wait>",
-        " keyboard-configuration/variant=USA<wait>",
-        " locale=en_US<wait>",
+        " kbd-chooser/method={{user `language`}}<wait>",
+        " keyboard-configuration/layout={{user `layout`}}<wait>",
+        " keyboard-configuration/variant={{user `layout`}}<wait>",
+        " locale={{user `locale`}}<wait>",
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
@@ -59,6 +67,7 @@
       "vm_name": "packer-ubuntu-15.04-i386"
     },
     {
+      "type": "vmware-iso",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -66,16 +75,16 @@
         "/install/vmlinuz<wait>",
         " auto<wait>",
         " console-setup/ask_detect=false<wait>",
-        " console-setup/layoutcode=us<wait>",
+        " console-setup/layoutcode={{user `language`}}<wait>",
         " console-setup/modelcode=pc105<wait>",
         " debconf/frontend=noninteractive<wait>",
-        " debian-installer=en_US<wait>",
+        " debian-installer={{user `locale`}}<wait>",
         " fb=false<wait>",
         " initrd=/install/initrd.gz<wait>",
-        " kbd-chooser/method=us<wait>",
-        " keyboard-configuration/layout=USA<wait>",
-        " keyboard-configuration/variant=USA<wait>",
-        " locale=en_US<wait>",
+        " kbd-chooser/method={{user `language`}}<wait>",
+        " keyboard-configuration/layout={{user `layout`}}<wait>",
+        " keyboard-configuration/variant={{user `layout`}}<wait>",
+        " locale={{user `locale`}}<wait>",
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
@@ -92,10 +101,11 @@
       "iso_url": "{{user `mirror`}}/15.04/ubuntu-15.04-server-i386.iso",
       "output_directory": "packer-ubuntu-15.04-i386-vmware",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "shutdown_timeout": "1m",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "30m",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
       "vm_name": "packer-ubuntu-15.04-i386",
@@ -106,6 +116,7 @@
       }
     },
     {
+      "type": "parallels-iso",
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -113,16 +124,16 @@
         "/install/vmlinuz<wait>",
         " auto<wait>",
         " console-setup/ask_detect=false<wait>",
-        " console-setup/layoutcode=us<wait>",
+        " console-setup/layoutcode={{user `language`}}<wait>",
         " console-setup/modelcode=pc105<wait>",
         " debconf/frontend=noninteractive<wait>",
-        " debian-installer=en_US<wait>",
+        " debian-installer={{user `locale`}}<wait>",
         " fb=false<wait>",
         " initrd=/install/initrd.gz<wait>",
-        " kbd-chooser/method=us<wait>",
-        " keyboard-configuration/layout=USA<wait>",
-        " keyboard-configuration/variant=USA<wait>",
-        " locale=en_US<wait>",
+        " kbd-chooser/method={{user `language`}}<wait>",
+        " keyboard-configuration/layout={{user `layout`}}<wait>",
+        " keyboard-configuration/variant={{user `layout`}}<wait>",
+        " locale={{user `locale`}}<wait>",
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
@@ -189,9 +200,5 @@
       ],
       "type": "shell"
     }
-  ],
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://releases.ubuntu.com"
-  }
+  ]
 }
