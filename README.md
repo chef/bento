@@ -136,7 +136,7 @@ boxes yourself due to licensing constraints. You can build these as follows:
 These veewee definitions are lightly maintained. For other approaches to building Windows boxes, please see the following
 community projects:
 
-* [Mischa Taylor's basebox project](https://github.com/misheska/basebox-packer/)
+* [Mischa Taylor's Boxcutter project](https://github.com/boxcutter)
 * [Vagrant Windows Boxes and Puppet](https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes)
 
 ### Special Note About Building from Windows Hosts
