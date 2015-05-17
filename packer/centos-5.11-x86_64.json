@@ -98,6 +98,25 @@
       ],
       "prlctl_version_file": ".prlctl_version",
       "vm_name": "packer-centos-5.11-x86_64"
+    },
+    {
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-5.11/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "http_directory": "http",
+      "iso_checksum": "ebd77f2fdfac8da04f31c508905cf52aa62937cc",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/5.11/isos/x86_64/CentOS-5.11-x86_64-bin-DVD-1of2.iso",
+      "output_directory": "packer-centos-5.11-x86_64-qemu",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-centos-5.11-x86_64"
     }
 
 
