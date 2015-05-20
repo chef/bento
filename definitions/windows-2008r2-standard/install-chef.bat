@@ -1,1 +1,0 @@
-../.windows/install-chef.bat

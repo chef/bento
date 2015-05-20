@@ -1,0 +1,200 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<enter><wait10><wait5>",
+        "1<enter><wait10>",
+        "<wait10>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs>omnios-vagrant",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<f8><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "root<enter><wait><enter><wait5>",
+        "passwd<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "ipadm create-if e1000g0<enter><wait>",
+        "ipadm create-addr -T dhcp e1000g0/v4<enter><wait>",
+        "echo 'nameserver 8.8.8.8' > /etc/resolv.conf<enter><wait>",
+        "cp /etc/nsswitch.dns /etc/nsswitch.conf<enter><wait>",
+        "sed -i -e 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config<enter><wait>",
+        "svcadm restart ssh<enter><wait>"
+      ],
+      "boot_wait": "30s",
+      "disk_size": 40960,
+      "guest_os_type": "OpenSolaris_64",
+      "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151010j.iso",
+      "output_directory": "packer-omnios-r151010j-virtualbox",
+      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-omnios-r151010j"
+    },
+    {
+      "boot_command": [
+        "<enter><wait10><wait5>",
+        "1<enter><wait10>",
+        "<wait10>",
+        "<f2><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs>omnios-vagrant",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<f8><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "root<enter><wait><enter><wait5>",
+        "passwd<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "ipadm create-if e1000g0<enter><wait>",
+        "ipadm create-addr -T dhcp e1000g0/v4<enter><wait>",
+        "echo 'nameserver 8.8.8.8' > /etc/resolv.conf<enter><wait>",
+        "cp /etc/nsswitch.dns /etc/nsswitch.conf<enter><wait>",
+        "sed -i -e 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config<enter><wait>",
+        "svcadm restart ssh<enter><wait>"
+      ],
+      "boot_wait": "30s",
+      "disk_size": 40960,
+      "floppy_files": [
+        "floppy/omnios/README.TXT"
+      ],
+      "guest_os_type": "solaris11-64",
+      "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151010j.iso",
+      "output_directory": "packer-omnios-r151010j-vmware",
+      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "root",
+      "tools_upload_flavor": "solaris",
+      "type": "vmware-iso",
+      "vm_name": "packer-omnios-r151010j",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "1024",
+        "numvcpus": "1"
+      }
+    },
+    {
+      "boot_command": [
+        "<enter><wait10><wait5>",
+        "1<enter><wait10>",
+        "<wait10>",
+        "<f2><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs>omnios-vagrant",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<f2><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<f8><wait>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "root<enter><wait><enter><wait5>",
+        "passwd<enter><wait>",
+        "vagrant<enter><wait>",
+        "vagrant<enter><wait>",
+        "ipadm create-if e1000g0<enter><wait>",
+        "ipadm create-addr -T dhcp e1000g0/v4<enter><wait>",
+        "echo 'nameserver 8.8.8.8' > /etc/resolv.conf<enter><wait>",
+        "cp /etc/nsswitch.dns /etc/nsswitch.conf<enter><wait>",
+        "sed -i -e 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config<enter><wait>",
+        "svcadm restart ssh<enter><wait>"
+      ],
+      "boot_wait": "30s",
+      "disk_size": 40960,
+      "hard_drive_interface": "ide",
+      "guest_os_type": "opensolaris",
+      "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/OmniOS_Text_r151010j.iso",
+      "output_directory": "packer-omnios-r151010j-parallels",
+      "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "root",
+      "parallels_tools_mode": "disable",
+      "type": "parallels-iso",
+      "vm_name": "packer-omnios-r151010j",
+      "prlctl": [
+        [ "set", "{{.Name}}", "--memsize", "512" ],
+        [ "set", "{{.Name}}", "--cpus", "1" ]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": 9,
+      "output": "builds/{{.Provider}}/opscode_omnios-r151010j_chef-{{user `chef_version`}}.box",
+      "override": {
+        "parallels": {
+          "vagrantfile_template": "vagrantfile_templates/parallels/omnios.rb"
+        }
+      },
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "export {{.Vars}} \u0026\u0026 sh '{{.Path}}'",
+      "scripts": [
+        "scripts/omnios/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/omnios/postinstall.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://omnios.omniti.com/media"
+  }
+}
