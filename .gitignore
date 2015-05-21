@@ -6,3 +6,4 @@ packer_cache
 packer.log
 .DS_Store
 /packer-*/
+*.variables.json
