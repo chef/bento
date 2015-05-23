@@ -98,6 +98,25 @@
       ],
       "prlctl_version_file": ".prlctl_version",
       "vm_name": "packer-fedora-21-i386"
+    },
+    {
+      "boot_command": [
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-21/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "http_directory": "http",
+      "iso_checksum": "85e50a8a938996522bf1605b3578a2d6680362c1aa963d0560d59c2e4fc795ef",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/releases/21/Server/i386/iso/Fedora-Server-DVD-i386-21.iso",
+      "output_directory": "packer-fedora-21-i386-qemu",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-fedora-21-i386"
     }
 
   ],
