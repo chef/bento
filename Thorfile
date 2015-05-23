@@ -37,25 +37,22 @@ class Packer < Thor
 
 
   def build
-    Dir.chdir './packer' do
+    if options[:bits] 
+      processor = options[:bits] == "64" ? "{amd64,x86_64}" : "i386"
+    else
+      processor = "*"
+    end
 
-      if options[:bits] 
-        processor = options[:bits] == "64" ? "{amd64,x86_64}" : "i386"
-      else
-        processor = "*"
+    templates = Dir.glob("#{options[:os]}-#{options[:ver]}-#{processor}.json")
+
+    if options[:only]
+      templates.each do |template|
+        name = template.chomp(".json").split("-")
+        system "packer build -only=#{name[0]}-#{name[1]}-#{name[2]}-#{options[:only]} #{template}"
       end
-
-      templates = Dir.glob("#{options[:os]}-#{options[:ver]}-#{processor}.json")
-
-      if options[:only]
-        templates.each do |template|
-          name = template.chomp(".json").split("-")
-          system "packer build -only=#{name[0]}-#{name[1]}-#{name[2]}-#{options[:only]} #{template}"
-        end
-      else
-        templates.each do |template|
-          system "packer build #{template}"
-        end
+    else
+      templates.each do |template|
+        system "packer build #{template}"
       end
     end
   end
