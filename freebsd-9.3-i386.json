@@ -157,7 +157,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_freebsd-9.3-i386.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "override": {
         "parallels": {
           "vagrantfile_template": "vagrantfile_templates/parallels/freebsd.rb"
@@ -168,8 +168,14 @@
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/freebsd/postinstall.sh",
         "scripts/freebsd/vmtools.sh",
         "scripts/freebsd/cleanup.sh",
@@ -179,7 +185,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
+    "arch": "32",
+    "box_basename": "freebsd-9.3-i386",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
+    "name": "freebsd-9.3-i386",
+    "template": "freebsd-9.3-i386",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

@@ -180,7 +180,7 @@
   "post-processors": [
     {
       "compression_level": 9,
-      "output": "builds/{{.Provider}}/opscode_omnios-r151010j.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "override": {
         "parallels": {
           "vagrantfile_template": "vagrantfile_templates/parallels/omnios.rb"
@@ -191,9 +191,15 @@
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "export {{.Vars}} && sh '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/omnios/vmtools.sh",
         "scripts/omnios/postinstall.sh"
       ],
@@ -201,7 +207,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://omnios.omniti.com/media"
+    "arch": "64",
+    "box_basename": "omnios-r151010j",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://omnios.omniti.com/media",
+    "name": "omnios-r151010j",
+    "template": "omnios-r151010j",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

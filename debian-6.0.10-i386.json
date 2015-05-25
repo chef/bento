@@ -144,15 +144,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_debian-6.0.10-i386.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/debian/update.sh",
         "scripts/common/sshd.sh",
         "scripts/debian/networking.sh",
@@ -166,7 +172,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://cdimage.debian.org/cdimage/archive"
+    "arch": "32",
+    "box_basename": "debian-6.0.10-i386",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
+    "name": "debian-6.0.10-i386",
+    "template": "debian-6.0.10-i386",
+    "version": "2.0.TIMESTAMP"
   }
 }
 
