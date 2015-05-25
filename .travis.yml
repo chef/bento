@@ -5,3 +5,5 @@ before_install: wget --no-check-certificate https://dl.bintray.com/mitchellh/pac
 before_script: export PATH=$PATH:$PWD/packer
 
 script: bundle exec thor packer:validate
+
+sudo: false
