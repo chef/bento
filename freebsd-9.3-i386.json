@@ -110,15 +110,42 @@
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/i386/i386/ISO-IMAGES/9.3/FreeBSD-9.3-RELEASE-i386-disc1.iso",
       "output_directory": "packer-freebsd-9.3-i386-parallels",
+      "parallels_tools_mode": "disable",
       "prlctl": [
-        [ "set", "{{.Name}}", "--memsize", "512" ],
-        [ "set", "{{.Name}}", "--cpus", "1" ],
-        [ "set", "{{.Name}}", "--device-set", "cdrom0", "--iface", "ide" ],
-        [ "set", "{{.Name}}", "--device-del", "fdd0" ],
-        [ "set", "{{.Name}}", "--device-del", "parallel0" ]
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "512"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-set",
+          "cdrom0",
+          "--iface",
+          "ide"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "fdd0"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "parallel0"
+        ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "parallels_tools_mode": "disable",
       "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,

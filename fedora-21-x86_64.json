@@ -69,19 +69,13 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "parallels_tools_flavor": "lin",
       "guest_os_type": "fedora-core",
       "http_directory": "http",
       "iso_checksum": "a6a2e83bb409d6b8ee3072ad07faac0a54d79c9ecbe3a40af91b773e2d843d8e",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/21/Server/x86_64/iso/Fedora-Server-DVD-x86_64-21.iso",
       "output_directory": "packer-fedora-21-x86_64-parallels",
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
-      "type": "parallels-iso",
+      "parallels_tools_flavor": "lin",
       "prlctl": [
         [
           "set",
@@ -97,6 +91,12 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
       "vm_name": "packer-fedora-21-x86_64"
     }
   ],

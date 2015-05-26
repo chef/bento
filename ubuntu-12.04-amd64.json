@@ -132,19 +132,13 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "parallels_tools_flavor": "lin",
       "guest_os_type": "ubuntu",
       "http_directory": "http",
       "iso_checksum": "7540ace2d6cdee264432f5ed987236d32edef798",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/12.04.5/ubuntu-12.04.5-server-amd64.iso",
       "output_directory": "packer-ubuntu-12.04-amd64-parallels",
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
-      "type": "parallels-iso",
+      "parallels_tools_flavor": "lin",
       "prlctl": [
         [
           "set",
@@ -160,9 +154,14 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
       "vm_name": "packer-ubuntu-12.04-amd64"
     }
-
   ],
   "post-processors": [
     {
