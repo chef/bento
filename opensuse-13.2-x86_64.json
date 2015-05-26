@@ -109,6 +109,30 @@
       ],
       "prlctl_version_file": ".prlctl_version",
       "vm_name": "packer-opensuse-13.2-x86_64"
+    },
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse-13.2/autoinst.xml<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 20480,
+      "http_directory": "http",
+      "iso_checksum": "a1bd237ccfb07939953a9681607c99c00bc78d5d",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `mirror`}}/13.2/iso/openSUSE-13.2-DVD-x86_64.iso",
+      "output_directory": "packer-opensuse-13.2-x86_64-qemu",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "disk_interface": "scsi",
+      "vm_name": "packer-opensuse-13.2-x86_64"
     }
   ],
   "post-processors": [
