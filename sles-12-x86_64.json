@@ -110,6 +110,29 @@
       ],
       "prlctl_version_file": ".prlctl_version",
       "vm_name": "packer-sles-12-x86_64"
+    },
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles-12/sles-12-x86_64-autoinst.xml<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 20480,
+      "http_directory": "http",
+      "iso_checksum": "58086fca0441b1d44c7a51c5ee64e1bd4365466fcee48ec92c4f39d07739aeed",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/SLE-12-Server-DVD-x86_64-GM-DVD1.iso",
+      "output_directory": "packer-sles-12-x86_64-qemu",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-sles-12-x86_64"
     }
   ],
   "post-processors": [
