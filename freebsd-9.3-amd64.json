@@ -111,16 +111,43 @@
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/9.3/FreeBSD-9.3-RELEASE-amd64-disc1.iso",
       "output_directory": "packer-freebsd-9.3-amd64-parallels",
-      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "parallels_tools_mode": "disable",
       "prlctl": [
-        [ "set", "{{.Name}}", "--memsize", "512" ],
-        [ "set", "{{.Name}}", "--cpus", "1" ],
-        [ "set", "{{.Name}}", "--device-set", "cdrom0", "--iface", "ide" ],
-        [ "set", "{{.Name}}", "--device-del", "fdd0" ],
-        [ "set", "{{.Name}}", "--device-del", "parallel0" ]
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "512"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-set",
+          "cdrom0",
+          "--iface",
+          "ide"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "fdd0"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "parallel0"
+        ]
       ],
-      "prlctl_version_file": ".prlctl_version",      
+      "prlctl_version_file": ".prlctl_version",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",

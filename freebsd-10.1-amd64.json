@@ -1,25 +1,6 @@
 {
-  "variables": {
-    "chef_version": "provisionerless",
-    "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
-  },
-  "provisioners": [
-    {
-      "environment_vars": [ "CHEF_VERSION={{user `chef_version`}}" ],
-      "type": "shell",
-      "scripts": [
-        "scripts/freebsd/postinstall.sh",
-        "scripts/common/chef.sh",
-        "scripts/freebsd/cleanup.sh",
-        "scripts/freebsd/vmtools.sh",
-        "scripts/freebsd/minimize.sh"
-      ],
-      "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m"
-    }
-  ],
   "builders": [
     {
-      "type": "virtualbox-iso",
       "boot_command": [
         "<esc><wait>",
         "boot -s<wait>",
@@ -33,27 +14,37 @@
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "FreeBSD_64",
       "http_directory": "http",
       "iso_checksum": "0c3d64ce48c3ef761761d0fea07e1935e296f8c045c249118bc91a7faf053a6b",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/10.1/FreeBSD-10.1-RELEASE-amd64-disc1.iso",
-      "ssh_username": "vagrant",
+      "output_directory": "packer-freebsd-10.1-amd64-virtualbox",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-freebsd-10.1-amd64",
-      "output_directory": "packer-freebsd-10.1-amd64-virtualbox",
+      "type": "virtualbox-iso",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-      ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-freebsd-10.1-amd64"
     },
     {
-      "type": "vmware-iso",
       "boot_command": [
         "<esc><wait>",
         "boot -s<wait>",
@@ -73,22 +64,22 @@
       "iso_checksum": "0c3d64ce48c3ef761761d0fea07e1935e296f8c045c249118bc91a7faf053a6b",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/10.1/FreeBSD-10.1-RELEASE-amd64-disc1.iso",
-      "ssh_username": "vagrant",
+      "output_directory": "packer-freebsd-10.1-amd64-vmware",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
-      "vm_name": "packer-freebsd-10.1-amd64",
-      "output_directory": "packer-freebsd-10.1-amd64-vmware",
       "tools_upload_flavor": "freebsd",
+      "type": "vmware-iso",
+      "vm_name": "packer-freebsd-10.1-amd64",
       "vmx_data": {
+        "cpuid.coresPerSocket": "1",
         "memsize": "512",
-        "numvcpus": "1",
-        "cpuid.coresPerSocket": "1"
+        "numvcpus": "1"
       }
     },
     {
-      "type": "parallels-iso",
       "boot_command": [
         "<esc><wait>",
         "boot -s<wait>",
@@ -107,22 +98,50 @@
       "iso_checksum": "0c3d64ce48c3ef761761d0fea07e1935e296f8c045c249118bc91a7faf053a6b",
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/releases/amd64/amd64/ISO-IMAGES/10.1/FreeBSD-10.1-RELEASE-amd64-disc1.iso",
-      "ssh_username": "vagrant",
+      "output_directory": "packer-freebsd-10.1-amd64-parallels",
+      "parallels_tools_mode": "disable",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "512"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-set",
+          "cdrom0",
+          "--iface",
+          "ide"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "fdd0"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "parallel0"
+        ]
+      ],
+      "prlctl_version_file": ".prlctl_version",
+      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'shutdown -p now' > shutdown.sh; cat 'shutdown.sh' | su -",
-      "parallels_tools_mode": "disable",
-      "prlctl_version_file": ".prlctl_version",
-      "vm_name": "packer-freebsd-10.1-amd64",
-      "output_directory": "packer-freebsd-10.1-amd64-parallels",
-      "prlctl": [
-        [ "set", "{{.Name}}", "--memsize", "512" ],
-        [ "set", "{{.Name}}", "--cpus", "1" ],
-        [ "set", "{{.Name}}", "--device-set", "cdrom0", "--iface", "ide" ],
-        [ "set", "{{.Name}}", "--device-del", "fdd0" ],
-        [ "set", "{{.Name}}", "--device-del", "parallel0" ]
-      ]
+      "type": "parallels-iso",
+      "vm_name": "packer-freebsd-10.1-amd64"
     }
   ],
   "post-processors": [
@@ -135,5 +154,26 @@
       },
       "type": "vagrant"
     }
-  ]
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m",
+      "scripts": [
+        "scripts/freebsd/postinstall.sh",
+        "scripts/common/chef.sh",
+        "scripts/freebsd/cleanup.sh",
+        "scripts/freebsd/vmtools.sh",
+        "scripts/freebsd/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
+  }
 }
+

@@ -6,9 +6,10 @@ Signal.trap("INT") { exit 1 }
 $stdout.sync = true
 $stderr.sync = true
 
-require 'optparse'
-require 'ostruct'
-require 'benchmark'
+require "benchmark"
+require "digest"
+require "optparse"
+require "ostruct"
 
 class Options
 
@@ -24,10 +25,10 @@ class Options
       opts.banner = "Usage: #{NAME} [SUBCOMMAND [options]]"
       opts.separator ""
       opts.separator <<-COMMANDS.gsub(/^ {8}/, "")
-        build :   build one or more templates
-        fix   :   fix one or more templates
-        help  :   prints this help message
-        list  :   list all templates in project
+        build     :   build one or more templates
+        help      :   prints this help message
+        list      :   list all templates in project
+        normalize :   normalize one or more templates
       COMMANDS
     end
 
@@ -69,10 +70,10 @@ class Options
         },
         argv: templates_argv_proc
       },
-      fix: {
-        class: FixRunner,
+      normalize: {
+        class: NormalizeRunner,
         parser: OptionParser.new { |opts|
-          opts.banner = "Usage: #{NAME} fix TEMPLATE[ TEMPLATE ...]"
+          opts.banner = "Usage: #{NAME} normalize TEMPLATE[ TEMPLATE ...]"
         },
         argv: templates_argv_proc
       },
@@ -110,6 +111,14 @@ module Common
 
   def banner(msg)
     puts "==> #{msg}"
+  end
+
+  def info(msg)
+    puts "    #{msg}"
+  end
+
+  def warn(msg)
+    puts ">>> #{msg}"
   end
 
   def duration(total)
@@ -165,7 +174,7 @@ class BuildRunner
   end
 end
 
-class FixRunner
+class NormalizeRunner
 
   include Common
 
@@ -173,20 +182,54 @@ class FixRunner
 
   def initialize(opts)
     @templates = opts.templates
+    @modified = []
   end
 
   def start
-    banner("Fixing for templates: #{templates}")
+    banner("Normalizing for templates: #{templates}")
     time = Benchmark.measure do
-      templates.each { |template| fix(template) }
+      templates.each do |template|
+        validate(template)
+        fix(template)
+      end
     end
-    banner("Fixing finished in #{duration(time.real)}.")
+    if !@modified.empty?
+      info("")
+      info("The following templates were modified:")
+      @modified.sort.each { |template| info("  * #{template}")}
+    end
+    banner("Normalizing finished in #{duration(time.real)}.")
   end
 
   def fix(template)
-    output = %x{packer fix #{template}.json}
+    file = "#{template}.json"
+
+    banner("[#{template}] Fixing")
+    original_checksum = checksum(file)
+    output = %x{packer fix #{file}}
     raise "[#{template}] Error fixing, exited #{$?}" if $?.exitstatus != 0
-    File.open("#{template}.json", "wb") { |file| file.write(output) }
+    # preserve ampersands in shell commands,
+    # see: https://github.com/mitchellh/packer/issues/784
+    output.gsub!("\\u0026", "&")
+    File.open(file, "wb") { |dest| dest.write(output) }
+    fixed_checksum = checksum(file)
+
+    if original_checksum == fixed_checksum
+      puts("No changes made.")
+    else
+      warn("Template #{template} has been modified.")
+      @modified << template
+    end
+  end
+
+  def validate(template)
+    cmd = %W[packer validate #{template}.json]
+    banner("[#{template}] Validating")
+    system(*cmd) or raise "[#{template}] Error validating, exited #{$?}"
+  end
+
+  def checksum(file)
+    Digest::MD5.file(file).hexdigest
   end
 end
 
