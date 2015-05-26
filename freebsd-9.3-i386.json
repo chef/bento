@@ -157,7 +157,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_freebsd-9.3-i386_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_freebsd-9.3-i386.box",
       "override": {
         "parallels": {
           "vagrantfile_template": "vagrantfile_templates/parallels/freebsd.rb"
@@ -172,7 +172,6 @@
       "scripts": [
         "scripts/freebsd/postinstall.sh",
         "scripts/freebsd/vmtools.sh",
-        "scripts/common/chef.sh",
         "scripts/freebsd/cleanup.sh",
         "scripts/freebsd/minimize.sh"
       ],
@@ -180,7 +179,6 @@
     }
   ],
   "variables": {
-    "chef_version": "provisionerless",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
   }
 }

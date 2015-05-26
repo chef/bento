@@ -114,21 +114,18 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_sles-11sp3-i386_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_sles-11sp3-i386.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef.sh",
         "scripts/sles/sudoers.sh",
         "scripts/sles/zypper-locks.sh",
         "scripts/sles/remove-dvd-source.sh",
@@ -138,7 +135,6 @@
     }
   ],
   "variables": {
-    "chef_version": "provisionerless",
     "mirror": "http://cdn2.novell.com/prot/4uiuDMzX0ck~"
   }
 }
