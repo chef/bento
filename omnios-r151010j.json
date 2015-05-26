@@ -148,23 +148,33 @@
       ],
       "boot_wait": "30s",
       "disk_size": 40960,
-      "hard_drive_interface": "ide",
       "guest_os_type": "opensolaris",
+      "hard_drive_interface": "ide",
       "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/OmniOS_Text_r151010j.iso",
       "output_directory": "packer-omnios-r151010j-parallels",
+      "parallels_tools_mode": "disable",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "512"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
       "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "root",
-      "parallels_tools_mode": "disable",
       "type": "parallels-iso",
-      "vm_name": "packer-omnios-r151010j",
-      "prlctl": [
-        [ "set", "{{.Name}}", "--memsize", "512" ],
-        [ "set", "{{.Name}}", "--cpus", "1" ]
-      ]
+      "vm_name": "packer-omnios-r151010j"
     }
   ],
   "post-processors": [
@@ -184,7 +194,7 @@
       "environment_vars": [
         "CHEF_VERSION={{user `chef_version`}}"
       ],
-      "execute_command": "export {{.Vars}} \u0026\u0026 sh '{{.Path}}'",
+      "execute_command": "export {{.Vars}} && sh '{{.Path}}'",
       "scripts": [
         "scripts/omnios/vmtools.sh",
         "scripts/common/chef.sh",
@@ -198,3 +208,4 @@
     "mirror": "http://omnios.omniti.com/media"
   }
 }
+

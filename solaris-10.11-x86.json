@@ -1,23 +1,6 @@
 {
-  "variables": {
-    "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
-    "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html",
-    "mirror": "./packer_cache",
-    "chef_version": "provisionerless"
-  },
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "/usr/local/bin/sudo {{.Path}}",
-      "scripts": [
-        "scripts/solaris10/vmtools.sh",
-        "scripts/solaris10/minimize.sh"
-      ]
-    }
-  ],
   "builders": [
     {
-      "type": "virtualbox-iso",
       "boot_command": [
         "e",
         "e",
@@ -27,6 +10,8 @@
         " - install<enter>",
         "b"
       ],
+      "boot_wait": "5s",
+      "disk_size": 20000,
       "floppy_files": [
         "floppy/solaris10/sysidcfg",
         "floppy/solaris10/awesome_prof",
@@ -34,23 +19,20 @@
         "floppy/solaris10/S99startup.sh",
         "floppy/solaris10/finish.sh"
       ],
-      "boot_wait": "5s",
-      "disk_size": 20000,
+      "guest_additions_mode": "upload",
       "guest_os_type": "Solaris_64",
       "http_directory": "http/solaris-10",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "50000s",
+      "output_directory": "packer-solaris-10u11-x86_64-virtualbox",
       "shutdown_command": "/usr/local/bin/sudo /usr/sbin/init 5",
       "shutdown_timeout": "10m",
-      "guest_additions_mode": "upload",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-solaris-10u11-x86_64",
-      "output_directory": "packer-solaris-10u11-x86_64-virtualbox",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "50000s",
+      "type": "virtualbox-iso",
       "vboxmanage": [
         [
           "modifyvm",
@@ -64,10 +46,11 @@
           "--cpus",
           "1"
         ]
-      ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-solaris-10u11-x86_64"
     },
     {
-      "type": "vmware-iso",
       "boot_command": [
         "e",
         "e",
@@ -77,6 +60,8 @@
         " - install<enter>",
         "b"
       ],
+      "boot_wait": "5s",
+      "disk_size": 20000,
       "floppy_files": [
         "floppy/solaris10/sysidcfg",
         "floppy/solaris10/awesome_prof",
@@ -84,23 +69,22 @@
         "floppy/solaris10/S99startup.sh",
         "floppy/solaris10/finish.sh"
       ],
-      "boot_wait": "5s",
-      "disk_size": 20000,
       "guest_os_type": "solaris10-64",
       "http_directory": "http/solaris-10",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "50000s",
+      "output_directory": "packer-solaris-10u11-x86_64-vmware",
       "shutdown_command": "/usr/local/bin/sudo /usr/sbin/init 5",
       "shutdown_timeout": "10m",
-      "vm_name": "packer-solaris-10u11-x86_64",
-      "output_directory": "packer-solaris-10u11-x86_64-vmware",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "50000s",
       "tools_upload_flavor": "solaris",
       "tools_upload_path": "/home/vagrant/solaris.iso",
+      "type": "vmware-iso",
+      "vm_name": "packer-solaris-10u11-x86_64",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "1536",
@@ -113,5 +97,22 @@
       "output": "builds/{{.Provider}}/opscode_solaris-10.11_chef-{{user `chef_version`}}.box",
       "type": "vagrant"
     }
-  ]
+  ],
+  "provisioners": [
+    {
+      "execute_command": "/usr/local/bin/sudo {{.Path}}",
+      "scripts": [
+        "scripts/solaris10/vmtools.sh",
+        "scripts/solaris10/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html",
+    "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
+    "chef_version": "provisionerless",
+    "mirror": "./packer_cache"
+  }
 }
+
