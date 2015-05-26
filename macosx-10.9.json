@@ -155,7 +155,7 @@
   "min_packer_version": "0.6.0",
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_macosx-10.9_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_macosx-10.9.box",
       "type": "vagrant",
       "vagrantfile_template": "vagrantfile_templates/macosx.rb"
     }
@@ -190,7 +190,6 @@
   ],
   "variables": {
     "autologin_vagrant_user": "",
-    "chef_version": "provisionerless",
     "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
     "iso_url": "http://fakeurl/OSX_InstallESD_10.9.1_13B42.dmg"
   }

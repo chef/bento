@@ -146,7 +146,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_freebsd-10.1_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_freebsd-10.1.box",
       "override": {
         "parallels": {
           "vagrantfile_template": "vagrantfile_templates/parallels/freebsd.rb"
@@ -157,13 +157,10 @@
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "environment_vars": [],
       "execute_command": "export {{.Vars}} && cat {{.Path}} | su -m",
       "scripts": [
         "scripts/freebsd/postinstall.sh",
-        "scripts/common/chef.sh",
         "scripts/freebsd/cleanup.sh",
         "scripts/freebsd/vmtools.sh",
         "scripts/freebsd/minimize.sh"
@@ -172,7 +169,6 @@
     }
   ],
   "variables": {
-    "chef_version": "provisionerless",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD"
   }
 }

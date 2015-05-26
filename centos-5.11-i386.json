@@ -102,21 +102,18 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_centos-5.11-i386_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_centos-5.11-i386.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
         "scripts/common/vagrant.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
@@ -124,7 +121,6 @@
     }
   ],
   "variables": {
-    "chef_version": "provisionerless",
     "mirror": "http://mirrors.kernel.org/centos"
   }
 }
