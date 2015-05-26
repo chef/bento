@@ -98,6 +98,25 @@
       ],
       "prlctl_version_file": ".prlctl_version",
       "vm_name": "packer-rhel-6.6-x86_64"
+    },
+    {
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "http_directory": "http",
+      "iso_checksum": "16044cb7264f4bc0150f5b6f3f66936ccf2d36e0a4152c00d9236fb7dcae5f32",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/rhel-server-6.6-x86_64-dvd.iso",
+      "output_directory": "packer-rhel-6.6-x86_64-qemu",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-rhel-6.6-x86_64"
     }
   ],
   "post-processors": [
