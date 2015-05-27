@@ -137,21 +137,18 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_opensuse-13.2-i386_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_opensuse-13.2-i386.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "scripts": [
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef.sh",
         "scripts/opensuse/sudoers.sh",
         "scripts/opensuse/zypper-locks.sh",
         "scripts/opensuse/remove-dvd-source.sh",
@@ -162,7 +159,6 @@
     }
   ],
   "variables": {
-    "chef_version": "provisionerless",
     "mirror": "http://download.opensuse.org/distribution"
   }
 }

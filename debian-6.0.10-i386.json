@@ -177,15 +177,13 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_debian-6.0.10-i386_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_debian-6.0.10-i386.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/debian/update.sh",
@@ -194,7 +192,6 @@
         "scripts/debian/sudoers.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
-        "scripts/common/chef.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
@@ -202,7 +199,6 @@
     }
   ],
   "variables": {
-    "chef_version": "provisionerless",
     "mirror": "http://cdimage.debian.org/cdimage/archive"
   }
 }

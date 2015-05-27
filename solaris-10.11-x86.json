@@ -94,7 +94,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_solaris-10.11_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_solaris-10.11.box",
       "type": "vagrant"
     }
   ],
@@ -111,7 +111,6 @@
   "variables": {
     "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html",
     "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
-    "chef_version": "provisionerless",
     "mirror": "./packer_cache"
   }
 }

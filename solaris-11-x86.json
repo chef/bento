@@ -114,15 +114,13 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_solaris-11.2_chef-{{user `chef_version`}}.box",
+      "output": "builds/{{.Provider}}/opscode_solaris-11.2.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
+      "environment_vars": [],
       "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}",
       "scripts": [
         "scripts/solaris/update.sh",
@@ -136,7 +134,6 @@
   "variables": {
     "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
     "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
-    "chef_version": "provisionerless",
     "mirror": "./packer_cache"
   }
 }
