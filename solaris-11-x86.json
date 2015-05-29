@@ -114,15 +114,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_solaris-11.2.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/solaris/update.sh",
         "scripts/solaris/vmtools.sh",
         "scripts/common/vagrant.sh",
@@ -132,9 +138,17 @@
     }
   ],
   "variables": {
-    "DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
-    "README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
-    "mirror": "./packer_cache"
+    "_DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
+    "_README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
+    "arch": "64",
+    "box_basename": "solaris-11.2",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "./packer_cache",
+    "name": "solaris-11.2",
+    "template": "solaris-11.2-x86",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

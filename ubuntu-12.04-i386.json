@@ -134,9 +134,9 @@
       "disk_size": 40960,
       "guest_os_type": "ubuntu",
       "http_directory": "http",
-      "iso_checksum": "3bae12e315c89d42d7bf571e4e35efce585c7624",
+      "iso_checksum": "a34c224b7fe72a2f5c768be5afee5c53817743fd",
       "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/12.04.5/ubuntu-12.04.4-server-i386.iso",
+      "iso_url": "{{user `mirror`}}/12.04.5/ubuntu-12.04.5-server-i386.iso",
       "output_directory": "packer-ubuntu-12.04-i386-parallels",
       "parallels_tools_flavor": "lin",
       "prlctl": [
@@ -165,15 +165,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_ubuntu-12.04-i386.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/ubuntu/update.sh",
         "scripts/common/sshd.sh",
         "scripts/ubuntu/networking.sh",
@@ -187,7 +193,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://releases.ubuntu.com"
+    "arch": "32",
+    "box_basename": "ubuntu-12.04-i386",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://releases.ubuntu.com",
+    "name": "ubuntu-12.04-i386",
+    "template": "ubuntu-12.04-i386",
+    "version": "2.0.TIMESTAMP"
   }
 }
 
