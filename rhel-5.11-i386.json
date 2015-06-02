@@ -121,15 +121,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_rhel-5.11-i386.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",
@@ -140,7 +146,15 @@
     }
   ],
   "variables": {
-    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-5.11/md5sum/1ab756241a4a209b8d39abe6bace84a9"
+    "arch": "32",
+    "box_basename": "rhel-5.11-i386",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-5.11/md5sum/1ab756241a4a209b8d39abe6bace84a9",
+    "name": "rhel-5.11-i386",
+    "template": "rhel-5.11-i386",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

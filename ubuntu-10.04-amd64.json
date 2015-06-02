@@ -205,15 +205,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_ubuntu-10.04.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/ubuntu/update.sh",
         "scripts/common/sshd.sh",
         "scripts/ubuntu/networking.sh",
@@ -227,7 +233,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://releases.ubuntu.com"
+    "arch": "64",
+    "box_basename": "ubuntu-10.04",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://releases.ubuntu.com",
+    "name": "ubuntu-10.04",
+    "template": "ubuntu-10.04-amd64",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

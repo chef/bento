@@ -8,8 +8,10 @@ $stderr.sync = true
 
 require "benchmark"
 require "digest"
+require "json"
 require "optparse"
 require "ostruct"
+require "tempfile"
 
 class Options
 
@@ -133,25 +135,37 @@ class BuildRunner
 
   include Common
 
-  attr_reader :templates, :dry_run, :debug, :builds
+  attr_reader :templates, :dry_run, :debug, :builds, :build_timestamp
 
   def initialize(opts)
     @templates = opts.templates
     @dry_run = opts.dry_run
     @debug = opts.debug
     @builds = opts.builds
+    @build_timestamp = Time.now.gmtime.strftime("%Y%m%d%H%M%S")
   end
 
   def start
     banner("Starting build for templates: #{templates}")
     time = Benchmark.measure do
-      templates.each { |template| packer(template) }
+      templates.each { |template| build_template(template) }
     end
     banner("Build finished in #{duration(time.real)}.")
   end
 
-  def packer(template)
-    cmd = packer_cmd(template)
+  def build_template(template)
+    Tempfile.open("#{template}-metadata.json") do |md_file|
+      Tempfile.open("#{template}-metadata-var-file") do |var_file|
+        write_box_metadata(template, md_file)
+        write_var_file(template, md_file.path, var_file)
+        packer(template, var_file.path)
+        write_final_metadata(template)
+      end
+    end
+  end
+
+  def packer(template, var_file)
+    cmd = packer_cmd(template, var_file)
     banner("[#{template}] Running: '#{cmd.join(' ')}'")
     time = Benchmark.measure do
       system(*cmd) or raise "[#{template}] Error building, exited #{$?}"
@@ -159,9 +173,9 @@ class BuildRunner
     banner("[#{template}] Finished in #{duration(time.real)}.")
   end
 
-  def packer_cmd(template)
+  def packer_cmd(template, var_file)
     vars = "#{template}.variables.json"
-    cmd = %W[packer build #{template}.json]
+    cmd = %W[packer build -var-file=#{var_file} #{template}.json]
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd.insert(2, "-only=#{builds}") if builds
     cmd.insert(2, "-debug") if debug
@@ -169,8 +183,139 @@ class BuildRunner
     cmd
   end
 
-  def git_sha
-    %x{git rev-parse --short HEAD}.strip
+  def write_box_metadata(template, io)
+    md = BuildMetadata.new(template, build_timestamp).read
+
+    io.write(JSON.pretty_generate(md))
+    io.close
+  end
+
+  def write_final_metadata(template)
+    md = BuildMetadata.new(template, build_timestamp).read
+    path = File.join(File.dirname(__FILE__), "..", "builds")
+    filename = File.join(path, "#{md[:box_basename]}.metadata.json")
+    checksums = ChecksumMetadata.new(path, md[:box_basename]).read
+
+    md[:md5] = checksums[:md5]
+    md[:sha256] = checksums[:sha256]
+
+    File.open(filename, "wb") { |file| file.write(JSON.pretty_generate(md)) }
+  end
+
+  def write_var_file(template, md_file, io)
+    md = BuildMetadata.new(template, build_timestamp).read
+
+    io.write(JSON.pretty_generate({
+      box_basename:     md[:box_basename],
+      build_timestamp:  md[:build_timestamp],
+      git_revision:     md[:git_revision],
+      metadata:         md_file,
+      version:          md[:version]
+    }))
+    io.close
+  end
+end
+
+class ChecksumMetadata
+
+  def initialize(path, box_basename)
+    @base = File.join(path, box_basename)
+  end
+
+  def read
+    {
+      md5:    md5_checksums,
+      sha256: sha256_checksums
+    }
+  end
+
+  private
+
+  attr_reader :base
+
+  def md5_checksums
+    Hash[Dir.glob("#{base}.*.box").map { |box|
+      [File.basename(box), Digest::MD5.file(box).hexdigest]
+    }]
+  end
+
+  def sha256_checksums
+    Hash[Dir.glob("#{base}.*.box").map { |box|
+      [File.basename(box), Digest::SHA256.file(box).hexdigest]
+    }]
+  end
+end
+
+class BuildMetadata
+
+  def initialize(template, build_timestamp)
+    @template = template
+    @build_timestamp = build_timestamp
+  end
+
+  def read
+    {
+      name:             name,
+      version:          version,
+      build_timestamp:  build_timestamp,
+      git_revision:     git_revision,
+      box_basename:     box_basename,
+      atlas_org:        atlas_org,
+      arch:             template_vars.fetch("arch", UNKNOWN),
+      template:         template_vars.fetch("template", UNKNOWN),
+    }
+  end
+
+  private
+
+  UNKNOWN = "__unknown__".freeze
+  DEFAULT_ATLAS_ORG = "chef".freeze
+
+  attr_reader :template, :build_timestamp
+
+  def atlas_org
+    merged_vars.fetch("atlas_org", DEFAULT_ATLAS_ORG)
+  end
+
+  def box_basename
+    "#{atlas_org}__#{name}-#{version}.git.#{git_revision}"
+  end
+
+  def git_revision
+    sha = %x{git rev-parse HEAD}.strip
+
+    git_clean? ? sha : "#{sha}_dirty"
+  end
+
+  def git_clean?
+    %{git status --porcelain}.strip.empty?
+  end
+
+  def merged_vars
+    @merged_vars ||= begin
+      if File.exist?("#{template}.variables.json")
+        template_vars.merge(JSON.load(IO.read("#{template}.variables.json")))
+      else
+        template_vars
+      end
+    end
+  end
+
+  def name
+    merged_vars.fetch("name", template)
+  end
+
+  def template_vars
+    @template_vars ||= JSON.load(IO.read("#{template}.json")).fetch("variables")
+  end
+
+  def user_prefix
+    merged_vars.fetch("user_prefix", DEFAULT_USER_PREFIX)
+  end
+
+  def version
+    merged_vars.fetch("version", "#{UNKNOWN}.TIMESTAMP").
+      rpartition(".").first.concat(".#{build_timestamp}")
   end
 end
 

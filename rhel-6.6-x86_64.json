@@ -121,15 +121,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_rhel-6.6.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/centos/fix-slow-dns.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
@@ -141,7 +147,15 @@
     }
   ],
   "variables": {
-    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.6/md5sum/ef031b0ae8458d6489eb277ba1dcb5de"
+    "arch": "64",
+    "box_basename": "rhel-6.6",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "https://content-web.rhn.redhat.com/rhn/isos/rhel-6.6/md5sum/ef031b0ae8458d6489eb277ba1dcb5de",
+    "name": "rhel-6.6",
+    "template": "rhel-6.6-x86_64",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

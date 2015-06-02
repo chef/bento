@@ -137,15 +137,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_sles-11sp2.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
@@ -157,7 +163,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://cdn.novell.com/free/h0AOp5AT-18~"
+    "arch": "64",
+    "box_basename": "sles-11-sp2",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://cdn.novell.com/free/h0AOp5AT-18~",
+    "name": "sles-11-sp2",
+    "template": "sles-11-sp2-x86_64",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

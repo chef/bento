@@ -205,15 +205,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_ubuntu-14.04-i386.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/ubuntu/update.sh",
         "scripts/common/sshd.sh",
         "scripts/ubuntu/networking.sh",
@@ -227,7 +233,16 @@
     }
   ],
   "variables": {
-    "mirror": "http://releases.ubuntu.com"
+    "arch": "32",
+    "box_basename": "ubuntu-14.04-i386",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "chef_version": "provisionerless",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://releases.ubuntu.com",
+    "name": "ubuntu-14.04-i386",
+    "template": "ubuntu-14.04-i386",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

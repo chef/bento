@@ -122,15 +122,21 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_centos-6.6-i386.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/centos/fix-slow-dns.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
@@ -142,7 +148,15 @@
     }
   ],
   "variables": {
-    "mirror": "http://mirrors.kernel.org/centos"
+    "arch": "32",
+    "box_basename": "centos-6.6-i386",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "metadata": "floppy/dummy_metadata.json",
+    "mirror": "http://mirrors.kernel.org/centos",
+    "name": "centos-6.6-i386",
+    "template": "centos-6.6-i386",
+    "version": "2.0.TIMESTAMP"
   }
 }
 

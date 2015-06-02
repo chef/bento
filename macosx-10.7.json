@@ -155,12 +155,17 @@
   "min_packer_version": "0.6.0",
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/opscode_macosx-10.7.box",
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
       "vagrantfile_template": "vagrantfile_templates/macosx.rb"
     }
   ],
   "provisioners": [
+    {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
     {
       "destination": "/private/tmp/kcpassword",
       "source": "scripts/macosx/support/kcpassword",
@@ -169,6 +174,7 @@
     {
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -E -S sh '{{.Path}}'",
       "scripts": [
+        "scripts/common/metadata.sh",
         "scripts/macosx/hostname.sh",
         "scripts/macosx/builder.sh",
         "scripts/macosx/update.sh",
@@ -189,9 +195,17 @@
     }
   ],
   "variables": {
+    "arch": "64",
     "autologin_vagrant_user": "",
+    "box_basename": "macosx-10.7",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
     "iso_checksum": "e2a48af008ff3c4db6a8235151a1e90ea600fceb",
-    "iso_url": "http://fakeurl/OSX_InstallESD_10.7.5_11G63.dmg"
+    "iso_url": "http://fakeurl/OSX_InstallESD_10.7.5_11G63.dmg",
+    "metadata": "floppy/dummy_metadata.json",
+    "name": "macosx-10.7",
+    "template": "macosx-10.7",
+    "version": "2.0.TIMESTAMP"
   }
 }
 
