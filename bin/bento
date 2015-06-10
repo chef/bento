@@ -69,6 +69,10 @@ class Options
           opts.on("-o BUILDS", "--only BUILDS", "Only build some Packer builds") do |opt|
             options.builds = opt
           end
+
+          opts.on("-e BUILDS", "--except BUILDS", "Build all Packer builds except these") do |opt|
+            options.except = opt
+          end
         },
         argv: templates_argv_proc
       },
@@ -174,13 +178,14 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :templates, :dry_run, :debug, :builds, :build_timestamp
+  attr_reader :templates, :dry_run, :debug, :builds, :except, :build_timestamp
 
   def initialize(opts)
     @templates = opts.templates
     @dry_run = opts.dry_run
     @debug = opts.debug
     @builds = opts.builds
+    @except = opts.except
     @build_timestamp = Time.now.gmtime.strftime("%Y%m%d%H%M%S")
   end
 
@@ -211,6 +216,7 @@ class BuildRunner
     cmd = %W[packer build -var-file=#{var_file} #{template}.json]
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd.insert(2, "-only=#{builds}") if builds
+    cmd.insert(2, "-except=#{except}") if except
     cmd.insert(2, "-debug") if debug
     cmd.insert(0, "echo") if dry_run
     cmd
