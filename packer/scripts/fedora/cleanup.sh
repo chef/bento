@@ -1,5 +1,5 @@
 #!/bin/bash -eux
-if [ -e /usr/bin/dnf ] ; then
+if [ -x /usr/bin/dnf ] ; then
   dnf -y remove gcc cpp kernel-devel kernel-headers perl
   dnf -y clean all
 else
