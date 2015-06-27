@@ -284,9 +284,7 @@ class BuildMetadata
   def git_revision
     sha = %x{git rev-parse HEAD}.strip
 
-    r = git_clean? ? sha : "#{sha}_dirty"
-    require 'pry' ; binding.pry
-    r
+    git_clean? ? sha : "#{sha}_dirty"
   end
 
   def git_clean?
