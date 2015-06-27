@@ -284,11 +284,13 @@ class BuildMetadata
   def git_revision
     sha = %x{git rev-parse HEAD}.strip
 
-    git_clean? ? sha : "#{sha}_dirty"
+    r = git_clean? ? sha : "#{sha}_dirty"
+    require 'pry' ; binding.pry
+    r
   end
 
   def git_clean?
-    %{git status --porcelain}.strip.empty?
+    %x{git status --porcelain}.strip.empty?
   end
 
   def merged_vars
