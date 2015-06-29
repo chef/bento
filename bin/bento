@@ -199,7 +199,12 @@ class BuildRunner
     md[:md5] = checksums[:md5]
     md[:sha256] = checksums[:sha256]
 
-    File.open(filename, "wb") { |file| file.write(JSON.pretty_generate(md)) }
+    if dry_run
+      banner("(Dry run) Metadata file contents would be something similar to:")
+      puts JSON.pretty_generate(md)
+    else
+      File.open(filename, "wb") { |file| file.write(JSON.pretty_generate(md)) }
+    end
   end
 
   def write_var_file(template, md_file, io)
