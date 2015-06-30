@@ -2,7 +2,9 @@ require 'cgi'
 require 'json'
 require 'net/http'
 
-# Enables `bundle exec bundle exec rake do_all[ubuntu-12.04-amd64,centos-7.1-x86_64]
+# TODO:  private boxes may need to specify a mirror
+
+# Enables `bundle exec rake do_all[ubuntu-12.04-amd64,centos-7.1-x86_64]
 # http://blog.stevenocchipinti.com/2013/10/18/rake-task-with-an-arbitrary-number-of-arguments/
 task :do_all do |task, args|
   args.extras.each do |a|
@@ -23,14 +25,7 @@ end
 # bundle exec rake build_box[ubuntu-12.04-amd64]
 desc 'Build a single bento box'
 task :build_box, :template do |t, args|
-  # Special-case parallels for now.
-  if which('prlctl')
-    puts "Building for virtualbox, vmware, and parallels."
-    sh "./bin/bento build #{args[:template]}.json"
-  else
-    puts "Building for virtualbox and vmware."
-    sh "./bin/bento build --except parallels-iso #{args[:template]}.json"
-  end
+  sh "#{build_command(args[:template])}"
 end
 
 desc 'Upload boxes'
@@ -161,6 +156,13 @@ def box_metadata(metadata_file)
   metadata
 end
 
+def build_command(template)
+  cmd = "./bin/bento build"
+  cmd << ' --except parallels-iso' unless which('prlctl')
+  cmd << " --mirror #{ENV['PACKER_MIRROR']}" if private?(template)
+  cmd << " #{template}.json"
+end
+
 def metadata_files
   @metadata_files ||= compute_metadata_files
 end
@@ -172,8 +174,13 @@ end
 def create_box(boxname)
   req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}", { 'access_token' => atlas_token } )
   if req.code.eql?('404')
-    puts "Creating the box #{boxname} in atlas."
-    req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
+    if private?(boxname)
+      puts "Creating the private box #{boxname} in atlas."
+      req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'access_token' => atlas_token, 'is_private' => true }, { 'Content-Type' => 'application/json' } )
+    else
+      puts "Creating the public box #{boxname} in atlas."
+      req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
+    end
   else
     puts "The box #{boxname} exists in atlas, continuing."
   end
@@ -236,4 +243,12 @@ def which(cmd)
     }
   end
   return false
+end
+
+#
+# private boxes
+#
+def private?(boxname)
+  proprietary_os_list = %w(macosx sles solaris windows)
+  proprietary_os_list.any? { |p| boxname.include?(p) }
 end
