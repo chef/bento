@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/sh -eux
 
 # eject installer disc
-drutil eject
+drutil eject;
