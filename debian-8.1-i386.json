@@ -177,7 +177,7 @@
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://cdimage.debian.org/cdimage/archive",
+    "mirror": "http://cdimage.debian.org/cdimage/release",
     "name": "debian-8.1-i386",
     "template": "debian-8.1-i386",
     "version": "2.0.TIMESTAMP"
