@@ -168,7 +168,10 @@
     },
     {
       "environment_vars": [
-        "HOME_DIR=/Users/vagrant"
+        "HOME_DIR=/Users/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
       ],
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
@@ -189,11 +192,14 @@
     "box_basename": "__unset_box_basename__",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
     "iso_checksum": "__unset_iso_checksum__",
     "iso_checksum_type": "md5",
     "iso_url": "http://YOU-MUST-PROVIDE-YOUR-OWN-DMG.sorry",
     "metadata": "floppy/dummy_metadata.json",
     "name": "chef/macosx-10.9",
+    "no_proxy": "{{env `no_proxy`}}",
     "template": "macosx-10.9",
     "version": "2.1.TIMESTAMP"
   }
