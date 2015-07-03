@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -eux
 
 # Thank you to https://github.com/timsutton/osx-vm-templates
 # for the implementation
@@ -6,8 +6,9 @@
 # This script adds a Mac OS Launch Daemon, which runs every time the
 # machine is booted. The daemon will re-detect the attached network
 # interfaces. If this is not done, network devices may not work.
-PLIST=/Library/LaunchDaemons/com.github.timsutton.osx-vm-templates.detectnewhardware.plist
-cat <<EOF > "${PLIST}"
+plist=/Library/LaunchDaemons/com.github.timsutton.osx-vm-templates.detectnewhardware.plist;
+
+cat <<PLIST >"$plist";
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -23,9 +24,9 @@ cat <<EOF > "${PLIST}"
     <true/>
 </dict>
 </plist>
-EOF
+PLIST
 
 # These should be already set as follows, but since they're required
 # in order to load properly, we set them explicitly.
-/bin/chmod 644 "${PLIST}"
-/usr/sbin/chown root:wheel "${PLIST}"
+chmod 644 "$plist";
+chown root:wheel "$plist";

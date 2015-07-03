@@ -5,10 +5,10 @@
       "disk_size": 20480,
       "guest_os_type": "darwin12-64",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "md5",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `iso_url`}}",
-      "output_directory": "packer-macosx-10.10-vmware",
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
+      "output_directory": "packer-{{user `template`}}-vmware",
+      "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
       "skip_compaction": true,
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -17,7 +17,7 @@
       "tools_upload_flavor": "darwin",
       "tools_upload_path": "/tmp/vmtools.iso",
       "type": "vmware-iso",
-      "vm_name": "packer-macosx-10.10-vmware",
+      "vm_name": "packer-{{user `template`}}-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "ehci.present": "TRUE",
@@ -38,10 +38,10 @@
       "guest_os_type": "MacOS109_64",
       "hard_drive_interface": "sata",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "md5",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `iso_url`}}",
-      "output_directory": "packer-macosx-10.10-virtualbox",
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
+      "output_directory": "packer-{{user `template`}}-virtualbox",
+      "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -149,10 +149,10 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-macosx-10.10-virtualbox"
+      "vm_name": "packer-{{user `template`}}-virtualbox"
     }
   ],
-  "min_packer_version": "0.6.0",
+  "min_packer_version": "0.7.0",
   "post-processors": [
     {
       "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
@@ -167,12 +167,10 @@
       "type": "file"
     },
     {
-      "destination": "/private/tmp/kcpassword",
-      "source": "scripts/macosx/support/kcpassword",
-      "type": "file"
-    },
-    {
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "environment_vars": [
+        "HOME_DIR=/Users/vagrant"
+      ],
+      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
         "scripts/macosx/hostname.sh",
@@ -184,31 +182,20 @@
         "scripts/macosx/minimize.sh"
       ],
       "type": "shell"
-    },
-    {
-      "execute_command": "echo 'vagrant'| {{.Vars}} sudo -E -S sh '{{.Path}}'",
-      "inline": [
-        "[ -z \"{{user `autologin_vagrant_user`}}\" ] && exit",
-        "echo \"Enabling automatic GUI login for the 'vagrant' user..\"",
-        "cp /private/tmp/kcpassword /private/etc/kcpassword",
-        "/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser vagrant"
-      ],
-      "type": "shell"
     }
   ],
   "variables": {
-    "arch": "64",
-    "autologin_vagrant_user": "",
-    "box_basename": "macosx-10.10",
+    "_README": "You must provide a prepared Mac disk image (from https://github.com/timsutton/osx-vm-templates) and checksum value for this template to work. For more details, consult this project's README.md",
+    "box_basename": "__unset_box_basename__",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
-    "iso_checksum": "6d878aeb58aad23d2be00774d4da3b3d",
+    "iso_checksum": "__unset_iso_checksum__",
     "iso_checksum_type": "md5",
-    "iso_url": "http://fakeurl/OSX_InstallESD_10.10.3_14D136.dmg",
+    "iso_url": "http://YOU-MUST-PROVIDE-YOUR-OWN-DMG.sorry",
     "metadata": "floppy/dummy_metadata.json",
-    "name": "macosx-10.10",
+    "name": "chef/macosx-10.10",
     "template": "macosx-10.10",
-    "version": "2.0.TIMESTAMP"
+    "version": "2.1.TIMESTAMP"
   }
 }
 
