@@ -21,3 +21,4 @@ Covers the Bento project repository which is responsible for building Vagrant bo
 ### Maintainers
 
 * [Yvonne Lam](http://github.com/yzl)
+* [Seth Thomas](http://github.com/cheeseplus)
