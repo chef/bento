@@ -209,7 +209,7 @@
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
     "mirror_directory": "10.04.4",
-    "name": "chef/ubuntu-10.04",
+    "name": "ubuntu-10.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "ubuntu-10.04/preseed.cfg",
     "template": "ubuntu-10.04-amd64",
