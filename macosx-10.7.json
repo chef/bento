@@ -198,7 +198,7 @@
     "iso_checksum_type": "md5",
     "iso_url": "http://YOU-MUST-PROVIDE-YOUR-OWN-DMG.sorry",
     "metadata": "floppy/dummy_metadata.json",
-    "name": "chef/macosx-10.7",
+    "name": "macosx-10.7",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "macosx-10.7",
     "version": "2.1.TIMESTAMP"

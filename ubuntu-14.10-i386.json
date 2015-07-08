@@ -209,7 +209,7 @@
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
     "mirror_directory": "14.10",
-    "name": "chef/ubuntu-14.10-i386",
+    "name": "ubuntu-14.10-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "ubuntu-14.10/preseed.cfg",
     "template": "ubuntu-14.10-i386",
