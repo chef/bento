@@ -4,9 +4,11 @@ case "$PACKER_BUILDER_TYPE" in
 
 virtualbox-iso|virtualbox-ovf)
     mkdir /tmp/vbox
-    VER=$(cat /home/vagrant/.vbox_version)
+    VER="`cat /home/vagrant/.vbox_version`"
     mount -o loop /home/vagrant/VBoxGuestAdditions_$VER.iso /tmp/vbox
-    sh /tmp/vbox/VBoxLinuxAdditions.run
+    sh /tmp/vbox/VBoxLinuxAdditions.run \
+        || echo "VBoxLinuxAdditions.run exited $? and is suppressed." \
+            "For more read https://www.virtualbox.org/ticket/12479"
     umount /tmp/vbox
     rmdir /tmp/vbox
     rm /home/vagrant/*.iso
