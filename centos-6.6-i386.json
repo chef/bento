@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
@@ -10,11 +10,11 @@
       "guest_os_type": "RedHat",
       "hard_drive_interface": "sata",
       "http_directory": "http",
-      "iso_checksum": "d16aa4a8e6f71fb01fcc26d8ae0e3443ed514c8e",
-      "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.6/isos/i386/CentOS-6.6-i386-bin-DVD1.iso",
-      "output_directory": "packer-centos-6.6-i386-virtualbox",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "output_directory": "packer-{{user `template`}}-virtualbox",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -35,28 +35,28 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-centos-6.6-i386"
+      "vm_name": "packer-{{user `template`}}-virtualbox"
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "centos",
       "http_directory": "http",
-      "iso_checksum": "d16aa4a8e6f71fb01fcc26d8ae0e3443ed514c8e",
-      "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.6/isos/i386/CentOS-6.6-i386-bin-DVD1.iso",
-      "output_directory": "packer-centos-6.6-i386-vmware",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "output_directory": "packer-{{user `template`}}-vmware",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "vm_name": "packer-centos-6.6-i386",
+      "vm_name": "packer-{{user `template`}}-vmware",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "480",
@@ -65,16 +65,16 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6/ks.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "centos",
       "http_directory": "http",
-      "iso_checksum": "d16aa4a8e6f71fb01fcc26d8ae0e3443ed514c8e",
-      "iso_checksum_type": "sha1",
-      "iso_url": "{{user `mirror`}}/6.6/isos/i386/CentOS-6.6-i386-bin-DVD1.iso",
-      "output_directory": "packer-centos-6.6-i386-parallels",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "output_directory": "packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "lin",
       "prlctl": [
         [
@@ -91,13 +91,13 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "parallels-iso",
-      "vm_name": "packer-centos-6.6-i386"
+      "vm_name": "packer-{{user `template`}}-parallels"
     }
   ],
   "post-processors": [
@@ -113,12 +113,17 @@
       "type": "file"
     },
     {
-      "environment_vars": [],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/centos/fix-slow-dns.sh",
         "scripts/common/sshd.sh",
+        "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/centos/cleanup.sh",
@@ -128,15 +133,22 @@
     }
   ],
   "variables": {
-    "arch": "32",
-    "box_basename": "centos-6.6-i386",
+    "box_basename": "__unset_box_basename__",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "iso_checksum": "d16aa4a8e6f71fb01fcc26d8ae0e3443ed514c8e",
+    "iso_checksum_type": "sha1",
+    "iso_name": "CentOS-6.6-i386-bin-DVD1.iso",
+    "ks_path": "centos-6.6/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
+    "mirror_directory": "6.6/isos/i386",
     "name": "centos-6.6-i386",
+    "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-6.6-i386",
-    "version": "2.0.TIMESTAMP"
+    "version": "2.1.TIMESTAMP"
   }
 }
 
