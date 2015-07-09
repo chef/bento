@@ -69,6 +69,14 @@ class Options
           opts.on("-o BUILDS", "--only BUILDS", "Only build some Packer builds") do |opt|
             options.builds = opt
           end
+
+          opts.on("-e BUILDS", "--except BUILDS", "Build all Packer builds except these") do |opt|
+            options.except = opt
+          end
+
+          opts.on("-m MIRROR", "--mirror MIRROR", "Look for isos at MIRROR") do |opt|
+            options.mirror = opt
+          end
         },
         argv: templates_argv_proc
       },
@@ -174,13 +182,15 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :templates, :dry_run, :debug, :builds, :build_timestamp
+  attr_reader :templates, :dry_run, :debug, :builds, :except, :mirror, :build_timestamp
 
   def initialize(opts)
     @templates = opts.templates
     @dry_run = opts.dry_run
     @debug = opts.debug
     @builds = opts.builds
+    @except = opts.except
+    @mirror = opts.mirror
     @build_timestamp = Time.now.gmtime.strftime("%Y%m%d%H%M%S")
   end
 
@@ -211,6 +221,10 @@ class BuildRunner
     cmd = %W[packer build -var-file=#{var_file} #{template}.json]
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd.insert(2, "-only=#{builds}") if builds
+    cmd.insert(2, "-except=#{except}") if except
+    # Build the command line in the correct order and without spaces as future input for the splat operator.
+    cmd.insert(2, "mirror=#{mirror}") if mirror
+    cmd.insert(2, "-var") if mirror
     cmd.insert(2, "-debug") if debug
     cmd.insert(0, "echo") if dry_run
     cmd
