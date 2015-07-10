@@ -77,6 +77,10 @@ class Options
           opts.on("-m MIRROR", "--mirror MIRROR", "Look for isos at MIRROR") do |opt|
             options.mirror = opt
           end
+
+          opts.on("-v VERSION", "--version VERSION", "Override the version set in the template") do |opt|
+            options.override_version = opt
+          end
         },
         argv: templates_argv_proc
       },
@@ -157,14 +161,14 @@ module PackerExec
   end
 
   def write_box_metadata(template, io)
-    md = BuildMetadata.new(template, build_timestamp).read
+    md = BuildMetadata.new(template, build_timestamp, override_version).read
 
     io.write(JSON.pretty_generate(md))
     io.close
   end
 
   def write_var_file(template, md_file, io)
-    md = BuildMetadata.new(template, build_timestamp).read
+    md = BuildMetadata.new(template, build_timestamp, override_version).read
 
     io.write(JSON.pretty_generate({
       box_basename:     md[:box_basename],
@@ -182,7 +186,7 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :templates, :dry_run, :debug, :builds, :except, :mirror, :build_timestamp
+  attr_reader :templates, :dry_run, :debug, :builds, :except, :mirror, :override_version, :build_timestamp
 
   def initialize(opts)
     @templates = opts.templates
@@ -191,6 +195,7 @@ class BuildRunner
     @builds = opts.builds
     @except = opts.except
     @mirror = opts.mirror
+    @override_version = opts.override_version
     @build_timestamp = Time.now.gmtime.strftime("%Y%m%d%H%M%S")
   end
 
@@ -218,6 +223,9 @@ class BuildRunner
 
   def packer_build_cmd(template, var_file)
     vars = "#{template}.variables.json"
+    if (/darwin/ =~ RUBY_PLATFORM)
+      headless = false
+    end
     cmd = %W[packer build -var-file=#{var_file} #{template}.json]
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd.insert(2, "-only=#{builds}") if builds
@@ -225,13 +233,15 @@ class BuildRunner
     # Build the command line in the correct order and without spaces as future input for the splat operator.
     cmd.insert(2, "mirror=#{mirror}") if mirror
     cmd.insert(2, "-var") if mirror
+    cmd.insert(2, "headless=true") if headless
+    cmd.insert(2, "-var") if headless
     cmd.insert(2, "-debug") if debug
     cmd.insert(0, "echo") if dry_run
     cmd
   end
 
   def write_final_metadata(template)
-    md = BuildMetadata.new(template, build_timestamp).read
+    md = BuildMetadata.new(template, build_timestamp, override_version).read
     path = File.join(File.dirname(__FILE__), "..", "builds")
     filename = File.join(path, "#{md[:box_basename]}.metadata.json")
 
@@ -355,9 +365,10 @@ end
 
 class BuildMetadata
 
-  def initialize(template, build_timestamp)
+  def initialize(template, build_timestamp, override_version)
     @template = template
     @build_timestamp = build_timestamp
+    @override_version = override_version
   end
 
   def read
@@ -375,7 +386,7 @@ class BuildMetadata
 
   UNKNOWN = "__unknown__".freeze
 
-  attr_reader :template, :build_timestamp
+  attr_reader :template, :build_timestamp, :override_version
 
   def box_basename
     "#{name.gsub("/", "__")}-#{version}.git.#{git_revision}"
@@ -410,8 +421,12 @@ class BuildMetadata
   end
 
   def version
+    if override_version
+       override_version
+    else
     merged_vars.fetch("version", "#{UNKNOWN}.TIMESTAMP").
       rpartition(".").first.concat(".#{build_timestamp}")
+    end
   end
 end
 

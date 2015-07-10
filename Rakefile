@@ -20,6 +20,14 @@ task :do_all do |task, args|
   # release stage
   Rake::Task['release_all'].invoke
   Rake::Task['release_all'].reenable
+
+  # revoke
+  Rake::Task['revoke_all'].invoke
+  Rake::Task['revoke_all'].reenable
+
+  # delete
+  Rake::Task['delete_all'].invoke
+  Rake::Task['delete_all'].reenable
 end
 
 # bundle exec rake build_box[ubuntu-12.04-amd64]
@@ -55,6 +63,15 @@ task :release_all do
   end
 end
 
+desc 'Revoke all boxes for a version'
+task :revoke_all, :version do |v, args|
+  revoke_version(args[:version])
+end
+
+desc 'Delete all boxes for a version'
+task :delete_all, :version do |v, args|
+  delete_version(args[:version])
+end
 desc 'Clean the build directory'
 task :clean do
   `rm -rf builds/*.{box,json}`
@@ -101,7 +118,7 @@ def request(verb, url, data = {}, headers = {})
 
   # Build the request.
   request = class_for_request(verb).new(uri.request_uri)
-  if %w(patch post put).include?(verb)
+  if %w(patch post put delete).include?(verb)
     if data.respond_to?(:read)
       request.content_length = data.size
       request.body_stream = data
@@ -150,17 +167,21 @@ def box_metadata(metadata_file)
   metadata['version'] = json['version']
   metadata['box_basename'] = json['box_basename']
   metadata['providers'] = Hash.new
-  json['md5'].keys.each do |k|
-    metadata['providers'][k.split('.')[-2]] = k
+  json['providers'].each do |provider|
+    metadata['providers'][provider['name']] = provider.reject { |k, _| k == 'name' }
   end
   metadata
 end
 
 def build_command(template)
-  cmd = "./bin/bento build"
-  cmd << ' --except parallels-iso' unless which('prlctl')
-  cmd << " --mirror #{ENV['PACKER_MIRROR']}" if private?(template)
-  cmd << " #{template}.json"
+  cmd = %[./bin/bento build]
+  providers = %W[vmware-iso parallels-iso virtualbox-iso]
+  providers.delete(vmware-iso) if which('vmrun')
+  providers.delete(parallels-iso) if which('prlctl')
+  cmd.insert(1, "--except #{providers.join(",")}")
+  cmd.insert(1, "--mirror #{ENV['PACKER_MIRROR']}") if private?(template)
+  cmd.insert(1, "#{template}.json")
+  cmd
 end
 
 def metadata_files
@@ -172,14 +193,14 @@ def compute_metadata_files
 end
 
 def create_box(boxname)
-  req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}", { 'access_token' => atlas_token } )
+  req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}", { 'box[username]' => atlas_org, 'access_token' => atlas_token } )
   if req.code.eql?('404')
     if private?(boxname)
       puts "Creating the private box #{boxname} in atlas."
-      req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'access_token' => atlas_token, 'is_private' => true }, { 'Content-Type' => 'application/json' } )
+      req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'box[username]' => atlas_org, 'access_token' => atlas_token, 'is_private' => true }, { 'Content-Type' => 'application/json' } )
     else
       puts "Creating the public box #{boxname} in atlas."
-      req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
+      req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'box[username]' => atlas_org, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
     end
   else
     puts "The box #{boxname} exists in atlas, continuing."
@@ -193,8 +214,8 @@ def create_box_version(boxname, version)
   puts "Box version #{boxname} #{version} already exists, continuing." if req.code == '422'
 end
 
-def create_providers(boxname, version, providers)
-  providers.each do |provider|
+def create_providers(boxname, version, provider_names)
+  provider_names.each do |provider|
     puts "Creating provider #{provider} for #{boxname} #{version}"
     req = request('post', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/providers", { 'provider[name]' => provider, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' }  )
     puts "Created #{provider} for #{boxname} #{version}" if req.code == '200'
@@ -202,9 +223,10 @@ def create_providers(boxname, version, providers)
   end
 end
 
-def upload_to_atlas(boxname, version, provider_hash)
+def upload_to_atlas(boxname, version, providers)
   # Extract the upload path
-  provider_hash.each do |provider, boxfile|
+  providers.each do |provider, provider_data|
+    boxfile = provider_data['file']
     # Get the upload path.
     req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/provider/#{provider}/upload?access_token=#{atlas_token}")
     upload_path = JSON.parse(req.body)['upload_path']
@@ -231,6 +253,45 @@ def release_version(boxname, version)
   puts "Releasing version #{version} of box #{boxname}"
   req = request('put', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/release", { 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' })
   puts "Version #{version} of box #{boxname} has been successfully released" if req.code == '200'
+end
+
+def revoke_version(version)
+  org = request('get', "#{atlas_api}/user/#{atlas_org}?access_token=#{atlas_token}")
+  boxes = JSON.parse(org.body)['boxes']
+
+  boxes.each do |b|
+    b['versions'].each do |v|
+      if v['version'] == version
+        puts "Revoking version #{v['version']} of box #{b['name']}"
+        req = request('put', v['revoke_url'], { 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' })
+        if req.code == '200'
+          puts "Version #{v['version']} of box #{b['name']} has been successfully revoked" 
+        else
+          puts "Something went wrong #{req.code}"
+        end 
+      end
+    end
+  end
+end
+
+def delete_version(version)
+  org = request('get', "#{atlas_api}/user/#{atlas_org}?access_token=#{atlas_token}")
+  boxes = JSON.parse(org.body)['boxes']
+
+  boxes.each do |b|
+    b['versions'].each do |v|
+      if v['version'] == version
+        puts "Deleting version #{v['version']} of box #{b['name']}"
+        puts "#{atlas_api}/box/#{atlas_org}/#{b['name']}/version/#{v['version']}"
+        req = request('delete', "#{atlas_api}/box/#{atlas_org}/#{b['name']}/version/#{v['version']}", { 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' })
+        if req.code == '200'
+          puts "Version #{v['version']} of box #{b['name']} has been successfully deleted" 
+        else
+          puts "Something went wrong #{req.code} #{req.body}"
+        end 
+      end
+    end
+  end
 end
 
 # http://stackoverflow.com/questions/2108727/which-in-ruby-checking-if-program-exists-in-path-from-ruby
