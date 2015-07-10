@@ -21,6 +21,7 @@
       ],
       "guest_additions_mode": "upload",
       "guest_os_type": "Solaris_64",
+      "headless": "{{ user `headless` }}",
       "http_directory": "http/solaris-10",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
       "iso_checksum_type": "md5",
@@ -70,6 +71,7 @@
         "floppy/solaris10/finish.sh"
       ],
       "guest_os_type": "solaris10-64",
+      "headless": "{{ user `headless` }}",
       "http_directory": "http/solaris-10",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
       "iso_checksum_type": "md5",
@@ -122,6 +124,7 @@
     "box_basename": "solaris-10.11",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
+    "headless": "",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "./packer_cache",
     "name": "solaris-10.11",
