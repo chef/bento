@@ -261,7 +261,7 @@ class NormalizeRunner
   include Common
   include PackerExec
 
-  attr_reader :templates, :build_timestamp, :debug
+  attr_reader :templates, :build_timestamp, :debug, :override_version
 
   def initialize(opts)
     @templates = opts.templates
