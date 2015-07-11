@@ -60,7 +60,7 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-solaris-11.2-x86_64"
+      "vm_name": "{{ user `template` }}"
     },
     {
       "boot_command": [
@@ -106,7 +106,7 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "vmware-iso",
-      "vm_name": "packer-solaris-11.2-x86_64",
+      "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "2048",

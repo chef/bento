@@ -47,7 +47,7 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-freebsd-9.3-amd64"
+      "vm_name": "{{ user `template` }}"
     },
     {
       "boot_command": [
@@ -82,7 +82,7 @@
       "ssh_wait_timeout": "10000s",
       "tools_upload_flavor": "freebsd",
       "type": "vmware-iso",
-      "vm_name": "packer-freebsd-9.3-amd64",
+      "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "512",
@@ -156,7 +156,7 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "parallels-iso",
-      "vm_name": "packer-freebsd-9.3-amd64"
+      "vm_name": "{{ user `template` }}"
     }
   ],
   "post-processors": [

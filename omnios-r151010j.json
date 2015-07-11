@@ -58,7 +58,7 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-omnios-r151010j"
+      "vm_name": "{{ user `template` }}"
     },
     {
       "boot_command": [
@@ -109,7 +109,7 @@
       "ssh_username": "root",
       "tools_upload_flavor": "solaris",
       "type": "vmware-iso",
-      "vm_name": "packer-omnios-r151010j",
+      "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "1024",
@@ -177,7 +177,7 @@
       "ssh_port": 22,
       "ssh_username": "root",
       "type": "parallels-iso",
-      "vm_name": "packer-omnios-r151010j"
+      "vm_name": "{{ user `template` }}"
     }
   ],
   "post-processors": [
