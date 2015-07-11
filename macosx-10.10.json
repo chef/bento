@@ -18,7 +18,7 @@
       "tools_upload_flavor": "darwin",
       "tools_upload_path": "/tmp/vmtools.iso",
       "type": "vmware-iso",
-      "vm_name": "packer-{{user `template`}}-vmware",
+      "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "ehci.present": "TRUE",
@@ -151,7 +151,7 @@
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-{{user `template`}}-virtualbox"
+      "vm_name": "{{ user `template` }}"
     }
   ],
   "min_packer_version": "0.7.0",
