@@ -154,7 +154,6 @@
       "vm_name": "{{ user `template` }}"
     }
   ],
-  "min_packer_version": "0.7.0",
   "post-processors": [
     {
       "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
