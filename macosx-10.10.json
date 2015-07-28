@@ -178,6 +178,7 @@
       "scripts": [
         "scripts/common/metadata.sh",
         "scripts/macosx/hostname.sh",
+        "scripts/macosx/xcode-cli-tools.sh",
         "scripts/macosx/update.sh",
         "scripts/macosx/networking.sh",
         "scripts/macosx/vagrant.sh",
