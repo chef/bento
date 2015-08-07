@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_wait": "2s",
-      "disk_size": 20480,
+      "disk_size": 40960,
       "guest_os_type": "darwin12-64",
       "headless": "{{ user `headless` }}",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -34,7 +34,7 @@
     },
     {
       "boot_wait": "2s",
-      "disk_size": 20480,
+      "disk_size": 40960,
       "guest_additions_mode": "disable",
       "guest_os_type": "MacOS108_64",
       "hard_drive_interface": "sata",
