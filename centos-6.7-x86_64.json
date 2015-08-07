@@ -144,14 +144,14 @@
     "https_proxy": "{{env `https_proxy`}}",
     "iso_checksum": "08be09fd7276822bd3468af8f96198279ffc41f0",
     "iso_checksum_type": "sha1",
-    "iso_name": "CentOS-6.6-x86_64-bin-DVD1.iso",
-    "ks_path": "centos-6.6/ks.cfg",
+    "iso_name": "CentOS-6.7-x86_64-bin-DVD1.iso",
+    "ks_path": "centos-6.7/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "6.6/isos/x86_64",
-    "name": "centos-6.6",
+    "mirror_directory": "6.7/isos/x86_64",
+    "name": "centos-6.7",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-6.6-x86_64",
+    "template": "centos-6.7-x86_64",
     "version": "2.1.TIMESTAMP"
   }
 }
