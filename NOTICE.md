@@ -1,8 +1,8 @@
 Bento NOTICE
 ============
 
-Opscode Bento
-Copyright 2012, Opscode, Inc.
+Chef Bento
+Copyright 2012-2015, Chef Software, Inc.
 
 The baseboxes in the "definitions" directory is from Tim Dysinger's
 "basebox" project.
