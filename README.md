@@ -98,7 +98,7 @@ these boxes. Using `--provider vmware_fusion`, will not.
 ## Older Baseboxes
 
 Older baseboxes include Chef and therefore are not compatible with some
-new plugins. The full list of old boxes are available in the [old boxes file](https://github.com/opscode/bento/blob/master/OLD-BOXES.md).
+new plugins. The full list of old boxes are available in the [old boxes file](https://github.com/chef/bento/blob/master/OLD-BOXES.md).
 
 ## Build Your Own Boxes
 
@@ -121,7 +121,7 @@ Congratulations! You now have box(es) in the ../builds directory that you can th
 
 ### Proprietary Boxes
 
-Mac OS X (10.7, 10.8, and 10.9), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
+Mac OS X (10.7, 10.8, 10.9, 10.10), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
 
 #### Mac OS X Boxes
 
@@ -172,7 +172,7 @@ it's not the case because you have overridden line-ending conversion in your own
 ## Bugs and Issues
 
 Please use GitHub issues to report bugs, features, or other problems. Please note:
-the [JIRA issue tracker](http://tickets.opscode.com/browse/BENTO) is no longer being used.
+the [JIRA issue tracker](https://tickets.opscode.com/browse/BENTO) is no longer being used.
 
 ## License & Authors
 
@@ -194,7 +194,7 @@ Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templat
 - Author: Fletcher Nichol (<fnichol@nichol.ca>)
 
 ```text
-Copyright 2012-2014, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2015, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
