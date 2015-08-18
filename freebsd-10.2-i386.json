@@ -188,17 +188,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "install_path": "freebsd-10.1/install.sh",
-    "iso_checksum": "fe31790b762b01c99791d33e7fd9ab97323654785ce21f588116c8b4eb381cd0",
+    "install_path": "freebsd-10.2/install.sh",
+    "iso_checksum": "0e7094ae9f4f79d8955f193a1f2f5ab4f8b300e57eccd3b9bd959951ee079020",
     "iso_checksum_type": "sha256",
-    "iso_name": "FreeBSD-10.1-RELEASE-i386-disc1.iso",
+    "iso_name": "FreeBSD-10.2-RELEASE-i386-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
-    "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.1",
-    "name": "freebsd-10.1-i386",
+    "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.2",
+    "name": "freebsd-10.2-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "freebsd-10.1-i386",
+    "template": "freebsd-10.2-i386",
     "version": "2.1.TIMESTAMP"
   }
 }
-
