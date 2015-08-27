@@ -45,7 +45,13 @@ task :upload_box, :metadata_file do |f, args|
   upload_to_atlas(metadata['name'], metadata['version'], metadata['providers'])
 end
 
-desc 'Release all boxes for a version'
+desc 'Upload box files to S3 for all providers'
+task :upload_box_s3, :metadata_file do |f, args|
+  metadata = box_metadata(args[:metadata_file])
+  upload_to_s3(metadata['name'], metadata['version'], metadata['providers'])
+end
+
+desc 'Release all boxes for a given version'
 task :release_all do
   metadata_files.each do |metadata_file|
     puts "Processing #{metadata_file} for release."
@@ -212,6 +218,18 @@ def create_providers(boxname, version, provider_names)
     req = request('post', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/providers", { 'provider[name]' => provider, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' }  )
     puts "Created #{provider} for #{boxname} #{version}" if req.code == '200'
     puts "Provider #{provider} for #{boxname} #{version} already exists, continuing." if req.code == '422'
+  end
+end
+
+def upload_to_s3(boxname, version, providers)
+  providers.each do |provider, provider_data|
+	boxfile = provider_data['file']
+    upload_path = "s3://opscode-vm-bento/vagrant/#{provider}/opscode_#{boxname}_chef-provisionerless.box"
+    puts "Uploading the box #{boxfile} to S3, version: #{version}, provider: #{provider}, upload path: #{upload_path}"
+    cmd = %W[s3cmd put builds/#{boxfile} #{upload_path}]
+    cmd.insert(1, ".s3cfg-bento")
+    cmd.insert(1, "--config")
+    sh cmd.join(' ')
   end
 end
 
