@@ -28,6 +28,7 @@ These baseboxes are currently hosted via the Atlas [bento organization](https://
 | debian-6.0.10 | [i386][16], [amd64][17]  |  [i386][18], [amd64][19]  |  [i386][20], [amd64][21]  |
 | debian-7.8    | [i386][22], [amd64][23]  |  [i386][24], [amd64][25]  |  [i386][26], [amd64][27]  |
 | debian-8.1    | [i386][28], [amd64][29]  |  [i386][30], [amd64][31]  |  [i386][32], [amd64][33]  |
+| fedora-21     | [i386][76], [amd64][77]  |  [i386][78], [amd64][79]  |  [i386][80], [amd64][81]  |
 | freebsd-9.3   |             [amd64][35]  |              [amd64][37]  |              [amd64][39]  |
 | freebsd-10.2  |             [amd64][41]  |              [amd64][43]  |              [amd64][45]  |
 | opensuse-13.2 | [i386][46], [x86_64][47] |  [i386][48], [x86_64][49] |  [i386][50], [x86_64][51] |
@@ -246,3 +247,10 @@ limitations under the License.
 [73]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.04_chef-provisionerless.box
 [74]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.04-i386_chef-provisionerless.box
 [75]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.04_chef-provisionerless.box
+
+[76]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-21-i386_chef-provisionerless.box
+[77]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-21_chef-provisionerless.box
+[78]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21-i386_chef-provisionerless.box
+[79]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21_chef-provisionerless.box
+[80]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-21-i386_chef-provisionerless.box
+[81]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-21_chef-provisionerless.box
