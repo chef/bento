@@ -193,6 +193,8 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://releases.ubuntu.com"
+    "mirror": "http://releases.ubuntu.com",
+    "dnsserver1": "nameserver 140.211.166.130",
+    "dnsserver2": "nameserver 140.211.166.131"
   }
 }

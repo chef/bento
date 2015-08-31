@@ -185,8 +185,7 @@
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
         "scripts/ubuntu/cleanup.sh",
-        "scripts/common/minimize.sh",
-        "scripts/ubuntu/resolv.sh"
+        "scripts/common/minimize.sh"
       ],
       "type": "shell"
     }
