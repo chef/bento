@@ -24,9 +24,19 @@ vmware-iso|vmware-vmx)
     ;;
 
 parallels-iso|parallels-pvm)
-    echo "Parallels not currently supported, sadface";
-    ;;
+    TOOLS_PATH="$HOME_DIR/prl-tools-mac.iso";
+    TMPMOUNT="`/usr/bin/mktemp -d /tmp/parallels-tools.XXXX`";
 
+    #Run install, unmount ISO and remove it
+    hdiutil attach "$TOOLS_PATH" -mountpoint "$TMPMOUNT";
+    echo "Installing Parallels Tools..."
+    installer -pkg "$TMPMOUNT/Install.app/Contents/Resources/Install.mpkg" -target /;
+
+    # This usually fails
+    hdiutil detach "$TMPMOUNT" || true;
+    rmdir "$TMPMOUNT";
+    rm -f "$TOOLS_PATH";
+    ;;
 *)
     echo "Unknown Packer Builder Type >>${PACKER_BUILDER_TYPE}<< selected.";
     echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-vmx|parallels-iso|parallels-pvm.";

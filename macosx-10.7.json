@@ -152,6 +152,28 @@
       ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
+    },
+    {
+      "boot_wait": "2s",
+      "disk_size": 40960,
+      "guest_os_type": "macosx",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "output_directory": "packer-{{user `template`}}-parallels",
+      "parallels_tools_flavor": "mac",
+      "prlctl": [
+        ["set", "{{.Name}}", "--memsize", "2048"],
+        ["set", "{{.Name}}", "--cpus", "1"],
+        ["set", "{{.Name}}", "--on-window-close", "keep-running"]
+      ],
+      "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso"
     }
   ],
   "post-processors": [
