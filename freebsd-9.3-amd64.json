@@ -194,7 +194,7 @@
     }
   ],
   "variables": {
-    "box_basename": "__unset_box_basename__",
+    "box_basename": "freebsd-9.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
