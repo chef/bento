@@ -5,20 +5,16 @@
 [travis]: https://travis-ci.org/chef/bento
 
 Bento is a project that encapsulates [Packer](http://packer.io) templates for building
-[Vagrant](http://vagrantup.com) baseboxes. We use these boxes internally at Chef Software, Inc. for
+[Vagrant](http://vagrantup.com) base boxes. We use these boxes internally at Chef Software, Inc. for
 testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef)
 via [test-kitchen](http://kitchen.ci/).
 
 This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the [CHEF Release Engineering OSS Management Guide](https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit).
 
-## Current Baseboxes
+## Pre-built Boxes
 
-The following baseboxes are publicly available and were built using
-this project. Note that our baseboxes do not include Chef Client.
-Vagrant can be instructed to install Chef at runtime using the
-[vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus) plugin.
+The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the [bento organization](https://atlas.hashicorp.com/bento/).
 
-These baseboxes are currently hosted via the Atlas [bento organization](https://atlas.hashicorp.com/bento/)
 
 |               | VirtualBox (5.0.2)       | VMware (7.1.2)            | Parallels (11.0.0)        |
 |  ------------ | -------------            | -------------             | -------------             |
@@ -40,58 +36,96 @@ These baseboxes are currently hosted via the Atlas [bento organization](https://
 
 ### Build Notes
 
-* Boxes built on OSX 10.10.5 hosts
+* Built on OSX 10.10.5 hosts
 * If you're using the [Vagrant VMWare Fusion](https://www.vagrantup.com/vmware)
 provider, using `vagrant box add --provider vmware_desktop ...` will work for
 these boxes. Using `--provider vmware_fusion`, will not.
+* The boxes are currently hosted on both Atlas and Amazon S3 to maintain backward
+compatibility with [test-kitchen](https://github.com/test-kitchen/test-kitchen).
+Once test-kitchen changes defaults the S3 buckets will no longer be updated.
 
-## Older Baseboxes
 
-Older baseboxes include Chef and therefore are not compatible with some
+## Older Boxes
+
+Older boxes include Chef and therefore are not compatible with some
 new plugins. The full list of old boxes are available in the [old boxes file](https://github.com/chef/bento/blob/master/OLD-BOXES.md).
 
-## Build Your Own Boxes
+## Using Pre-built Boxes
 
-First, install [Packer](http://packer.io) and then clone this project.
+Adding a bento box to vagrant:
 
-Inside the `packer` directory, a JSON file describes each box that can be built. You can use `packer build` to build the
-boxes.
+    $ vagrant box add chef/debian-8.1
 
-    $ packer build debian-7.8.0-i386.json
+Using a bento box in a Vagrantfile:
 
-If you want to use a another mirror site, use mirror variable.
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "chef/debian-8.1"
+end
+```
 
-    $ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-7.8.0-i386.json
+## Requirements
 
-If you only have VMware or VirtualBox available, you may also tell Packer to build only that box.
+* [Packer](http://packer.io)
+* At least one virtualization provider: Virtualbox, VMware Fusion, Parallels Desktop, etc
 
-    $ packer build -only=virtualbox-iso debian-7.8.0-i386.json
+## Build Your Own Bento Boxes
+
+### Using `bento`
+
+In the `bin` directory of this repo is the `bento` utility which wraps `packer` as well as allowing other related functionality.
+This is an opinionated tool that the project uses for building the hosted boxes listed above.
+
+To build multiple templates for all providers (VirtualBox, Fusion, Parallels, etc):
+
+    $ bin/bento build debian-8.1-amd64 debian-8.1-i386
+
+To build a box for a single provider:
+
+    $ bin/bento build -only=virtualbox-iso debian-8.1-amd64
+
+### Using `packer`
+
+Templates can still be built directly by `packer`
+
+To build a template for all providers (VirtualBox, Fusion, Parallels):
+
+    $ packer build -var 'box_basename=debian-8.1' debian-8.1-amd64.json
+
+To build a template only for a list of specific providers:
+
+    $ packer build -only=virtualbox-iso -var 'box_basename=debian-8.1' debian-8.1-amd64.json
+
+To build a template for all providers except a list of specific providers:
+
+    $ packer build -except=parallels-iso,vmware-iso -var 'box_basename=debian-8.1' debian-8.1-amd64.json
+
+If you want to use a another mirror site, use the `mirror` user variable.
+
+    $ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' -var 'box_basename=debian-8.1' debian-8.1-amd64.json
 
 Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.
 
+Notes:
+* -var 'box_basename=debian-8.1' isn't required but the default value for templates is "__unset_box_basename__"
+
 ### Proprietary Boxes
 
-Mac OS X (10.7, 10.8, 10.9, 10.10), Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, you should substitute your server where you host the ISOs, using the mirror variable as above.
+Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, substitute a server where the ISOs are hosted, using the mirror variable as above.
 
-#### Mac OS X Boxes
+#### Mac OS X
 
 To build a Mac OS X box, you will need to start with an installer for your desired version of OS X.  You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer.  The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.:
 
-    $ packer build -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.9.json
+    $ packer build -var 'box_basename=macosx-10.9' -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.9.json
 
 There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually.
 
 Note that, while it is possible to build OS X boxes for VirtualBox, it may not be ideal. VirtualBox provides no "guest additions" for OS X. Boxes consequently have limited networking configurability and must rely on rsync for folder syncing. VMWare, when available, is generally preferred.
 
-### Windows Boxes
+### Windows
 
-Packer does not yet support Windows, so veewee definitions are still used for building those boxes. You must build these
-boxes yourself due to licensing constraints. You can build these as follows:
-
-    $ bundle install
-    $ bundle exec veewee vbox build [definition-name]
-
-These veewee definitions are lightly maintained. For other approaches to building Windows boxes, please see the following
+Currently the project does not include any definitions for building Windows boxes. For other approaches to building Windows boxes, please see the following
 community projects:
 
 * [Mischa Taylor's Boxcutter project](https://github.com/boxcutter)
