@@ -173,7 +173,8 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "type": "parallels-iso"
+      "type": "parallels-iso",
+      "vm_name": "{{ user `template` }}"
     }
   ],
   "post-processors": [
