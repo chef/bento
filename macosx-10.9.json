@@ -213,7 +213,7 @@
   ],
   "variables": {
     "_README": "You must provide a prepared Mac disk image (from https://github.com/timsutton/osx-vm-templates) and checksum value for this template to work. For more details, consult this project's README.md",
-    "box_basename": "__unset_box_basename__",
+    "box_basename": "macosx-10.9",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
