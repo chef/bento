@@ -136,7 +136,7 @@
     }
   ],
   "variables": {
-    "box_basename": "__unset_box_basename__",
+    "box_basename": "centos-5.11-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
