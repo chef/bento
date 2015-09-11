@@ -117,7 +117,7 @@ Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates a
 
 To build a Mac OS X box, you will need to start with an installer for your desired version of OS X.  You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer.  The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.:
 
-    $ packer build -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.9.json
+    $ packer build -var 'box_basename=macosx-10.9' -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.9.json
 
 There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually.
 
