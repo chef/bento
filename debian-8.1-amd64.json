@@ -186,11 +186,11 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "22bae271a732333ebff150598292d9907d2c6001",
-    "iso_checksum_type": "sha1",
+    "iso_checksum": "10adbdac17a25ad44d0241ae978140c70ddfebdd0597d4a4bfea9fef8eaa9075",
+    "iso_checksum_type": "sha256",
     "iso_name": "debian-8.1.0-amd64-CD-1.iso",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://cdimage.debian.org/cdimage/release",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "8.1.0/amd64/iso-cd",
     "name": "debian-8.1",
     "no_proxy": "{{env `no_proxy`}}",
@@ -199,4 +199,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
