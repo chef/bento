@@ -54,13 +54,13 @@ new plugins. The full list of old boxes are available in the [old boxes file](ht
 
 Adding a bento box to vagrant:
 
-    $ vagrant box add chef/debian-8.1
+    $ vagrant box add bento/debian-8.1
 
 Using a bento box in a Vagrantfile:
 
 ```
 Vagrant.configure("2") do |config|
-  config.vm.box = "chef/debian-8.1"
+  config.vm.box = "bento/debian-8.1"
 end
 ```
 
