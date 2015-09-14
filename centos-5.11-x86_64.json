@@ -142,8 +142,8 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "ebd77f2fdfac8da04f31c508905cf52aa62937cc",
-    "iso_checksum_type": "sha1",
+    "iso_checksum": "b6eb0565b636513b90663ff01c6ec4da5058baff0d7d4007d187be997dd985f8",
+    "iso_checksum_type": "sha256",
     "iso_name": "CentOS-5.11-x86_64-bin-DVD-1of2.iso",
     "ks_path": "centos-5.11/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
@@ -155,4 +155,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-

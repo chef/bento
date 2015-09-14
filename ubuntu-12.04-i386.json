@@ -207,8 +207,8 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "a34c224b7fe72a2f5c768be5afee5c53817743fd",
-    "iso_checksum_type": "sha1",
+    "iso_checksum": "bec39e79664aa189dea338993f636e54c5eda2f84c27def7b06bd6373ab87628",
+    "iso_checksum_type": "sha256",
     "iso_name": "ubuntu-12.04.5-server-i386.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
@@ -220,4 +220,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
