@@ -186,8 +186,8 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "e8f77720e30f669e731fe3166ad6c3d2da33d93a",
-    "iso_checksum_type": "sha1",
+    "iso_checksum": "d2740420ba52d397c453fbfea6f5d3bcdbfe27dee666ee63b0fb1e7df1d18633",
+    "iso_checksum_type": "sha256",
     "iso_name": "debian-6.0.10-i386-CD-1.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
@@ -199,4 +199,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-

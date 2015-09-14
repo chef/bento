@@ -207,8 +207,8 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "0c1ebea31c3523cfe9a4ffed8bcf6c7d23dfb97b",
-    "iso_checksum_type": "sha1",
+    "iso_checksum": "f79edea19575e2cabb5ff9aeca787ea821fcfdbf81ce89823c26b020d9940956",
+    "iso_checksum_type": "sha256",
     "iso_name": "ubuntu-14.10-server-amd64.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
@@ -220,4 +220,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
