@@ -165,6 +165,7 @@
     "mirror": "http://download.opensuse.org/distribution",
     "mirror_directory": "13.2/iso",
     "name": "opensuse-13.2-i386",
+    "no_proxy": "{{env `no_proxy`}}",
     "template": "opensuse-13.2-i386",
     "version": "2.0.TIMESTAMP"
   }
