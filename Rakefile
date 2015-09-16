@@ -1,6 +1,7 @@
 require 'cgi'
 require 'json'
 require 'net/http'
+require 'kitchen'
 
 # TODO:  private boxes may need to specify a mirror
 
@@ -12,6 +13,10 @@ task :do_all do |task, args|
     Rake::Task['build_box'].invoke(a)
     Rake::Task['build_box'].reenable
   end
+
+  # verification stage
+  Rake::Task['test_all'].invoke
+  Rake::Task['test_all'].reenable
 
   # publish stage
   Rake::Task['upload_all'].invoke
@@ -25,6 +30,21 @@ end
 desc 'Build a bento template'
 task :build_box, :template do |t, args|
   sh "#{build_command(args[:template])}"
+end
+
+desc 'Test all boxes with Test Kitchen'
+task :test_all do
+  metadata_files.each do |metadata_file|
+    puts "Processing #{metadata_file} for test."
+    Rake::Task['test_box'].invoke(metadata_file)
+    Rake::Task['test_box'].reenable
+  end
+end
+
+desc 'Test a box with Test Kitchen'
+task :test_box, :metadata_file do |f, args|
+  metadata = box_metadata(args[:metadata_file])
+  test_box(metadata['name'], metadata['providers'])
 end
 
 desc 'Upload all boxes to Atlas for all providers'
@@ -76,6 +96,8 @@ task :clean do
   `rm -rf builds/*.{box,json}`
   puts 'Removing packer-* directories'
   `rm -rf packer-*`
+  puts 'Removing .kitchen.*.yml'
+  `rm -f .kitchen.*.yml`
 end
 
 def atlas_api
@@ -188,6 +210,32 @@ end
 
 def compute_metadata_files
   `ls builds/*.json`.split("\n")
+end
+
+def test_box(boxname, providers)
+  providers.each do |provider, provider_data|
+    puts "Testing provider #{provider} for #{boxname}"
+
+    provider = 'vmware_fusion' if provider == 'vmware_desktop'
+    kitchen_cfg = {"provisioner"=>{"name"=>"chef_zero", "data_path"=>"test/fixtures"},
+     "platforms"=>
+      [{"name"=>"#{boxname}-#{provider}",
+        "driver"=>
+         {"name"=>"vagrant",
+          "provider"=>provider,
+          "box"=>boxname,
+          "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
+     "suites"=>[{"name"=>"default", "run_list"=>nil, "attributes"=>{}}]}
+
+    File.open(".kitchen.#{provider}.yml", "w") {|f| f.write(kitchen_cfg.to_yaml) }
+
+    Kitchen.logger = Kitchen.default_file_logger
+    @loader = Kitchen::Loader::YAML.new(project_config: "./.kitchen.#{provider}.yml")
+    config = Kitchen::Config.new(loader: @loader)
+    config.instances.each do |instance|
+      instance.test(:always)
+    end
+  end
 end
 
 def create_box(boxname)
