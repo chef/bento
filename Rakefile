@@ -214,9 +214,13 @@ end
 
 def test_box(boxname, providers)
   providers.each do |provider, provider_data|
-    puts "Testing provider #{provider} for #{boxname}"
+
+    puts "Removing box: #{boxname} provider: #{provider}"
+    `vagrant box remove #{boxname} --provider #{provider}`
 
     provider = 'vmware_fusion' if provider == 'vmware_desktop'
+
+    puts "Testing provider #{provider} for #{boxname}"
     kitchen_cfg = {"provisioner"=>{"name"=>"chef_zero", "data_path"=>"test/fixtures"},
      "platforms"=>
       [{"name"=>"#{boxname}-#{provider}",
