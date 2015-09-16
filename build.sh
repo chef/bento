@@ -67,6 +67,9 @@ rake clean
 echo "--- Build $PLATFORM-$BENTO_PROVIDERS"
 rake build_box[$PLATFORM]
 
+echo "--- Test $PLATFORM-$BENTO_PROVIDERS"
+rake test_all
+
 echo "--- Upload Boxes"
 rake upload_all
 
