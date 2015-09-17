@@ -84,7 +84,6 @@
       "boot_wait": "10s",
       "disk_size": 20480,
       "guest_os_type": "suse",
-      "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "a0b34f6237b2b2a6b2174c82b40ed326",
       "iso_checksum_type": "md5",

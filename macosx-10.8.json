@@ -157,7 +157,6 @@
       "boot_wait": "2s",
       "disk_size": 40960,
       "guest_os_type": "macosx",
-      "headless": "{{ user `headless` }}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `iso_url`}}",
