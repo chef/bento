@@ -2,6 +2,7 @@ require 'cgi'
 require 'json'
 require 'net/http'
 require 'kitchen'
+require 'aws-sdk'
 
 # TODO:  private boxes may need to specify a mirror
 
@@ -275,13 +276,16 @@ end
 
 def upload_to_s3(boxname, version, providers)
   providers.each do |provider, provider_data|
-	boxfile = provider_data['file']
-    upload_path = "s3://opscode-vm-bento/vagrant/#{provider}/opscode_#{boxname}_chef-provisionerless.box"
-    puts "Uploading the box #{boxfile} to S3, version: #{version}, provider: #{provider}, upload path: #{upload_path}"
-    cmd = %W[s3cmd put builds/#{boxfile} #{upload_path}]
-    cmd.insert(1, ".s3cfg-bento")
-    cmd.insert(1, "--config")
-    sh cmd.join(' ')
+    boxfile = provider_data['file']
+    provider = 'vmware' if provider == 'vmware_desktop'
+    box_path = "vagrant/#{provider}/opscode_#{boxname}_chef-provisionerless.box"
+    credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+
+    s3 = Aws::S3::Resource.new(credentials: credentials, endpoint: 'https://s3.amazonaws.com')
+    puts "Uploading box: #{boxname} provider: #{provider}"
+    s3_object = s3.bucket('opscode-vm-bento').object(box_path)
+    s3_object.upload_file("builds/#{boxfile}", acl:'public-read')
+    puts "Uploaded to #{s3_object.public_url}"
   end
 end
 
