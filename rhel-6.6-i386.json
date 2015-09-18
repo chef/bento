@@ -72,7 +72,6 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "rhel",
-      "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "0a14ed1f7d7ea7b831739ed8e71719d9cb7c294bf801e8db39358651768547ad",
       "iso_checksum_type": "sha256",

@@ -152,7 +152,6 @@
       "disk_size": 40960,
       "guest_os_type": "opensolaris",
       "hard_drive_interface": "ide",
-      "headless": "{{ user `headless` }}",
       "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/OmniOS_Text_r151010j.iso",

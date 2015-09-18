@@ -72,7 +72,6 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_os_type": "centos",
-      "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "81f0c85217f40763dea5053ec5594e4958498bbc",
       "iso_checksum_type": "sha1",
