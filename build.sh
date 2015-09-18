@@ -67,8 +67,14 @@ rake clean
 echo "--- Build $PLATFORM-$BENTO_PROVIDERS"
 rake build_box[$PLATFORM]
 
-echo "--- Upload Boxes"
+echo "--- Test $PLATFORM-$BENTO_PROVIDERS"
+rake test_all
+
+echo "--- Upload Boxes to S3"
+rake upload_all_s3
+
+echo "--- Upload Boxes to Atlas"
 rake upload_all
 
-echo "--- Release Boxes"
+echo "--- Release Boxes on Atlas"
 rake release_all

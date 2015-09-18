@@ -1,6 +1,8 @@
 require 'cgi'
 require 'json'
 require 'net/http'
+require 'kitchen'
+require 'aws-sdk'
 
 # TODO:  private boxes may need to specify a mirror
 
@@ -12,6 +14,10 @@ task :do_all do |task, args|
     Rake::Task['build_box'].invoke(a)
     Rake::Task['build_box'].reenable
   end
+
+  # verification stage
+  Rake::Task['test_all'].invoke
+  Rake::Task['test_all'].reenable
 
   # publish stage
   Rake::Task['upload_all'].invoke
@@ -25,6 +31,21 @@ end
 desc 'Build a bento template'
 task :build_box, :template do |t, args|
   sh "#{build_command(args[:template])}"
+end
+
+desc 'Test all boxes with Test Kitchen'
+task :test_all do
+  metadata_files.each do |metadata_file|
+    puts "Processing #{metadata_file} for test."
+    Rake::Task['test_box'].invoke(metadata_file)
+    Rake::Task['test_box'].reenable
+  end
+end
+
+desc 'Test a box with Test Kitchen'
+task :test_box, :metadata_file do |f, args|
+  metadata = box_metadata(args[:metadata_file])
+  test_box(metadata['name'], metadata['providers'])
 end
 
 desc 'Upload all boxes to Atlas for all providers'
@@ -43,6 +64,15 @@ task :upload_box, :metadata_file do |f, args|
   create_box_version(metadata['name'], metadata['version'])
   create_providers(metadata['name'], metadata['version'], metadata['providers'].keys)
   upload_to_atlas(metadata['name'], metadata['version'], metadata['providers'])
+end
+
+desc 'Upload all boxes to S3 for all providers'
+task :upload_all_s3 do
+  metadata_files.each do |metadata_file|
+    puts "Processing #{metadata_file} for upload."
+    Rake::Task['upload_box_s3'].invoke(metadata_file)
+    Rake::Task['upload_box_s3'].reenable
+  end
 end
 
 desc 'Upload box files to S3 for all providers'
@@ -76,6 +106,8 @@ task :clean do
   `rm -rf builds/*.{box,json}`
   puts 'Removing packer-* directories'
   `rm -rf packer-*`
+  puts 'Removing .kitchen.*.yml'
+  `rm -f .kitchen.*.yml`
 end
 
 def atlas_api
@@ -190,6 +222,36 @@ def compute_metadata_files
   `ls builds/*.json`.split("\n")
 end
 
+def test_box(boxname, providers)
+  providers.each do |provider, provider_data|
+
+    puts "Removing box: #{boxname} provider: #{provider}"
+    `vagrant box remove #{boxname} --provider #{provider}`
+
+    provider = 'vmware_fusion' if provider == 'vmware_desktop'
+
+    puts "Testing provider #{provider} for #{boxname}"
+    kitchen_cfg = {"provisioner"=>{"name"=>"chef_zero", "data_path"=>"test/fixtures"},
+     "platforms"=>
+      [{"name"=>"#{boxname}-#{provider}",
+        "driver"=>
+         {"name"=>"vagrant",
+          "provider"=>provider,
+          "box"=>boxname,
+          "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
+     "suites"=>[{"name"=>"default", "run_list"=>nil, "attributes"=>{}}]}
+
+    File.open(".kitchen.#{provider}.yml", "w") {|f| f.write(kitchen_cfg.to_yaml) }
+
+    Kitchen.logger = Kitchen.default_file_logger
+    @loader = Kitchen::Loader::YAML.new(project_config: "./.kitchen.#{provider}.yml")
+    config = Kitchen::Config.new(loader: @loader)
+    config.instances.each do |instance|
+      instance.test(:always)
+    end
+  end
+end
+
 def create_box(boxname)
   req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}", { 'box[username]' => atlas_org, 'access_token' => atlas_token } )
   if req.code.eql?('404')
@@ -223,13 +285,16 @@ end
 
 def upload_to_s3(boxname, version, providers)
   providers.each do |provider, provider_data|
-	boxfile = provider_data['file']
-    upload_path = "s3://opscode-vm-bento/vagrant/#{provider}/opscode_#{boxname}_chef-provisionerless.box"
-    puts "Uploading the box #{boxfile} to S3, version: #{version}, provider: #{provider}, upload path: #{upload_path}"
-    cmd = %W[s3cmd put builds/#{boxfile} #{upload_path}]
-    cmd.insert(1, ".s3cfg-bento")
-    cmd.insert(1, "--config")
-    sh cmd.join(' ')
+    boxfile = provider_data['file']
+    provider = 'vmware' if provider == 'vmware_desktop'
+    box_path = "vagrant/#{provider}/opscode_#{boxname}_chef-provisionerless.box"
+    credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+
+    s3 = Aws::S3::Resource.new(credentials: credentials, endpoint: 'https://s3.amazonaws.com')
+    puts "Uploading box: #{boxname} provider: #{provider}"
+    s3_object = s3.bucket('opscode-vm-bento').object(box_path)
+    s3_object.upload_file("builds/#{boxfile}", acl:'public-read')
+    puts "Uploaded to #{s3_object.public_url}"
   end
 end
 
