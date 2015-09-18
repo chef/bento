@@ -66,6 +66,15 @@ task :upload_box, :metadata_file do |f, args|
   upload_to_atlas(metadata['name'], metadata['version'], metadata['providers'])
 end
 
+desc 'Upload all boxes to S3 for all providers'
+task :upload_all_s3 do
+  metadata_files.each do |metadata_file|
+    puts "Processing #{metadata_file} for upload."
+    Rake::Task['upload_box_s3'].invoke(metadata_file)
+    Rake::Task['upload_box_s3'].reenable
+  end
+end
+
 desc 'Upload box files to S3 for all providers'
 task :upload_box_s3, :metadata_file do |f, args|
   metadata = box_metadata(args[:metadata_file])
