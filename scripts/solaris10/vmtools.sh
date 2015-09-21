@@ -31,7 +31,7 @@ else
     mount -o ro -F hsfs $VMTOOLSDEV /cdrom
     mkdir /tmp/vmfusion-archive
     gtar zxvf /cdrom/vmware-solaris-tools.tar.gz -C /tmp/vmfusion-archive
-    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
+    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --force-install
     umount /cdrom
     lofiadm -d $VMTOOLSDEV
     rm -rf /mnt/vmtools
