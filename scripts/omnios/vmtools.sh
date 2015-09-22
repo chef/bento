@@ -21,7 +21,7 @@ if [ $PACKER_BUILDER_TYPE == 'vmware' ]; then
   mount -o ro -F hsfs $VMTOOLSDEV /mnt/vmtools
   mkdir /tmp/vmfusion-archive
   tar zxvf /mnt/vmtools/vmware-solaris-tools.tar.gz -C /tmp/vmfusion-archive
-  /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default
+  /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --force-install
   umount /mnt/vmtools
   lofiadm -d $VMTOOLSDEV
   rmdir /mnt/vmtools
