@@ -70,11 +70,14 @@ rake build_box[$PLATFORM]
 echo "--- Test $PLATFORM-$BENTO_PROVIDERS"
 rake test_all
 
-echo "--- Upload Boxes to S3"
-rake upload_all_s3
+if [ $BENTO_UPLOAD -eq 1 ]
+then
+  echo "--- Upload Boxes to S3"
+  rake upload_all_s3
 
-echo "--- Upload Boxes to Atlas"
-rake upload_all
+  echo "--- Upload Boxes to Atlas"
+  rake upload_all
 
-echo "--- Release Boxes on Atlas"
-rake release_all
+  echo "--- Release Boxes on Atlas"
+  rake release_all
+fi
