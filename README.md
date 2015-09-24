@@ -82,7 +82,7 @@ To build multiple templates for all providers (VirtualBox, Fusion, Parallels, et
 
 To build a box for a single provider:
 
-    $ bin/bento build -only=virtualbox-iso debian-8.1-amd64
+    $ bin/bento build --only=virtualbox-iso debian-8.1-amd64
 
 ### Using `packer`
 
