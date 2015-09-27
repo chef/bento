@@ -11,8 +11,13 @@ NAME=$1
 # for variations in the root disk device name between VMware and Virtualbox
 if [ -e /dev/ada0 ]; then
   DISKSLICE=ada0
-else
+elif [ -e /dev/da0 ]; then
   DISKSLICE=da0
+elif [ -e /dev/vtbd0 ]; then
+  DISKSLICE=vtbd0
+else
+  echo "Unknown disk for install.sh to work with!"
+  exit -1
 fi
 
 gpart create -s gpt $DISKSLICE
@@ -65,11 +70,12 @@ cp /tmp/zpool.cache /mnt/zroot/boot/zfs/zpool.cache
 
 zfs set readonly=on zroot/var/empty
 
+ifdev=`ifconfig | grep '^[a-z]' | cut -d: -f1 | head -n 1`
 # Enable required services
 cat >> /mnt/zroot/etc/rc.conf << EOT
 zfs_enable="YES"
 hostname="${NAME}"
-ifconfig_em0="dhcp"
+ifconfig_${ifdev}="dhcp"
 sshd_enable="YES"
 EOT
 
