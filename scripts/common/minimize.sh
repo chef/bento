@@ -1,5 +1,9 @@
 #!/bin/sh -eux
 
+case "$PACKER_BUILDER_TYPE" in
+  qemu) exit 0 ;;
+esac
+
 swapuuid="`/sbin/blkid -o value -l -s UUID -t TYPE=swap`";
 
 if [ "x${swapuuid}" != "x" ]; then

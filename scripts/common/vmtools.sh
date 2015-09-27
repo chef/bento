@@ -43,6 +43,10 @@ parallels-iso|parallels-pvm)
     rm -f $HOME_DIR/*.iso;
     ;;
 
+qemu)
+    echo "Don't need anything for this one"
+    ;;
+
 *)
     echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected.";
     echo "Known are virtualbox-iso|virtualbox-ovf|vmware-iso|vmware-vmx|parallels-iso|parallels-pvm.";
