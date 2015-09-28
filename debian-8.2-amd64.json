@@ -16,6 +16,7 @@
         "debconf/frontend=noninteractive <wait>",
         "console-setup/ask_detect=false <wait>",
         "console-keymaps-at/keymap=us <wait>",
+        "grub-installer/bootdev=/dev/sda <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -68,6 +69,7 @@
         "debconf/frontend=noninteractive <wait>",
         "console-setup/ask_detect=false <wait>",
         "console-keymaps-at/keymap=us <wait>",
+        "grub-installer/bootdev=/dev/sda <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -109,6 +111,7 @@
         "debconf/frontend=noninteractive <wait>",
         "console-setup/ask_detect=false <wait>",
         "console-keymaps-at/keymap=us <wait>",
+        "grub-installer/bootdev=/dev/sda <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -159,11 +162,11 @@
         "debconf/frontend=noninteractive <wait>",
         "console-setup/ask_detect=false <wait>",
         "console-keymaps-at/keymap=us <wait>",
+        "grub-installer/bootdev=/dev/vda <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "disk_interface": "scsi",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
