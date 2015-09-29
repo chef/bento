@@ -1,0 +1,51 @@
+{
+    "builders": [{
+    "disk_size": 61440,
+    "type": "virtualbox-iso",
+    "vboxmanage": [
+      [ "modifyvm", "{{.Name}}", "--natpf1", "guest_winrm,tcp,,55985,,5985" ],
+      [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+      [ "modifyvm", "{{.Name}}", "--vram", "36" ],
+      [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
+      [ "modifyvm", "{{.Name}}", "--hardwareuuid", "02f110e7-369a-4bbc-bbe6-6f0b6864ccb6" ]
+    ],
+    "guest_os_type": "Windows2012_64",
+    "headless": "{{ user `headless` }}",
+    "iso_url": "{{ user `iso_url` }}",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "{{user `iso_checksum_type`}}",
+    "communicator": "winrm",
+    "output_directory": "packer-{{user `template`}}-virtualbox",
+    "virtualbox_version_file": ".vbox_version",
+    "vm_name": "{{ user `template` }}",
+    "winrm_username": "vagrant",
+    "winrm_password": "vagrant",
+    "winrm_timeout": "2h",
+    "guest_additions_mode": "disable",
+    "shutdown_command": "shutdown /r /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+    "shutdown_timeout": "15m",
+    "floppy_files": [
+      "scripts/Autounattend.xml",
+      "scripts/nano_create.ps1",
+      "scripts/nano_cleanup.ps1",
+      "scripts/SetupComplete.cmd",
+      "scripts/postunattend.xml"
+    ]
+  }],
+    "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile-windows-nano.template"
+    }
+  ],
+  "variables": {
+    "box_basename": "windows-nano",
+    "headless": "",
+    "iso_checksum": "7003c2a4f9abe672c570ff018fbf3a27",
+    "iso_checksum_type": "md5",
+    "iso_url": "iso/10514.0.150808-1529.TH2_RELEASE_SERVER_OEMRET_X64FRE_EN-US.ISO",
+    "template": "windows-nano-tp3"
+  }
+}
