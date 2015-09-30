@@ -17,7 +17,7 @@
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
     "output_directory": "packer-{{user `template`}}-virtualbox",
     "shutdown_command": "shutdown /r /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-    "shutdown_timeout": "15m",
+    "shutdown_timeout": "1h",
     "type": "virtualbox-iso",
     "vboxmanage": [
       [ 
