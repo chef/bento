@@ -66,10 +66,14 @@
   ],
   "variables": {
     "box_basename": "windows-nano",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
     "headless": "",
     "iso_checksum": "7003c2a4f9abe672c570ff018fbf3a27",
     "iso_checksum_type": "md5",
     "iso_url": "http://care.dlservice.microsoft.com/dl/download/7/3/C/73C250BE-67C4-440B-A69B-D0E8EE77F01C/10514.0.150808-1529.TH2_RELEASE_SERVER_OEMRET_X64FRE_EN-US.ISO",
-    "template": "windows-nano-tp3"
+    "metadata": "floppy/dummy_metadata.json",
+    "template": "windows-nano-tp3",
+    "version": "1.0.TIMESTAMP"
   }
 }
