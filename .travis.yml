@@ -1,7 +1,7 @@
 rvm:
   - 2.2
 
-before_install: wget --no-check-certificate https://dl.bintray.com/mitchellh/packer/packer_0.7.5_linux_amd64.zip && unzip -d packer packer_0.7.5_linux_amd64.zip
+before_install: wget --no-check-certificate https://dl.bintray.com/mitchellh/packer/packer_0.8.6_linux_amd64.zip && unzip -d packer packer_0.8.6_linux_amd64.zip
 before_script: export PATH=$PATH:$PWD/packer
 
 script: ./bin/bento normalize
