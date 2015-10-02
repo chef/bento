@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
   config.vm.guest = :windows
   config.vm.communicator = "winrm"
-  config.vm.network "private_network", type: "dhcp", virtualbox__intnet: true
+  config.vm.network "private_network", type: "dhcp"
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--hardwareuuid", "02f110e7-369a-4bbc-bbe6-6f0b6864ccb6"]
