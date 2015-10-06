@@ -230,12 +230,15 @@ def test_box(boxname, providers)
 
     provider = 'vmware_fusion' if provider == 'vmware_desktop'
 
+    share_disabled = /omnios.*|freebsd.*/ === boxname ? true : false
+
     puts "Testing provider #{provider} for #{boxname}"
     kitchen_cfg = {"provisioner"=>{"name"=>"chef_zero", "data_path"=>"test/fixtures"},
      "platforms"=>
       [{"name"=>"#{boxname}-#{provider}",
         "driver"=>
          {"name"=>"vagrant",
+          "synced_folders"=>[[".", "/vagrant", "disabled: #{share_disabled}"]],
           "provider"=>provider,
           "box"=>boxname,
           "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
