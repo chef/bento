@@ -1,0 +1,107 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<enter>",
+        "<wait10>",
+        "y<enter>",
+        "<wait10>",
+        "<enter>",
+        "<wait10>",
+        "<enter>",
+        "<wait10>",
+        "<wait5>",
+        "root<enter><wait><wait>",
+        "root<enter><wait><wait>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/chef-12.4.0.dev.x86_64.rpm -O /tmp/chef-12.4.0.dev.x86_64.rpm<enter><wait5>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 10360,
+      "guest_additions_mode": "attach",
+      "guest_os_type": "Linux_64",
+      "http_directory": "http/windriver-5.1",
+      "iso_checksum": "abd48162b1cceb412727867519c22df1",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/satori-vm-chef-intel-xeon-core.0501.iso",
+      "output_directory": "packer-windriver-5.1_64",
+      "shutdown_command": "init 0",
+      "shutdown_timeout": "10m",
+      "ssh_password": "root",
+      "ssh_port": 22,
+      "ssh_username": "root",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "4096"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-windriver-5.1_64"
+    },
+    {
+      "boot_command": [
+        "<enter>",
+        "<wait10>",
+        "y<enter>",
+        "<wait10>",
+        "<enter>",
+        "<wait10>",
+        "<enter>",
+        "<wait10>",
+        "<wait5>",
+        "root<enter><wait><wait>",
+        "root<enter><wait><wait>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/chef-12.4.0.dev.x86_64.rpm -O /tmp/chef-12.4.0.dev.x86_64.rpm<enter><wait5>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 10360,
+      "guest_os_type": "Linux_64",
+      "http_directory": "http/windriver-5.1",
+      "iso_checksum": "abd48162b1cceb412727867519c22df1",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/satori-vm-chef-intel-xeon-core.0501.iso",
+      "output_directory": "packer-windriver-5.1_64",
+      "shutdown_command": "init 0",
+      "shutdown_timeout": "10m",
+      "ssh_password": "root",
+      "ssh_port": 22,
+      "ssh_username": "root",
+      "ssh_wait_timeout": "10000s",
+      "type": "vmware-iso",
+      "vm_name": "packer-windriver-5.1_64",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "4096",
+        "numvcpus": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "builds/{{.Provider}}/opscode-windriver-5.1.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "scripts": [
+        "scripts/windriver/5.1/install.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "mirror": "./packer_cache"
+  }
+}
+

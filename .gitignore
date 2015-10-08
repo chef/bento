@@ -8,3 +8,4 @@ packer.log
 /packer-*/
 *.variables.json
 /builds/
+http/windriver-5.1/*.rpm
