@@ -155,22 +155,22 @@
   ],
   "variables": {
     "arch": "32",
-    "box_basename": "oracle-6.6-i386",
+    "box_basename": "oracle-6.7-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "81F0C85217F40763DEA5053EC5594E4958498BBC",
+    "iso_checksum": "F35C749FBDD7BF0FB0A676C477728D0B864E4D69",
     "iso_checksum_type": "sha1",
-    "iso_name": "OracleLinux-R6-U6-Server-i386-dvd.iso",
+    "iso_name": "OracleLinux-R6-U7-Server-i386-dvd.iso",
     "ks_path": "centos-6.7/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.dotsrc.org/oracle-linux",
-    "mirror_directory": "OL6/U6/i386",
-    "name": "oracle-6.6-i386",
+    "mirror_directory": "OL6/U7/i386",
+    "name": "oracle-6.7-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "oracle-6.6-i386",
+    "template": "oracle-6.7-i386",
     "version": "2.2.TIMESTAMP"
   }
 }
