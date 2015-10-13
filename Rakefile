@@ -3,6 +3,7 @@ require 'json'
 require 'net/http'
 require 'kitchen'
 require 'aws-sdk'
+require 'mixlib/shellout'
 
 # TODO:  private boxes may need to specify a mirror
 
@@ -222,11 +223,23 @@ def compute_metadata_files
   `ls builds/*.json`.split("\n")
 end
 
+def destroy_all_bento
+  cmd = Mixlib::ShellOut.new("vagrant box list | grep 'bento-'")
+  cmd.run_command
+  boxes = cmd.stdout.split("\n")
+
+  boxes.each do | box |
+     b = box.split(" ")
+     rm_cmd = Mixlib::ShellOut.new("vagrant box remove --force #{b[0]} --provider #{b[1].to_s.gsub(/(,|\()/, '')}")
+     puts "Removing #{b[0]} for provider #{b[1].to_s.gsub(/(,|\()/, '')}"
+     rm_cmd.run_command
+  end
+end
+
 def test_box(boxname, providers)
   providers.each do |provider, provider_data|
 
-    puts "Removing box: #{boxname} provider: #{provider}"
-    `vagrant box remove #{boxname} --provider #{provider}`
+    destroy_all_bento
 
     provider = 'vmware_fusion' if provider == 'vmware_desktop'
 
@@ -240,7 +253,7 @@ def test_box(boxname, providers)
          {"name"=>"vagrant",
           "synced_folders"=>[[".", "/vagrant", "disabled: #{share_disabled}"]],
           "provider"=>provider,
-          "box"=>boxname,
+          "box"=>"bento-#{boxname}",
           "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
      "suites"=>[{"name"=>"default", "run_list"=>nil, "attributes"=>{}}]}
 

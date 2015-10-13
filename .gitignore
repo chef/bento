@@ -8,3 +8,4 @@ packer.log
 /packer-*/
 *.variables.json
 /builds/
+.kitchen
