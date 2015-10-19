@@ -4,7 +4,13 @@ case "$PACKER_BUILDER_TYPE" in
   qemu) exit 0 ;;
 esac
 
+set +e
 swapuuid="`/sbin/blkid -o value -l -s UUID -t TYPE=swap`";
+case "$?" in
+	2|0) ;;
+	*) exit 1 ;;
+esac
+set -e
 
 if [ "x${swapuuid}" != "x" ]; then
     # Whiteout the swap partition to reduce box size
