@@ -13,7 +13,7 @@
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/7.1.1503/isos/x86_64/CentOS-7-x86_64-NetInstall-1503.iso",
       "output_directory": "packer-centos-7.1-x86_64-ganeti",
-      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemuargs": [ [ "-m", "1024M" ] ],
       "qemu_binary": "qemu-kvm",
       "shutdown_command": "echo 'osuadmin'|sudo -S /sbin/halt -h -p",
       "ssh_password": "osuadmin",

@@ -13,7 +13,7 @@
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `mirror`}}/6.6/isos/x86_64/CentOS-6.6-x86_64-netinstall.iso",
       "output_directory": "packer-centos-6.6-x86_64-openstack-chefdk",
-      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemuargs": [ [ "-m", "1024M" ] ],
       "qemu_binary": "qemu-kvm",
       "shutdown_command": "echo 'centos'|sudo -S /sbin/halt -h -p",
       "ssh_password": "centos",
