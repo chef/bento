@@ -38,7 +38,7 @@
       "shutdown_command": "echo 'debian'|sudo -S /sbin/shutdown -hP now",
       "vm_name": "packer-debian-7.8-amd64",
       "output_directory": "packer-debian-7.8-amd64-openstack",
-      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemuargs": [ [ "-m", "1024M" ] ],
       "qemu_binary": "qemu-kvm"
     }
   ],

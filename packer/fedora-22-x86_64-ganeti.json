@@ -14,7 +14,7 @@
       "iso_url": "{{user `mirror`}}/releases/22/Server/x86_64/iso/Fedora-Server-DVD-x86_64-22.iso",
       "output_directory": "packer-fedora-22-x86_64-ganeti",
       "shutdown_command": "echo 'osuadmin'|sudo -S shutdown -P now",
-      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemuargs": [ [ "-m", "1024M" ] ],
       "qemu_binary": "qemu-kvm",
       "ssh_password": "osuadmin",
       "ssh_port": 22,

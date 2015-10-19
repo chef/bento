@@ -34,7 +34,7 @@
       "iso_checksum_type": "sha256",
       "iso_url": "{{user `mirror`}}/14.04/ubuntu-14.04.2-server-amd64.iso",
       "output_directory": "packer-ubuntu-14.04-amd64-ganeti",
-      "qemuargs": [ [ "-m", "1024m" ] ],
+      "qemuargs": [ [ "-m", "1024M" ] ],
       "qemu_binary": "qemu-kvm",
       "shutdown_command": "echo 'osuadmin'|sudo -S shutdown -P now",
       "ssh_password": "osuadmin",
