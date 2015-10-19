@@ -35,7 +35,7 @@ done
 [ -z "$TEMPLATE" ] && echo "Error: Template file not set" && exit 1
 
 DIR_NAME="packer-$(basename -s .json $TEMPLATE)"
-IMAGE_NAME="$(grep vm_name $TEMPLATE | awk '{print $2}' | sed -e 's/\"//g' | sed -e 's/,//g')"
+IMAGE_NAME=$(grep vm_name $TEMPLATE | awk '{print $2}' | sed -e 's/\"//g' | sed -e 's/,//g')
 set -xe
 cd packer
 packer build -var "\'chef_version=$CHEF_VERSION\'" $(basename $TEMPLATE)
