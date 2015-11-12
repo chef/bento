@@ -1,0 +1,50 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-23/ks-ppc64-openstack.cfg<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "10s",
+      "disk_size": 2048,
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "665aea48d83c10f8a6c40b4abc8141bf75781c7dc70e143b0b624d00adfb36b1",
+      "iso_checksum_type": "sha256",
+      "iso_url": "{{user `mirror`}}/releases/23/Server/ppc64/iso/Fedora-Server-DVD-ppc64-23.iso",
+      "output_directory": "packer-fedora-23-ppc64-openstack",
+      "shutdown_command": "echo 'fedora'|sudo -S shutdown -P now",
+      "qemuargs": [ [ "-m", "1024M" ] ],
+      "qemu_binary": "qemu-system-ppc64",
+      "ssh_password": "fedora",
+      "ssh_port": 22,
+      "ssh_username": "fedora",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-fedora-23-ppc64"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/fedora/fix-slow-dns.sh",
+        "scripts/common/sshd.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/fedora/openstack.sh",
+        "scripts/fedora/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://fedora-secondary.osuosl.org"
+  }
+}
+
