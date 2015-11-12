@@ -34,7 +34,7 @@
       "environment_vars": [
         "CHEF_VERSION={{user `chef_version`}}"
       ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "execute_command": "echo 'fedora' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/fedora/fix-slow-dns.sh",
         "scripts/common/sshd.sh",
