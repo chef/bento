@@ -16,6 +16,7 @@
       "shutdown_command": "echo 'fedora'|sudo -S shutdown -P now",
       "qemuargs": [ [ "-m", "1024M" ] ],
       "qemu_binary": "qemu-system-ppc64",
+      "machine_type": "pseries",
       "ssh_password": "fedora",
       "ssh_port": 22,
       "ssh_username": "fedora",
