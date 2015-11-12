@@ -2,19 +2,22 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-23/ks-ppc64-openstack.cfg<enter><wait>"
+        "c <wait5> <wait10> linux /ppc/ppc64/vmlinuz ",
+        "ro ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-23/ks-ppc64-openstack.cfg<enter>",
+        "initrd /ppc/ppc64/initrd.img<enter>",
+        "boot<enter><wait>"
       ],
       "accelerator": "kvm",
-      "boot_wait": "10s",
+      "boot_wait": "14s",
       "disk_size": 2048,
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "665aea48d83c10f8a6c40b4abc8141bf75781c7dc70e143b0b624d00adfb36b1",
+      "iso_checksum": "23dec5aae8f2b8ed78533d181ffbcdab68bdf1981dac3ae93c6244c08d090d1d",
       "iso_checksum_type": "sha256",
-      "iso_url": "{{user `mirror`}}/releases/23/Server/ppc64/iso/Fedora-Server-DVD-ppc64-23.iso",
+      "iso_url": "{{user `mirror`}}/releases/23/Server/ppc64/iso/Fedora-Server-netinst-ppc64-23.iso",
       "output_directory": "packer-fedora-23-ppc64-openstack",
       "shutdown_command": "echo 'fedora'|sudo -S shutdown -P now",
-      "qemuargs": [ [ "-m", "1024M" ] ],
+      "qemuargs": [ [ "-m", "2048M" ] ],
       "qemu_binary": "qemu-system-ppc64",
       "machine_type": "pseries",
       "ssh_password": "fedora",
