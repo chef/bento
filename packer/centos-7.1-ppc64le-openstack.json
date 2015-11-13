@@ -1,0 +1,58 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "c<wait5><wait10>",
+        "linux /ppc/ppc64/vmlinuz ro ",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7/ks-ppc64le-openstack.cfg<enter>",
+        "initrd /ppc/ppc64/initrd.img<enter>",
+        "boot<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "14s",
+      "disk_size": 2048,
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "cda3e4b9eeb51877f203794bbf5910c5",
+      "iso_checksum_type": "md5sum",
+      "iso_url": "{{user `mirror`}}/7.1.1503/os/ppc64le/images/boot.iso",
+      "output_directory": "packer-centos-23-ppc64-openstack",
+      "shutdown_command": "echo 'centos'|sudo -S shutdown -P now",
+      "qemuargs": [
+        [ "-m", "2048M" ],
+        [ "-boot", "strict=on" ]
+      ],
+      "qemu_binary": "qemu-system-ppc64",
+      "machine_type": "pseries",
+      "ssh_password": "centos",
+      "ssh_port": 22,
+      "ssh_username": "centos",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-centos-7-ppc64le"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "echo 'centos' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/centos/fix-slow-dns.sh",
+        "scripts/common/sshd.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/common/chef.sh",
+        "scripts/centos/oslrepo.sh",
+        "scripts/centos/openstack.sh",
+        "scripts/centos/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "mirror": "http://packages.osuosl.org/repositories/centos-7/ppc64le"
+  }
+}
