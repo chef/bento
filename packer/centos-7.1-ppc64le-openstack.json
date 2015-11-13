@@ -16,7 +16,7 @@
       "iso_checksum": "cda3e4b9eeb51877f203794bbf5910c5",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/7.1.1503/os/ppc64le/images/boot.iso",
-      "output_directory": "packer-centos-23-ppc64-openstack",
+      "output_directory": "packer-centos-7-ppc64le-openstack",
       "shutdown_command": "echo 'centos'|sudo -S shutdown -P now",
       "qemuargs": [
         [ "-m", "2048M" ],
