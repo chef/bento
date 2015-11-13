@@ -18,7 +18,10 @@
       "iso_url": "{{user `mirror`}}/releases/23/Server/ppc64/iso/Fedora-Server-netinst-ppc64-23.iso",
       "output_directory": "packer-fedora-23-ppc64-openstack",
       "shutdown_command": "echo 'fedora'|sudo -S shutdown -P now",
-      "qemuargs": [ [ "-m", "2048M" ] ],
+      "qemuargs": [
+        [ "-m", "2048M" ],
+        [ "-boot", "strict=on" ]
+      ],
       "qemu_binary": "qemu-system-ppc64",
       "machine_type": "pseries",
       "ssh_password": "fedora",
