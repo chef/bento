@@ -3,8 +3,8 @@
     {
       "boot_command": [
         "c<wait5><wait10>",
-        "linux /ppc/ppc64/vmlinuz ",
-        "ro ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-23/ks-ppc64-openstack.cfg<enter>",
+        "linux /ppc/ppc64/vmlinuz ro ",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora-23/ks-ppc64-openstack.cfg<enter>",
         "initrd /ppc/ppc64/initrd.img<enter>",
         "boot<enter><wait>"
       ],
