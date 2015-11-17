@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Bento by chef</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Bento</h1>
+      <h2 class="project-tagline">Packer templates for building minimal Vagrant baseboxes</h2>
+      <a href="https://github.com/chef/bento" class="btn">View on GitHub</a>
+      <a href="https://github.com/chef/bento/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/chef/bento/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="bento" class="anchor" href="#bento" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bento</h1>
+
+<p><a href="https://travis-ci.org/chef/bento"><img src="http://img.shields.io/travis/chef/bento.svg" alt="Build Status"></a></p>
+
+<p>Bento is a project that encapsulates <a href="http://packer.io">Packer</a> templates for building
+<a href="http://vagrantup.com">Vagrant</a> base boxes. We use these boxes internally at Chef Software, Inc. for
+testing Hosted Chef, Chef Server and our open source <a href="https://supermarket.chef.io/users/chef">cookbooks</a>
+via <a href="http://kitchen.ci/">test-kitchen</a>.</p>
+
+<p>This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the <a href="https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit">CHEF Release Engineering OSS Management Guide</a>.</p>
+
+<h2>
+<a id="pre-built-boxes" class="anchor" href="#pre-built-boxes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pre-built Boxes</h2>
+
+<p>The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the <a href="https://atlas.hashicorp.com/bento/">bento organization</a>.</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>VirtualBox (5.0.6)</th>
+<th>VMware (8.0.1)</th>
+<th>Parallels (11.0.1)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>centos-5.11</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.11-i386_chef-provisionerless.box">i386</a>,  <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.11_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.11-i386_chef-provisionerless.box">i386</a>,  <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.11_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-5.11-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-5.11_chef-provisionerless.box">x86_64</a>
+</td>
+</tr>
+<tr>
+<td>centos-6.7</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.7-i386_chef-provisionerless.box">i386</a>,  <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.7_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.7-i386_chef-provisionerless.box">i386</a>,  <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.7_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-6.7-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-6.7_chef-provisionerless.box">x86_64</a>
+</td>
+</tr>
+<tr>
+<td>centos-7.1</td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box">x86_64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.1_chef-provisionerless.box">x86_64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-7.1_chef-provisionerless.box">x86_64</a></td>
+</tr>
+<tr>
+<td>debian-6.0.10</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.10-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.10_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-6.0.10-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-6.0.10_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+<tr>
+<td>debian-7.9</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.8-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.8_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.8-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.8_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.8-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.8_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+<tr>
+<td>debian-8.2</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.1-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.1_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.1-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.1_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.1-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.1_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+<tr>
+<td>fedora-21</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-21-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-21_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-21-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-21_chef-provisionerless.box">x86_64</a>
+</td>
+</tr>
+<tr>
+<td>fedora-22</td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-22_chef-provisionerless.box">x86_64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-22_chef-provisionerless.box">x86_64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-22_chef-provisionerless.box">x86_64</a></td>
+</tr>
+<tr>
+<td>freebsd-9.3</td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3_chef-provisionerless.box">amd64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3_chef-provisionerless.box">amd64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3_chef-provisionerless.box">amd64</a></td>
+</tr>
+<tr>
+<td>freebsd-10.2</td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.2_chef-provisionerless.box">amd64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.2_chef-provisionerless.box">amd64</a></td>
+<td><a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.2_chef-provisionerless.box">amd64</a></td>
+</tr>
+<tr>
+<td>opensuse-13.2</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-x86_64_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-x86_64_chef-provisionerless.box">x86_64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-x86_64_chef-provisionerless.box">x86_64</a>
+</td>
+</tr>
+<tr>
+<td>ubuntu-10.04</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-10.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-10.04_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+<tr>
+<td>ubuntu-12.04</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+<tr>
+<td>ubuntu-14.04</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+<tr>
+<td>ubuntu-15.04</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.04_chef-provisionerless.box">amd64</a>
+</td>
+<td>
+<a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.04-i386_chef-provisionerless.box">i386</a>, <a href="http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.04_chef-provisionerless.box">amd64</a>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="build-notes" class="anchor" href="#build-notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build Notes</h3>
+
+<ul>
+<li>Built on OSX 10.10.5 hosts</li>
+<li>If you're using the <a href="https://www.vagrantup.com/vmware">Vagrant VMWare Fusion</a>
+provider, using <code>vagrant box add --provider vmware_desktop ...</code> will work for
+these boxes. Using <code>--provider vmware_fusion</code>, will not.</li>
+<li>The boxes are currently hosted on both Atlas and Amazon S3 to maintain backward
+compatibility with <a href="https://github.com/test-kitchen/test-kitchen">test-kitchen</a>.
+Once test-kitchen changes defaults the S3 buckets will no longer be updated.</li>
+</ul>
+
+<h2>
+<a id="older-boxes" class="anchor" href="#older-boxes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Older Boxes</h2>
+
+<p>Older boxes include Chef and therefore are not compatible with some
+new plugins. The full list of old boxes are available in the <a href="https://github.com/chef/bento/blob/master/OLD-BOXES.md">old boxes file</a>.</p>
+
+<h2>
+<a id="using-pre-built-boxes" class="anchor" href="#using-pre-built-boxes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using Pre-built Boxes</h2>
+
+<p>Adding a bento box to vagrant:</p>
+
+<pre><code>$ vagrant box add bento/debian-8.1
+</code></pre>
+
+<p>Using a bento box in a Vagrantfile:</p>
+
+<pre><code>Vagrant.configure("2") do |config|
+  config.vm.box = "bento/debian-8.1"
+end
+</code></pre>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li><a href="http://packer.io">Packer</a></li>
+<li>At least one virtualization provider: Virtualbox, VMware Fusion, Parallels Desktop, etc</li>
+</ul>
+
+<h2>
+<a id="build-your-own-bento-boxes" class="anchor" href="#build-your-own-bento-boxes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build Your Own Bento Boxes</h2>
+
+<h3>
+<a id="using-bento" class="anchor" href="#using-bento" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using <code>bento</code>
+</h3>
+
+<p>In the <code>bin</code> directory of this repo is the <code>bento</code> utility which wraps <code>packer</code> as well as allowing other related functionality.
+This is an opinionated tool that the project uses for building the hosted boxes listed above.</p>
+
+<p>To build multiple templates for all providers (VirtualBox, Fusion, Parallels, etc):</p>
+
+<pre><code>$ bin/bento build debian-8.1-amd64 debian-8.1-i386
+</code></pre>
+
+<p>To build a box for a single provider:</p>
+
+<pre><code>$ bin/bento build --only=virtualbox-iso debian-8.1-amd64
+</code></pre>
+
+<h3>
+<a id="using-packer" class="anchor" href="#using-packer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using <code>packer</code>
+</h3>
+
+<p>Templates can still be built directly by <code>packer</code></p>
+
+<p>To build a template for all providers (VirtualBox, Fusion, Parallels):</p>
+
+<pre><code>$ packer build debian-8.2-amd64.json
+</code></pre>
+
+<p>To build a template only for a list of specific providers:</p>
+
+<pre><code>$ packer build -only=virtualbox-iso debian-8.2-amd64.json
+</code></pre>
+
+<p>To build a template for all providers except a list of specific providers:</p>
+
+<pre><code>$ packer build -except=parallels-iso,vmware-iso debian-8.2-amd64.json
+</code></pre>
+
+<p>If you want to use a another mirror site, use the <code>mirror</code> user variable.</p>
+
+<pre><code>$ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-8.2-amd64.json
+</code></pre>
+
+<p>Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.</p>
+
+<p>Notes:</p>
+
+<ul>
+<li>The box_basename can be overridden like other Packer vars with <code>-var 'box_basename=debian-8.2'</code>
+</li>
+</ul>
+
+<h3>
+<a id="proprietary-boxes" class="anchor" href="#proprietary-boxes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Proprietary Boxes</h3>
+
+<p>Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, substitute a server where the ISOs are hosted, using the mirror variable as above.</p>
+
+<h4>
+<a id="mac-os-x" class="anchor" href="#mac-os-x" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mac OS X</h4>
+
+<p>To build a Mac OS X box, you will need to start with an installer for your desired version of OS X.  You will then need to use <a href="https://github.com/timsutton/osx-vm-templates">Tim Sutton's osx-vm-templates</a>/) to modify that installer for use by packer.  The output of that build will include the location of the ISO and its checksum, which you can substitute into your <code>packer build</code> command, e.g.:</p>
+
+<pre><code>$ packer build -var 'iso_checksum=&lt;checksum&gt;' -var 'iso_url=&lt;iso_url&gt;' macosx-10.9.json
+</code></pre>
+
+<p>There is a known issue where <a href="http://kitchen.ci/">test-kitchen</a> starts a Mac OS X box correctly, but <code>vagrant up</code> fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually.</p>
+
+<p>Note that, while it is possible to build OS X boxes for VirtualBox, it may not be ideal. VirtualBox provides no "guest additions" for OS X. Boxes consequently have limited networking configurability and must rely on rsync for folder syncing. VMWare, when available, is generally preferred.</p>
+
+<h3>
+<a id="windows" class="anchor" href="#windows" aria-hidden="true"><span class="octicon octicon-link"></span></a>Windows</h3>
+
+<p>Currently the project does not include any definitions for building Windows boxes. For other approaches to building Windows boxes, please see the following
+community projects:</p>
+
+<ul>
+<li><a href="https://github.com/boxcutter">Mischa Taylor's Boxcutter project</a></li>
+<li><a href="https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes">Vagrant Windows Boxes and Puppet</a></li>
+</ul>
+
+<h3>
+<a id="special-note-about-building-from-windows-hosts" class="anchor" href="#special-note-about-building-from-windows-hosts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Special Note About Building from Windows Hosts</h3>
+
+<p>When building boxes from a Windows host system, you must ensure that kickstart configuration files (<code>ks.cfg</code> for RHEL
+based systems) and preseed files (<code>preseed.cfg</code> for Debian based systems) have Unix line endings (i.e. lines end with
+LF character only). Moreover, it's also a good idea to have <code>*.sh</code> scripts with Unix line endings too.</p>
+
+<p>When these files have Windows line endings, the group creation can fail in the pre-seed phase and in turn, prevents the
+user <code>vagrant</code> to be created correctly. This ultimately results in Packer not being able to connect to the newly booted
+up machine with an error message that looks like this:</p>
+
+<pre><code>==&gt; virtualbox-iso: Waiting for SSH to become available...
+==&gt; virtualbox-iso: Error waiting for SSH: handshake failed: ssh: unable to authenticate, attempted methods [none password], no support
+</code></pre>
+
+<p>Since Packer tries to log in with user <code>vagrant</code> but it was not created successfully in the pre-seed phase, it is unable
+to connect to the machine and the packaging process stops.</p>
+
+<p>By default, when cloning this repository, git should normalize <code>ks.cfg</code>, <code>preseed.cfg</code> and <code>*.sh</code> to Unix line endings
+and <code>*.bat</code> to Windows line endings, thanks to the <a href=".gitattributes">.gitattributes</a> file in the repository. However, if
+it's not the case because you have overridden line-ending conversion in your own git configuration, convert the offending files so they have the correct line endings.</p>
+
+<h2>
+<a id="bugs-and-issues" class="anchor" href="#bugs-and-issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bugs and Issues</h2>
+
+<p>Please use GitHub issues to report bugs, features, or other problems. Please note:
+the <a href="https://tickets.opscode.com/browse/BENTO">JIRA issue tracker</a> is no longer being used.</p>
+
+<h2>
+<a id="license--authors" class="anchor" href="#license--authors" aria-hidden="true"><span class="octicon octicon-link"></span></a>License &amp; Authors</h2>
+
+<p>These basebox templates were converted from <a href="https://github.com/jedi4ever/veewee">veewee</a>
+definitions originally based on
+<a href="https://github.com/dysinger/basebox">work done by Tim Dysinger</a> to
+make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!</p>
+
+<p>Mac OS X templates were adopted wholesale from <a href="https://github.com/fnichol/packer-templates">Fletcher Nichol's packer templates</a>.</p>
+
+<ul>
+<li>Author: Seth Chisamore (<a href="mailto:schisamo@chef.io">schisamo@chef.io</a>)</li>
+<li>Author: Stephen Delano (<a href="mailto:stephen@chef.io">stephen@chef.io</a>)</li>
+<li>Author: Joshua Timberman (<a href="mailto:joshua@chef.io">joshua@chef.io</a>)</li>
+<li>Author: Tim Dysinger (<a href="mailto:tim@dysinger.net">tim@dysinger.net</a>)</li>
+<li>Author: Chris McClimans (<a href="mailto:chris@hippiehacker.org">chris@hippiehacker.org</a>)</li>
+<li>Author: Julian Dunn (<a href="mailto:jdunn@chef.io">jdunn@chef.io</a>)</li>
+<li>Author: Tom Duffield (<a href="mailto:tom@chef.io">tom@chef.io</a>)</li>
+<li>Author: Ross Timson (<a href="mailto:ross@rosstimson.com">ross@rosstimson.com</a>)</li>
+<li>Author: Fletcher Nichol (<a href="mailto:fnichol@nichol.ca">fnichol@nichol.ca</a>)</li>
+</ul>
+
+<pre lang="text"><code>Copyright 2012-2015, Chef Software, Inc. (&lt;legal@chef.io&gt;)
+Copyright 2011-2012, Tim Dysinger (&lt;tim@dysinger.net&gt;)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/chef/bento">Bento</a> is maintained by <a href="https://github.com/chef">chef</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
