@@ -1,6 +1,6 @@
 #!/bin/sh -eux
 
-major_version="`lsb_release -r | awk '{print $2}' | awk -F. '{print $1}'`";
+major_version="$(lsb_release -r | awk '{print $2}' | awk -F. '{print $1}')";
 
 if [ ! -z "$major_version" -a "$major_version" -lt 12 ]; then
     sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=admin' /etc/sudoers;
