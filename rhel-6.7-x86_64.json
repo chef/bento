@@ -44,7 +44,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "oraclelinux-64",
+      "guest_os_type": "rhel6-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
