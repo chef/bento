@@ -1,9 +1,9 @@
 #!/bin/sh -eux
 
 if [ -s /etc/oracle-release ]; then
-  distro = 'oracle'
+  distro='oracle'
 elif [ -s /etc/enterprise-release ]; then
-  distro = 'oracle'
+  distro='oracle'
 elif [ -s /etc/redhat-release ]; then
   # should ouput 'centos' OR 'red hat'
   distro=`cat /etc/redhat-release | sed 's/^\(CentOS\|Red Hat\).*/\1/i' | tr '[:upper:]' '[:lower:]'`
