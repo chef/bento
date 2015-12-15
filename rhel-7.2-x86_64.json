@@ -155,22 +155,22 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "rhel-7.1",
+    "box_basename": "rhel-7.2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "3685468ec6cdcb70dfc85ebbc164da427dc2d762644c3c2ee1520f4f661c15ce",
+    "iso_checksum": "03f3a0291634335f6995534d829bd21ffaa0d000004dfeb1b2fb81052d64a4d5",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-7.1-x86_64-dvd.iso",
-    "ks_path": "centos-7.1/ks.cfg",
+    "iso_name": "rhel-server-7.2-x86_64-dvd.iso",
+    "ks_path": "centos-7.2/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
     "mirror_directory": "rhel",
-    "name": "rhel-7.1",
+    "name": "rhel-7.2",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-7.1-x86_64",
+    "template": "rhel-7.2-x86_64",
     "version": "2.2.TIMESTAMP"
   }
 }
