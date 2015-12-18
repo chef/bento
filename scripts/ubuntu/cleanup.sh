@@ -27,9 +27,6 @@ dpkg --list \
     | grep -- '-dev$' \
     | xargs apt-get -y purge;
 
-# Delete compilers and other development tools
-apt-get -y purge cpp gcc g++;
-
 # Delete X11 libraries
 apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
 
