@@ -7,7 +7,7 @@
       "boot_wait": "10s",
       "disk_size": 40960,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Oracle_64",
+      "guest_os_type": "RedHat_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -44,7 +44,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
-      "guest_os_type": "oraclelinux-64",
+      "guest_os_type": "centos-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -143,8 +143,8 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/centos/networking.sh",
         "scripts/common/sshd.sh",
+        "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/centos/cleanup.sh",
@@ -154,23 +154,23 @@
     }
   ],
   "variables": {
-    "arch": "64",
-    "box_basename": "oracle-7.1",
+    "box_basename": "centos-7.2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "FA9666448E8A24AD6A4C7203575B66532FA833D7",
-    "iso_checksum_type": "sha1",
-    "iso_name": "OracleLinux-R7-U1-Server-x86_64-dvd.iso",
-    "ks_path": "centos-7.1/ks.cfg",
+    "iso_checksum": "907e5755f824c5848b9c8efbb484f3cd945e93faa024bad6ba875226f9683b16",
+    "iso_checksum_type": "sha256",
+    "iso_name": "CentOS-7-x86_64-DVD-1511.iso",
+    "ks_path": "centos-7.2/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.dotsrc.org/oracle-linux",
-    "mirror_directory": "OL7/u1/x86_64",
-    "name": "oracle-7.1",
+    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror_directory": "7.2.1511/isos/x86_64",
+    "name": "centos-7.2",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "oracle-7.1-x86_64",
-    "version": "2.2.TIMESTAMP"
+    "template": "centos-7.2-x86_64",
+    "version": "2.1.TIMESTAMP"
   }
 }
+
