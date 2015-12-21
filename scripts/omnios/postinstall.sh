@@ -45,7 +45,7 @@ svcadm restart ssh
 
 # update grub menu to lower timeout and remove unnecessary second entry
 echo "Updating Grub boot menu"
-sed -i -e 's/^timeout.*$/timeout 5/' -e "/^title omniosvar/,$(wc -l /rpool/boot/grub/menu.lst | awk '{ print $1 }') d" /rpool/boot/grub/menu.lst
+sed -i -e 's/^timeout.*$/timeout 5/' -e "/^title omniosvar/,`wc -l /rpool/boot/grub/menu.lst | awk '{ print $1 }'` d" /rpool/boot/grub/menu.lst
 
 # Reset resolv.conf
 echo "Resetting resolv.conf"

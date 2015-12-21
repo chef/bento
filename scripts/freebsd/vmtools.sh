@@ -1,6 +1,6 @@
 #!/bin/sh -eux
 
-freebsd_major="$(uname -r | awk -F. '{print $1}')";
+freebsd_major="`uname -r | awk -F. '{print $1}'`";
 
 case "$PACKER_BUILDER_TYPE" in
 
@@ -35,13 +35,13 @@ virtualbox-iso|virtualbox-ovf)
 vmware-iso|vmware-vmx)
     # Install Perl and other software needed by vmware-install.pl
     pkg install -y perl5;
-    pkg install -y "compat6x-$(uname -m)";
+    pkg install -y compat6x-`uname -m`;
     # the install script is very picky about location of perl command
     ln -s /usr/local/bin/perl /usr/bin/perl;
 
     mkdir -p /tmp/vmfusion;
     mkdir -p /tmp/vmfusion-archive;
-    mdconfig -a -t vnode -f "$HOME_DIR/freebsd.iso" -u 0;
+    mdconfig -a -t vnode -f $HOME_DIR/freebsd.iso -u 0;
     mount -t cd9660 /dev/md0 /tmp/vmfusion;
     tar xzf /tmp/vmfusion/vmware-freebsd-tools.tar.gz -C /tmp/vmfusion-archive;
     /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --force-install;
@@ -49,7 +49,7 @@ vmware-iso|vmware-vmx)
     umount /tmp/vmfusion;
     rm -rf /tmp/vmfusion;
     rm -rf /tmp/vmfusion-archive;
-    rm -f "$HOME_DIR/*.iso";
+    rm -f $HOME_DIR/*.iso;
 
     rm -f /usr/bin/perl;
     ;;
