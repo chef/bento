@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
-ubuntu_version="$(lsb_release -r | awk '{print $2}')";
-ubuntu_major_version="$(echo "$ubuntu_version" | awk -F. '{print $1}')";
+ubuntu_version="`lsb_release -r | awk '{print $2}'`";
+ubuntu_major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
 
 # Work around bad cached lists on Ubuntu 12.04
 if [ "$ubuntu_version" = "12.04" ]; then
@@ -20,7 +20,7 @@ else
 fi
 
 # ensure the correct kernel headers are installed
-apt-get -y install "linux-headers-$(uname -r)";
+apt-get -y install linux-headers-`uname -r`;
 
 # update package index on boot
 cat <<EOF >/etc/init/refresh-apt.conf;

@@ -8,7 +8,7 @@ virtualbox-iso|virtualbox-ovf)
 
 vmware-iso|vmware-vmx)
     iso_name="/tmp/vmtools.iso";
-    mount_point="$(mktemp -d /tmp/vmware-tools.XXXX)";
+    mount_point="`mktemp -d /tmp/vmware-tools.XXXX`";
     #Run install, unmount ISO and remove it
     hdiutil attach "$iso_name" -mountpoint "$mount_point";
     installer -pkg "$mount_point/Install VMware Tools.app/Contents/Resources/VMware Tools.pkg" -target /;
@@ -25,7 +25,7 @@ vmware-iso|vmware-vmx)
 
 parallels-iso|parallels-pvm)
     TOOLS_PATH="$HOME_DIR/prl-tools-mac.iso";
-    TMPMOUNT="$(/usr/bin/mktemp -d /tmp/parallels-tools.XXXX)";
+    TMPMOUNT="`/usr/bin/mktemp -d /tmp/parallels-tools.XXXX`";
 
     #Run install, unmount ISO and remove it
     hdiutil attach "$TOOLS_PATH" -mountpoint "$TMPMOUNT";
