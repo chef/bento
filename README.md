@@ -16,16 +16,17 @@ This project is managed by the CHEF Release Engineering team. For more informati
 The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the [bento organization](https://atlas.hashicorp.com/bento/).
 
 
-|               | VirtualBox (5.0.6)       | VMware (8.0.1)            | Parallels (11.0.1)        |
+|               | VirtualBox (5.0.12)       | VMware (8.0.2)            | Parallels (11.1.0)        |
 |  ------------ | -------------            | -------------             | -------------             |
 | centos-5.11   | [i386][1],  [x86_64][2]  |  [i386][3],  [x86_64][4]  |   [i386][5], [x86_64][6]  |
 | centos-6.7    | [i386][7],  [x86_64][8]  |  [i386][9],  [x86_64][10] |  [i386][11], [x86_64][12] |
-| centos-7.1    |             [x86_64][13] |              [x86_64][14] |              [x86_64][15] |
+| centos-7.2    |             [x86_64][13] |              [x86_64][14] |              [x86_64][15] |
 | debian-6.0.10 | [i386][16], [amd64][17]  |  [i386][18], [amd64][19]  |  [i386][20], [amd64][21]  |
 | debian-7.9    | [i386][22], [amd64][23]  |  [i386][24], [amd64][25]  |  [i386][26], [amd64][27]  |
 | debian-8.2    | [i386][28], [amd64][29]  |  [i386][30], [amd64][31]  |  [i386][32], [amd64][33]  |
 | fedora-21     | [i386][76], [x86_64][77] |  [i386][78], [x86_64][79] |  [i386][80], [x86_64][81] |
 | fedora-22     |             [x86_64][82] |              [x86_64][83] |              [x86_64][84] |
+| fedora-23     |             [x86_64][85] |              [x86_64][86] |              [x86_64][87] |
 | freebsd-9.3   |             [amd64][35]  |              [amd64][37]  |              [amd64][39]  |
 | freebsd-10.2  |             [amd64][41]  |              [amd64][43]  |              [amd64][45]  |
 | opensuse-13.2 | [i386][46], [x86_64][47] |  [i386][48], [x86_64][49] |  [i386][50], [x86_64][51] |
@@ -36,7 +37,7 @@ The following boxes are built from this repository's templates for publicly avai
 
 ### Build Notes
 
-* Built on OSX 10.10.5 hosts
+* Built on OSX 10.11.2 hosts
 * If you're using the [Vagrant VMWare Fusion](https://www.vagrantup.com/vmware)
 provider, using `vagrant box add --provider vmware_desktop ...` will work for
 these boxes. Using `--provider vmware_fusion`, will not.
@@ -208,9 +209,9 @@ limitations under the License.
 [11]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-6.7-i386_chef-provisionerless.box
 [12]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-6.7_chef-provisionerless.box
 
-[13]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box
-[14]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.1_chef-provisionerless.box
-[15]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-7.1_chef-provisionerless.box
+[13]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
+[14]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.2_chef-provisionerless.box
+[15]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-7.2_chef-provisionerless.box
 
 [16]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10-i386_chef-provisionerless.box
 [17]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10_chef-provisionerless.box
@@ -226,12 +227,12 @@ limitations under the License.
 [26]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.8-i386_chef-provisionerless.box
 [27]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.8_chef-provisionerless.box
 
-[28]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.1-i386_chef-provisionerless.box
-[29]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.1_chef-provisionerless.box
-[30]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.1-i386_chef-provisionerless.box
-[31]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.1_chef-provisionerless.box
-[32]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.1-i386_chef-provisionerless.box
-[33]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.1_chef-provisionerless.box
+[28]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2-i386_chef-provisionerless.box
+[29]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box
+[30]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.2-i386_chef-provisionerless.box
+[31]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.2_chef-provisionerless.box
+[32]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.2-i386_chef-provisionerless.box
+[33]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.2_chef-provisionerless.box
 
 [34]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3-i386_chef-provisionerless.box
 [35]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3_chef-provisionerless.box
@@ -293,3 +294,7 @@ limitations under the License.
 [82]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-22_chef-provisionerless.box
 [83]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-22_chef-provisionerless.box
 [84]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-22_chef-provisionerless.box
+
+[85]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-22_chef-provisionerless.box
+[86]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-22_chef-provisionerless.box
+[87]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-22_chef-provisionerless.box
