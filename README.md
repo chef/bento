@@ -26,7 +26,7 @@ The following boxes are built from this repository's templates for publicly avai
 | debian-8.2    | [i386][28], [amd64][29]  |  [i386][30], [amd64][31]  |  [i386][32], [amd64][33]  |
 | fedora-21     | [i386][76], [x86_64][77] |  [i386][78], [x86_64][79] |  [i386][80], [x86_64][81] |
 | fedora-22     |             [x86_64][82] |              [x86_64][83] |              [x86_64][84] |
-| fedora-23     |             [x86_64][85] |              [x86_64][86] |              [x86_64][87] |
+| fedora-23     |             [x86_64][85] |               |              [x86_64][87] |
 | freebsd-9.3   |             [amd64][35]  |              [amd64][37]  |              [amd64][39]  |
 | freebsd-10.2  |             [amd64][41]  |              [amd64][43]  |              [amd64][45]  |
 | opensuse-13.2 | [i386][46], [x86_64][47] |  [i386][48], [x86_64][49] |  [i386][50], [x86_64][51] |
@@ -296,5 +296,4 @@ limitations under the License.
 [84]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-22_chef-provisionerless.box
 
 [85]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-23_chef-provisionerless.box
-[86]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-23_chef-provisionerless.box
 [87]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-23_chef-provisionerless.box
