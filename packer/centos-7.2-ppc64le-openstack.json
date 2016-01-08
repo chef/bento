@@ -15,7 +15,7 @@
       "http_directory": "http",
       "iso_checksum": "1356f0336d7a3c37bc6d10502d51cbf7",
       "iso_checksum_type": "md5",
-      "iso_url": "{{user `mirror`}}/7.2.1511/iso/CentOS-7-AltArch-ppc64le-NetInstall-1511.iso",
+      "iso_url": "{{user `mirror`}}/7.2.1511/isos/ppc64le/CentOS-7-AltArch-ppc64le-NetInstall-1511.iso",
       "output_directory": "packer-centos-7.2-ppc64le-openstack",
       "shutdown_command": "echo 'centos'|sudo -S shutdown -P now",
       "qemuargs": [
