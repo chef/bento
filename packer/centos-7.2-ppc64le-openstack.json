@@ -4,7 +4,7 @@
       "boot_command": [
         "c<wait5><wait10>",
         "linux /ppc/ppc64/vmlinuz ro ",
-        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.1/ks-ppc64le-openstack.cfg<enter>",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.2/ks-ppc64le-openstack.cfg<enter>",
         "initrd /ppc/ppc64/initrd.img<enter>",
         "boot<enter><wait>"
       ],
@@ -13,10 +13,10 @@
       "disk_size": 2048,
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "cda3e4b9eeb51877f203794bbf5910c5",
+      "iso_checksum": "1356f0336d7a3c37bc6d10502d51cbf7",
       "iso_checksum_type": "md5",
-      "iso_url": "{{user `mirror`}}/7.1.1503/os/ppc64le/images/boot.iso",
-      "output_directory": "packer-centos-7-ppc64le-openstack",
+      "iso_url": "{{user `mirror`}}/7.2.1511/iso/CentOS-7-AltArch-ppc64le-NetInstall-1511.iso",
+      "output_directory": "packer-centos-7.2-ppc64le-openstack",
       "shutdown_command": "echo 'centos'|sudo -S shutdown -P now",
       "qemuargs": [
         [ "-m", "2048M" ],
@@ -29,7 +29,7 @@
       "ssh_username": "centos",
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
-      "vm_name": "packer-centos-7-ppc64le"
+      "vm_name": "packer-centos-7.2-ppc64le"
     }
   ],
   "provisioners": [
@@ -43,7 +43,7 @@
         "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",
         "scripts/common/chef.sh",
-        "scripts/centos/oslrepo.sh",
+        "scripts/centos/epel.sh",
         "scripts/centos/openstack.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
@@ -53,6 +53,6 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://packages.osuosl.org/repositories/centos-7/ppc64le"
+    "mirror": "http://centos-altarch.osuosl.org"
   }
 }
