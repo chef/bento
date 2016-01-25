@@ -1,19 +1,12 @@
 #!/bin/sh -eux
 
-if [ -s /etc/oracle-release ]; then
-  distro='oracle'
-elif [ -s /etc/enterprise-release ]; then
-  distro='oracle'
-elif [ -s /etc/redhat-release ]; then
-  # should ouput 'centos' OR 'red hat'
-  distro=`cat /etc/redhat-release | sed 's/^\(CentOS\|Red Hat\).*/\1/i' | tr '[:upper:]' '[:lower:]'`
-fi
-
+# should output one of 'redhat' 'centos' 'oraclelinux'
+distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`" 
 
 # Remove development and kernel source packages
 yum -y remove gcc cpp kernel-devel kernel-headers perl;
 
-if [ "$distro" != 'red hat' ]; then
+if [ "$distro" != 'redhat' ]; then
   yum -y clean all;
 fi
 
