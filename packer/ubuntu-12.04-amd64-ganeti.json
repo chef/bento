@@ -62,13 +62,16 @@
         "scripts/common/ganeti.sh",
         "scripts/ubuntu/ganeti.sh",
         "scripts/ubuntu/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/common/minimize.sh",
+        "scripts/ubuntu/resolv.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://ubuntu.osuosl.org/releases"
+    "mirror": "http://ubuntu.osuosl.org/releases",
+    "dnsserver1": "nameserver 140.211.166.130",
+    "dnsserver2": "nameserver 140.211.166.131"
   }
 }
