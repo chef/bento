@@ -36,7 +36,7 @@
       "boot_wait": "2s",
       "disk_size": 40960,
       "guest_additions_mode": "disable",
-      "guest_os_type": "MacOS109_64",
+      "guest_os_type": "MacOS1011_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "iso_checksum": "{{user `iso_checksum`}}",
