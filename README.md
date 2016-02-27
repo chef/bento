@@ -4,8 +4,8 @@
 
 [travis]: https://travis-ci.org/chef/bento
 
-Bento is a project that encapsulates [Packer](http://packer.io) templates for building
-[Vagrant](http://vagrantup.com) base boxes. We use these boxes internally at Chef Software, Inc. for
+Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building
+[Vagrant](https://www.vagrantup.com/) base boxes. We use these boxes internally at Chef Software, Inc. for
 testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef)
 via [test-kitchen](http://kitchen.ci/).
 
@@ -67,7 +67,7 @@ end
 
 ## Requirements
 
-* [Packer](http://packer.io)
+* [Packer](https://www.packer.io/)
 * At least one virtualization provider: Virtualbox, VMware Fusion, Parallels Desktop, etc
 
 ## Build Your Own Bento Boxes
@@ -156,8 +156,7 @@ it's not the case because you have overridden line-ending conversion in your own
 
 ## Bugs and Issues
 
-Please use GitHub issues to report bugs, features, or other problems. Please note:
-the [JIRA issue tracker](https://tickets.opscode.com/browse/BENTO) is no longer being used.
+Please use GitHub issues to report bugs, features, or other problems.
 
 ## License & Authors
 
@@ -179,7 +178,7 @@ Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templat
 - Author: Fletcher Nichol (<fnichol@nichol.ca>)
 
 ```text
-Copyright 2012-2015, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2016, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
