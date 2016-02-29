@@ -39,9 +39,9 @@ echo "mail=\ninstance=overwrite\npartial=nocheck\nrunlevel=nocheck\nidepend=noch
 
 # install sudo so that packer functions correctly
 # NOTE - LOOK HERE FIRST IF THE URL CHANGES!
-/usr/sfw/bin/wget http://www.sudo.ws/sudo/dist/packages/Solaris/10/TCMsudo-1.8.13-i386.pkg.gz
-gunzip TCMsudo-1.8.13-i386.pkg.gz
-pkgadd -a /tmp/noask -d TCMsudo-1.8.13-i386.pkg all
+/usr/sfw/bin/wget http://www.sudo.ws/sudo/dist/packages/Solaris/10/TCMsudo-1.8.15-i386.pkg.gz
+gunzip TCMsudo-1.8.15-i386.pkg.gz
+pkgadd -a /tmp/noask -d TCMsudo-1.8.15-i386.pkg all
 echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 echo "Defaults secure_path=/usr/local/bin:/usr/sfw/bin:/usr/ccs/bin:/usr/sbin:/usr/bin:/bin:/sbin" >> /etc/sudoers
 
