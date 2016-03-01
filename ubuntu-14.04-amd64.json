@@ -246,12 +246,12 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "a3b345908a826e262f4ea1afeb357fd09ec0558cf34e6c9112cead4bb55ccdfb",
+    "iso_checksum": "07e4bb5569814eab41fafac882ba127893e3ff0bdb7ec931c9b2d040e3e94e7a",
     "iso_checksum_type": "sha256",
-    "iso_name": "ubuntu-14.04.3-server-amd64.iso",
+    "iso_name": "ubuntu-14.04.4-server-amd64.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
-    "mirror_directory": "14.04.3",
+    "mirror_directory": "14.04.4",
     "name": "ubuntu-14.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "ubuntu-14.04/preseed.cfg",
@@ -259,4 +259,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
