@@ -26,6 +26,6 @@ Covers the Bento project repository which is responsible for building Vagrant bo
 * [Mikhail Zholobov](https://github.com/legal90)
 * [Brian Flad](https://github.com/bflad)
 * [Tim Smith](https://github.com/tas50)
-* [Seth Vargo](http://github.com/sethvargo)
+* [Seth Vargo](https://github.com/sethvargo)
 * [William Tisäter](https://github.com/tiwilliam)
 * [Josh Hudson](https://github.com/itmustbejj)
