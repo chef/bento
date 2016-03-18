@@ -21,6 +21,11 @@ elif [ -e /etc/default/grub ] ; then
   grub2-mkconfig -o /boot/grub2/grub.cfg
 fi
 
+# Ensure that the cloud-init user is correct
+sed -i -e 's/name: fedora/name: centos/' /etc/cloud/cloud.cfg
+sed -i -e 's/Fedora Cloud User/CentOS Cloud User/' /etc/cloud/cloud.cfg
+sed -i -e 's/distro: fedora/distro: rhel/' /etc/cloud/cloud.cfg
+
 # Ensure that cloud-init starts before sshd
 if [ -e /usr/lib/systemd/system/cloud-init.service ] ; then
   FILE=/usr/lib/systemd/system/cloud-init.service
