@@ -15,25 +15,20 @@ This project is managed by the CHEF Release Engineering team. For more informati
 
 The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the [bento organization](https://atlas.hashicorp.com/bento/).
 
-
-|               | VirtualBox (5.0.12)       | VMware (8.0.2)            | Parallels (11.1.0)        |
-|  ------------ | -------------            | -------------             | -------------             |
-| centos-5.11   | [i386][1],  [x86_64][2]  |  [i386][3],  [x86_64][4]  |   [i386][5], [x86_64][6]  |
-| centos-6.7    | [i386][7],  [x86_64][8]  |  [i386][9],  [x86_64][10] |  [i386][11], [x86_64][12] |
-| centos-7.2    |             [x86_64][13] |              [x86_64][14] |              [x86_64][15] |
-| debian-6.0.10 | [i386][16], [amd64][17]  |  [i386][18], [amd64][19]  |  [i386][20], [amd64][21]  |
-| debian-7.9    | [i386][22], [amd64][23]  |  [i386][24], [amd64][25]  |  [i386][26], [amd64][27]  |
-| debian-8.2    | [i386][28], [amd64][29]  |  [i386][30], [amd64][31]  |  [i386][32], [amd64][33]  |
-| fedora-21     | [i386][76], [x86_64][77] |  [i386][78], [x86_64][79] |  [i386][80], [x86_64][81] |
-| fedora-22     |             [x86_64][82] |              [x86_64][83] |              [x86_64][84] |
-| fedora-23     |             [x86_64][85] |               |              [x86_64][87] |
-| freebsd-9.3   |             [amd64][35]  |              [amd64][37]  |              [amd64][39]  |
-| freebsd-10.2  |             [amd64][41]  |              [amd64][43]  |              [amd64][45]  |
-| opensuse-13.2 | [i386][46], [x86_64][47] |  [i386][48], [x86_64][49] |  [i386][50], [x86_64][51] |
-| ubuntu-10.04  | [i386][52], [amd64][53]  |  [i386][54], [amd64][55]  |  [i386][56], [amd64][57]  |
-| ubuntu-12.04  | [i386][58], [amd64][59]  |  [i386][60], [amd64][61]  |  [i386][62], [amd64][63]  |
-| ubuntu-14.04  | [i386][64], [amd64][65]  |  [i386][66], [amd64][67]  |  [i386][68], [amd64][69]  |
-| ubuntu-15.04  | [i386][70], [amd64][71]  |  [i386][72], [amd64][73]  |  [i386][74], [amd64][75]  |
+              | VirtualBox (5.0.12)      | VMware (8.0.2)           | Parallels (11.1.0)
+------------- | ------------------------ | ------------------------ | ------------------------
+centos-5.11   | [i386][1],  [x86_64][2]  | [i386][3],  [x86_64][4]  | [i386][5], [x86_64][6]
+centos-6.7    | [i386][7],  [x86_64][8]  | [i386][9],  [x86_64][10] | [i386][11], [x86_64][12]
+centos-7.2    | [x86_64][13]             | [x86_64][14]             | [x86_64][15]
+debian-7.9    | [i386][16], [amd64][17]  | [i386][18], [amd64][19]  | [i386][20], [amd64][21]
+debian-8.2    | [i386][22], [amd64][23]  | [i386][24], [amd64][25]  | [i386][26], [amd64][33]
+fedora-22     | [x86_64][58]             | [x86_64][59]             | [x86_64][60]
+fedora-23     | [x86_64][61]             |                          | [x86_64][62]
+freebsd-9.3   | [i386][28], [amd64][29]  | [i386][30], [amd64][31]  | [i386][32], [amd64][33]
+freebsd-10.2  | [i386][34], [amd64][35]  | [i386][36], [amd64][37]  | [i386][38], [amd64][39]
+opensuse-13.2 | [i386][40], [x86_64][41] | [i386][42], [x86_64][43] | [i386][44], [x86_64][45]
+ubuntu-12.04  | [i386][46], [amd64][47]  | [i386][48], [amd64][49]  | [i386][50], [amd64][51]
+ubuntu-14.04  | [i386][52], [amd64][53]  | [i386][54], [amd64][55]  | [i386][56], [amd64][57]
 
 ### Build Notes
 
@@ -55,7 +50,7 @@ new plugins. The full list of old boxes are available in the [old boxes file](ht
 
 Adding a bento box to vagrant:
 
-    $ vagrant box add bento/debian-8.1
+    $ vagrant box add bento/debian-8.2
 
 Using a bento box in a Vagrantfile:
 
@@ -79,11 +74,11 @@ This is an opinionated tool that the project uses for building the hosted boxes 
 
 To build multiple templates for all providers (VirtualBox, Fusion, Parallels, etc):
 
-    $ bin/bento build debian-8.1-amd64 debian-8.1-i386
+    $ bin/bento build debian-8.2-amd64 debian-8.2-i386
 
 To build a box for a single provider:
 
-    $ bin/bento build --only=virtualbox-iso debian-8.1-amd64
+    $ bin/bento build --only=virtualbox-iso debian-8.2-amd64
 
 ### Using `packer`
 
@@ -212,87 +207,59 @@ limitations under the License.
 [14]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.2_chef-provisionerless.box
 [15]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-7.2_chef-provisionerless.box
 
-[16]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10-i386_chef-provisionerless.box
-[17]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10_chef-provisionerless.box
-[18]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.10-i386_chef-provisionerless.box
-[19]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-6.0.10_chef-provisionerless.box
-[20]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-6.0.10-i386_chef-provisionerless.box
-[21]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-6.0.10_chef-provisionerless.box
+[16]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.9-i386_chef-provisionerless.box
+[17]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.9_chef-provisionerless.box
+[18]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.9-i386_chef-provisionerless.box
+[19]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.9_chef-provisionerless.box
+[20]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.9-i386_chef-provisionerless.box
+[21]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.9_chef-provisionerless.box
 
-[22]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.8-i386_chef-provisionerless.box
-[23]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.8_chef-provisionerless.box
-[24]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.8-i386_chef-provisionerless.box
-[25]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.8_chef-provisionerless.box
-[26]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.8-i386_chef-provisionerless.box
-[27]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.8_chef-provisionerless.box
+[22]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2-i386_chef-provisionerless.box
+[23]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box
+[24]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.2-i386_chef-provisionerless.box
+[25]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.2_chef-provisionerless.box
+[26]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.2-i386_chef-provisionerless.box
+[27]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.2_chef-provisionerless.box
 
-[28]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2-i386_chef-provisionerless.box
-[29]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box
-[30]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.2-i386_chef-provisionerless.box
-[31]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.2_chef-provisionerless.box
-[32]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.2-i386_chef-provisionerless.box
-[33]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.2_chef-provisionerless.box
+[28]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3-i386_chef-provisionerless.box
+[29]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3_chef-provisionerless.box
+[30]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3-i386_chef-provisionerless.box
+[31]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3_chef-provisionerless.box
+[32]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3-i386_chef-provisionerless.box
+[33]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3_chef-provisionerless.box
 
-[34]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3-i386_chef-provisionerless.box
-[35]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3_chef-provisionerless.box
-[36]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3-i386_chef-provisionerless.box
-[37]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3_chef-provisionerless.box
-[38]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3-i386_chef-provisionerless.box
-[39]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3_chef-provisionerless.box
+[34]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.2-i386_chef-provisionerless.box
+[35]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.2_chef-provisionerless.box
+[36]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.2-i386_chef-provisionerless.box
+[37]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.2_chef-provisionerless.box
+[38]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.2-i386_chef-provisionerless.box
+[39]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.2_chef-provisionerless.box
 
-[40]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.2-i386_chef-provisionerless.box
-[41]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.2_chef-provisionerless.box
-[42]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.2-i386_chef-provisionerless.box
-[43]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.2_chef-provisionerless.box
-[44]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.2-i386_chef-provisionerless.box
-[45]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.2_chef-provisionerless.box
+[40]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-i386_chef-provisionerless.box
+[41]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
+[42]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-i386_chef-provisionerless.box
+[43]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
+[44]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-i386_chef-provisionerless.box
+[45]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
 
-[46]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-i386_chef-provisionerless.box
-[47]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
-[48]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-i386_chef-provisionerless.box
-[49]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
-[50]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-i386_chef-provisionerless.box
-[51]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
+[46]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box
+[47]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
+[48]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box
+[49]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box
+[50]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04-i386_chef-provisionerless.box
+[51]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04_chef-provisionerless.box
 
-[52]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04-i386_chef-provisionerless.box
-[53]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box
-[54]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04-i386_chef-provisionerless.box
-[55]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-10.04_chef-provisionerless.box
-[56]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-10.04-i386_chef-provisionerless.box
-[57]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-10.04_chef-provisionerless.box
-
-[58]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box
-[59]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
-[60]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box
-[61]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box
-[62]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04-i386_chef-provisionerless.box
-[63]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04_chef-provisionerless.box
-
-[64]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04-i386_chef-provisionerless.box
-[65]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
-[66]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04-i386_chef-provisionerless.box
-[67]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box
-[68]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04-i386_chef-provisionerless.box
-[69]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04_chef-provisionerless.box
+[52]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04-i386_chef-provisionerless.box
+[53]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+[54]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04-i386_chef-provisionerless.box
+[55]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box
+[56]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04-i386_chef-provisionerless.box
+[57]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04_chef-provisionerless.box
 
 
-[70]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.04-i386_chef-provisionerless.box
-[71]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.04_chef-provisionerless.box
-[72]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.04-i386_chef-provisionerless.box
-[73]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.04_chef-provisionerless.box
-[74]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.04-i386_chef-provisionerless.box
-[75]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.04_chef-provisionerless.box
+[58]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-22_chef-provisionerless.box
+[59]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-22_chef-provisionerless.box
+[60]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-22_chef-provisionerless.box
 
-[76]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-21-i386_chef-provisionerless.box
-[77]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-21_chef-provisionerless.box
-[78]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21-i386_chef-provisionerless.box
-[79]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-21_chef-provisionerless.box
-[80]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-21-i386_chef-provisionerless.box
-[81]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-21_chef-provisionerless.box
-
-[82]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-22_chef-provisionerless.box
-[83]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-22_chef-provisionerless.box
-[84]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-22_chef-provisionerless.box
-
-[85]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-23_chef-provisionerless.box
-[87]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-23_chef-provisionerless.box
+[61]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-23_chef-provisionerless.box
+[62]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-23_chef-provisionerless.box
