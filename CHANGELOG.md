@@ -1,6 +1,43 @@
 # Change Log
 
-## [2.2.3](https://github.com/chef/bento/tree/2.2.3) (2015-12-26)
+## [2.2.4](https://github.com/chef/bento/tree/2.2.4) (2016-03-23)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.3...2.2.4)
+
+**Closed issues:**
+
+- CALL FOR MAINTAINERS [\#537](https://github.com/chef/bento/issues/537)
+- Proposal: Move bento under test-kitchen org [\#536](https://github.com/chef/bento/issues/536)
+- /tmp directory is cleaned upon restart? [\#535](https://github.com/chef/bento/issues/535)
+- bento/centos-7.2 missing from atlas [\#524](https://github.com/chef/bento/issues/524)
+- sles 12 mirror no more exist [\#520](https://github.com/chef/bento/issues/520)
+- Pipeline: Update to VMware Fusion 8.1.0 [\#519](https://github.com/chef/bento/issues/519)
+- error when building boxes with packer  [\#514](https://github.com/chef/bento/issues/514)
+- Ubuntu 12.04 HGFS module failing in VMWare [\#512](https://github.com/chef/bento/issues/512)
+- Uncompressed boxes for VMware and Parallels are to large [\#505](https://github.com/chef/bento/issues/505)
+- OpenSUSE Leap \(and Tumbleweed\) [\#504](https://github.com/chef/bento/issues/504)
+- Ubuntu 14.04 HGFS kernel module not working for VMWare 8.0.2 [\#496](https://github.com/chef/bento/issues/496)
+- Any support \(or planned support\) for building Amazon AMIs? [\#490](https://github.com/chef/bento/issues/490)
+- ARM builds [\#486](https://github.com/chef/bento/issues/486)
+- Minimize script results in large \(non-sparse\) image file for QEMU builder [\#369](https://github.com/chef/bento/issues/369)
+
+**Merged pull requests:**
+
+- Update mirror URL for Debian 8.2 [\#544](https://github.com/chef/bento/pull/544) ([legal90](https://github.com/legal90))
+- Updating maintainers [\#543](https://github.com/chef/bento/pull/543) ([cheeseplus](https://github.com/cheeseplus))
+- Updating for 14.04.4 release [\#542](https://github.com/chef/bento/pull/542) ([cheeseplus](https://github.com/cheeseplus))
+- Update the packer download URL and use 0.9.0 [\#540](https://github.com/chef/bento/pull/540) ([tas50](https://github.com/tas50))
+- Minor readme updates [\#539](https://github.com/chef/bento/pull/539) ([tas50](https://github.com/tas50))
+- Fix guest\_os\_type for VirtualBox [\#534](https://github.com/chef/bento/pull/534) ([juliandunn](https://github.com/juliandunn))
+- Sudo path changed [\#530](https://github.com/chef/bento/pull/530) ([scotthain](https://github.com/scotthain))
+- update solaris 11 box to 11.3 [\#528](https://github.com/chef/bento/pull/528) ([chris-rock](https://github.com/chris-rock))
+- update sha1 for omnios [\#527](https://github.com/chef/bento/pull/527) ([chris-rock](https://github.com/chris-rock))
+- Add support for Debian GNU/Linux 8.3 [\#526](https://github.com/chef/bento/pull/526) ([kenhys](https://github.com/kenhys))
+- simplify distro detection for RHEL-derivatives [\#525](https://github.com/chef/bento/pull/525) ([ceetav](https://github.com/ceetav))
+- Add support for OpenSUSE Leap 42.1 - x86\_64 [\#523](https://github.com/chef/bento/pull/523) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Fix links to Fedora 23 boxes. [\#518](https://github.com/chef/bento/pull/518) ([juliandunn](https://github.com/juliandunn))
+- Cutting 2.2.3 [\#515](https://github.com/chef/bento/pull/515) ([cheeseplus](https://github.com/cheeseplus))
+
+## [2.2.3](https://github.com/chef/bento/tree/2.2.3) (2015-12-28)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.2...2.2.3)
 
 **Fixed bugs:**
@@ -140,19 +177,39 @@
 
 **Fixed bugs:**
 
+- Shortening vm\_name to avoid Parallels box corruption [\#400](https://github.com/chef/bento/pull/400) ([cheeseplus](https://github.com/cheeseplus))
+
+**Closed issues:**
+
+- Debian 8.1 [\#379](https://github.com/chef/bento/issues/379)
+- Chef on Centos boxes seems not be installed [\#352](https://github.com/chef/bento/issues/352)
+
+**Merged pull requests:**
+
+- \[debian-\*\] Improve DRYness, correctness, & speed of Debian templates. [\#404](https://github.com/chef/bento/pull/404) ([fnichol](https://github.com/fnichol))
+- \[freebsd-\*\] Improve DRYness, correctness, & speed of FreeBSD templates. [\#403](https://github.com/chef/bento/pull/403) ([fnichol](https://github.com/fnichol))
+- Fixing headless check [\#401](https://github.com/chef/bento/pull/401) ([cheeseplus](https://github.com/cheeseplus))
+- Adding support for headless mode [\#399](https://github.com/chef/bento/pull/399) ([cheeseplus](https://github.com/cheeseplus))
+- Box build pipeline [\#398](https://github.com/chef/bento/pull/398) ([cheeseplus](https://github.com/cheeseplus))
+- \[centos-\*\] Improve DRYness, correctness, and speed of CentOS templates. [\#396](https://github.com/chef/bento/pull/396) ([fnichol](https://github.com/fnichol))
+- \[macosx-\*, ubuntu-\*\] Remove name prefixes from templates. [\#395](https://github.com/chef/bento/pull/395) ([fnichol](https://github.com/fnichol))
+- \[ubuntu-\*\] Improve DRYness, correctness, and speed of Ubuntu templates. [\#394](https://github.com/chef/bento/pull/394) ([fnichol](https://github.com/fnichol))
+- Adding Debian 8.1 links, removing Debian 8.0 templates [\#393](https://github.com/chef/bento/pull/393) ([cheeseplus](https://github.com/cheeseplus))
+- Add @cheeseplus to MAINTAINERS.md [\#392](https://github.com/chef/bento/pull/392) ([fnichol](https://github.com/fnichol))
+
+## [2.0.0](https://github.com/chef/bento/tree/2.0.0) (2015-07-03)
+**Fixed bugs:**
+
 - Do not write metadata files when `bento build` is in dry run mode [\#368](https://github.com/chef/bento/issues/368)
 - fix OmniOS build under VMWare [\#178](https://github.com/chef/bento/issues/178)
-- Shortening vm\_name to avoid Parallels box corruption [\#400](https://github.com/chef/bento/pull/400) ([cheeseplus](https://github.com/cheeseplus))
 - Don't write metadata file in `bento build` dry run mode. [\#380](https://github.com/chef/bento/pull/380) ([fnichol](https://github.com/fnichol))
 
 **Closed issues:**
 
 - Release Debian 8.0 boxes [\#381](https://github.com/chef/bento/issues/381)
-- Debian 8.1 [\#379](https://github.com/chef/bento/issues/379)
 - Upload Ubuntu 15.04 to S3 Bucket [\#376](https://github.com/chef/bento/issues/376)
 - Add build metadata to boxes and build artifacts [\#364](https://github.com/chef/bento/issues/364)
 - Add support for Debian 8 [\#355](https://github.com/chef/bento/issues/355)
-- Chef on Centos boxes seems not be installed [\#352](https://github.com/chef/bento/issues/352)
 - centos-7.1 vmware box got uploaded as virtualbox [\#351](https://github.com/chef/bento/issues/351)
 - chef/centos-7.1 on atlas [\#346](https://github.com/chef/bento/issues/346)
 - Add support for Ubuntu 15.04 [\#345](https://github.com/chef/bento/issues/345)
@@ -217,16 +274,6 @@
 
 **Merged pull requests:**
 
-- \[debian-\*\] Improve DRYness, correctness, & speed of Debian templates. [\#404](https://github.com/chef/bento/pull/404) ([fnichol](https://github.com/fnichol))
-- \[freebsd-\*\] Improve DRYness, correctness, & speed of FreeBSD templates. [\#403](https://github.com/chef/bento/pull/403) ([fnichol](https://github.com/fnichol))
-- Fixing headless check [\#401](https://github.com/chef/bento/pull/401) ([cheeseplus](https://github.com/cheeseplus))
-- Adding support for headless mode [\#399](https://github.com/chef/bento/pull/399) ([cheeseplus](https://github.com/cheeseplus))
-- Box build pipeline [\#398](https://github.com/chef/bento/pull/398) ([cheeseplus](https://github.com/cheeseplus))
-- \[centos-\*\] Improve DRYness, correctness, and speed of CentOS templates. [\#396](https://github.com/chef/bento/pull/396) ([fnichol](https://github.com/fnichol))
-- \[macosx-\*, ubuntu-\*\] Remove name prefixes from templates. [\#395](https://github.com/chef/bento/pull/395) ([fnichol](https://github.com/fnichol))
-- \[ubuntu-\*\] Improve DRYness, correctness, and speed of Ubuntu templates. [\#394](https://github.com/chef/bento/pull/394) ([fnichol](https://github.com/fnichol))
-- Adding Debian 8.1 links, removing Debian 8.0 templates [\#393](https://github.com/chef/bento/pull/393) ([cheeseplus](https://github.com/cheeseplus))
-- Add @cheeseplus to MAINTAINERS.md [\#392](https://github.com/chef/bento/pull/392) ([fnichol](https://github.com/fnichol))
 - \[macosx-\*\] Add support for {http,https,no}\_proxy environment variables. [\#391](https://github.com/chef/bento/pull/391) ([fnichol](https://github.com/fnichol))
 - Remove files that are no longer referenced by any templates. [\#390](https://github.com/chef/bento/pull/390) ([fnichol](https://github.com/fnichol))
 - \[macosx-\*\] Improve DRYness & correctness of Mac templates. [\#389](https://github.com/chef/bento/pull/389) ([fnichol](https://github.com/fnichol))
