@@ -1,6 +1,13 @@
 # Change Log
 
-## [2.2.4](https://github.com/chef/bento/tree/2.2.4) (2016-03-23)
+## [2.2.5](https://github.com/chef/bento/tree/2.2.5) (2016-03-29)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.4...2.2.5)
+
+**Merged pull requests:**
+
+- Ubuntu: use dist-upgrade and install build packages in preseed [\#551](https://github.com/chef/bento/pull/551) ([cheeseplus](https://github.com/cheeseplus))
+
+## [2.2.4](https://github.com/chef/bento/tree/2.2.4) (2016-03-29)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.3...2.2.4)
 
 **Closed issues:**
@@ -22,6 +29,7 @@
 
 **Merged pull requests:**
 
+- Cutting 2.2.4 [\#550](https://github.com/chef/bento/pull/550) ([cheeseplus](https://github.com/cheeseplus))
 - Update mirror URL for Debian 8.2 [\#544](https://github.com/chef/bento/pull/544) ([legal90](https://github.com/legal90))
 - Updating maintainers [\#543](https://github.com/chef/bento/pull/543) ([cheeseplus](https://github.com/cheeseplus))
 - Updating for 14.04.4 release [\#542](https://github.com/chef/bento/pull/542) ([cheeseplus](https://github.com/cheeseplus))
