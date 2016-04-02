@@ -208,22 +208,22 @@
     }
   ],
   "variables": {
-    "box_basename": "freebsd-10.2",
+    "box_basename": "freebsd-10.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_path": "freebsd-10/install.sh",
-    "iso_checksum": "97908f5cd00d86cafeb2c265bfabbd0aa79f87e9b6b31ecdb756bc96a4a62e93",
+    "iso_checksum": "fef068cf6dea26923ab84b62ba9f21461ca0bdec90a0741c8ffb0e1ca29e410d",
     "iso_checksum_type": "sha256",
-    "iso_name": "FreeBSD-10.2-RELEASE-amd64-disc1.iso",
+    "iso_name": "FreeBSD-10.3-RELEASE-amd64-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
-    "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/10.2",
-    "name": "freebsd-10.2",
+    "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/10.3",
+    "name": "freebsd-10.3",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "freebsd-10.2-amd64",
+    "template": "freebsd-10.3-amd64",
     "version": "2.1.TIMESTAMP"
   }
 }

@@ -3,7 +3,7 @@
 # Set the time correctly
 ntpdate -v -b in.pool.ntp.org;
 
-# Install sudo, curl and ca_root_nss
+# Install curl and ca_root_nss
 pkg install -y curl;
 pkg install -y ca_root_nss;
 

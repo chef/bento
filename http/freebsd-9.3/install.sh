@@ -3,7 +3,7 @@
 # Credit: http://www.aisecure.net/2011/05/01/root-on-zfs-freebsd-current/
 #
 # Heavily re-adapted from https://wiki.freebsd.org/RootOnZFS/GPTZFSBoot
-# by Julian Dunn (jdunn@opscode.com) to remove legacy junk
+# by Julian Dunn (jdunn@chef.io) to remove legacy junk
 
 NAME=$1
 

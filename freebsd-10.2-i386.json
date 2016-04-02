@@ -214,7 +214,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "install_path": "freebsd-10.2/install.sh",
+    "install_path": "freebsd-10/install.sh",
     "iso_checksum": "0e7094ae9f4f79d8955f193a1f2f5ab4f8b300e57eccd3b9bd959951ee079020",
     "iso_checksum_type": "sha256",
     "iso_name": "FreeBSD-10.2-RELEASE-i386-disc1.iso",
