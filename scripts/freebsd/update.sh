@@ -18,9 +18,9 @@ else
 fi
 
 # Update FreeBSD
-# NOTE: this will fail if there aren't any patches available for the release yet
+# NOTE: the install action fails if there are no updates so || true it
 env PAGER=/bin/cat $freebsd_update fetch;
-env PAGER=/bin/cat $freebsd_update install;
+env PAGER=/bin/cat $freebsd_update install || true;
 
 # Always use pkgng - pkg_add is EOL as of 1 September 2014
 env ASSUME_ALWAYS_YES=true pkg bootstrap;
