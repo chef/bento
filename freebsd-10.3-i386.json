@@ -15,7 +15,7 @@
       "boot_wait": "10s",
       "disk_size": 10140,
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "FreeBSD_64",
+      "guest_os_type": "FreeBSD",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -60,7 +60,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": 10140,
-      "guest_os_type": "freebsd-64",
+      "guest_os_type": "freebsd",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -155,7 +155,7 @@
         "mdmfs -s 100m md1 /tmp<enter><wait>",
         "mdmfs -s 100m md2 /mnt<enter><wait>",
         "dhclient -l /tmp/dhclient.lease.vtnet0 vtnet0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }} vtnet0<enter><wait>"
+        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "7s",
       "disk_size": 10140,
@@ -208,22 +208,22 @@
     }
   ],
   "variables": {
-    "box_basename": "freebsd-10.2",
+    "box_basename": "freebsd-10.3-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_path": "freebsd-10/install.sh",
-    "iso_checksum": "97908f5cd00d86cafeb2c265bfabbd0aa79f87e9b6b31ecdb756bc96a4a62e93",
+    "iso_checksum": "8329ee2ca4779892edbb001c303670d74642e4353e97d02f4521895023cacd5d",
     "iso_checksum_type": "sha256",
-    "iso_name": "FreeBSD-10.2-RELEASE-amd64-disc1.iso",
+    "iso_name": "FreeBSD-10.3-RELEASE-i386-disc1.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
-    "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/10.2",
-    "name": "freebsd-10.2",
+    "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.3",
+    "name": "freebsd-10.3-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "freebsd-10.2-amd64",
+    "template": "freebsd-10.3-i386",
     "version": "2.1.TIMESTAMP"
   }
 }
