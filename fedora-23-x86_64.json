@@ -144,7 +144,7 @@
       "scripts": [
         "scripts/common/metadata.sh",
         "scripts/fedora/fix-slow-dns.sh",
-        "scripts/fedora/22-build-tools.sh",
+        "scripts/fedora/build-tools.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",
         "scripts/common/vagrant.sh",
