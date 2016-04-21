@@ -64,6 +64,21 @@ Once test-kitchen changes defaults the S3 buckets will no longer be updated.
   * Parallels: 11.1.3
 
 
+#### VMWare Fusion 8, Packer, systemd
+
+Recent Linux distributions use [systemd's logic to predictably name network devices](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/). In our scenario, this is tied to the PCI slot
+id. For unknown reasons, boxes built with [the default vmx config provided by packer](https://github.com/mitchellh/packer/blob/e868f9b69c995cf8a681847aa67e9be286243630/builder/vmware/iso/step_create_vmx.go#L167) use a different
+PCI slot id (32 instead of 33) once they got imported to VMWare Fusion 8, which results in a different device name and finally in broken
+networking. This issue is documented in the following places:
+
+- https://github.com/chef/bento/issues/554
+- https://github.com/chef/bento/pull/545#issuecomment-202988690
+- https://github.com/mitchellh/vagrant/issues/4590
+
+As a workaround we've started to provide the changed PCI slot id as a custom value with the packer definitions with Ubuntu 15.10+ and Debian 8.4+.
+However this is not yet tested, may not solve the issue and/or break compatibility with other VMWare
+products/versions!
+
 ## Older Boxes
 
 Older boxes include Chef and therefore are not compatible with some
