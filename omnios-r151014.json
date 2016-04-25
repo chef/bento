@@ -221,7 +221,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "c2cdcb6e7a51a119fc73528e3c3c24c9ef146185",
+    "iso_checksum": "16fd303c81521db72fe6b0b5e891cffb5f9caa60",
     "iso_checksum_type": "sha1",
     "iso_name": "OmniOS_Text_r151014.iso",
     "metadata": "floppy/dummy_metadata.json",
