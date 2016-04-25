@@ -107,6 +107,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": 40960,
+      "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
