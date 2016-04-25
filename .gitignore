@@ -9,3 +9,4 @@ packer.log
 *.variables.json
 /builds/
 .kitchen
+.kitchen.*.yml
