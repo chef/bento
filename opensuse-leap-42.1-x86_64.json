@@ -30,7 +30,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "768"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
@@ -69,7 +69,7 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "768",
+        "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
       }
     },
@@ -95,7 +95,7 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "768"
+          "{{ user `memory` }}"
         ],
         [
           "set",

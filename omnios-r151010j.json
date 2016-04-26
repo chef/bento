@@ -48,7 +48,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1024"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
@@ -112,7 +112,7 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "1024",
+        "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
       }
     },
@@ -215,7 +215,7 @@
     "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://omnios.omniti.com/media",
     "name": "omnios-r151010j",

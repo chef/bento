@@ -48,7 +48,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1024"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
@@ -112,7 +112,7 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "1024",
+        "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
       }
     },
@@ -162,7 +162,7 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "1024"
+          "{{ user `memory` }}"
         ],
         [
           "set",
@@ -225,7 +225,7 @@
     "iso_checksum": "5378cfdf9c7197c886231eb622bd9b19de597dba",
     "iso_checksum_type": "sha1",
     "iso_name": "OmniOS_Text_r151018.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://omnios.omniti.com",
     "mirror_directory": "media",
