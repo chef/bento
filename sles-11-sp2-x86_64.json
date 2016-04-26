@@ -30,13 +30,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "480"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -69,8 +69,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "480",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -95,13 +95,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "480"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
@@ -169,8 +169,10 @@
     "arch": "64",
     "box_basename": "sles-11-sp2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
+    "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdn.novell.com/free/h0AOp5AT-18~",
     "name": "sles-11-sp2",
@@ -178,4 +180,3 @@
     "version": "2.0.TIMESTAMP"
   }
 }
-

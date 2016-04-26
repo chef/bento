@@ -30,13 +30,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "480"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -69,8 +69,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "480",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -95,13 +95,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "480"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
@@ -177,6 +177,7 @@
     "autoinst_cfg": "opensuse-13.2/autoinst.xml",
     "box_basename": "opensuse-13.2-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -184,6 +185,7 @@
     "iso_checksum": "bada6d5b304a9ecbb9b27e0a02d0c347c72d91c32231c2594e4deb11a4d9ce55",
     "iso_checksum_type": "sha256",
     "iso_name": "openSUSE-13.2-DVD-i586.iso",
+    "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.opensuse.org/distribution",
     "mirror_directory": "13.2/iso",

@@ -40,13 +40,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "384"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -89,8 +89,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "384",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -125,13 +125,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "384"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
@@ -215,6 +215,7 @@
   "variables": {
     "box_basename": "debian-7.8",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -222,6 +223,7 @@
     "iso_checksum": "5f611b40b0803f8be1180da561cfbc159e381599",
     "iso_checksum_type": "sha1",
     "iso_name": "debian-7.8.0-amd64-CD-1.iso",
+    "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "7.8.0/amd64/iso-cd",
@@ -232,4 +234,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-

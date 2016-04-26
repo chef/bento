@@ -37,13 +37,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "512"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -85,8 +85,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "512",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -119,13 +119,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "512"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ],
         [
           "set",
@@ -227,6 +227,7 @@
   "variables": {
     "box_basename": "freebsd-9.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -235,6 +236,7 @@
     "iso_checksum": "5a3c82653d77bba7d7ded8bd7efbedc09d52cf4045d98ce52a82c9e0f8fa9b0e",
     "iso_checksum_type": "sha256",
     "iso_name": "FreeBSD-9.3-RELEASE-amd64-disc1.iso",
+    "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
     "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/9.3",
@@ -244,4 +246,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-

@@ -39,13 +39,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1536"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -89,8 +89,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "1536",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     }
   ],
@@ -123,8 +123,10 @@
     "arch": "64",
     "box_basename": "solaris-10.11",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
+    "memory": "1536",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "./packer_cache",
     "name": "solaris-10.11",
@@ -132,4 +134,3 @@
     "version": "2.0.TIMESTAMP"
   }
 }
-
