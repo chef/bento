@@ -26,13 +26,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "480"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -61,8 +61,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "480",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -83,13 +83,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "480"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
@@ -158,6 +158,7 @@
     "arch": "32",
     "box_basename": "oracle-6.6-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -166,6 +167,7 @@
     "iso_checksum_type": "sha1",
     "iso_name": "OracleLinux-R6-U6-Server-i386-dvd.iso",
     "ks_path": "centos-6.7/ks.cfg",
+    "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.dotsrc.org/oracle-linux",
     "mirror_directory": "OL6/U6/i386",

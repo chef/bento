@@ -26,13 +26,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "512"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -61,8 +61,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "512",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -83,13 +83,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "512"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
@@ -158,6 +158,7 @@
     "arch": "32",
     "box_basename": "fedora-21-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -166,6 +167,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-DVD-i386-21.iso",
     "ks_path": "fedora-21/ks.cfg",
+    "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/21/Server/i386/iso",

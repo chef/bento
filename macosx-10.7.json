@@ -26,8 +26,8 @@
         "hpet0.present": "TRUE",
         "ich7m.present": "TRUE",
         "keyboardAndMouseProfile": "macProfile",
-        "memsize": "2048",
-        "numvcpus": "1",
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}",
         "smc.present": "TRUE",
         "usb.present": "TRUE"
       }
@@ -78,7 +78,7 @@
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ],
         [
           "modifyvm",
@@ -102,7 +102,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "2048"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
@@ -122,7 +122,7 @@
           "--storagectl",
           "SATA Controller",
           "--port",
-          "1",
+          "{{ user `cpus` }}",
           "--type",
           "dvddrive",
           "--medium",
@@ -136,7 +136,7 @@
           "--storagectl",
           "SATA Controller",
           "--port",
-          "1",
+          "{{ user `cpus` }}",
           "--type",
           "dvddrive",
           "--medium",
@@ -163,8 +163,8 @@
       "output_directory": "packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "mac",
       "prlctl": [
-        ["set", "{{.Name}}", "--memsize", "2048"],
-        ["set", "{{.Name}}", "--cpus", "1"],
+        ["set", "{{.Name}}", "--memsize", "{{ user `memory` }}"],
+        ["set", "{{.Name}}", "--cpus", "{{ user `cpus` }}"],
         ["set", "{{.Name}}", "--on-window-close", "keep-running"]
       ],
       "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
@@ -214,6 +214,7 @@
     "_README": "You must provide a prepared Mac disk image (from https://github.com/timsutton/osx-vm-templates) and checksum value for this template to work. For more details, consult this project's README.md",
     "box_basename": "macosx-10.7",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -221,6 +222,7 @@
     "iso_checksum": "__unset_iso_checksum__",
     "iso_checksum_type": "md5",
     "iso_url": "http://YOU-MUST-PROVIDE-YOUR-OWN-DMG.sorry",
+    "memory": "2048",
     "metadata": "floppy/dummy_metadata.json",
     "name": "macosx-10.7",
     "no_proxy": "{{env `no_proxy`}}",
@@ -228,4 +230,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-

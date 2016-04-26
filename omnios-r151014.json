@@ -48,13 +48,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1024"
+          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -112,8 +112,8 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "1024",
-        "numvcpus": "1"
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
       }
     },
     {
@@ -162,13 +162,13 @@
           "set",
           "{{.Name}}",
           "--memsize",
-          "1024"
+          "{{ user `memory` }}"
         ],
         [
           "set",
           "{{.Name}}",
           "--cpus",
-          "1"
+          "{{ user `cpus` }}"
         ]
       ],
       "shutdown_command": "/usr/sbin/shutdown -g 0 -y -i 5",
@@ -217,6 +217,7 @@
     "arch": "64",
     "box_basename": "omnios-r151014",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -224,6 +225,7 @@
     "iso_checksum": "16fd303c81521db72fe6b0b5e891cffb5f9caa60",
     "iso_checksum_type": "sha1",
     "iso_name": "OmniOS_Text_r151014.iso",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://omnios.omniti.com",
     "mirror_directory": "media",
