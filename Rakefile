@@ -251,7 +251,7 @@ def test_box(boxname, providers)
       [{"name"=>"#{boxname}-#{provider}",
         "driver"=>
          {"name"=>"vagrant",
-          "synced_folders"=>[[".", "/vagrant", "disabled: #{share_disabled}"]],
+          #"synced_folders"=>[[".", "/vagrant", "disabled: #{share_disabled}"]],
           "provider"=>provider,
           "box"=>"bento-#{boxname}",
           "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
