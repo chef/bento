@@ -1,5 +1,34 @@
 # Change Log
 
+## [2.2.6](https://github.com/chef/bento/tree/2.2.6) (2016-04-28)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.5...2.2.6)
+
+**Tool Versions:**
+
+- Packer 0.10.0
+- VirtualBox 5.0.16
+- VMware Fusion 8.1.1
+- Parallels Pro 11.1.3
+
+**Added platforms:**
+
+- Debian 8.4 [\#559](https://github.com/chef/bento/pull/559) ([kenhys](https://github.com/kenhys))
+- Debian 7.10 [\#563](https://github.com/chef/bento/pull/563) ([kenhys](https://github.com/kenhys))
+- FreeBSD 10.3 [\#557](https://github.com/chef/bento/pull/557) ([tas50](https://github.com/tas50))
+- OmniOS 151018 [\#565](https://github.com/chef/bento/pull/565) ([tas50](https://github.com/tas50))
+- Ubuntu 16.04 [\#545](https://github.com/chef/bento/pull/545) ([cheeseplus](https://github.com/cheeseplus))
+
+**Fixed bugs:**
+
+- VMWare: tie network device to pci slot 32 [\#566](https://github.com/chef/bento/pull/566) ([rmoriz](https://github.com/rmoriz))
+- VMware: Fedora 23 box builds but can't connect [\#521](https://github.com/chef/bento/issues/521)
+- Publish Ubuntu 15.10 boxes on Atlas [\#506](https://github.com/chef/bento/issues/506)
+
+**Improvements:**
+
+- Standardize on 512MB minimum memory [\#574](https://github.com/chef/bento/issues/574)
+- Added headless option for QEMU builders [\#570](https://github.com/chef/bento/pull/570) ([jmatt](https://github.com/jmatt))
+
 ## [2.2.5](https://github.com/chef/bento/tree/2.2.5) (2016-03-29)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.4...2.2.5)
 
