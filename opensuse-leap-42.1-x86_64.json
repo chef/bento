@@ -187,7 +187,7 @@
     "iso_name": "openSUSE-Leap-42.1-DVD-x86_64.iso",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://download.opensuse.org/distribution",
+    "mirror": "http://suse.mobile-central.org/distribution",
     "mirror_directory": "leap/42.1/iso",
     "name": "opensuse-leap-42.1",
     "no_proxy": "{{env `no_proxy`}}",
