@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.2.7](https://github.com/chef/bento/tree/2.2.7) (2016-05-09)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.6...2.2.7)
+
+
+**Improvements:**
+- Ubuntu: HWE BEGONE! pt 1 - Fix for VMware HGFS on 14.04 [\#584](https://github.com/chef/bento/pull/584) ([davidmnoriega](https://github.com/davidmnoriega))
+- Ubuntu: HWE BEGONE! pt 2 - The Pangolining [\#587](https://github.com/chef/bento/pull/587) ([cheeseplus](https://github.com/cheeseplus))
+- OpenSuSE: Switching to more reliable mirror [\#583](https://github.com/chef/bento/pull/583) ([cheeseplus](https://github.com/cheeseplus))
+
 ## [2.2.6](https://github.com/chef/bento/tree/2.2.6) (2016-04-28)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.5...2.2.6)
 
