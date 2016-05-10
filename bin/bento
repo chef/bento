@@ -21,8 +21,6 @@ class Options
     options = OpenStruct.new
     options.templates = calculate_templates("*.json")
 
-    ENV['PACKER_CACHE_DIR'] = "packer_cache"
-
     global = OptionParser.new do |opts|
       opts.banner = "Usage: #{NAME} [SUBCOMMAND [options]]"
       opts.separator ""
