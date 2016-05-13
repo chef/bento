@@ -11,7 +11,7 @@
         "b"
       ],
       "boot_wait": "5s",
-      "disk_size": 20000,
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "floppy/solaris10/sysidcfg",
         "floppy/solaris10/awesome_prof",
@@ -62,7 +62,7 @@
         "b"
       ],
       "boot_wait": "5s",
-      "disk_size": 20000,
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "floppy/solaris10/sysidcfg",
         "floppy/solaris10/awesome_prof",
@@ -124,6 +124,7 @@
     "box_basename": "solaris-10.11",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "20000",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "memory": "1536",

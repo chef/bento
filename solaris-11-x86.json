@@ -29,7 +29,7 @@
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 10360,
+      "disk_size": "{{user `disk_size`}}",
       "guest_additions_mode": "attach",
       "guest_os_type": "Solaris11_64",
       "headless": "{{ user `headless` }}",
@@ -91,7 +91,7 @@
         "tail -f /var/svc/log/application-auto-installer\\:default.log<enter><wait>"
       ],
       "boot_wait": "5s",
-      "disk_size": 10360,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "solaris11-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http/solaris-11",
@@ -146,6 +146,7 @@
     "box_basename": "solaris-11.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "10360",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "memory": "2048",

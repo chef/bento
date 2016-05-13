@@ -20,7 +20,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "Debian_64",
       "hard_drive_interface": "sata",
@@ -73,7 +73,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "debian8-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -115,7 +115,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "debian",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -166,7 +166,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -220,6 +220,7 @@
     "box_basename": "debian-8.2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "40960",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",

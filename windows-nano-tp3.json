@@ -1,7 +1,7 @@
 {
     "builders": [{
     "communicator": "winrm",
-    "disk_size": 61440,
+    "disk_size": "{{user `disk_size`}}",
     "floppy_files": [
       "scripts/windows/Autounattend.xml",
       "scripts/windows/nano_create.ps1",
@@ -68,6 +68,7 @@
     "box_basename": "windows-nano",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
+    "disk_size": "61440",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "iso_checksum": "7003c2a4f9abe672c570ff018fbf3a27",
