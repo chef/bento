@@ -9,7 +9,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "OpenSUSE",
       "hard_drive_interface": "sata",
@@ -51,7 +51,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "sles11",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -82,7 +82,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "suse",
       "http_directory": "http",
       "iso_checksum": "a0b34f6237b2b2a6b2174c82b40ed326",
@@ -122,7 +122,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "a0b34f6237b2b2a6b2174c82b40ed326",
@@ -171,6 +171,7 @@
     "box_basename": "sles-11-sp2-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "20480",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "memory": "512",

@@ -17,7 +17,7 @@
         "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 10140,
+      "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "FreeBSD",
       "headless": "{{ user `headless` }}",
@@ -67,7 +67,7 @@
         "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 10140,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -106,7 +106,7 @@
         "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "8s",
-      "disk_size": 10140,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -174,7 +174,7 @@
         "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
       ],
       "boot_wait": "7s",
-      "disk_size": 10140,
+      "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -228,6 +228,7 @@
     "box_basename": "freebsd-9.3-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "40960",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",

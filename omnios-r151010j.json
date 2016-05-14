@@ -31,7 +31,7 @@
         "svcadm restart ssh<enter><wait>"
       ],
       "boot_wait": "30s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "OpenSolaris_64",
       "headless": "{{ user `headless` }}",
       "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
@@ -93,7 +93,7 @@
         "svcadm restart ssh<enter><wait>"
       ],
       "boot_wait": "30s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "floppy/omnios/README.TXT"
       ],
@@ -149,7 +149,7 @@
         "svcadm restart ssh<enter><wait>"
       ],
       "boot_wait": "30s",
-      "disk_size": 40960,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "opensolaris",
       "hard_drive_interface": "ide",
       "iso_checksum": "bc3f4c0d29a5da75174de62da00294e5ef826b5e",
@@ -213,6 +213,7 @@
     "box_basename": "omnios-r151010j",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "40960",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "memory": "1024",

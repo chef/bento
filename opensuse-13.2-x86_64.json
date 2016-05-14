@@ -9,7 +9,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_os_type": "OpenSUSE_64",
       "hard_drive_interface": "sata",
@@ -51,7 +51,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "opensuse-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -82,7 +82,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "opensuse",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -122,7 +122,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 20480,
+      "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -178,6 +178,7 @@
     "box_basename": "opensuse-13.2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
+    "disk_size": "20480",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
