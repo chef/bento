@@ -27,7 +27,7 @@ vmware-iso|vmware-vmx)
 
     TOOLS_PATH="`ls /tmp/vmware/VMwareTools-*.tar.gz`";
     VER="`echo "${TOOLS_PATH}" | cut -f2 -d'-'`";
-    MAJ_VER="`echo ${VER} | cut -d '.' -f 1)`";
+    MAJ_VER="`echo ${VER} | cut -d '.' -f 1`";
 
     echo "VMware Tools Version: $VER";
 
