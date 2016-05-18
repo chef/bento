@@ -241,7 +241,18 @@ def test_box(boxname, providers)
 
     destroy_all_bento
 
-    provider = 'vmware_fusion' if provider == 'vmware_desktop'
+    plugin_list = Mixlib::ShellOut.new("vagrant plugin list | awk '{print $1}'")
+    plugin_list.run_command
+    plugins = plugin_list.stdout.split("\n")
+
+    if provider == 'vmware_desktop'
+      case
+      when plugins.include?('vagrant-vmware-workstation')
+        provider = 'vmware_workstation'
+      when plugins.include?('vagrant-vmware-fusion')
+        provider = 'vmware_fusion'
+      end
+    end
 
     share_disabled = /omnios.*|freebsd.*/ === boxname ? true : false
 
