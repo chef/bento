@@ -2,9 +2,9 @@
 
 set -eo pipefail
 
-env
-
 source ~/.bashrc
+
+env
 
 function inline_image {
   printf '\033]1338;url='%s';alt='%s'\a\n' "$1" "$2"
@@ -49,7 +49,7 @@ do
   prlctl unregister "$i"
 done
 
-echo "--- Cleaning up after Fusion"
+echo "--- Cleaning up after VMware"
 
 for i in $(vmrun list | grep -v "Total")
 do
