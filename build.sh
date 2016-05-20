@@ -72,10 +72,7 @@ rake test_all
 
 if [ "$BENTO_UPLOAD" -eq 1 ]
 then
-  echo "--- Upload Boxes to S3"
-  rake upload_all_s3
-
-  echo "--- Upload Boxes to Atlas"
+  echo "--- Upload Boxes to Atlas and S3"
   rake upload_all
 
   echo "--- Release Boxes on Atlas"

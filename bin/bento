@@ -6,12 +6,16 @@ Signal.trap("INT") { exit 1 }
 $stdout.sync = true
 $stderr.sync = true
 
-require "benchmark"
-require "digest"
-require "json"
-require "optparse"
-require "ostruct"
-require "tempfile"
+require 'benchmark'
+require 'digest'
+require 'json'
+require 'optparse'
+require 'ostruct'
+require 'tempfile'
+require 'net/http'
+require 'aws-sdk'
+require 'kitchen'
+require 'mixlib/shellout'
 
 class Options
 
@@ -25,10 +29,15 @@ class Options
       opts.banner = "Usage: #{NAME} [SUBCOMMAND [options]]"
       opts.separator ""
       opts.separator <<-COMMANDS.gsub(/^ {8}/, "")
-        build     :   build one or more templates
-        help      :   prints this help message
-        list      :   list all templates in project
-        normalize :   normalize one or more templates
+        build        :   build one or more templates
+        help         :   prints this help message
+        list         :   list all templates in project
+        normalize    :   normalize one or more templates
+        test         :   test one or more builds with kitchen
+        upload       :   upload one or more builds to Atlas and S3
+        release      :   release a version of a box on Atlas
+        revoke       :   revoke a version of a box on Atlas
+        delete       :   delete a version of a box from Atlas
       COMMANDS
     end
 
@@ -41,6 +50,11 @@ class Options
           exit(1)
         end
       end
+    }
+
+    box_version_argv_proc = proc { |options|
+      options.box = ARGV[0]
+      options.version = ARGV[1]
     }
 
     subcommand = {
@@ -76,9 +90,20 @@ class Options
             options.mirror = opt
           end
 
+          opts.on("-H", "--headless", "Run providers as headless") do |opt|
+            options.headless = opt
+          end
+
           opts.on("-v VERSION", "--version VERSION", "Override the version set in the template") do |opt|
             options.override_version = opt
           end
+        },
+        argv: templates_argv_proc
+      },
+      list: {
+        class: ListRunner,
+        parser: OptionParser.new { |opts|
+          opts.banner = "Usage: #{NAME} list [TEMPLATE ...]"
         },
         argv: templates_argv_proc
       },
@@ -90,16 +115,47 @@ class Options
           opts.on("-d", "--[no-]debug", "Run packer with debug output") do |opt|
             options.debug = opt
           end
-
         },
         argv: templates_argv_proc
       },
-      list: {
-        class: ListRunner,
+      test: {
+        class: TestRunner,
         parser: OptionParser.new { |opts|
-          opts.banner = "Usage: #{NAME} list [TEMPLATE ...]"
+          opts.banner = "Usage: #{NAME} test [options]"
+
+          opts.on("-f", "--shared-folder", "Enable shared folder") do |opt|
+            options.shared_folder = opt
+          end
         },
-        argv: templates_argv_proc
+        argv: box_version_argv_proc
+      },
+      upload: {
+        class: UploadRunner,
+        parser: OptionParser.new { |opts|
+          opts.banner = "Usage: #{NAME} upload"
+        },
+        argv: box_version_argv_proc
+      },
+      release: {
+        class: ReleaseRunner,
+        parser: OptionParser.new { |opts|
+          opts.banner = "Usage: #{NAME} release BOX VERSION"
+        },
+        argv: box_version_argv_proc
+      },
+      revoke: {
+        class: RevokeRunner,
+        parser: OptionParser.new { |opts|
+          opts.banner = "Usage: #{NAME} revoke BOX VERSION"
+        },
+        argv: box_version_argv_proc
+      },
+      delete: {
+        class: DeleteRunner,
+        parser: OptionParser.new { |opts|
+          opts.banner = "Usage: #{NAME} delete BOX VERSION"
+        },
+        argv: box_version_argv_proc
       }
     }
 
@@ -144,6 +200,127 @@ module Common
     seconds = (total - (minutes * 60))
     format("%dm%.2fs", minutes, seconds)
   end
+
+  def box_metadata(metadata_file)
+    metadata = Hash.new
+    file = File.read(metadata_file)
+    json = JSON.parse(file)
+
+    # metadata needed for upload:  boxname, version, provider, box filename
+    metadata['name'] = json['name']
+    metadata['version'] = json['version']
+    metadata['box_basename'] = json['box_basename']
+    metadata['providers'] = Hash.new
+    json['providers'].each do |provider|
+      metadata['providers'][provider['name']] = provider.reject { |k, _| k == 'name' }
+    end
+    metadata
+  end
+
+  def metadata_files
+    @metadata_files ||= compute_metadata_files
+  end
+
+  def compute_metadata_files
+    `ls builds/*.json`.split("\n")
+  end
+
+  def atlas_api
+    @atlas_api ||= 'https://atlas.hashicorp.com/api/v1'
+  end
+
+  def atlas_org
+    @atlas_org ||= ENV['ATLAS_ORG']
+  end
+
+  def atlas_token
+    @atlas_token ||= ENV['ATLAS_TOKEN']
+  end
+
+  def s3_endpoint
+    @s3_endpoint ||= ENV['BENTO_S3_ENDPOINT']
+  end
+
+  def s3_bucket
+    @s3_bucket ||= ENV['BENTO_S3_BUCKET']
+  end
+
+  def private_box?(boxname)
+    proprietary_os_list = %w(macosx sles solaris windows)
+    proprietary_os_list.any? { |p| boxname.include?(p) }
+  end
+end
+
+module HttpStuff
+
+  def class_for_request(verb)
+    Net::HTTP.const_get(verb.to_s.capitalize)
+  end
+
+  def build_uri(verb, path, params = {})
+    if %w(delete, get).include?(verb)
+      path = [path, to_query_string(params)].compact.join('?')
+    end
+
+    # Parse the URI
+    uri = URI.parse(path)
+
+    # Don't merge absolute URLs
+    uri = URI.parse(File.join(endpoint, path)) unless uri.absolute?
+
+    # Return the URI object
+    uri
+  end
+
+  def to_query_string(hash)
+    hash.map do |key, value|
+      "#{CGI.escape(key)}=#{CGI.escape(value)}"
+    end.join('&')[/.+/]
+  end
+
+  def request(verb, url, data = {}, headers = {})
+    uri = build_uri(verb, url, data)
+
+    # Build the request.
+    request = class_for_request(verb).new(uri.request_uri)
+    if %w(patch post put delete).include?(verb)
+      if data.respond_to?(:read)
+        request.content_length = data.size
+        request.body_stream = data
+      elsif data.is_a?(Hash)
+        request.form_data = data
+      else
+        request.body = data
+      end
+    end
+
+    # Add headers
+    headers.each do |key, value|
+      request.add_field(key, value)
+    end
+
+    connection = Net::HTTP.new(uri.host, uri.port)
+
+    if uri.scheme == 'https'
+      require 'net/https' unless defined?(Net::HTTPS)
+
+      # Turn on SSL
+      connection.use_ssl = true
+      connection.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    end
+
+    connection.start do |http|
+      response = http.request(request)
+
+      case response
+      when Net::HTTPRedirection
+        redirect = URI.parse(response['location'])
+        request(verb, redirect, data, headers)
+      else
+        response
+      end
+    end
+  end
 end
 
 module PackerExec
@@ -184,7 +361,7 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :templates, :dry_run, :debug, :builds, :except, :mirror, :override_version, :build_timestamp
+  attr_reader :templates, :dry_run, :debug, :builds, :except, :mirror, :headless, :override_version, :build_timestamp
 
   def initialize(opts)
     @templates = opts.templates
@@ -193,6 +370,7 @@ class BuildRunner
     @builds = opts.builds
     @except = opts.except
     @mirror = opts.mirror
+    @headless = opts.headless
     @override_version = opts.override_version
     @build_timestamp = Time.now.gmtime.strftime("%Y%m%d%H%M%S")
   end
@@ -221,7 +399,6 @@ class BuildRunner
 
   def packer_build_cmd(template, var_file)
     vars = "#{template}.variables.json"
-    headless = !(RUBY_PLATFORM =~ /darwin/)
     cmd = %W[packer build -var-file=#{var_file} #{template}.json]
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd.insert(2, "-only=#{builds}") if builds
@@ -327,6 +504,296 @@ class NormalizeRunner
         puts IO.read(md_file.path)
       end
       system(*cmd) or raise "[#{template}] Error validating, exited #{$?}"
+    end
+  end
+end
+
+class TestRunner
+  include Common
+
+  attr_reader :shared_folder
+
+  def initialize(opts)
+    @debug = opts.debug
+    @shared_folder = opts.shared_folder
+  end
+
+  def start
+    banner("Starting testing...")
+    time = Benchmark.measure do
+      metadata_files.each do |metadata_file|
+        m = box_metadata(metadata_file)
+        destroy_all_bento
+        test_box(m['name'], m['providers'])
+        destroy_all_bento
+      end
+    end
+    banner("Testing finished in #{duration(time.real)}.")
+  end
+
+  private
+
+  def destroy_all_bento
+    cmd = Mixlib::ShellOut.new("vagrant box list | grep 'bento-'")
+    cmd.run_command
+    boxes = cmd.stdout.split("\n")
+
+    boxes.each do |box|
+      b = box.split(' ')
+      rm_cmd = Mixlib::ShellOut.new("vagrant box remove --force #{b[0]} --provider #{b[1].to_s.gsub(/(,|\()/, '')}")
+      banner("Removing #{b[0]} for provider #{b[1].to_s.gsub(/(,|\()/, '')}")
+      rm_cmd.run_command
+    end
+  end
+
+  def test_box(boxname, providers)
+    providers.each do |provider, provider_data|
+
+      plugin_list = Mixlib::ShellOut.new("vagrant plugin list | awk '{print $1}'")
+      plugin_list.run_command
+      plugins = plugin_list.stdout.split("\n")
+
+      if provider == 'vmware_desktop'
+        case
+        when plugins.include?('vagrant-vmware-workstation')
+          provider = 'vmware_workstation'
+        when plugins.include?('vagrant-vmware-fusion')
+          provider = 'vmware_fusion'
+        end
+      end
+
+      share_disabled = shared_folder ? false : true
+
+      kitchen_cfg = {"provisioner"=>{"name"=>"chef_zero", "data_path"=>"test/fixtures"},
+      "platforms"=>
+        [{"name"=>"#{boxname}-#{provider}",
+          "driver"=>
+          {"name"=>"vagrant",
+            "synced_folders"=>[[".", "/vagrant", "disabled: #{share_disabled}"]],
+            "provider"=>provider,
+            "box"=>"bento-#{boxname}",
+            "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
+      "suites"=>[{"name"=>"default", "run_list"=>nil, "attributes"=>{}}]}
+
+      File.open(".kitchen.#{provider}.yml", "w") { |f| f.write(kitchen_cfg.to_yaml) }
+
+      Kitchen.logger = Kitchen.default_file_logger
+      @loader = Kitchen::Loader::YAML.new(project_config: "./.kitchen.#{provider}.yml")
+      config = Kitchen::Config.new(loader: @loader)
+      config.instances.each do |instance|
+        instance.test(:always)
+      end
+    end
+  end
+end
+
+class DeleteRunner
+  include Common
+  include HttpStuff
+
+  attr_reader :boxname, :version
+
+  def initialize(opts)
+    @boxname = opts.box
+    @version = opts.version
+  end
+
+  def start
+    banner("Starting Delete...")
+    time = Benchmark.measure do
+      delete_version(boxname, version)
+    end
+    banner("Delete finished in #{duration(time.real)}.")
+  end
+
+  private
+
+  def delete_version(boxname, version)
+    banner("Deleting version #{version} of box #{boxname}")
+    req = request('delete', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}", { 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' })
+
+    case req.code
+    when '200'
+      banner("Version #{version} of box #{boxname} has been successfully deleted")
+    when '404'
+      warn("No box exists for this version")
+    else
+      warn("Something went wrong #{req.code}")
+    end
+  end
+end
+
+class ReleaseRunner
+  include Common
+  include HttpStuff
+
+  attr_reader :boxname, :version
+
+  def initialize(opts)
+    @boxname = opts.box
+    @version = opts.version
+  end
+
+  def start
+    banner("Starting Release...")
+    time = Benchmark.measure do
+      release_version(boxname, version)
+    end
+    banner("Release finished in #{duration(time.real)}.")
+  end
+
+  private
+
+  def release_version(boxname, version)
+    banner("Releasing version #{version} of box #{boxname}")
+    req = request('put', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/release", { 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' })
+    if req.code == '200'
+      banner("Version #{version} of box #{boxname} has been successfully released")
+    else
+      warn("Something went wrong #{req.code}")
+    end
+  end
+end
+
+class RevokeRunner
+  include Common
+  include HttpStuff
+
+  attr_reader :boxname, :version
+
+  def initialize(opts)
+    @boxname = opts.box
+    @version = opts.version
+  end
+
+  def start
+    banner("Starting Revoke...")
+    time = Benchmark.measure do
+      revoke_version(boxname, version)
+    end
+    banner("Revoke finished in #{duration(time.real)}.")
+  end
+
+  private
+
+  def revoke_version(boxname, version)
+    banner("Revoking version #{version} of box #{boxname}")
+    req = request('put', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/revoke", { 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' })
+    if req.code == '200'
+      banner("Version #{version} of box #{boxname} has been successfully revoked")
+    else
+      banner("Something went wrong #{req.code}")
+    end
+  end
+end
+
+class UploadRunner
+  include Common
+  include HttpStuff
+
+  attr_reader :templates
+
+  def initialize(opts)
+    @templates = opts.templates
+  end
+
+  def start
+    banner("Starting uploads...")
+    time = Benchmark.measure do
+      metadata_files.each do |metadata_file|
+        metadata = box_metadata(metadata_file)
+        create_box(metadata['name'])
+        create_box_version(metadata['name'], metadata['version'])
+        create_providers(metadata['name'], metadata['version'], metadata['providers'].keys)
+        upload_to_atlas(metadata['name'], metadata['version'], metadata['providers'])
+        # upload_to_s3(metadata['name'], metadata['version'], metadata['providers'])
+      end
+    end
+    banner("Atlas uploads finished in #{duration(time.real)}.")
+  end
+
+  private
+
+  def create_box(boxname)
+    req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}", { 'box[username]' => atlas_org, 'access_token' => atlas_token } )
+    if req.code.eql?('404')
+      if private_box?(boxname)
+        banner("Creating the private box #{boxname} in Atlas.")
+        req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'box[username]' => atlas_org, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
+      else
+        banner("Creating the box #{boxname} in Atlas.")
+        req = request('post', "#{atlas_api}/boxes", { 'box[name]' => boxname, 'box[username]' => atlas_org, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
+        make_public(boxname)
+      end
+    else
+      banner("The box #{boxname} exists in atlas, continuing...")
+    end
+  end
+
+  def make_public(boxname)
+    banner("Making #{boxname} public")
+    req = request('put', "#{atlas_api}/box/#{atlas_org}/#{boxname}", { 'box[is_private]' => false, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' } )
+    banner("#{boxname} successfully made public") if req.code == '200'
+  end
+
+  def create_box_version(boxname, version)
+    req = request('post', "#{atlas_api}/box/#{atlas_org}/#{boxname}/versions", { 'version[version]' => version, 'access_token' => atlas_token },{ 'Content-Type' => 'application/json' } )
+
+    banner("Created box version #{boxname} #{version}.") if req.code == '200'
+    banner("Box version #{boxname} #{version} already exists, continuing.") if req.code == '422'
+  end
+
+  def create_providers(boxname, version, provider_names)
+    provider_names.each do |provider|
+      banner("Creating provider #{provider} for #{boxname} #{version}")
+      req = request('post', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/providers", { 'provider[name]' => provider, 'access_token' => atlas_token }, { 'Content-Type' => 'application/json' }  )
+      banner("Created #{provider} for #{boxname} #{version}") if req.code == '200'
+      banner("Provider #{provider} for #{boxname} #{version} already exists, continuing.") if req.code == '422'
+    end
+  end
+
+  def upload_to_atlas(boxname, version, providers)
+    providers.each do |provider, provider_data|
+      boxfile = provider_data['file']
+      req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/provider/#{provider}/upload?access_token=#{atlas_token}")
+      upload_path = JSON.parse(req.body)['upload_path']
+      token = JSON.parse(req.body)['token']
+
+      banner("Atlas: Uploading #{boxfile}")
+      info("Name: #{boxname}")
+      info("Version: #{version}")
+      info("Provider: #{provider}")
+      info("Upload Path: #{upload_path}")
+      upload_request = request('put', upload_path, File.open("builds/#{boxfile}"))
+
+      req = request('get', "#{atlas_api}/box/#{atlas_org}/#{boxname}/version/#{version}/provider/#{provider}?access_token=#{atlas_token}")
+      hosted_token = JSON.parse(req.body)['hosted_token']
+
+      if token == hosted_token
+        banner("Successful upload of box #{boxfile}")
+      else
+        banner("Failed upload due to non-matching tokens of box #{boxfile} to atlas box: #{boxname}, version: #{version}, provider: #{provider}")
+        warn("Code: #{req.code}")
+        warn("Body: #{req.body}")
+      end
+    end
+    
+    def upload_to_s3(boxname, version, providers)
+      providers.each do |provider, provider_data|
+        boxfile = provider_data['file']
+        provider = 'vmware' if provider == 'vmware_desktop'
+        box_path = "vagrant/#{provider}/opscode_#{boxname}_chef-provisionerless.box"
+        credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+
+        s3 = Aws::S3::Resource.new(credentials: credentials, endpoint: s3_endpoint)
+        banner("S3: Uploading #{boxfile}")
+        info("Name: #{boxname}")
+        info("Version: #{version}")
+        info("Provider: #{provider}")
+        s3_object = s3.bucket(s3_bucket).object(box_path)
+        s3_object.upload_file("builds/#{boxfile}", acl:'public-read')
+        banner("Upload Path: #{s3_object.public_url}")
+      end
     end
   end
 end
