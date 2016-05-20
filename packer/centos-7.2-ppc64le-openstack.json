@@ -9,7 +9,7 @@
         "boot<enter><wait>"
       ],
       "accelerator": "kvm",
-      "boot_wait": "14s",
+      "boot_wait": "6s",
       "disk_size": 2048,
       "headless": true,
       "http_directory": "http",
@@ -22,7 +22,7 @@
         [ "-m", "2048M" ],
         [ "-boot", "strict=on" ]
       ],
-      "qemu_binary": "qemu-system-ppc64",
+      "qemu_binary": "/usr/libexec/qemu-kvm",
       "machine_type": "pseries",
       "ssh_password": "centos",
       "ssh_port": 22,
