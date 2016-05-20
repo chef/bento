@@ -1,0 +1,55 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "c<wait5><wait10>",
+        "linux /ppc/ppc64/vmlinuz ro ",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.2/ks-ppc64-openstack.cfg<enter>",
+        "initrd /ppc/ppc64/initrd.img<enter>",
+        "boot<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "6s",
+      "disk_size": 2048,
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "1356f0336d7a3c37bc6d10502d51cbf7",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/7.2.1511/isos/ppc64/CentOS-7-AltArch-ppc64-NetInstall-1511.iso",
+      "output_directory": "packer-centos-7.2-ppc64-openstack",
+      "shutdown_command": "echo 'centos'|sudo -S shutdown -P now",
+      "qemuargs": [
+        [ "-m", "2048M" ],
+        [ "-boot", "strict=on" ]
+      ],
+      "qemu_binary": "/usr/libexec/qemu-kvm",
+      "machine_type": "pseries",
+      "ssh_password": "centos",
+      "ssh_port": 22,
+      "ssh_username": "centos",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-centos-7.2-ppc64"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "echo 'centos' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/centos/fix-slow-dns.sh",
+        "scripts/common/sshd.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/centos/chef-ppc64.sh",
+        "scripts/centos/osuosl-altarch.sh",
+        "scripts/centos/epel-7.sh",
+        "scripts/centos/openstack.sh",
+        "scripts/centos/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "mirror": "http://centos-altarch.osuosl.org"
+  }
+}
