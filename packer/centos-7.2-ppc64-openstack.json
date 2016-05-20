@@ -13,7 +13,7 @@
       "disk_size": 2048,
       "headless": true,
       "http_directory": "http",
-      "iso_checksum": "1356f0336d7a3c37bc6d10502d51cbf7",
+      "iso_checksum": "a4e6b6a69d86a704f0108983bb3c3d86",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/7.2.1511/isos/ppc64/CentOS-7-AltArch-ppc64-NetInstall-1511.iso",
       "output_directory": "packer-centos-7.2-ppc64-openstack",
