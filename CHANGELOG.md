@@ -1,5 +1,27 @@
 # Change Log
 
+## [2.2.7](https://github.com/chef/bento/tree/2.2.7) (2016-05-20)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.6...2.2.7)
+
+**Improvements:**
+- Ubuntu: HWE BEGONE! pt 1 - Fix for VMware HGFS on 14.04 [\#584](https://github.com/chef/bento/pull/584) ([davidmnoriega](https://github.com/davidmnoriega))
+- Ubuntu: HWE BEGONE! pt 2 - The Pangolining [\#587](https://github.com/chef/bento/pull/587) ([cheeseplus](https://github.com/cheeseplus))
+- OpenSuSE: Switching to more reliable mirror [\#583](https://github.com/chef/bento/pull/583) ([cheeseplus](https://github.com/cheeseplus))
+- Added "disk\_size" user variable [\#596](https://github.com/chef/bento/pull/596) ([svpace](https://github.com/svpace))
+
+**Fixed bugs:**
+
+- Ubuntu 16.04: 70-persistent-net.rules "hack" messes with update-initramfs triggers [\#592](https://github.com/chef/bento/issues/592)
+- VMware: use correct script flags based on version [\#590](https://github.com/chef/bento/issues/590)
+
+**Tool Versions:**
+
+- Packer 0.10.1
+- VirtualBox 5.0.20
+- VMware Fusion 8.1.1
+- VMware Workstation 12.1.1
+- Parallels Pro 11.2.0
+
 ## [2.2.6](https://github.com/chef/bento/tree/2.2.6) (2016-04-28)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.5...2.2.6)
 
