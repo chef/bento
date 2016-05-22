@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-yum -y install cloud-init cloud-utils dracut-modules-growroot
+yum -y install cloud-init cloud-utils dracut-modules-growroot cloud-utils-growpart
 dracut -f
 
 if [ -e /boot/grub/grub.conf ] ; then
