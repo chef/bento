@@ -44,7 +44,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "centos",
+      "guest_os_type": "redhat",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -71,7 +71,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "centos",
+      "guest_os_type": "rhel",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
@@ -144,8 +144,8 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/common/sshd.sh",
         "scripts/centos/networking.sh",
+        "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/centos/cleanup.sh",
@@ -155,7 +155,8 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-6.7-i386",
+    "arch": "32",
+    "box_basename": "rhel-6.8-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -163,17 +164,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "2ef003dd0a0b7e810928da9508d5551d8d51943434d4eb634a783f1fc3cb0252",
+    "iso_checksum": "22d1754f3e642c2b60234c3f97d1d6689b33bef4dd2252e3f52cd9aa823bb5f3",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-6.7-i386-bin-DVD1.iso",
-    "ks_path": "centos-6.7/ks.cfg",
+    "iso_name": "rhel-server-6.8-i386-dvd.iso",
+    "ks_path": "centos-6.8/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "6.7/isos/i386",
-    "name": "centos-6.7-i386",
+    "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
+    "mirror_directory": "rhel",
+    "name": "rhel-6.8-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-6.7-i386",
-    "version": "2.1.TIMESTAMP"
+    "template": "rhel-6.8-i386",
+    "version": "2.2.TIMESTAMP"
   }
 }
