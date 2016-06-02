@@ -133,7 +133,7 @@
         "scripts/common/metadata.sh",
         "scripts/solaris/update.sh",
         "scripts/solaris/vmtools.sh",
-        "scripts/common/vagrant.sh",
+        "scripts/solaris/vagrant.sh",
         "scripts/solaris/minimize.sh"
       ],
       "type": "shell"
@@ -141,7 +141,7 @@
   ],
   "variables": {
     "_DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
-    "_README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
+    "_README": "You must download the automated installer iso from the following page, and then place it in the packer_cache dir",
     "arch": "64",
     "box_basename": "solaris-11.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
