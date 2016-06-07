@@ -706,7 +706,7 @@ class UploadRunner
         create_box_version(metadata['name'], metadata['version'])
         create_providers(metadata['name'], metadata['version'], metadata['providers'].keys)
         upload_to_atlas(metadata['name'], metadata['version'], metadata['providers'])
-        # upload_to_s3(metadata['name'], metadata['version'], metadata['providers'])
+        upload_to_s3(metadata['name'], metadata['version'], metadata['providers'])
       end
     end
     banner("Atlas uploads finished in #{duration(time.real)}.")
