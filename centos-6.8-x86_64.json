@@ -44,7 +44,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "rhel6-64",
+      "guest_os_type": "centos-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -71,7 +71,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "rhel",
+      "guest_os_type": "centos",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
@@ -144,8 +144,8 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/centos/networking.sh",
         "scripts/common/sshd.sh",
+        "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/centos/cleanup.sh",
@@ -155,8 +155,7 @@
     }
   ],
   "variables": {
-    "arch": "64",
-    "box_basename": "rhel-6.6",
+    "box_basename": "centos-6.8",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -164,17 +163,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "16044cb7264f4bc0150f5b6f3f66936ccf2d36e0a4152c00d9236fb7dcae5f32",
+    "iso_checksum": "1dda55622614a8b43b448a72f87d6cb7f79de1eff49ee8c5881a7d9db28d4e35",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-6.6-x86_64-dvd.iso",
-    "ks_path": "centos-6.7/ks.cfg",
+    "iso_name": "CentOS-6.8-x86_64-bin-DVD1.iso",
+    "ks_path": "centos-6.8/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
-    "mirror_directory": "rhel",
-    "name": "rhel-6.6",
+    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror_directory": "6.8/isos/x86_64",
+    "name": "centos-6.8",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-6.6-x86_64",
-    "version": "2.2.TIMESTAMP"
+    "template": "centos-6.8-x86_64",
+    "version": "2.1.TIMESTAMP"
   }
 }
