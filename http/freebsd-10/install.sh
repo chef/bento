@@ -95,7 +95,7 @@ touch /mnt/zroot/etc/fstab
 # Set up user accounts
 zfs create zroot/usr/home/vagrant
 echo "vagrant" | pw -V /mnt/zroot/etc useradd vagrant -h 0 -s /bin/sh -G wheel -d /home/vagrant -c "Vagrant User"
-echo "vagrant" | pw -V /mnt/zroot/etc usermod root
+echo "vagrant" | pw -V /mnt/zroot/etc usermod root -h 0
 
 chown 1001:1001 /mnt/zroot/home/vagrant
 
