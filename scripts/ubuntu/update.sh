@@ -32,3 +32,8 @@ EOF
 if [ "$ubuntu_version" = "12.04" ]; then
     apt-get -y install libreadline-dev dpkg;
 fi
+
+# Disable periodic activities of apt
+cat <<EOF >/etc/apt/apt.conf.d/10disable-periodic
+APT::Periodic::Enable "0";
+EOF
