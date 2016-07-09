@@ -21,26 +21,35 @@ virtualbox-iso|virtualbox-ovf)
     ;;
 
 vmware-iso|vmware-vmx)
-    mkdir -p /tmp/vmware;
-    mkdir -p /tmp/vmware-archive;
-    mount -o loop $HOME_DIR/linux.iso /tmp/vmware;
+    ubuntu_version="`lsb_release -r | awk '{print $2}'`";
+    ubuntu_major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
 
-    TOOLS_PATH="`ls /tmp/vmware/VMwareTools-*.tar.gz`";
-    VER="`echo "${TOOLS_PATH}" | cut -f2 -d'-'`";
-    MAJ_VER="`echo ${VER} | cut -d '.' -f 1`";
-
-    echo "VMware Tools Version: $VER";
-
-    tar xzf ${TOOLS_PATH} -C /tmp/vmware-archive;
-    if [ "${MAJ_VER}" -lt "10" ]; then
-        /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --default;
+    # Use open-vm-tools
+    if [ "$ubuntu_version" = "16.04" ]; then
+        apt-get install -y open-vm-tools
+        mkdir /mnt/hgfs;
     else
-        /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --force-install;
+      mkdir -p /tmp/vmware;
+      mkdir -p /tmp/vmware-archive;
+      mount -o loop $HOME_DIR/linux.iso /tmp/vmware;
+
+      TOOLS_PATH="`ls /tmp/vmware/VMwareTools-*.tar.gz`";
+      VER="`echo "${TOOLS_PATH}" | cut -f2 -d'-'`";
+      MAJ_VER="`echo ${VER} | cut -d '.' -f 1`";
+
+      echo "VMware Tools Version: $VER";
+
+      tar xzf ${TOOLS_PATH} -C /tmp/vmware-archive;
+      if [ "${MAJ_VER}" -lt "10" ]; then
+          /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --default;
+      else
+          /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --force-install;
+      fi
+      umount /tmp/vmware;
+      rm -rf  /tmp/vmware;
+      rm -rf  /tmp/vmware-archive;
+      rm -f $HOME_DIR/*.iso;
     fi
-    umount /tmp/vmware;
-    rm -rf  /tmp/vmware;
-    rm -rf  /tmp/vmware-archive;
-    rm -f $HOME_DIR/*.iso;
     ;;
 
 parallels-iso|parallels-pvm)
