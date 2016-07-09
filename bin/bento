@@ -16,6 +16,7 @@ require 'net/http'
 require 'aws-sdk'
 require 'kitchen'
 require 'mixlib/shellout'
+require 'erb'
 
 class Options
 
@@ -126,8 +127,12 @@ class Options
           opts.on("-f", "--shared-folder", "Enable shared folder") do |opt|
             options.shared_folder = opt
           end
+
+          opts.on("-p", "--provisioner PROVISIONER", "Use a specfic provisioner") do |opt|
+            options.provisioner = opt
+          end
         },
-        argv: box_version_argv_proc
+        argv: Proc.new {}
       },
       upload: {
         class: UploadRunner,
@@ -511,11 +516,12 @@ end
 class TestRunner
   include Common
 
-  attr_reader :shared_folder
+  attr_reader :shared_folder, :boxname, :provider, :box_url, :share_disabled, :provisioner
 
   def initialize(opts)
     @debug = opts.debug
     @shared_folder = opts.shared_folder
+    @provisioner = opts.provisioner.nil? ? "shell" : opts.provisioner
   end
 
   def start
@@ -562,20 +568,13 @@ class TestRunner
         end
       end
 
-      share_disabled = shared_folder ? false : true
+      @boxname = boxname
+      @provider = provider
+      @share_disabled = shared_folder ? false : true
+      @box_url = "file://#{ENV['PWD']}/builds/#{provider_data['file']}"
 
-      kitchen_cfg = {"provisioner"=>{"name"=>"chef_zero", "data_path"=>"test/fixtures"},
-      "platforms"=>
-        [{"name"=>"#{boxname}-#{provider}",
-          "driver"=>
-          {"name"=>"vagrant",
-            "synced_folders"=>[[".", "/vagrant", "disabled: #{share_disabled}"]],
-            "provider"=>provider,
-            "box"=>"bento-#{boxname}",
-            "box_url"=>"file://#{ENV['PWD']}/builds/#{provider_data['file']}"}}],
-      "suites"=>[{"name"=>"default", "run_list"=>nil, "attributes"=>{}}]}
-
-      File.open(".kitchen.#{provider}.yml", "w") { |f| f.write(kitchen_cfg.to_yaml) }
+      kitchen_cfg = ERB.new(File.read('.kitchen.yml.erb'), nil, '-').result(binding)
+      File.open(".kitchen.#{provider}.yml", "w") { |f| f.puts kitchen_cfg }
 
       Kitchen.logger = Kitchen.default_file_logger
       @loader = Kitchen::Loader::YAML.new(project_config: "./.kitchen.#{provider}.yml")
@@ -777,7 +776,7 @@ class UploadRunner
         warn("Body: #{req.body}")
       end
     end
-    
+
     def upload_to_s3(boxname, version, providers)
       providers.each do |provider, provider_data|
         boxfile = provider_data['file']
