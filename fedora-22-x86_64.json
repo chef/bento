@@ -168,7 +168,7 @@
     "iso_checksum": "b2acfa7c7c6b5d2f51d3337600c2e52eeaa1a1084991181c28ca30343e52e0df",
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-DVD-x86_64-22.iso",
-    "ks_path": "fedora-22/ks.cfg",
+    "ks_path": "fedora-latest/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",

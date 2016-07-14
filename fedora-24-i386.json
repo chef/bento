@@ -1,4 +1,3 @@
-
 {
   "builders": [
     {
@@ -141,8 +140,8 @@
       "scripts": [
         "scripts/common/metadata.sh",
         "scripts/fedora/fix-slow-dns.sh",
-        "scripts/common/sshd.sh",
         "scripts/fedora/build-tools.sh",
+        "scripts/common/sshd.sh",
         "scripts/common/vmtools.sh",
         "scripts/common/vagrant.sh",
         "scripts/fedora/cleanup.sh",
@@ -153,7 +152,7 @@
   ],
   "variables": {
     "arch": "32",
-    "box_basename": "fedora-22-i386",
+    "box_basename": "fedora-24-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -161,17 +160,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "5e3dfdff30667f3339d8b4e6ac0651c2e00c9417987848bef772cb92dbc823a5",
+    "iso_checksum": "93c0bfe6e6bf23ca22cc1a85636ed15834336ee40a57bfe374f0044ad2d864b0",
     "iso_checksum_type": "sha256",
-    "iso_name": "Fedora-Server-DVD-i386-22.iso",
+    "iso_name": "Fedora-Server-dvd-i386-24-1.2.iso",
     "ks_path": "fedora-latest/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
-    "mirror_directory": "releases/22/Server/i386/iso",
-    "name": "fedora-22-i386",
+    "mirror_directory": "releases/24/Server/i386/iso",
+    "name": "fedora-24-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "fedora-22-i386",
+    "template": "fedora-24-i386",
     "version": "2.0.TIMESTAMP"
   }
 }
