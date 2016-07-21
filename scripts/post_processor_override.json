@@ -1,0 +1,32 @@
+{
+    "post-processors": [
+        {
+            "type": "vsphere",
+            "only": [
+                "vmware-iso"
+            ],
+            "cluster": "{{user `vi_cluster`}}",
+            "datacenter": "{{user `vi_datacenter`}}",
+            "datastore": "{{user `vi_datastore`}}",
+            "vm_network": "{{user `vi_network`}}",
+            "host": "{{user `vi_host`}}",
+            "username": "{{user `vi_username`}}",
+            "password": "{{user `vi_password`}}",
+            "vm_name": "{{user `vi_vm_name`}}",
+            "disk_mode": "thin",
+            "options": "{{user `vi_ovf_options`}}",
+            "insecure": true
+        }
+    ],
+    "variables": {
+        "vi_cluster": "{{env `VI_CLUSTER`}}",
+        "vi_datacenter": "{{env `VI_DATACENTER`}}",
+        "vi_network": "{{env `VI_NETWORK`}}",
+        "vi_datastore": "{{env `VI_DATASTORE`}}",
+        "vi_host": "{{env `VI_HOST`}}",
+        "vi_username": "{{env `VI_USERNAME`}}",
+        "vi_password": "{{env `VI_PASSWORD`}}",
+        "vi_ovf_options": "{{env `VI_OVF_OPTIONS`}}",
+        "vi_vm_name": "{{env `VI_VM_NAME`}}"
+    }
+}
