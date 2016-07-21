@@ -191,9 +191,9 @@
       "host": "{{user `vi_host`}}",
       "username": "{{user `vi_username`}}",
       "password": "{{user `vi_password`}}",
-      "vm_name": "{{user `vi_vm_name`}}",
+      "vm_name": "{{.Name}}-{{isotime \"2006-Jan-02-0315\"}}",
       "disk_mode": "thin",
-      "options": "{{user `vi_ovf_options`}}",
+      "options": "--X:logFile=\"vsphere-{{.Name}}-{{isotime \"2006-Jan-02-0315\"}}.log\" --X:logLevel=trivia --machineOutput",
       "insecure": true
     }
   ],
@@ -252,8 +252,6 @@
     "vi_datastore": "{{env `VI_DATASTORE`}}",
     "vi_host": "{{env `VI_HOST`}}",
     "vi_username": "{{env `VI_USERNAME`}}",
-    "vi_password": "{{env `VI_PASSWORD`}}",
-    "vi_ovf_options": "{{env `VI_OVF_OPTIONS`}}",
-    "vi_vm_name": "{{env `VI_VM_NAME`}}"
+    "vi_password": "{{env `VI_PASSWORD`}}"
   }
 }
