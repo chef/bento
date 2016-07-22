@@ -26,7 +26,7 @@ vmware-iso|vmware-vmx)
 
     # Use open-vm-tools
     if [ "$ubuntu_version" = "16.04" ]; then
-        apt-get install -y open-vm-tools
+        apt-get install -y open-vm-tools;
         mkdir /mnt/hgfs;
     else
       mkdir -p /tmp/vmware;
