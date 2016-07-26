@@ -60,7 +60,7 @@ compatibility with [test-kitchen](https://github.com/test-kitchen/test-kitchen).
 Once test-kitchen changes defaults the S3 buckets will no longer be updated.
 * Tooling versions
   * Packer: 0.10.1
-  * VirtualBox: 5.1.0
+  * VirtualBox: 5.0.26
   * VMware Fusion: 8.1.1
   * Parallels: 11.2.0
 
