@@ -205,7 +205,9 @@
         "scripts/debian/networking.sh",
         "scripts/debian/sudoers.sh",
         "scripts/common/vagrant.sh",
-        "scripts/common/vmtools.sh",
+        "scripts/common/virtualbox.sh",
+        "scripts/common/vmware.sh",
+        "scripts/common/parallels.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
