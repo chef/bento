@@ -186,7 +186,7 @@
     "iso_checksum": "8576e84822cdbe566bf551e28a169fc028229831eba9f07a4c1f84302c5ddb09",
     "iso_checksum_type": "sha256",
     "iso_name": "openSUSE-Leap-42.1-DVD-x86_64.iso",
-    "memory": "512",
+    "memory": "768",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://suse.mobile-central.org/distribution",
     "mirror_directory": "leap/42.1/iso",
