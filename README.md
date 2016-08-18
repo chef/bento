@@ -78,6 +78,8 @@ VI_NETWORK="VM Network"
   There is an [outstanding issue](https://github.com/mitchellh/packer/issues/3632) with packer that is yet to be released.
   Build from master or use the [release after 0.10.1](https://github.com/mitchellh/packer/blob/master/CHANGELOG.md#unreleased).
 
+  You will also need to convert it to a template manually until [vsphere post-processor stops creating them as vms](https://github.com/mitchellh/packer/issues/3809)
+
 #### VMWare Fusion 8, Packer, systemd
 
 Recent Linux distributions use [systemd's logic to predictably name network devices](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/). In our scenario, this is tied to the PCI slot
