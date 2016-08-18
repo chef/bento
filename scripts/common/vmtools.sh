@@ -23,11 +23,28 @@ virtualbox-iso|virtualbox-ovf)
 vmware-iso|vmware-vmx)
     ubuntu_version="`lsb_release -r | awk '{print $2}'`";
     ubuntu_major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
+    redhat_version="`lsb_release -r | awk '{print $2}'`";
+    redhat_major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
 
     # Use open-vm-tools
     if [ "$ubuntu_version" = "16.04" ]; then
         apt-get install -y open-vm-tools;
         mkdir /mnt/hgfs;
+    elif [ -e /etc/redhat-release ] ; then
+        wget http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-DSA-KEY.pub
+        wget http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub
+        rpm --import ./VMWARE-PACKAGING-GPG-RSA-KEY.pub
+        rpm --import ./VMWARE-PACKAGING-GPG-DSA-KEY.pub
+
+        cat <<EOF>/etc/yum.repos.d/vmware.repo
+[vmware-tools]
+name=VMware Tools
+baseurl=http://packages.vmware.com/tools/esx/5.5p08/rhel${redhat_major_version}/x86_64
+#baseurl=http://packages.vmware.com/tools/esx/5.5latest/rhel${redhat_major_version}/x86_64
+enabled=1
+gpgcheck=1
+EOF
+        yum install -y vmware-tools-esx vmware-tools-esx-kmods
     else
       mkdir -p /tmp/vmware;
       mkdir -p /tmp/vmware-archive;
