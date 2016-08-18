@@ -63,7 +63,20 @@ Once test-kitchen changes defaults the S3 buckets will no longer be updated.
   * VirtualBox: 5.0.26
   * VMware Fusion: 8.1.1
   * Parallels: 11.2.0
-
+* vSphere post-processor
+  ./update_vsphere.sh will generate vsphere templates by injecting ./vsphere_override.json
+  However you will need some environment variables set for it to export:
+  ```shell
+VI_USERNAME=domain\\username
+VI_PASSWORD=foobarbaz
+VI_HOST=vsphere.my.com
+VI_DATACENTER=my-datacenter
+VI_CLUSTER=my-cluster
+VI_DATASTORE=my-LUN
+VI_NETWORK="VM Network"
+  ```
+  There is an [outstanding issue](https://github.com/mitchellh/packer/issues/3632) with packer that is yet to be released.
+  Build from master or use the [release after 0.10.1](https://github.com/mitchellh/packer/blob/master/CHANGELOG.md#unreleased).
 
 #### VMWare Fusion 8, Packer, systemd
 
