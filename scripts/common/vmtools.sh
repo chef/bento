@@ -38,9 +38,9 @@ vmware-iso|vmware-vmx)
 
         cat <<EOF>/etc/yum.repos.d/vmware.repo
 [vmware-tools]
-name=VMware Tools for $osname $releasever
-baseurl=http://packages.vmware.com/tools/esx/5.5p08/rhel${major_version}/\$basearch
-#baseurl=http://packages.vmware.com/tools/esx/5.5latest/rhel5/$basearch
+name=VMware Tools
+baseurl=http://packages.vmware.com/tools/esx/5.5p08/rhel${redhat_major_version}/x86_64
+#baseurl=http://packages.vmware.com/tools/esx/5.5latest/rhel${redhat_major_version}/x86_64
 enabled=1
 gpgcheck=1
 EOF
