@@ -1,9 +1,64 @@
 # Change Log
 
+## [2.2.9](https://github.com/chef/bento/tree/2.2.9) (2016-08-01)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.8...2.2.9)
+
+**Improvements:**
+
+- OpenSUSE Leap 42.1: requires 768 Mb memory. [\#632](https://github.com/chef/bento/pull/632) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Update for 16.04.1 iso [\#629](https://github.com/chef/bento/pull/629)
+- For reals fixed 16.04 pkg lock bug [\#637](https://github.com/chef/bento/pull/637) ([cheeseplus](https://github.com/cheeseplus))
+
+**Fixed bugs:**
+
+- VMware: HGFS not working - Ubuntu 16.04 [\#591](https://github.com/chef/bento/issues/591)
+
+**EOL**
+
+ - Fedora 22
+
+ **Tool Versions:**
+
+ - Packer 0.10.1
+ - VirtualBox 5.0.26
+ - VMware Fusion 8.1.1
+ - VMware Workstation 12.1.1
+ - Parallels Pro 11.2.1
+
+## [2.2.8](https://github.com/chef/bento/tree/2.2.8) (2016-07-22)
+[Full Changelog](https://github.com/chef/bento/compare/2.2.7...2.2.8)
+
+**Improvements:**
+
+- Archiving all non-current builds [\#622](https://github.com/chef/bento/pull/622) ([cheeseplus](https://github.com/cheeseplus))
+- Add Fedora 24 and dedupe kickstart scripts [\#623](https://github.com/chef/bento/pull/623) ([tas50](https://github.com/tas50))
+- 16.04 should use open-vm-tools [\#621](https://github.com/chef/bento/pull/621) ([cheeseplus](https://github.com/cheeseplus))
+- Updated Debian 7 to 7.11 [\#608](https://github.com/chef/bento/pull/608) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Updated Debian 8 to 8.5 [\#607](https://github.com/chef/bento/pull/607) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Updated CentOS and RHEL to 6.8 [\#605](https://github.com/chef/bento/pull/605) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Disable automated package upgrades on Debian-like boxes [\#612](https://github.com/chef/bento/pull/612) ([jrb](https://github.com/jrb))
+- Fix new-style device naming from Network Manager on RHEL/CentOS 7 [\#617](https://github.com/chef/bento/pull/617) ([legal90](https://github.com/legal90))
+- update apt sources to use archive.debian.org for packages [\#614](https://github.com/chef/bento/pull/614) ([apollocatlin](https://github.com/apollocatlin))
+
+**Fixed bugs:**
+
+- apt.systemd.daily creates conflict in xenial64 box [\#616](https://github.com/chef/bento/issues/616)
+- FreeBSD: Root password not set! [\#610](https://github.com/chef/bento/issues/610)
+- ubuntu-16.04: unattended updates locking dpkg [\#609](https://github.com/chef/bento/issues/609)
+- Fix vagrant.sh failing on Solaris nodes [\#606](https://github.com/chef/bento/pull/606) ([tas50](https://github.com/tas50))
+
+**Tool Versions:**
+
+- Packer 0.10.1
+- VirtualBox 5.0.24
+- VMware Fusion 8.1.1
+- Parallels Pro 11.2.0
+
 ## [2.2.7](https://github.com/chef/bento/tree/2.2.7) (2016-05-20)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.6...2.2.7)
 
 **Improvements:**
+
 - Ubuntu: HWE BEGONE! pt 1 - Fix for VMware HGFS on 14.04 [\#584](https://github.com/chef/bento/pull/584) ([davidmnoriega](https://github.com/davidmnoriega))
 - Ubuntu: HWE BEGONE! pt 2 - The Pangolining [\#587](https://github.com/chef/bento/pull/587) ([cheeseplus](https://github.com/cheeseplus))
 - OpenSuSE: Switching to more reliable mirror [\#583](https://github.com/chef/bento/pull/583) ([cheeseplus](https://github.com/cheeseplus))
