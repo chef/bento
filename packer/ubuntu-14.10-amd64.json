@@ -192,6 +192,6 @@
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://releases.ubuntu.com",
+    "mirror": "http://releases.ubuntu.com"
   }
 }

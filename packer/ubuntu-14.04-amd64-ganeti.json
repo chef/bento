@@ -49,7 +49,9 @@
   "provisioners": [
     {
       "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
+        "CHEF_VERSION={{user `chef_version`}}",
+        "DNS_SERVER_1={{echo $dnsserver1}}",
+        "DNS_SERVER_2={{echo $dnsserver2}}"
       ],
       "execute_command": "echo 'osuadmin'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
