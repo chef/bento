@@ -202,6 +202,7 @@
         "scripts/macosx/hostname.sh",
         "scripts/macosx/update.sh",
         "scripts/macosx/networking.sh",
+        "scripts/macosx/disablesleep.sh",
         "scripts/macosx/vagrant.sh",
         "scripts/macosx/vmtools.sh",
         "scripts/macosx/cleanup.sh",
