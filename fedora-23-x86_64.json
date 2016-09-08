@@ -148,7 +148,9 @@
         "scripts/fedora/fix-slow-dns.sh",
         "scripts/fedora/build-tools.sh",
         "scripts/common/sshd.sh",
-        "scripts/common/vmtools.sh",
+        "scripts/common/virtualbox.sh",
+        "scripts/common/vmware.sh",
+        "scripts/common/parallels.sh",
         "scripts/common/vagrant.sh",
         "scripts/fedora/cleanup.sh",
         "scripts/common/minimize.sh"

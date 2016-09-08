@@ -146,7 +146,9 @@
         "scripts/common/metadata.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/sshd.sh",
-        "scripts/common/vmtools.sh",
+        "scripts/common/virtualbox.sh",
+        "scripts/common/vmware.sh",
+        "scripts/common/parallels.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
       ],

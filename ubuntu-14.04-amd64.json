@@ -233,7 +233,9 @@
         "scripts/ubuntu/networking.sh",
         "scripts/ubuntu/sudoers.sh",
         "scripts/ubuntu/vagrant.sh",
-        "scripts/common/vmtools.sh",
+        "scripts/common/virtualbox.sh",
+        "scripts/common/vmware.sh",
+        "scripts/common/parallels.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
