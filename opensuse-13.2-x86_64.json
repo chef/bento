@@ -4,7 +4,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -46,7 +46,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -77,7 +77,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -117,7 +117,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
