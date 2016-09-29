@@ -148,7 +148,7 @@
         "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/virtualbox.sh",
-        "scripts/centos/vmware.sh",
+        "scripts/common/vmware.sh",
         "scripts/common/parallels.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
