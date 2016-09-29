@@ -65,16 +65,23 @@ echo "--- Cleaning up after Packer"
 rake clean
 
 echo "--- Build $PLATFORM-$BENTO_PROVIDERS"
-rake build_box[$PLATFORM]
+./bin/bento build --headless --version $BENTO_VERSION --only $BENTO_PROVIDERS $PLATFORM
 
 echo "--- Test $PLATFORM-$BENTO_PROVIDERS"
-rake test_all
+if [ "$BENTO_TEST_SHARED_FOLDER" -eq 1 ]
+then
+  echo "--- Testing Shared Folder Support"
+  ./bin/bento test -f
+else
+  echo "--- NOT Testing Shared Folder Support"
+  ./bin/bento test
+fi
 
 if [ "$BENTO_UPLOAD" -eq 1 ]
 then
   echo "--- Upload Boxes to Atlas and S3"
-  rake upload_all
+  ./bin/bento upload
 
   echo "--- Release Boxes on Atlas"
-  rake release_all
+  ./bin/bento release $ATLAS_NAME $BENTO_VERSION
 fi
