@@ -555,16 +555,12 @@ class TestRunner
   def test_box(boxname, providers)
     providers.each do |provider, provider_data|
 
-      plugin_list = Mixlib::ShellOut.new("vagrant plugin list | awk '{print $1}'")
-      plugin_list.run_command
-      plugins = plugin_list.stdout.split("\n")
-
       if provider == 'vmware_desktop'
-        case
-        when plugins.include?('vagrant-vmware-workstation')
-          provider = 'vmware_workstation'
-        when plugins.include?('vagrant-vmware-fusion')
+        case RUBY_PLATFORM
+        when /darwin/
           provider = 'vmware_fusion'
+        when /linux/
+          provider = 'vmware_workstation'
         end
       end
 
