@@ -207,7 +207,9 @@
       "execute_command": "export {{.Vars}} && sh '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/omnios/vmtools.sh",
+        "scripts/common/virtualbox.sh",
+        "scripts/common/vmware.sh",
+        "scripts/common/parallels.sh",
         "scripts/omnios/postinstall.sh"
       ],
       "type": "shell"
@@ -223,7 +225,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "5378cfdf9c7197c886231eb622bd9b19de597dba",
+    "iso_checksum": "accb4dec37021e47414c6b64929ef1b8e1f2d6d9",
     "iso_checksum_type": "sha1",
     "iso_name": "OmniOS_Text_r151018.iso",
     "memory": "1024",
