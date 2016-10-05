@@ -49,7 +49,9 @@
   "provisioners": [
     {
       "environment_vars": [
-        "CHEF_VERSION={{user `chef_version`}}"
+        "CHEF_VERSION={{user `chef_version`}}",
+        "DNS_SERVER_1={{echo $dnsserver1}}",
+        "DNS_SERVER_2={{echo $dnsserver2}}"
       ],
       "execute_command": "echo 'osuadmin'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
@@ -62,13 +64,16 @@
         "scripts/common/ganeti.sh",
         "scripts/ubuntu/ganeti.sh",
         "scripts/ubuntu/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/common/minimize.sh",
+        "scripts/ubuntu/resolv.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
     "chef_version": "provisionerless",
-    "mirror": "http://ubuntu.osuosl.org/releases"
+    "mirror": "http://ubuntu.osuosl.org/releases",
+    "dnsserver1": "nameserver 140.211.166.130",
+    "dnsserver2": "nameserver 140.211.166.131"
   }
 }
