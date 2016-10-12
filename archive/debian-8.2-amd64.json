@@ -209,6 +209,7 @@
         "scripts/debian/networking.sh",
         "scripts/debian/sudoers.sh",
         "scripts/common/vagrant.sh",
+        "scripts/debian/systemd.sh",
         "scripts/common/vmtools.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
