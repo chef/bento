@@ -132,8 +132,10 @@
       "scripts": [
         "scripts/common/metadata.sh",
         "scripts/solaris/update.sh",
-        "scripts/solaris/vmtools.sh",
         "scripts/solaris/vagrant.sh",
+        "scripts/common/virtualbox.sh",
+        "scripts/common/vmware.sh",
+        "scripts/common/parallels.sh",
         "scripts/solaris/minimize.sh"
       ],
       "type": "shell"
