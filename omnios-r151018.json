@@ -207,9 +207,7 @@
       "execute_command": "export {{.Vars}} && sh '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/common/vmware.sh",
-        "scripts/common/parallels.sh",
+        "scripts/omnios/vmtools.sh",
         "scripts/omnios/postinstall.sh"
       ],
       "type": "shell"
