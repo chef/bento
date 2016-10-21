@@ -176,6 +176,8 @@
     }
   ],
   "variables": {
+    "_DOWNLOAD_SITE": "https://www.suse.com/products/server/download",
+    "_README": "You must download the automated installer iso from the following page, and then place it in the packer_cache dir",
     "arch": "64",
     "autoinst_cfg": "sles-12/sles-12-x86_64-autoinst.xml",
     "box_basename": "sles-12",
@@ -191,7 +193,7 @@
     "iso_name": "SLE-12-Server-DVD-x86_64-GM-DVD1.iso",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://cdn.novell.com/prot/1RBC-NrdggI~",
+    "mirror": "./packer_cache",
     "name": "sles-12",
     "template": "sles-12-x86_64",
     "version": "2.2.TIMESTAMP"
