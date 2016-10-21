@@ -212,6 +212,7 @@
         "scripts/common/vagrant.sh",
         "scripts/common/virtualbox.sh",
         "scripts/common/vmware.sh",
+        "scripts/debian/systemd.sh",
         "scripts/common/parallels.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
