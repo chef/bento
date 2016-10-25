@@ -44,49 +44,8 @@
     <image_installation config:type="boolean">false</image_installation>
   </deploy_image>
   <firewall>
-    <FW_ALLOW_FW_BROADCAST_DMZ>no</FW_ALLOW_FW_BROADCAST_DMZ>
-    <FW_ALLOW_FW_BROADCAST_EXT>no</FW_ALLOW_FW_BROADCAST_EXT>
-    <FW_ALLOW_FW_BROADCAST_INT>no</FW_ALLOW_FW_BROADCAST_INT>
-    <FW_CONFIGURATIONS_DMZ/>
-    <FW_CONFIGURATIONS_EXT/>
-    <FW_CONFIGURATIONS_INT/>
-    <FW_DEV_DMZ/>
-    <FW_DEV_EXT/>
-    <FW_DEV_INT/>
-    <FW_FORWARD_ALWAYS_INOUT_DEV/>
-    <FW_FORWARD_MASQ/>
-    <FW_IGNORE_FW_BROADCAST_DMZ>no</FW_IGNORE_FW_BROADCAST_DMZ>
-    <FW_IGNORE_FW_BROADCAST_EXT>yes</FW_IGNORE_FW_BROADCAST_EXT>
-    <FW_IGNORE_FW_BROADCAST_INT>no</FW_IGNORE_FW_BROADCAST_INT>
-    <FW_IPSEC_TRUST>no</FW_IPSEC_TRUST>
-    <FW_LOAD_MODULES/>
-    <FW_LOG_ACCEPT_ALL>no</FW_LOG_ACCEPT_ALL>
-    <FW_LOG_ACCEPT_CRIT>yes</FW_LOG_ACCEPT_CRIT>
-    <FW_LOG_DROP_ALL>no</FW_LOG_DROP_ALL>
-    <FW_LOG_DROP_CRIT>yes</FW_LOG_DROP_CRIT>
-    <FW_MASQUERADE>no</FW_MASQUERADE>
-    <FW_PROTECT_FROM_INT>no</FW_PROTECT_FROM_INT>
-    <FW_ROUTE>no</FW_ROUTE>
-    <FW_SERVICES_ACCEPT_DMZ/>
-    <FW_SERVICES_ACCEPT_EXT/>
-    <FW_SERVICES_ACCEPT_INT/>
-    <FW_SERVICES_ACCEPT_RELATED_DMZ/>
-    <FW_SERVICES_ACCEPT_RELATED_EXT/>
-    <FW_SERVICES_ACCEPT_RELATED_INT/>
-    <FW_SERVICES_DMZ_IP/>
-    <FW_SERVICES_DMZ_RPC/>
-    <FW_SERVICES_DMZ_TCP/>
-    <FW_SERVICES_DMZ_UDP/>
-    <FW_SERVICES_EXT_IP/>
-    <FW_SERVICES_EXT_RPC/>
-    <FW_SERVICES_EXT_TCP/>
-    <FW_SERVICES_EXT_UDP/>
-    <FW_SERVICES_INT_IP/>
-    <FW_SERVICES_INT_RPC/>
-    <FW_SERVICES_INT_TCP/>
-    <FW_SERVICES_INT_UDP/>
-    <enable_firewall config:type="boolean">true</enable_firewall>
-    <start_firewall config:type="boolean">true</start_firewall>
+    <enable_firewall config:type="boolean">false</enable_firewall>
+    <start_firewall config:type="boolean">false</start_firewall>
   </firewall>
   <general>
     <ask-list config:type="list"/>
@@ -142,7 +101,7 @@
   <partitioning config:type="list">
     <drive>
       <!--
-        definition of device not needed (starting with SLES 11 SP2 
+        definition of device not needed (starting with SLES 11 SP2
         YaST will pickup the first harddisk.
         This is useful if someone wants to deploy using VirtualBox and/or KVM/virtio
       -->
