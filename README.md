@@ -22,7 +22,7 @@ The following boxes are built from this repository's templates for publicly avai
 | centos-6.8    | [x86_64][centos_68_64_vbox]  | [x86_64][centos_68_64_vmware]  | [x86_64][centos_68_64_prl]  |
 | centos-7.2    | [x86_64][centos_72_64_vbox]  | [x86_64][centos_72_64_vmware]  | [x86_64][centos_72_64_prl]  |
 | debian-7.11   | [amd64][debian_711_64_vbox]  | [amd64][debian_711_64_vmware]  | [amd64][debian_711_64_prl]  |
-| debian-8.5    | [amd64][debian_85_64_vbox]   | [amd64][debian_85_64_vmware]   | [amd64][debian_85_64_prl]   |
+| debian-8.6    | [amd64][debian_86_64_vbox]   | [amd64][debian_86_64_vmware]   | [amd64][debian_86_64_prl]   |
 | fedora-23     | [x86_64][fedora_23_64_vbox]  | [x86_64][fedora_23_64_vmware]  | [x86_64][fedora_23_64_prl]  |
 | fedora-24     | [x86_64][fedora_24_64_vbox]  | [x86_64][fedora_24_64_vmware]  | [x86_64][fedora_24_64_prl]  |
 | freebsd-9.3   | [amd64][freebsd_93_64_vbox]  | [amd64][freebsd_93_64_vmware]  | [amd64][freebsd_93_64_prl]  |
@@ -39,7 +39,7 @@ The following boxes are built from this repository's templates for publicly avai
 | centos-5.11   | [i386][centos_511_32_vbox]   | [i386][centos_511_32_vmware]   | [i386][centos_511_32_prl]  |
 | centos-6.8    | [i386][centos_68_32_vbox]    | [i386][centos_68_32_vmware]    | [i386][centos_68_32_prl]   |
 | debian-7.11   | [i386][debian_711_32_vbox]   | [i386][debian_711_32_vmware]   | [i386][debian_711_32_prl]  |
-| debian-8.5    | [i386][debian_85_32_vbox]    | [i386][debian_85_32_vmware]    | [i386][debian_85_32_prl]   |
+| debian-8.6    | [i386][debian_86_32_vbox]    | [i386][debian_86_32_vmware]    | [i386][debian_86_32_prl]   |
 | opensuse-13.2 | [i386][osuse_132_32_vbox]    | [i386][osuse_132_32_vmware]    | [i386][osuse_132_32_prl]   |
 | ubuntu-12.04  | [i386][ubuntu_1204_32_vbox]  | [i386][ubuntu_1204_32_vmware]  | [i386][ubuntu_1204_32_prl] |
 | ubuntu-14.04  | [i386][ubuntu_1404_32_vbox]  | [i386][ubuntu_1404_32_vmware]  | [i386][ubuntu_1404_32_prl] |
@@ -253,12 +253,12 @@ limitations under the License.
 [debian_711_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.11-i386_chef-provisionerless.box
 [debian_711_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.11_chef-provisionerless.box
 
-[debian_85_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.5-i386_chef-provisionerless.box
-[debian_85_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.5_chef-provisionerless.box
-[debian_85_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.5-i386_chef-provisionerless.box
-[debian_85_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.5_chef-provisionerless.box
-[debian_85_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.5-i386_chef-provisionerless.box
-[debian_85_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.5_chef-provisionerless.box
+[debian_86_32_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/virtualbox.box
+[debian_86_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/virtualbox.box
+[debian_86_32_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/vmware_desktop.box
+[debian_86_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/vmware_desktop.box
+[debian_86_32_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/parallels.box
+[debian_86_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/parallels.box
 
 [freebsd_93_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3-i386_chef-provisionerless.box
 [freebsd_93_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3_chef-provisionerless.box
