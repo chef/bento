@@ -1,9 +1,13 @@
 sudo: false
 
 rvm:
-  - 2.2
+  - 2.3.1
 
-before_install: wget --no-check-certificate https://releases.hashicorp.com/packer/0.9.0/packer_0.9.0_linux_amd64.zip && unzip -d packer packer_0.9.0_linux_amd64.zip
+branches:
+  only:
+    - master
+
+before_install: wget --no-check-certificate https://releases.hashicorp.com/packer/0.10.2/packer_0.10.2_linux_amd64.zip && unzip -d packer packer_0.10.2_linux_amd64.zip
 before_script: export PATH=$PATH:$PWD/packer
 
 script: ./bin/bento normalize
