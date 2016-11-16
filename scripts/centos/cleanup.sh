@@ -4,7 +4,7 @@
 distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`" 
 
 # Add nfs mount ability
-yum -y install nfs-utils
+yum -y install nfs-utils cif-utils
 
 # Remove development and kernel source packages
 yum -y remove gcc cpp kernel-devel kernel-headers perl;
