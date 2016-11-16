@@ -144,13 +144,13 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/centos/networking.sh",
+        "scripts/rhel/networking.sh",
         "scripts/common/sshd.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/virtualbox.sh",
         "scripts/common/vmware.sh",
         "scripts/common/parallels.sh",
-        "scripts/centos/cleanup.sh",
+        "scripts/rhel/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
       "type": "shell"
