@@ -1,13 +1,12 @@
 #!/bin/sh -eux
 
+#yum_local_repo=/opt/sw_depot/OS/RHEL/6.6/os/x86_64/Packages
+
 # should output one of 'redhat' 'centos' 'oraclelinux'
 distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`" 
 
-# Replace yum repo with iso
-yum --disablerepo=* --enablerepo=c6-media
-
 # Add nfs mount ability
-yum -y install nfs-utils cifs-utils
+#yum -y install nfs-utils cifs-utils
 
 # Remove development and kernel source packages
 yum -y remove gcc cpp kernel-devel kernel-headers perl;
@@ -15,9 +14,6 @@ yum -y remove gcc cpp kernel-devel kernel-headers perl;
 if [ "$distro" != 'redhat' ]; then
   yum -y clean all;
 fi
-
-# Disbale iso repo
-yum --enablerepo=* --disablerepo=c6-media
 
 # Clean up network interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules;
