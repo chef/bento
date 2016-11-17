@@ -50,5 +50,8 @@ rm -f VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?;
 # Remove docs
 rm -rf /usr/share/doc/*
 
+# Remove caches
+find /var/cache -type f -exec rm -rf {} \;
+
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
