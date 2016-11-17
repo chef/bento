@@ -27,6 +27,12 @@ dpkg --list \
     | grep -- '-dev$' \
     | xargs apt-get -y purge;
 
+# delete docs packages
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep -- '-doc$' \
+    | xargs apt-get -y purge;
+
 # Delete X11 libraries
 apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
 
