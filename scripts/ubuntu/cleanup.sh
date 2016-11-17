@@ -34,7 +34,7 @@ apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
 apt-get -y purge ppp pppconfig pppoeconf;
 
 # Delete oddities
-apt-get -y purge popularity-contest;
+apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery;
 
 apt-get -y autoremove;
 apt-get -y clean;
