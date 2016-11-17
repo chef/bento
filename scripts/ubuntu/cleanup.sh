@@ -47,5 +47,8 @@ apt-get -y clean;
 
 rm -f VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?;
 
+# Remove docs
+rm -rf /usr/share/doc/*
+
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
