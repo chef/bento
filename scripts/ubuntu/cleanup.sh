@@ -11,7 +11,7 @@ dpkg --list \
 # e.g. 'linux-image-generic', etc.
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep 'linux-image-3.*-generic' \
+    | grep 'linux-image-.*-generic' \
     | grep -v `uname -r` \
     | xargs apt-get -y purge;
 
