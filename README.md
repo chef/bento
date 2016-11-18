@@ -14,23 +14,23 @@ This project is managed by the CHEF Release Engineering team. For more informati
 ## Pre-built Boxes
 
 The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the [bento organization](https://atlas.hashicorp.com/bento/).
+Boxes listed that are struck out (~~box~~) are broken/unreleased for the current version.
 
 ### 64 bit
 |               | VirtualBox                   | VMware                         | Parallels                   |
 |  ------------ | -------------                | -------------                  | -------------               |
-| centos-5.11   | [x86_64][centos_511_64_vbox] | [x86_64][centos_511_64_vmware] | [x86_64][centos_511_64_prl] |
+| centos-5.11   | ~~[x86_64][centos_511_64_vbox]~~ | ~~[x86_64][centos_511_64_vmware]~~ | ~~[x86_64][centos_511_64_prl]~~ |
 | centos-6.8    | [x86_64][centos_68_64_vbox]  | [x86_64][centos_68_64_vmware]  | [x86_64][centos_68_64_prl]  |
 | centos-7.2    | [x86_64][centos_72_64_vbox]  | [x86_64][centos_72_64_vmware]  | [x86_64][centos_72_64_prl]  |
 | debian-7.11   | [amd64][debian_711_64_vbox]  | [amd64][debian_711_64_vmware]  | [amd64][debian_711_64_prl]  |
-| debian-8.5    | [amd64][debian_85_64_vbox]   | [amd64][debian_85_64_vmware]   | [amd64][debian_85_64_prl]   |
+| debian-8.6    | [amd64][debian_86_64_vbox]   | [amd64][debian_86_64_vmware]   | [amd64][debian_86_64_prl]   |
 | fedora-23     | [x86_64][fedora_23_64_vbox]  | [x86_64][fedora_23_64_vmware]  | [x86_64][fedora_23_64_prl]  |
 | fedora-24     | [x86_64][fedora_24_64_vbox]  | [x86_64][fedora_24_64_vmware]  | [x86_64][fedora_24_64_prl]  |
 | freebsd-9.3   | [amd64][freebsd_93_64_vbox]  | [amd64][freebsd_93_64_vmware]  | [amd64][freebsd_93_64_prl]  |
 | freebsd-10.3  | [amd64][freebsd_103_64_vbox] | [amd64][freebsd_103_64_vmware] | [amd64][freebsd_103_64_prl] |
-| opensuse-13.2 | [x86_64][osuse_132_64_vbox]  | [x86_64][osuse_132_64_vmware]  | [x86_64][osuse_132_64_prl]  |
+| opensuse-13.2 | [x86_64][osuse_132_64_vbox]  | ~~[x86_64][osuse_132_64_vmware]~~  | [x86_64][osuse_132_64_prl]  |
 | ubuntu-12.04  | [amd64][ubuntu_1204_64_vbox] | [amd64][ubuntu_1204_64_vmware] | [amd64][ubuntu_1204_64_prl] |
 | ubuntu-14.04  | [amd64][ubuntu_1404_64_vbox] | [amd64][ubuntu_1404_64_vmware] | [amd64][ubuntu_1404_64_prl] |
-| ubuntu-15.10  | [amd64][ubuntu_1510_64_vbox] | [amd64][ubuntu_1510_64_vmware] | [amd64][ubuntu_1510_64_prl] |
 | ubuntu-16.04  | [amd64][ubuntu_1604_64_vbox] | [amd64][ubuntu_1604_64_vmware] | [amd64][ubuntu_1604_64_prl] |
 
 ### 32 bit
@@ -39,11 +39,10 @@ The following boxes are built from this repository's templates for publicly avai
 | centos-5.11   | [i386][centos_511_32_vbox]   | [i386][centos_511_32_vmware]   | [i386][centos_511_32_prl]  |
 | centos-6.8    | [i386][centos_68_32_vbox]    | [i386][centos_68_32_vmware]    | [i386][centos_68_32_prl]   |
 | debian-7.11   | [i386][debian_711_32_vbox]   | [i386][debian_711_32_vmware]   | [i386][debian_711_32_prl]  |
-| debian-8.5    | [i386][debian_85_32_vbox]    | [i386][debian_85_32_vmware]    | [i386][debian_85_32_prl]   |
-| opensuse-13.2 | [i386][osuse_132_32_vbox]    | [i386][osuse_132_32_vmware]    | [i386][osuse_132_32_prl]   |
+| debian-8.6    | [i386][debian_86_32_vbox]    | [i386][debian_86_32_vmware]    | [i386][debian_86_32_prl]   |
+| opensuse-13.2 | [i386][osuse_132_32_vbox]    | ~~[i386][osuse_132_32_vmware]~~    | [i386][osuse_132_32_prl]   |
 | ubuntu-12.04  | [i386][ubuntu_1204_32_vbox]  | [i386][ubuntu_1204_32_vmware]  | [i386][ubuntu_1204_32_prl] |
 | ubuntu-14.04  | [i386][ubuntu_1404_32_vbox]  | [i386][ubuntu_1404_32_vmware]  | [i386][ubuntu_1404_32_prl] |
-| ubuntu-15.10  | [i386][ubuntu_1510_32_vbox]  | [i386][ubuntu_1510_32_vmware]  | [i386][ubuntu_1510_32_prl] |
 | ubuntu-16.04  | [i386][ubuntu_1604_32_vbox]  | [i386][ubuntu_1604_32_vmware]  | [i386][ubuntu_1604_32_prl] |
 
 
@@ -55,15 +54,6 @@ guaranteed to be updated at this time.
 * If you're using the [Vagrant VMWare Fusion](https://www.vagrantup.com/vmware)
 provider, using `vagrant box add --provider vmware_desktop ...` will work for
 these boxes. Using `--provider vmware_fusion`, will not.
-* The boxes are currently hosted on both Atlas and Amazon S3 to maintain backward
-compatibility with [test-kitchen](https://github.com/test-kitchen/test-kitchen).
-Once test-kitchen changes defaults the S3 buckets will no longer be updated.
-* Tooling versions
-  * Packer: 0.10.1
-  * VirtualBox: 5.0.26
-  * VMware Fusion: 8.1.1
-  * Parallels: 11.2.0
-
 
 #### VMWare Fusion 8, Packer, systemd
 
@@ -89,13 +79,13 @@ new plugins. The full list of old boxes are available in the [old boxes file](ht
 
 Adding a bento box to vagrant:
 
-    $ vagrant box add bento/debian-8.5
+    $ vagrant box add bento/debian-8.6
 
 Using a bento box in a Vagrantfile:
 
 ```
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/debian-8.5"
+  config.vm.box = "bento/debian-8.6"
 end
 ```
 
@@ -113,11 +103,11 @@ This is an opinionated tool that the project uses for building the hosted boxes 
 
 To build multiple templates for all providers (VirtualBox, Fusion, Parallels, etc):
 
-    $ bin/bento build debian-8.5-amd64 debian-8.5-i386
+    $ bin/bento build debian-8.6-amd64 debian-8.6-i386
 
 To build a box for a single provider:
 
-    $ bin/bento build --only=virtualbox-iso debian-8.5-amd64
+    $ bin/bento build --only=virtualbox-iso debian-8.6-amd64
 
 ### Using `packer`
 
@@ -125,24 +115,24 @@ Templates can still be built directly by `packer`
 
 To build a template for all providers (VirtualBox, Fusion, Parallels):
 
-    $ packer build debian-8.5-amd64.json
+    $ packer build debian-8.6-amd64.json
 
 To build a template only for a list of specific providers:
 
-    $ packer build -only=virtualbox-iso debian-8.5-amd64.json
+    $ packer build -only=virtualbox-iso debian-8.6-amd64.json
 
 To build a template for all providers except a list of specific providers:
 
-    $ packer build -except=parallels-iso,vmware-iso debian-8.5-amd64.json
+    $ packer build -except=parallels-iso,vmware-iso debian-8.6-amd64.json
 
 If you want to use a another mirror site, use the `mirror` user variable.
 
-    $ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-8.5-amd64.json
+    $ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-8.6-amd64.json
 
 Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.
 
 Notes:
-* The box_basename can be overridden like other Packer vars with ``-var 'box_basename=debian-8.5'``
+* The box_basename can be overridden like other Packer vars with ``-var 'box_basename=debian-8.6'``
 
 ### Proprietary Boxes
 
@@ -228,91 +218,67 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[centos_511_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.11-i386_chef-provisionerless.box
-[centos_511_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.11_chef-provisionerless.box
-[centos_511_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.11-i386_chef-provisionerless.box
-[centos_511_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-5.11_chef-provisionerless.box
-[centos_511_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-5.11-i386_chef-provisionerless.box
-[centos_511_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-5.11_chef-provisionerless.box
-
-[centos_68_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.8-i386_chef-provisionerless.box
-[centos_68_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.8_chef-provisionerless.box
-[centos_68_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.8-i386_chef-provisionerless.box
-[centos_68_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.8_chef-provisionerless.box
-[centos_68_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-6.8-i386_chef-provisionerless.box
-[centos_68_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-6.8_chef-provisionerless.box
-
-[centos_72_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
-[centos_72_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.2_chef-provisionerless.box
-[centos_72_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_centos-7.2_chef-provisionerless.box
-
-[debian_711_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.11-i386_chef-provisionerless.box
-[debian_711_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.11_chef-provisionerless.box
-[debian_711_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.11-i386_chef-provisionerless.box
-[debian_711_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.11_chef-provisionerless.box
-[debian_711_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.11-i386_chef-provisionerless.box
-[debian_711_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-7.11_chef-provisionerless.box
-
-[debian_85_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.5-i386_chef-provisionerless.box
-[debian_85_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.5_chef-provisionerless.box
-[debian_85_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.5-i386_chef-provisionerless.box
-[debian_85_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-8.5_chef-provisionerless.box
-[debian_85_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.5-i386_chef-provisionerless.box
-[debian_85_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_debian-8.5_chef-provisionerless.box
-
-[freebsd_93_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3-i386_chef-provisionerless.box
-[freebsd_93_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.3_chef-provisionerless.box
-[freebsd_93_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3-i386_chef-provisionerless.box
-[freebsd_93_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-9.3_chef-provisionerless.box
-[freebsd_93_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3-i386_chef-provisionerless.box
-[freebsd_93_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-9.3_chef-provisionerless.box
-
-[freebsd_103_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.3-i386_chef-provisionerless.box
-[freebsd_103_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.3_chef-provisionerless.box
-[freebsd_103_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.3-i386_chef-provisionerless.box
-[freebsd_103_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_freebsd-10.3_chef-provisionerless.box
-[freebsd_103_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.3-i386_chef-provisionerless.box
-[freebsd_103_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_freebsd-10.3_chef-provisionerless.box
-
-[osuse_132_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-i386_chef-provisionerless.box
-[osuse_132_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
-[osuse_132_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-i386_chef-provisionerless.box
-[osuse_132_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
-[osuse_132_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-i386_chef-provisionerless.box
-[osuse_132_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_opensuse-13.2-x86_64_chef-provisionerless.box
-
-[ubuntu_1204_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04-i386_chef-provisionerless.box
-[ubuntu_1204_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
-[ubuntu_1204_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04-i386_chef-provisionerless.box
-[ubuntu_1204_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-12.04_chef-provisionerless.box
-[ubuntu_1204_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04-i386_chef-provisionerless.box
-[ubuntu_1204_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-12.04_chef-provisionerless.box
-
-[ubuntu_1404_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04-i386_chef-provisionerless.box
-[ubuntu_1404_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
-[ubuntu_1404_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04-i386_chef-provisionerless.box
-[ubuntu_1404_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box
-[ubuntu_1404_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04-i386_chef-provisionerless.box
-[ubuntu_1404_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-14.04_chef-provisionerless.box
-
-[ubuntu_1510_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.10-i386_chef-provisionerless.box
-[ubuntu_1510_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.10_chef-provisionerless.box
-[ubuntu_1510_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.10-i386_chef-provisionerless.box
-[ubuntu_1510_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-15.10_chef-provisionerless.box
-[ubuntu_1510_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.10-i386_chef-provisionerless.box
-[ubuntu_1510_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-15.10_chef-provisionerless.box
-
-[ubuntu_1604_32_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-16.04-i386_chef-provisionerless.box
-[ubuntu_1604_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-16.04_chef-provisionerless.box
-[ubuntu_1604_32_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-16.04-i386_chef-provisionerless.box
-[ubuntu_1604_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-16.04_chef-provisionerless.box
-[ubuntu_1604_32_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-16.04-i386_chef-provisionerless.box
-[ubuntu_1604_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_ubuntu-16.04_chef-provisionerless.box
-
-[fedora_23_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-23_chef-provisionerless.box
-[fedora_23_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-23_chef-provisionerless.box
-[fedora_23_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-23_chef-provisionerless.box
-
-[fedora_24_64_vbox]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-24_chef-provisionerless.box
-[fedora_24_64_vmware]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_fedora-24_chef-provisionerless.box
-[fedora_24_64_prl]: http://opscode-vm-bento.s3.amazonaws.com/vagrant/parallels/opscode_fedora-24_chef-provisionerless.box
+[centos_511_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/parallels.box
+[centos_511_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/virtualbox.box
+[centos_511_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/vmware_desktop.box
+[centos_511_32_prl]: https://atlas.hashicorp.com/bento/boxes/centos-5.11-i386/versions/2.3.0/providers/parallels.box
+[centos_511_32_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-5.11-i386/versions/2.3.0/providers/virtualbox.box
+[centos_511_32_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-5.11-i386/versions/2.3.0/providers/vmware_desktop.box
+[centos_68_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/parallels.box
+[centos_68_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/virtualbox.box
+[centos_68_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/vmware_desktop.box
+[centos_68_32_prl]: https://atlas.hashicorp.com/bento/boxes/centos-6.8-i386/versions/2.3.0/providers/parallels.box
+[centos_68_32_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-6.8-i386/versions/2.3.0/providers/virtualbox.box
+[centos_68_32_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-6.8-i386/versions/2.3.0/providers/vmware_desktop.box
+[centos_72_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-7.2/versions/2.3.0/providers/parallels.box
+[centos_72_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-7.2/versions/2.3.0/providers/virtualbox.box
+[centos_72_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-7.2/versions/2.3.0/providers/vmware_desktop.box
+[debian_711_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/parallels.box
+[debian_711_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/virtualbox.box
+[debian_711_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/vmware_desktop.box
+[debian_711_32_prl]: https://atlas.hashicorp.com/bento/boxes/debian-7.11-i386/versions/2.3.0/providers/parallels.box
+[debian_711_32_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-7.11-i386/versions/2.3.0/providers/virtualbox.box
+[debian_711_32_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-7.11-i386/versions/2.3.0/providers/vmware_desktop.box
+[debian_86_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/parallels.box
+[debian_86_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/virtualbox.box
+[debian_86_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/vmware_desktop.box
+[debian_86_32_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/parallels.box
+[debian_86_32_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/virtualbox.box
+[debian_86_32_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/vmware_desktop.box
+[fedora_23_64_prl]: https://atlas.hashicorp.com/bento/boxes/fedora-23/versions/2.3.0/providers/parallels.box
+[fedora_23_64_vbox]: https://atlas.hashicorp.com/bento/boxes/fedora-23/versions/2.3.0/providers/virtualbox.box
+[fedora_23_64_vmware]: https://atlas.hashicorp.com/bento/boxes/fedora-23/versions/2.3.0/providers/vmware_desktop.box
+[fedora_24_64_prl]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.0/providers/parallels.box
+[fedora_24_64_vbox]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.0/providers/virtualbox.box
+[fedora_24_64_vmware]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.0/providers/vmware_desktop.box
+[freebsd_103_64_prl]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/parallels.box
+[freebsd_103_64_vbox]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/virtualbox.box
+[freebsd_103_64_vmware]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/vmware_desktop.box
+[freebsd_93_64_prl]: https://atlas.hashicorp.com/bento/boxes/freebsd-9.3/versions/2.3.0/providers/parallels.box
+[freebsd_93_64_vbox]: https://atlas.hashicorp.com/bento/boxes/freebsd-9.3/versions/2.3.0/providers/virtualbox.box
+[freebsd_93_64_vmware]: https://atlas.hashicorp.com/bento/boxes/freebsd-9.3/versions/2.3.0/providers/vmware_desktop.box
+[omnios_r151018_64_vbox]: https://atlas.hashicorp.com/bento/boxes/omnios-r151018/versions/2.3.0/providers/virtualbox.box
+[osuse_132_64_prl]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/parallels.box
+[osuse_132_64_vbox]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/virtualbox.box
+[osuse_132_64_vmware]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/vmware_desktop.box
+[osuse_132_32_prl]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2-i386/versions/2.3.0/providers/parallels.box
+[osuse_132_32_vbox]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2-i386/versions/2.3.0/providers/virtualbox.box
+[osuse_132_32_vmware]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2-i386/versions/2.3.0/providers/vmware.box
+[ubuntu_1204_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/parallels.box
+[ubuntu_1204_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1204_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1204_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.0/providers/parallels.box
+[ubuntu_1204_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1204_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1404_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/parallels.box
+[ubuntu_1404_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1404_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1404_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.0/providers/parallels.box
+[ubuntu_1404_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1404_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1604_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/parallels.box
+[ubuntu_1604_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1604_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1604_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04-i386/versions/2.3.0/providers/parallels.box
+[ubuntu_1604_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04-i386/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1604_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04-i386/versions/2.3.0/providers/vmware_desktop.box
