@@ -44,7 +44,17 @@ vmware-iso|vmware-vmx)
     mdconfig -a -t vnode -f $HOME_DIR/freebsd.iso -u 0;
     mount -t cd9660 /dev/md0 /tmp/vmfusion;
     tar xzf /tmp/vmfusion/vmware-freebsd-tools.tar.gz -C /tmp/vmfusion-archive;
-    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default;
+
+    VER="`cat /tmp/vmfusion/manifest.txt | cut -f2 -d'"'`";
+    MAJ_VER="`echo ${VER} | cut -d'.' -f1`";
+    echo "VMware Tools Version: $VER";
+
+    if [ "${MAJ_VER}" -lt "10" ]; then
+        /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default;
+    else
+        /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --force-install;
+    fi
+
     echo 'ifconfig_vxn0="dhcp"' >>/etc/rc.conf;
     umount /tmp/vmfusion;
     rm -rf /tmp/vmfusion;
