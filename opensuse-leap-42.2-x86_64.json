@@ -168,7 +168,8 @@
         "scripts/opensuse/sudoers.sh",
         "scripts/opensuse/zypper-locks.sh",
         "scripts/opensuse/remove-dvd-source.sh",
-        "scripts/opensuse/cleanup.sh"
+        "scripts/opensuse/cleanup.sh",
+        "scripts/common/minimize.sh"
       ],
       "type": "shell"
     }
