@@ -108,7 +108,7 @@
       <dhcp_hostname config:type="boolean">true</dhcp_hostname>
       <dhcp_resolv config:type="boolean">true</dhcp_resolv>
       <domain>vagrantup.com</domain>
-      <hostname>opensuse-leap-42.1-x64</hostname>
+      <hostname>opensuse-leap-42.2-x64</hostname>
     </dns>
     <interfaces config:type="list">
       <interface>

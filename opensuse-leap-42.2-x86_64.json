@@ -4,7 +4,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -46,7 +46,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -77,7 +77,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
-        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -117,7 +117,7 @@
       "boot_command": [
         "<esc><enter><wait>",
         "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
-        " lang=en_US.UTF-8 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
         " textmode=1<wait>",
         "<enter><wait>"
       ],
@@ -176,8 +176,8 @@
   ],
   "variables": {
     "arch": "64",
-    "autoinst_cfg": "opensuse-leap-42.1/autoinst.xml",
-    "box_basename": "opensuse-leap-42.1",
+    "autoinst_cfg": "opensuse-leap-42.2/autoinst.xml",
+    "box_basename": "opensuse-leap-42.2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "20480",
@@ -185,16 +185,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "8576e84822cdbe566bf551e28a169fc028229831eba9f07a4c1f84302c5ddb09",
+    "iso_checksum": "ba5af6b0ac4d42d801de642304eb88ca9fd65a61b6c3ff25724182494f288f00",
     "iso_checksum_type": "sha256",
-    "iso_name": "openSUSE-Leap-42.1-DVD-x86_64.iso",
+    "iso_name": "openSUSE-Leap-42.2-DVD-x86_64.iso",
     "memory": "768",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://suse.mobile-central.org/distribution",
-    "mirror_directory": "leap/42.1/iso",
-    "name": "opensuse-leap-42.1",
+    "mirror_directory": "leap/42.2/iso",
+    "name": "opensuse-leap-42.2",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "opensuse-leap-42.1-x86_64",
+    "template": "opensuse-leap-42.2-x86_64",
     "version": "2.0.TIMESTAMP"
   }
 }
