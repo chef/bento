@@ -33,6 +33,12 @@
           "{{.Name}}",
           "--cpus",
           "{{ user `cpus` }}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--paravirtprovider",
+          "none"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
