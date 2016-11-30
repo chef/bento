@@ -7,7 +7,7 @@
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat_64",
+      "guest_os_type": "Oracle",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -33,12 +33,6 @@
           "{{.Name}}",
           "--cpus",
           "{{ user `cpus` }}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--paravirtprovider",
-          "none"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -50,7 +44,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "rhel5-64",
+      "guest_os_type": "oraclelinux",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -77,7 +71,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "rhel",
+      "guest_os_type": "centos",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
@@ -150,8 +144,9 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/common/vagrant.sh",
+        "scripts/centos/networking.sh",
         "scripts/common/sshd.sh",
+        "scripts/common/vagrant.sh",
         "scripts/common/virtualbox.sh",
         "scripts/common/vmware.sh",
         "scripts/common/parallels.sh",
@@ -162,8 +157,8 @@
     }
   ],
   "variables": {
-    "arch": "64",
-    "box_basename": "rhel-5.11",
+    "arch": "32",
+    "box_basename": "oracle-6.8-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -171,17 +166,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "36565fe0c8a97207d63234d10123daeedb29d509576dbd7b34e71958ac2f9050",
+    "iso_checksum": "809eb9e9f44683ff875c64a00a85576ef93b679e98919f4fde8f856af9dac356",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-5.11-x86_64-dvd.iso",
-    "ks_path": "centos-5.11/ks.cfg",
+    "iso_name": "OracleLinux-R6-U8-Server-i386-dvd.iso",
+    "ks_path": "centos-6.8/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
-    "mirror_directory": "rhel",
-    "name": "rhel-5.11",
+    "mirror": "http://mirrors.dotsrc.org/oracle-linux",
+    "mirror_directory": "OL6/U8/i386",
+    "name": "oracle-6.8-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-5.11-x86_64",
+    "template": "oracle-6.8-i386",
     "version": "2.2.TIMESTAMP"
   }
 }
