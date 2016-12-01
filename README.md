@@ -19,19 +19,26 @@ Boxes listed that are struck out (~~box~~) are broken/unreleased for the current
 ### 64 bit
 |               | VirtualBox                   | VMware                         | Parallels                   |
 |  ------------ | -------------                | -------------                  | -------------               |
-| centos-5.11   | ~~[x86_64][centos_511_64_vbox]~~ | ~~[x86_64][centos_511_64_vmware]~~ | ~~[x86_64][centos_511_64_prl]~~ |
+| centos-5.11   | [x86_64][centos_511_64_vbox] | [x86_64][centos_511_64_vmware] | [x86_64][centos_511_64_prl] |
 | centos-6.8    | [x86_64][centos_68_64_vbox]  | [x86_64][centos_68_64_vmware]  | [x86_64][centos_68_64_prl]  |
 | centos-7.2    | [x86_64][centos_72_64_vbox]  | [x86_64][centos_72_64_vmware]  | [x86_64][centos_72_64_prl]  |
 | debian-7.11   | [amd64][debian_711_64_vbox]  | [amd64][debian_711_64_vmware]  | [amd64][debian_711_64_prl]  |
 | debian-8.6    | [amd64][debian_86_64_vbox]   | [amd64][debian_86_64_vmware]   | [amd64][debian_86_64_prl]   |
 | fedora-23     | [x86_64][fedora_23_64_vbox]  | [x86_64][fedora_23_64_vmware]  | [x86_64][fedora_23_64_prl]  |
 | fedora-24     | [x86_64][fedora_24_64_vbox]  | [x86_64][fedora_24_64_vmware]  | [x86_64][fedora_24_64_prl]  |
+| fedora-25     | [x86_64][fedora_25_64_vbox]  | [x86_64][fedora_25_64_vmware]  | [x86_64][fedora_25_64_prl]  |
 | freebsd-9.3   | [amd64][freebsd_93_64_vbox]  | [amd64][freebsd_93_64_vmware]  | [amd64][freebsd_93_64_prl]  |
 | freebsd-10.3  | [amd64][freebsd_103_64_vbox] | [amd64][freebsd_103_64_vmware] | [amd64][freebsd_103_64_prl] |
+| freebsd-11.0  | [amd64][freebsd_110_64_vbox] | [amd64][freebsd_110_64_vmware] | [amd64][freebsd_110_64_prl] |
 | opensuse-13.2 | [x86_64][osuse_132_64_vbox]  | ~~[x86_64][osuse_132_64_vmware]~~  | [x86_64][osuse_132_64_prl]  |
+| opensuse-leap-42.2  | ~~[x86_64][leap_422_64_vbox]~~   | [x86_64][leap_422_64_vmware]   | ~~[x86_64][leap_422_64_prl]~~   |
+| oracle-5.11   | [x86_64][oracle_511_64_vbox] | [x86_64][oracle_511_64_vmware] | [x86_64][oracle_511_64_prl] |
+| oracle-6.8    | [x86_64][oracle_68_64_vbox]  | [x86_64][oracle_68_64_vmware]  | [x86_64][oracle_68_64_prl]  |
+| oracle-7.3    | [x86_64][oracle_73_64_vbox]  | [x86_64][oracle_73_64_vmware]  | [x86_64][oracle_73_64_prl]  |
 | ubuntu-12.04  | [amd64][ubuntu_1204_64_vbox] | [amd64][ubuntu_1204_64_vmware] | [amd64][ubuntu_1204_64_prl] |
 | ubuntu-14.04  | [amd64][ubuntu_1404_64_vbox] | [amd64][ubuntu_1404_64_vmware] | [amd64][ubuntu_1404_64_prl] |
 | ubuntu-16.04  | [amd64][ubuntu_1604_64_vbox] | [amd64][ubuntu_1604_64_vmware] | [amd64][ubuntu_1604_64_prl] |
+| ubuntu-16.10  | [amd64][ubuntu_1610_64_vbox] | [amd64][ubuntu_1610_64_vmware] | [amd64][ubuntu_1610_64_prl] |
 
 ### 32 bit
 |               | VirtualBox                   | VMware                         | Parallels                  |
@@ -41,9 +48,12 @@ Boxes listed that are struck out (~~box~~) are broken/unreleased for the current
 | debian-7.11   | [i386][debian_711_32_vbox]   | [i386][debian_711_32_vmware]   | [i386][debian_711_32_prl]  |
 | debian-8.6    | [i386][debian_86_32_vbox]    | [i386][debian_86_32_vmware]    | [i386][debian_86_32_prl]   |
 | opensuse-13.2 | [i386][osuse_132_32_vbox]    | ~~[i386][osuse_132_32_vmware]~~    | [i386][osuse_132_32_prl]   |
+| oracle-5.11   | [x86_64][oracle_511_32_vbox] | [x86_64][oracle_511_32_vmware] | [x86_64][oracle_511_32_prl] |
+| oracle-6.8    | [x86_64][oracle_68_32_vbox]  | [x86_64][oracle_68_32_vmware]  | [x86_64][oracle_68_32_prl]  |
 | ubuntu-12.04  | [i386][ubuntu_1204_32_vbox]  | [i386][ubuntu_1204_32_vmware]  | [i386][ubuntu_1204_32_prl] |
 | ubuntu-14.04  | [i386][ubuntu_1404_32_vbox]  | [i386][ubuntu_1404_32_vmware]  | [i386][ubuntu_1404_32_prl] |
 | ubuntu-16.04  | [i386][ubuntu_1604_32_vbox]  | [i386][ubuntu_1604_32_vmware]  | [i386][ubuntu_1604_32_prl] |
+| ubuntu-16.10  | [i386][ubuntu_1610_32_vbox]  | [i386][ubuntu_1610_32_vmware]  | [i386][ubuntu_1610_32_prl] |
 
 
 *NOTE* This table tracks only the latest release for a given version. Boxes may exist in Atlas or S3 but are not
@@ -218,67 +228,98 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[centos_511_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/parallels.box
-[centos_511_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/virtualbox.box
-[centos_511_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/vmware_desktop.box
 [centos_511_32_prl]: https://atlas.hashicorp.com/bento/boxes/centos-5.11-i386/versions/2.3.0/providers/parallels.box
 [centos_511_32_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-5.11-i386/versions/2.3.0/providers/virtualbox.box
 [centos_511_32_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-5.11-i386/versions/2.3.0/providers/vmware_desktop.box
-[centos_68_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/parallels.box
-[centos_68_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/virtualbox.box
-[centos_68_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/vmware_desktop.box
+[centos_511_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/parallels.box
+[centos_511_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/virtualbox.box
+[centos_511_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-5.11/versions/2.3.0/providers/vmware_desktop.box
 [centos_68_32_prl]: https://atlas.hashicorp.com/bento/boxes/centos-6.8-i386/versions/2.3.0/providers/parallels.box
 [centos_68_32_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-6.8-i386/versions/2.3.0/providers/virtualbox.box
 [centos_68_32_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-6.8-i386/versions/2.3.0/providers/vmware_desktop.box
+[centos_68_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/parallels.box
+[centos_68_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/virtualbox.box
+[centos_68_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-6.8/versions/2.3.0/providers/vmware_desktop.box
 [centos_72_64_prl]: https://atlas.hashicorp.com/bento/boxes/centos-7.2/versions/2.3.0/providers/parallels.box
 [centos_72_64_vbox]: https://atlas.hashicorp.com/bento/boxes/centos-7.2/versions/2.3.0/providers/virtualbox.box
 [centos_72_64_vmware]: https://atlas.hashicorp.com/bento/boxes/centos-7.2/versions/2.3.0/providers/vmware_desktop.box
-[debian_711_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/parallels.box
-[debian_711_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/virtualbox.box
-[debian_711_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/vmware_desktop.box
 [debian_711_32_prl]: https://atlas.hashicorp.com/bento/boxes/debian-7.11-i386/versions/2.3.0/providers/parallels.box
 [debian_711_32_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-7.11-i386/versions/2.3.0/providers/virtualbox.box
 [debian_711_32_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-7.11-i386/versions/2.3.0/providers/vmware_desktop.box
-[debian_86_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/parallels.box
-[debian_86_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/virtualbox.box
-[debian_86_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/vmware_desktop.box
+[debian_711_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/parallels.box
+[debian_711_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/virtualbox.box
+[debian_711_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-7.11/versions/2.3.0/providers/vmware_desktop.box
 [debian_86_32_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/parallels.box
 [debian_86_32_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/virtualbox.box
 [debian_86_32_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.0/providers/vmware_desktop.box
+[debian_86_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/parallels.box
+[debian_86_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/virtualbox.box
+[debian_86_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.0/providers/vmware_desktop.box
 [fedora_23_64_prl]: https://atlas.hashicorp.com/bento/boxes/fedora-23/versions/2.3.0/providers/parallels.box
 [fedora_23_64_vbox]: https://atlas.hashicorp.com/bento/boxes/fedora-23/versions/2.3.0/providers/virtualbox.box
 [fedora_23_64_vmware]: https://atlas.hashicorp.com/bento/boxes/fedora-23/versions/2.3.0/providers/vmware_desktop.box
 [fedora_24_64_prl]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.0/providers/parallels.box
 [fedora_24_64_vbox]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.0/providers/virtualbox.box
 [fedora_24_64_vmware]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.0/providers/vmware_desktop.box
-[freebsd_103_64_prl]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/parallels.box
-[freebsd_103_64_vbox]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/virtualbox.box
-[freebsd_103_64_vmware]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/vmware_desktop.box
+[fedora_25_64_prl]: https://atlas.hashicorp.com/bento/boxes/fedora-25/versions/2.3.0/providers/parallels.box
+[fedora_25_64_vbox]: https://atlas.hashicorp.com/bento/boxes/fedora-25/versions/2.3.0/providers/virtualbox.box
+[fedora_25_64_vmware]: https://atlas.hashicorp.com/bento/boxes/fedora-25/versions/2.3.0/providers/vmware_desktop.box
 [freebsd_93_64_prl]: https://atlas.hashicorp.com/bento/boxes/freebsd-9.3/versions/2.3.0/providers/parallels.box
 [freebsd_93_64_vbox]: https://atlas.hashicorp.com/bento/boxes/freebsd-9.3/versions/2.3.0/providers/virtualbox.box
 [freebsd_93_64_vmware]: https://atlas.hashicorp.com/bento/boxes/freebsd-9.3/versions/2.3.0/providers/vmware_desktop.box
+[freebsd_103_64_prl]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/parallels.box
+[freebsd_103_64_vbox]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/virtualbox.box
+[freebsd_103_64_vmware]: https://atlas.hashicorp.com/bento/boxes/freebsd-10.3/versions/2.3.0/providers/vmware_desktop.box
+[freebsd_110_64_prl]: https://atlas.hashicorp.com/bento/boxes/freebsd-11.0/versions/2.3.0/providers/parallels.box
+[freebsd_110_64_vbox]: https://atlas.hashicorp.com/bento/boxes/freebsd-11.0/versions/2.3.0/providers/virtualbox.box
+[freebsd_110_64_vmware]: https://atlas.hashicorp.com/bento/boxes/freebsd-11.0/versions/2.3.0/providers/vmware_desktop.box
 [omnios_r151018_64_vbox]: https://atlas.hashicorp.com/bento/boxes/omnios-r151018/versions/2.3.0/providers/virtualbox.box
-[osuse_132_64_prl]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/parallels.box
-[osuse_132_64_vbox]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/virtualbox.box
-[osuse_132_64_vmware]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/vmware_desktop.box
+[oracle_511_32_prl]: https://atlas.hashicorp.com/bento/boxes/oracle-5.11-i386/versions/2.3.0/providers/parallels.box
+[oracle_511_32_vbox]: https://atlas.hashicorp.com/bento/boxes/oracle-5.11-i386/versions/2.3.0/providers/virtualbox.box
+[oracle_511_32_vmware]: https://atlas.hashicorp.com/bento/boxes/oracle-5.11-i386/versions/2.3.0/providers/vmware_desktop.box
+[oracle_511_64_prl]: https://atlas.hashicorp.com/bento/boxes/oracle-5.11/versions/2.3.0/providers/parallels.box
+[oracle_511_64_vbox]: https://atlas.hashicorp.com/bento/boxes/oracle-5.11/versions/2.3.0/providers/virtualbox.box
+[oracle_511_64_vmware]: https://atlas.hashicorp.com/bento/boxes/oracle-5.11/versions/2.3.0/providers/vmware_desktop.box
+[oracle_68_32_prl]: https://atlas.hashicorp.com/bento/boxes/oracle-6.8-i386/versions/2.3.0/providers/parallels.box
+[oracle_68_32_vbox]: https://atlas.hashicorp.com/bento/boxes/oracle-6.8-i386/versions/2.3.0/providers/virtualbox.box
+[oracle_68_32_vmware]: https://atlas.hashicorp.com/bento/boxes/oracle-6.8-i386/versions/2.3.0/providers/vmware_desktop.box
+[oracle_68_64_prl]: https://atlas.hashicorp.com/bento/boxes/oracle-6.8/versions/2.3.0/providers/parallels.box
+[oracle_68_64_vbox]: https://atlas.hashicorp.com/bento/boxes/oracle-6.8/versions/2.3.0/providers/virtualbox.box
+[oracle_68_64_vmware]: https://atlas.hashicorp.com/bento/boxes/oracle-6.8/versions/2.3.0/providers/vmware_desktop.box
+[oracle_73_64_prl]: https://atlas.hashicorp.com/bento/boxes/oracle-7.3/versions/2.3.0/providers/parallels.box
+[oracle_73_64_vbox]: https://atlas.hashicorp.com/bento/boxes/oracle-7.3/versions/2.3.0/providers/virtualbox.box
+[oracle_73_64_vmware]: https://atlas.hashicorp.com/bento/boxes/oracle-7.3/versions/2.3.0/providers/vmware_desktop.box
 [osuse_132_32_prl]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2-i386/versions/2.3.0/providers/parallels.box
 [osuse_132_32_vbox]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2-i386/versions/2.3.0/providers/virtualbox.box
 [osuse_132_32_vmware]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2-i386/versions/2.3.0/providers/vmware.box
-[ubuntu_1204_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/parallels.box
-[ubuntu_1204_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/virtualbox.box
-[ubuntu_1204_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/vmware_desktop.box
+[osuse_132_64_prl]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/parallels.box
+[osuse_132_64_vbox]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/virtualbox.box
+[osuse_132_64_vmware]: https://atlas.hashicorp.com/bento/boxes/opensuse-13.2/versions/2.3.0/providers/vmware_desktop.box
+[leap_422_64_prl]: https://atlas.hashicorp.com/bento/boxes/opensuse-leap-42.2/versions/2.3.0/providers/parallels.box
+[leap_422_64_vbox]: https://atlas.hashicorp.com/bento/boxes/opensuse-leap-42.2/versions/2.3.0/providers/virtualbox.box
+[leap_422_64_vmware]: https://atlas.hashicorp.com/bento/boxes/opensuse-leap-42.2/versions/2.3.0/providers/vmware_desktop.box
 [ubuntu_1204_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.0/providers/parallels.box
 [ubuntu_1204_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.0/providers/virtualbox.box
 [ubuntu_1204_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.0/providers/vmware_desktop.box
-[ubuntu_1404_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/parallels.box
-[ubuntu_1404_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/virtualbox.box
-[ubuntu_1404_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1204_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/parallels.box
+[ubuntu_1204_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1204_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.0/providers/vmware_desktop.box
 [ubuntu_1404_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.0/providers/parallels.box
 [ubuntu_1404_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.0/providers/virtualbox.box
 [ubuntu_1404_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.0/providers/vmware_desktop.box
-[ubuntu_1604_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/parallels.box
-[ubuntu_1604_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/virtualbox.box
-[ubuntu_1604_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1404_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/parallels.box
+[ubuntu_1404_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1404_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04/versions/2.3.0/providers/vmware_desktop.box
 [ubuntu_1604_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04-i386/versions/2.3.0/providers/parallels.box
 [ubuntu_1604_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04-i386/versions/2.3.0/providers/virtualbox.box
 [ubuntu_1604_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04-i386/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1604_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/parallels.box
+[ubuntu_1604_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1604_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1610_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10-i386/versions/2.3.0/providers/parallels.box
+[ubuntu_1610_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10-i386/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1610_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10-i386/versions/2.3.0/providers/vmware_desktop.box
+[ubuntu_1610_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10/versions/2.3.0/providers/parallels.box
+[ubuntu_1610_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10/versions/2.3.0/providers/virtualbox.box
+[ubuntu_1610_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10/versions/2.3.0/providers/vmware_desktop.box
+

@@ -1,5 +1,41 @@
 # Change Log
 
+## [2.3.1](https://github.com/chef/bento/tree/2.3.1) (2016-11-30)
+[Full Changelog](https://github.com/chef/bento/compare/2.3.0...2.3.1)
+
+**Added and Updated Platforms**
+- Fedora 25 [\#725](https://github.com/chef/bento/pull/725) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- FreeBSD 11.0 [\#492](https://github.com/chef/bento/pull/492) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- macOS Sierra [\#715](https://github.com/chef/bento/pull/715) ([kameghamegha](https://github.com/kameghamegha))
+- OpenSUSE Leap 42.2 [\#723](https://github.com/chef/bento/pull/723) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Oracle Linux 6.8 [\#733](https://github.com/chef/bento/pull/733) ([cheeseplus](https://github.com/cheeseplus))
+- Oracle Linux 7.3 [\#733](https://github.com/chef/bento/pull/733) ([cheeseplus](https://github.com/cheeseplus))
+- Oracle Linux 5.11
+- Ubuntu 16.10 [\#697](https://github.com/chef/bento/pull/697) ([rickard-von-essen](https://github.com/rickard-von-essen))
+
+**Improvements**
+
+- RFC: Switch FreeBSD installation to bsdinstall [\#558](https://github.com/chef/bento/issues/558)
+- Reduce size of Linux images [\#718](https://github.com/chef/bento/pull/718) ([tas50](https://github.com/tas50))
+- Avoid breaking of chef package resource on fedora [\#709](https://github.com/chef/bento/pull/709) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Use UTF-8 locale on Debian / Ubuntu boxes [\#702](https://github.com/chef/bento/pull/702) ([iamthad](https://github.com/iamthad))
+- Install libpam-systemd on systemd-enabled Debian versions. Fix [\#712](https://github.com/chef/bento/issues/712). [\#693](https://github.com/chef/bento/pull/693) ([jfilip](https://github.com/jfilip))
+- Provisionally keeping Perl. Redux of \#714 [\#731](https://github.com/chef/bento/pull/731) ([cheeseplus](https://github.com/cheeseplus))
+- Remove unused http files [\#700](https://github.com/chef/bento/pull/700) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- Remove unused scripts [\#698](https://github.com/chef/bento/pull/698) ([rickard-von-essen](https://github.com/rickard-von-essen))
+
+**Fixed bugs**
+
+- CentOS 5.11-x86\_64 building w/ vbox 5.1.x. Fix \#729. [\#730](https://github.com/chef/bento/pull/730) ([cheeseplus](https://github.com/cheeseplus))
+- Get Solaris 11 to build again [\#687](https://github.com/chef/bento/pull/687) ([tas50](https://github.com/tas50))
+- Get OmniOS boxes building again [\#683](https://github.com/chef/bento/pull/683) ([tas50](https://github.com/tas50))
+- Fix SLES builds [\#684](https://github.com/chef/bento/pull/684), [\#707](https://github.com/chef/bento/pull/707) ([tas50](https://github.com/tas50))
+
+**Known Issues**
+
+- OpenSuSE 13.2 builds for all providers but will not start properly under VMware Fusion/Workstation
+- OpenSuSE Leap 42.2 builds for all providers but will _only_ start properly under VMware Fusion/Workstation
+
 ## [2.3.0](https://github.com/chef/bento/tree/2.3.0) (2016-09-30)
 [Full Changelog](https://github.com/chef/bento/compare/2.2.9...2.3.0)
 
