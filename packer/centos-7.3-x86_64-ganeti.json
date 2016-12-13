@@ -6,7 +6,7 @@
       ],
       "accelerator": "kvm",
       "boot_wait": "10s",
-      "disk_size": 2048,
+      "disk_size": 2560,
       "headless": true,
       "http_directory": "http",
       "iso_checksum": "f2f7367deb90a25822947660c71638333ca0eceeabecc2d631be6cd508c24494",
