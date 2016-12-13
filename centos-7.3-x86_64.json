@@ -157,7 +157,7 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-7.2",
+    "box_basename": "centos-7.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -165,17 +165,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "907e5755f824c5848b9c8efbb484f3cd945e93faa024bad6ba875226f9683b16",
+    "iso_checksum": "c455ee948e872ad2194bdddd39045b83634e8613249182b88f549bb2319d97eb",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-7-x86_64-DVD-1511.iso",
-    "ks_path": "centos-7.2/ks.cfg",
+    "iso_name": "CentOS-7-x86_64-DVD-1611.iso",
+    "ks_path": "centos-7.3/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "7.2.1511/isos/x86_64",
-    "name": "centos-7.2",
+    "mirror_directory": "7.3.1611/isos/x86_64",
+    "name": "centos-7.3",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-7.2-x86_64",
+    "template": "centos-7.3-x86_64",
     "version": "2.1.TIMESTAMP"
   }
 }
