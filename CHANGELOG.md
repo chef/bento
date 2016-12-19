@@ -1,5 +1,19 @@
 # Change Log
 
+## [2.3.2](https://github.com/chef/bento/tree/2.3.2) (2016-12-19)
+[Full Changelog](https://github.com/chef/bento/compare/2.3.1...2.3.2)
+
+**Added and Updated Platforms**
+- CentOS and RHEL 7.3 [\#739](https://github.com/chef/bento/pull/739) ([rickard-von-essen](https://github.com/rickard-von-essen))
+- SLES 12 SP2 [\#735](https://github.com/chef/bento/pull/735) ([mattiasgiese](https://github.com/mattiasgiese))
+
+**Improvements**
+- Update VMware tools to fix CentOS 7.3 build [\#743](https://github.com/chef/bento/pull/743) ([cheeseplus](https://github.com/cheeseplus))
+- Remove CentOS requiretty sudoers workaround, this is now the default [\#740](https://github.com/chef/bento/pull/740) ([mvermaes](https://github.com/mvermaes))
+
+**Pipeline**
+- Use the bento-ya gem, add builds.yml [\#745](https://github.com/chef/bento/pull/745) ([cheeseplus](https://github.com/cheeseplus))
+
 ## [2.3.1](https://github.com/chef/bento/tree/2.3.1) (2016-11-30)
 [Full Changelog](https://github.com/chef/bento/compare/2.3.0...2.3.1)
 
