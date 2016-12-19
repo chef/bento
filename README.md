@@ -108,16 +108,20 @@ end
 
 ### Using `bento`
 
-In the `bin` directory of this repo is the `bento` utility which wraps `packer` as well as allowing other related functionality.
-This is an opinionated tool that the project uses for building the hosted boxes listed above.
+```
+$ gem install bento-ya
+```
+
+If you use Bundler, you can add run `bundle install` from the bento repo.
+Prefix commands with `bundle exec` if doing so.
 
 To build multiple templates for all providers (VirtualBox, Fusion, Parallels, etc):
 
-    $ bin/bento build debian-8.6-amd64 debian-8.6-i386
+    $ bento build debian-8.6-amd64 debian-8.6-i386
 
 To build a box for a single provider:
 
-    $ bin/bento build --only=virtualbox-iso debian-8.6-amd64
+    $ bento build --only=virtualbox-iso debian-8.6-amd64
 
 ### Using `packer`
 

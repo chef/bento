@@ -10,3 +10,4 @@ packer.log
 /builds/
 .kitchen
 .kitchen.*.yml
+Gemfile.lock
