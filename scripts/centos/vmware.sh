@@ -20,7 +20,7 @@ vmware-iso|vmware-vmx)
         /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --default --force-install;
     fi
     rm -rf  /tmp/vmware-archive;
-	rm -rf /tmp/VMwareTools-10.1.0-4449150.tar.gz;
+    rm -rf /tmp/VMwareTools-10.1.0-4449150.tar.gz;
     rm -f $HOME_DIR/*.iso;
     ;;
 esac
