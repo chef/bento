@@ -1,0 +1,64 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<wait5>",
+        "install-powerpc64",
+        " console-setup/ask_detect=false",
+        " console-setup/layoutcode=us",
+        " console-setup/modelcode=pc105",
+        " debconf/frontend=noninteractive",
+        " debian-installer=en_US",
+        " fb=false",
+        " kbd-chooser/method=us",
+        " keyboard-configuration/layout=USA",
+        " keyboard-configuration/variant=USA",
+        " locale=en_US",
+        " netcfg/get_hostname=unassigned-hostname",
+        " netcfg/get_domain=unassigned-domain",
+        " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-14.04/preseed-ppc64.cfg<wait>",
+        "<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "6s",
+      "disk_size": 2048,
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "ce9ffdb7146ae05617093c755ba97342",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/releases/trusty/release/ubuntu-14.04.4-server-powerpc.iso",
+      "output_directory": "packer-ubuntu-14.04-ppc64-openstack",
+      "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
+      "qemuargs": [
+        [ "-m", "2048M" ],
+        [ "-boot", "strict=on" ]
+      ],
+      "qemu_binary": "/usr/libexec/qemu-kvm",
+      "machine_type": "pseries",
+      "ssh_password": "ubuntu",
+      "ssh_port": 22,
+      "ssh_username": "ubuntu",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-ubuntu-14.04-ppc64"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/debian/update.sh",
+        "scripts/common/sshd.sh",
+        "scripts/common/vmtools.sh",
+        "scripts/debian/networking.sh",
+        "scripts/debian/openstack.sh",
+        "scripts/debian/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "mirror": "http://cdimage.ubuntu.com/"
+  }
+}
