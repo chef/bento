@@ -5,7 +5,10 @@ zypper -n in cloud-init
 
 systemctl enable cloud-init
 
+# Create opensuse user
 sed -i -e ':a;N;$!ba;s/users:\n - root/users:\n - default/g' /etc/cloud/cloud.cfg
+# Disable root and password logins
+sed -i -e ':a;N;$!ba;s/disable_root: false\n/disable_root: 1\nssh_pwauth: 0\n/g' /etc/cloud/cloud.cfg
 
 sed -i -e \
   's/GRUB_CMDLINE_LINUX=\"\(.*\)/GRUB_CMDLINE_LINUX=\"console=ttyS0,115200n8 console=tty0 \1/g' \
