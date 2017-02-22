@@ -246,7 +246,6 @@
       ],
       "type": "shell"
     }
-
   ],
   "variables": {
     "box_basename": "ubuntu-16.10",
@@ -271,3 +270,4 @@
     "version": "2.1.TIMESTAMP"
   }
 }
+

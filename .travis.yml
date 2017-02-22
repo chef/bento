@@ -11,7 +11,11 @@ branches:
   only:
     - master
 
-before_install: wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && unzip -d packer packer_${PACKER_VERSION}_linux_amd64.zip
+before_install:
+  - wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
+  - unzip -d packer packer_${PACKER_VERSION}_linux_amd64.zip
+  - touch VMwareTools-10.1.0-4449150.tar.gz
+
 before_script: export PATH=$PATH:$PWD/packer
 
 script: bento normalize

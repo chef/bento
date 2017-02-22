@@ -136,9 +136,11 @@
     },
     {
       "destination": "/tmp/VMwareTools-10.1.0-4449150.tar.gz",
+      "only": [
+        "vmware-iso"
+      ],
       "source": "VMwareTools-10.1.0-4449150.tar.gz",
-      "type": "file",
-	  "only": ["vmware-iso"]
+      "type": "file"
     },
     {
       "environment_vars": [
@@ -185,3 +187,4 @@
     "version": "2.1.TIMESTAMP"
   }
 }
+

@@ -163,9 +163,24 @@
       "output_directory": "packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "mac",
       "prlctl": [
-        ["set", "{{.Name}}", "--memsize", "{{ user `memory` }}"],
-        ["set", "{{.Name}}", "--cpus", "{{ user `cpus` }}"],
-        ["set", "{{.Name}}", "--on-window-close", "keep-running"]
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "{{ user `memory` }}"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "{{ user `cpus` }}"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--on-window-close",
+          "keep-running"
+        ]
       ],
       "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
       "ssh_password": "vagrant",
@@ -232,3 +247,4 @@
     "version": "2.1.TIMESTAMP"
   }
 }
+
