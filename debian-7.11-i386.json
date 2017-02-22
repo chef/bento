@@ -169,11 +169,11 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "packer-{{user `template`}}-qemu",
-      "ssh_username": "vagrant",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+      "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
       "type": "qemu",
       "vm_name": "{{ user `template` }}"
     }
@@ -237,3 +237,4 @@
     "version": "2.1.TIMESTAMP"
   }
 }
+

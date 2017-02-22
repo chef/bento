@@ -1,66 +1,68 @@
 {
-    "builders": [{
-    "communicator": "winrm",
-    "disk_size": "{{user `disk_size`}}",
-    "floppy_files": [
-      "scripts/windows/Autounattend.xml",
-      "scripts/windows/nano_create.ps1",
-      "scripts/windows/nano_cleanup.ps1",
-      "scripts/windows/SetupComplete.cmd",
-      "scripts/windows/postunattend.xml"
-    ],
-    "guest_additions_mode": "disable",
-    "guest_os_type": "Windows2012_64",
-    "headless": "{{ user `headless` }}",
-    "iso_url": "{{ user `iso_url` }}",
-    "iso_checksum": "{{ user `iso_checksum` }}",
-    "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "output_directory": "packer-{{user `template`}}-virtualbox",
-    "shutdown_command": "shutdown /r /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-    "shutdown_timeout": "1h",
-    "type": "virtualbox-iso",
-    "vboxmanage": [
-      [
-        "modifyvm",
-        "{{.Name}}",
-        "--natpf1",
-        "guest_winrm,tcp,,55985,,5985"
-      ],
-      [
-        "modifyvm",
-        "{{.Name}}",
-        "--memory",
-        "{{ user `memory` }}"
-      ],
-      [
-        "modifyvm",
-        "{{.Name}}",
-        "--vram",
-        "36"
-      ],
-      [
-        "modifyvm",
-        "{{.Name}}",
-        "--cpus",
-        "{{ user `cpus` }}"
-      ],
-      [
-        "modifyvm",
-        "{{.Name}}",
-        "--hardwareuuid",
-        "02f110e7-369a-4bbc-bbe6-6f0b6864ccb6"
-      ]
-    ],
-    "virtualbox_version_file": ".vbox_version",
-    "vm_name": "{{ user `template` }}",
-    "winrm_password": "vagrant",
-    "winrm_timeout": "2h",
-    "winrm_username": "vagrant"
-  }],
-    "post-processors": [
+  "builders": [
     {
-      "type": "vagrant",
+      "communicator": "winrm",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "scripts/windows/Autounattend.xml",
+        "scripts/windows/nano_create.ps1",
+        "scripts/windows/nano_cleanup.ps1",
+        "scripts/windows/SetupComplete.cmd",
+        "scripts/windows/postunattend.xml"
+      ],
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Windows2012_64",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{ user `iso_url` }}",
+      "output_directory": "packer-{{user `template`}}-virtualbox",
+      "shutdown_command": "shutdown /r /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "1h",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--natpf1",
+          "guest_winrm,tcp,,55985,,5985"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{ user `memory` }}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "36"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{ user `cpus` }}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hardwareuuid",
+          "02f110e7-369a-4bbc-bbe6-6f0b6864ccb6"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `template` }}",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "2h",
+      "winrm_username": "vagrant"
+    }
+  ],
+  "post-processors": [
+    {
       "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "type": "vagrant",
       "vagrantfile_template": "vagrantfile_templates/windows-nano.rb"
     }
   ],
@@ -80,3 +82,4 @@
     "version": "1.1.TIMESTAMP"
   }
 }
+
