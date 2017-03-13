@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
     vb.memory = "1024"
   end
 
-  config.vm.provider 'hyperv' do |hv|
+  config.vm.provider "hyperv" do |hv|
     hv.ip_address_timeout = 240
   end
 end
