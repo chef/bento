@@ -49,35 +49,29 @@ _NOTE_ This table tracks only the latest release for a given version. Boxes may 
 
 ### Build Notes
 
-* If you're using the [Vagrant VMWare Fusion](https://www.vagrantup.com/vmware)
-provider, using `vagrant box add --provider vmware_desktop ...` will work for
-these boxes. Using `--provider vmware_fusion`, will not.
+- If you're using the [Vagrant VMWare Fusion](https://www.vagrantup.com/vmware) provider, using `vagrant box add --provider vmware_desktop ...` will work for these boxes. Using `--provider vmware_fusion`, will not.
 
 #### VMWare Fusion 8, Packer, systemd
 
-Recent Linux distributions use [systemd's logic to predictably name network devices](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/). In our scenario, this is tied to the PCI slot
-id. For unknown reasons, boxes built with [the default vmx config provided by packer](https://github.com/mitchellh/packer/blob/e868f9b69c995cf8a681857aa68e9be286243630/builder/vmware/iso/step_create_vmx.go#L168) use a different
-PCI slot id (32 instead of 33) once they got imported to VMWare Fusion 8, which results in a different device name and finally in broken
-networking. This issue is documented in the following places:
+Recent Linux distributions use [systemd's logic to predictably name network devices](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/). In our scenario, this is tied to the PCI slot id. For unknown reasons, boxes built with [the default vmx config provided by packer](https://github.com/mitchellh/packer/blob/e868f9b69c995cf8a681857aa68e9be286243630/builder/vmware/iso/step_create_vmx.go#L168) use a different PCI slot id (32 instead of 33) once they got imported to VMWare Fusion 8, which results in a different device name and finally in broken networking. This issue is documented in the following places:
 
-- https://github.com/chef/bento/issues/554
-- https://github.com/chef/bento/pull/545#issuecomment-202988690
-- https://github.com/mitchellh/vagrant/issues/4590
+- <https://github.com/chef/bento/issues/554>
+- <https://github.com/chef/bento/pull/545#issuecomment-202988690>
+- <https://github.com/mitchellh/vagrant/issues/4590>
 
-As a workaround we've started to provide the changed PCI slot id as a custom value with the packer definitions with Ubuntu 15.10+ and Debian 8+.
-However this is not yet tested, may not solve the issue and/or break compatibility with other VMWare
-products/versions!
+As a workaround we've started to provide the changed PCI slot id as a custom value with the packer definitions with Ubuntu 15.10+ and Debian 8+. However this is not yet tested, may not solve the issue and/or break compatibility with other VMWare products/versions!
 
 ## Older Boxes
 
-Older boxes include Chef and therefore are not compatible with some
-new plugins. The full list of old boxes are available in the [old boxes file](https://github.com/chef/bento/blob/master/OLD-BOXES.md).
+The contents of this Github repository represent the current state of Bento and not every packer config that has ever existed in the Bento project. As a distribution is made end of life or a newer minor version of a distribution ships, we will remove the existing configurations. At the time of the next Bento release those deprecations will be noted in the release notes. If you'd like to build that release for some reason, your best course of action is to checkout the release tag in git and use the existing configs at their last known working state.
 
 ## Using Pre-built Boxes
 
 Adding a bento box to vagrant:
 
-    $ vagrant box add bento/debian-8.6
+```
+$ vagrant box add bento/debian-8.6
+```
 
 Using a bento box in a Vagrantfile:
 
