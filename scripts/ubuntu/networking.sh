@@ -3,7 +3,7 @@
 ubuntu_version="`lsb_release -r | awk '{print $2}'`";
 major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
 
-if [ "$major_version" -le "15" ] && [ "$ubuntu_version" != "15.10" ]; then
+if [ "$major_version" -le "15" ]; then
   echo "Disabling automatic udev rules for network interfaces in Ubuntu"
   # Disable automatic udev rules for network interfaces in Ubuntu,
   # source: http://6.ptmc.org/164/

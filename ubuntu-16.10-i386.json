@@ -265,7 +265,7 @@
     "mirror_directory": "16.10",
     "name": "ubuntu-16.10-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed_path": "ubuntu-15.10/preseed.cfg",
+    "preseed_path": "ubuntu-16.04/preseed.cfg",
     "template": "ubuntu-16.10-i386",
     "version": "2.1.TIMESTAMP"
   }
