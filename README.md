@@ -4,12 +4,7 @@
 
 [travis]: https://travis-ci.org/chef/bento
 
-Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building
-[Vagrant](https://www.vagrantup.com/) base boxes. We use these boxes internally at Chef Software, Inc. for
-testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef)
-via [test-kitchen](http://kitchen.ci/).
-
-This project is managed by the CHEF Release Engineering team. For more information on the Release Engineering team's contribution, triage, and release process, please consult the [CHEF Release Engineering OSS Management Guide](https://docs.google.com/a/opscode.com/document/d/1oJB0vZb_3bl7_ZU2YMDBkMFdL-EWplW1BJv_FXTUOzg/edit).
+Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. We use these boxes internally at Chef Software, Inc. for testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef) via [test-kitchen](http://kitchen.ci/).
 
 ## Pre-built Boxes
 
