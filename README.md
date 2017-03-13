@@ -89,8 +89,8 @@ end
 
 ## Requirements
 
-* [Packer](https://www.packer.io/)
-* At least one virtualization provider: Virtualbox, VMware Fusion, Parallels Desktop, etc
+- [Packer](https://www.packer.io/)
+- At least one virtualization provider: Virtualbox, VMware Fusion, Parallels Desktop, etc
 
 ## Build Your Own Bento Boxes
 
@@ -100,16 +100,19 @@ end
 $ gem install bento-ya
 ```
 
-If you use Bundler, you can add run `bundle install` from the bento repo.
-Prefix commands with `bundle exec` if doing so.
+If you use Bundler, you can add run `bundle install` from the bento repo. Prefix commands with `bundle exec` if doing so.
 
 To build multiple templates for all providers (VirtualBox, Fusion, Parallels, etc):
 
-    $ bento build debian-8.6-amd64 debian-8.6-i386
+```
+$ bento build debian-8.6-amd64 debian-8.6-i386
+```
 
 To build a box for a single provider:
 
-    $ bento build --only=virtualbox-iso debian-8.6-amd64
+```
+$ bento build --only=virtualbox-iso debian-8.6-amd64
+```
 
 ### Using `packer`
 
@@ -117,24 +120,33 @@ Templates can still be built directly by `packer`
 
 To build a template for all providers (VirtualBox, Fusion, Parallels):
 
-    $ packer build debian-8.6-amd64.json
+```
+$ packer build debian-8.6-amd64.json
+```
 
 To build a template only for a list of specific providers:
 
-    $ packer build -only=virtualbox-iso debian-8.6-amd64.json
+```
+$ packer build -only=virtualbox-iso debian-8.6-amd64.json
+```
 
 To build a template for all providers except a list of specific providers:
 
-    $ packer build -except=parallels-iso,vmware-iso debian-8.6-amd64.json
+```
+$ packer build -except=parallels-iso,vmware-iso debian-8.6-amd64.json
+```
 
 If you want to use a another mirror site, use the `mirror` user variable.
 
-    $ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-8.6-amd64.json
+```
+$ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' debian-8.6-amd64.json
+```
 
 Congratulations! You now have box(es) in the ../builds directory that you can then add to Vagrant and start testing cookbooks.
 
 Notes:
-* The box_basename can be overridden like other Packer vars with ``-var 'box_basename=debian-8.6'``
+
+- The box_basename can be overridden like other Packer vars with `-var 'box_basename=debian-8.6'`
 
 ### Proprietary Boxes
 
@@ -142,43 +154,37 @@ Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates a
 
 #### Mac OS X
 
-To build a Mac OS X box, you will need to start with an installer for your desired version of OS X.  You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer.  The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.:
+To build a Mac OS X box, you will need to start with an installer for your desired version of OS X. You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer. The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.:
 
-    $ packer build -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.11.json
+```
+$ packer build -var 'iso_checksum=<checksum>' -var 'iso_url=<iso_url>' macosx-10.11.json
+```
 
-There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module.  This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually.
+There is a known issue where [test-kitchen](http://kitchen.ci/) starts a Mac OS X box correctly, but `vagrant up` fails due to the absence of the HGFS kernel module. This is due to a silent failure during the VMware tools installation and can be corrected by installing the VMware tools on the Mac OS X box manually.
 
 Note that, while it is possible to build OS X boxes for VirtualBox, it may not be ideal. VirtualBox provides no "guest additions" for OS X. Boxes consequently have limited networking configurability and must rely on rsync for folder syncing. VMWare, when available, is generally preferred.
 
 ### Windows
 
-Currently the project does not include any definitions for building Windows boxes. For other approaches to building Windows boxes, please see the following
-community projects:
+Currently the project does not include any definitions for building Windows boxes. For other approaches to building Windows boxes, please see the following community projects:
 
-* [Mischa Taylor's Boxcutter project](https://github.com/boxcutter)
-* [Vagrant Windows Boxes and Puppet](https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes)
+- [Mischa Taylor's Boxcutter project](https://github.com/boxcutter)
+- [Vagrant Windows Boxes and Puppet](https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes)
 
 ### Special Note About Building from Windows Hosts
 
-When building boxes from a Windows host system, you must ensure that kickstart configuration files (`ks.cfg` for RHEL
-based systems) and preseed files (`preseed.cfg` for Debian based systems) have Unix line endings (i.e. lines end with
-LF character only). Moreover, it's also a good idea to have `*.sh` scripts with Unix line endings too.
+When building boxes from a Windows host system, you must ensure that kickstart configuration files (`ks.cfg` for RHEL based systems) and preseed files (`preseed.cfg` for Debian based systems) have Unix line endings (i.e. lines end with LF character only). Moreover, it's also a good idea to have `*.sh` scripts with Unix line endings too.
 
-When these files have Windows line endings, the group creation can fail in the pre-seed phase and in turn, prevents the
-user `vagrant` to be created correctly. This ultimately results in Packer not being able to connect to the newly booted
-up machine with an error message that looks like this:
+When these files have Windows line endings, the group creation can fail in the pre-seed phase and in turn, prevents the user `vagrant` to be created correctly. This ultimately results in Packer not being able to connect to the newly booted up machine with an error message that looks like this:
 
 ```
 ==> virtualbox-iso: Waiting for SSH to become available...
 ==> virtualbox-iso: Error waiting for SSH: handshake failed: ssh: unable to authenticate, attempted methods [none password], no support
 ```
 
-Since Packer tries to log in with user `vagrant` but it was not created successfully in the pre-seed phase, it is unable
-to connect to the machine and the packaging process stops.
+Since Packer tries to log in with user `vagrant` but it was not created successfully in the pre-seed phase, it is unable to connect to the machine and the packaging process stops.
 
-By default, when cloning this repository, git should normalize `ks.cfg`, `preseed.cfg` and `*.sh` to Unix line endings
-and `*.bat` to Windows line endings, thanks to the [.gitattributes](.gitattributes) file in the repository. However, if
-it's not the case because you have overridden line-ending conversion in your own git configuration, convert the offending files so they have the correct line endings.
+By default, when cloning this repository, git should normalize `ks.cfg`, `preseed.cfg` and `*.sh` to Unix line endings and `*.bat` to Windows line endings, thanks to the <.gitattributes> file in the repository. However, if it's not the case because you have overridden line-ending conversion in your own git configuration, convert the offending files so they have the correct line endings.
 
 ## Bugs and Issues
 
@@ -186,22 +192,19 @@ Please use GitHub issues to report bugs, features, or other problems.
 
 ## License & Authors
 
-These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee)
-definitions originally based on
-[work done by Tim Dysinger](https://github.com/dysinger/basebox) to
-make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
+These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee) definitions originally based on [work done by Tim Dysinger](https://github.com/dysinger/basebox) to make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
 
-- Author: Seth Chisamore (<schisamo@chef.io>)
-- Author: Stephen Delano (<stephen@chef.io>)
-- Author: Joshua Timberman (<joshua@chef.io>)
-- Author: Tim Dysinger (<tim@dysinger.net>)
-- Author: Chris McClimans (<chris@hippiehacker.org>)
-- Author: Julian Dunn (<jdunn@chef.io>)
-- Author: Tom Duffield (<tom@chef.io>)
-- Author: Ross Timson (<ross@rosstimson.com>)
-- Author: Fletcher Nichol (<fnichol@nichol.ca>)
+- Author: Seth Chisamore ([schisamo@chef.io](mailto:schisamo@chef.io))
+- Author: Stephen Delano ([stephen@chef.io](mailto:stephen@chef.io))
+- Author: Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
+- Author: Tim Dysinger ([tim@dysinger.net](mailto:tim@dysinger.net))
+- Author: Chris McClimans ([chris@hippiehacker.org](mailto:chris@hippiehacker.org))
+- Author: Julian Dunn ([jdunn@chef.io](mailto:jdunn@chef.io))
+- Author: Tom Duffield ([tom@chef.io](mailto:tom@chef.io))
+- Author: Ross Timson ([ross@rosstimson.com](mailto:ross@rosstimson.com))
+- Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))
 
 ```text
 Copyright 2012-2016, Chef Software, Inc. (<legal@chef.io>)
