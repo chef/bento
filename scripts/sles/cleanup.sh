@@ -4,3 +4,6 @@ zypper --non-interactive rm --clean-deps gcc kernel-default-devel
 zypper clean
 rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
 rm -f /tmp/chef*rpm
+
+# delete any logs that have built up during the install
+find /var/log/ -name *.log -exec rm -f {} \;
