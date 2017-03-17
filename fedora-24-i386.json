@@ -141,7 +141,6 @@
         "scripts/common/metadata.sh",
         "scripts/fedora/fix-slow-dns.sh",
         "scripts/fedora/build-tools.sh",
-        "scripts/fedora/yum.sh",
         "scripts/common/sshd.sh",
         "scripts/common/virtualbox.sh",
         "scripts/common/vmware.sh",
@@ -177,4 +176,3 @@
     "version": "2.0.TIMESTAMP"
   }
 }
-
