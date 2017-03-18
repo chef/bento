@@ -16,7 +16,7 @@ The following boxes are built from this repository's templates for publicly avai
 | centos-6.8         | [x86_64][centos_68_64_vbox]    | [x86_64][centos_68_64_vmware]     | [x86_64][centos_68_64_prl]    |
 | centos-7.3         | [x86_64][centos_73_64_vbox]    | [x86_64][centos_73_64_vmware]     | [x86_64][centos_73_64_prl]    |
 | debian-7.11        | [amd64][debian_711_64_vbox]    | [amd64][debian_711_64_vmware]     | [amd64][debian_711_64_prl]    |
-| debian-8.6         | [amd64][debian_86_64_vbox]     | [amd64][debian_86_64_vmware]      | [amd64][debian_86_64_prl]     |
+| debian-8.7         | [amd64][debian_87_64_vbox]     | [amd64][debian_87_64_vmware]      | [amd64][debian_87_64_prl]     |
 | fedora-24          | [x86_64][fedora_24_64_vbox]    | [x86_64][fedora_24_64_vmware]     | [x86_64][fedora_24_64_prl]    |
 | fedora-25          | [x86_64][fedora_25_64_vbox]    | [x86_64][fedora_25_64_vmware]     | [x86_64][fedora_25_64_prl]    |
 | freebsd-10.3       | [amd64][freebsd_103_64_vbox]   | [amd64][freebsd_103_64_vmware]    | [amd64][freebsd_103_64_prl]   |
@@ -241,9 +241,9 @@ limitations under the License.
 [debian_86_32_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.1/providers/parallels.box
 [debian_86_32_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.1/providers/virtualbox.box
 [debian_86_32_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6-i386/versions/2.3.1/providers/vmware_desktop.box
-[debian_86_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.1/providers/parallels.box
-[debian_86_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.1/providers/virtualbox.box
-[debian_86_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.6/versions/2.3.1/providers/vmware_desktop.box
+[debian_87_64_prl]: https://atlas.hashicorp.com/bento/boxes/debian-8.7/versions/2.3.3/providers/parallels.box
+[debian_87_64_vbox]: https://atlas.hashicorp.com/bento/boxes/debian-8.7/versions/2.3.3/providers/virtualbox.box
+[debian_87_64_vmware]: https://atlas.hashicorp.com/bento/boxes/debian-8.7/versions/2.3.3/providers/vmware_desktop.box
 [fedora_24_64_prl]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.1/providers/parallels.box
 [fedora_24_64_vbox]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.1/providers/virtualbox.box
 [fedora_24_64_vmware]: https://atlas.hashicorp.com/bento/boxes/fedora-24/versions/2.3.1/providers/vmware_desktop.box
