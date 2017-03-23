@@ -135,14 +135,6 @@
       "type": "file"
     },
     {
-      "destination": "/tmp/VMwareTools-10.1.0-4449150.tar.gz",
-      "only": [
-        "vmware-iso"
-      ],
-      "source": "VMwareTools-10.1.0-4449150.tar.gz",
-      "type": "file"
-    },
-    {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
@@ -156,7 +148,7 @@
         "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/virtualbox.sh",
-        "scripts/centos/vmware.sh",
+        "scripts/common/vmware.sh",
         "scripts/common/parallels.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
@@ -187,4 +179,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
