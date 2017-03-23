@@ -1,7 +1,7 @@
 # Change Log
 ## [2.3.4](https://github.com/chef/bento/tree/2.3.4) (2017-03-23)
 
-- Mostly rebuilt for updated hypervisors: VirtualBox 5.1.8 and VMware Fusion 8.5.5
+- Mostly rebuilt for updated hypervisors: VirtualBox 5.1.18 and VMware Fusion 8.5.5
 - Better cleanup for Fedora boxes
 
 ## [2.3.3](https://github.com/chef/bento/tree/2.3.3) (2017-02-19)
