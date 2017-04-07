@@ -1,0 +1,10 @@
+keyboard=US-English
+timezone=UTC
+auto_reg=disable
+network_interface=PRIMARY
+                  {dhcp protocol_ipv6=yes}
+nfs4_domain=dynamic
+root_password=$1$MrZPBLgm$Gj2Ofw3ca2eKiIVB72zeL/
+system_locale=en_US
+security_policy=NONE
+name_service=NONE
