@@ -165,7 +165,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "720d185fdf063383a4471657076b72fc162d3c3c3bca2e5e5ae13a25b3046519",
+    "iso_checksum": "0724a468ec0c4ac46ac6a1daba0273be697a37bb7f4e9fed8ad84ad270cdee2f",
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-6.9-i386-bin-DVD1.iso",
     "ks_path": "centos-6.9/ks.cfg",
@@ -179,4 +179,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
