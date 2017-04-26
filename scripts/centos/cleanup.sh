@@ -55,7 +55,5 @@ _EOF_
   chmod +x /etc/rc.d/rc.local
 fi
 
-rm -f VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?;
-
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
