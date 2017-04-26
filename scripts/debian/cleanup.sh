@@ -39,7 +39,5 @@ apt-get -y purge popularity-contest;
 apt-get -y autoremove;
 apt-get -y clean;
 
-rm -f VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
-
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;

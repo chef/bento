@@ -8,7 +8,6 @@ dnf -y clean all --enablerepo=\*
 echo "Removing extra packages"
 dnf -y remove linux-firmware
 
-rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
 rm -f /tmp/chef*rpm
 
 # delete any logs that have built up during the install
