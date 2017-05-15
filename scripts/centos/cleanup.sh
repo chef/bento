@@ -3,6 +3,9 @@
 # should output one of 'redhat' 'centos' 'oraclelinux'
 distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
 
+# Add nfs mount ability
+yum -y install nfs-utils cifs-utils
+
 # Remove development and kernel source packages
 yum -y remove gcc cpp kernel-devel kernel-headers;
 

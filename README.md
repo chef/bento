@@ -146,6 +146,22 @@ Notes:
 
 Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, substitute a server where the ISOs are hosted, using the mirror variable as above.
 
+#### Building RHEL Boxes
+Currently only available for RHEL 6.8
+
+- Download the ISO file from RHN (RHN pro customer account required) to your bento/iso directory
+- Make a local YUM repository from the ISO file (legal if local only). Check here for a tutorial http://www.idimmu.net/2009/10/20/creating-a-local-and-http-redhat-yum-repository/
+- Update bento/scripts/rhel/yumrepo.sh file with your local repo URL
+- Customize the RPMs you want installed in your box in Kickstart config file bento/http/rhel-6.8/ks.cfg
+
+- Install packer from the official site at https://www.packer.io/downloads.html
+- use packer to build a headless box
+
+Example for building a 64 bit RHEL 6.8 box with Virtualbox:
+
+    $ cd bento
+    $ packer build --only=virtualbox-iso rhel-6.8-x86_64.json
+
 #### Mac OS X
 
 To build a Mac OS X box, you will need to start with an installer for your desired version of OS X. You will then need to use [Tim Sutton's osx-vm-templates](https://github.com/timsutton/osx-vm-templates)/) to modify that installer for use by packer. The output of that build will include the location of the ISO and its checksum, which you can substitute into your `packer build` command, e.g.:
