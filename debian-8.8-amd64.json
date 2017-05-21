@@ -221,7 +221,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-8.7",
+    "box_basename": "debian-8.8",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -229,17 +229,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "065c90fa72ed51b7ce06ecfdc660b083e7b0c40bbf63fd58559c8bf7df7752da",
+    "iso_checksum": "673079527fdf3a91e8bfc9e0312f94316820ca795bb6a1b2af1e8461eb78179c",
     "iso_checksum_type": "sha256",
-    "iso_name": "debian-8.7.1-amd64-CD-1.iso",
+    "iso_name": "debian-8.8.0-amd64-CD-1.iso",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "8.7.1/amd64/iso-cd",
-    "name": "debian-8.7",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
+    "mirror_directory": "8.8.0/amd64/iso-cd",
+    "name": "debian-8.8",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
-    "template": "debian-8.7-amd64",
+    "template": "debian-8.8-amd64",
     "version": "2.1.TIMESTAMP"
   }
 }

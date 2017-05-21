@@ -37,7 +37,7 @@ The following boxes are built from this repository's templates for publicly avai
 | centos-5.11   | [i386][centos_511_32_vbox]   | [i386][centos_511_32_vmware]    | [i386][centos_511_32_prl]   |
 | centos-6.8    | [i386][centos_68_32_vbox]    | [i386][centos_68_32_vmware]     | [i386][centos_68_32_prl]    |
 | debian-7.11   | [i386][debian_711_32_vbox]   | [i386][debian_711_32_vmware]    | [i386][debian_711_32_prl]   |
-| debian-8.7    | [i386][debian_87_32_vbox]    | ~~[i386][debian_87_32_vmware]~~ | [i386][debian_87_32_prl]    |
+| debian-8.8    | [i386][debian_88_32_vbox]    | ~~[i386][debian_88_32_vmware]~~ | [i386][debian_88_32_prl]    |
 | oracle-5.11   | [x86_64][oracle_511_32_vbox] | [x86_64][oracle_511_32_vmware]  | [x86_64][oracle_511_32_prl] |
 | oracle-6.8    | [x86_64][oracle_68_32_vbox]  | [x86_64][oracle_68_32_vmware]   | [x86_64][oracle_68_32_prl]  |
 | ubuntu-12.04  | [i386][ubuntu_1204_32_vbox]  | [i386][ubuntu_1204_32_vmware]   | [i386][ubuntu_1204_32_prl]  |
