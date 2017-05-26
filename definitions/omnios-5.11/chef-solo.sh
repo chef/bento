@@ -1,0 +1,1 @@
+../.omnios/chef-solo.sh

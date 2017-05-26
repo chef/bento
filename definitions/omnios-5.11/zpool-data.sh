@@ -1,0 +1,1 @@
+../.omnios/zpool-data.sh
