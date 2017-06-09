@@ -10,7 +10,7 @@
       ],
       "accelerator": "kvm",
       "boot_wait": "6s",
-      "disk_size": 2048,
+      "disk_size": 4096,
       "headless": true,
       "http_directory": "http",
       "iso_checksum": "a4e6b6a69d86a704f0108983bb3c3d86",
@@ -43,6 +43,7 @@
         "scripts/centos/osuosl-altarch.sh",
         "scripts/centos/epel-7.sh",
         "scripts/centos/openstack.sh",
+	"scripts/centos/ppc64.sh",
         "scripts/centos/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
