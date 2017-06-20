@@ -25,10 +25,8 @@ The following boxes are built from this repository's templates for publicly avai
 | oracle-5.11        | [x86_64][oracle_511_64_vbox]   | [x86_64][oracle_511_64_vmware]    | [x86_64][oracle_511_64_prl]   |
 | oracle-6.8         | [x86_64][oracle_68_64_vbox]    | [x86_64][oracle_68_64_vmware]     | [x86_64][oracle_68_64_prl]    |
 | oracle-7.3         | [x86_64][oracle_73_64_vbox]    | [x86_64][oracle_73_64_vmware]     | [x86_64][oracle_73_64_prl]    |
-| ubuntu-12.04       | [amd64][ubuntu_1204_64_vbox]   | [amd64][ubuntu_1204_64_vmware]    | [amd64][ubuntu_1204_64_prl]   |
 | ubuntu-14.04       | [amd64][ubuntu_1404_64_vbox]   | [amd64][ubuntu_1404_64_vmware]    | [amd64][ubuntu_1404_64_prl]   |
 | ubuntu-16.04       | [amd64][ubuntu_1604_64_vbox]   | [amd64][ubuntu_1604_64_vmware]    | [amd64][ubuntu_1604_64_prl]   |
-| ubuntu-16.10       | [amd64][ubuntu_1610_64_vbox]   | [amd64][ubuntu_1610_64_vmware]    | [amd64][ubuntu_1610_64_prl]   |
 
 ### 32 bit
 
@@ -40,10 +38,8 @@ The following boxes are built from this repository's templates for publicly avai
 | debian-8.7    | [i386][debian_87_32_vbox]    | ~~[i386][debian_87_32_vmware]~~ | [i386][debian_87_32_prl]    |
 | oracle-5.11   | [x86_64][oracle_511_32_vbox] | [x86_64][oracle_511_32_vmware]  | [x86_64][oracle_511_32_prl] |
 | oracle-6.8    | [x86_64][oracle_68_32_vbox]  | [x86_64][oracle_68_32_vmware]   | [x86_64][oracle_68_32_prl]  |
-| ubuntu-12.04  | [i386][ubuntu_1204_32_vbox]  | [i386][ubuntu_1204_32_vmware]   | [i386][ubuntu_1204_32_prl]  |
 | ubuntu-14.04  | [i386][ubuntu_1404_32_vbox]  | [i386][ubuntu_1404_32_vmware]   | [i386][ubuntu_1404_32_prl]  |
 | ubuntu-16.04  | [i386][ubuntu_1604_32_vbox]  | [i386][ubuntu_1604_32_vmware]   | ~~[i386][ubuntu_1604_32_prl]~~  |
-| ubuntu-16.10  | [i386][ubuntu_1610_32_vbox]  | [i386][ubuntu_1610_32_vmware]   | [i386][ubuntu_1610_32_prl]  |
 
 _NOTE_ This table tracks only the latest release for a given version. Boxes may exist in Atlas or S3 but are not guaranteed to be updated at this time.
 
@@ -201,7 +197,7 @@ Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templat
 - Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))
 
 ```text
-Copyright 2012-2016, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2017, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -276,12 +272,6 @@ limitations under the License.
 [oracle_73_64_vbox]: https://atlas.hashicorp.com/bento/boxes/oracle-7.3/versions/2.3.4/providers/virtualbox.box
 [oracle_73_64_vmware]: https://atlas.hashicorp.com/bento/boxes/oracle-7.3/versions/2.3.4/providers/vmware_desktop.box
 [travis]: https://travis-ci.org/chef/bento
-[ubuntu_1204_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.4/providers/parallels.box
-[ubuntu_1204_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.4/providers/virtualbox.box
-[ubuntu_1204_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04-i386/versions/2.3.4/providers/vmware_desktop.box
-[ubuntu_1204_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.4/providers/parallels.box
-[ubuntu_1204_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.4/providers/virtualbox.box
-[ubuntu_1204_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-12.04/versions/2.3.4/providers/vmware_desktop.box
 [ubuntu_1404_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.4/providers/parallels.box
 [ubuntu_1404_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.4/providers/virtualbox.box
 [ubuntu_1404_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04-i386/versions/2.3.4/providers/vmware_desktop.box
@@ -294,9 +284,3 @@ limitations under the License.
 [ubuntu_1604_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.4/providers/parallels.box
 [ubuntu_1604_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.4/providers/virtualbox.box
 [ubuntu_1604_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04/versions/2.3.4/providers/vmware_desktop.box
-[ubuntu_1610_32_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10-i386/versions/2.3.4/providers/parallels.box
-[ubuntu_1610_32_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10-i386/versions/2.3.4/providers/virtualbox.box
-[ubuntu_1610_32_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10-i386/versions/2.3.4/providers/vmware_desktop.box
-[ubuntu_1610_64_prl]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10/versions/2.3.4/providers/parallels.box
-[ubuntu_1610_64_vbox]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10/versions/2.3.4/providers/virtualbox.box
-[ubuntu_1610_64_vmware]: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.10/versions/2.3.4/providers/vmware_desktop.box
