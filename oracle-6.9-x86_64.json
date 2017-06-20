@@ -172,12 +172,11 @@
     "ks_path": "centos-6.9/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.dotsrc.org/oracle-linux",
+    "mirror": "http://mirrors.kernel.org/oracle/",
     "mirror_directory": "OL6/U9/x86_64",
     "name": "oracle-6.9",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "oracle-6.9-x86_64",
-    "version": "2.0.TIMESTAMP"
+    "version": "2.2.TIMESTAMP"
   }
 }
-
