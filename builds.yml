@@ -59,6 +59,9 @@ public:
     '16.10':
     - amd64
     - i386
+    '17.04':
+    - amd64
+    - i386
 
 private:
   rhel:
