@@ -221,7 +221,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-9",
+    "box_basename": "debian-9.0",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -236,7 +236,7 @@
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdimage.debian.org/cdimage/release",
     "mirror_directory": "9.0.0/amd64/iso-cd",
-    "name": "debian-9",
+    "name": "debian-9.0",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
     "template": "debian-9.0-amd64",
