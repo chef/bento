@@ -10,25 +10,25 @@ The following boxes are built from this repository's templates for publicly avai
 
 ### 64 bit
 
-|                    | VirtualBox                     | VMware                            | Parallels                     |
-|------------------- | ------------------------------ | --------------------------------- | ------------------------------|
-| centos-5.11        | [x86_64][centos_511_64_vbox]   | [x86_64][centos_511_64_vmware]    | [x86_64][centos_511_64_prl]   |
-| centos-6.8         | [x86_64][centos_68_64_vbox]    | [x86_64][centos_68_64_vmware]     | [x86_64][centos_68_64_prl]    |
-| centos-7.3         | [x86_64][centos_73_64_vbox]    | [x86_64][centos_73_64_vmware]     | [x86_64][centos_73_64_prl]    |
-| debian-7.11        | [amd64][debian_711_64_vbox]    | [amd64][debian_711_64_vmware]     | [amd64][debian_711_64_prl]    |
-| debian-8.7         | [amd64][debian_87_64_vbox]     | ~~[amd64][debian_87_64_vmware]~~  | [amd64][debian_87_64_prl]     |
-| fedora-24          | [x86_64][fedora_24_64_vbox]    | [x86_64][fedora_24_64_vmware]     | ~~[x86_64][fedora_24_64_prl]~~|
-| fedora-25          | [x86_64][fedora_25_64_vbox]    | [x86_64][fedora_25_64_vmware]     | [x86_64][fedora_25_64_prl]    |
-| freebsd-10.3       | [amd64][freebsd_103_64_vbox]   | ~~[amd64][freebsd_103_64_vmware]~~ | [amd64][freebsd_103_64_prl]  |
-| freebsd-11.0       | [amd64][freebsd_110_64_vbox]   | [amd64][freebsd_110_64_vmware]    | [amd64][freebsd_110_64_prl]   |
-| opensuse-leap-42.2 | [x86_64][leap_422_64_vbox]     | ~~[x86_64][leap_422_64_vmware]~~  | ~~[x86_64][leap_422_64_prl]~~ |
-| oracle-5.11        | [x86_64][oracle_511_64_vbox]   | [x86_64][oracle_511_64_vmware]    | [x86_64][oracle_511_64_prl]   |
-| oracle-6.8         | [x86_64][oracle_68_64_vbox]    | [x86_64][oracle_68_64_vmware]     | [x86_64][oracle_68_64_prl]    |
-| oracle-7.3         | [x86_64][oracle_73_64_vbox]    | [x86_64][oracle_73_64_vmware]     | [x86_64][oracle_73_64_prl]    |
-| ubuntu-12.04       | [amd64][ubuntu_1204_64_vbox]   | [amd64][ubuntu_1204_64_vmware]    | [amd64][ubuntu_1204_64_prl]   |
-| ubuntu-14.04       | [amd64][ubuntu_1404_64_vbox]   | [amd64][ubuntu_1404_64_vmware]    | [amd64][ubuntu_1404_64_prl]   |
-| ubuntu-16.04       | [amd64][ubuntu_1604_64_vbox]   | [amd64][ubuntu_1604_64_vmware]    | [amd64][ubuntu_1604_64_prl]   |
-| ubuntu-16.10       | [amd64][ubuntu_1610_64_vbox]   | [amd64][ubuntu_1610_64_vmware]    | [amd64][ubuntu_1610_64_prl]   |
+|                    | VirtualBox                     | VMware                            | Parallels                     |Hyper-V                       |
+|------------------- | ------------------------------ | --------------------------------- | ------------------------------|------------------------------|
+| centos-5.11        | [x86_64][centos_511_64_vbox]   | [x86_64][centos_511_64_vmware]    | [x86_64][centos_511_64_prl]   ||
+| centos-6.8         | [x86_64][centos_68_64_vbox]    | [x86_64][centos_68_64_vmware]     | [x86_64][centos_68_64_prl]    ||
+| centos-7.3         | [x86_64][centos_73_64_vbox]    | [x86_64][centos_73_64_vmware]     | [x86_64][centos_73_64_prl]    |[x86_64][centos_73_64_hyperv] |
+| debian-7.11        | [amd64][debian_711_64_vbox]    | [amd64][debian_711_64_vmware]     | [amd64][debian_711_64_prl]    ||
+| debian-8.7         | [amd64][debian_87_64_vbox]     | ~~[amd64][debian_87_64_vmware]~~  | [amd64][debian_87_64_prl]     ||
+| fedora-24          | [x86_64][fedora_24_64_vbox]    | [x86_64][fedora_24_64_vmware]     | ~~[x86_64][fedora_24_64_prl]~~||
+| fedora-25          | [x86_64][fedora_25_64_vbox]    | [x86_64][fedora_25_64_vmware]     | [x86_64][fedora_25_64_prl]    ||
+| freebsd-10.3       | [amd64][freebsd_103_64_vbox]   | ~~[amd64][freebsd_103_64_vmware]~~ | [amd64][freebsd_103_64_prl]  ||
+| freebsd-11.0       | [amd64][freebsd_110_64_vbox]   | [amd64][freebsd_110_64_vmware]    | [amd64][freebsd_110_64_prl]   ||
+| opensuse-leap-42.2 | [x86_64][leap_422_64_vbox]     | ~~[x86_64][leap_422_64_vmware]~~  | ~~[x86_64][leap_422_64_prl]~~ ||
+| oracle-5.11        | [x86_64][oracle_511_64_vbox]   | [x86_64][oracle_511_64_vmware]    | [x86_64][oracle_511_64_prl]   ||
+| oracle-6.8         | [x86_64][oracle_68_64_vbox]    | [x86_64][oracle_68_64_vmware]     | [x86_64][oracle_68_64_prl]    ||
+| oracle-7.3         | [x86_64][oracle_73_64_vbox]    | [x86_64][oracle_73_64_vmware]     | [x86_64][oracle_73_64_prl]    ||
+| ubuntu-12.04       | [amd64][ubuntu_1204_64_vbox]   | [amd64][ubuntu_1204_64_vmware]    | [amd64][ubuntu_1204_64_prl]   ||
+| ubuntu-14.04       | [amd64][ubuntu_1404_64_vbox]   | [amd64][ubuntu_1404_64_vmware]    | [amd64][ubuntu_1404_64_prl]   ||
+| ubuntu-16.04       | [amd64][ubuntu_1604_64_vbox]   | [amd64][ubuntu_1604_64_vmware]    | [amd64][ubuntu_1604_64_prl]   ||
+| ubuntu-16.10       | [amd64][ubuntu_1610_64_vbox]   | [amd64][ubuntu_1610_64_vmware]    | [amd64][ubuntu_1610_64_prl]   ||
 
 ### 32 bit
 

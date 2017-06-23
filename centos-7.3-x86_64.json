@@ -103,6 +103,34 @@
     },
     {
       "boot_command": [
+        "<wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
+      ],
+      "boot_wait": "10s",
+      "cpu": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "http/centos-7.3/ks.cfg"
+      ],
+      "generation": "{{user `hyperv_generation`}}",
+      "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
+      "guest_additions_path": "{{user `hyperv_guest_additions_path`}}",
+      "http_directory": "http",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "output_directory": "packer-{{user `template`}}-hyperv",
+      "ram_size": "{{ user `memory` }}",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_timeout": "10000s",
+      "switch_name":"{{ user `hyperv_switch`}}",
+      "type": "hyperv-iso",
+      "vm_name": "{{ user `template` }}"
+    },
+    {
+      "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -165,6 +193,10 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
+    "hyperv_generation": "1" ,
+    "hyperv_guest_additions_mode": "disable",
+    "hyperv_guest_additions_path": "https://download.microsoft.com/download/6/8/F/68FE11B8-FAA4-4F8D-8C7D-74DA7F2CFC8C/LinuxIC-4.2.1.iso",
+    "hyperv_switch": "{{env `hyperv_switch`}}",
     "iso_checksum": "c455ee948e872ad2194bdddd39045b83634e8613249182b88f549bb2319d97eb",
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-7-x86_64-DVD-1611.iso",
