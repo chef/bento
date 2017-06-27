@@ -7,7 +7,7 @@
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat",
+      "guest_os_type": "RedHat_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -44,7 +44,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "redhat",
+      "guest_os_type": "rhel6-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -157,8 +157,8 @@
     }
   ],
   "variables": {
-    "arch": "32",
-    "box_basename": "rhel-6.8-i386",
+    "arch": "64",
+    "box_basename": "rhel-6.9",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -166,18 +166,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "22d1754f3e642c2b60234c3f97d1d6689b33bef4dd2252e3f52cd9aa823bb5f3",
+    "iso_checksum": "3f961576e9f81ea118566f73f98d7bdf3287671c35436a13787c1ffd5078cf8e",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-6.8-i386-dvd.iso",
-    "ks_path": "centos-6.8/ks.cfg",
+    "iso_name": "rhel-server-6.9-x86_64-dvd.iso",
+    "ks_path": "centos-6.9/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
     "mirror_directory": "rhel",
-    "name": "rhel-6.8-i386",
+    "name": "rhel-6.9",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-6.8-i386",
+    "template": "rhel-6.9-x86_64",
     "version": "2.2.TIMESTAMP"
   }
 }
-
