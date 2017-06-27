@@ -145,6 +145,7 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
+        "scripts/fedora/swap.sh",
         "scripts/fedora/fix-slow-dns.sh",
         "scripts/fedora/build-tools.sh",
         "scripts/common/sshd.sh",
