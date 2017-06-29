@@ -178,7 +178,7 @@
     "ks_path": "centos-5.11/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror": "http://archive.kernel.org/centos-vault",
     "mirror_directory": "5.11/isos/x86_64",
     "name": "centos-5.11",
     "no_proxy": "{{env `no_proxy`}}",
@@ -186,4 +186,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-
