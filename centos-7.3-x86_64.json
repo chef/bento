@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -40,7 +40,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -68,7 +68,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -131,7 +131,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
