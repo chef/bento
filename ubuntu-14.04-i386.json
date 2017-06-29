@@ -260,7 +260,7 @@
     "mirror_directory": "14.04.1",
     "name": "ubuntu-14.04-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed_path": "ubuntu-14.04/preseed.cfg",
+    "preseed_path": "ubuntu/preseed.cfg",
     "template": "ubuntu-14.04-i386",
     "version": "2.1.TIMESTAMP"
   }

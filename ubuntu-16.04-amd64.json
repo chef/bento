@@ -269,7 +269,7 @@
     "mirror_directory": "16.04.1",
     "name": "ubuntu-16.04",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed_path": "ubuntu-16.04/preseed.cfg",
+    "preseed_path": "ubuntu/preseed.cfg",
     "template": "ubuntu-16.04-amd64",
     "version": "2.1.TIMESTAMP"
   }
