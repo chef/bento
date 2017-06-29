@@ -145,6 +145,7 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
+        "scripts/fedora/swap.sh",
         "scripts/fedora/fix-slow-dns.sh",
         "scripts/fedora/build-tools.sh",
         "scripts/common/sshd.sh",
@@ -171,7 +172,7 @@
     "iso_checksum": "1c0971d4c1a37bb06ec603ed3ded0af79e22069499443bb2d47e501c9ef42ae8",
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-dvd-x86_64-24-1.2.iso",
-    "ks_path": "fedora-latest/ks.cfg",
+    "ks_path": "fedora/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",

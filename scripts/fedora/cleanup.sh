@@ -4,7 +4,7 @@ dnf -y remove gcc cpp gc kernel-devel kernel-headers glibc-devel glibc-headers k
 dnf -y autoremove
 dnf -y clean all --enablerepo=\*
 
-# Avoid 32 meg firmware package we don't need
+# Avoid 150 meg firmware package we don't need
 echo "Removing extra packages"
 dnf -y remove linux-firmware
 
