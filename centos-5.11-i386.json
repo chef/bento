@@ -144,6 +144,7 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
+        "scripts/common/swap.sh",
         "scripts/common/sshd.sh",
         "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
