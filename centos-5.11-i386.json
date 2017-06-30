@@ -144,6 +144,7 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
+        "scripts/common/swap.sh",
         "scripts/common/sshd.sh",
         "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
@@ -171,7 +172,7 @@
     "ks_path": "centos-5.11/ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror": "http://archive.kernel.org/centos-vault",
     "mirror_directory": "5.11/isos/i386",
     "name": "centos-5.11-i386",
     "no_proxy": "{{env `no_proxy`}}",
@@ -179,4 +180,3 @@
     "version": "2.1.TIMESTAMP"
   }
 }
-

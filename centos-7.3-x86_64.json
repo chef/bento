@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -40,7 +40,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -67,7 +67,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -103,7 +103,7 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -144,6 +144,7 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
+        "scripts/common/swap.sh",
         "scripts/common/sshd.sh",
         "scripts/centos/networking.sh",
         "scripts/common/vagrant.sh",
@@ -169,7 +170,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-7-x86_64-DVD-1611.iso",
     "ks_path": "centos-7.3/ks.cfg",
-    "memory": "512",
+    "memory": "768",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "7.3.1611/isos/x86_64",
