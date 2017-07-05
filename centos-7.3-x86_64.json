@@ -122,9 +122,9 @@
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_username": "vagrant",
       "ssh_timeout": "10000s",
-      "switch_name":"{{ user `hyperv_switch`}}",
+      "ssh_username": "vagrant",
+      "switch_name": "{{ user `hyperv_switch`}}",
       "type": "hyperv-iso",
       "vm_name": "{{ user `template` }}"
     },
@@ -192,7 +192,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "hyperv_generation": "1" ,
+    "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
     "iso_checksum": "c455ee948e872ad2194bdddd39045b83634e8613249182b88f549bb2319d97eb",
     "iso_checksum_type": "sha256",
@@ -208,3 +208,4 @@
     "version": "2.1.TIMESTAMP"
   }
 }
+

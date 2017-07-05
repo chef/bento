@@ -1,59 +1,107 @@
-require "json"
 require "yaml"
 
-# TODO:  private boxes may need to specify a mirror
-
-# Enables `bundle exec rake do_all[ubuntu-12.04-amd64,centos-7.1-x86_64]
-# http://blog.stevenocchipinti.com/2013/10/18/rake-task-with-an-arbitrary-number-of-arguments/
-builds = YAML.load(File.read("builds.yml"))
-
-desc "Do ALL THE THINGS"
+desc "clean, build, test, upload"
 task :do_all do
-  # build stage
-  builds["public"].each do |platform, versions|
-    versions.each do |version, archs|
-      archs.each do |arch|
-        builds["providers"].each do |provider|
-          template = "#{platform}-#{version}-#{arch}"
-          # build stage
-          Rake::Task["build_box"].invoke(template, provider)
-          Rake::Task["build_box"].reenable
-          # verification stage
-          sh "bento test -f"
-          # publish stage
-          sh "bento upload"
-          # release stage
-          atlas_name =  template.match(/-x86_64|-amd64/) ? template.gsub(/-x86_64|-amd64/,'') : template
-          sh "bento release #{atlas_name} #{ENV['BENTO_VERSION']}"
-          # clean stage
-          puts "Cleaning up..."
-          sh "rm -rf builds/*.json builds/*.box packer-* .kitchen.*.yml"
-        end
-      end
+  check_env
+  templates.each do |template|
+    Rake::Task["clean"].invoke
+    Rake::Task["clean"].reenable
+
+    Rake::Task["build"].invoke(template)
+    Rake::Task["build"].reenable
+
+    Rake::Task["test"].invoke
+    Rake::Task["test"].reenable
+
+    Rake::Task["upload"].invoke
+    Rake::Task["upload"].reenable
+
+    unless ENV["BENTO_AUTO_RELEASE"].nil?
+      Rake::Task["release"].invoke(template)
+      Rake::Task["release"].reenable
     end
   end
 end
 
 desc "Build a bento template"
-task :build_box, :template, :provider do |_, args|
-  bento_provider = ENV["BENTO_PROVIDERS"] ? ENV["BENTO_PROVIDERS"] : args[:provider]
-  if bento_provider.nil?
-    puts "Invalid build arguments. Either set BENTO_PROVIDERS in ENV or pass provider argument. Example: rake build_box[debian-8.7-amd64, virtualbox-iso]"
-    exit 1
-  end
+task :build, :template do |_, args|
   cmd = %W{bento build #{args[:template]}}
-  cmd.insert(2, "--only #{bento_provider}")
+  cmd.insert(2, "--only #{providers}")
   cmd.insert(2, "--mirror #{ENV['PACKER_MIRROR']}") if ENV["PACKER_MIRROR"]
   cmd.insert(2, "--version #{ENV['BENTO_VERSION']}") if ENV["BENTO_VERSION"]
-  cmd.insert(2, "--headless")
   cmd.join(" ")
   sh a_to_s(cmd)
+end
+
+desc "release"
+task :release, :template do |_, args|
+  puts "bento release #{box_name(args[:template])} #{ENV['BENTO_VERSION']}"
+end
+
+desc "test"
+task :test do
+  sh "bento test"
+end
+
+desc "upload"
+task :upload do
+  sh "bento upload"
+end
+
+desc "Clean"
+task :clean do
+  sh "rm -rf builds/*.json builds/*.box packer-* .kitchen.yml"
 end
 
 def a_to_s(*args)
   clean_array(*args).join(" ")
 end
 
+def box_name(template)
+  template.match(/-x86_64|-amd64/) ? template.gsub(/-x86_64|-amd64/,'') : template
+end
+
+def builds
+  YAML.load(File.read("builds.yml"))
+end
+
+def check_env
+  if ENV["BENTO_VERSION"].nil?
+    puts "Please set the BENTO_VERSION env variable"
+    exit 1
+  end
+end
+
+def providers
+  if ENV["BENTO_PROVIDERS"]
+    ENV["BENTO_PROVIDERS"]
+  elsif builds['providers']
+    builds['providers'].join(',')
+  else
+    puts "No Providers Specified."
+    puts "Set BENTO_PROVIDERS in ENV or `providers` in builds.yml"
+    exit 1
+  end
+end
+
 def clean_array(*args)
   args.flatten.reject { |i| i.nil? || i == "" }.map(&:to_s)
+end
+
+def templates
+  bit32 = []
+  bit64 = []
+  builds['public'].each do |platform, versions|
+    versions.each do |version, archs|
+      archs.each do |arch|
+        case arch
+        when "i386"
+          bit32 << "#{platform}-#{version}-#{arch}"
+        else
+          bit64 << "#{platform}-#{version}-#{arch}"
+        end
+      end
+    end
+  end
+  bit64 + bit32
 end
