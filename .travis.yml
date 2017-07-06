@@ -15,6 +15,8 @@ before_install:
   - wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
   - unzip -d packer packer_${PACKER_VERSION}_linux_amd64.zip
 
-before_script: export PATH=$PATH:$PWD/packer
+before_script:
+  - export PATH=$PATH:$PWD/packer
+  - packer --version
 
 script: bento normalize
