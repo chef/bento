@@ -3,6 +3,7 @@ sudo: false
 
 env:
   - PACKER_VERSION="1.0.2"
+  - PATH=$HOME/bin:$PATH
 
 rvm:
   - 2.4.1
@@ -13,10 +14,9 @@ branches:
 
 before_install:
   - wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
-  - unzip -d packer packer_${PACKER_VERSION}_linux_amd64.zip
+  - unzip -d ~/bin packer_${PACKER_VERSION}_linux_amd64.zip
 
 before_script:
-  - export PATH=$PATH:$PWD/packer
   - packer --version
 
 script: bento normalize
