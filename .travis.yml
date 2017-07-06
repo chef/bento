@@ -2,8 +2,9 @@ dist: trusty
 sudo: false
 
 env:
-  - PACKER_VERSION="1.0.2"
-  - PATH=$HOME/bin:$PATH
+  global:
+    - PACKER_VERSION="1.0.2"
+    - PATH=$HOME/bin:$PATH
 
 rvm:
   - 2.4.1
