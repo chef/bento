@@ -228,7 +228,7 @@
     "name": "freebsd-10.3",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "freebsd-10.3-amd64",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

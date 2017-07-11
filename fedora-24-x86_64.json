@@ -180,7 +180,7 @@
     "name": "fedora-24",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "fedora-24-x86_64",
-    "version": "2.0.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

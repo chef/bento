@@ -204,7 +204,7 @@
     "name": "centos-6.9",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-6.9-x86_64",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

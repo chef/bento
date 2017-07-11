@@ -195,7 +195,7 @@
     "name": "opensuse-leap-42.2",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "opensuse-leap-42.2-x86_64",
-    "version": "2.0.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

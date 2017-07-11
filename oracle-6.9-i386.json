@@ -177,7 +177,7 @@
     "name": "oracle-6.9-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "oracle-6.9-i386",
-    "version": "2.2.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

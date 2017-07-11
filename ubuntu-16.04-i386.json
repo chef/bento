@@ -271,7 +271,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "ubuntu/preseed.cfg",
     "template": "ubuntu-16.04-i386",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

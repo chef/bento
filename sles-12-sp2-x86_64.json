@@ -196,7 +196,7 @@
     "mirror": "./packer_cache",
     "name": "sles-12-sp2",
     "template": "sles-12-sp2-x86_64",
-    "version": "2.2.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

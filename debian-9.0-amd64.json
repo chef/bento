@@ -240,7 +240,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
     "template": "debian-9.0-amd64",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 
