@@ -244,7 +244,7 @@
     "name": "macos-10.12",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "macos-10.12",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

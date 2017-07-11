@@ -132,7 +132,7 @@
     "mirror": "./packer_cache",
     "name": "solaris-10.11",
     "template": "solaris-10.11-x86",
-    "version": "2.0.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

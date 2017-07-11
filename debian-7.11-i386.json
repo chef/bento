@@ -234,7 +234,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-7/preseed.cfg",
     "template": "debian-7.11-i386",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

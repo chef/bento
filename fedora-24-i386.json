@@ -174,7 +174,7 @@
     "name": "fedora-24-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "fedora-24-i386",
-    "version": "2.0.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

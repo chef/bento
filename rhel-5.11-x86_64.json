@@ -182,7 +182,7 @@
     "name": "rhel-5.11",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "rhel-5.11-x86_64",
-    "version": "2.2.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

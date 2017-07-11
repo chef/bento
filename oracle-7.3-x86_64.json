@@ -177,7 +177,7 @@
     "name": "oracle-7.3",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "oracle-7.3-x86_64",
-    "version": "2.2.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

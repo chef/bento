@@ -228,7 +228,7 @@
     "name": "freebsd-11.0",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "freebsd-11.0-amd64",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

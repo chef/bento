@@ -177,7 +177,7 @@
     "name": "rhel-6.9",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "rhel-6.9-x86_64",
-    "version": "2.2.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 

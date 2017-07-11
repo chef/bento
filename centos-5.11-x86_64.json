@@ -182,7 +182,7 @@
     "name": "centos-5.11",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-5.11-x86_64",
-    "version": "2.1.TIMESTAMP"
+    "version": "TIMESTAMP"
   }
 }
 
