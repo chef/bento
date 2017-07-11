@@ -232,7 +232,7 @@
     "iso_checksum": "0834db8a6c6eab749be5d25b0451fa46ea96dfb91134df8f26323ff8b79b01ca",
     "iso_checksum_type": "sha256",
     "iso_name": "debian-8.8.0-i386-CD-1.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "8.8.0/i386/iso-cd",

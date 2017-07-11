@@ -221,7 +221,7 @@
     "iso_checksum": "fef068cf6dea26923ab84b62ba9f21461ca0bdec90a0741c8ffb0e1ca29e410d",
     "iso_checksum_type": "sha256",
     "iso_name": "FreeBSD-10.3-RELEASE-amd64-disc1.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
     "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/10.3",

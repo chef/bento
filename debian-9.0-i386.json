@@ -232,7 +232,7 @@
     "iso_checksum": "3bf78f7b003203a6b771b05fa1790e74ee3ea15d6245a01683f90c02b95c0315",
     "iso_checksum_type": "sha256",
     "iso_name": "debian-9.0.0-i386-netinst.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdimage.debian.org/cdimage/release",
     "mirror_directory": "9.0.0/i386/iso-cd",

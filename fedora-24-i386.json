@@ -167,7 +167,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-dvd-i386-24-1.2.iso",
     "ks_path": "fedora/ks.cfg",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/24/Server/i386/iso",

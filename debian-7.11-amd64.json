@@ -226,7 +226,7 @@
     "iso_checksum": "cbae9d679dbe2d37828a5abb9d3ea8c40183972952180843d8b07f7b33e09877",
     "iso_checksum_type": "sha256",
     "iso_name": "debian-7.11.0-amd64-CD-1.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "7.11.0/amd64/iso-cd",

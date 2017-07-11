@@ -170,7 +170,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "rhel-server-7.3-x86_64-dvd.iso",
     "ks_path": "centos-7.3/ks.cfg",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
     "mirror_directory": "rhel",

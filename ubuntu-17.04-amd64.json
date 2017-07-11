@@ -297,7 +297,7 @@
     "iso_checksum": "ca5d9a8438e2434b9a3ac2be67b5c5fa2c1f8e3e40b954519462935195464034",
     "iso_checksum_type": "sha256",
     "iso_name": "ubuntu-17.04-server-amd64.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
     "mirror_directory": "17.04",
