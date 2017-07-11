@@ -169,7 +169,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-5.11-i386-bin-DVD-1of2.iso",
     "ks_path": "centos-5.11/ks.cfg",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "5.11/isos/i386",

@@ -197,7 +197,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-6.9-i386-bin-DVD1.iso",
     "ks_path": "centos-6.9/ks.cfg",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "6.9/isos/i386",

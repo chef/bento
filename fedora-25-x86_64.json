@@ -173,7 +173,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-dvd-x86_64-25-1.3.iso",
     "ks_path": "fedora/ks.cfg",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/25/Server/x86_64/iso",

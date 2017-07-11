@@ -221,7 +221,7 @@
     "iso_checksum": "8329ee2ca4779892edbb001c303670d74642e4353e97d02f4521895023cacd5d",
     "iso_checksum_type": "sha256",
     "iso_name": "FreeBSD-10.3-RELEASE-i386-disc1.iso",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
     "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.3",

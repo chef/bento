@@ -170,7 +170,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "OracleLinux-R6-U9-Server-x86_64-dvd.iso",
     "ks_path": "centos-6.9/ks.cfg",
-    "memory": "512",
+    "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/oracle/",
     "mirror_directory": "OL6/U9/x86_64",
