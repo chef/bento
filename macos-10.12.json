@@ -30,7 +30,8 @@
         "numvcpus": "{{ user `cpus` }}",
         "smc.present": "TRUE",
         "usb.present": "TRUE"
-      }
+      },
+      "vmx_remove_ethernet_interfaces": true
     },
     {
       "boot_wait": "2s",
