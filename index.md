@@ -13,7 +13,7 @@ This project is managed by the CHEF Release Engineering team. For more informati
 
 ## Pre-built Boxes
 
-The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the [bento organization](https://atlas.hashicorp.com/bento/).
+The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via  Atlas in the [bento organization](https://app.vagrantup.com/bento).
 
 ### 64 bit
 |               | VirtualBox                   | VMware                         | Parallels                   |
