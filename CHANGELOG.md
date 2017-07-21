@@ -1,5 +1,19 @@
 # Change Log
 
+## [2.3.8](https://github.com/chef/bento/tree/2.3.8) (2017-07-20)
+
+**New**
+- Fedora 26
+
+**Improvements**
+- Suppress VMX whitelisting warning by removing interfaces at end of build
+- Use archive.ubuntu.com instead of US specific domain
+- Latest Tooling
+  - VirtualBox 5.1.24
+  - VMware Fusion 8.5.8
+  - Parallels 12.2.1
+  - Parallels 1.0.3
+
 ## [2.3.7](https://github.com/chef/bento/tree/2.3.7) (2017-07-03)
 
 **New**
