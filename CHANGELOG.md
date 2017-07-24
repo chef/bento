@@ -12,7 +12,7 @@
   - VirtualBox 5.1.24
   - VMware Fusion 8.5.8
   - Parallels 12.2.1
-  - Parallels 1.0.3
+  - Packer 1.0.3
 
 ## [2.3.7](https://github.com/chef/bento/tree/2.3.7) (2017-07-03)
 
