@@ -210,7 +210,7 @@
     }
   ],
   "variables": {
-    "box_basename": "freebsd-11.0",
+    "box_basename": "freebsd-11.1",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -218,18 +218,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "install_path": "freebsd-11.0/installerconfig",
-    "iso_checksum": "08b12f2dc378f7a61b5469219824c74a2f9faef580acc85ffab45365df79872d",
+    "install_path": "freebsd-11/installerconfig",
+    "iso_checksum": "ff4c749ea0aaaceedb2432ba3e0fd0c1b64f5a72141b1ec06b9ced52b5de0dbf",
     "iso_checksum_type": "sha256",
-    "iso_name": "FreeBSD-11.0-RELEASE-amd64-disc1.iso",
+    "iso_name": "FreeBSD-11.1-RELEASE-amd64-disc1.iso",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
-    "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/11.0",
-    "name": "freebsd-11.0",
+    "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/11.1",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "freebsd-11.0-amd64",
-    "version": "TIMESTAMP"
+    "template": "freebsd-11.1-amd64",
+    "version": "2.1.TIMESTAMP"
   }
 }
 
