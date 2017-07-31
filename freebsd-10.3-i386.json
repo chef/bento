@@ -224,7 +224,7 @@
     "iso_name": "FreeBSD-10.3-RELEASE-i386-disc1.iso",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
+    "mirror": "https://download.freebsd.org/ftp",
     "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.3",
     "name": "freebsd-10.3-i386",
     "no_proxy": "{{env `no_proxy`}}",
