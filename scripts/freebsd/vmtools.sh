@@ -8,7 +8,7 @@ virtualbox-iso|virtualbox-ovf)
     # Disable X11 because vagrants are (usually) headless
     echo 'WITHOUT_X11="YES"' >> /etc/make.conf;
 
-    pkg install -y virtualbox-ose-additions;
+    pkg install -y virtualbox-ose-additions-nox11;
 
     echo 'vboxdrv_load="YES"' >>/boot/loader.conf;
     echo 'vboxnet_enable="YES"' >>/etc/rc.conf;
