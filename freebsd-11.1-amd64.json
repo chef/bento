@@ -224,7 +224,7 @@
     "iso_name": "FreeBSD-11.1-RELEASE-amd64-disc1.iso",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://ftp.freebsd.org/pub/FreeBSD",
+    "mirror": "https://download.freebsd.org/ftp",
     "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/11.1",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "freebsd-11.1-amd64",
