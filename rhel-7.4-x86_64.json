@@ -159,7 +159,7 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "rhel-7.3",
+    "box_basename": "rhel-7.4",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -167,17 +167,17 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "120acbca7b3d55465eb9f8ef53ad7365f2997d42d4f83d7cc285bf5c71e1131f",
+    "iso_checksum": "431a58c8c0351803a608ffa56948c5a7861876f78ccbe784724dd8c987ff7000",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-7.3-x86_64-dvd.iso",
+    "iso_name": "rhel-server-7.4-x86_64-dvd.iso",
     "ks_path": "centos-7.3/ks.cfg",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
     "mirror_directory": "rhel",
-    "name": "rhel-7.3",
+    "name": "rhel-7.4",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-7.3-x86_64",
+    "template": "rhel-7.4-x86_64",
     "version": "TIMESTAMP"
   }
 }
