@@ -169,7 +169,7 @@
     "iso_checksum": "4e38e4ed06d83efb10446e7db19d96761715cdbdbf0bbfacb978b44ce368bbe2",
     "iso_checksum_type": "sha256",
     "iso_name": "rhel-server-5.11-i386-dvd.iso",
-    "ks_path": "centos-5.11/ks.cfg",
+    "ks_path": "rhel-5/ks.cfg",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",

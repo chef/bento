@@ -170,7 +170,7 @@
     "iso_checksum": "1977d26df16ad2802728dafa3cbfd015895cfcf364fb20e8974123addce03021",
     "iso_checksum_type": "sha256",
     "iso_name": "rhel-server-6.9-i386-dvd.iso",
-    "ks_path": "centos-6.9/ks.cfg",
+    "ks_path": "rhel-6/ks.cfg",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
