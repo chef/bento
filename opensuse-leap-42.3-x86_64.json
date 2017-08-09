@@ -177,8 +177,8 @@
   ],
   "variables": {
     "arch": "64",
-    "autoinst_cfg": "opensuse-leap-42.2/autoinst.xml",
-    "box_basename": "opensuse-leap-42.2",
+    "autoinst_cfg": "opensuse-leap/autoinst.xml",
+    "box_basename": "opensuse-leap-42.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "20480",
@@ -186,16 +186,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "ba5af6b0ac4d42d801de642304eb88ca9fd65a61b6c3ff25724182494f288f00",
+    "iso_checksum": "195baca6c5f3b7f3ad4d7984a7f7bd5c4a37be2eb67e58b65d07ac3a2b599e83",
     "iso_checksum_type": "sha256",
-    "iso_name": "openSUSE-Leap-42.2-DVD-x86_64.iso",
+    "iso_name": "openSUSE-Leap-42.3-DVD-x86_64.iso",
     "memory": "768",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://suse.mobile-central.org/distribution",
-    "mirror_directory": "leap/42.2/iso",
-    "name": "opensuse-leap-42.2",
+    "mirror_directory": "leap/42.3/iso",
+    "name": "opensuse-leap-42.3",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "opensuse-leap-42.2-x86_64",
+    "template": "opensuse-leap-42.3-x86_64",
     "version": "TIMESTAMP"
   }
 }
