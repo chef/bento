@@ -110,7 +110,7 @@
       "cpu": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "http/centos-6.9/ks.cfg"
+        "http/rhel-6/ks.cfg"
       ],
       "generation": "{{user `hyperv_generation`}}",
       "guest_additions_mode": "disable",
@@ -197,7 +197,7 @@
     "iso_checksum": "d27cf37a40509c17ad70f37bc743f038c1feba00476fe6b69682aa424c399ea6",
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-6.9-x86_64-bin-DVD1.iso",
-    "ks_path": "centos-6.9/ks.cfg",
+    "ks_path": "rhel-6/ks.cfg",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
@@ -208,4 +208,3 @@
     "version": "TIMESTAMP"
   }
 }
-

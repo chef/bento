@@ -169,7 +169,7 @@
     "iso_checksum": "E60962C4EBF8920BBD828EFE32A78A7CC8F28E3B",
     "iso_checksum_type": "sha1",
     "iso_name": "Enterprise-R5-U11-Server-i386-dvd.iso",
-    "ks_path": "centos-5.11/ks.cfg",
+    "ks_path": "rhel-5/ks.cfg",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.dotsrc.org/oracle-linux",

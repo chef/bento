@@ -110,7 +110,7 @@
       "cpu": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "http/centos-7.3/ks.cfg"
+        "http/rhel-7/ks.cfg"
       ],
       "generation": "{{user `hyperv_generation`}}",
       "guest_additions_mode": "disable",
@@ -198,7 +198,7 @@
     "iso_checksum": "c455ee948e872ad2194bdddd39045b83634e8613249182b88f549bb2319d97eb",
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-7-x86_64-DVD-1611.iso",
-    "ks_path": "centos-7.3/ks.cfg",
+    "ks_path": "rhel-7/ks.cfg",
     "memory": "1024",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
@@ -209,4 +209,3 @@
     "version": "TIMESTAMP"
   }
 }
-
