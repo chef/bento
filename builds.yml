@@ -39,7 +39,7 @@ public:
     '11.0':
     - amd64
   opensuse-leap:
-    '42.2':
+    '42.3':
     - x86_64
   ubuntu:
     '14.04':
@@ -61,6 +61,6 @@ private:
     - x86_64
 
 broken:
-  - opensuse-leap-42.2-x86_64-parallels-iso
-  - opensuse-leap-42.2-x86_64-vmware-iso
+  - opensuse-leap-42.3-x86_64-parallels-iso
+  - opensuse-leap-42.3-x86_64-vmware-iso
   - debian-9.0-x86_64-vmware-iso
