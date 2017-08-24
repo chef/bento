@@ -17,6 +17,16 @@ public:
     - i386
     '7.3':
     - x86_64
+  ubuntu:
+    '14.04':
+    - amd64
+    - i386
+    '16.04':
+    - amd64
+    - i386
+    '17.04':
+    - amd64
+    - i386
   debian:
     '7.11':
     - amd64
@@ -39,16 +49,6 @@ public:
   opensuse-leap:
     '42.3':
     - x86_64
-  ubuntu:
-    '14.04':
-    - amd64
-    - i386
-    '16.04':
-    - amd64
-    - i386
-    '17.04':
-    - amd64
-    - i386
 
 private:
   rhel:
@@ -59,5 +59,4 @@ private:
     - x86_64
 
 broken:
-  - opensuse-leap-42.3-x86_64-parallels-iso
-  - opensuse-leap-42.3-x86_64-vmware-iso
+  - opensuse-leap-42.3-x86_64-all

@@ -7,7 +7,7 @@ task :do_all do
     Rake::Task["clean"].invoke
     Rake::Task["clean"].reenable
 
-    Rake::Task["build"].invoke(template)
+    Rake::Task["build"].invoke(template, ENV["BENTO_VERSION"])
     Rake::Task["build"].reenable
 
     Rake::Task["test"].invoke
@@ -17,25 +17,33 @@ task :do_all do
     Rake::Task["upload"].reenable
 
     unless ENV["BENTO_AUTO_RELEASE"].nil?
-      Rake::Task["release"].invoke(template)
+      Rake::Task["release"].invoke(template, ENV["BENTO_VERSION"])
       Rake::Task["release"].reenable
     end
   end
 end
 
 desc "Build a bento template"
-task :build, :template do |_, args|
+task :build, :template, :version do |_, args|
   cmd = %W{bento build #{args[:template]}}
   cmd.insert(2, "--only #{providers}")
   cmd.insert(2, "--mirror #{ENV['PACKER_MIRROR']}") if ENV["PACKER_MIRROR"]
-  cmd.insert(2, "--version #{ENV['BENTO_VERSION']}") if ENV["BENTO_VERSION"]
+  cmd.insert(2, "--version #{args[:version]}") if args[:version]
   cmd.join(" ")
   sh a_to_s(cmd)
 end
 
 desc "release"
-task :release, :template do |_, args|
-  puts "bento release #{box_name(args[:template])} #{ENV['BENTO_VERSION']}"
+task :release, :template, :version do |_, args|
+  sh "bento release #{box_name(args[:template])} #{args[:version]}"
+end
+
+desc "release all"
+task :release_all, :version do |_, args|
+  templates.each do |template|
+    Rake::Task["release"].invoke(template, args[:version])
+    Rake::Task["release"].reenable
+  end
 end
 
 desc "test"
