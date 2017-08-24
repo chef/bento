@@ -1,5 +1,24 @@
 # Change Log
 
+## [201708.22.0](https://github.com/chef/bento/tree/201708.22.0) (2017-08-22)
+
+**New**
+- Debian 9.1
+- Debian 8.9
+- FreeBSD 11.1
+
+**Improvements**
+- Top level slugs for point release platforms, i.e. centos-7 -> centos-7.3
+- Move to date based versioning scheme `YYYYMM.DD.PATCH`
+- Automatically update RHEL-ish platforms as we do with other platforms
+
+**Tooling**
+- VirtualBox 5.1.26
+- VMware Fusion 8.5.8
+- VMware Workstation 12.5.7
+- Parallels 13.0.0
+- Packer 1.0.4
+
 ## [2.3.8](https://github.com/chef/bento/tree/2.3.8) (2017-07-20)
 
 **New**
