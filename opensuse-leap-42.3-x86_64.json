@@ -1,9 +1,18 @@
 {
   "builders": [
     {
+
       "boot_command": [
         "<esc><enter><wait>",
-        "linux netsetup=dhcp install=cd:/ lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}} textmode=1<enter>"
+        "linux ",
+        "biosdevname=0 ",
+        "net.ifnames=0 ",
+        "netdevice=eth0 ",
+        "netsetup=dhcp ",
+        "lang=en_US ",
+        "textmode=1 ",
+        "autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}",
+        "<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -196,4 +205,3 @@
     "version": "TIMESTAMP"
   }
 }
-
