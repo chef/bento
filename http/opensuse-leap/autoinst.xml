@@ -113,13 +113,9 @@
     <interfaces config:type="list">
       <interface>
         <bootproto>dhcp</bootproto>
-        <device>enp0s3</device>
-        <startmode>onboot</startmode>
-      </interface>
-      <interface>
-        <bootproto>dhcp</bootproto>
-        <device>ens33</device>
-        <startmode>onboot</startmode>
+        <device>eth0</device>
+        <startmode>auto</startmode>
+        <usercontrol>no</usercontrol>
       </interface>
     </interfaces>
   </networking>

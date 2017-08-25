@@ -3,9 +3,14 @@
     {
       "boot_command": [
         "<esc><enter><wait>",
-        "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
-        " textmode=1<wait>",
+        "linux ",
+        "biosdevname=0 ",
+        "net.ifnames=0 ",
+        "netdevice=eth0 ",
+        "netsetup=dhcp ",
+        "lang=en_US ",
+        "textmode=1 ",
+        "autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -45,9 +50,14 @@
     {
       "boot_command": [
         "<esc><enter><wait>",
-        "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
-        " textmode=1<wait>",
+        "linux ",
+        "biosdevname=0 ",
+        "net.ifnames=0 ",
+        "netdevice=eth0 ",
+        "netsetup=dhcp ",
+        "lang=en_US ",
+        "textmode=1 ",
+        "autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -77,9 +87,14 @@
     {
       "boot_command": [
         "<esc><enter><wait>",
-        "linux netsetup=dhcp netdevice=eth0 install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
-        " textmode=1<wait>",
+        "linux ",
+        "biosdevname=0 ",
+        "net.ifnames=0 ",
+        "netdevice=eth0 ",
+        "netsetup=dhcp ",
+        "lang=en_US ",
+        "textmode=1 ",
+        "autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}",
         "<enter><wait>"
       ],
       "boot_wait": "10s",
@@ -199,4 +214,3 @@
     "version": "TIMESTAMP"
   }
 }
-
