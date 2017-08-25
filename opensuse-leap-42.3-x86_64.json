@@ -3,10 +3,7 @@
     {
       "boot_command": [
         "<esc><enter><wait>",
-        "linux netsetup=dhcp install=cd:/<wait>",
-        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
-        " textmode=1<wait>",
-        "<enter><wait>"
+        "linux netsetup=dhcp install=cd:/ lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}} textmode=1<enter>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
