@@ -145,7 +145,6 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/common/metadata.sh",
-        "scripts/centos/update.sh",
         "scripts/common/vagrant.sh",
         "scripts/common/sshd.sh",
         "scripts/common/virtualbox.sh",
@@ -181,4 +180,3 @@
     "version": "TIMESTAMP"
   }
 }
-
