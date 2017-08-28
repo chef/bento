@@ -3,11 +3,16 @@ sudo: false
 
 env:
   global:
-    - PACKER_VERSION="1.0.2"
+    - PACKER_VERSION="1.0.4"
     - PATH=$HOME/bin:$PATH
 
 rvm:
   - 2.4.1
+  - ruby-head
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
 
 branches:
   only:
