@@ -1,0 +1,132 @@
+{
+  "builders": [
+    {
+      "communicator": "winrm",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "scripts/windows/2008r2/Autounattend.xml"
+      ],
+      "guest_os_type": "windows7srv-64",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{ user `iso_url` }}",
+      "shutdown_command": "{{ user `shutdown_command`}}",
+      "tools_upload_flavor": "windows",
+      "type": "vmware-iso",
+      "vm_name": "eval-win2008r2-standard",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "2048",
+        "numvcpus": "2"
+      },
+      "winrm_password": "vagrant",
+      "winrm_timeout": "10000s",
+      "winrm_username": "vagrant"
+    },
+    {
+      "communicator": "winrm",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "scripts/windows/2008r2/Autounattend.xml"
+      ],
+      "guest_additions_mode": "attach",
+      "guest_os_type": "Windows2008_64",
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{ user `iso_url` }}",
+      "shutdown_command": "{{ user `shutdown_command`}}",
+      "post_shutdown_delay": "30s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "vm_name": "eval-win2008r2-standard",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "10000s",
+      "winrm_username": "vagrant"
+    },
+    {
+      "communicator": "winrm",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "scripts/windows/2008r2/Autounattend.xml"
+      ],
+      "guest_os_type": "win-2008",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{ user `iso_url` }}",
+      "parallels_tools_flavor": "win",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "2048"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "shutdown_command": "{{ user `shutdown_command`}}",
+      "type": "parallels-iso",
+      "vm_name": "eval-win2008r2-standard",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "10000s",
+      "winrm_username": "vagrant"
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": 1,
+      "keep_input_artifact": false,
+      "output": "box/{{.Provider}}/eval-win2008r2-standard-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box",
+      "type": "vagrant",
+      "vagrantfile_template": "tpl/vagrantfile-eval-win2008r2-standard.tpl"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CM={{user `cm`}}",
+        "CM_VERSION={{user `cm_version`}}",
+        "UPDATE={{user `update`}}"
+      ],
+      "scripts": [
+        "scripts/windows/vagrant.bat",
+        "scripts/windows/vmtool.bat",
+        "scripts/windows/clean.bat",
+        "scripts/windows/ultradefrag.bat",
+        "scripts/windows/sdelete.bat"
+      ],
+      "type": "windows-shell"
+    }
+  ],
+  "variables": {
+    "cm": "chef",
+    "cm_version": "",
+    "disk_size": "40960",
+    "headless": "false",
+    "iso_checksum": "beed231a34e90e1dd9a04b3afabec31d62ce3889",
+    "iso_url": "http://download.microsoft.com/download/7/5/E/75EC4E54-5B02-42D6-8879-D8D3A25FBEF7/7601.17514.101119-1850_x64fre_server_eval_en-us-GRMSXEVAL_EN_DVD.iso",
+    "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+    "update": "true",
+    "version": "0.1.0"
+  }
+}

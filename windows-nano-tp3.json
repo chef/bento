@@ -4,11 +4,11 @@
       "communicator": "winrm",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "scripts/windows/Autounattend.xml",
-        "scripts/windows/nano_create.ps1",
-        "scripts/windows/nano_cleanup.ps1",
-        "scripts/windows/SetupComplete.cmd",
-        "scripts/windows/postunattend.xml"
+        "scripts/windows/nano/Autounattend.xml",
+        "scripts/windows/nano/nano_create.ps1",
+        "scripts/windows/nano/nano_cleanup.ps1",
+        "scripts/windows/nano/SetupComplete.cmd",
+        "scripts/windows/nano/postunattend.xml"
       ],
       "guest_additions_mode": "disable",
       "guest_os_type": "Windows2012_64",
