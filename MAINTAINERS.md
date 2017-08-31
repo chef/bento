@@ -6,7 +6,7 @@ Check out [How Chef is Maintained](https://github.com/chef/chef-rfc/blob/master/
 
 # Project Lead
 
-[Fletcher Nichol](http://github.com/fnichol)
+[Seth Thomas](http://github.com/cheeseplus)
 
 # Components
 
@@ -16,16 +16,8 @@ Covers the Bento project repository which is responsible for building Vagrant bo
 
 ### Lieutenants
 
-* [Seth Chisamore](https://github.com/schisamo)
-* [Yvonne Lam](https://github.com/yzl)
-* [Seth Thomas](https://github.com/cheeseplus)
+* [Tim Smith](https://github.com/tas50)
 
 ### Maintainers
 
 * [Rickard von Essen](https://github.com/rickard-von-essen)
-* [Mikhail Zholobov](https://github.com/legal90)
-* [Brian Flad](https://github.com/bflad)
-* [Tim Smith](https://github.com/tas50)
-* [Seth Vargo](https://github.com/sethvargo)
-* [William Tisäter](https://github.com/tiwilliam)
-* [Josh Hudson](https://github.com/itmustbejj)

@@ -20,47 +20,54 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-### Building Templates
+### Building Boxes
 
 #### Requirements
 
 - [Packer](https://www.packer.io/)
-- At least one virtualization provider:
-  - [VirtualBox](https://www.virtualbox.org/)
+- At least one of the following virtualization providers:
+  - [VirtualBox](https://www.virtualbox.org)
   - [VMware Fusion](https://www.vmware.com/products/fusion.html)
-  - [Parallels Desktop](http://www.parallels.com/products/desktop/)
+  - [VMware Workstation](https://www.vmware.com/products/workstation.html)
+  - [Parallels Desktop](http://www.parallels.com/products/desktop)
+  - [KVM](https://www.linux-kvm.org/page/Main_Page) *
+  - [Hyper-V](https://technet.microsoft.com/en-us/library/hh831531(v=ws.11).aspx) *
+
+\***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
 #### Using `packer`
 
-To build a template for all providers simultaneously
+To build an Ubuntu 16.04 box for only the VirtualBox provider
 
 ```
-$ packer build ubuntu-16.04-amd64.json
-```
-
-To build a template only for a list of specific providers
-
-```
+cd ubuntu
 $ packer build -only=virtualbox-iso ubuntu-16.04-amd64.json
 ```
 
-To build a template for all providers except a list of specific providers
+To build Debian 9.1 32bit boxes for all possible providers (simultaneously)
 
 ```
-$ packer build -except=parallels-iso,vmware-iso ubuntu-16.04-amd64.json
+$ cd debian
+$ packer build debian-9.1-i386.json
+```
+
+To build CentOS 7.3 boxes for all providers except VMware and Parallels
+
+```
+cd centos
+$ packer build -except=parallels-iso,vmware-iso centos-7.3-x86_64.json
 ```
 
 To use an alternate mirror
 
 ```
-$ packer build -var 'mirror=http://ftp.jaist.ac.jp/pub/Linux/debian-cdimage/release' ubuntu-16.04-amd64.json
+cd fedora
+$ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-26-x86_64.json
 ```
 
-Congratulations! Ready to import box files should be in the ../builds directory.
+If the build is successful, ready to import box files will be in the `builds` directory at the root of the repository.
 
-Notes:
-
-- The box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-16.04'`
+\***NOTE:** box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-16.04'`
 
 ### Proprietary Templates
 
