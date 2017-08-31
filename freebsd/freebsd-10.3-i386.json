@@ -177,17 +177,12 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
       "vagrantfile_template": "vagrantfile_templates/freebsd.rb"
     }
   ],
   "provisioners": [
-    {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
     {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
@@ -197,14 +192,13 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/freebsd/update.sh",
-        "scripts/freebsd/postinstall.sh",
-        "scripts/freebsd/sudoers.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/freebsd/vmtools.sh",
-        "scripts/freebsd/cleanup.sh",
-        "scripts/freebsd/minimize.sh"
+        "scripts/update.sh",
+        "scripts/postinstall.sh",
+        "scripts/sudoers.sh",
+        "../_common/vagrant.sh",
+        "scripts/vmtools.sh",
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
       ],
       "type": "shell"
     }
@@ -223,7 +217,6 @@
     "iso_checksum_type": "sha256",
     "iso_name": "FreeBSD-10.3-RELEASE-i386-disc1.iso",
     "memory": "1024",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "https://download.freebsd.org/ftp",
     "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.3",
     "name": "freebsd-10.3-i386",

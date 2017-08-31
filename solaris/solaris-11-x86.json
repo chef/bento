@@ -33,7 +33,7 @@
       "guest_additions_mode": "attach",
       "guest_os_type": "Solaris11_64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http/solaris-11",
+      "http_directory": "http",
       "iso_checksum": "30d9ae857f62938c21307722d031e0dc",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-11_3-ai-x86.iso",
@@ -94,7 +94,7 @@
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "solaris11-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http/solaris-11",
+      "http_directory": "http",
       "iso_checksum": "30d9ae857f62938c21307722d031e0dc",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-11_3-ai-x86.iso",
@@ -117,25 +117,19 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
-    {
       "environment_vars": [],
       "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/solaris/update.sh",
-        "scripts/solaris/vagrant.sh",
-        "scripts/solaris/vmtools.sh",
-        "scripts/solaris/minimize.sh"
+        "scripts/update.sh",
+        "scripts/vagrant.sh",
+        "scripts/vmtools.sh",
+        "scripts/minimize.sh"
       ],
       "type": "shell"
     }
@@ -151,7 +145,6 @@
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "memory": "2048",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "./packer_cache",
     "name": "solaris-11.3",
     "template": "solaris-11.3-x86",

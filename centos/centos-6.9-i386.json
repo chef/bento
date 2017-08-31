@@ -152,16 +152,11 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
-    {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
     {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
@@ -171,16 +166,15 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/centos/update.sh",
-        "scripts/common/sshd.sh",
-        "scripts/centos/networking.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/common/vmware.sh",
-        "scripts/common/parallels.sh",
-        "scripts/centos/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/update.sh",
+        "../_common/sshd.sh",
+        "scripts/networking.sh",
+        "../_common/vagrant.sh",
+        "../_common/virtualbox.sh",
+        "../_common/vmware.sh",
+        "../_common/parallels.sh",
+        "scripts/cleanup.sh",
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
@@ -198,9 +192,8 @@
     "iso_checksum": "0724a468ec0c4ac46ac6a1daba0273be697a37bb7f4e9fed8ad84ad270cdee2f",
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-6.9-i386-bin-DVD1.iso",
-    "ks_path": "rhel-6/ks.cfg",
+    "ks_path": "6/ks.cfg",
     "memory": "1024",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "6.9/isos/i386",
     "name": "centos-6.9-i386",

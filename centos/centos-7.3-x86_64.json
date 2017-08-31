@@ -110,7 +110,7 @@
       "cpu": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "http/rhel-7/ks.cfg"
+        "http/7/ks.cfg"
       ],
       "generation": "{{user `hyperv_generation`}}",
       "guest_additions_mode": "disable",
@@ -152,16 +152,11 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
-    {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
     {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
@@ -171,16 +166,16 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/centos/update.sh",
-        "scripts/common/sshd.sh",
-        "scripts/centos/networking.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/common/vmware.sh",
-        "scripts/common/parallels.sh",
-        "scripts/centos/cleanup.sh",
-        "scripts/common/minimize.sh"
+
+        "scripts/update.sh",
+        "../_common/sshd.sh",
+        "scripts/networking.sh",
+        "../_common/vagrant.sh",
+        "../_common/virtualbox.sh",
+        "../_common/vmware.sh",
+        "../_common/parallels.sh",
+        "scripts/cleanup.sh",
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
@@ -199,9 +194,8 @@
     "iso_checksum": "c455ee948e872ad2194bdddd39045b83634e8613249182b88f549bb2319d97eb",
     "iso_checksum_type": "sha256",
     "iso_name": "CentOS-7-x86_64-DVD-1611.iso",
-    "ks_path": "rhel-7/ks.cfg",
+    "ks_path": "7/ks.cfg",
     "memory": "1024",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "7.3.1611/isos/x86_64",
     "name": "centos-7.3",

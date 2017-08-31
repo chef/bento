@@ -126,16 +126,11 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
-    {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
     {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
@@ -145,17 +140,16 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/fedora/swap.sh",
-        "scripts/fedora/fix-slow-dns.sh",
-        "scripts/fedora/build-tools.sh",
-        "scripts/common/sshd.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/common/vmware.sh",
-        "scripts/common/parallels.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/fedora/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/swap.sh",
+        "scripts/fix-slow-dns.sh",
+        "scripts/build-tools.sh",
+        "../_common/sshd.sh",
+        "../_common/virtualbox.sh",
+        "../_common/vmware.sh",
+        "../_common/parallels.sh",
+        "../_common/vagrant.sh",
+        "scripts/cleanup.sh",
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
@@ -173,9 +167,8 @@
     "iso_checksum": "fad18a43b9cec152fc8a1fd368950eaf59be66b1a15438149a0c3a509c56cf2f",
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-dvd-x86_64-26-1.5.iso",
-    "ks_path": "fedora/ks.cfg",
+    "ks_path": "ks.cfg",
     "memory": "1024",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/26/Server/x86_64/iso",
     "name": "fedora-26",

@@ -156,7 +156,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
@@ -175,24 +175,23 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/common/sshd.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/common/vmware.sh",
-        "scripts/common/parallels.sh",
-        "scripts/opensuse/sudoers.sh",
-        "scripts/opensuse/zypper-locks.sh",
-        "scripts/opensuse/remove-dvd-source.sh",
-        "scripts/opensuse/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "../_common/sshd.sh",
+        "../_common/vagrant.sh",
+        "../_common/virtualbox.sh",
+        "../_common/vmware.sh",
+        "../_common/parallels.sh",
+        "scripts/sudoers.sh",
+        "scripts/zypper-locks.sh",
+        "scripts/remove-dvd-source.sh",
+        "scripts/cleanup.sh",
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
     "arch": "64",
-    "autoinst_cfg": "opensuse-leap/autoinst.xml",
+    "autoinst_cfg": "autoinst.xml",
     "box_basename": "opensuse-leap-42.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
@@ -205,7 +204,6 @@
     "iso_checksum_type": "sha256",
     "iso_name": "openSUSE-Leap-42.3-DVD-x86_64.iso",
     "memory": "1024",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://suse.mobile-central.org/distribution",
     "mirror_directory": "leap/42.3/iso",
     "name": "opensuse-leap-42.3",

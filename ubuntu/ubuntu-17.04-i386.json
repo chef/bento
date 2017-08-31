@@ -214,7 +214,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
@@ -233,17 +233,16 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/ubuntu/update.sh",
-        "scripts/common/sshd.sh",
-        "scripts/ubuntu/networking.sh",
-        "scripts/ubuntu/sudoers.sh",
-        "scripts/ubuntu/vagrant.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/ubuntu/vmware.sh",
-        "scripts/common/parallels.sh",
-        "scripts/ubuntu/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "scripts/update.sh",
+        "../_common/sshd.sh",
+        "scripts/networking.sh",
+        "scripts/sudoers.sh",
+        "scripts/vagrant.sh",
+        "../_common/virtualbox.sh",
+        "scripts/vmware.sh",
+        "../_common/parallels.sh",
+        "scripts/cleanup.sh",
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
@@ -261,12 +260,11 @@
     "iso_checksum_type": "sha256",
     "iso_name": "ubuntu-17.04-server-i386.iso",
     "memory": "1024",
-    "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
     "mirror_directory": "17.04",
     "name": "ubuntu-17.04-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed_path": "ubuntu/preseed.cfg",
+    "preseed_path": "preseed.cfg",
     "template": "ubuntu-17.04-i386",
     "version": "TIMESTAMP"
   }
