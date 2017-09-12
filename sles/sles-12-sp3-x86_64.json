@@ -141,16 +141,11 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
-    {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
     {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
@@ -160,18 +155,17 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "scripts": [
-        "scripts/common/metadata.sh",
-        "scripts/common/sshd.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/sles/unsupported-modules.sh",
-        "scripts/common/virtualbox.sh",
-        "scripts/common/vmware.sh",
-        "scripts/common/parallels.sh",
-        "scripts/sles/sudoers.sh",
-        "scripts/sles/zypper-locks.sh",
-        "scripts/sles/remove-dvd-source.sh",
-        "scripts/sles/cleanup.sh",
-        "scripts/common/minimize.sh"
+        "../_common/sshd.sh",
+        "../_common/vagrant.sh",
+        "scripts/unsupported-modules.sh",
+        "../_common/virtualbox.sh",
+        "../_common/vmware.sh",
+        "../_common/parallels.sh",
+        "scripts/sudoers.sh",
+        "scripts/zypper-locks.sh",
+        "scripts/remove-dvd-source.sh",
+        "scripts/cleanup.sh",
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
