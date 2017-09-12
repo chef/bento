@@ -40,7 +40,7 @@ end
 To build an Ubuntu 16.04 box for only the VirtualBox provider
 
 ```
-cd ubuntu
+$ cd ubuntu
 $ packer build -only=virtualbox-iso ubuntu-16.04-amd64.json
 ```
 
@@ -54,14 +54,14 @@ $ packer build debian-9.1-i386.json
 To build CentOS 7.3 boxes for all providers except VMware and Parallels
 
 ```
-cd centos
+$ cd centos
 $ packer build -except=parallels-iso,vmware-iso centos-7.3-x86_64.json
 ```
 
 To use an alternate mirror
 
 ```
-cd fedora
+$ cd fedora
 $ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-26-x86_64.json
 ```
 
