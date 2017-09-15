@@ -217,7 +217,11 @@
       "qemuargs": [
         [
           "-m",
-          "1024M"
+          "{{ user `memory` }}M"
+        ],
+        [
+          "-smp",
+          "{{ user `cpus` }}"
         ]
       ]
     },
@@ -299,12 +303,12 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "2",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "737ae7041212c628de5751d15c3016058b0e833fdc32e7420209b76ca3d0a535",
+    "iso_checksum": "a06cd926f5855d4f21fb4bc9978a35312f815fbda0d0ef7fdc846861f4fc4600",
     "iso_checksum_type": "sha256",
-    "iso_name": "ubuntu-16.04.2-server-amd64.iso",
+    "iso_name": "ubuntu-16.04.3-server-amd64.iso",
     "memory": "1024",
     "mirror": "http://releases.ubuntu.com",
-    "mirror_directory": "16.04.2",
+    "mirror_directory": "16.04.3",
     "name": "ubuntu-16.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
