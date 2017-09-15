@@ -42,10 +42,11 @@ EOT
 touch /etc/fstab
 
 # Set up user accounts
-echo "vagrant" | pw -V /etc useradd vagrant -h 0 -s /bin/sh -G wheel -d /home/vagrant -c "Vagrant User"
+echo "vagrant" | pw -V /etc useradd vagrant -h 0 -s /bin/sh -G wheel -d /usr/home/vagrant -c "Vagrant User"
 echo "vagrant" | pw -V /etc usermod root
 
-mkdir -p /home/vagrant
-chown 1001:1001 /home/vagrant
+mkdir -p /usr/home/vagrant
+chown 1001:1001 /usr/home/vagrant
+ln -s /usr/home /home
 
 reboot
