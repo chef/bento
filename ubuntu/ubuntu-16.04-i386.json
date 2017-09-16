@@ -212,7 +212,17 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [
+          "-m",
+          "{{ user `memory` }}M"
+        ],
+        [
+          "-smp",
+          "{{ user `cpus` }}"
+        ]
+      ]
     }
   ],
   "post-processors": [
@@ -254,12 +264,12 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "62fc3e810c7631fbbd45d9c960ec749fc1eb66e5c56039423e3e94a5391a437a",
+    "iso_checksum": "e20cf9e0812b52287ca22ac1815bc933c0cfef2be88191110b697d8943bef19e",
     "iso_checksum_type": "sha256",
-    "iso_name": "ubuntu-16.04.1-server-i386.iso",
+    "iso_name": "ubuntu-16.04.4-server-i386.iso",
     "memory": "1024",
     "mirror": "http://old-releases.ubuntu.com/releases",
-    "mirror_directory": "16.04.1",
+    "mirror_directory": "16.04.4",
     "name": "ubuntu-16.04-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
@@ -267,4 +277,3 @@
     "version": "TIMESTAMP"
   }
 }
-

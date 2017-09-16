@@ -209,7 +209,17 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [
+          "-m",
+          "{{ user `memory` }}M"
+        ],
+        [
+          "-smp",
+          "{{ user `cpus` }}"
+        ]
+      ]
     }
   ],
   "post-processors": [
@@ -219,11 +229,6 @@
     }
   ],
   "provisioners": [
-    {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
     {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
@@ -269,4 +274,3 @@
     "version": "TIMESTAMP"
   }
 }
-
