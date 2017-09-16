@@ -191,6 +191,7 @@
         "no_proxy={{user `no_proxy`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/update.sh",
         "scripts/postinstall.sh",

@@ -125,6 +125,7 @@
     {
       "environment_vars": [],
       "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/update.sh",
         "scripts/vagrant.sh",

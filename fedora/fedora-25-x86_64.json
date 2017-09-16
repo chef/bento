@@ -139,6 +139,7 @@
         "no_proxy={{user `no_proxy`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/swap.sh",
         "scripts/fix-slow-dns.sh",
