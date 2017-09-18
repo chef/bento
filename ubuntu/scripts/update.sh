@@ -1,4 +1,5 @@
 #!/bin/sh -eux
+export DEBIAN_FRONTEND=noninteractive
 
 ubuntu_version="`lsb_release -r | awk '{print $2}'`";
 ubuntu_major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
@@ -23,6 +24,4 @@ APT::Periodic::Enable "0";
 EOF
 
 # Upgrade all installed packages incl. kernel and kernel headers
-apt-get -y dist-upgrade;
-reboot;
-sleep 60;
+apt-get -y dist-upgrade -o Dpkg::Options::="--force-confnew";

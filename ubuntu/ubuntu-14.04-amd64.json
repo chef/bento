@@ -204,7 +204,17 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [
+          "-m",
+          "{{ user `memory` }}M"
+        ],
+        [
+          "-smp",
+          "{{ user `cpus` }}"
+        ]
+      ]
     },
     {
       "boot_command": [
@@ -297,4 +307,3 @@
     "version": "TIMESTAMP"
   }
 }
-
