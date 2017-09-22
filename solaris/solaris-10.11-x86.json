@@ -105,6 +105,7 @@
     {
       "environment_vars": [],
       "execute_command": "/usr/local/bin/sudo {{.Path}}",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/solaris-10/vmtools.sh",
         "scripts/solaris-10/minimize.sh"

@@ -208,6 +208,7 @@
         "no_proxy={{user `no_proxy`}}"
       ],
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/hostname.sh",
         "scripts/update.sh",
