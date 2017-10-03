@@ -175,7 +175,7 @@
     "_DOWNLOAD_SITE": "https://www.suse.com/products/server/download",
     "_README": "You must download the automated installer iso from the following page, and then place it in the packer_cache dir",
     "arch": "64",
-    "autoinst_cfg": "sles-12/sles-12-sp3-x86_64-autoinst.xml",
+    "autoinst_cfg": "sles-12-sp3-x86_64-autoinst.xml",
     "box_basename": "sles-12-sp3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
