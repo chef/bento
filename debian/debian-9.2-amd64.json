@@ -22,7 +22,7 @@
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Debian",
+      "guest_os_type": "Debian_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -74,7 +74,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "debian8",
+      "guest_os_type": "debian8-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -217,7 +217,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-9.1-i386",
+    "box_basename": "debian-9.2",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "40960",
@@ -225,16 +225,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "66ae877bb9e19bd8364db2a62e1657376ab4f56f70a833f28724de6a2133b25a",
+    "iso_checksum": "bfe87c28bc842956cb31cd06737e821cdb67efcd043f64384c3688634bf6914a",
     "iso_checksum_type": "sha256",
-    "iso_name": "debian-9.1.0-i386-netinst.iso",
+    "iso_name": "debian-9.2.0-amd64-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "9.1.0/i386/iso-cd",
-    "name": "debian-9.1-i386",
+    "mirror_directory": "9.2.0/amd64/iso-cd",
+    "name": "debian-9.2",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
-    "template": "debian-9.1-i386",
+    "template": "debian-9.2-amd64",
     "version": "TIMESTAMP"
   }
 }
