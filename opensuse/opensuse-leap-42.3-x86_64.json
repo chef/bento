@@ -162,11 +162,6 @@
   ],
   "provisioners": [
     {
-      "destination": "/tmp/bento-metadata.json",
-      "source": "{{user `metadata`}}",
-      "type": "file"
-    },
-    {
       "environment_vars": [
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
