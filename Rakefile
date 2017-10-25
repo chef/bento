@@ -21,7 +21,7 @@ task :clean do
 end
 
 def build_cmd(template)
-  cmd = %W{bento build #{template}.json}
+  cmd = %W{bento build #{template}}
   cmd.insert(2, "--only #{providers}")
   cmd.insert(2, "--mirror #{ENV['PACKER_MIRROR']}") if ENV["PACKER_MIRROR"]
   cmd.insert(2, "--version #{ENV['BENTO_VERSION']}")
@@ -58,20 +58,27 @@ def clean_array(*args)
   args.flatten.reject { |i| i.nil? || i == "" }.map(&:to_s)
 end
 
+# create sorted list of builds matched against available templates
+# ignoring known private images and working dir
+# TODO: move this logic to bento-ya
 def templates
-  bit32 = []
-  bit64 = []
-  config['public'].each do |platform, versions|
-    versions.each do |version, archs|
-      archs.each do |arch|
-        case arch
-        when "i386"
-          bit32 << "#{platform}/#{platform}-#{version}-#{arch}"
+  ts = Dir.glob('**/*.json').reject{ |f| f['builds'] }
+  ts.reject{ |f| f[/macos|rhel|sles|solaris|windows/] }
+
+  b32 = []
+  b64 = []
+  config['public'].each do |p, vs|
+    vs.each do |v, as|
+      as.each do |a|
+        case a
+        when "i386", "i686"
+          b32 << ts.select{ |i| i[/#{p}-#{v}-#{a}/] }
         else
-          bit64 << "#{platform}/#{platform}-#{version}-#{arch}"
+          b64 << ts.select{ |i| i[/#{p}-#{v}-#{a}/] }
         end
       end
     end
   end
-  bit64 + bit32
+  list = b64 + b32
+  list.flatten
 end
