@@ -1,7 +1,28 @@
+dist: trusty
+sudo: false
+
+env:
+  global:
+    - PACKER_VERSION="1.0.4"
+    - PATH=$HOME/bin:$PATH
+
 rvm:
-  - 2.1.2
+  - 2.4.1
+  - ruby-head
 
-before_install: wget --no-check-certificate https://dl.bintray.com/mitchellh/packer/packer_0.7.2_linux_amd64.zip && unzip -d packer packer_0.7.2_linux_amd64.zip
-before_script: export PATH=$PATH:$PWD/packer
+matrix:
+  allow_failures:
+    - rvm: ruby-head
 
-script: bundle exec thor packer:validate
+branches:
+  only:
+    - master
+
+before_install:
+  - wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
+  - unzip -d ~/bin packer_${PACKER_VERSION}_linux_amd64.zip
+
+before_script:
+  - packer --version
+
+script: bento normalize
