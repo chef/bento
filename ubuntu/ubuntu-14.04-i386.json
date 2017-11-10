@@ -229,12 +229,15 @@
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}"
+        "no_proxy={{user `no_proxy`}}",
+        "CM_PROVISIONER={{user `cm_provisioner`}}",
+        "CM_VERSION={{user `cm_version`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
         "scripts/update.sh",
+        "../_common/cmprovisioners.sh",
         "../_common/sshd.sh",
         "scripts/networking.sh",
         "scripts/sudoers.sh",
@@ -265,6 +268,8 @@
     "mirror_directory": "14.04.1",
     "name": "ubuntu-14.04-i386",
     "no_proxy": "{{env `no_proxy`}}",
+    "cm_provisioner": "",
+    "cm_version": "",
     "preseed_path": "preseed.cfg",
     "template": "ubuntu-14.04-i386",
     "version": "TIMESTAMP"
