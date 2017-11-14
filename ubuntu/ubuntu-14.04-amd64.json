@@ -272,6 +272,7 @@
         "scripts/update.sh",
         "../_common/sshd.sh",
         "scripts/networking.sh",
+        "scripts/cgroups.sh",
         "scripts/sudoers.sh",
         "scripts/vagrant.sh",
         "../_common/virtualbox.sh",
