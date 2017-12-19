@@ -38,7 +38,13 @@ virtualbox-iso|virtualbox-ovf)
 vmware-iso|vmware-vmx)
     pkg install -y open-vm-tools-nox11;
 
-    echo 'ifconfig_vxn0="dhcp"' >>/etc/rc.conf;
+    # for shared folder
+    echo 'fuse_load="YES"' >>/boot/loader.conf;
+
+    # Don't waste 10 seconds waiting for boot
+    echo 'autoboot_delay="-1"' >>/boot/loader.conf;
+
+    echo 'ifconfig_vmx0="dhcp"' >>/etc/rc.conf;
     ;;
 
 parallels-iso|parallels-pvm)
