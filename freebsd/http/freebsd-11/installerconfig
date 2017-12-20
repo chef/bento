@@ -1,4 +1,7 @@
-DISTRIBUTIONS="base.txz lib32.txz kernel.txz src.txz"
+DISTRIBUTIONS="base.txz kernel.txz src.txz"
+if [ `uname -m` = "amd64" ]; then
+  DISTRIBUTIONS="${DISTRIBUTIONS} lib32.txz"
+fi
 
 # for variations in the root disk device name between VMware and Virtualbox
 if [ -e /dev/ada0 ]; then
