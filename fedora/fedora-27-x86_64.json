@@ -2,20 +2,20 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat_64",
+      "guest_os_type": "Fedora_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "http_directory": "../centos/http",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-virtualbox",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -40,18 +40,18 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "rhel6-64",
+      "guest_os_type": "fedora-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "../centos/http",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-vmware",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -61,6 +61,7 @@
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
+        "ethernet0.pciSlotNumber": "32",
         "memsize": "{{ user `memory` }}",
         "numvcpus": "{{ user `cpus` }}"
       },
@@ -68,12 +69,12 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "rhel",
-      "http_directory": "../centos/http",
+      "guest_os_type": "fedora-core",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -94,7 +95,7 @@
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -104,17 +105,17 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
-      "http_directory": "../centos/http",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-qemu",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -137,16 +138,18 @@
         "https_proxy={{user `https_proxy`}}",
         "no_proxy={{user `no_proxy`}}"
       ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "../centos/scripts/networking.sh",
+        "scripts/swap.sh",
+        "scripts/fix-slow-dns.sh",
+        "scripts/build-tools.sh",
         "../_common/sshd.sh",
-        "../_common/vagrant.sh",
         "../_common/virtualbox.sh",
         "../_common/vmware.sh",
         "../_common/parallels.sh",
-        "../centos/scripts/cleanup.sh",
+        "../_common/vagrant.sh",
+        "scripts/cleanup.sh",
         "../_common/minimize.sh"
       ],
       "type": "shell"
@@ -154,7 +157,7 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "rhel-6.9",
+    "box_basename": "fedora-27",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -162,16 +165,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "3f961576e9f81ea118566f73f98d7bdf3287671c35436a13787c1ffd5078cf8e",
+    "iso_checksum": "e383dd414bb57231b20cbed11c4953cac71785f7d4f5990b0df5ad534a0ba95c",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-6.9-x86_64-dvd.iso",
-    "ks_path": "6/ks.cfg",
+    "iso_name": "Fedora-Server-dvd-x86_64-27-1.6.iso",
+    "ks_path": "ks.cfg",
     "memory": "1024",
-    "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
-    "mirror_directory": "rhel",
-    "name": "rhel-6.9",
+    "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
+    "mirror_directory": "releases/27/Server/x86_64/iso",
+    "name": "fedora-27",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-6.9-x86_64",
+    "template": "fedora-27-x86_64",
     "version": "TIMESTAMP"
   }
 }
