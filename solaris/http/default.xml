@@ -50,6 +50,8 @@
       -->
       <software_data action="install">
         <name>pkg:/server_install</name>
+        <name>pkg:/library/python/six</name>
+        <name>pkg:/library/python/cryptography</name>
       </software_data>
       <!--
 	    babel_install and slim_install are group packages used to
