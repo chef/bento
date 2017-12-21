@@ -36,35 +36,15 @@ virtualbox-iso|virtualbox-ovf)
     ;;
 
 vmware-iso|vmware-vmx)
-    # Install Perl and other software needed by vmware-install.pl
-    pkg install -y perl5;
-    pkg install -y compat6x-`uname -m`;
-    # the install script is very picky about location of perl command
-    ln -s /usr/local/bin/perl /usr/bin/perl;
+    pkg install -y open-vm-tools-nox11;
 
-    mkdir -p /tmp/vmfusion;
-    mkdir -p /tmp/vmfusion-archive;
-    mdconfig -a -t vnode -f $HOME_DIR/freebsd.iso -u 0;
-    mount -t cd9660 /dev/md0 /tmp/vmfusion;
-    tar xzf /tmp/vmfusion/vmware-freebsd-tools.tar.gz -C /tmp/vmfusion-archive;
+    # for shared folder
+    echo 'fuse_load="YES"' >>/boot/loader.conf;
 
-    VER="`cat /tmp/vmfusion/manifest.txt | cut -f2 -d'"'`";
-    MAJ_VER="`echo ${VER} | cut -d'.' -f1`";
-    echo "VMware Tools Version: $VER";
+    # Don't waste 10 seconds waiting for boot
+    echo 'autoboot_delay="-1"' >>/boot/loader.conf;
 
-    if [ "${MAJ_VER}" -lt "10" ]; then
-        /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default;
-    else
-        /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --force-install;
-    fi
-
-    echo 'ifconfig_vxn0="dhcp"' >>/etc/rc.conf;
-    umount /tmp/vmfusion;
-    rm -rf /tmp/vmfusion;
-    rm -rf /tmp/vmfusion-archive;
-    rm -f $HOME_DIR/*.iso;
-
-    rm -f /usr/bin/perl;
+    echo 'ifconfig_vmx0="dhcp"' >>/etc/rc.conf;
     ;;
 
 parallels-iso|parallels-pvm)
