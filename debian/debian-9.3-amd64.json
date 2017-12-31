@@ -231,7 +231,7 @@
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
     "mirror_directory": "9.3.0/amd64/iso-cd",
-    "name": "debian-9.2",
+    "name": "debian-9.3",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
     "template": "debian-9.3-amd64",
