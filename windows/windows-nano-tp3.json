@@ -11,7 +11,6 @@
         "scripts/postunattend.xml"
       ],
       "guest_additions_mode": "disable",
-      "guest_additions_url": "{{user `guest_additions_url`}}",
       "guest_os_type": "Windows2012_64",
       "headless": "{{ user `headless` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
@@ -68,7 +67,6 @@
     }
   ],
   "variables": {
-    "guest_additions_url": "",
     "box_basename": "windows-nano",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",

@@ -22,7 +22,6 @@
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_additions_url": "{{user `guest_additions_url`}}",
       "guest_os_type": "Debian_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
@@ -218,7 +217,6 @@
     }
   ],
   "variables": {
-    "guest_additions_url": "",
     "box_basename": "debian-9.3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
