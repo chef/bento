@@ -31,7 +31,6 @@
       "boot_wait": "5s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_mode": "attach",
-      "guest_additions_url": "{{user `guest_additions_url`}}",
       "guest_os_type": "Solaris11_64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -137,7 +136,6 @@
     }
   ],
   "variables": {
-    "guest_additions_url": "",
     "_DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris11/downloads/index.html",
     "_README": "You must download the automated installer iso from the following page, and then place it in the packer_cache dir",
     "arch": "64",
