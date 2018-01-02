@@ -7,6 +7,7 @@
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_url": "{{user `guest_additions_url`}}",
       "guest_os_type": "Fedora_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
@@ -156,6 +157,7 @@
     }
   ],
   "variables": {
+    "guest_additions_url": "",
     "arch": "64",
     "box_basename": "fedora-27",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
