@@ -8,7 +8,7 @@ public:
 - 'centos-7.4'
 - 'centos-6.9'
 - 'centos-6.9-i386'
-- 'oracle-7.3'
+- 'oracle-7.4'
 - 'oracle-6.9'
 - 'oracle-6.9-i386'
 - 'ubuntu-17.10'
