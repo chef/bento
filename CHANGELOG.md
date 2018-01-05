@@ -1,5 +1,52 @@
 # Change Log
 
+## [201801.02.0](https://github.com/chef/bento/tree/201801.02.0) (2018-01-02)
+
+**New Platforms**
+- Debian 9.3
+- Debian 8.10
+- Fedora 27
+
+**Hyper-V Boxes (experimental)
+- centos-7.4
+- centos-6.9
+- ubuntu-17.10
+- ubuntu-17.04
+- ubuntu-16.04
+- ubuntu-14.04
+
+**Tooling**
+- VirtualBox 5.2.4
+- VMware Fusion 10.1.0
+- Parallels 13.2.0
+- Hyper-V 10.0.16299.15
+- Packer 1.1.3
+- Vagrant 2.0.1
+
+## [201710.31.0](https://github.com/chef/bento/tree/201710.31.0) (2017-10-31)
+
+**New Platforms**
+- Ubuntu 17.10
+- Debian 9.2
+- Debian 8.10
+- FreeBSD 10.4
+- CentOS 7.4
+
+**Tooling**
+- VirtualBox 5.1.30
+- VMware Fusion 10.0.1
+- Parallels 13.1.1
+- Packer 1.1.1
+- Vagrant 2.0.0
+
+**Fixes/Updates**
+- SLES fixes
+- 1GB of RAM as default for boxen
+- re-organized into platform folders
+- hyper-V fixes
+- qemu fixes
+
+
 ## [201708.22.0](https://github.com/chef/bento/tree/201708.22.0) (2017-08-22)
 
 **New**

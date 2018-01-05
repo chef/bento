@@ -1,23 +1,24 @@
 require "yaml"
+require "fileutils"
 
 desc "clean, build, test, upload"
 task :do_all do
   check_env
-  templates.each do |template|
-    Rake::Task["clean"].invoke
-    Rake::Task["clean"].reenable
-    sh build_cmd(template)
-    sh "bento test"
-    unless ENV["BENTO_AUTO_RELEASE"].nil?
-      sh "bento upload"
-      sh "bento release #{template} #{ENV["BENTO_VERSION"]}"
+  public_templates.each do |template|
+    if config['public'].include?(box_name(template))
+      sh build_cmd(template)
+      sh "bento test"
+      unless ENV["BENTO_AUTO_RELEASE"].nil?
+        sh "bento upload"
+        sh "bento release #{template} #{ENV["BENTO_VERSION"]}"
+      end
     end
   end
 end
 
 desc "clean"
 task :clean do
-  sh "rm -rf builds/* .kitchen.yml"
+  FileUtils.rm_rf(['.kitchen.yml', Dir.glob('builds/*')])
 end
 
 def build_cmd(template)
@@ -58,27 +59,12 @@ def clean_array(*args)
   args.flatten.reject { |i| i.nil? || i == "" }.map(&:to_s)
 end
 
-# create sorted list of builds matched against available templates
-# ignoring known private images and working dir
-# TODO: move this logic to bento-ya
-def templates
-  ts = Dir.glob('**/*.json').reject{ |f| f['builds'] }
-  ts.reject{ |f| f[/macos|rhel|sles|solaris|windows/] }
+def box_name(template)
+  bn = template.split('/')[1].gsub!(/\.json/,'')
+  bn.match(/-x86_64|-amd64/) ? bn.gsub(/-x86_64|-amd64/,'') : bn
+end
 
-  b32 = []
-  b64 = []
-  config['public'].each do |p, vs|
-    vs.each do |v, as|
-      as.each do |a|
-        case a
-        when "i386", "i686"
-          b32 << ts.select{ |i| i[/#{p}-#{v}-#{a}/] }
-        else
-          b64 << ts.select{ |i| i[/#{p}-#{v}-#{a}/] }
-        end
-      end
-    end
-  end
-  list = b64 + b32
-  list.flatten
+def public_templates
+  templates = Dir.glob('**/*.json').reject{ |d| d['builds'] }
+  templates.reject{ |f| f[/macos|rhel|sles|solaris|windows/] }
 end
