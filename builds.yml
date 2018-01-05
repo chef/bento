@@ -5,37 +5,30 @@ providers:
   - vmware-iso
 
 public:
-  centos:
-  - '7.4'
-  - '6.9'
-  - '6.9-i386'
-  oracle:
-  - '7.3'
-  - '6.9'
-  - '6.9-i386'
-  ubuntu:
-  - '17.10'
-  - '17.10-i386'
-  - '17.04'
-  - '17.04-i386'
-  - '16.04'
-  - '16.04-i386'
-  - '14.04'
-  - '14.04-i386'
-  debian:
-  - '9.3'
-  - '8.10'
-  - '8.10-i386'
-  - '7.11'
-  - '7.11-i386'
-  fedora:
-  - '27'
-  - '26'
-  opensuse-leap:
-  - '42.3'
-  freebsd:
-  - '11.1'
-  - '10.4'
+- 'centos-7.4'
+- 'centos-6.9'
+- 'centos-6.9-i386'
+- 'oracle-7.3'
+- 'oracle-6.9'
+- 'oracle-6.9-i386'
+- 'ubuntu-17.10'
+- 'ubuntu-17.10-i386'
+- 'ubuntu-17.04'
+- 'ubuntu-17.04-i386'
+- 'ubuntu-16.04'
+- 'ubuntu-16.04-i386'
+- 'ubuntu-14.04'
+- 'ubuntu-14.04-i386'
+- 'debian-9.3'
+- 'debian-8.10'
+- 'debian-8.10-i386'
+- 'debian-7.11'
+- 'debian-7.11-i386'
+- 'fedora-27'
+- 'fedora-26'
+- 'opensuse-leap-42.3'
+- 'freebsd-11.1'
+- 'freebsd-10.4'
 
 slugs:
   'centos-7': 'centos-7.4'
