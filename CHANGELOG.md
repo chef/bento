@@ -1,5 +1,16 @@
 # Change Log
 
+## [201801.05.0](https://github.com/chef/bento/tree/201801.05.0) (2018-01-05)
+
+**New Platforms**
+- Oracle Linux 7.4
+
+**Tooling**
+- VirtualBox 5.2.4
+- Parallels 13.2.0
+- Packer 1.1.3
+- Vagrant 2.0.1
+
 ## [201801.02.0](https://github.com/chef/bento/tree/201801.02.0) (2018-01-02)
 
 **New Platforms**
