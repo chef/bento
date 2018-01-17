@@ -201,8 +201,14 @@
   ],
   "provisioners": [
     {
+      "destination": "/private/tmp/set_kcpassword.py",
+      "source": "scripts/support/set_kcpassword.py",
+      "type": "file"
+    },
+    {
       "environment_vars": [
         "HOME_DIR=/Users/vagrant",
+        "AUTOLOGIN={{user `autologin`}}",
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
         "no_proxy={{user `no_proxy`}}"
@@ -215,6 +221,7 @@
         "scripts/networking.sh",
         "scripts/disablesleep.sh",
         "scripts/vagrant.sh",
+        "scripts/autologin.sh",
         "scripts/vmtools.sh",
         "scripts/cleanup.sh",
         "scripts/minimize.sh"
@@ -224,6 +231,7 @@
   ],
   "variables": {
     "_README": "You must provide a prepared Mac disk image (from https://github.com/timsutton/osx-vm-templates) and checksum value for this template to work. For more details, consult this project's README.md",
+    "autologin": "true",
     "box_basename": "macosx-10.11",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
