@@ -1,4 +1,5 @@
 DISTRIBUTIONS="base.txz kernel.txz"
+
 if [ `uname -m` = "amd64" ]; then
   DISTRIBUTIONS="${DISTRIBUTIONS} lib32.txz"
 fi
