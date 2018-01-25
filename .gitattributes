@@ -6,6 +6,7 @@
 
 ks.cfg eol=lf
 preseed.cfg eol=lf
+installerconfig eol=lf
 
 # Force CRLF line ending on these files
 *.bat eol=crlf
