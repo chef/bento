@@ -42,8 +42,18 @@ apt-get -y purge ppp pppconfig pppoeconf;
 # Delete oddities
 apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
 
+# Exlude the files we don't need w/o uninstalling linux-firmware
+echo "==> Setup dpkg excludes for linux-firmware"
+cat <<_EOF_ | cat >> /etc/dpkg/dpkg.cfg.d/excludes
+#BENTO-BEGIN
+path-exclude=/lib/firmware/*
+path-exclude=/usr/share/doc/linux-firmware/*
+#BENTO-END
+_EOF_
+
 # Delete the massive firmware packages
-apt-get -y purge linux-firmware
+rm -rf /lib/firmware/*
+rm -rf /usr/share/doc/linux-firmware/*
 
 apt-get -y autoremove;
 apt-get -y clean;
