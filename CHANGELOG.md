@@ -1,6 +1,6 @@
 # Change Log
 
-## [201802.02.0](https://github.com/chef/bento/tree/201801.05.0) (2018-01-05)
+## [201802.02.0](https://github.com/chef/bento/tree/201802.02.0) (2018-02-02)
 
 **Improvements**
 - Ubuntu: remove linux-firmware bloat w/o removing package and breaking upgrades
