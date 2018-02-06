@@ -1,5 +1,22 @@
 # Change Log
 
+## [201802.02.0](https://github.com/chef/bento/tree/201802.02.0) (2018-02-02)
+
+**Improvements**
+- Ubuntu: remove linux-firmware bloat w/o removing package and breaking upgrades
+- macOS: enable autologin for vagrant user
+
+**EOL**
+- Ubuntu 17.04
+- Windows Nano TP3
+
+**Tooling**
+- VirtualBox 5.2.6
+- Parallels 13.2.0
+- VMware Fusion 10.1.1
+- Packer 1.1.3
+- Vagrant 2.0.1
+
 ## [201801.05.0](https://github.com/chef/bento/tree/201801.05.0) (2018-01-05)
 
 **New Platforms**
