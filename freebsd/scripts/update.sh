@@ -17,5 +17,4 @@ if [ "$pkg_branch" != "quarterly" ]; then
   rm -f /etc/pkg/FreeBSD.conf.bak
 fi
 
-env ASSUME_ALWAYS_YES=true pkg bootstrap;
-pkg update;
+env ASSUME_ALWAYS_YES=true pkg update;
