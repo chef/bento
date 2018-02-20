@@ -4,8 +4,7 @@
 ntpdate -v -b 0.freebsd.pool.ntp.org
 
 # Install curl and ca_root_nss
-pkg install -y curl;
-pkg install -y ca_root_nss;
+pkg install -y curl ca_root_nss;
 
 # Emulate the ETCSYMLINK behavior of ca_root_nss; this is for FreeBSD 10,
 # where fetch(1) was massively refactored and doesn't come with

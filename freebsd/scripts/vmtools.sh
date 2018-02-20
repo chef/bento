@@ -16,10 +16,7 @@ virtualbox-iso|virtualbox-ovf)
     echo 'vboxservice_enable="YES"' >>/etc/rc.conf;
 
     echo 'virtio_blk_load="YES"' >>/boot/loader.conf;
-    if [ "$freebsd_major" -gt 9 ]; then
-      # Appeared in FreeBSD 10
-      echo 'virtio_scsi_load="YES"' >>/boot/loader.conf;
-    fi
+    echo 'virtio_scsi_load="YES"' >>/boot/loader.conf;
     echo 'virtio_balloon_load="YES"' >>/boot/loader.conf;
     echo 'if_vtnet_load="YES"' >>/boot/loader.conf;
 

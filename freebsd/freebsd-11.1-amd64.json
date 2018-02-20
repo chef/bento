@@ -188,7 +188,8 @@
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}"
+        "no_proxy={{user `no_proxy`}}",
+        "pkg_branch={{user `pkg_branch`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
       "expect_disconnect": true,
@@ -221,6 +222,7 @@
     "mirror": "https://download.freebsd.org/ftp",
     "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/11.1",
     "no_proxy": "{{env `no_proxy`}}",
+    "pkg_branch": "quarterly",
     "template": "freebsd-11.1-amd64",
     "version": "TIMESTAMP"
   }
