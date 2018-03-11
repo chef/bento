@@ -28,6 +28,7 @@ public:
 - 'opensuse-leap-42.3'
 - 'freebsd-11.1'
 - 'freebsd-10.4'
+- 'hardenedbsd-11'
 
 slugs:
   'centos-7': 'centos-7.4'
