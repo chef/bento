@@ -1,0 +1,52 @@
+DISTRIBUTIONS="base.txz kernel.txz"
+
+# for variations in the root disk device name between VMware and Virtualbox
+if [ -e /dev/ada0 ]; then
+  DISKSLICE=ada0
+elif [ -e /dev/da0 ]; then
+  DISKSLICE=da0
+elif [ -e /dev/vtbd0 ]; then
+  DISKSLICE=vtbd0
+else
+  echo "Unknown disk for install.sh to work with!"
+  exit -1
+fi
+
+# Workaround for https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=203777
+export nonInteractive="YES"
+
+export ZFSBOOT_DISKS="$DISKSLICE"
+export ZFSBOOT_CONFIRM_LAYOUT=0
+
+HOSTNAME=hardenedbsd
+
+#!/bin/sh -x
+
+ifdev=$(ifconfig | grep '^[a-z]' | cut -d: -f1 | head -n 1)
+# Enable required services
+cat >> /etc/rc.conf << EOT
+ifconfig_${ifdev}="dhcp"
+sshd_enable="YES"
+EOT
+
+# Tune and boot from zfs
+cat >> /boot/loader.conf << EOT
+vm.kmem_size="200M"
+vm.kmem_size_max="200M"
+vfs.zfs.arc_max="40M"
+vfs.zfs.vdev.cache.size="5M"
+autoboot_delay=3
+EOT
+
+# zfs doesn't use an fstab, but some rc scripts expect one
+touch /etc/fstab
+
+# Set up user accounts
+echo "vagrant" | pw -V /etc useradd vagrant -h 0 -s /bin/sh -G wheel -d /usr/home/vagrant -c "Vagrant User"
+echo "vagrant" | pw -V /etc usermod root
+
+mkdir -p /usr/home/vagrant
+chown 1001:1001 /usr/home/vagrant
+ln -s /usr/home /home
+
+reboot
