@@ -217,7 +217,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-9.3-i386",
+    "box_basename": "debian-9.4-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -225,16 +225,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "7a00a366465c9d75c0961a09a6f625859f594eb6afc18461ab6b3f11ca5930ad",
+    "iso_checksum": "f1da6c11c7e0ca4399a703e32c330261258bb4ba05f81d7a6f67402d182c8bf8",
     "iso_checksum_type": "sha256",
-    "iso_name": "debian-9.3.0-i386-netinst.iso",
+    "iso_name": "debian-9.4.0-i386-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "9.3.0/i386/iso-cd",
-    "name": "debian-9.3-i386",
+    "mirror_directory": "9.4.0/i386/iso-cd",
+    "name": "debian-9.4-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
-    "template": "debian-9.3-i386",
+    "template": "debian-9.4-i386",
     "version": "TIMESTAMP"
   }
 }
