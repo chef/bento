@@ -218,7 +218,7 @@
     "iso_name": "HardenedBSD-11-STABLE-v1100055-amd64-disc1.iso",
     "memory": "1024",
     "mirror": "https://installer.hardenedbsd.org",
-    "mirror_directory": "hardened_11_stable_master-LAST",
+    "mirror_directory": "pub/HardenedBSD/releases/amd64/amd64/ISO-IMAGES/hardenedbsd-11-stable-20180307-1",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "hardenedbsd-11-amd64",
     "version": "TIMESTAMP"
