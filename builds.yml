@@ -27,7 +27,9 @@ public:
 - 'fedora-26'
 - 'opensuse-leap-42.3'
 - 'freebsd-11.1'
+- 'freebsd-11.1-i386'
 - 'freebsd-10.4'
+- 'freebsd-10.4-i386'
 - 'hardenedbsd-11'
 
 slugs:
