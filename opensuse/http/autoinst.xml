@@ -42,6 +42,7 @@
   </timezone>
   <partitioning config:type="list">
     <drive>
+      <enable_snapshots config:type="boolean">false</enable_snapshots>
       <initialize config:type="boolean">true</initialize>
       <partitions config:type="list">
         <partition>
@@ -155,6 +156,7 @@
       <package>telnet</package>
       <package>virtualbox-guest-kmp-default</package>
       <package>virtualbox-guest-tools</package>
+      <package>snapper-zypp-plugin</package>
     </remove-packages>
   </software>
   <services-manager>
