@@ -11,6 +11,7 @@ public:
 - 'oracle-7.4'
 - 'oracle-6.9'
 - 'oracle-6.9-i386'
+- 'ubuntu-18.04'
 - 'ubuntu-17.10'
 - 'ubuntu-17.10-i386'
 - 'ubuntu-16.04'
