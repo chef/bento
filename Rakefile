@@ -6,6 +6,7 @@ task :do_all do
   check_env
   public_templates.each do |template|
     if config['public'].include?(box_name(template))
+      Rake::Task[:clean].execute
       sh build_cmd(template)
       sh "bento test"
       unless ENV["BENTO_AUTO_RELEASE"].nil?
@@ -16,8 +17,15 @@ task :do_all do
   end
 end
 
+task :release_all do
+  config['public'].each do |template|
+    sh "bento release #{template} #{ENV["BENTO_VERSION"]}"
+  end
+end
+
 desc "clean"
 task :clean do
+  puts "Removing .kitchen.yml and builds/*"
   FileUtils.rm_rf(['.kitchen.yml', Dir.glob('builds/*')])
 end
 
