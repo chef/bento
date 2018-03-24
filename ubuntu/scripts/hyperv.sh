@@ -8,7 +8,7 @@ hyperv-iso)
     apt-get install -y hv-kvp-daemon-init linux-tools-virtual-lts-xenial linux-cloud-tools-virtual-lts-xenial;
   elif [ "$major_version" -eq "16" ]; then
     apt-get install -y linux-tools-virtual-lts-xenial linux-cloud-tools-virtual-lts-xenial;
-  elif [ "$major_version" -eq "17" ]; then
+  elif [ "$major_version" -ge "17" ]; then
     apt-get -y install linux-image-virtual linux-tools-virtual linux-cloud-tools-virtual;
   fi
 esac
