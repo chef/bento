@@ -1,5 +1,26 @@
 # Change Log
 
+## [201803.24.0](https://github.com/chef/bento/tree/201803.24.0) (2018-03-24)
+
+**New Platforms**
+- Ubuntu 18.04 (pre-release)
+- HardenedBSD 11
+- FreeBSD 10/11 32bit
+
+**Improvements**
+- Ubuntu 16.04+ and Debian 9: fix issues with disabling predictable interface names
+- Ubuntu/Debian: further mitigate apt locks at startup
+- Multiple platforms: cleanup errant \*.iso files
+- OpenSUSE Leap: disable Snappter/btrfs snapshots, increase disk size
+
+**Tooling**
+- VirtualBox 5.2.6 (Note: we are not using 5.2.8)
+- Parallels 13.3.0
+- VMware Fusion 10.1.1
+- Packer 1.2.1
+- Vagrant 2.0.3
+- Hyper-V 10.0.16299.15
+
 ## [201802.02.0](https://github.com/chef/bento/tree/201802.02.0) (2018-02-02)
 
 **Improvements**
