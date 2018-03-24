@@ -1,6 +1,6 @@
 # Change Log
 
-## [201803.22.0](https://github.com/chef/bento/tree/201803.22.0) (2018-03-22)
+## [201803.24.0](https://github.com/chef/bento/tree/201803.24.0) (2018-03-24)
 
 **New Platforms**
 - Ubuntu 18.04 (pre-release)
@@ -9,7 +9,8 @@
 
 **Improvements**
 - Ubuntu 16.04+ and Debian 9: fix issues with disabling predictable interface names
-- Multiple platforms: cleanup errant *.iso files
+- Ubuntu/Debian: further mitigate apt locks at startup
+- Multiple platforms: cleanup errant \*.iso files
 - OpenSUSE Leap: disable Snappter/btrfs snapshots, increase disk size
 
 **Tooling**
