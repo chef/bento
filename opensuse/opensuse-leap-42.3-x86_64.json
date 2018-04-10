@@ -176,6 +176,7 @@
         "../_common/virtualbox.sh",
         "../_common/vmware.sh",
         "../_common/parallels.sh",
+        "scripts/vagrant_group.sh",
         "scripts/sudoers.sh",
         "scripts/zypper-locks.sh",
         "scripts/remove-dvd-source.sh",
