@@ -4,7 +4,7 @@ case "$PACKER_BUILDER_TYPE" in
   qemu) exit 0 ;;
 esac
 
-major_version="`uname -r | awk -F. '{print $1}'`";
+major_version="$(uname -r | awk -F. '{print $1}')";
 
 if [ "$major_version" -eq 10 ]; then
   ZROOT="zroot"
