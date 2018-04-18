@@ -12,7 +12,7 @@ dpkg --list \
 dpkg --list \
     | awk '{ print $2 }' \
     | grep 'linux-image-[234].*' \
-    | grep -v `uname -r` \
+    | grep -v "$(uname -r)" \
     | xargs apt-get -y purge;
 
 # Delete Linux source
@@ -40,4 +40,4 @@ apt-get -y autoremove;
 apt-get -y clean;
 
 # delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+find /var/log/ -name '*.log' -exec rm -f {} \;
