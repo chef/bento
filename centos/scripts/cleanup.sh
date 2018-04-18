@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
 # should output one of 'redhat' 'centos' 'oraclelinux'
-distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
+distro="$(rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-')"
 
 # Remove development and kernel source packages
 yum -y remove gcc cpp kernel-devel kernel-headers;
@@ -16,8 +16,8 @@ mkdir -p /etc/udev/rules.d/70-persistent-net.rules;
 rm -f /lib/udev/rules.d/75-persistent-net-generator.rules;
 rm -rf /dev/.udev/;
 
-for ndev in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do
-    if [ "`basename $ndev`" != "ifcfg-lo" ]; then
+for ndev in $(ls -1 /etc/sysconfig/network-scripts/ifcfg-*); do
+    if [ "$(basename $ndev)" != "ifcfg-lo" ]; then
         sed -i '/^HWADDR/d' "$ndev";
         sed -i '/^UUID/d' "$ndev";
     fi
@@ -28,7 +28,7 @@ if grep -q -i "release 7" /etc/redhat-release ; then
   # radio off & remove all interface configration
   nmcli radio all off
   /bin/systemctl stop NetworkManager.service
-  for ifcfg in `ls /etc/sysconfig/network-scripts/ifcfg-* |grep -v ifcfg-lo` ; do
+  for ifcfg in $(ls /etc/sysconfig/network-scripts/ifcfg-* | grep -v ifcfg-lo) ; do
     rm -f $ifcfg
   done
   rm -rf /var/lib/NetworkManager/*
@@ -56,4 +56,4 @@ _EOF_
 fi
 
 # delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+find /var/log/ -name '*.log' -exec rm -f {} \;
