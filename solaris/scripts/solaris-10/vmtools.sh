@@ -19,14 +19,14 @@ if [ -f /home/vagrant/.vbox_version ]; then
     mkdir /tmp/vbox
     VER=$(cat /home/vagrant/.vbox_version)
     mkdir /cdrom
-    VBGADEV=`lofiadm -a /home/vagrant/VBoxGuestAdditions.iso`
+    VBGADEV=$(lofiadm -a /home/vagrant/VBoxGuestAdditions.iso)
     mount -o ro -F hsfs $VBGADEV /cdrom
     pkgadd -a /tmp/nocheck -d /cdrom/VBoxSolarisAdditions.pkg < /tmp/allfiles
     umount /cdrom
     lofiadm -d $VBGADEV
     rm -f /home/vagrant/VBoxGuestAdditions.iso
 else
-    VMTOOLSDEV=`/usr/sbin/lofiadm -a /home/vagrant/solaris.iso`
+    VMTOOLSDEV=$(/usr/sbin/lofiadm -a /home/vagrant/solaris.iso)
     mkdir /cdrom
     mount -o ro -F hsfs $VMTOOLSDEV /cdrom
     mkdir /tmp/vmfusion-archive
