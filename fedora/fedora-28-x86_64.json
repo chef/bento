@@ -168,7 +168,7 @@
     "iso_checksum": "8d59a25052e05758c15fe9daa3bc472b5619791b442e752450bba7f1eeca9c1a",
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-dvd-x86_64-28-1.1.iso",
-    "ks_path": "ks.cfg",
+    "ks_path": "ks-fedora28.cfg",
     "memory": "1024",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/28/Server/x86_64/iso",
