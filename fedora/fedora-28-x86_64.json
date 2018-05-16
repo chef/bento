@@ -172,7 +172,7 @@
     "memory": "1024",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/28/Server/x86_64/iso",
-    "name": "fedora-27",
+    "name": "fedora-28",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "fedora-28-x86_64",
     "version": "TIMESTAMP"
