@@ -24,6 +24,7 @@ public:
 - 'debian-8.10-i386'
 - 'debian-7.11'
 - 'debian-7.11-i386'
+- 'fedora-28'
 - 'fedora-27'
 - 'fedora-26'
 - 'opensuse-leap-42.3'
