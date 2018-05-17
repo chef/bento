@@ -2,20 +2,27 @@
   "builders": [
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<esc><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait10>",
+        "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Oracle_64",
-      "hard_drive_interface": "sata",
+      "guest_additions_mode": "disable",
+      "guest_os_type": "FreeBSD_64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "../centos/http",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-virtualbox",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -40,23 +47,32 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<esc><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "<wait5>",
+        "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "oraclelinux-64",
+      "guest_os_type": "freebsd-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "../centos/http",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-vmware",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "linux",
+      "tools_upload_flavor": "freebsd",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
@@ -68,17 +84,25 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<esc><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
+        "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "8s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "centos",
-      "http_directory": "../centos/http",
+      "guest_os_type": "freebsd",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-parallels",
-      "parallels_tools_flavor": "lin",
+      "parallels_tools_mode": "disable",
       "prlctl": [
         [
           "set",
@@ -91,10 +115,30 @@
           "{{.Name}}",
           "--cpus",
           "{{ user `cpus` }}"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-set",
+          "cdrom0",
+          "--iface",
+          "ide"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "fdd0"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--device-del",
+          "parallel0"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -104,17 +148,25 @@
     },
     {
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<esc><wait>",
+        "boot -s<wait>",
+        "<enter><wait>",
+        "<wait10><wait10>",
+        "/bin/sh<enter><wait>",
+        "mdmfs -s 100m md1 /tmp<enter><wait>",
+        "mdmfs -s 100m md2 /mnt<enter><wait>",
+        "dhclient -l /tmp/dhclient.lease.vtnet0 vtnet0<enter><wait>",
+        "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "7s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
-      "http_directory": "../centos/http",
+      "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-qemu",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -126,7 +178,8 @@
   "post-processors": [
     {
       "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
-      "type": "vagrant"
+      "type": "vagrant",
+      "vagrantfile_template": "vagrantfile_templates/hardenedbsd.rb"
     }
   ],
   "provisioners": [
@@ -137,25 +190,21 @@
         "https_proxy={{user `https_proxy`}}",
         "no_proxy={{user `no_proxy`}}"
       ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "../centos/scripts/update.sh",
-        "../centos/scripts/networking.sh",
-        "../_common/sshd.sh",
+        "scripts/update.sh",
+        "scripts/postinstall.sh",
+        "scripts/sudoers.sh",
         "../_common/vagrant.sh",
-        "../_common/virtualbox.sh",
-        "../_common/vmware.sh",
-        "../_common/parallels.sh",
-        "../centos/scripts/cleanup.sh",
-        "../_common/minimize.sh"
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
-    "arch": "64",
-    "box_basename": "oracle-7.4",
+    "box_basename": "hardenedbsd-11",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -163,16 +212,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "f2e11a2fceba8e285490c8df7c2172336cc23eb4bab95924b98d1029dce7eb0b",
+    "install_path": "hardenedbsd-11/installerconfig",
+    "iso_checksum": "c720ebf3989397a6703fa11f36679a277c2cc2eb5637dac9e404adf005bd6b9b",
     "iso_checksum_type": "sha256",
-    "iso_name": "OracleLinux-R7-U4-Server-x86_64-dvd.iso",
-    "ks_path": "7/ks.cfg",
+    "iso_name": "HardenedBSD-11-STABLE-v1100055.2-amd64-disc1.iso",
     "memory": "1024",
-    "mirror": "http://mirrors.dotsrc.org/oracle-linux",
-    "mirror_directory": "OL7/u4/x86_64",
-    "name": "oracle-7.4",
+    "mirror": "https://installer.hardenedbsd.org",
+    "mirror_directory": "pub/HardenedBSD/releases/amd64/amd64/ISO-IMAGES/hardenedbsd-11-stable-20180420-1",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "oracle-7.4-x86_64",
+    "template": "hardenedbsd-11-amd64",
     "version": "TIMESTAMP"
   }
 }
+

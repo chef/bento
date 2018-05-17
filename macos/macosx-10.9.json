@@ -15,7 +15,7 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "darwin",
+      "tools_upload_flavor": "darwinPre15",
       "tools_upload_path": "/tmp/vmtools.iso",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",

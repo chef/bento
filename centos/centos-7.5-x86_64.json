@@ -2,27 +2,20 @@
   "builders": [
     {
       "boot_command": [
-        "<esc><wait>",
-        "boot -s<wait>",
-        "<enter><wait>",
-        "<wait10><wait10>",
-        "/bin/sh<enter><wait>",
-        "mdmfs -s 100m md1 /tmp<enter><wait>",
-        "mdmfs -s 100m md2 /mnt<enter><wait>",
-        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_additions_mode": "disable",
-      "guest_os_type": "FreeBSD_64",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "RedHat_64",
+      "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-virtualbox",
-      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -47,31 +40,23 @@
     },
     {
       "boot_command": [
-        "<esc><wait>",
-        "boot -s<wait>",
-        "<enter><wait>",
-        "<wait10><wait10>",
-        "/bin/sh<enter><wait>",
-        "mdmfs -s 100m md1 /tmp<enter><wait>",
-        "mdmfs -s 100m md2 /mnt<enter><wait>",
-        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "<wait5>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "freebsd-64",
+      "guest_os_type": "centos-64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-vmware",
-      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
@@ -83,25 +68,17 @@
     },
     {
       "boot_command": [
-        "<esc><wait>",
-        "boot -s<wait>",
-        "<enter><wait>",
-        "<wait10><wait10>",
-        "/bin/sh<enter><wait>",
-        "mdmfs -s 100m md1 /tmp<enter><wait>",
-        "mdmfs -s 100m md2 /mnt<enter><wait>",
-        "dhclient -l /tmp/dhclient.lease.em0 em0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
-      "boot_wait": "8s",
+      "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "freebsd",
+      "guest_os_type": "centos",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-parallels",
-      "parallels_tools_mode": "disable",
+      "parallels_tools_flavor": "lin",
       "prlctl": [
         [
           "set",
@@ -114,30 +91,10 @@
           "{{.Name}}",
           "--cpus",
           "{{ user `cpus` }}"
-        ],
-        [
-          "set",
-          "{{.Name}}",
-          "--device-set",
-          "cdrom0",
-          "--iface",
-          "ide"
-        ],
-        [
-          "set",
-          "{{.Name}}",
-          "--device-del",
-          "fdd0"
-        ],
-        [
-          "set",
-          "{{.Name}}",
-          "--device-del",
-          "parallel0"
         ]
       ],
       "prlctl_version_file": ".prlctl_version",
-      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -147,17 +104,36 @@
     },
     {
       "boot_command": [
-        "<esc><wait>",
-        "boot -s<wait>",
-        "<enter><wait>",
-        "<wait10><wait10>",
-        "/bin/sh<enter><wait>",
-        "mdmfs -s 100m md1 /tmp<enter><wait>",
-        "mdmfs -s 100m md2 /mnt<enter><wait>",
-        "dhclient -l /tmp/dhclient.lease.vtnet0 vtnet0<enter><wait>",
-        "fetch -o /tmp/install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && chmod +x /tmp/install.sh && /tmp/install.sh {{ .Name }} vtnet0<enter><wait>"
+        "<wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
       ],
-      "boot_wait": "7s",
+      "boot_wait": "10s",
+      "cpu": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "http/7/ks.cfg"
+      ],
+      "generation": "{{user `hyperv_generation`}}",
+      "guest_additions_mode": "disable",
+      "http_directory": "http",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "output_directory": "../builds/packer-{{user `template`}}-hyperv",
+      "ram_size": "{{ user `memory` }}",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
+      "switch_name": "{{ user `hyperv_switch`}}",
+      "type": "hyperv-iso",
+      "vm_name": "{{ user `template` }}"
+    },
+    {
+      "boot_command": [
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+      ],
+      "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -165,7 +141,7 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../builds/packer-{{user `template`}}-qemu",
-      "shutdown_command": "echo 'vagrant' | su -m root -c 'shutdown -p now'",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -177,8 +153,7 @@
   "post-processors": [
     {
       "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
-      "type": "vagrant",
-      "vagrantfile_template": "vagrantfile_templates/freebsd.rb"
+      "type": "vagrant"
     }
   ],
   "provisioners": [
@@ -187,25 +162,26 @@
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}",
-        "pkg_branch={{user `pkg_branch`}}"
+        "no_proxy={{user `no_proxy`}}"
       ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
         "scripts/update.sh",
-        "scripts/postinstall.sh",
-        "scripts/sudoers.sh",
+        "../_common/sshd.sh",
+        "scripts/networking.sh",
         "../_common/vagrant.sh",
-        "scripts/vmtools.sh",
+        "../_common/virtualbox.sh",
+        "../_common/vmware.sh",
+        "../_common/parallels.sh",
         "scripts/cleanup.sh",
-        "scripts/minimize.sh"
+        "../_common/minimize.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
-    "box_basename": "freebsd-10.3",
+    "box_basename": "centos-7.5",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -213,18 +189,18 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "install_path": "freebsd-10/install.sh",
-    "iso_checksum": "fef068cf6dea26923ab84b62ba9f21461ca0bdec90a0741c8ffb0e1ca29e410d",
+    "hyperv_generation": "1",
+    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "iso_checksum": "506e4e06abf778c3435b4e5745df13e79ebfc86565d7ea1e128067ef6b5a6345",
     "iso_checksum_type": "sha256",
-    "iso_name": "FreeBSD-10.3-RELEASE-amd64-disc1.iso",
+    "iso_name": "CentOS-7-x86_64-DVD-1804.iso",
+    "ks_path": "7/ks.cfg",
     "memory": "1024",
-    "mirror": "https://download.freebsd.org/ftp",
-    "mirror_directory": "releases/amd64/amd64/ISO-IMAGES/10.3",
-    "name": "freebsd-10.3",
+    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror_directory": "7.5.1804/isos/x86_64",
+    "name": "centos-7.5",
     "no_proxy": "{{env `no_proxy`}}",
-    "pkg_branch": "quarterly",
-    "template": "freebsd-10.3-amd64",
+    "template": "centos-7.5-x86_64",
     "version": "TIMESTAMP"
   }
 }
-

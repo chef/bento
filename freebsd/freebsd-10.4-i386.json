@@ -14,7 +14,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_mode": "disable",
       "guest_os_type": "FreeBSD",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -72,7 +72,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "freebsd",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
@@ -188,7 +187,8 @@
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}"
+        "no_proxy={{user `no_proxy`}}",
+        "pkg_branch={{user `pkg_branch`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
       "expect_disconnect": true,
@@ -214,14 +214,15 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "install_path": "freebsd-10/install.sh",
-    "iso_checksum": "006a0f77b2d5ddfc1491a72b04b7246971ac35adb4da47a766228b36650a56c6",
+    "iso_checksum": "719ea971deb508936953be78ae9963caa9247d3ee437d0941b08fc7df7ce37b0",
     "iso_checksum_type": "sha256",
-    "iso_name": "FreeBSD-10.4-RELEASE-i386-dvd1.iso",
+    "iso_name": "FreeBSD-10.4-RELEASE-i386-disc1.iso",
     "memory": "1024",
     "mirror": "https://download.freebsd.org/ftp",
     "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.4",
     "name": "freebsd-10.4-i386",
     "no_proxy": "{{env `no_proxy`}}",
+    "pkg_branch": "quarterly",
     "template": "freebsd-10.4-i386",
     "version": "TIMESTAMP"
   }

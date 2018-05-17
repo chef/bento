@@ -2,15 +2,15 @@
   "builders": [
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "RedHat_64",
+      "guest_os_type": "Oracle_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "../centos/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -40,13 +40,13 @@
     },
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "centos-64",
+      "guest_os_type": "oraclelinux-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "../centos/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -68,12 +68,12 @@
     },
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "centos",
-      "http_directory": "http",
+      "http_directory": "../centos/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -104,39 +104,12 @@
     },
     {
       "boot_command": [
-        "<wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
-      ],
-      "boot_wait": "10s",
-      "cpu": "{{ user `cpus` }}",
-      "disk_size": "{{user `disk_size`}}",
-      "floppy_files": [
-        "http/7/ks.cfg"
-      ],
-      "generation": "{{user `hyperv_generation`}}",
-      "guest_additions_mode": "disable",
-      "http_directory": "http",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
-      "output_directory": "../builds/packer-{{user `template`}}-hyperv",
-      "ram_size": "{{ user `memory` }}",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_timeout": "10000s",
-      "ssh_username": "vagrant",
-      "switch_name": "{{ user `hyperv_switch`}}",
-      "type": "hyperv-iso",
-      "vm_name": "{{ user `template` }}"
-    },
-    {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "../centos/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -167,21 +140,22 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "scripts/update.sh",
+        "../centos/scripts/update.sh",
+        "../centos/scripts/networking.sh",
         "../_common/sshd.sh",
-        "scripts/networking.sh",
         "../_common/vagrant.sh",
         "../_common/virtualbox.sh",
         "../_common/vmware.sh",
         "../_common/parallels.sh",
-        "scripts/cleanup.sh",
+        "../centos/scripts/cleanup.sh",
         "../_common/minimize.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
-    "box_basename": "centos-7.4",
+    "arch": "64",
+    "box_basename": "oracle-7.5",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -189,18 +163,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "ec7500d4b006702af6af023b1f8f1b890b6c7ee54400bb98cef968b883cd6546",
+    "iso_checksum": "d0cc4493db10c2a49084f872083ed9ed6a09cc065064c009734712b9ef357886",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-7-x86_64-DVD-1708.iso",
+    "iso_name": "OracleLinux-R7-U5-Server-x86_64-dvd.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
-    "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "7.4.1708/isos/x86_64",
-    "name": "centos-7.4",
+    "mirror": "http://mirrors.dotsrc.org/oracle-linux",
+    "mirror_directory": "OL7/u5/x86_64",
+    "name": "oracle-7.5",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-7.4-x86_64",
+    "template": "oracle-7.5-x86_64",
     "version": "TIMESTAMP"
   }
 }

@@ -14,7 +14,7 @@
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_mode": "disable",
       "guest_os_type": "FreeBSD",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -72,7 +72,6 @@
       "ssh_port": 22,
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "freebsd",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
@@ -188,7 +187,8 @@
         "HOME_DIR=/home/vagrant",
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}"
+        "no_proxy={{user `no_proxy`}}",
+        "pkg_branch={{user `pkg_branch`}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
       "expect_disconnect": true,
@@ -222,6 +222,7 @@
     "mirror_directory": "releases/i386/i386/ISO-IMAGES/10.3",
     "name": "freebsd-10.3-i386",
     "no_proxy": "{{env `no_proxy`}}",
+    "pkg_branch": "quarterly",
     "template": "freebsd-10.3-i386",
     "version": "TIMESTAMP"
   }
