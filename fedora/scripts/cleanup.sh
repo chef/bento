@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 echo "Removing development packages and cleaning up DNF data"
-dnf -y remove gcc cpp gc kernel-devel kernel-headers glibc-devel elfutils-libelf-devel glibc-headers kernel-devel kernel-headers make perl
+dnf -y remove gcc cpp gc kernel-devel kernel-headers glibc-devel elfutils-libelf-devel glibc-headers kernel-devel kernel-headers
 dnf -y autoremove
 dnf -y clean all --enablerepo=\*
 
