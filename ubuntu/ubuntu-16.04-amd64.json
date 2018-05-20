@@ -309,7 +309,7 @@
     "iso_name": "ubuntu-16.04.3-server-amd64.iso",
     "memory": "1024",
     "mirror": "http://releases.ubuntu.com",
-    "mirror_directory": "16.04.3",
+    "mirror_directory": "16.04.4",
     "name": "ubuntu-16.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
