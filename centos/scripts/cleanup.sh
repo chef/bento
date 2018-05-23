@@ -57,3 +57,7 @@ fi
 
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
+
+# remove previous kernels that yum preserved for rollback
+yum install -y yum-utils
+package-cleanup --oldkernels --count=1 -y
