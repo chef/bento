@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
-debian_version="`lsb_release -r | awk '{print $2}'`";
-major_version="`echo $debian_version | awk -F. '{print $1}'`";
+debian_version="$(lsb_release -r | awk '{print $2}')";
+major_version="$(echo "$debian_version" | awk -F. '{print $1}')";
 
 
 if [ "$major_version" -le "8" ]; then

@@ -12,7 +12,7 @@ dpkg --list \
 dpkg --list \
     | awk '{ print $2 }' \
     | grep 'linux-image-.*-generic' \
-    | grep -v `uname -r` \
+    | grep -v "$(uname -r)" \
     | xargs apt-get -y purge;
 
 # Delete Linux source
@@ -65,4 +65,4 @@ rm -rf /usr/share/doc/*
 find /var/cache -type f -exec rm -rf {} \;
 
 # delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+find /var/log/ -name '*.log' -exec rm -f {} \;

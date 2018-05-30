@@ -11,7 +11,7 @@ dnf -y remove linux-firmware
 rm -f /tmp/chef*rpm
 
 # delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+find /var/log/ -name '*.log' -exec rm -f {} \;
 
 # Remove any non-loopback network configs
 find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
