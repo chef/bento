@@ -13,6 +13,7 @@
 		"iso_url": "{{ user `iso_url` }}",
 		"iso_checksum": "{{ user `iso_checksum` }}",
 		"iso_checksum_type": "sha1",
+		"output_directory": "../builds/packer-{{user `template`}}-virtualbox",
 		"communicator": "winrm",
 		"winrm_username": "vagrant",
 		"winrm_password": "vagrant",
@@ -24,15 +25,26 @@
 		]
 	}],
 	"provisioners": [{
-		"type": "chef-solo",
-		"cookbook_paths": ["cookbooks"],
-		"guest_os_type": "windows",
-		"run_list": [
-			"packer-templates::vbox_guest_additions",
-			"packer-templates::uninstall_powershell_ise",
-			"packer-templates::delete_pagefile"
-		]
-	}],
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"run_list": [
+				"packer-templates::vm_tools",
+				"packer-templates::uninstall_powershell_ise",
+				"packer-templates::enable_file_sharing",
+				"packer-templates::enable_remote_desktop",
+				"packer-templates::ui_tweaks",
+				"packer-templates::power",
+				"packer-templates::cleanup"
+			]
+		},
+		{
+			"type": "powershell",
+			"script": "scripts/cleanup.ps1",
+			"elevated_user": "vagrant",
+			"elevated_password": "vagrant"
+		}
+	],
 	"post-processors": [
 		[{
 			"type": "vagrant",
@@ -45,6 +57,7 @@
 		"guest_additions_mode": "attach",
 		"headless": "false",
 		"iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
-		"iso_url": "http://care.dlservice.microsoft.com/dl/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO"
+		"iso_url": "http://care.dlservice.microsoft.com/dl/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO",
+		"template": "windows-2012r2-standard"
 	}
 }

@@ -13,23 +13,36 @@
 		"iso_url": "{{ user `iso_url` }}",
 		"iso_checksum": "{{ user `iso_checksum` }}",
 		"iso_checksum_type": "sha1",
+		"output_directory": "../builds/packer-{{user `template`}}-virtualbox",
 		"communicator": "winrm",
 		"winrm_username": "vagrant",
 		"winrm_password": "vagrant",
 		"winrm_timeout": "12h",
-		"shutdown_command": "a:/PackerShutdown.bat",
+		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
 		"shutdown_timeout": "15m",
 		"floppy_files": [
-			"answer_files/2008_r2{{user `core`}}/Autounattend.xml",
-			"scripts/package.ps1",
-			"scripts/winrm.cmd",
-			"scripts/SetupComplete.cmd",
+			"answer_files/2008_r2/Autounattend.xml"
 		]
 	}],
 	"provisioners": [{
-		"type": "powershell",
-		"script": "scripts/provision.ps1"
-	}],
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"run_list": [
+				"packer-templates::vbox_guest_additions",
+				"packer-templates::uninstall_powershell_ise",
+				"packer-templates::enable_file_sharing",
+				"packer-templates::enable_remote_desktop",
+				"packer-templates::cleanup"
+			]
+		},
+		{
+			"type": "powershell",
+			"script": "scripts/cleanup.ps1",
+			"elevated_user": "vagrant",
+			"elevated_password": "vagrant"
+		}
+	],
 	"post-processors": [
 		[{
 			"type": "vagrant",
@@ -39,10 +52,10 @@
 		}]
 	],
 	"variables": {
-		"core": "",
 		"guest_additions_mode": "attach",
 		"headless": "false",
 		"iso_checksum": "beed231a34e90e1dd9a04b3afabec31d62ce3889",
-		"iso_url": "http://download.microsoft.com/download/7/5/E/75EC4E54-5B02-42D6-8879-D8D3A25FBEF7/7601.17514.101119-1850_x64fre_server_eval_en-us-GRMSXEVAL_EN_DVD.iso"
+		"iso_url": "http://download.microsoft.com/download/7/5/E/75EC4E54-5B02-42D6-8879-D8D3A25FBEF7/7601.17514.101119-1850_x64fre_server_eval_en-us-GRMSXEVAL_EN_DVD.iso",
+		"template": "windows-2008r2-standard"
 	}
 }

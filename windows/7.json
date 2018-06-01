@@ -11,7 +11,7 @@
     "iso_checksum": "{{ user `iso_checksum` }}",
     "iso_checksum_type": "sha1",
     "communicator": "winrm",
-    "headless": "{{ user `headless` }}",    
+    "headless": "{{ user `headless` }}",
     "winrm_username": "vagrant",
     "winrm_password": "vagrant",
     "winrm_timeout": "24h",
