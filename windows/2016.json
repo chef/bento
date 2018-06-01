@@ -1,0 +1,96 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--vram", "48" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+      ],
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_os_type": "Windows2016_64",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "md5",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "C:/Windows/Panther/Unattend/packer_shutdown.bat",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "answer_files/2016/Autounattend.xml",
+        "scripts/winrm.cmd"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks", "vendor/cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer-templates::install_ps_modules",
+        "packer-templates::vbox_guest_additions",
+        "packer-templates::uninstall_powershell_ise",
+        "packer-templates::delete_pagefile"
+      ]
+    },
+    {
+      "type": "powershell",
+      "script": "scripts/windows-updates.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "15m"
+    },
+    {
+      "type": "powershell",
+      "script": "scripts/after-reboot.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    },
+    {
+      "type": "chef-solo",
+      "remote_cookbook_paths": [
+        "c:/windows/temp/packer-chef-solo/cookbooks-0",
+        "c:/windows/temp/packer-chef-solo/cookbooks-1"
+      ],
+      "guest_os_type": "windows",
+      "skip_install": "true",
+      "run_list": [
+        "packer-templates::enable_file_sharing",
+        "packer-templates::remote_desktop",
+        "packer-templates::clean_sxs",
+        "packer-templates::add_postunattend",
+        "packer-templates::add_pagefile",
+        "packer-templates::set_local_account_token_filter_policy",
+        "packer-templates::remove_dirs",
+        "packer-templates::add_setup_complete"
+      ]
+    },
+    {
+      "type": "powershell",
+      "script": "scripts/cleanup.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows2016min-{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile-windows.template"
+    }
+  ],
+  "variables": {
+    "guest_additions_mode": "attach",
+    "headless": "true",
+    "iso_checksum": "18a4f00a675b0338f3c7c93c4f131beb",
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/6/F/16FA20E6-4662-482A-920B-1A45CF5AAE3C/14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+  }
+}

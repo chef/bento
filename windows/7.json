@@ -1,0 +1,41 @@
+{
+    "builders": [{
+    "type": "virtualbox-iso",
+    "vboxmanage": [
+      [ "modifyvm", "{{.Name}}", "--memory", "5120" ],
+      [ "modifyvm", "{{.Name}}", "--vram", "36" ],
+      [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+    ],
+    "guest_os_type": "Windows7_64",
+    "iso_url": "{{ user `iso_url` }}",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "sha1",
+    "communicator": "winrm",
+    "headless": "{{ user `headless` }}",    
+    "winrm_username": "vagrant",
+    "winrm_password": "vagrant",
+    "winrm_timeout": "24h",
+    "shutdown_command": "C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown",
+    "shutdown_timeout": "15m",
+    "floppy_files": [
+      "answer_files/win7/Autounattend.xml",
+      "answer_files/win7/postunattend.xml",
+      "scripts/boxstarter.ps1",
+      "scripts/package.ps1",
+      "scripts/Test-Command.ps1"
+    ]
+  }],
+    "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows7-{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile-windows.template"
+    }
+  ],
+  "variables": {
+    "headless": "false",
+    "iso_checksum": "36ae90defbad9d9539e649b193ae573b77a71c83",
+    "iso_url": "iso/en_windows_7_ultimate_with_sp1_x64_dvd_u_677332.iso"
+  }
+}

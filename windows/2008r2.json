@@ -1,0 +1,48 @@
+{
+	"builders": [{
+		"type": "virtualbox-iso",
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "2048"],
+			["modifyvm", "{{.Name}}", "--vram", "48"],
+			["modifyvm", "{{.Name}}", "--cpus", "2"]
+		],
+		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+		"guest_os_type": "Windows2008_64",
+		"headless": "{{ user `headless` }}",
+		"iso_url": "{{ user `iso_url` }}",
+		"iso_checksum": "{{ user `iso_checksum` }}",
+		"iso_checksum_type": "sha1",
+		"communicator": "winrm",
+		"winrm_username": "vagrant",
+		"winrm_password": "vagrant",
+		"winrm_timeout": "12h",
+		"shutdown_command": "a:/PackerShutdown.bat",
+		"shutdown_timeout": "15m",
+		"floppy_files": [
+			"answer_files/2008_r2{{user `core`}}/Autounattend.xml",
+			"scripts/package.ps1",
+			"scripts/winrm.cmd",
+			"scripts/SetupComplete.cmd",
+		]
+	}],
+	"provisioners": [{
+		"type": "powershell",
+		"script": "scripts/provision.ps1"
+	}],
+	"post-processors": [
+		[{
+			"type": "vagrant",
+			"keep_input_artifact": true,
+			"output": "windows2008r2-{{.Provider}}.box",
+			"vagrantfile_template": "vagrantfile-windows.template"
+		}]
+	],
+	"variables": {
+		"core": "",
+		"guest_additions_mode": "attach",
+		"headless": "false",
+		"iso_checksum": "beed231a34e90e1dd9a04b3afabec31d62ce3889",
+		"iso_url": "http://download.microsoft.com/download/7/5/E/75EC4E54-5B02-42D6-8879-D8D3A25FBEF7/7601.17514.101119-1850_x64fre_server_eval_en-us-GRMSXEVAL_EN_DVD.iso"
+	}
+}
