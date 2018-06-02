@@ -27,3 +27,4 @@ suites:
       - recipe[packer-templates::ui_tweaks]
       - recipe[packer-templates::power]
       - recipe[packer-templates::cleanup]
+      - recipe[packer-templates::defrag]
