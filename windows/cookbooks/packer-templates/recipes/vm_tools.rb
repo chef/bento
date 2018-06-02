@@ -13,6 +13,7 @@ when 'vbox'
 
       Start-Process -FilePath "e:/VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "C:/Windows/Temp/virtualbox" -Wait
     EOH
+    ignore_failure true
   end
 
   directory 'C:/Windows/Temp/virtualbox' do
