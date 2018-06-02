@@ -16,7 +16,7 @@ powershell_script 'remove unnecesary directories' do
       "C:\\Recovery",
       "$env:localappdata\\temp\\*",
       "$env:windir\\logs",
-      "$env:windir\\winsxs\\manifestcache"s
+      "$env:windir\\winsxs\\manifestcache"
   ) | % {
           if(Test-Path $_) {
               Write-Host "Removing $_"

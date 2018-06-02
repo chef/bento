@@ -3,5 +3,5 @@ execute 'Enable RDP' do
 end
 
 execute 'Enable RDP firewall rule' do
-  command 'netsh advfirewall firewall add rule name="Open Port 3389" dir=in action=allow protocol=TCP localport=3389'
+  command 'netsh advfirewall firewall set rule group="Remote Desktop" new enable=Yes'
 end
