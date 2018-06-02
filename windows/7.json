@@ -1,41 +1,63 @@
 {
-    "builders": [{
-    "type": "virtualbox-iso",
-    "vboxmanage": [
-      [ "modifyvm", "{{.Name}}", "--memory", "5120" ],
-      [ "modifyvm", "{{.Name}}", "--vram", "36" ],
-      [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
-    ],
-    "guest_os_type": "Windows7_64",
-    "iso_url": "{{ user `iso_url` }}",
-    "iso_checksum": "{{ user `iso_checksum` }}",
-    "iso_checksum_type": "sha1",
-    "communicator": "winrm",
-    "headless": "{{ user `headless` }}",
-    "winrm_username": "vagrant",
-    "winrm_password": "vagrant",
-    "winrm_timeout": "24h",
-    "shutdown_command": "C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown",
-    "shutdown_timeout": "15m",
-    "floppy_files": [
-      "answer_files/win7/Autounattend.xml",
-      "answer_files/win7/postunattend.xml",
-      "scripts/boxstarter.ps1",
-      "scripts/package.ps1",
-      "scripts/Test-Command.ps1"
-    ]
-  }],
-    "post-processors": [
-    {
-      "type": "vagrant",
-      "keep_input_artifact": true,
-      "output": "windows7-{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows.template"
-    }
-  ],
-  "variables": {
-    "headless": "false",
-    "iso_checksum": "36ae90defbad9d9539e649b193ae573b77a71c83",
-    "iso_url": "iso/en_windows_7_ultimate_with_sp1_x64_dvd_u_677332.iso"
-  }
+	"builders": [{
+		"type": "virtualbox-iso",
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "5120"],
+			["modifyvm", "{{.Name}}", "--vram", "36"],
+			["modifyvm", "{{.Name}}", "--cpus", "2"]
+		],
+		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+		"guest_os_type": "Windows7_64",
+		"headless": "{{ user `headless` }}",
+		"iso_url": "{{ user `iso_url` }}",
+		"iso_checksum": "{{ user `iso_checksum` }}",
+		"iso_checksum_type": "sha1",
+		"output_directory": "../builds/packer-{{user `template`}}-virtualbox",
+		"communicator": "winrm",
+		"winrm_username": "vagrant",
+		"winrm_password": "vagrant",
+		"winrm_timeout": "12h",
+		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+		"shutdown_timeout": "15m",
+		"floppy_files": [
+			"answer_files/7/Autounattend.xml"
+		]
+	}],
+	"provisioners": [{
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"run_list": [
+				"packer-templates::vm_tools",
+				"packer-templates::uninstall_powershell_ise",
+				"packer-templates::enable_file_sharing",
+				"packer-templates::enable_remote_desktop",
+				"packer-templates::ui_tweaks",
+				"packer-templates::power",
+				"packer-templates::cleanup"
+			]
+		},
+		{
+			"type": "powershell",
+			"script": "scripts/cleanup.ps1",
+			"elevated_user": "vagrant",
+			"elevated_password": "vagrant"
+		}
+	],
+	"post-processors": [
+		[{
+			"type": "vagrant",
+			"keep_input_artifact": true,
+			"output": "{{ user `template` }}-{{.Provider}}.box",
+			"vagrantfile_template": "vagrantfile-windows.template"
+		}]
+	],
+	"variables": {
+		"guest_additions_mode": "attach",
+		"headless": "false",
+		"iso_checksum": "36ae90defbad9d9539e649b193ae573b77a71c83",
+		"iso_url": "iso/en_windows_7_ultimate_with_sp1_x64_dvd_u_677332.iso"
+		"template": "windows-7"
+	}
 }

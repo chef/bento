@@ -16,6 +16,6 @@ when 'vbox'
   end
 
   directory 'C:/Windows/Temp/virtualbox' do
-    action :remove
+    action :delete
   end
 end

@@ -1,7 +1,7 @@
-execute "run cleanmgr" do
+execute 'run cleanmgr' do
   command 'C:\Windows\System32\cleanmgr.exe /sagerun:10﻿'
   ignore_failure true
-  only_if ""
+  only_if { node['kernel']['product_type'] == 'Workstaton' } # cleanmgr isn't on servers
 end
 
 execute 'clean SxS' do
@@ -33,8 +33,8 @@ end
 # remove pagefile
 registry_key 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' do
   values [{
-    :name => 'PagingFiles',
-    :type => :string,
-    :data => ''
+    name: 'PagingFiles',
+    type: :string,
+    data: '',
   }]
 end
