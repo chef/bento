@@ -28,6 +28,7 @@
 			"type": "chef-solo",
 			"cookbook_paths": ["cookbooks"],
 			"guest_os_type": "windows",
+			"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
 			"run_list": [
 				"packer-templates::vm_tools",
 				"packer-templates::uninstall_powershell_ise",
@@ -35,7 +36,8 @@
 				"packer-templates::enable_remote_desktop",
 				"packer-templates::ui_tweaks",
 				"packer-templates::power",
-				"packer-templates::cleanup"
+				"packer-templates::cleanup",
+				"packer-templates::defrag"
 			]
 		},
 		{

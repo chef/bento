@@ -7,20 +7,21 @@
 			["modifyvm", "{{.Name}}", "--cpus", "2"]
 		],
 		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
 		"guest_os_type": "Windows2016_64",
 		"headless": "{{ user `headless` }}",
 		"iso_url": "{{ user `iso_url` }}",
 		"iso_checksum": "{{ user `iso_checksum` }}",
-		"iso_checksum_type": "md5",
+		"iso_checksum_type": "sha1",
+		"output_directory": "../builds/packer-{{user `template`}}-virtualbox",
 		"communicator": "winrm",
 		"winrm_username": "vagrant",
 		"winrm_password": "vagrant",
 		"winrm_timeout": "12h",
-		"shutdown_command": "C:/Windows/Panther/Unattend/packer_shutdown.bat",
+		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
 		"shutdown_timeout": "15m",
 		"floppy_files": [
-			"answer_files/2016/Autounattend.xml",
-			"scripts/winrm.cmd"
+			"answer_files/2012_r2/Autounattend.xml"
 		]
 	}],
 	"provisioners": [{
@@ -28,11 +29,14 @@
 			"cookbook_paths": ["cookbooks"],
 			"guest_os_type": "windows",
 			"run_list": [
-				"packer-templates::vbox_guest_additions",
+				"packer-templates::vm_tools",
 				"packer-templates::uninstall_powershell_ise",
 				"packer-templates::enable_file_sharing",
 				"packer-templates::enable_remote_desktop",
-				"packer-templates::cleanup"
+				"packer-templates::ui_tweaks",
+				"packer-templates::power",
+				"packer-templates::cleanup",
+				"packer-templates::defrag"
 			]
 		},
 		{
@@ -42,16 +46,19 @@
 			"elevated_password": "vagrant"
 		}
 	],
-	"post-processors": [{
-		"type": "vagrant",
-		"keep_input_artifact": true,
-		"output": "windows2016min-{{.Provider}}.box",
-		"vagrantfile_template": "vagrantfile-windows.template"
-	}],
+	"post-processors": [
+		[{
+			"type": "vagrant",
+			"keep_input_artifact": true,
+			"output": "{{ user `template` }}-{{.Provider}}.box",
+			"vagrantfile_template": "vagrantfile-windows.template"
+		}]
+	],
 	"variables": {
 		"guest_additions_mode": "attach",
 		"headless": "true",
 		"iso_checksum": "18a4f00a675b0338f3c7c93c4f131beb",
-		"iso_url": "http://care.dlservice.microsoft.com/dl/download/1/6/F/16FA20E6-4662-482A-920B-1A45CF5AAE3C/14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+		"iso_url": "http://care.dlservice.microsoft.com/dl/download/1/6/F/16FA20E6-4662-482A-920B-1A45CF5AAE3C/14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO",
+		"template": "windows-2016-standard"
 	}
 }
