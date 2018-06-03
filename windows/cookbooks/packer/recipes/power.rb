@@ -3,7 +3,7 @@ execute 'Set high performance power profile' do
 end
 
 execute 'Turn off Hibernation' do
-  command 'owercfg.exe /hibernate off'
+  command 'powercfg.exe /hibernate off'
   ignore_failure :quiet # if unsupported on the hardware it errors
 end
 
