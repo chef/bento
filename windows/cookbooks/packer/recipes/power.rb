@@ -3,7 +3,8 @@ execute 'Set high performance power profile' do
 end
 
 execute 'Turn off Hibernation' do
-  command 'powercfg -h off'
+  command 'owercfg.exe /hibernate off'
+  ignore_failure :quiet # if unsupported on the hardware it errors
 end
 
 execute 'Turn off monitor timeout on AC power' do

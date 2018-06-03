@@ -29,14 +29,14 @@
 			"cookbook_paths": ["cookbooks"],
 			"guest_os_type": "windows",
 			"run_list": [
-				"packer-templates::vm_tools",
-				"packer-templates::uninstall_powershell_ise",
-				"packer-templates::enable_file_sharing",
-				"packer-templates::enable_remote_desktop",
-				"packer-templates::ui_tweaks",
-				"packer-templates::power",
-				"packer-templates::cleanup",
-				"packer-templates::defrag"
+				"packer::vm_tools",
+				"packer::uninstall_powershell_ise",
+				"packer::enable_file_sharing",
+				"packer::enable_remote_desktop",
+				"packer::ui_tweaks",
+				"packer::power",
+				"packer::cleanup",
+				"packer::defrag"
 			]
 		},
 		{
