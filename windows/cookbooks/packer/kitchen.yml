@@ -1,0 +1,36 @@
+driver:
+  name: vagrant
+  customize:
+    cpus: 2
+    memory: 4096
+
+transport:
+  name: winrm
+  elevated: true
+
+provisioner:
+  name: chef_zero
+  deprecations_as_errors: true
+
+platforms:
+  - name: windows-2016
+    driver_config:
+      box: chef/windows-server-2016-standard
+  - name: windows-2012r2
+    driver_config:
+      box: tas50/windows-2012r2
+  - name: windows-2008r2
+    driver_config:
+      box: tas50/windows-2008r2
+
+suites:
+  - name: default
+    run_list:
+      - recipe[packer::vm_tools]
+      - recipe[packer::uninstall_powershell_ise]
+      - recipe[packer::enable_file_sharing]
+      - recipe[packer::enable_remote_desktop]
+      - recipe[packer::ui_tweaks]
+      - recipe[packer::power]
+      - recipe[packer::cleanup]
+      - recipe[packer::defrag]
