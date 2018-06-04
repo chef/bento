@@ -59,7 +59,7 @@
 		"guest_additions_mode": "attach",
 		"headless": "false",
 		"iso_checksum": "36ae90defbad9d9539e649b193ae573b77a71c83",
-		"iso_url": "iso/en_windows_7_ultimate_with_sp1_x64_dvd_u_677332.iso"
+		"iso_url": "iso/en_windows_7_ultimate_with_sp1_x64_dvd_u_677332.iso",
 		"template": "windows-7"
 	}
 }
