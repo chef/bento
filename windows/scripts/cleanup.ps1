@@ -1,9 +1,13 @@
-Write-Host "Uninstall Chef..."
+Write-Host "Uninstalling Chef..."
 if(Test-Path "c:\windows\temp\chef.msi") {
   Start-Process MSIEXEC.exe '/uninstall c:\windows\temp\chef.msi /quiet' -Wait
 }
 
-Write-Host "Cleaning Temp Files"
+Write-Host "Removing leftover Chef files..."
+Remove-Item "C:\Opscode\" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "C:\Chef\" -Recurse -Force -ErrorAction SilentlyContinue
+
+Write-Host "Cleaning Temp Files..."
 try {
   Takeown /d Y /R /f "C:\Windows\Temp\*"
   Icacls "C:\Windows\Temp\*" /GRANT:r administrators:F /T /c /q  2>&1
@@ -20,7 +24,7 @@ $ArraySize= 64kb
 $SpaceToLeave= $Volume.Size * 0.05
 $FileSize= $Volume.FreeSpace - $SpacetoLeave
 $ZeroArray= new-object byte[]($ArraySize)
- 
+
 $Stream= [io.File]::OpenWrite($FilePath)
 try {
    $CurFileSize = 0
@@ -34,5 +38,5 @@ finally {
         $Stream.Close()
     }
 }
- 
+
 Remove-Item $FilePath
