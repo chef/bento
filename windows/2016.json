@@ -30,7 +30,7 @@
 			"guest_os_type": "windows",
 			"run_list": [
 				"packer::vm_tools",
-				"packer::uninstall_powershell_ise",
+				"packer::features",
 				"packer::enable_file_sharing",
 				"packer::enable_remote_desktop",
 				"packer::ui_tweaks",

@@ -27,7 +27,7 @@ suites:
   - name: default
     run_list:
       - recipe[packer::vm_tools]
-      - recipe[packer::uninstall_powershell_ise]
+      - recipe[packer::features]
       - recipe[packer::enable_file_sharing]
       - recipe[packer::enable_remote_desktop]
       - recipe[packer::ui_tweaks]

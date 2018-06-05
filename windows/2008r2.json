@@ -31,14 +31,26 @@
 			"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
 			"run_list": [
 				"packer::vm_tools",
-				"packer::uninstall_powershell_ise",
+				"packer::features",
 				"packer::enable_file_sharing",
 				"packer::enable_remote_desktop",
 				"packer::ui_tweaks",
 				"packer::power",
-				"packer::cleanup",
-				"packer::defrag"
+				"packer::updates"
 			]
+		},
+		{
+			"type": "windows-restart"
+		},
+		{
+				"type": "chef-solo",
+				"cookbook_paths": ["cookbooks"],
+				"guest_os_type": "windows",
+				"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
+				"run_list": [
+					"packer::cleanup",
+					"packer::defrag"
+				]
 		},
 		{
 			"type": "powershell",
