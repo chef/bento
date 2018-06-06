@@ -16,7 +16,8 @@ powershell_script 'remove unnecesary directories' do
       "C:\\Recovery",
       "$env:localappdata\\temp\\*",
       "$env:windir\\logs",
-      "$env:windir\\winsxs\\manifestcache"
+      "$env:windir\\winsxs\\manifestcache",
+      "C:\\Users\\vagrant\Favorites\\*"
   ) | % {
           if(Test-Path $_) {
               Write-Host "Removing $_"
@@ -28,6 +29,13 @@ powershell_script 'remove unnecesary directories' do
           }
       }
   EOH
+end
+
+# clean all of the event logs
+%w(Application Security Setup System).each do |log|
+  execute "Cleaning the #{log} event log" do
+    command "wevtutil clear-log #{log}"
+  end
 end
 
 # remove pagefile
