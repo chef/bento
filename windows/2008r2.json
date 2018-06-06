@@ -43,14 +43,14 @@
 			"type": "windows-restart"
 		},
 		{
-				"type": "chef-solo",
-				"cookbook_paths": ["cookbooks"],
-				"guest_os_type": "windows",
-				"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
-				"run_list": [
-					"packer::cleanup",
-					"packer::defrag"
-				]
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
+			"run_list": [
+				"packer::cleanup",
+				"packer::defrag"
+			]
 		},
 		{
 			"type": "powershell",
