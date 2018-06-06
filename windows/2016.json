@@ -2,7 +2,7 @@
 	"builders": [{
 		"type": "virtualbox-iso",
 		"vboxmanage": [
-			["modifyvm", "{{.Name}}", "--memory", "2048"],
+			["modifyvm", "{{.Name}}", "--memory", "4096"],
 			["modifyvm", "{{.Name}}", "--vram", "48"],
 			["modifyvm", "{{.Name}}", "--cpus", "2"]
 		],
