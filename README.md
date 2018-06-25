@@ -73,6 +73,18 @@ If the build is successful, ready to import box files will be in the `builds` di
 
 Templates for operating systems only available via license or subscription are also available in the repository, these include but are not limited to: Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise. As the ISOs are not publicly available the URL values will need to be overridden as appropriate. We rely on the efforts of those with access to licensed versions of the operating systems to keep these up-to-date.
 
+### Networking/Firewalls
+
+Most of the providers need somewhat unrestricted access to networking in order to build as expected. We can't enumerate all possible firewall configurations but include some snippets below that might be useful to users.
+
+#### Windows
+
+```
+$VS = "Standardswitch"
+$IF_ALIAS = (Get-NetAdapter -Name "vEthernet ($VS)").ifAlias
+New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -InterfaceAlias $IF_ALIAS -Action Allow
+```
+
 #### macOS / OSX
 
 See our [wiki page](https://github.com/chef/bento/wiki/macOS)
