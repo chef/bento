@@ -156,6 +156,7 @@
       <package>telnet</package>
       <package>virtualbox-guest-kmp-default</package>
       <package>virtualbox-guest-tools</package>
+      <package>snapper</package>
       <package>snapper-zypp-plugin</package>
     </remove-packages>
   </software>
