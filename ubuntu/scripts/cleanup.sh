@@ -67,5 +67,5 @@ find /var/cache -type f -exec rm -rf {} \;
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
 
-# Remove netplan machine-id (DUID) so machines get unique ID generated on boot.
-rm -rf /etc/machine-id
+# Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
+truncate -s 0 /etc/machine-id
