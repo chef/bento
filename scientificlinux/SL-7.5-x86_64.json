@@ -56,19 +56,19 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "scripts/update.sh",
+        "../centos/scripts/update.sh",
         "../_common/sshd.sh",
-        "scripts/networking.sh",
+        "../centos/scripts/networking.sh",
         "../_common/vagrant.sh",
         "../_common/virtualbox.sh",
-        "scripts/cleanup.sh",
+        "../centos/scripts/cleanup.sh",
         "../_common/minimize.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
-    "box_basename": "SL-7.3",
+    "box_basename": "SL-7.5",
     "build_timestamp": "{{isotime \"20080506150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -78,14 +78,14 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "ef3dd1b2a45c81b682a42d39ed3088e8649f836c32900331935f7a26e6ee316a",
+    "iso_checksum": "b59f60e6cc287058667086bcf95da4ef5d4a12efba1b01711c26d6587ffc190a",
     "iso_checksum_type": "sha256",
     "iso_name": "SL-7-DVD-x86_64.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.up.pt/pub/scientific/",
-    "mirror_directory": "7.3/x86_64/iso",
-    "name": "SL-7.3",
+    "mirror_directory": "7.5/x86_64/iso",
+    "name": "SL-7.5",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "SL-7-x86_64",
     "version": "TIMESTAMP"
