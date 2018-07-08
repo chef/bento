@@ -7,7 +7,7 @@ env:
     - PATH=$HOME/bin:$PATH
 
 rvm:
-  - 2.4.1
+  - 2.5.1
   - ruby-head
 
 matrix:
