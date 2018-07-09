@@ -83,7 +83,7 @@
     "iso_name": "SL-7-DVD-x86_64.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
-    "mirror": "http://mirrors.up.pt/pub/scientific/",
+    "mirror": "http://www.gtlib.gatech.edu/pub/scientific",
     "mirror_directory": "7.5/x86_64/iso",
     "name": "SL-7.5",
     "no_proxy": "{{env `no_proxy`}}",
