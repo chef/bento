@@ -3,7 +3,7 @@ sudo: false
 
 env:
   global:
-    - PACKER_VERSION="1.0.4"
+    - PACKER_VERSION="1.2.4"
     - PATH=$HOME/bin:$PATH
 
 rvm:
