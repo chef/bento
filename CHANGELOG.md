@@ -1,5 +1,62 @@
 # Change Log
 
+## [Unreleased](https://github.com/chef/bento/tree/HEAD)
+
+[Full Changelog](https://github.com/chef/bento/compare/v201806.08.0...HEAD)
+
+**New Platforms**
+
+- FreeBSD 11.2-RELEASE [\#1068](https://github.com/chef/bento/pull/1068) ([lwhsu](https://github.com/lwhsu))
+
+**Deprecated Platforms**
+
+- Debian 7 [\#1059](https://github.com/chef/bento/pull/1059) ([tas50](https://github.com/tas50))
+- Debian 8.11 [\#1064](https://github.com/chef/bento/pull/1064) ([kenhys](https://github.com/kenhys))
+- Fedora 26 [\#1074](https://github.com/chef/bento/pull/1074) ([tas50](https://github.com/tas50))
+- Ubuntu 17.10 [\#1077](https://github.com/chef/bento/pull/1077) ([tas50](https://github.com/tas50))
+- macOS 10.9 [\#1076](https://github.com/chef/bento/pull/1076) ([tas50](https://github.com/tas50))
+
+**Fixes and Improvements**
+- Use a faster scientific mirror [\#1081](https://github.com/chef/bento/pull/1081) ([tas50](https://github.com/tas50))
+- Install the latest 2008-06 update for 2k8r2 [\#1080](https://github.com/chef/bento/pull/1080) ([tas50](https://github.com/tas50))
+- Update RHELs to 6.10 / 7.5 [\#1079](https://github.com/chef/bento/pull/1079) ([tas50](https://github.com/tas50))
+- Blank netplan machine-id \(DUID\) so Ubuntu machines get unique ID generated on boot. [\#1073](https://github.com/chef/bento/pull/1073) ([NoahO](https://github.com/NoahO))
+- openSUSE: no space issue and SLES network persistence [\#1072](https://github.com/chef/bento/pull/1072) ([bkonick](https://github.com/bkonick))
+- Set correct permissions on /etc/sudoers.d/vagrant [\#1067](https://github.com/chef/bento/pull/1067) ([kbpease](https://github.com/kbpease))
+- Ubuntu 18.04: Use en\_US.UTF-8 locale instead of en\_US [\#1066](https://github.com/chef/bento/pull/1066) ([davejagoda](https://github.com/davejagoda))
+- Increase build time memory to 4GB on Windows boxes [\#1061](https://github.com/chef/bento/pull/1061) ([tas50](https://github.com/tas50))
+
+## [v201806.08.0](https://github.com/chef/bento/tree/v201806.08.0) (2018-06-07)
+[Full Changelog](https://github.com/chef/bento/compare/201803.24.0...v201806.08.0)
+
+**New Platforms**
+
+- Ubuntu 18.04 (Release version)
+- CentOS 7.5 [\#1037](https://github.com/chef/bento/pull/1037) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Fedora 28 [\#1035](https://github.com/chef/bento/pull/1035) ([fkrull](https://github.com/fkrull))
+- HardenedBSD v1100055.2 [\#1033](https://github.com/chef/bento/pull/1033) ([nusenu](https://github.com/nusenu))
+
+**Deprecated Platforms**
+- Remove EOL'd FreeBSD-10.3 [\#1060](https://github.com/chef/bento/pull/1060) ([lwhsu](https://github.com/lwhsu))
+
+**Fixes and Improvements**
+- fedora, centos, rhel: added deltarpm to kickstart files [\#1030](https://github.com/chef/bento/pull/1030) ([muellerbe](https://github.com/muellerbe))
+- Clean up network configs [\#1025](https://github.com/chef/bento/pull/1025) ([Superdawg](https://github.com/Superdawg))
+- OpenSuse: Create a new 'vagrant' group for vagrant user [\#1020](https://github.com/chef/bento/pull/1020) ([hwoarang](https://github.com/hwoarang))
+- Improvements for Windows 2008 R2 [\#1057](https://github.com/chef/bento/pull/1057) ([tas50](https://github.com/tas50))
+- Update for Ubuntu 16.04.4 [\#1056](https://github.com/chef/bento/pull/1056) ([JBenPiel](https://github.com/JBenPiel))
+- Initial windows support [\#1053](https://github.com/chef/bento/pull/1053) ([tas50](https://github.com/tas50))
+- centos, rhel, oracle: remove previous kernels to minimize image size [\#1052](https://github.com/chef/bento/pull/1052) ([ceetav](https://github.com/ceetav))
+- Scientific Linux templates  [\#1051](https://github.com/chef/bento/pull/1051) ([githubfoam](https://github.com/githubfoam))
+- Fix Fedora cleanup script not to cause unintended software removal. [\#1050](https://github.com/chef/bento/pull/1050) ([mgruner](https://github.com/mgruner))
+
+**Tooling**
+- VirtualBox 5.2.12
+- Parallels 13.3.1
+- VMware Fusion 10.1.2
+- Packer 1.2.3
+- Vagrant 2.1.1
+
 ## [201803.24.0](https://github.com/chef/bento/tree/201803.24.0) (2018-03-24)
 
 **New Platforms**
