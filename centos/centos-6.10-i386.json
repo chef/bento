@@ -181,7 +181,7 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-6.9-i386",
+    "box_basename": "centos-6.10-i386",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -190,16 +190,16 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "iso_checksum": "0724a468ec0c4ac46ac6a1daba0273be697a37bb7f4e9fed8ad84ad270cdee2f",
+    "iso_checksum": "25d95b3f178e59bd672fa97e043a9191cbf73bb6cd12f5df9b540fa88076cae8",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-6.9-i386-bin-DVD1.iso",
+    "iso_name": "CentOS-6.10-i386-bin-DVD1.iso",
     "ks_path": "6/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "6.9/isos/i386",
-    "name": "centos-6.9-i386",
+    "mirror_directory": "6.10/isos/i386",
+    "name": "centos-6.10-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-6.9-i386",
+    "template": "centos-6.10-i386",
     "version": "TIMESTAMP"
   }
 }
