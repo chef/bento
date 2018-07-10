@@ -6,11 +6,11 @@ providers:
 
 public:
 - 'centos-7.5'
-- 'centos-6.9'
-- 'centos-6.9-i386'
+- 'centos-6.10'
+- 'centos-6.10-i386'
 - 'oracle-7.5'
-- 'oracle-6.9'
-- 'oracle-6.9-i386'
+- 'oracle-6.10'
+- 'oracle-6.10-i386'
 - 'ubuntu-18.04'
 - 'ubuntu-16.04'
 - 'ubuntu-16.04-i386'
@@ -33,7 +33,7 @@ public:
 
 slugs:
   'centos-7': 'centos-7.5'
-  'centos-6': 'centos-6.9'
+  'centos-6': 'centos-6.10'
   'debian-9': 'debian-9.4'
   'debian-8': 'debian-8.10'
   'freebsd-11': 'freebsd-11.2'
