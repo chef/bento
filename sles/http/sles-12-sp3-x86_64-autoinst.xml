@@ -101,12 +101,13 @@
   <partitioning config:type="list">
     <drive>
       <!--
-        definition of device not needed (starting with SLES 11 SP2 
+        definition of device not needed (starting with SLES 11 SP2
         YaST will pickup the first harddisk.
         This is useful if someone wants to deploy using VirtualBox and/or KVM/virtio
       -->
       <!-- <device>/dev/sda</device> -->
       <!-- This section may be removed entirely if we want to simply reuse YaST defaults -->
+      <enable_snapshots config:type="boolean">false</enable_snapshots>
       <initialize config:type="boolean">true</initialize>
       <partitions config:type="list">
         <partition>
@@ -136,7 +137,7 @@
           <partition_nr config:type="integer">2</partition_nr>
           <raid_options/>
           <resize config:type="boolean">false</resize>
-          <size>19895844352</size>
+          <size>max</size>
           <subvolumes config:type="list">
             <listentry>boot/grub2/i386-pc</listentry>
             <listentry>boot/grub2/x86_64-efi</listentry>
@@ -223,6 +224,8 @@
       <package>postfix</package>
       <package>samba-libs</package>
       <package>ucode-intel</package>
+      <package>snapper</package>
+      <package>snapper-zypp-plugin</package>
     </remove-packages>
   </software>
   <timezone>

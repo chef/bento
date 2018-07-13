@@ -179,7 +179,7 @@
     "box_basename": "sles-12-sp3",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
-    "disk_size": "20480",
+    "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -194,4 +194,3 @@
     "version": "TIMESTAMP"
   }
 }
-
