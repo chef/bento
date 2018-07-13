@@ -82,7 +82,7 @@
           <partition_nr config:type="integer">2</partition_nr>
           <raid_options/>
           <resize config:type="boolean">false</resize>
-          <size>64424509440</size>
+          <size>max</size>
         </partition>
       </partitions>
       <pesize></pesize>

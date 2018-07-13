@@ -137,7 +137,7 @@
           <partition_nr config:type="integer">2</partition_nr>
           <raid_options/>
           <resize config:type="boolean">false</resize>
-          <size>19895844352</size>
+          <size>max</size>
           <subvolumes config:type="list">
             <listentry>boot/grub2/i386-pc</listentry>
             <listentry>boot/grub2/x86_64-efi</listentry>
