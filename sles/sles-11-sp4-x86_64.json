@@ -158,7 +158,6 @@
       "scripts": [
         "../_common/sshd.sh",
         "../_common/vagrant.sh",
-        "scripts/unsupported-modules.sh",
         "../_common/virtualbox.sh",
         "../_common/vmware.sh",
         "../_common/parallels.sh",
