@@ -1,17 +1,19 @@
 # Change Log
 
-## [Unreleased](https://github.com/chef/bento/tree/HEAD)
+## ## [v201807.12.0](https://github.com/chef/bento/tree/v201807.12.0) (2018-07-16)
 
-[Full Changelog](https://github.com/chef/bento/compare/v201806.08.0...HEAD)
+[Full Changelog](https://github.com/chef/bento/compare/v201806.08.0...v201807.12.0)
 
 **New Platforms**
 
 - FreeBSD 11.2-RELEASE [\#1068](https://github.com/chef/bento/pull/1068) ([lwhsu](https://github.com/lwhsu))
+- Debian 8.11 [\#1064](https://github.com/chef/bento/pull/1064) ([kenhys](https://github.com/kenhys))
+- Debian 9.5
+- CentOS 6.10
 
 **Deprecated Platforms**
 
 - Debian 7 [\#1059](https://github.com/chef/bento/pull/1059) ([tas50](https://github.com/tas50))
-- Debian 8.11 [\#1064](https://github.com/chef/bento/pull/1064) ([kenhys](https://github.com/kenhys))
 - Fedora 26 [\#1074](https://github.com/chef/bento/pull/1074) ([tas50](https://github.com/tas50))
 - Ubuntu 17.10 [\#1077](https://github.com/chef/bento/pull/1077) ([tas50](https://github.com/tas50))
 - macOS 10.9 [\#1076](https://github.com/chef/bento/pull/1076) ([tas50](https://github.com/tas50))
