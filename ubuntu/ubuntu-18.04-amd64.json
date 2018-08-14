@@ -306,7 +306,7 @@
     "memory": "1024",
     "mirror": "http://cdimage.ubuntu.com",
     "mirror_directory": "ubuntu/releases/18.04.1/release",
-    "name": "ubuntu-18.04.1",
+    "name": "ubuntu-18.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
     "template": "ubuntu-18.04-amd64",
