@@ -219,6 +219,7 @@
     "memory": "1024",
     "mirror": "https://installer.hardenedbsd.org",
     "mirror_directory": "pub/HardenedBSD/releases/amd64/amd64/ISO-IMAGES/hardenedbsd-11-stable-20180420-1",
+    "name": "hardenedbsd-11",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "hardenedbsd-11-amd64",
     "version": "TIMESTAMP"
