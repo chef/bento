@@ -32,7 +32,7 @@ slugs:
   'debian-9': 'debian-9.5'
   'debian-8': 'debian-8.11'
   'oracle-7': 'oracle-7.5'
-  'centos-6': 'oracle-6.10'
+  'oracle-6': 'oracle-6.10'
   'freebsd-11': 'freebsd-11.2'
   'freebsd-10': 'freebsd-10.4'
   'opensuse-leap-42': 'opensuse-leap-42.3'
