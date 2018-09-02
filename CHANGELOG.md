@@ -1,6 +1,15 @@
 # Change Log
 
-## ## [v201807.12.0](https://github.com/chef/bento/tree/v201807.12.0) (2018-07-16)
+## [v201808.24.0](https://github.com/chef/bento/tree/v201808.24.0) (2018-09-02)
+
+[Full Changelog](https://github.com/chef/bento/compare/v201807.12.0...v201808.24.0)
+
+**New Platforms**
+
+- CentOS 5.11 (resurrected)
+- OpenSUSE 15
+
+## [v201807.12.0](https://github.com/chef/bento/tree/v201807.12.0) (2018-07-16)
 
 [Full Changelog](https://github.com/chef/bento/compare/v201806.08.0...v201807.12.0)
 

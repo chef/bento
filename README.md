@@ -2,7 +2,7 @@
 
 [![Build Status](http://img.shields.io/travis/chef/bento.svg)][travis]
 
-Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. The boxes also serve as default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
+Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. These published boxes serve as the default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
 
 ### Using Public Boxes
 
@@ -75,7 +75,7 @@ Templates for operating systems only available via license or subscription are a
 
 ### Networking/Firewalls
 
-Most of the providers need somewhat unrestricted access to networking in order to build as expected. We can't enumerate all possible firewall configurations but include some snippets below that might be useful to users.
+Most of the providers expect unrestricted access to networking in order to build as expected. We can't enumerate all possible firewall configurations but include some snippets below that might be useful to users.
 
 #### Windows
 
@@ -87,18 +87,18 @@ New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -
 
 #### macOS / OSX
 
-See our [wiki page](https://github.com/chef/bento/wiki/macOS)
-
-#### Windows
-
-The project does not include many definitions for building Windows boxes. For other approaches to building Windows boxes, please see the following community projects:
-
-- [Mischa Taylor's Boxcutter project](https://github.com/boxcutter)
-- [Vagrant Windows Boxes and Puppet](https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes)
+See this [wiki page](https://github.com/chef/bento/wiki/macOS)
 
 ## Bugs and Issues
 
 Please use GitHub issues to report bugs, features, or other problems.
+
+## Related projects
+
+* https://github.com/boxcutter
+* https://github.com/mcandre/packer-templates
+* https://github.com/timsutton/osx-vm-templates
+* https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes
 
 ## License & Authors
 
