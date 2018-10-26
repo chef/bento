@@ -10,6 +10,9 @@ sed -i.bak 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades;
 # Update the package list
 apt-get -y update;
 
+# Install ifup/ifdown utilities needed for Vagrant private networks
+apt-get -y install ifupdown;
+
 # Disable systemd apt timers/services
 if [ "$major_version" -ge "16" ]; then
   systemctl stop apt-daily.timer;
