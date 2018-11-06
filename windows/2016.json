@@ -29,6 +29,7 @@
 			"cookbook_paths": ["cookbooks"],
 			"guest_os_type": "windows",
 			"run_list": [
+				"packer::disable_uac",
 				"packer::vm_tools",
 				"packer::features",
 				"packer::enable_file_sharing",
