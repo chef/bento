@@ -35,6 +35,7 @@ apt-get -y purge ppp pppconfig pppoeconf;
 
 # Delete oddities
 apt-get -y purge popularity-contest;
+apt-get -y purge installation-report;
 
 apt-get -y autoremove;
 apt-get -y clean;
