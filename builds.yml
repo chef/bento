@@ -15,6 +15,7 @@ public:
 - 'opensuse-leap-42.3'
 - 'opensuse-leap-15.0'
 - 'freebsd-11.2'
+- 'freebsd-11.2-i386'
 - 'freebsd-10.4'
 - 'hardenedbsd-11'
 - 'centos-6.10-i386'
