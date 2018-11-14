@@ -10,6 +10,7 @@ public:
 - 'debian-8.11'
 - 'oracle-7.5'
 - 'oracle-6.10'
+- 'fedora-29'
 - 'fedora-28'
 - 'fedora-27'
 - 'opensuse-leap-42.3'
