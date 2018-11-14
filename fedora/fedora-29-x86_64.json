@@ -1,6 +1,44 @@
 {
   "builders": [
     {
+      "type": "qemu",
+      "vm_name": "{{ user `template` }}",
+      "name": "{{ user `template` }}",
+      "output_directory": "../builds/packer-{{user `template`}}-libvirt",
+      "accelerator": "kvm",
+      "boot_wait": "10s",
+      "boot_command": [
+          "<tab> linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `ks_path`}}<enter><wait>"
+      ],
+      "format": "qcow2",
+      "disk_size": "{{user `disk_size`}}",
+      "disk_discard": "unmap",
+      "disk_cache": "unsafe",
+      "disk_compression": true,
+      "disk_interface": "virtio-scsi",
+      "net_device": "virtio-net",
+      "qemuargs": [
+          [
+              "-m",
+              "{{ user `memory` }}"
+          ],
+          [
+              "-smp",
+              "cpus={{ user `cpus` }}"
+          ]
+      ],
+      "http_directory": "http",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "3600s",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now"
+    },
+    {
       "boot_command": [
         "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
