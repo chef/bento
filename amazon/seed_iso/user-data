@@ -1,0 +1,16 @@
+#cloud-config
+#vim:syntax=yaml
+users:
+# A user by the name `ec2-user` is created in the image by default.
+  - default
+chpasswd:
+  list: |
+    ec2-user:vagrant
+
+# make sure we don't setup the network on every boot
+write_files:
+  - path: /etc/cloud/cloud.cfg.d/80_disable_network_after_firstboot.cfg
+    content: |
+      # Disable network configuration after first boot
+      network:
+        config: disabled
