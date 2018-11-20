@@ -1,5 +1,6 @@
 {
-	"builders": [{
+	"builders": [
+		{
 		"type": "virtualbox-iso",
 		"vboxmanage": [
 			["modifyvm", "{{.Name}}", "--memory", "4096"],
@@ -23,13 +24,37 @@
 		"floppy_files": [
 			"answer_files/2016/Autounattend.xml"
 		]
-	}],
+		},
+		{
+		"type": "vmware-iso",
+		"vmx_data": {
+			"memsize": "4096",
+			"numvcpus": "2",
+			"scsi0.virtualDev": "lsisas1068",
+			"scsi0.present": "TRUE"
+		},
+		"guest_os_type": "windows9srv-64",
+		"headless": "{{ user `headless` }}",
+		"iso_url": "{{ user `iso_url` }}",
+		"iso_checksum": "{{ user `iso_checksum` }}",
+		"iso_checksum_type": "sha1",
+		"output_directory": "../builds/packer-{{user `template`}}-vmware",
+		"communicator": "winrm",
+		"winrm_username": "vagrant",
+		"winrm_password": "vagrant",
+		"winrm_timeout": "12h",
+		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+		"shutdown_timeout": "15m",
+		"floppy_files": [
+			"answer_files/2016/Autounattend.xml"
+		]
+		}
+	],
 	"provisioners": [{
 			"type": "chef-solo",
 			"cookbook_paths": ["cookbooks"],
 			"guest_os_type": "windows",
 			"run_list": [
-				"packer::disable_uac",
 				"packer::vm_tools",
 				"packer::features",
 				"packer::enable_file_sharing",
