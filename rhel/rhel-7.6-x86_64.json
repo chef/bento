@@ -154,7 +154,7 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "rhel-7.5",
+    "box_basename": "rhel-7.6",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -162,16 +162,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "d0dd6ae5e001fb050dafefdfd871e7e648b147fb2d35f0e106e0b34a0163e8f5",
+    "iso_checksum": "60a0be5aeed1f08f2bb7599a578c89ec134b4016cd62a8604b29f15d543a469c",
     "iso_checksum_type": "sha256",
-    "iso_name": "rhel-server-7.5-x86_64-dvd.iso",
+    "iso_name": "rhel-server-7.6-x86_64-dvd.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
     "mirror": "http://YOU-MUST-PROVIDE-YOUR-OWN-ISO.sorry",
     "mirror_directory": "rhel",
-    "name": "rhel-7.5",
+    "name": "rhel-7.6",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rhel-7.5-x86_64",
+    "template": "rhel-7.6-x86_64",
     "version": "TIMESTAMP"
   }
 }
