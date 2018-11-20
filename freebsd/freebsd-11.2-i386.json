@@ -220,6 +220,7 @@
     "memory": "1024",
     "mirror": "https://download.freebsd.org/ftp",
     "mirror_directory": "releases/i386/i386/ISO-IMAGES/11.2",
+    "name": "freebsd-11.2-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "pkg_branch": "quarterly",
     "template": "freebsd-11.2-i386",
