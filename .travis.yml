@@ -1,13 +1,13 @@
-dist: trusty
+dist: xenial
 sudo: false
 
 env:
   global:
-    - PACKER_VERSION="1.2.4"
+    - PACKER_VERSION="1.3.2"
     - PATH=$HOME/bin:$PATH
 
 rvm:
-  - 2.5.1
+  - 2.5.3
   - ruby-head
 
 matrix:
