@@ -4,17 +4,22 @@ case "$PACKER_BUILDER_TYPE" in
   qemu) exit 0 ;;
 esac
 
-# Whiteout root
-count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
-count=$(($count-1))
-dd if=/dev/zero of=/tmp/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
-rm /tmp/whitespace
+# Whiteout all spaces
+spaces=(
+    '/'
+    '/usr/'
+    '/tmp/'
+    '/var/'
+    '/home/'
+    '/boot/'
+);
 
-# Whiteout /boot
-count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
-count=$(($count-1))
-dd if=/dev/zero of=/boot/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
-rm /boot/whitespace
+for space in "${spaces[@]}"; do
+    count=$(df --sync -kP ${space} | tail -n1 | awk -F ' ' '{print $4}')
+    count=$(($count-1))
+    dd if=/dev/zero of=${space}whitespace bs=1M count=${count} || echo "dd exit code $? is suppressed";
+    rm -f ${space}whitespace
+done
 
 set +e
 swapuuid="`/sbin/blkid -o value -l -s UUID -t TYPE=swap`";
