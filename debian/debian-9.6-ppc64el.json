@@ -2,12 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "e<wait>",
-        "<del><del><del><del><del><del><del><del><del><del>",
-        "<del><del><del><del><del><del><del><del><del><del>",
-        "<del><del><del><del><del><del><del><del><del><del>",
-        "<del><del><del><del><del><del><del><del><del><del>",
-        "<del><del><del><del><del><del><del><del><del><del><wait>",
+        "c<wait>",
         "setparams 'Automated install'<enter><wait>",
         "<enter><wait>",
         "set options=\" preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
@@ -26,7 +21,8 @@
         "\"",
         "<enter><wait>",
         "boot_one<wait>",
-        "<f10>"
+        "<enter><wait>",
+        "boot<enter>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
