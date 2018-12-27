@@ -4,7 +4,7 @@ public:
 - 'centos-5.11'
 - 'centos-6.10-i386'
 - 'centos-6.10'
-- 'centos-7.5'
+- 'centos-7.6'
 - 'debian-8.11-i386'
 - 'debian-8.11'
 - 'debian-9.6-i386'
@@ -28,7 +28,7 @@ public:
 - 'ubuntu-18.04'
 
 slugs:
-  'centos-7': 'centos-7.5'
+  'centos-7': 'centos-7.6'
   'centos-6': 'centos-6.10'
   'centos-5': 'centos-5.11'
   'debian-9': 'debian-9.6'

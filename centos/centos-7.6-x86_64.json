@@ -198,7 +198,7 @@
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "7.6.1810/isos/x86_64",
-    "name": "centos-7.5",
+    "name": "centos-7.6",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-7.6-x86_64",
     "version": "TIMESTAMP"
