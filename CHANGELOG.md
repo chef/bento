@@ -1,5 +1,37 @@
 # Change Log
 
+## [v201812.27.0](https://github.com/chef/bento/tree/v201812.27.0) (2019-01-16)
+[Full Changelog](https://github.com/chef/bento/compare/v201808.24.0...v201812.27.0)
+
+**New Platforms:**
+
+- Debian 9.6 [\#1138](https://github.com/chef/bento/pull/1138) ([cheeseplus](https://github.com/cheeseplus))
+- Fedora 29 [\#1126](https://github.com/chef/bento/pull/1126) ([avanzzzi](https://github.com/avanzzzi))
+- CentOS 7.6 [\#1152](https://github.com/chef/bento/pull/1152) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Oracle Linux 7.6 [\#1146](https://github.com/chef/bento/pull/1146) ([tas50](https://github.com/tas50))
+- FreeBSD 12.0-RELEASE [\#1153](https://github.com/chef/bento/pull/1153) ([lwhsu](https://github.com/lwhsu))
+- Ubuntu 18.10 [\#1124](https://github.com/chef/bento/pull/1124) ([chenhan1218](https://github.com/chenhan1218))
+
+**Deprecated Platforms:**
+
+- FreeBSD 11.1 [\#1120](https://github.com/chef/bento/pull/1120) ([juliandunn](https://github.com/juliandunn))
+- FreeBSD 10.4 [\#1142](https://github.com/chef/bento/pull/1142) ([tas50](https://github.com/tas50))
+
+**Fixes and updates:**
+
+- Whiteout all spaces [\#1151](https://github.com/chef/bento/pull/1151) ([Sorbog](https://github.com/Sorbog))
+- Reduce centos locale size [\#1149](https://github.com/chef/bento/pull/1149) ([Sorbog](https://github.com/Sorbog))
+- Update from rhel 7.5 to 7.6 [\#1143](https://github.com/chef/bento/pull/1143) ([chrispoupart](https://github.com/chrispoupart))
+- Support for fedora29 in libvirt and public release [\#1137](https://github.com/chef/bento/pull/1137) ([avanzzzi](https://github.com/avanzzzi))
+- Fix build/upload of freebsd-11.2-i386 [\#1136](https://github.com/chef/bento/pull/1136) ([tmm1](https://github.com/tmm1))
+- Update for Ubuntu 16.04.5 i386 [\#1134](https://github.com/chef/bento/pull/1134) ([sheurich](https://github.com/sheurich))
+- Update for Ubuntu 16.04.5 amd64 [\#1133](https://github.com/chef/bento/pull/1133) ([sheurich](https://github.com/sheurich))
+- add vmware-iso to windows 2016 [\#1132](https://github.com/chef/bento/pull/1132) ([mkinney](https://github.com/mkinney))
+- update debian provision: purge installation-report in cleanup.sh [\#1131](https://github.com/chef/bento/pull/1131) ([UniIsland](https://github.com/UniIsland))
+- Make sure to disable UAC on windows [\#1130](https://github.com/chef/bento/pull/1130) ([tas50](https://github.com/tas50))
+- Fix the download link for Windows 2012R2 [\#1128](https://github.com/chef/bento/pull/1128) ([tas50](https://github.com/tas50))
+- Fix startup mount error on Parallels 14 guest tools [\#1122](https://github.com/chef/bento/pull/1122) ([max-arnold](https://github.com/max-arnold))
+
 ## [v201808.24.0](https://github.com/chef/bento/tree/v201808.24.0) (2018-09-02)
 
 [Full Changelog](https://github.com/chef/bento/compare/v201807.12.0...v201808.24.0)
