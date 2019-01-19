@@ -75,7 +75,7 @@
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Vagrant</FullName>
-                <Organization>Vagrant</Organization>
+                <Organization>Bento by Chef</Organization>
             </UserData>
         </component>
     </settings>
@@ -103,7 +103,9 @@
                 <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
                 <NetworkLocation>Home</NetworkLocation>
-                <ProtectYourPC>1</ProtectYourPC>
+                <ProtectYourPC>3</ProtectYourPC>
+                <SkipMachineOOBE>true</SkipMachineOOBE>
+                <SkipUserOOBE>true</SkipUserOOBE>
             </OOBE>
       <TimeZone>UTC</TimeZone>
       <UserAccounts>

@@ -12,3 +12,4 @@ packer.log
 .kitchen.yml
 Gemfile.lock
 bootstrap.sh
+Berksfile.lock
