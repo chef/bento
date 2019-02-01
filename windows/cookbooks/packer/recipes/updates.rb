@@ -10,8 +10,8 @@ end
 if node['platform_version'].to_f == 6.1 # 2008R2
 
   # This is basically a service pack and we should install it to fix a giant pile of bugs
-  msu_package '2018-06 monthly rollup' do
-    source 'http://download.windowsupdate.com/d/msdownload/update/software/secu/2018/06/windows6.1-kb4284826-x64_9e172f5bb50206dd65d4f60ac07a82baa1aef525.msu'
+  msu_package '2018-10 monthly rollup' do
+    source 'http://download.windowsupdate.com/d/msdownload/update/software/secu/2018/09/windows6.1-kb4462923-x64_5c4506692214692bf846da33052edb1dc5752156.msu'
     action :install
   end
 end
