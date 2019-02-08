@@ -2,7 +2,7 @@ registry_key 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Serve
   values [{
     name: 'fDenyTSConnections',
     type: :dword,
-    data: 0,  }]
+    data: 0 }]
 end
 
 execute 'Enable RDP firewall rule' do
