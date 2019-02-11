@@ -30,7 +30,7 @@
 			"guest_os_type": "windows",
 			"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
 			"run_list": [
-                "packer::disable_windows_update",
+				"packer::disable_windows_update",
 				"packer::vm_tools",
 				"packer::features",
 				"packer::enable_file_sharing",
