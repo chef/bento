@@ -1,10 +1,8 @@
-# reg add reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v AUOptions /t REG_DWORD /d 2 /f
-#
-# :: turn the whole thing off
-# reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" /v DisableWindowsUpdateAccess /t REG_DWORD /d 1 /f
-# reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 1 /f
-#
-# :: disable the update prompt scheduled tasks
-# schtasks.exe /change /tn "\Microsoft\Windows\UpdateOrchestrator\USO_UxBroker_Display" /disable
-# schtasks.exe /change /tn "\Microsoft\Windows\UpdateOrchestrator\MusUx_UpdateInterval" /disable
-# schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\sih" /disable
+# don't waste CPU / network bandwidth checking for updates
+registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU' do
+  values [{ name: 'AUOptions', type: :dword, data: 1 }, # disable keep my computer up to date
+          { name: 'NoAutoUpdate', type: :dword, data: 1 } # disable auto updates
+         ]
+  action :create
+  recursive true
+end
