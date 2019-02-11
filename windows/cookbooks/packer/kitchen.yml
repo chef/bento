@@ -26,6 +26,9 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[packer::disable_uac]
+      - recipe[packer::disable_windows_update]
+      - recipe[packer::remove_defender]
       - recipe[packer::vm_tools]
       - recipe[packer::features]
       - recipe[packer::enable_file_sharing]

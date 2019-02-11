@@ -30,12 +30,23 @@
 			"guest_os_type": "windows",
 			"run_list": [
 				"packer::disable_uac",
+				"packer::disable_windows_update",
 				"packer::vm_tools",
 				"packer::features",
 				"packer::enable_file_sharing",
 				"packer::enable_remote_desktop",
 				"packer::ui_tweaks",
-				"packer::power",
+				"packer::power"
+			]
+		},
+		{
+			"type": "windows-restart"
+		},
+		{
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"run_list": [
 				"packer::cleanup",
 				"packer::defrag"
 			]
