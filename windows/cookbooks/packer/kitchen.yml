@@ -28,6 +28,8 @@ suites:
     run_list:
       - recipe[packer::disable_uac]
       - recipe[packer::disable_windows_update]
+      - recipe[packer::disable_restore]
+      - recipe[packer::disable_hibernation]
       - recipe[packer::remove_defender]
       - recipe[packer::vm_tools]
       - recipe[packer::features]

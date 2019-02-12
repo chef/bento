@@ -4,11 +4,13 @@
 			"vboxmanage": [
 				["modifyvm", "{{.Name}}", "--memory", "4096"],
 				["modifyvm", "{{.Name}}", "--vram", "48"],
-				["modifyvm", "{{.Name}}", "--cpus", "2"]
+				["modifyvm", "{{.Name}}", "--cpus", "2"],
+				["modifyvm", "{{.Name}}", "--audio", "none"]
 			],
 			"guest_additions_mode": "{{ user `guest_additions_mode` }}",
 			"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
 			"guest_os_type": "Windows10_64",
+			"hard_drive_interface": "sata",
 			"headless": "{{ user `headless` }}",
 			"iso_url": "{{ user `iso_url` }}",
 			"iso_checksum": "{{ user `iso_checksum` }}",
@@ -57,6 +59,7 @@
 			"run_list": [
 				"packer::disable_uac",
 				"packer::disable_restore",
+				"packer::disable_hibernation",
 				"packer::disable_windows_update",
 				"packer::remove_defender"
 			]
