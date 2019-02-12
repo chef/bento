@@ -55,6 +55,7 @@
 			"guest_os_type": "windows",
 			"run_list": [
 				"packer::disable_uac",
+				"packer::disable_restore",
 				"packer::disable_windows_update",
 				"packer::remove_defender"
 			]
