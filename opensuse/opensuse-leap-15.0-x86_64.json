@@ -171,6 +171,9 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
+        "scripts/repositories.sh",
+        "scripts/update.sh",
+        "scripts/add_packages.sh",
         "../_common/sshd.sh",
         "../_common/vagrant.sh",
         "../_common/virtualbox.sh",
@@ -179,7 +182,6 @@
         "scripts/vagrant_group.sh",
         "scripts/sudoers.sh",
         "scripts/zypper-locks.sh",
-        "scripts/remove-dvd-source.sh",
         "scripts/cleanup.sh",
         "../_common/minimize.sh"
       ],
@@ -188,7 +190,7 @@
   ],
   "variables": {
     "arch": "64",
-    "autoinst_cfg": "autoinst.xml",
+    "autoinst_cfg": "15/autoinst.xml",
     "box_basename": "opensuse-leap-15.0",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
