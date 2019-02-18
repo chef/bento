@@ -78,7 +78,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-9.6",
+    "box_basename": "debian-9.8",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -86,16 +86,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "07a9ddd57826558478b414b5d0b9be15bc793fffcc25e8a10be71b9e109e362e",
+    "iso_checksum": "5ebf80f35af9e5b4c85240763c044854c408c77a68a6cb757f99306ba227b701",
     "iso_checksum_type": "sha256",
-    "iso_name": "debian-9.6.0-ppc64el-netinst.iso",
+    "iso_name": "debian-9.8.0-ppc64el-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "9.6.0/ppc64el/iso-cd",
-    "name": "debian-9.6",
+    "mirror_directory": "9.8.0/ppc64el/iso-cd",
+    "name": "debian-9.8",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
-    "template": "debian-9.6-ppc64el",
+    "template": "debian-9.8-ppc64el",
     "version": "TIMESTAMP"
   }
 }
