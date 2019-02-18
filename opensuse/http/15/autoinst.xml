@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE profile>
-
 <!-- http://doc.opensuse.org/projects/autoyast/configuration.html -->
-
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
   <general>
     <mode>
@@ -28,7 +26,6 @@
       <log config:type="boolean">true</log>
     </errors>
   </report>
-
   <keyboard>
     <keymap>english-us</keymap>
   </keyboard>
@@ -56,7 +53,7 @@
           <mountby config:type="symbol">device</mountby>
           <partition_id config:type="integer">130</partition_id>
           <partition_nr config:type="integer">1</partition_nr>
-          <raid_options/>
+          <raid_options />
           <resize config:type="boolean">false</resize>
           <size>512M</size>
         </partition>
@@ -70,7 +67,7 @@
           <mountby config:type="symbol">device</mountby>
           <partition_id config:type="integer">131</partition_id>
           <partition_nr config:type="integer">2</partition_nr>
-          <raid_options/>
+          <raid_options />
           <resize config:type="boolean">false</resize>
           <size>max</size>
           <subvolumes config:type="list">
@@ -92,16 +89,14 @@
           </subvolumes>
         </partition>
       </partitions>
-      <pesize/>
+      <pesize />
       <type config:type="symbol">CT_DISK</type>
       <use>all</use>
     </drive>
   </partitioning>
-
   <bootloader>
     <loader_type>grub2</loader_type>
   </bootloader>
-
   <networking>
     <ipv6 config:type="boolean">false</ipv6>
     <keep_install_network config:type="boolean">true</keep_install_network>
@@ -120,15 +115,13 @@
       </interface>
     </interfaces>
   </networking>
-
   <firewall>
-    <enable_firewall config:type="boolean">true</enable_firewall>
-    <start_firewall config:type="boolean">true</start_firewall>
+    <enable_firewall config:type="boolean">false</enable_firewall>
+    <start_firewall config:type="boolean">false</start_firewall>
   </firewall>
-
   <software>
-    <image/>
-    <instsource/>
+    <image />
+    <instsource />
     <packages config:type="list">
       <package>grub2</package>
       <package>glibc-locale</package>
@@ -162,7 +155,7 @@
   <services-manager>
     <default_target>graphical</default_target>
     <services>
-      <disable config:type="list"/>
+      <disable config:type="list" />
       <enable config:type="list">
         <service>sshd</service>
       </enable>
@@ -172,13 +165,13 @@
     <group>
       <gid>100</gid>
       <groupname>users</groupname>
-      <userlist/>
+      <userlist />
     </group>
   </groups>
   <user_defaults>
-    <expire/>
+    <expire />
     <group>100</group>
-    <groups/>
+    <groups />
     <home>/home</home>
     <inactive>-1</inactive>
     <no_groups config:type="boolean">true</no_groups>
@@ -186,7 +179,6 @@
     <skel>/etc/skel</skel>
     <umask>022</umask>
   </user_defaults>
-
   <users config:type="list">
     <user>
       <user_password>vagrant</user_password>
@@ -197,8 +189,8 @@
       <gid>100</gid>
       <home>/home/vagrant</home>
       <password_settings>
-        <expire/>
-        <flag/>
+        <expire />
+        <flag />
         <inact>-1</inact>
         <max>99999</max>
         <min>0</min>
