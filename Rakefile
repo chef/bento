@@ -9,6 +9,18 @@ rescue LoadError
   exit!
 end
 
+desc "Validate all templates using Packer"
+task :validate do
+  Dir.glob("**/*.json").each do |template_path|
+    template_dir = File.dirname(template_path)
+    filename = File.basename(template_path)
+
+    puts "\n\e[32mValidating #{template_path}\e[0m\n\n"
+    result = system("packer validate #{filename}", chdir: template_dir)
+    raise "Validation for #{template_path} failed" unless result
+  end
+end
+
 desc "clean, build, test, upload"
 task :do_all do
   check_env
@@ -33,8 +45,8 @@ end
 
 desc "clean"
 task :clean do
-  puts "Removing .kitchen.yml and builds/*"
-  FileUtils.rm_rf(['.kitchen.yml', Dir.glob('builds/*')])
+  puts "Removing kitchen.yml and builds/*"
+  FileUtils.rm_rf(['kitchen.yml', Dir.glob('builds/*')])
 end
 
 def build_cmd(template)

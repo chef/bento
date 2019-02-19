@@ -1,18 +1,14 @@
 dist: xenial
-sudo: false
+language: ruby
+cache: bundler
 
 env:
   global:
-    - PACKER_VERSION="1.3.2"
+    - PACKER_VERSION="1.3.4"
     - PATH=$HOME/bin:$PATH
 
 rvm:
-  - 2.5.3
-  - ruby-head
-
-matrix:
-  allow_failures:
-    - rvm: ruby-head
+  - 2.6.1
 
 branches:
   only:
@@ -25,4 +21,4 @@ before_install:
 before_script:
   - packer --version
 
-script: bento normalize
+script: rake validate
