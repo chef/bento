@@ -21,11 +21,13 @@ public:
 - 'oracle-6.10-i386'
 - 'oracle-6.10'
 - 'oracle-7.6'
+- 'scientific-7.6'
 - 'ubuntu-14.04-i386'
 - 'ubuntu-14.04'
 - 'ubuntu-16.04-i386'
 - 'ubuntu-16.04'
 - 'ubuntu-18.04'
+- 'ubuntu-18.10'
 
 slugs:
   'centos-7': 'centos-7.6'
@@ -35,6 +37,7 @@ slugs:
   'debian-8': 'debian-8.11'
   'oracle-7': 'oracle-7.6'
   'oracle-6': 'oracle-6.10'
+  'scientific-7': 'scientific-7.6'
   'freebsd-11': 'freebsd-11.2'
   'freebsd-12': 'freebsd-12.0'
   'opensuse-leap-42': 'opensuse-leap-42.3'
