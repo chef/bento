@@ -37,6 +37,7 @@ task :do_all do
   end
 end
 
+desc "release all built boxes on vagrant cloud"
 task :release_all do
   config['public'].each do |template|
     sh "bento release #{template} #{ENV["BENTO_VERSION"]}"
