@@ -165,7 +165,7 @@
     "https_proxy": "{{env `https_proxy`}}",
     "iso_checksum": "73755329985c96805c1d3ef31dfcb7f7561cd139cc8fe9226b8e794ad7ea4bd4",
     "iso_checksum_type": "sha256",
-    "iso_name": "OracleLinux-R6-U10-Server-i386-dvd.iso",
+    "iso_name": "OracleLinux-R6-U9-Server-i386-dvd.iso",
     "ks_path": "6/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/oracle/",
