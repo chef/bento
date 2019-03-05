@@ -78,7 +78,7 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "b59f60e6cc287058667086bcf95da4ef5d4a12efba1b01711c26d6587ffc190a",
+    "iso_checksum": "2fdecb713bdaf3e253a9b8a11c54be6d17be38bb0c59b4346ff23a10c249bed1",
     "iso_checksum_type": "sha256",
     "iso_name": "SL-7-DVD-x86_64.iso",
     "ks_path": "7/ks.cfg",
