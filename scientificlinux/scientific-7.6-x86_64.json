@@ -87,7 +87,7 @@
     "mirror_directory": "7.6/x86_64/iso",
     "name": "SL-7.6",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "SL-7-x86_64",
+    "template": "scientific-7-x86_64",
     "version": "TIMESTAMP"
   }
 }
