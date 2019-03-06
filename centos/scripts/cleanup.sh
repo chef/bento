@@ -59,5 +59,32 @@ fi
 find /var/log/ -name *.log -exec rm -f {} \;
 
 # remove previous kernels that yum preserved for rollback
-yum install -y yum-utils
-package-cleanup --oldkernels --count=1 -y
+# yum-utils isn't in RHEL 5 so don't try to run this
+if ! lsb_release -a | grep -qE '^Release:\s*5'; then
+  yum install -y yum-utils
+  package-cleanup --oldkernels --count=1 -y
+fi
+
+# we try to remove these in the ks file, but they're still there
+# in the builds so let's remove them here to be sure :shrug:
+yum remove -y \
+  aic94xx-firmware \
+  atmel-firmware \
+  bfa-firmware \
+  ipw2100-firmware \
+  ipw2200-firmware \
+  ivtv-firmware \
+  iwl1000-firmware \
+  iwl3945-firmware \
+  iwl4965-firmware \
+  iwl5000-firmware \
+  iwl5150-firmware \
+  iwl6000-firmware \
+  iwl6050-firmware \
+  kernel-uek-firmware \
+  libertas-usb8388-firmware \
+  netxen-firmware \
+  ql2xxx-firmware \
+  rt61pci-firmware \
+  rt73usb-firmware \
+  zd1211-firmware
