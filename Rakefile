@@ -21,7 +21,7 @@ task :validate do
   end
 end
 
-desc "clean, build, test, upload"
+desc "clean repo, build boxes, test, and upload/release"
 task :do_all do
   check_env
   public_templates.each do |template|
@@ -29,7 +29,9 @@ task :do_all do
       Rake::Task[:clean].execute
       sh build_cmd(template)
       sh "bento test"
-      unless ENV["BENTO_AUTO_RELEASE"].nil?
+      if ENV["BENTO_AUTO_RELEASE"].nil? || ENV["BENTO_VERSION"].nil?
+        puts "skipping the upload / release of #{template} as BENTO_AUTO_RELEASE and BENTO_VERSION env vars were not set"
+      else
         sh "bento upload"
         sh "bento release #{template} #{ENV["BENTO_VERSION"]}"
       end
