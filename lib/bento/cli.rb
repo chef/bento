@@ -26,7 +26,7 @@ class Options
         list         :   list all templates in project
         normalize    :   normalize one or more templates
         test         :   test one or more builds with kitchen
-        upload       :   upload one or more builds to Vagrant Cloud and S3
+        upload       :   upload one or more builds to Vagrant Cloud
         release      :   release a version of a box on Vagrant Cloud
         revoke       :   revoke a version of a box on Vagrant Cloud
         delete       :   delete a version of a box from Vagrant Cloud
