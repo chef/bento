@@ -3,6 +3,15 @@
 user: vagrant
 password: vagrant
 
+# install packages for vbox guest additions to complete
+packages:
+  - gcc
+  - kernel-devel
+  - kernel-headers
+  - dkms
+  - make
+  - bzip2
+  - perl
 
 # make sure we don't setup the network on every boot
 write_files:
