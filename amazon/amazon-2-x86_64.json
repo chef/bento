@@ -10,7 +10,7 @@
       "ssh_port": 22,
       "type": "virtualbox-ovf",
       "source_path": "amazon.ovf",
-      "ssh_username": "ec2-user",
+      "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "vboxmanage": [
         [

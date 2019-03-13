@@ -33,9 +33,9 @@ VBoxManage modifyvm $VM --audio none
 VBoxManage modifyvm $VM --ioapic on
 sleep 5
 
-echo Sleeping for 100 seconds to let the system boot and cloud-init to run
+echo Sleeping for 200 seconds to let the system boot and cloud-init to run
 VBoxManage startvm $VM --type gui
-sleep 100
+sleep 200
 VBoxManage controlvm $VM poweroff --type gui
 VBoxManage storageattach $VM --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium none
 sleep 5
