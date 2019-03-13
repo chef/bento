@@ -1,6 +1,9 @@
 .bundle/
-iso
+*.iso
 *.box
+*.ovf
+*.vmdk
+*.vdi
 virtualfloppy.vfd
 packer_cache
 packer.log
