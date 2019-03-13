@@ -20,3 +20,10 @@ write_files:
       # Disable network configuration after first boot
       network:
         config: disabled
+
+  - path: /etc/cloud/cloud.cfg.d/90_enable_ssh_pwauth.cfg
+    content: |
+      runcmd:
+        - sed -i "s/^PasswordAuthentication.*/PasswordAuthentication yes/" /etc/ssh/sshd_config
+        - sed -i "/^HWADDR/d" /etc/sysconfig/network-scripts/ifcfg-eth0
+        - systemctl restart network sshd
