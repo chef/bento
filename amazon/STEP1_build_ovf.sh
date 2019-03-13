@@ -2,7 +2,7 @@
 
 if [ ! -f amazon.vdi ]; then
   echo There must be a file named amazon.vdi in this directory!
-  echo You can download the vdi file at https://cdn.amazonlinux.com/os-images/latest/
+  echo You can download the vdi file at https://cdn.amazonlinux.com/os-images/latest/virtualbox/
   exit 1
 fi
 
@@ -41,7 +41,7 @@ VBoxManage storageattach $VM --storagectl "IDE Controller" --port 0 --device 0 -
 sleep 5
 
 echo Exporting the VM to an OVF file
-vboxmanage export $VM -o amazon.ovf
+vboxmanage export $VM -o amazon2.ovf
 sleep 5
 
 echo Deleting the VM

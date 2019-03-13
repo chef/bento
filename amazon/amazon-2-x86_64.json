@@ -9,7 +9,7 @@
       "ssh_wait_timeout": "10000s",
       "ssh_port": 22,
       "type": "virtualbox-ovf",
-      "source_path": "amazon.ovf",
+      "source_path": "amazon2.ovf",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "vboxmanage": [
