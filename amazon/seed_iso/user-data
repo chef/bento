@@ -1,11 +1,8 @@
 #cloud-config
 #vim:syntax=yaml
-users:
-# A user by the name `ec2-user` is created in the image by default.
-  - default
-chpasswd:
-  list: |
-    ec2-user:vagrant
+user: vagrant
+password: vagrant
+
 
 # make sure we don't setup the network on every boot
 write_files:
