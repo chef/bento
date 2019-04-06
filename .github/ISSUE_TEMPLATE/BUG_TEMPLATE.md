@@ -1,8 +1,16 @@
+---
+name: � Bug Report
+about: If something isn't working as expected �.
+labels: "Status: Untriaged"
+---
+
 # Version:
 
 [Version of the project installed]
 
-# Environment: [Details about the environment such as the Operating System, cookbook details, etc...]
+# Environment:
+
+[Details about the environment such as the Operating System, cookbook details, etc...]
 
 # Scenario:
 
