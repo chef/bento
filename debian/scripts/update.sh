@@ -4,8 +4,6 @@ arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}
 debian_version="`lsb_release -r | awk '{print $2}'`";
 major_version="`echo $debian_version | awk -F. '{print $1}'`";
 
-apt-get update;
-
 # Disable systemd apt timers/services
 if [ "$major_version" -ge "9" ]; then
   systemctl stop apt-daily.timer;
@@ -25,6 +23,8 @@ APT::Periodic::Download-Upgradeable-Packages "0";
 APT::Periodic::AutocleanInterval "0";
 APT::Periodic::Unattended-Upgrade "0";
 EOF
+
+apt-get update;
 
 apt-get -y upgrade linux-image-$arch;
 apt-get -y install linux-headers-`uname -r`;
