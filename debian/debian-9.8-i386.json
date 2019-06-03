@@ -233,7 +233,7 @@
     "mirror_directory": "9.8.0/i386/iso-cd",
     "name": "debian-9.8-i386",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed_path": "debian-8/preseed.cfg",
+    "preseed_path": "debian-9/preseed.cfg",
     "template": "debian-9.8-i386",
     "version": "TIMESTAMP"
   }
