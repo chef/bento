@@ -177,7 +177,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "../../builds/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
       "vagrantfile_template": "vagrantfile_templates/hardenedbsd.rb"
     }
