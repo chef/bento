@@ -2,7 +2,7 @@ require "optparse"
 require "ostruct"
 
 require "bento/common"
-require "bento/build"
+require "bento/runner"
 require "bento/delete"
 require "bento/normalize"
 require "bento/release"
