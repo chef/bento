@@ -78,7 +78,7 @@ class BuildRunner
 
   def write_final_metadata(template, buildtime)
     md = BuildMetadata.new(template, build_timestamp, override_version).read
-    path = File.join("../builds")
+    path = File.join("../../builds")
     filename = File.join(path, "#{md[:box_basename]}.metadata.json")
     md[:providers] = ProviderMetadata.new(path, md[:box_basename]).read
     md[:providers].each do |p|
