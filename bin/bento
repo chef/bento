@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+Signal.trap("INT") { exit 1 }
+
+$stdout.sync = true
+$stderr.sync = true
+
+$LOAD_PATH.unshift File.join(__dir__, %w{.. lib})
+require "bento/cli"
+
+begin
+  Runner.new(Options.parse(ARGV)).start
+rescue => ex
+  warn ">>> #{ex.message}"
+  exit(($CHILD_STATUS && $CHILD_STATUS.exitstatus) || 99)
+end

@@ -1,0 +1,132 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "e",
+        "e",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left>",
+        " - install<enter>",
+        "b"
+      ],
+      "boot_wait": "5s",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "floppy/sysidcfg",
+        "floppy/awesome_prof",
+        "floppy/rules.ok",
+        "floppy/S99startup.sh",
+        "floppy/finish.sh"
+      ],
+      "guest_additions_mode": "upload",
+      "guest_os_type": "Solaris_64",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "http",
+      "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
+      "output_directory": "packer-solaris-10u11-x86_64-virtualbox",
+      "shutdown_command": "/usr/local/bin/sudo /usr/sbin/init 5",
+      "shutdown_timeout": "10m",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "50000s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{ user `memory` }}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{ user `cpus` }}"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `template` }}"
+    },
+    {
+      "boot_command": [
+        "e",
+        "e",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left><left><left><left><left><left><left><left>",
+        "<left><left><left>",
+        " - install<enter>",
+        "b"
+      ],
+      "boot_wait": "5s",
+      "disk_size": "{{user `disk_size`}}",
+      "floppy_files": [
+        "floppy/sysidcfg",
+        "floppy/awesome_prof",
+        "floppy/rules.ok",
+        "floppy/S99startup.sh",
+        "floppy/finish.sh"
+      ],
+      "guest_os_type": "solaris10-64",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "http",
+      "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
+      "iso_checksum_type": "md5",
+      "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
+      "output_directory": "packer-solaris-10u11-x86_64-vmware",
+      "shutdown_command": "/usr/local/bin/sudo /usr/sbin/init 5",
+      "shutdown_timeout": "10m",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "50000s",
+      "tools_upload_flavor": "solaris",
+      "tools_upload_path": "/home/vagrant/solaris.iso",
+      "type": "vmware-iso",
+      "vm_name": "{{ user `template` }}",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
+      },
+      "vmx_remove_ethernet_interfaces": true
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "../../builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [],
+      "execute_command": "/usr/local/bin/sudo {{.Path}}",
+      "expect_disconnect": true,
+      "scripts": [
+        "scripts/solaris-10/vmtools.sh",
+        "scripts/solaris-10/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "_DOWNLOAD_SITE": "http://www.oracle.com/technetwork/server-storage/solaris10/downloads/index.html",
+    "_README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
+    "arch": "64",
+    "box_basename": "solaris-10.11",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
+    "disk_size": "65536",
+    "git_revision": "__unknown_git_revision__",
+    "headless": "",
+    "memory": "1536",
+    "mirror": "./packer_cache",
+    "name": "solaris-10.11",
+    "template": "solaris-10.11-x86",
+    "version": "TIMESTAMP"
+  }
+}

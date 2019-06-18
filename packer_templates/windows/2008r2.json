@@ -1,0 +1,81 @@
+{
+	"builders": [{
+		"type": "virtualbox-iso",
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "4096"],
+			["modifyvm", "{{.Name}}", "--vram", "48"],
+			["modifyvm", "{{.Name}}", "--cpus", "2"]
+		],
+		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+		"guest_os_type": "Windows2008_64",
+		"headless": "{{ user `headless` }}",
+		"iso_url": "{{ user `iso_url` }}",
+		"iso_checksum": "{{ user `iso_checksum` }}",
+		"iso_checksum_type": "sha1",
+		"output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
+		"communicator": "winrm",
+		"winrm_username": "vagrant",
+		"winrm_password": "vagrant",
+		"winrm_timeout": "12h",
+		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+		"shutdown_timeout": "15m",
+		"floppy_files": [
+			"answer_files/2008_r2/Autounattend.xml"
+		]
+	}],
+	"provisioners": [{
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
+			"run_list": [
+				"packer::disable_uac",
+				"packer::disable_restore",
+				"packer::disable_windows_update",
+				"packer::vm_tools",
+				"packer::features",
+				"packer::enable_file_sharing",
+				"packer::enable_remote_desktop",
+				"packer::ui_tweaks",
+				"packer::power",
+				"packer::updates"
+			]
+		},
+		{
+			"type": "windows-restart"
+		},
+		{
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
+			"run_list": [
+				"packer::disable_uac",
+				"packer::cleanup",
+				"packer::defrag"
+			]
+		},
+		{
+			"type": "powershell",
+			"script": "scripts/cleanup.ps1",
+			"elevated_user": "vagrant",
+			"elevated_password": "vagrant"
+		}
+	],
+	"post-processors": [
+		[{
+			"type": "vagrant",
+			"keep_input_artifact": true,
+			"output": "{{ user `template` }}-{{.Provider}}.box",
+			"vagrantfile_template": "vagrantfile-windows.template"
+		}]
+	],
+	"variables": {
+		"guest_additions_mode": "attach",
+		"headless": "false",
+		"iso_checksum": "beed231a34e90e1dd9a04b3afabec31d62ce3889",
+		"iso_url": "http://download.microsoft.com/download/7/5/E/75EC4E54-5B02-42D6-8879-D8D3A25FBEF7/7601.17514.101119-1850_x64fre_server_eval_en-us-GRMSXEVAL_EN_DVD.iso",
+		"template": "windows-2008r2-standard"
+	}
+}
