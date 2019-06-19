@@ -196,7 +196,7 @@
     "iso_name": "CentOS-5.11-i386-bin-DVD-1of2.iso",
     "ks_path": "5/ks.cfg",
     "memory": "1024",
-    "mirror": "https://archive.kernel.org/",
+    "mirror": "https://archive.kernel.org",
     "mirror_directory": "centos-vault/5.11/isos/i386",
     "name": "centos-5.11-i386",
     "no_proxy": "{{env `no_proxy`}}",
