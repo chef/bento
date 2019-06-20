@@ -225,7 +225,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "4de26144286993ac6f4f244ff332fdd80e11ec230906e7997aa426e775fac1fb",
+    "iso_checksum": "d4a22c81c76a66558fb92e690ef70a5d67c685a08216701b15746586520f6e8e",
     "iso_checksum_type": "sha256",
     "iso_name": "debian-9.9.0-amd64-netinst.iso",
     "memory": "1024",
