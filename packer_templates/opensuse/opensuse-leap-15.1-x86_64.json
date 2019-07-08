@@ -191,7 +191,7 @@
   "variables": {
     "arch": "64",
     "autoinst_cfg": "15/autoinst.xml",
-    "box_basename": "opensuse-leap-15.0",
+    "box_basename": "opensuse-leap-15.1",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -199,15 +199,15 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "c477428c7830ca76762d2f78603e13067c33952b936ff100189523e1fabe5a77",
+    "iso_checksum": "c6d3ed19fe5cc25c4667bf0b46cc86aebcfbca3b0073aed0a288834600cb8b97",
     "iso_checksum_type": "sha256",
-    "iso_name": "openSUSE-Leap-15.0-DVD-x86_64.iso",
+    "iso_name": "openSUSE-Leap-15.1-DVD-x86_64.iso",
     "memory": "1024",
     "mirror": "http://suse.mobile-central.org/distribution",
-    "mirror_directory": "leap/15.0/iso",
-    "name": "opensuse-leap-15.0",
+    "mirror_directory": "leap/15.1/iso",
+    "name": "opensuse-leap-15.1",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "opensuse-leap-15.0-x86_64",
+    "template": "opensuse-leap-15.1-x86_64",
     "version": "TIMESTAMP"
   }
 }
