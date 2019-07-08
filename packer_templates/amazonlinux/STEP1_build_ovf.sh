@@ -8,7 +8,7 @@ fi
 
 echo "Cleaning up old files"
 rm seed.iso
-rm amazon.ovf
+rm amazon2.ovf
 rm *.vmdk
 
 echo "Creating ISO"
