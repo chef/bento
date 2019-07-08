@@ -78,7 +78,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-9.8",
+    "box_basename": "debian-9.9",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -92,10 +92,10 @@
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
     "mirror_directory": "9.9.0/ppc64el/iso-cd",
-    "name": "debian-9.8",
+    "name": "debian-9.9",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
-    "template": "debian-9.8-ppc64el",
+    "template": "debian-9.9-ppc64el",
     "version": "TIMESTAMP"
   }
 }
