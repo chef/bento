@@ -57,7 +57,7 @@ class BuildRunner
 
   def packer_build_cmd(template, var_file)
     vars = "#{template}.variables.json"
-    cmd = %W{packer build -var-file=#{var_file} #{template}.json}
+    cmd = %W{packer build -force -var-file=#{var_file} #{template}.json}
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd.insert(2, "-only=#{only}")
     cmd.insert(2, "-except=#{except}") if except
