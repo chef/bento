@@ -15,7 +15,7 @@ echo "Creating ISO"
 hdiutil makehybrid -o seed.iso -hfs -joliet -iso -default-volume-name cidata seed_iso
 
 VM="AmazonLinuxBento"
-echo Powering off and deleting any existing VMs name $VM
+echo Powering off and deleting any existing VMs named $VM
 VBoxManage controlvm $VM poweroff --type gui 2> /dev/null
 vboxmanage unregistervm $VM 2> /dev/null
 sleep 5
