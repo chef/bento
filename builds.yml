@@ -15,6 +15,8 @@ public:
 - 'fedora-30'
 - 'freebsd-11.2-i386'
 - 'freebsd-11.2'
+- 'freebsd-11.3-i386'
+- 'freebsd-11.3'
 - 'freebsd-12.0-i386'
 - 'freebsd-12.0'
 - 'hardenedbsd-11'
@@ -41,7 +43,7 @@ slugs:
   'oracle-6': 'oracle-6.10'
   'oracle-7': 'oracle-7.6'
   'scientific-7': 'scientific-7.6'
-  'freebsd-11': 'freebsd-11.2'
+  'freebsd-11': 'freebsd-11.3'
   'freebsd-12': 'freebsd-12.0'
   'opensuse-leap-15': 'opensuse-leap-15.1'
 
