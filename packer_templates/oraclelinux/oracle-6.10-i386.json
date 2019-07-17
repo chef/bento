@@ -142,6 +142,7 @@
       "scripts": [
         "../centos/scripts/update.sh",
         "../centos/scripts/networking.sh",
+        "../_common/motd.sh",
         "../_common/sshd.sh",
         "../_common/vagrant.sh",
         "../_common/virtualbox.sh",

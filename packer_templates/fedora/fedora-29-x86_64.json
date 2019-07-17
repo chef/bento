@@ -182,6 +182,7 @@
         "scripts/swap.sh",
         "scripts/fix-slow-dns.sh",
         "scripts/build-tools.sh",
+        "../_common/motd.sh",
         "../_common/sshd.sh",
         "../_common/virtualbox.sh",
         "../_common/vmware.sh",

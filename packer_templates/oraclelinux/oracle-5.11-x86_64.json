@@ -148,6 +148,7 @@
       "scripts": [
         "../centos/scripts/update.sh",
         "../_common/vagrant.sh",
+        "../_common/motd.sh",
         "../_common/sshd.sh",
         "../_common/virtualbox.sh",
         "../_common/vmware.sh",

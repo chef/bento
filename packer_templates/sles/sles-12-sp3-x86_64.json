@@ -156,6 +156,7 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
+        "../_common/motd.sh",
         "../_common/sshd.sh",
         "../_common/vagrant.sh",
         "scripts/unsupported-modules.sh",
