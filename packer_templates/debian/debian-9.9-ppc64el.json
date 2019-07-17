@@ -90,7 +90,7 @@
     "iso_checksum_type": "sha256",
     "iso_name": "debian-9.9.0-ppc64el-netinst.iso",
     "memory": "1024",
-    "mirror": "http://cdimage.debian.org/cdimage/release",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "9.9.0/ppc64el/iso-cd",
     "name": "debian-9.9",
     "no_proxy": "{{env `no_proxy`}}",
