@@ -169,6 +169,7 @@
       "scripts": [
         "scripts/enable_vault.sh",
         "scripts/update.sh",
+        "../_common/motd.sh",
         "../_common/sshd.sh",
         "scripts/networking.sh",
         "../_common/vagrant.sh",

@@ -57,6 +57,7 @@
       "expect_disconnect": true,
       "scripts": [
         "../centos/scripts/update.sh",
+        "../_common/motd.sh",
         "../_common/sshd.sh",
         "../centos/scripts/networking.sh",
         "../_common/vagrant.sh",
