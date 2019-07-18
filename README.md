@@ -29,7 +29,7 @@ end
   - [VirtualBox](https://www.virtualbox.org)
   - [VMware Fusion](https://www.vmware.com/products/fusion.html)
   - [VMware Workstation](https://www.vmware.com/products/workstation.html)
-  - [Parallels Desktop](http://www.parallels.com/products/desktop)
+  - [Parallels Desktop](http://www.parallels.com/products/desktop) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/)
   - [KVM](https://www.linux-kvm.org/page/Main_Page) *
   - [Hyper-V](https://technet.microsoft.com/en-us/library/hh831531(v=ws.11).aspx) *
 
