@@ -3,6 +3,8 @@
 # should output one of 'redhat' 'centos' 'oraclelinux'
 distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
 
+major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
+
 # Remove development and kernel source packages
 yum -y remove gcc cpp kernel-devel kernel-headers;
 
@@ -61,8 +63,15 @@ find /var/log/ -name *.log -exec rm -f {} \;
 # remove previous kernels that yum preserved for rollback
 # yum-utils isn't in RHEL 5 so don't try to run this
 if ! lsb_release -a | grep -qE '^Release:\s*5'; then
-  yum install -y yum-utils
-  package-cleanup --oldkernels --count=1 -y
+  if ! command -v package-cleanup >/dev/null 2>&1; then
+    yum install -y yum-utils
+  fi
+
+  if [ "$major_version" -ge 8 ]; then
+    dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
+  else
+    package-cleanup --oldkernels --count=1 -y
+  fi
 fi
 
 # we try to remove these in the ks file, but they're still there
