@@ -27,6 +27,7 @@ suites:
   - name: default
     run_list:
       - recipe[packer::disable_uac]
+      - recipe[packer::disable_windows_defender]
       - recipe[packer::disable_windows_update]
       - recipe[packer::disable_restore]
       - recipe[packer::disable_hibernation]
