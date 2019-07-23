@@ -1,6 +1,6 @@
 # Bento
 
-[![Build Status](http://img.shields.io/travis/chef/bento.svg)][travis]
+[![Build status](https://badge.buildkite.com/2d56b8ca08562a7d17fd25920a2e02079c5e6f28cbc6d426ee.svg?branch=master)](https://buildkite.com/chef-oss/chef-bento-master-verify)
 
 Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. These published boxes serve as the default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
 
@@ -104,20 +104,21 @@ Please use GitHub issues to report bugs, features, or other problems.
 
 These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee) definitions originally based on [work done by Tim Dysinger](https://github.com/dysinger/basebox) to make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
-Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
+macOS templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
 
+- Author: Chris McClimans ([chris@hippiehacker.org](mailto:chris@hippiehacker.org))
+- Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))
+- Author: Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
+- Author: Julian Dunn ([jdunn@chef.io](mailto:jdunn@chef.io))
+- Author: Ross Timson ([ross@rosstimson.com](mailto:ross@rosstimson.com))
 - Author: Seth Chisamore ([schisamo@chef.io](mailto:schisamo@chef.io))
 - Author: Stephen Delano ([stephen@chef.io](mailto:stephen@chef.io))
-- Author: Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
 - Author: Tim Dysinger ([tim@dysinger.net](mailto:tim@dysinger.net))
-- Author: Chris McClimans ([chris@hippiehacker.org](mailto:chris@hippiehacker.org))
-- Author: Julian Dunn ([jdunn@chef.io](mailto:jdunn@chef.io))
+- Author: Tim Smith ([tsmith@chef.io](mailto:tsmith@chef.io))
 - Author: Tom Duffield ([tom@chef.io](mailto:tom@chef.io))
-- Author: Ross Timson ([ross@rosstimson.com](mailto:ross@rosstimson.com))
-- Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))
 
 ```text
-Copyright 2012-2017, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2019, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -132,6 +133,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
-[travis]: https://travis-ci.org/chef/bento
-

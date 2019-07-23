@@ -1,19 +1,14 @@
 require "yaml"
 require "fileutils"
 
-# we load the bento gem here just so we can make sure it was installed
-begin
-  require "bento"
-rescue LoadError
-  puts "bento-ya gem does't appear to be installed. Either install the gem or bundle install first."
-  exit!
-end
-
 desc "Validate all templates using Packer"
 task :validate do
-  Dir.glob("**/*.json").each do |template_path|
+  Dir.glob("**/*.json").sort.each do |template_path|
     template_dir = File.dirname(template_path)
     filename = File.basename(template_path)
+
+    # we can't validatem the amazon config with the ovf file
+    next if filename == "amazon-2-x86_64.json"
 
     puts "\n\e[32mValidating #{template_path}\e[0m\n\n"
     result = system("packer validate #{filename}", chdir: template_dir)
