@@ -32,6 +32,16 @@
 				"packer::disable_uac",
 				"packer::disable_restore",
 				"packer::disable_windows_update",
+			]
+		},
+		{
+			"type": "windows-restart"
+		},
+		{
+			"type": "chef-solo",
+			"cookbook_paths": ["cookbooks"],
+			"guest_os_type": "windows",
+			"run_list": [
 				"packer::vm_tools",
 				"packer::features",
 				"packer::enable_file_sharing",
