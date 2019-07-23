@@ -10,3 +10,12 @@ steps:
     executor:
       docker:
         image: ruby:2.6-stretch
+
+- label: windows-build-cookbook-cookstyle
+  command:
+    - bundle install
+    - bundle exec cookstyle packer_templates/windows/cookbooks
+  expeditor:
+    executor:
+      docker:
+        image: ruby:2.6-stretch
