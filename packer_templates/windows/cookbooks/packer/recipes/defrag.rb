@@ -3,14 +3,14 @@ remote_file ::File.join(Chef::Config[:file_cache_path], 'ultradefrag.zip') do
   action :create
 end
 
-windows_zipfile 'Decompress ultradefrag' do
-  source ::File.join(Chef::Config[:file_cache_path], 'ultradefrag.zip')
-  path ::File.join(Chef::Config[:file_cache_path])
-  action :unzip
+archive_file 'Decompress ultradefrag' do
+  path ::File.join(Chef::Config[:file_cache_path], 'ultradefrag.zip')
+  destination ::File.join(Chef::Config[:file_cache_path], 'temp_defrag')
+  action :extract
 end
 
 execute 'Rename ultradefrag' do
-  command "move #{::File.join(Chef::Config[:file_cache_path])}\\ultradefrag-* #{::File.join(Chef::Config[:file_cache_path], 'ultradefrag')}"
+  command "move #{::File.join(Chef::Config[:file_cache_path])}\\temp_defrag\\ultradefrag-* #{::File.join(Chef::Config[:file_cache_path], 'ultradefrag')}"
   not_if { ::File.exist?(::File.join(Chef::Config[:file_cache_path], 'ultradefrag')) }
 end
 
