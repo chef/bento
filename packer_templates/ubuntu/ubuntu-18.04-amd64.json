@@ -203,13 +203,6 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../../builds/packer-{{user `template`}}-qemu",
-      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
-      "type": "qemu",
-      "vm_name": "{{ user `template` }}",
       "qemuargs": [
         [
           "-m",
@@ -219,7 +212,14 @@
           "-smp",
           "{{ user `cpus` }}"
         ]
-      ]
+      ],
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "{{ user `template` }}"
     },
     {
       "boot_command": [
@@ -237,7 +237,7 @@
       ],
       "boot_wait": "10s",
       "communicator": "ssh",
-      "cpu": "{{ user `cpus` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "enable_secure_boot": false,
       "generation": "{{user `hyperv_generation`}}",
@@ -245,8 +245,8 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "memory": "{{user `memory`}}",
       "output_directory": "../../builds/packer-{{user `template`}}-hyperv",
-      "ram_size": "{{user `memory`}}",
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
