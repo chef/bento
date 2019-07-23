@@ -1,29 +1,54 @@
 {
 	"builders": [{
-		"type": "virtualbox-iso",
-		"vboxmanage": [
-			["modifyvm", "{{.Name}}", "--memory", "4096"],
-			["modifyvm", "{{.Name}}", "--vram", "48"],
-			["modifyvm", "{{.Name}}", "--cpus", "2"]
-		],
-		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
-		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
-		"guest_os_type": "Windows2012_64",
-		"headless": "{{ user `headless` }}",
-		"iso_url": "{{ user `iso_url` }}",
-		"iso_checksum": "{{ user `iso_checksum` }}",
-		"iso_checksum_type": "sha1",
-		"output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
-		"communicator": "winrm",
-		"winrm_username": "vagrant",
-		"winrm_password": "vagrant",
-		"winrm_timeout": "12h",
-		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-		"shutdown_timeout": "15m",
-		"floppy_files": [
-			"answer_files/2012_r2/Autounattend.xml"
-		]
-	}],
+			"type": "virtualbox-iso",
+			"vboxmanage": [
+				["modifyvm", "{{.Name}}", "--memory", "4096"],
+				["modifyvm", "{{.Name}}", "--vram", "48"],
+				["modifyvm", "{{.Name}}", "--cpus", "2"]
+			],
+			"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+			"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+			"guest_os_type": "Windows2012_64",
+			"headless": "{{ user `headless` }}",
+			"iso_url": "{{ user `iso_url` }}",
+			"iso_checksum": "{{ user `iso_checksum` }}",
+			"iso_checksum_type": "sha1",
+			"output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
+			"communicator": "winrm",
+			"winrm_username": "vagrant",
+			"winrm_password": "vagrant",
+			"winrm_timeout": "12h",
+			"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+			"shutdown_timeout": "15m",
+			"floppy_files": [
+				"answer_files/2012_r2/Autounattend.xml"
+			]
+		},
+		{
+			"type": "vmware-iso",
+			"vmx_data": {
+				"memsize": "4096",
+				"numvcpus": "2",
+				"scsi0.virtualDev": "lsisas1068",
+				"scsi0.present": "TRUE"
+			},
+			"guest_os_type": "windows9srv-64",
+			"headless": "{{ user `headless` }}",
+			"iso_url": "{{ user `iso_url` }}",
+			"iso_checksum": "{{ user `iso_checksum` }}",
+			"iso_checksum_type": "sha1",
+			"output_directory": "../../builds/packer-{{user `template`}}-vmware",
+			"communicator": "winrm",
+			"winrm_username": "vagrant",
+			"winrm_password": "vagrant",
+			"winrm_timeout": "12h",
+			"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+			"shutdown_timeout": "15m",
+			"floppy_files": [
+				"answer_files/2012_r2/Autounattend.xml"
+			]
+		}
+	],
 	"provisioners": [{
 			"type": "chef-solo",
 			"cookbook_paths": ["cookbooks"],
@@ -32,6 +57,7 @@
 				"packer::disable_uac",
 				"packer::disable_restore",
 				"packer::disable_windows_update",
+				"packer::remove_defender"
 			]
 		},
 		{
