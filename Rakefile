@@ -1,14 +1,6 @@
 require "yaml"
 require "fileutils"
 
-# we load the bento gem here just so we can make sure it was installed
-begin
-  require "bento"
-rescue LoadError
-  puts "bento-ya gem does't appear to be installed. Either install the gem or bundle install first."
-  exit!
-end
-
 desc "Validate all templates using Packer"
 task :validate do
   Dir.glob("**/*.json").each do |template_path|
