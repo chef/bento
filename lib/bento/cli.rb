@@ -105,7 +105,10 @@ class Options
             options.single = opt
           end
 
-          opts.on("-v VERSION", "--version VERSION", "Override the version set in the template") do |opt|
+          # the default template override version unless a user passes one
+          options.override_version = Time.now.gmtime.strftime("%Y%m.%d.0")
+
+          opts.on("-v VERSION", "--version VERSION", "Override the date computed version of #{options.override_version}") do |opt|
             options.override_version = opt
           end
         end,
