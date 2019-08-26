@@ -3,10 +3,7 @@ require "ostruct"
 
 require "bento/common"
 require "bento/runner"
-require "bento/delete"
 require "bento/normalize"
-require "bento/release"
-require "bento/revoke"
 require "bento/test"
 require "bento/upload"
 
@@ -26,10 +23,7 @@ class Options
         list         :   list all templates in project
         normalize    :   normalize one or more templates
         test         :   test one or more builds with kitchen
-        upload       :   upload one or more builds to Vagrant Cloud
-        release      :   release a version of a box on Vagrant Cloud
-        revoke       :   revoke a version of a box on Vagrant Cloud
-        delete       :   delete a version of a box from Vagrant Cloud
+        upload       :   upload and release one or more builds to Vagrant Cloud
       COMMANDS
     end
 
@@ -156,28 +150,7 @@ class Options
           opts.banner = "Usage: #{NAME} upload"
         end,
         argv: md_json_argv_proc,
-      },
-      release: {
-        class: ReleaseRunner,
-        parser: OptionParser.new do |opts|
-          opts.banner = "Usage: #{NAME} release BOX VERSION"
-        end,
-        argv: box_version_argv_proc,
-      },
-      revoke: {
-        class: RevokeRunner,
-        parser: OptionParser.new do |opts|
-          opts.banner = "Usage: #{NAME} revoke BOX VERSION"
-        end,
-        argv: box_version_argv_proc,
-      },
-      delete: {
-        class: DeleteRunner,
-        parser: OptionParser.new do |opts|
-          opts.banner = "Usage: #{NAME} delete BOX VERSION"
-        end,
-        argv: box_version_argv_proc,
-      },
+      }
     }
 
     global.order!
