@@ -226,7 +226,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "1356e3aeb202533570031735c2ac4b8f2de718ce407df2895e1a5f4027d5db7c",
+    "iso_checksum": "78ea01feb0f0d8a8c274333a3b2e6261c93b33135c26aa5b7c791d0f57524eb5",
     "iso_checksum_type": "sha256",
     "iso_name": "debian-10.1.0-i386-netinst.iso",
     "memory": "1024",
