@@ -5,7 +5,7 @@ case "$PACKER_BUILDER_TYPE" in
 virtualbox-iso|virtualbox-ovf)
     major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
 
-    if [ "$major_version" -ge 6 ]; then
+    if [ "$major_version" -ge 6 -lt 8 ]; then # this fails on RHEL 8 so until we have a workaround just skip it
         # Fix slow DNS:
         # Add 'single-request-reopen' so it is included when /etc/resolv.conf is
         # generated
