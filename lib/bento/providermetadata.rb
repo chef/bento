@@ -71,6 +71,7 @@ class ProviderMetadata
 
   def ver_parallels
     raise "Platform is not macOS, exiting..." unless macos?
+
     cmd = Mixlib::ShellOut.new("prlctl --version")
     cmd.run_command
     cmd.stdout.split(" ")[2]

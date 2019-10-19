@@ -34,20 +34,22 @@ public:
 - 'ubuntu-18.10'
 - 'ubuntu-19.04'
 
+# slug box name: text string from standard box name to match (generally the same)
 slugs:
-  'centos-8': 'centos-8.0'
-  'centos-7': 'centos-7.6'
-  'centos-6': 'centos-6.10'
-  'centos-5': 'centos-5.11'
-  'debian-8': 'debian-8.11'
-  'debian-9': 'debian-9.8'
-  'debian-10': 'debian-10.0'
-  'oracle-6': 'oracle-6.10'
-  'oracle-7': 'oracle-7.6'
-  'scientific-7': 'scientific-7.6'
-  'freebsd-11': 'freebsd-11.3'
-  'freebsd-12': 'freebsd-12.0'
-  'opensuse-leap-15': 'opensuse-leap-15.1'
+  'centos-8': 'centos-8'
+  'centos-7': 'centos-7'
+  'centos-6': 'centos-6'
+  'centos-5': 'centos-5'
+  'debian-8': 'debian-8'
+  'debian-9': 'debian-9'
+  'debian-10': 'debian-10'
+  'oracle-6': 'oracle-6'
+  'oracle-7': 'oracle-7'
+  'scientific-7': 'scientific-7'
+  'freebsd-11': 'freebsd-11'
+  'freebsd-12': 'freebsd-12'
+  'opensuse-leap-15': 'opensuse-leap-15'
+  'fedora-latest': 'fedora-30'
 
 providers:
 - virtualbox-iso

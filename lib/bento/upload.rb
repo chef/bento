@@ -9,41 +9,63 @@ class UploadRunner
     @md_json = opts.md_json
   end
 
+  def error_unless_logged_in
+    warn("You cannot upload files to vagrant cloud unless the vagrant CLI is logged in. Run 'vagrant cloud auth login' first.") unless logged_in?
+  end
+
   def start
+    error_unless_logged_in
+
     banner("Starting uploads...")
     time = Benchmark.measure do
       files = md_json ? [md_json] : metadata_files
       files.each do |md_file|
-        upload(md_file)
+        upload_box(md_file)
       end
     end
     banner("Uploads finished in #{duration(time.real)}.")
   end
 
-  def upload(md_file)
-    puts "Attempting to upload #{md_file}"
-    md = box_metadata(md_file)
-    box_desc = "a bento box for #{md['name']}"
-    box = vc_account.ensure_box(md["name"], {short_description: box_desc, is_private: private_box?(md["name"])})
-    box_ver = box.ensure_version(md["version"], File.read(md_file))
 
-    if builds_yml["slugs"].value?(box.name)
-      slug_desc = "a bento box for #{builds_yml['slugs'].key(box.name)}"
-      slug = vc_account.ensure_box(builds_yml["slugs"].key(box.name), {short_description: slug_desc, is_private: false})
-      slug_ver = slug.ensure_version(md["version"], File.read(md_file))
+  #
+  # Upload all the boxes defined in the passed metadata file
+  #
+  # @param [String] md_file The path to the metadata file
+  #
+  #
+  def upload_box(md_file)
+    md_data = box_metadata(md_file)
+
+    md_data['providers'].each_pair do |prov, prov_data|
+      banner("Uploading bento/#{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
+
+      upload_cmd = "vagrant cloud publish bento/#{md_data['name']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' -f"
+      info "Would run #{upload_cmd}"
+
+      slug_name = lookup_slug(md_data['name'])
+      unless slug_name.nil?
+        banner("Uploading slug bento/#{slug_name} from #{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
+        upload_cmd = "vagrant cloud publish bento/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(slug_name)}' -f"
+        info "Would run #{upload_cmd}"
+      end
     end
 
-    md["providers"].each do |k, v|
-      provider = box_ver.ensure_provider(k, nil)
-      banner("Uploading #{box.name}/#{box_ver.version}/#{provider.name}...")
-      provider.upload_file("builds/#{v['file']}")
-      banner(provider.download_url.to_s)
-      next unless builds_yml["slugs"].value?(box.name)
+    # cmd = Mixlib::ShellOut.new("packer --version")
+    # cmd.run_command
+  end
 
-      slug_provider = slug_ver.ensure_provider(k, nil)
-      banner("Uploading #{slug.name}/#{slug_ver.version}/#{slug_provider.name}...")
-      slug_provider.upload_file("builds/#{v['file']}")
-      banner(slug_provider.download_url.to_s)
+  #
+  # Given a box name return a slug name or nil
+  #
+  # @return [String, NilClass] The slug name or nil
+  #
+  def lookup_slug(name)
+    builds_yml["slugs"].each_pair do |slug, match_string|
+      return slug if name.start_with?(match_string)
     end
+  end
+
+  def box_desc(name)
+    box_desc = "#{name.tr("-", " ").capitalize} Vagrant box created with Bento by Chef"
   end
 end
