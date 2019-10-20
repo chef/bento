@@ -70,6 +70,6 @@ class UploadRunner
   end
 
   def ver_desc(md_data, provider)
-    "#{md_data['name'].tr("-", " ").capitalize} Vagrant box version #{md_data['version']} created with Bento by Chef. Tool version: #{provider}: #{md_data['providers'][provider]['version']}"
+    "#{md_data['name'].tr("-", " ").capitalize} Vagrant box version #{md_data['version']} created with Bento by Chef. Tool version: #{provider}: #{md_data['providers'][provider]['version']}, packer: #{md_data['packer']}, vagrant: #{md_data['vagrant']}"
   end
 end

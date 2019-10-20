@@ -62,7 +62,8 @@ module Common
     metadata["name"] = json["name"]
     metadata["version"] = json["version"]
     metadata["box_basename"] = json["box_basename"]
-    metadata["tools"] = json["tools"]
+    metadata["packer"] = json["packer"]
+    metadata["vagrant"] = json["vagrant"]
     metadata["providers"] = {}
     json["providers"].each do |provider|
       metadata["providers"][provider["name"]] = provider.reject { |k, _| k == "name" }
