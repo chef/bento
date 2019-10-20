@@ -156,7 +156,7 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "oracle-7.6",
+    "box_basename": "oracle-7.7",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -164,16 +164,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "a3156e9dc53ace74b81f6e37f284b74498057efd02babebd88aa2a51cc44d7e7",
+    "iso_checksum": "1d06cef6a518c32c0e7adcad0a99a8efbc7516066de41118ebf49002c15ea84d",
     "iso_checksum_type": "sha256",
-    "iso_name": "OracleLinux-R7-U6-Server-x86_64-dvd.iso",
+    "iso_name": "OracleLinux-R7-U7-Server-x86_64-dvd.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.dotsrc.org/oracle-linux",
-    "mirror_directory": "OL7/u6/x86_64",
-    "name": "oracle-7.6",
+    "mirror_directory": "OL7/u7/x86_64",
+    "name": "oracle-7.7",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "oracle-7.6-x86_64",
+    "template": "oracle-7.7-x86_64",
     "version": "TIMESTAMP"
   }
 }
