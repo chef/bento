@@ -169,7 +169,7 @@
     "iso_name": "OracleLinux-R6-U9-Server-i386-dvd.iso",
     "ks_path": "6/ks.cfg",
     "memory": "1024",
-    "mirror": "http://mirrors.kernel.org/oracle/",
+    "mirror": "https://mirrors.dotsrc.org/oracle-linux",
     "mirror_directory": "OL6/U9/i386",
     "name": "oracle-6.10-i386",
     "no_proxy": "{{env `no_proxy`}}",
