@@ -69,7 +69,7 @@
     }
   ],
   "variables": {
-    "box_basename": "SL-7.6",
+    "box_basename": "scientific-7.6",
     "build_timestamp": "{{isotime \"20080506150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -86,7 +86,7 @@
     "memory": "1024",
     "mirror": "http://www.gtlib.gatech.edu/pub/scientific",
     "mirror_directory": "7.6/x86_64/iso",
-    "name": "SL-7.6",
+    "name": "scientific-7.6",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "scientific-7-x86_64",
     "version": "TIMESTAMP"
