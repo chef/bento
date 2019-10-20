@@ -16,6 +16,13 @@ module Common
     puts "    #{msg}"
   end
 
+  def shellout(cmd)
+    info "Shelling out to run #{cmd}"
+    sout = Mixlib::ShellOut.new(cmd)
+    sout.live_stream = STDOUT
+    sout.run_command
+  end
+
   def warn(msg)
     puts ">>> #{msg}"
   end

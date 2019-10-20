@@ -40,18 +40,15 @@ class UploadRunner
       banner("Uploading bento/#{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
 
       upload_cmd = "vagrant cloud publish bento/#{md_data['name']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' -f"
-      info "Would run #{upload_cmd}"
+      shellout(upload_cmd)
 
       slug_name = lookup_slug(md_data['name'])
       unless slug_name.nil?
         banner("Uploading slug bento/#{slug_name} from #{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
         upload_cmd = "vagrant cloud publish bento/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(slug_name)}' -f"
-        info "Would run #{upload_cmd}"
+        shellout(upload_cmd)
       end
     end
-
-    # cmd = Mixlib::ShellOut.new("packer --version")
-    # cmd.run_command
   end
 
   #
