@@ -57,8 +57,9 @@ class UploadRunner
   #
   def lookup_slug(name)
     builds_yml["slugs"].each_pair do |slug, match_string|
-      return slug if name.start_with?(match_string)
+      return slug if name.start_with?(match_string) && !name.include?('i386')
     end
+    return nil
   end
 
   def box_desc(name)
