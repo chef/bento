@@ -5,6 +5,11 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
+
+    # make sure we have /sbin in our path. RHEL systems lack this
+    PATH=/sbin:$PATH
+    export PATH
+
     mkdir -p /tmp/vmware;
     mkdir -p /tmp/vmware-archive;
     mount -o loop $HOME_DIR/linux.iso /tmp/vmware;
