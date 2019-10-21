@@ -15,8 +15,6 @@ public:
 - 'debian-10.1'
 - 'fedora-29'
 - 'fedora-30'
-- 'freebsd-11.2-i386'
-- 'freebsd-11.2'
 - 'freebsd-11.3-i386'
 - 'freebsd-11.3'
 - 'freebsd-12.0-i386'
