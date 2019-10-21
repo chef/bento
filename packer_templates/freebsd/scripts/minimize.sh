@@ -4,14 +4,7 @@ case "$PACKER_BUILDER_TYPE" in
   qemu) exit 0 ;;
 esac
 
-major_version="`uname -r | awk -F. '{print $1}'`";
-
-if [ "$major_version" -eq 10 ]; then
-  ZROOT="zroot"
-else
-  ZROOT="zroot/ROOT/default"
-fi
-
+ZROOT="zroot/ROOT/default"
 COMPRESSION=$(zfs get -H compression $ZROOT | cut -f3);
 
 zfs set compression=off $ZROOT;
