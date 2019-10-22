@@ -9,41 +9,78 @@ class UploadRunner
     @md_json = opts.md_json
   end
 
+  def error_unless_logged_in
+    warn("You cannot upload files to vagrant cloud unless the vagrant CLI is logged in. Run 'vagrant cloud auth login' first.") unless logged_in?
+  end
+
   def start
+    error_unless_logged_in
+
     banner("Starting uploads...")
     time = Benchmark.measure do
       files = md_json ? [md_json] : metadata_files
       files.each do |md_file|
-        upload(md_file)
+        upload_box(md_file)
       end
     end
     banner("Uploads finished in #{duration(time.real)}.")
   end
 
-  def upload(md_file)
-    puts "Attempting to upload #{md_file}"
-    md = box_metadata(md_file)
-    box_desc = "a bento box for #{md['name']}"
-    box = vc_account.ensure_box(md["name"], {short_description: box_desc, is_private: private_box?(md["name"])})
-    box_ver = box.ensure_version(md["version"], File.read(md_file))
 
-    if builds_yml["slugs"].value?(box.name)
-      slug_desc = "a bento box for #{builds_yml['slugs'].key(box.name)}"
-      slug = vc_account.ensure_box(builds_yml["slugs"].key(box.name), {short_description: slug_desc, is_private: false})
-      slug_ver = slug.ensure_version(md["version"], File.read(md_file))
+  #
+  # Upload all the boxes defined in the passed metadata file
+  #
+  # @param [String] md_file The path to the metadata file
+  #
+  #
+  def upload_box(md_file)
+    md_data = box_metadata(md_file)
+
+    md_data['providers'].each_pair do |prov, prov_data|
+      if File.exist?(File.join('builds', prov_data['file']))
+        banner("Uploading bento/#{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
+
+        upload_cmd = "vagrant cloud publish bento/#{md_data['name']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data, prov)}' --force --release"
+        shellout(upload_cmd)
+
+        slug_name = lookup_slug(md_data['name'])
+        next if slug_name.nil?
+        banner("Uploading slug bento/#{slug_name} from #{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
+        upload_cmd = "vagrant cloud publish bento/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data, prov)}' --force --release"
+        shellout(upload_cmd)
+
+        # move the box file to the completed directory
+        FileUtils.mv(File.join('builds', prov_data['file']), File.join('builds', 'uploaded', prov_data['file']))
+      else # box in metadata isn't on disk
+        warn "The #{prov} box defined in the metadata file #{md_file} does not exist at builds/#{prov_data['file']}. Skipping!"
+      end
     end
 
-    md["providers"].each do |k, v|
-      provider = box_ver.ensure_provider(k, nil)
-      banner("Uploading #{box.name}/#{box_ver.version}/#{provider.name}...")
-      provider.upload_file("builds/#{v['file']}")
-      banner(provider.download_url.to_s)
-      next unless builds_yml["slugs"].value?(box.name)
+    # move the metadata file to the completed directory
+    FileUtils.mv(md_file, File.join('builds', 'uploaded', File.basename(md_file)))
+  end
 
-      slug_provider = slug_ver.ensure_provider(k, nil)
-      banner("Uploading #{slug.name}/#{slug_ver.version}/#{slug_provider.name}...")
-      slug_provider.upload_file("builds/#{v['file']}")
-      banner(slug_provider.download_url.to_s)
+  #
+  # Given a box name return a slug name or nil
+  #
+  # @return [String, NilClass] The slug name or nil
+  #
+  def lookup_slug(name)
+    builds_yml["slugs"].each_pair do |slug, match_string|
+      return slug if name.start_with?(match_string) && !name.include?('i386')
     end
+    return nil
+  end
+
+  def box_desc(name)
+    "#{name.tr("-", " ").capitalize} Vagrant box created with Bento by Chef"
+  end
+
+  def slug_desc(name)
+    "#{name.tr("-", " ").capitalize}.x Vagrant box created with Bento by Chef. This box will be updated with the latest releases of #{name.tr("-", " ").capitalize} as they become available"
+  end
+
+  def ver_desc(md_data, provider)
+    "#{md_data['name'].tr("-", " ").capitalize} Vagrant box version #{md_data['version']} created with Bento by Chef. Tool versions: #{provider}: #{md_data['providers'][provider]['version']}, packer: #{md_data['packer']}, vagrant: #{md_data['vagrant']}"
   end
 end

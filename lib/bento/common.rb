@@ -3,16 +3,11 @@ require "fileutils"
 require "json"
 require "tempfile"
 require "yaml"
-require "vagrant_cloud"
+require "mixlib/shellout"
 
 MEGABYTE = 1024.0 * 1024.0
 
 module Common
-  def vc_account
-    raise "You must set the 'VAGRANT_CLOUD_ORG' and 'VAGRANT_CLOUD_TOKEN' tokens to interact with the Vagrant Cloud!" unless ENV["VAGRANT_CLOUD_ORG"] && ENV["VAGRANT_CLOUD_TOKEN"]
-    VagrantCloud::Account.new(ENV["VAGRANT_CLOUD_ORG"], ENV["VAGRANT_CLOUD_TOKEN"])
-  end
-
   def banner(msg)
     puts "==> #{msg}"
   end
@@ -21,8 +16,34 @@ module Common
     puts "    #{msg}"
   end
 
+  def shellout(cmd)
+    info "Shelling out to run #{cmd}"
+    sout = Mixlib::ShellOut.new(cmd)
+    sout.live_stream = STDOUT
+    sout.run_command
+  end
+
   def warn(msg)
     puts ">>> #{msg}"
+  end
+
+  #
+  # Shellout to vagrant CLI to see if we're logged into the cloud
+  #
+  # @return [Boolean]
+  #
+  def logged_in?
+    shellout = Mixlib::ShellOut.new("vagrant cloud auth whoami").run_command
+
+    if shellout.error?
+      error_output = !shellout.stderr.empty? ? shellout.stderr : shellout.stdout
+      warn("Failed to shellout to vagrant to check the login status. Error: #{error_output}")
+      return false
+    end
+
+    return true if shellout.stdout.match?(/Currently logged in/)
+
+    false
   end
 
   def duration(total)
@@ -37,11 +58,12 @@ module Common
     file = File.read(metadata_file)
     json = JSON.parse(file)
 
-    # metadata needed for upload:  boxname, version, provider, box filename
+    # metadata needed for upload: boxname, version, provider, box filename
     metadata["name"] = json["name"]
     metadata["version"] = json["version"]
     metadata["box_basename"] = json["box_basename"]
-    metadata["tools"] = json["tools"]
+    metadata["packer"] = json["packer"]
+    metadata["vagrant"] = json["vagrant"]
     metadata["providers"] = {}
     json["providers"].each do |provider|
       metadata["providers"][provider["name"]] = provider.reject { |k, _| k == "name" }

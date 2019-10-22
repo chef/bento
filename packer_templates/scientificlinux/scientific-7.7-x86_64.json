@@ -69,7 +69,7 @@
     }
   ],
   "variables": {
-    "box_basename": "SL-7.6",
+    "box_basename": "scientific-7.7",
     "build_timestamp": "{{isotime \"20080506150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
@@ -79,14 +79,14 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "2fdecb713bdaf3e253a9b8a11c54be6d17be38bb0c59b4346ff23a10c249bed1",
+    "iso_checksum": "4490f72797834a958396af929c0da6a97a69049eddbfe969a8903b5ce0fddb99",
     "iso_checksum_type": "sha256",
     "iso_name": "SL-7-DVD-x86_64.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
     "mirror": "http://www.gtlib.gatech.edu/pub/scientific",
-    "mirror_directory": "7.6/x86_64/iso",
-    "name": "SL-7.6",
+    "mirror_directory": "7.7/x86_64/iso",
+    "name": "scientific-7.7",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "scientific-7-x86_64",
     "version": "TIMESTAMP"
