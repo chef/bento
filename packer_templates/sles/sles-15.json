@@ -27,7 +27,7 @@
       "type": "virtualbox-iso",
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
-      "manager": [
+      "vboxmanage": [
         [
           "storageattach",
           "{{.Name}}",
