@@ -25,6 +25,8 @@
         "boot<enter>"
       ],
       "boot_wait": "10s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
