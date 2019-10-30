@@ -104,8 +104,8 @@
 		}]
 	],
 	"variables": {
-		"cpus": 2,
-		"memory": 4096,
+		"cpus": "2",
+		"memory": "4096",
 		"guest_additions_mode": "attach",
 		"headless": "true",
 		"iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
