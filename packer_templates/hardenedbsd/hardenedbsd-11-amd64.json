@@ -28,20 +28,8 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "{{ user `memory` }}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ]
-      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
     },
@@ -59,6 +47,8 @@
         "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
       "boot_wait": "10s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd-64",
       "headless": "{{ user `headless` }}",
@@ -76,9 +66,7 @@
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "{{ user `memory` }}",
-        "numvcpus": "{{ user `cpus` }}"
+        "cpuid.coresPerSocket": "1"
       },
       "vmx_remove_ethernet_interfaces": true
     },
@@ -95,6 +83,8 @@
         "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
       "boot_wait": "8s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd",
       "http_directory": "http",
@@ -104,18 +94,6 @@
       "output_directory": "../../builds/packer-{{user `template`}}-parallels",
       "parallels_tools_mode": "disable",
       "prlctl": [
-        [
-          "set",
-          "{{.Name}}",
-          "--memsize",
-          "{{ user `memory` }}"
-        ],
-        [
-          "set",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ],
         [
           "set",
           "{{.Name}}",
@@ -159,6 +137,8 @@
         "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} && bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
       "boot_wait": "7s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",

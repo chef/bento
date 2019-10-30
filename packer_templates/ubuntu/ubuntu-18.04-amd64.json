@@ -43,20 +43,8 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "{{ user `memory` }}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ]
-      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
     },
@@ -103,11 +91,11 @@
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "ethernet0.pciSlotNumber": "32",
-        "memsize": "{{ user `memory` }}",
-        "numvcpus": "{{ user `cpus` }}"
+        "ethernet0.pciSlotNumber": "32"
       },
       "vmx_remove_ethernet_interfaces": true
     },
@@ -146,20 +134,8 @@
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../../builds/packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "lin",
-      "prlctl": [
-        [
-          "set",
-          "{{.Name}}",
-          "--memsize",
-          "{{ user `memory` }}"
-        ],
-        [
-          "set",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ]
-      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "prlctl_version_file": ".prlctl_version",
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
       "ssh_password": "vagrant",
@@ -203,16 +179,8 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "../../builds/packer-{{user `template`}}-qemu",
-      "qemuargs": [
-        [
-          "-m",
-          "{{ user `memory` }}M"
-        ],
-        [
-          "-smp",
-          "{{ user `cpus` }}"
-        ]
-      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
       "ssh_password": "vagrant",
       "ssh_port": 22,

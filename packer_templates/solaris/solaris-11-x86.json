@@ -45,20 +45,8 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "virtualbox-iso",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "{{ user `memory` }}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ]
-      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
     },
@@ -107,10 +95,10 @@
       "ssh_wait_timeout": "10000s",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "{{ user `memory` }}",
-        "numvcpus": "{{ user `cpus` }}"
+        "cpuid.coresPerSocket": "1"
       },
       "vmx_remove_ethernet_interfaces": true
     }

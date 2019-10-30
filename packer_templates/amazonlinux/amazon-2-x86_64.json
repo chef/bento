@@ -12,20 +12,8 @@
       "source_path": "amazon2.ovf",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "{{ user `memory` }}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ]
-      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
     }

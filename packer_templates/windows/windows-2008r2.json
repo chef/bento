@@ -2,10 +2,10 @@
 	"builders": [{
 		"type": "virtualbox-iso",
 		"vboxmanage": [
-			["modifyvm", "{{.Name}}", "--memory", "4096"],
-			["modifyvm", "{{.Name}}", "--vram", "48"],
-			["modifyvm", "{{.Name}}", "--cpus", "2"]
+			["modifyvm", "{{.Name}}", "--vram", "48"]
 		],
+		"memory": "{{ user `memory` }}",
+		"cpus": "{{ user `cpus` }}",
 		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
 		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
 		"guest_os_type": "Windows2008_64",
@@ -72,6 +72,8 @@
 		}]
 	],
 	"variables": {
+		"memory": 4096,
+		"cpus": 2,
 		"guest_additions_mode": "attach",
 		"headless": "false",
 		"iso_checksum": "beed231a34e90e1dd9a04b3afabec31d62ce3889",
