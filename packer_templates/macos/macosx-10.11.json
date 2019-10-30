@@ -2,6 +2,8 @@
   "builders": [
     {
       "boot_wait": "2s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "darwin12-64",
       "headless": "{{ user `headless` }}",
@@ -26,8 +28,6 @@
         "hpet0.present": "TRUE",
         "ich7m.present": "TRUE",
         "keyboardAndMouseProfile": "macProfile",
-        "memsize": "{{ user `memory` }}",
-        "numvcpus": "{{ user `cpus` }}",
         "smc.present": "TRUE",
         "usb.present": "TRUE"
       },
@@ -35,6 +35,8 @@
     },
     {
       "boot_wait": "2s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_mode": "disable",
       "guest_os_type": "MacOS1011_64",
@@ -78,12 +80,6 @@
         [
           "modifyvm",
           "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
           "--firmware",
           "efi"
         ],
@@ -98,12 +94,6 @@
           "{{.Name}}",
           "--keyboard",
           "usb"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "{{ user `memory` }}"
         ],
         [
           "modifyvm",
@@ -156,6 +146,8 @@
     },
     {
       "boot_wait": "2s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "macosx",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -164,18 +156,6 @@
       "output_directory": "../../builds/packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "mac",
       "prlctl": [
-        [
-          "set",
-          "{{.Name}}",
-          "--memsize",
-          "{{ user `memory` }}"
-        ],
-        [
-          "set",
-          "{{.Name}}",
-          "--cpus",
-          "{{ user `cpus` }}"
-        ],
         [
           "set",
           "{{.Name}}",

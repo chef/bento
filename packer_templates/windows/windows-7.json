@@ -2,10 +2,10 @@
 	"builders": [{
 		"type": "virtualbox-iso",
 		"vboxmanage": [
-			["modifyvm", "{{.Name}}", "--memory", "5120"],
-			["modifyvm", "{{.Name}}", "--vram", "36"],
-			["modifyvm", "{{.Name}}", "--cpus", "2"]
+			["modifyvm", "{{.Name}}", "--vram", "36"]
 		],
+		"memory": "{{ user `memory` }}",
+		"cpus": "{{ user `cpus` }}",
 		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
 		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
 		"guest_os_type": "Windows7_64",
@@ -24,7 +24,7 @@
 			"answer_files/7/Autounattend.xml"
 		]
 	}],
-  "provisioners": [{
+	"provisioners": [{
 			"type": "chef-solo",
 			"cookbook_paths": ["cookbooks"],
 			"guest_os_type": "windows",
@@ -79,10 +79,12 @@
 		}]
 	],
 	"variables": {
+		"memory": "4096",
+		"cpus": "2",
 		"guest_additions_mode": "attach",
 		"headless": "false",
-    "iso_checksum": "971fc00183a52c152fe924a6b99fdec011a871c2",
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/evalx/win7/x86/EN/7600.16385.090713-1255_x86fre_enterprise_en-us_EVAL_Eval_Enterprise-GRMCENEVAL_EN_DVD.iso",
+		"iso_checksum": "971fc00183a52c152fe924a6b99fdec011a871c2",
+		"iso_url": "http://care.dlservice.microsoft.com/dl/download/evalx/win7/x86/EN/7600.16385.090713-1255_x86fre_enterprise_en-us_EVAL_Eval_Enterprise-GRMCENEVAL_EN_DVD.iso",
 		"template": "windows-7"
 	}
 }

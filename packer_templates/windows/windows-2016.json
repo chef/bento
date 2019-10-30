@@ -2,10 +2,10 @@
 	"builders": [{
 			"type": "virtualbox-iso",
 			"vboxmanage": [
-				["modifyvm", "{{.Name}}", "--memory", "4096"],
-				["modifyvm", "{{.Name}}", "--vram", "48"],
-				["modifyvm", "{{.Name}}", "--cpus", "2"]
+				["modifyvm", "{{.Name}}", "--vram", "48"]
 			],
+			"memory": "{{ user `memory` }}",
+			"cpus": "{{ user `cpus` }}",
 			"guest_additions_mode": "{{ user `guest_additions_mode` }}",
 			"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
 			"guest_os_type": "Windows2016_64",
@@ -27,11 +27,11 @@
 		{
 			"type": "vmware-iso",
 			"vmx_data": {
-				"memsize": "4096",
-				"numvcpus": "2",
 				"scsi0.virtualDev": "lsisas1068",
 				"scsi0.present": "TRUE"
 			},
+			"memory": "{{ user `memory` }}",
+			"cpus": "{{ user `cpus` }}",
 			"guest_os_type": "windows9srv-64",
 			"headless": "{{ user `headless` }}",
 			"iso_url": "{{ user `iso_url` }}",
@@ -104,6 +104,8 @@
 		}]
 	],
 	"variables": {
+		"memory": "4096",
+		"cpus": "2",
 		"guest_additions_mode": "attach",
 		"headless": "true",
 		"iso_checksum": "772700802951b36c8cb26a61c040b9a8dc3816a3",
