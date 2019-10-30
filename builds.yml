@@ -47,7 +47,7 @@ slugs:
   'freebsd-11': 'freebsd-11'
   'freebsd-12': 'freebsd-12'
   'opensuse-leap-15': 'opensuse-leap-15'
-  'fedora-latest': 'fedora-30'
+  'fedora-latest': 'fedora-31'
 
 providers:
 - virtualbox-iso
