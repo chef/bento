@@ -5,6 +5,7 @@
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
+      "usb": true,
       "guest_os_type": "darwin12-64",
       "headless": "{{ user `headless` }}",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -28,8 +29,7 @@
         "hpet0.present": "TRUE",
         "ich7m.present": "TRUE",
         "keyboardAndMouseProfile": "macProfile",
-        "smc.present": "TRUE",
-        "usb.present": "TRUE"
+        "smc.present": "TRUE"
       },
       "vmx_remove_ethernet_interfaces": true
     },
