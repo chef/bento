@@ -26,12 +26,9 @@
 		},
 		{
 			"type": "vmware-iso",
-			"vmx_data": {
-				"scsi0.virtualDev": "lsisas1068",
-				"scsi0.present": "TRUE"
-			},
 			"memory": "{{ user `memory` }}",
 			"cpus": "{{ user `cpus` }}",
+			"disk_adapter_type": "lsisas1068",
 			"guest_os_type": "windows9srv-64",
 			"headless": "{{ user `headless` }}",
 			"iso_url": "{{ user `iso_url` }}",
