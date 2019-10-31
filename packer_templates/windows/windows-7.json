@@ -27,7 +27,7 @@
   }],
   "provisioners": [{
       "type": "chef-solo",
-      "cookbook_paths": ["cookbooks"],
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
       "run_list": [
         "packer::disable_uac",
@@ -41,7 +41,7 @@
     },
     {
       "type": "chef-solo",
-      "cookbook_paths": ["cookbooks"],
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
       "run_list": [
         "packer::vm_tools",
@@ -57,7 +57,7 @@
     },
     {
       "type": "chef-solo",
-      "cookbook_paths": ["cookbooks"],
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
       "run_list": [
         "packer::cleanup",
@@ -76,7 +76,7 @@
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "{{ user `template` }}-{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows.template"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile-windows.template"
     }]
   ],
   "variables": {

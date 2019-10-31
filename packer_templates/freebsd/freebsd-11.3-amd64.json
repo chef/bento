@@ -158,7 +158,7 @@
     {
       "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
-      "vagrantfile_template": "vagrantfile_templates/freebsd.rb"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile_templates/freebsd.rb"
     }
   ],
   "provisioners": [

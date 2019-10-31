@@ -159,7 +159,7 @@
     {
       "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
-      "vagrantfile_template": "vagrantfile_templates/hardenedbsd.rb"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile_templates/hardenedbsd.rb"
     }
   ],
   "provisioners": [
