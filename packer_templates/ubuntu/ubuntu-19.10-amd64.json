@@ -260,7 +260,7 @@
     }
   ],
   "variables": {
-    "box_basename": "ubuntu-18.10",
+    "box_basename": "ubuntu-19.10",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
@@ -272,16 +272,16 @@
     "hyperv_generation": "2",
     "hyperv_switch": "{{env `hyperv_switch`}}",
     "guest_additions_url": "",
-    "iso_checksum": "cf9250781dadd919f23c9d9612212cad653e35fccc2fbcf6853f67ad09e067ba",
+    "iso_checksum": "921fd8b271c04aa86a321cc35b40e677f9b85f7903bf2204efb2389b0f0a64c1",
     "iso_checksum_type": "sha256",
-    "iso_name": "ubuntu-18.10-server-amd64.iso",
+    "iso_name": "ubuntu-19.10-server-amd64.iso",
     "memory": "1024",
     "mirror": "http://cdimage.ubuntu.com",
-    "mirror_directory": "ubuntu/releases/18.10/release",
-    "name": "ubuntu-18.10",
+    "mirror_directory": "ubuntu/releases/19.10/release",
+    "name": "ubuntu-19.10",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
-    "template": "ubuntu-18.10-amd64",
+    "template": "ubuntu-19.10-amd64",
     "version": "TIMESTAMP"
   }
 }
