@@ -1,117 +1,117 @@
 {
-	"builders": [{
-			"type": "virtualbox-iso",
-			"vboxmanage": [
-				["modifyvm", "{{.Name}}", "--vram", "48"],
-				["modifyvm", "{{.Name}}", "--audio", "none"]
-			],
-			"memory": "{{ user `memory` }}",
-			"cpus": "{{ user `cpus` }}",
-			"guest_additions_mode": "{{ user `guest_additions_mode` }}",
-			"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
-			"guest_os_type": "Windows10_64",
-			"hard_drive_interface": "sata",
-			"headless": "{{ user `headless` }}",
-			"iso_url": "{{ user `iso_url` }}",
-			"iso_checksum": "{{ user `iso_checksum` }}",
-			"iso_checksum_type": "sha1",
-			"output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
-			"communicator": "winrm",
-			"winrm_username": "vagrant",
-			"winrm_password": "vagrant",
-			"winrm_timeout": "12h",
-			"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-			"shutdown_timeout": "15m",
-			"floppy_files": [
-				"answer_files/10/Autounattend.xml",
-				"scripts/base_setup.ps1"
-			]
-		},
-		{
-			"type": "vmware-iso",
-			"memory": "{{ user `memory` }}",
-			"cpus": "{{ user `cpus` }}",
-			"disk_adapter_type": "lsisas1068",
-			"guest_os_type": "windows9srv-64",
-			"headless": "{{ user `headless` }}",
-			"iso_url": "{{ user `iso_url` }}",
-			"iso_checksum": "{{ user `iso_checksum` }}",
-			"iso_checksum_type": "sha1",
-			"output_directory": "../../builds/packer-{{user `template`}}-vmware",
-			"communicator": "winrm",
-			"winrm_username": "vagrant",
-			"winrm_password": "vagrant",
-			"winrm_timeout": "12h",
-			"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-			"shutdown_timeout": "15m",
-			"floppy_files": [
-				"answer_files/10/Autounattend.xml"
-			]
-		}
-	],
-	"provisioners": [{
-			"type": "chef-solo",
-			"cookbook_paths": ["cookbooks"],
-			"guest_os_type": "windows",
-			"run_list": [
-				"packer::disable_uac",
-				"packer::disable_onedrive",
-				"packer::disable_restore",
-				"packer::disable_hibernation",
-				"packer::disable_windows_update",
-				"packer::remove_defender"
-			]
-		},
-		{
-			"type": "windows-restart"
-		},
-		{
-			"type": "chef-solo",
-			"cookbook_paths": ["cookbooks"],
-			"guest_os_type": "windows",
-			"run_list": [
-				"packer::vm_tools",
-				"packer::features",
-				"packer::enable_file_sharing",
-				"packer::enable_remote_desktop",
-				"packer::ui_tweaks",
-				"packer::power"
-			]
-		},
-		{
-			"type": "windows-restart"
-		},
-		{
-			"type": "chef-solo",
-			"cookbook_paths": ["cookbooks"],
-			"guest_os_type": "windows",
-			"run_list": [
-				"packer::cleanup",
-				"packer::defrag"
-			]
-		},
-		{
-			"type": "powershell",
-			"script": "scripts/cleanup.ps1",
-			"elevated_user": "vagrant",
-			"elevated_password": "vagrant"
-		}
-	],
-	"post-processors": [
-		[{
-			"type": "vagrant",
-			"keep_input_artifact": true,
-			"output": "{{ user `template` }}-{{.Provider}}.box",
-			"vagrantfile_template": "vagrantfile-windows.template"
-		}]
-	],
-	"variables": {
-		"memory": "4096",
-		"cpus": "2",
-		"guest_additions_mode": "attach",
-		"headless": "true",
-		"iso_checksum": "743fc483bb8bf1901c0534a0ae15208a5a72a3c5",
-		"iso_url": "https://software-download.microsoft.com/download/pr/18362.30.190401-1528.19h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
-		"template": "windows-10"
-	}
+  "builders": [{
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "48"],
+        ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+      "guest_os_type": "Windows10_64",
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "answer_files/10/Autounattend.xml",
+        "scripts/base_setup.ps1"
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "disk_adapter_type": "lsisas1068",
+      "guest_os_type": "windows9srv-64",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "../../builds/packer-{{user `template`}}-vmware",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "answer_files/10/Autounattend.xml"
+      ]
+    }
+  ],
+  "provisioners": [{
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::disable_uac",
+        "packer::disable_onedrive",
+        "packer::disable_restore",
+        "packer::disable_hibernation",
+        "packer::disable_windows_update",
+        "packer::remove_defender"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::vm_tools",
+        "packer::features",
+        "packer::enable_file_sharing",
+        "packer::enable_remote_desktop",
+        "packer::ui_tweaks",
+        "packer::power"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::cleanup",
+        "packer::defrag"
+      ]
+    },
+    {
+      "type": "powershell",
+      "script": "scripts/cleanup.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "{{ user `template` }}-{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile-windows.template"
+    }]
+  ],
+  "variables": {
+    "memory": "4096",
+    "cpus": "2",
+    "guest_additions_mode": "attach",
+    "headless": "true",
+    "iso_checksum": "743fc483bb8bf1901c0534a0ae15208a5a72a3c5",
+    "iso_url": "https://software-download.microsoft.com/download/pr/18362.30.190401-1528.19h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "template": "windows-10"
+  }
 }
