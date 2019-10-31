@@ -34,7 +34,7 @@
       "guest_additions_url": "{{ user `guest_additions_url` }}",
       "guest_os_type": "Solaris11_64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "30d9ae857f62938c21307722d031e0dc",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-11_3-ai-x86.iso",
@@ -83,7 +83,7 @@
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "solaris11-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "30d9ae857f62938c21307722d031e0dc",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-11_3-ai-x86.iso",
@@ -116,10 +116,10 @@
       "execute_command": "echo 'vagrant'|sudo -S bash {{.Path}}",
       "expect_disconnect": true,
       "scripts": [
-        "scripts/update.sh",
-        "scripts/vagrant.sh",
-        "scripts/vmtools.sh",
-        "scripts/minimize.sh"
+        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/vagrant.sh",
+        "{{template_dir}}/scripts/vmtools.sh",
+        "{{template_dir}}/scripts/minimize.sh"
       ],
       "type": "shell"
     }

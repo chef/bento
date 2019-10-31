@@ -13,17 +13,17 @@
       "boot_wait": "5s",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "floppy/sysidcfg",
-        "floppy/awesome_prof",
-        "floppy/rules.ok",
-        "floppy/S99startup.sh",
-        "floppy/finish.sh"
+        "{{template_dir}}/floppy/sysidcfg",
+        "{{template_dir}}/floppy/awesome_prof",
+        "{{template_dir}}/floppy/rules.ok",
+        "{{template_dir}}/floppy/S99startup.sh",
+        "{{template_dir}}/floppy/finish.sh"
       ],
       "guest_additions_mode": "upload",
       "guest_additions_url": "{{ user `guest_additions_url` }}",
       "guest_os_type": "Solaris_64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
@@ -53,15 +53,15 @@
       "boot_wait": "5s",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "floppy/sysidcfg",
-        "floppy/awesome_prof",
-        "floppy/rules.ok",
-        "floppy/S99startup.sh",
-        "floppy/finish.sh"
+        "{{template_dir}}/floppy/sysidcfg",
+        "{{template_dir}}/floppy/awesome_prof",
+        "{{template_dir}}/floppy/rules.ok",
+        "{{template_dir}}/floppy/S99startup.sh",
+        "{{template_dir}}/floppy/finish.sh"
       ],
       "guest_os_type": "solaris10-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "aae1452bb3d56baa3dcb8866ce7e4a08",
       "iso_checksum_type": "md5",
       "iso_url": "{{user `mirror`}}/sol-10-u11-ga-x86-dvd.iso",
@@ -96,8 +96,8 @@
       "execute_command": "/usr/local/bin/sudo {{.Path}}",
       "expect_disconnect": true,
       "scripts": [
-        "scripts/solaris-10/vmtools.sh",
-        "scripts/solaris-10/minimize.sh"
+        "{{template_dir}}/scripts/solaris-10/vmtools.sh",
+        "{{template_dir}}/scripts/solaris-10/minimize.sh"
       ],
       "type": "shell"
     }

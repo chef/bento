@@ -24,8 +24,8 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "answer_files/10/Autounattend.xml",
-        "scripts/base_setup.ps1"
+        "{{template_dir}}/answer_files/10/Autounattend.xml",
+        "{{template_dir}}/scripts/base_setup.ps1"
       ]
     },
     {
@@ -46,7 +46,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "answer_files/10/Autounattend.xml"
+        "{{template_dir}}/answer_files/10/Autounattend.xml"
       ]
     }
   ],
@@ -93,7 +93,7 @@
     },
     {
       "type": "powershell",
-      "script": "scripts/cleanup.ps1",
+      "script": "{{template_dir}}/scripts/cleanup.ps1",
       "elevated_user": "vagrant",
       "elevated_password": "vagrant"
     }
