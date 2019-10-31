@@ -13,7 +13,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
-      "output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
+      "output_directory": "{{ user `builddir` }}/packer-{{user `template`}}-virtualbox",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -34,7 +34,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
-      "output_directory": "../../builds/packer-{{user `template`}}-vmware",
+      "output_directory": "{{ user `builddir` }}/packer-{{user `template`}}-vmware",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -107,6 +107,7 @@
     "headless": "true",
     "iso_checksum": "91e3a2f1acc39af21353c7cc105c799494d7539f",
     "iso_url": "https://software-download.microsoft.com/download/sg/17763.253.190108-0006.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+    "builddir": "../../builds",
     "template": "windows-2019-standard"
   }
 }
