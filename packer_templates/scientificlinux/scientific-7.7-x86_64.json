@@ -14,7 +14,7 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
-      "output_directory": "{{ user `builddir` }}/packer-{{user `template`}}-virtualbox",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -41,7 +41,7 @@
   ],
   "post-processors": [
     {
-      "output": "{{ user `builddir` }}/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
@@ -70,7 +70,7 @@
   ],
   "variables": {
     "box_basename": "scientific-7.7",
-    "builddir": "../../builds",
+    "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20080506150405\"}}",
     "cpus": "1",
     "disk_size": "65536",

@@ -15,7 +15,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
-      "output_directory": "{{ user `builddir` }}/packer-{{user `template`}}-virtualbox",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -37,7 +37,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
-      "output_directory": "{{ user `builddir` }}/packer-{{user `template`}}-vmware",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -112,7 +112,7 @@
     "headless": "true",
     "iso_checksum": "743fc483bb8bf1901c0534a0ae15208a5a72a3c5",
     "iso_url": "https://software-download.microsoft.com/download/pr/18362.30.190401-1528.19h1_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
-    "builddir": "../../builds",
+    "build_directory": "../../builds",
     "template": "windows-10"
   }
 }
