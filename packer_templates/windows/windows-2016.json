@@ -13,7 +13,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
-      "output_directory": "../../builds/packer-{{user `template`}}-virtualbox",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -34,7 +34,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "sha1",
-      "output_directory": "../../builds/packer-{{user `template`}}-vmware",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -107,6 +107,7 @@
     "headless": "true",
     "iso_checksum": "772700802951b36c8cb26a61c040b9a8dc3816a3",
     "iso_url": "https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
+    "build_directory": "../../builds",
     "template": "windows-2016-standard"
   }
 }

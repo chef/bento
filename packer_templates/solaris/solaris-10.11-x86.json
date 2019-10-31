@@ -85,7 +85,7 @@
   ],
   "post-processors": [
     {
-      "output": "../../builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
@@ -106,6 +106,7 @@
     "_README": "You must download the automated installer iso from the following page, and then place it somewhere that packer can fetch it",
     "arch": "64",
     "box_basename": "solaris-10.11",
+    "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
