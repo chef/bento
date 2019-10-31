@@ -20,6 +20,7 @@
         "floppy/finish.sh"
       ],
       "guest_additions_mode": "upload",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
       "guest_os_type": "Solaris_64",
       "headless": "{{ user `headless` }}",
       "http_directory": "http",
@@ -108,6 +109,7 @@
     "box_basename": "solaris-10.11",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "guest_additions_url": "",
     "cpus": "1",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
