@@ -22,12 +22,12 @@
     "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
     "shutdown_timeout": "15m",
     "floppy_files": [
-      "answer_files/2008_r2/Autounattend.xml"
+      "{{template_dir}}/answer_files/2008_r2/Autounattend.xml"
     ]
   }],
   "provisioners": [{
       "type": "chef-solo",
-      "cookbook_paths": ["cookbooks"],
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
       "install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
       "run_list": [
@@ -48,7 +48,7 @@
     },
     {
       "type": "chef-solo",
-      "cookbook_paths": ["cookbooks"],
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
       "install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
       "run_list": [
@@ -59,7 +59,7 @@
     },
     {
       "type": "powershell",
-      "script": "scripts/cleanup.ps1",
+      "script": "{{template_dir}}/scripts/cleanup.ps1",
       "elevated_user": "vagrant",
       "elevated_password": "vagrant"
     }
@@ -69,7 +69,7 @@
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "{{ user `template` }}-{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows.template"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile-windows.template"
     }]
   ],
   "variables": {

@@ -176,13 +176,13 @@
     {
       "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
-      "vagrantfile_template": "vagrantfile_templates/macosx.rb"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile_templates/macosx.rb"
     }
   ],
   "provisioners": [
     {
       "destination": "/private/tmp/set_kcpassword.py",
-      "source": "scripts/support/set_kcpassword.py",
+      "source": "{{template_dir}}/scripts/support/set_kcpassword.py",
       "type": "file"
     },
     {
@@ -196,15 +196,15 @@
       "execute_command": "echo 'vagrant'| {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "scripts/hostname.sh",
-        "scripts/update.sh",
-        "scripts/networking.sh",
-        "scripts/disablesleep.sh",
-        "scripts/vagrant.sh",
-        "scripts/autologin.sh",
-        "scripts/vmtools.sh",
-        "scripts/cleanup.sh",
-        "scripts/minimize.sh"
+        "{{template_dir}}/scripts/hostname.sh",
+        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/networking.sh",
+        "{{template_dir}}/scripts/disablesleep.sh",
+        "{{template_dir}}/scripts/vagrant.sh",
+        "{{template_dir}}/scripts/autologin.sh",
+        "{{template_dir}}/scripts/vmtools.sh",
+        "{{template_dir}}/scripts/cleanup.sh",
+        "{{template_dir}}/scripts/minimize.sh"
       ],
       "type": "shell"
     }

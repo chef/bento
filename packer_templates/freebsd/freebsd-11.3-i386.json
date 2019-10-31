@@ -19,7 +19,7 @@
       "guest_additions_mode": "disable",
       "guest_os_type": "FreeBSD",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -52,7 +52,7 @@
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -86,7 +86,7 @@
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -140,7 +140,7 @@
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
-      "http_directory": "http",
+      "http_directory": "{{template_dir}}/http",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
@@ -158,7 +158,7 @@
     {
       "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
       "type": "vagrant",
-      "vagrantfile_template": "vagrantfile_templates/freebsd.rb"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile_templates/freebsd.rb"
     }
   ],
   "provisioners": [
@@ -173,13 +173,13 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "scripts/update.sh",
-        "scripts/postinstall.sh",
-        "scripts/sudoers.sh",
-        "../_common/vagrant.sh",
-        "scripts/vmtools.sh",
-        "scripts/cleanup.sh",
-        "scripts/minimize.sh"
+        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/postinstall.sh",
+        "{{template_dir}}/scripts/sudoers.sh",
+        "{{template_dir}}/../_common/vagrant.sh",
+        "{{template_dir}}/scripts/vmtools.sh",
+        "{{template_dir}}/scripts/cleanup.sh",
+        "{{template_dir}}/scripts/minimize.sh"
       ],
       "type": "shell"
     }
