@@ -118,7 +118,7 @@
       "boot_wait": "10s",
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
-      "disk_size": "{{user `disk_size`}}",
+      "disk_size": "{{user `disk_size`}}M",
       "headless": "{{ user `headless` }}",
       "http_directory": "{{template_dir}}/http",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -131,7 +131,12 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        ["-drive", "file={{user `mirror`}}/{{user `packages_iso`}},format=raw,if=none,id=cdrom0,readonly=on"],
+        ["-device", "virtio-scsi-pci,id=scsi0"],
+        ["-device", "scsi-cd,bus=scsi0.0,scsi-id=0,lun=1,drive=cdrom0"]
+      ]
     }
   ],
   "post-processors": [
