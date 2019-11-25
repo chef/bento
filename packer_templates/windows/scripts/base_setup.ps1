@@ -6,8 +6,13 @@ Write-Host "Performing the WinRM setup necessary to get the host ready for packe
 # Supress network location Prompt
 New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" -Force
 
+# The above suppresses the prompt but defaults to "Public" which prevents WinRM from being enabled even with the SkipNetworkProfileCheck arg
+# This command sets any network connections detected to Private to allow WinRM to be configured and started
+Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory "Private"
+
 # Does a lot: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-6
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
+# May not be necessary since we set the profile to Private above
 Set-NetFirewallRule -Name "WINRM-HTTP-In-TCP" -RemoteAddress Any # allow winrm over public profile interfaces
 
 winrm set "winrm/config" '@{MaxTimeoutms="1800000"}'
