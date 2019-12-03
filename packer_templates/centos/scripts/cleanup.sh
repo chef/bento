@@ -61,17 +61,13 @@ fi
 find /var/log/ -name *.log -exec rm -f {} \;
 
 # remove previous kernels that yum preserved for rollback
-# yum-utils isn't in RHEL 5 so don't try to run this
-if ! lsb_release -a | grep -qE '^Release:\s*5'; then
+if [ "$major_version" -ge 8 ]; then
+  dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
+elif [ "$major_version" -gt 5 ]; then # yum-utils isn't in RHEL 5 so don't try to run this
   if ! command -v package-cleanup >/dev/null 2>&1; then
-    yum install -y yum-utils
+  yum install -y yum-utils
   fi
-
-  if [ "$major_version" -ge 8 ]; then
-    dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
-  else
-    package-cleanup --oldkernels --count=1 -y
-  fi
+  package-cleanup --oldkernels --count=1 -y
 fi
 
 # we try to remove these in the ks file, but they're still there
