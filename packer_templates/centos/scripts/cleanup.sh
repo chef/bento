@@ -5,11 +5,18 @@ distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
 
 major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
 
+# make sure we use dnf on EL 8+
+if [ "$major_version" -ge 8 ]; then
+  pkg_cmd="dnf"
+else
+  pkg_cmd="yum"
+fi
+
 # Remove development and kernel source packages
-yum -y remove gcc cpp kernel-devel kernel-headers;
+$pkg_cmd -y remove gcc cpp kernel-devel kernel-headers;
 
 if [ "$distro" != 'redhat' ]; then
-  yum -y clean all;
+  $pkg_cmd -y clean all;
 fi
 
 # Clean up network interface persistence
@@ -72,7 +79,7 @@ fi
 
 # we try to remove these in the ks file, but they're still there
 # in the builds so let's remove them here to be sure :shrug:
-yum remove -y \
+$pkg_cmd remove -y \
   aic94xx-firmware \
   atmel-firmware \
   bfa-firmware \
