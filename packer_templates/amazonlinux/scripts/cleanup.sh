@@ -58,6 +58,9 @@ find /var/log -type f -exec truncate --size=0 {} \;
 yum install -y yum-utils
 package-cleanup --oldkernels --count=1 -y
 
+# remove the contents of /tmp and /var/tmp
+rm -rf /tmp/* /var/tmp/*
+
 # clear the history so our install isn't there
 export HISTSIZE=0
 rm -f /root/.wget-hsts

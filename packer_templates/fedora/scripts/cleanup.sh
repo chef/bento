@@ -17,6 +17,9 @@ find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec 
 # remove the install log
 rm -f /root/anaconda-ks.cfg
 
+# remove the contents of /tmp and /var/tmp
+rm -rf /tmp/* /var/tmp/*
+
 # clear the history so our install isn't there
 export HISTSIZE=0
 rm -f /root/.wget-hsts

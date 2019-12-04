@@ -76,6 +76,8 @@ find /var/log -type f -exec truncate --size=0 {} \;
 
 # we try to remove these in the ks file, but they're still there
 # in the builds so let's remove them here to be sure :shrug:
+#
+# 12.2019 note: We can probably remove this now, but let's confirm it
 $pkg_cmd remove -y \
   aic94xx-firmware \
   atmel-firmware \
@@ -104,6 +106,9 @@ fi
 
 # remove the install log
 rm -f /root/anaconda-ks.cfg
+
+# remove the contents of /tmp and /var/tmp
+rm -rf /tmp/* /var/tmp/*
 
 # clear the history so our install isn't there
 export HISTSIZE=0
