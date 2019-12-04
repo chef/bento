@@ -100,3 +100,6 @@ $pkg_cmd remove -y \
   rt61pci-firmware \
   rt73usb-firmware \
   zd1211-firmware
+
+# clear the history so our install isn't there
+export HISTSIZE=0

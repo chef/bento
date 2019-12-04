@@ -72,3 +72,6 @@ find /var/log/ -name *.log -exec rm -f {} \;
 
 # Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
 truncate -s 0 /etc/machine-id
+
+# clear the history so our install isn't there
+export HISTSIZE=0

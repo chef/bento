@@ -15,3 +15,6 @@ find /var/log/ -name *.log -exec rm -f {} \;
 
 # Remove any non-loopback network configs
 find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
+
+# clear the history so our install isn't there
+export HISTSIZE=0
