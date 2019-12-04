@@ -42,7 +42,7 @@ if grep -q -i "release 7" /etc/redhat-release ; then
   done
   rm -rf /var/lib/NetworkManager/*
 
-  echo "==> Setup /etc/rc.d/rc.local for CentOS7"
+  echo "==> Setup /etc/rc.d/rc.local for EL7"
   cat <<_EOF_ | cat >> /etc/rc.d/rc.local
 #BENTO-BEGIN
 LANG=C
