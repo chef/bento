@@ -12,12 +12,19 @@ else
   pkg_cmd="yum"
 fi
 
+# remove previous kernels that yum/dnf preserved for rollback
+if [ "$major_version" -ge 8 ]; then
+  dnf autoremove -y
+  dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
+elif [ "$major_version" -gt 5 ]; then # yum-utils isn't in RHEL 5 so don't try to run this
+  if ! command -v package-cleanup >/dev/null 2>&1; then
+  yum install -y yum-utils
+  fi
+  package-cleanup --oldkernels --count=1 -y
+fi
+
 # Remove development and kernel source packages
 $pkg_cmd -y remove gcc cpp kernel-devel kernel-headers;
-
-if [ "$distro" != 'redhat' ]; then
-  $pkg_cmd -y clean all;
-fi
 
 # Clean up network interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules;
@@ -67,16 +74,6 @@ fi
 # truncate any logs that have built up during the install
 find /var/log -type f -exec truncate --size=0 {} \;
 
-# remove previous kernels that yum preserved for rollback
-if [ "$major_version" -ge 8 ]; then
-  dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
-elif [ "$major_version" -gt 5 ]; then # yum-utils isn't in RHEL 5 so don't try to run this
-  if ! command -v package-cleanup >/dev/null 2>&1; then
-  yum install -y yum-utils
-  fi
-  package-cleanup --oldkernels --count=1 -y
-fi
-
 # we try to remove these in the ks file, but they're still there
 # in the builds so let's remove them here to be sure :shrug:
 $pkg_cmd remove -y \
@@ -100,6 +97,10 @@ $pkg_cmd remove -y \
   rt61pci-firmware \
   rt73usb-firmware \
   zd1211-firmware
+
+if [ "$distro" != 'redhat' ]; then
+  $pkg_cmd -y clean all;
+fi
 
 # remove the install log
 rm -f /root/anaconda-ks.cfg
