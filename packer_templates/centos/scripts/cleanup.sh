@@ -64,8 +64,8 @@ _EOF_
   chmod +x /etc/rc.d/rc.local
 fi
 
-# delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+# truncate any logs that have built up during the install
+find /var/log -type f -exec truncate --size=0 {} \;
 
 # remove previous kernels that yum preserved for rollback
 if [ "$major_version" -ge 8 ]; then
