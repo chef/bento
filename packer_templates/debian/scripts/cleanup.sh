@@ -40,8 +40,8 @@ apt-get -y purge installation-report;
 apt-get -y autoremove;
 apt-get -y clean;
 
-# delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+# truncate any logs that have built up during the install
+find /var/log -type f -exec truncate --size=0 {} \;
 
 # clear the history so our install isn't there
 export HISTSIZE=0

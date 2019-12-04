@@ -8,10 +8,8 @@ dnf -y clean all --enablerepo=\*
 echo "Removing extra packages"
 dnf -y remove linux-firmware
 
-rm -f /tmp/chef*rpm
-
-# delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
+# truncate any logs that have built up during the install
+find /var/log -type f -exec truncate --size=0 {} \;
 
 # Remove any non-loopback network configs
 find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
