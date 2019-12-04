@@ -60,3 +60,4 @@ package-cleanup --oldkernels --count=1 -y
 
 # clear the history so our install isn't there
 export HISTSIZE=0
+rm -f /root/.wget-hsts

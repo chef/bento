@@ -103,3 +103,4 @@ $pkg_cmd remove -y \
 
 # clear the history so our install isn't there
 export HISTSIZE=0
+rm -f /root/.wget-hsts
