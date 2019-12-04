@@ -101,6 +101,9 @@ $pkg_cmd remove -y \
   rt73usb-firmware \
   zd1211-firmware
 
+# remove the install log
+rm -f /root/anaconda-ks.cfg
+
 # clear the history so our install isn't there
 export HISTSIZE=0
 rm -f /root/.wget-hsts
