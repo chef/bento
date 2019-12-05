@@ -157,7 +157,7 @@
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/virtualbox.sh",
-        "{{template_dir}}/../_common/vmware.sh",
+        "{{template_dir}}/scripts/open-vm-tools.sh",
         "{{template_dir}}/../_common/parallels.sh",
         "{{template_dir}}/../_common/vagrant.sh",
         "{{template_dir}}/scripts/cleanup.sh",
