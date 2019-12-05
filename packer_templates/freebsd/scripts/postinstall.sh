@@ -11,6 +11,16 @@ pkg install -y curl ca_root_nss;
 # SSL CAcerts anymore
 ln -sf /usr/local/share/certs/ca-root-nss.crt /etc/ssl/cert.pem;
 
+# Avoid pausing at the boot screen
+cat >>/etc/loader.conf << LOADER_CONF
+autoboot_delay="-1"
+beastie_disable="YES"
+kern.hz=50
+LOADER_CONF
+
+# disable crash dumps
+sysrc dumpdev="NO"
+
 # As sharedfolders are not in defaults ports tree, we will use NFS sharing
 cat >>/etc/rc.conf << RC_CONF
 rpcbind_enable="YES"
@@ -18,7 +28,11 @@ nfs_server_enable="YES"
 mountd_flags="-r"
 RC_CONF
 
-# Disable X11 because Vagrants VMs are (usually) headless
+echo 'Disable X11 in make.conf because Vagrants VMs are (usually) headless'
 cat >>/etc/make.conf << MAKE_CONF
 WITHOUT_X11="YES"
+WITHOUT_GUI="YES"
 MAKE_CONF
+
+echo 'Update the locate DB'
+/etc/periodic/weekly/310.locate
