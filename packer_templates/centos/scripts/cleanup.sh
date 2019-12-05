@@ -98,7 +98,9 @@ $pkg_cmd remove -y \
   ql2xxx-firmware \
   rt61pci-firmware \
   rt73usb-firmware \
-  zd1211-firmware
+  zd1211-firmware \
+  linux-firmware \
+  microcode_ctl
 
 if [ "$distro" != 'redhat' ]; then
   $pkg_cmd -y clean all;
