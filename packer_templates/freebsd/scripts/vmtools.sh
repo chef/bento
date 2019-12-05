@@ -45,7 +45,7 @@ vmware-iso|vmware-vmx)
     ;;
 
 parallels-iso|parallels-pvm)
-    echo "No current support for Parallels tools, continuing"
+    pkg install -y parallels-tools
     ;;
 
 *)
