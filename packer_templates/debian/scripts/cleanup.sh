@@ -45,3 +45,4 @@ find /var/log -type f -exec truncate --size=0 {} \;
 
 # clear the history so our install isn't there
 export HISTSIZE=0
+rm -f /root/.wget-hsts
