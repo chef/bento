@@ -15,7 +15,6 @@ ln -sf /usr/local/share/certs/ca-root-nss.crt /etc/ssl/cert.pem;
 cat >>/etc/loader.conf << LOADER_CONF
 autoboot_delay="-1"
 beastie_disable="YES"
-kern.hz=50
 LOADER_CONF
 
 # disable crash dumps
