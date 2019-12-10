@@ -181,7 +181,7 @@
     "iso_checksum": "225ebc160e40bb43c5de28bad9680e3a78a9db40c9e3f4f42f3ee3f10f95dbeb",
     "iso_checksum_type": "sha256",
     "iso_name": "Fedora-Server-dvd-x86_64-31-1.9.iso",
-    "ks_path": "ks-fedora29.cfg",
+    "ks_path": "ks-fedora.cfg",
     "memory": "1024",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
     "mirror_directory": "releases/31/Server/x86_64/iso",
