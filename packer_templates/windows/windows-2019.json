@@ -109,8 +109,8 @@
     "guest_additions_mode": "attach",
     "guest_additions_url": "",
     "headless": "true",
-    "iso_checksum": "91e3a2f1acc39af21353c7cc105c799494d7539f",
-    "iso_url": "https://software-download.microsoft.com/download/sg/17763.253.190108-0006.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+    "iso_checksum": "3022424f777b66a698047ba1c37812026b9714c5",
+    "iso_url": "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",
     "build_directory": "../../builds",
     "template": "windows-2019-standard"
   }
