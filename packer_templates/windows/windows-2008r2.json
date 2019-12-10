@@ -1,28 +1,30 @@
 {
   "builders": [{
-    "type": "virtualbox-iso",
-    "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--vram", "48"]
-    ],
-    "memory": "{{ user `memory` }}",
-    "cpus": "{{ user `cpus` }}",
-    "guest_additions_mode": "{{ user `guest_additions_mode` }}",
-    "guest_additions_url": "{{ user `guest_additions_url` }}",
-    "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
-    "guest_os_type": "Windows2008_64",
-    "headless": "{{ user `headless` }}",
-    "iso_url": "{{ user `iso_url` }}",
-    "iso_checksum": "{{ user `iso_checksum` }}",
-    "iso_checksum_type": "sha1",
-    "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
-    "communicator": "winrm",
-    "winrm_username": "vagrant",
-    "winrm_password": "vagrant",
-    "winrm_timeout": "12h",
-    "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-    "shutdown_timeout": "15m",
-    "floppy_files": [
-      "{{template_dir}}/answer_files/2008_r2/Autounattend.xml"
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "48"],
+        ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
+      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+      "guest_os_type": "Windows2008_64",
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "{{template_dir}}/answer_files/2008_r2/Autounattend.xml"
       ]
     },
     {
@@ -97,8 +99,8 @@
     }]
   ],
   "variables": {
-    "cpus": "2",
     "memory": "4096",
+    "cpus": "2",
     "guest_additions_mode": "attach",
     "guest_additions_url": "",
     "headless": "false",
