@@ -51,6 +51,7 @@
       "type": "chef-solo",
       "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
+      "chef_license": "accept-no-persist",
       "install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
       "run_list": [
         "packer::disable_uac",
@@ -72,6 +73,7 @@
       "type": "chef-solo",
       "cookbook_paths": ["{{template_dir}}/cookbooks"],
       "guest_os_type": "windows",
+      "chef_license": "accept-no-persist",
       "install_command": "powershell.exe -Command \"(new-object Net.WebClient).DownloadString('https://omnitruck.chef.io/install.ps1') | iex; install\"",
       "run_list": [
         "packer::disable_uac",
