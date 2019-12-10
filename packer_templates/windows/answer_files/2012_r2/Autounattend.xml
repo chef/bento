@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <settings pass="windowsPE">
-	<!-- look for drivers on floppy -->
-	<component name="Microsoft-Windows-PnpCustomizationsWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		<DriverPaths>
-			<PathAndCredentials wcm:keyValue="1" wcm:action="add">
-				<Path>A:\</Path>
-			</PathAndCredentials>
-		</DriverPaths>
-	</component>
-
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+        <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <SetupUILanguage>
                 <UILanguage>en-US</UILanguage>
             </SetupUILanguage>
@@ -20,7 +11,7 @@
             <UILanguageFallback>en-US</UILanguageFallback>
             <UserLocale>en-US</UserLocale>
         </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+        <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <DiskConfiguration>
                 <Disk wcm:action="add">
                     <CreatePartitions>
@@ -59,7 +50,7 @@
                 <OSImage>
                     <InstallFrom>
                         <MetaData wcm:action="add">
-                            <Key>/IMAGE/NAME </Key>
+                            <Key>/IMAGE/NAME</Key>
                             <Value>Windows Server 2012 R2 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
@@ -75,7 +66,7 @@
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Vagrant</FullName>
-                <Organization>Bento by Chef</Organization>
+                <Organization>Bento by Chef Software, Inc.</Organization>
             </UserData>
         </component>
     </settings>
@@ -104,8 +95,8 @@
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
                 <NetworkLocation>Home</NetworkLocation>
                 <ProtectYourPC>3</ProtectYourPC>
-                <SkipUserOOBE>true</SkipUserOOBE>
                 <SkipMachineOOBE>true</SkipMachineOOBE>
+                <SkipUserOOBE>true</SkipUserOOBE>
             </OOBE>
       <TimeZone>UTC</TimeZone>
       <UserAccounts>

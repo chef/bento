@@ -1,15 +1,16 @@
 {
   "builders": [{
-    "type": "virtualbox-iso",
-    "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--vram", "36"]
-    ],
-    "memory": "{{ user `memory` }}",
-    "cpus": "{{ user `cpus` }}",
-    "guest_additions_mode": "{{ user `guest_additions_mode` }}",
-    "guest_additions_url": "{{ user `guest_additions_url` }}",
-    "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
-    "guest_os_type": "Windows7_64",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "48"],
+        ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
+      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+      "guest_os_type": "Windows7_64",
     "headless": "{{ user `headless` }}",
     "iso_url": "{{ user `iso_url` }}",
     "iso_checksum": "{{ user `iso_checksum` }}",
