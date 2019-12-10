@@ -1,7 +1,5 @@
-registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' do
-  values [{ name: 'EnableLUA', type: :dword, data: 0 },
-          { name: 'PromptOnSecureDesktop', type: :dword, data: 0 },
-          { name: 'ConsentPromptBehaviorAdmin', type: :dword, data: 0 },
-         ]
-  action :create
+windows_uac 'Configure UAC' do
+  consent_behavior_admins :no_prompt
+  prompt_on_secure_desktop false
+  enable_uac false
 end
