@@ -272,7 +272,7 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "hyperv_generation": 1",
+    "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
     "guest_additions_url": "",
     "iso_checksum": "7509cabb2f9f6ba0a95f8454d432be2ef26679d31ce35baa626acc5321460fab",
