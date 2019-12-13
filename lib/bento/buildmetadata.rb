@@ -20,7 +20,6 @@ class BuildMetadata
       box_basename:     box_basename,
       template:         template_vars.fetch("template", UNKNOWN),
       packer:           packer_ver,
-      vagrant:          vagrant_ver,
     }
   end
 
@@ -69,15 +68,5 @@ class BuildMetadata
     cmd = Mixlib::ShellOut.new("packer --version")
     cmd.run_command
     cmd.stdout.split("\n")[0]
-  end
-
-  def vagrant_ver
-    if ENV["TRAVIS"]
-      "travis"
-    else
-      cmd = Mixlib::ShellOut.new("vagrant --version")
-      cmd.run_command
-      cmd.stdout.split(" ")[1]
-    end
   end
 end
