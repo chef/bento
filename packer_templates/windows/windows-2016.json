@@ -58,7 +58,9 @@
         "packer::disable_uac",
         "packer::disable_restore",
         "packer::disable_windows_update",
-        "packer::remove_defender"
+        "packer::remove_defender",
+        "packer::configure_power",
+        "packer::disable_screensaver"
       ]
     },
     {
@@ -73,8 +75,7 @@
         "packer::features",
         "packer::enable_file_sharing",
         "packer::enable_remote_desktop",
-        "packer::ui_tweaks",
-        "packer::power"
+        "packer::ui_tweaks"
       ]
     },
     {

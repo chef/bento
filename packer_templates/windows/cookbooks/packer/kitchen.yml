@@ -13,6 +13,9 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
+  - name: windows-2019
+    driver_config:
+      box: tas50/windows_2019
   - name: windows-2016
     driver_config:
       box: tas50/windows_2016
@@ -27,16 +30,15 @@ suites:
   - name: default
     run_list:
       - recipe[packer::disable_uac]
-      - recipe[packer::disable_windows_defender]
-      - recipe[packer::disable_windows_update]
       - recipe[packer::disable_restore]
-      - recipe[packer::disable_hibernation]
+      - recipe[packer::disable_windows_update]
       - recipe[packer::remove_defender]
+      - recipe[packer::configure_power]
+      - recipe[packer::disable_screensaver]
       - recipe[packer::vm_tools]
       - recipe[packer::features]
       - recipe[packer::enable_file_sharing]
       - recipe[packer::enable_remote_desktop]
       - recipe[packer::ui_tweaks]
-      - recipe[packer::power]
       - recipe[packer::cleanup]
       - recipe[packer::defrag]

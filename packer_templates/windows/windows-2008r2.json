@@ -65,7 +65,8 @@
         "packer::enable_file_sharing",
         "packer::enable_remote_desktop",
         "packer::ui_tweaks",
-        "packer::power",
+        "packer::configure_power",
+        "packer::disable_screensaver",
         "packer::updates"
       ]
     },
