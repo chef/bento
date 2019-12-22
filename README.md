@@ -9,14 +9,14 @@ Bento is a project that encapsulates [Packer](https://www.packer.io/) templates 
 Adding a bento box to Vagrant
 
 ```
-$ vagrant box add bento/ubuntu-16.04
+$ vagrant box add bento/ubuntu-18.04
 ```
 
 Using a bento box in a Vagrantfile
 
 ```
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.box = "bento/ubuntu-18.04"
 end
 ```
 
@@ -37,41 +37,41 @@ end
 
 #### Using `packer`
 
-To build an Ubuntu 16.04 box for only the VirtualBox provider
+To build an Ubuntu 18.04 box for only the VirtualBox provider
 
 ```
 $ cd ubuntu
-$ packer build -only=virtualbox-iso ubuntu-16.04-amd64.json
+$ packer build -only=virtualbox-iso ubuntu-18.04-amd64.json
 ```
 
-To build Debian 9.1 32bit boxes for all possible providers (simultaneously)
+To build Debian 10.2 32bit boxes for all possible providers (simultaneously)
 
 ```
 $ cd debian
-$ packer build debian-9.1-i386.json
+$ packer build debian-10.2-i386.json
 ```
 
-To build CentOS 7.3 boxes for all providers except VMware and Parallels
+To build CentOS 7.7 boxes for all providers except VMware and Parallels
 
 ```
 $ cd centos
-$ packer build -except=parallels-iso,vmware-iso centos-7.3-x86_64.json
+$ packer build -except=parallels-iso,vmware-iso centos-7.7-x86_64.json
 ```
 
 To use an alternate mirror
 
 ```
 $ cd fedora
-$ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-26-x86_64.json
+$ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-31-x86_64.json
 ```
 
 If the build is successful, ready to import box files will be in the `builds` directory at the root of the repository.
 
-\***NOTE:** box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-16.04'`
+\***NOTE:** box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-18.04'`
 
 ### Proprietary Templates
 
-Templates for operating systems only available via license or subscription are also available in the repository, these include but are not limited to: Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise. As the ISOs are not publicly available the URL values will need to be overridden as appropriate. We rely on the efforts of those with access to licensed versions of the operating systems to keep these up-to-date.
+Templates for operating systems only available via license or subscription are also available in the repository, these include but are not limited to: macOS, Red Hat Enterprise Linux, and SUSE Linux Enterprise. As the ISOs are not publicly available the URL values will need to be overridden as appropriate. We rely on the efforts of those with access to licensed versions of the operating systems to keep these up-to-date.
 
 ### Networking/Firewalls
 
