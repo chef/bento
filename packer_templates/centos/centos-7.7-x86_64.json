@@ -87,7 +87,7 @@
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
-        "{{template_dir}}/http/7/ks.cfg"
+        "{{template_dir}}/http/{{user `ks_path`}}"
       ],
       "generation": "{{user `hyperv_generation`}}",
       "guest_additions_mode": "disable",
