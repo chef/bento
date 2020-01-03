@@ -25,7 +25,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "{{ user `floppy_dir` }}/{{ user `unattended_file` }}"
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ]
     },
     {
@@ -46,7 +46,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "{{ user `floppy_dir` }}/{{ user `unattended_file` }}"
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ]
     }
   ],
@@ -115,7 +115,7 @@
     "iso_url": "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",
     "build_directory": "../../builds",
     "floppy_dir": "{{template_dir}}/answer_files",
-    "unattended_file": "2019/Autounattend.xml",
+    "unattended_file_path": "2019/Autounattend.xml",
     "template": "windows-2019-standard"
   }
 }

@@ -25,7 +25,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "{{ user `floppy_dir` }}/{{ user `unattended_file` }}"
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ]
     },
     {
@@ -46,7 +46,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "{{ user `floppy_dir` }}/{{ user `unattended_file` }}"
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ]
     }
   ],
@@ -115,7 +115,7 @@
     "iso_url": "https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
     "build_directory": "../../builds",
     "floppy_dir": "{{template_dir}}/answer_files",
-    "unattended_file": "2016/Autounattend.xml",
+    "unattended_file_path": "2016/Autounattend.xml",
     "template": "windows-2016-standard"
   }
 }
