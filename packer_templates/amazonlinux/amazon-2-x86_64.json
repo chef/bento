@@ -3,7 +3,7 @@
     {
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "headless": "{{ user `headless` }}",
-      "http_directory": "{{template_dir}}/http",
+      "http_directory": "{{user `http_directory`}}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_wait_timeout": "10000s",
@@ -62,6 +62,7 @@
   "variables": {
     "box_basename": "amazon-2",
     "build_directory": "../../builds",
+    "http_directory": "{{template_dir}}/http",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
