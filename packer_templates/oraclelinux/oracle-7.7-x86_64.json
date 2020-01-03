@@ -172,6 +172,8 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
+    "hyperv_generation": "1",
+    "hyperv_switch": "{{env `hyperv_switch`}}",
     "guest_additions_url": "",
     "iso_checksum": "1d06cef6a518c32c0e7adcad0a99a8efbc7516066de41118ebf49002c15ea84d",
     "iso_checksum_type": "sha256",
