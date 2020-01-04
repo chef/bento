@@ -47,7 +47,8 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
       ]
     },
     {
@@ -72,7 +73,8 @@
         [ "-drive", "file={{ user `build_directory` }}/packer-{{ user `template` }}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1" ]
       ],
       "floppy_files": [
-        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
       ]
     }
   ],
