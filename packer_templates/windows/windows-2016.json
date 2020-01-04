@@ -48,6 +48,31 @@
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ]
+    },
+    {
+      "type": "qemu",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-smp", "{{ user `cpus` }}" ],
+        [ "-drive", "file={{ user `virtio_win_iso` }},media=cdrom,index=3" ],
+        [ "-drive", "file={{ user `build_directory` }}/packer-{{ user `template` }}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1" ]
+      ],
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
+      ]
     }
   ],
   "provisioners": [{
@@ -116,6 +141,7 @@
     "build_directory": "../../builds",
     "floppy_dir": "{{template_dir}}/answer_files",
     "unattended_file_path": "2016/Autounattend.xml",
+    "virtio_win_iso": "~/virtio-win.iso",
     "template": "windows-2016-standard"
   }
 }
