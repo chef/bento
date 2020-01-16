@@ -161,10 +161,10 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-8.0",
+    "box_basename": "centos-8.1",
     "build_directory": "../../builds",
     "http_directory": "{{template_dir}}/http",
-    "build_timestamp": "{{isotime \"2019102650405\"}}",
+    "build_timestamp": "{{isotime \"2020011650405\"}}",
     "cpus": "1",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -174,16 +174,16 @@
     "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
     "guest_additions_url": "",
-    "iso_checksum": "ea17ef71e0df3f6bf1d4bf1fc25bec1a76d1f211c115d39618fe688be34503e8",
+    "iso_checksum": "3ee3f4ea1538e026fff763e2b284a6f20b259d91d1ad5688f5783a67d279423b",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-8-x86_64-1905-dvd1.iso",
+    "iso_name": "CentOS-8.1.1911-x86_64-dvd1.iso",
     "ks_path": "8/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "8.0.1905/isos/x86_64",
-    "name": "centos-8.0",
+    "mirror_directory": "8.1.1911/isos/x86_64",
+    "name": "centos-8.1",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-8.0-x86_64",
+    "template": "centos-8.1-x86_64",
     "version": "TIMESTAMP"
   }
 }
