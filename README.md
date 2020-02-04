@@ -69,6 +69,16 @@ If the build is successful, ready to import box files will be in the `builds` di
 
 \***NOTE:** box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-18.04'`
 
+#### KVM/qemu support for Windows
+
+You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso). You can do this from the command line: `wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O virtio-win.iso`.
+
+You can use the following sample command to build a KVM/qemu Windows box:
+
+```
+packer build --only=qemu --var virtio_win_iso=~/virtio-win.iso windows-2019.json
+```
+
 ### Proprietary Templates
 
 Templates for operating systems only available via license or subscription are also available in the repository, these include but are not limited to: macOS, Red Hat Enterprise Linux, and SUSE Linux Enterprise. As the ISOs are not publicly available the URL values will need to be overridden as appropriate. We rely on the efforts of those with access to licensed versions of the operating systems to keep these up-to-date.
