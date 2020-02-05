@@ -54,6 +54,7 @@
     },
     {
       "type": "vmware-iso",
+      "version": 11,
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
       "disk_adapter_type": "lsisas1068",
