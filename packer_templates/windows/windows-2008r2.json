@@ -29,6 +29,30 @@
       ]
     },
     {
+      "type": "parallels-iso",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "guest_os_type": "win-2008",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
+      "parallels_tools_flavor": "win",
+      "prlctl_version_file": ".prlctl_version",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "prlctl": [
+        ["set", "{{.Name}}", "--efi-boot", "off"]
+      ],
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
+      ]
+    },
+    {
       "type": "vmware-iso",
       "version": 11,
       "memory": "{{ user `memory` }}",
