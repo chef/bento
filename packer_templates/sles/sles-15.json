@@ -131,7 +131,14 @@
       "ssh_username": "vagrant",
       "ssh_wait_timeout": "10000s",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        ["-drive", "file=../../builds/packer-{{user `template`}}-qemu/{{user `template`}},if=virtio,cache=writeback,discard=ignore,format=qcow2"],
+        ["-drive", "file={{user `mirror`}}/{{user `packages_iso`}},format=raw,if=none,id=cdrom1,readonly=on"],
+        ["-object", "iothread,id=iothread1"],
+        ["-device", "virtio-scsi-pci,iothread=iothread1,id=scsi1"],
+        ["-device", "scsi-cd,bus=scsi1.0,drive=cdrom1"]
+      ]
     }
   ],
   "post-processors": [
