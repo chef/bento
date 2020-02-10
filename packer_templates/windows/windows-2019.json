@@ -1,7 +1,6 @@
 {
   "builders": [{
       "type": "hyperv-iso",
-      "generation": "{{user `hyperv_generation`}}",
       "switch_name": "{{user `hyperv_switch`}}",
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
@@ -19,8 +18,8 @@
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ]
-      },
-      {
+    },
+    {
       "type": "virtualbox-iso",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--vram", "48"],
@@ -183,7 +182,6 @@
     "guest_additions_mode": "attach",
     "guest_additions_url": "",
     "headless": "true",
-    "hyperv_generation": "2",
     "hyperv_switch": "{{env `hyperv_switch`}}",
     "iso_checksum": "3022424f777b66a698047ba1c37812026b9714c5",
     "iso_url": "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",

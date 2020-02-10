@@ -1,5 +1,25 @@
 {
   "builders": [{
+      "type": "hyperv-iso",
+      "switch_name": "{{user `hyperv_switch`}}",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
+      ]
+    },
+    {
       "type": "virtualbox-iso",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--vram", "48"],
@@ -162,6 +182,7 @@
     "guest_additions_mode": "attach",
     "guest_additions_url": "",
     "headless": "true",
+    "hyperv_switch": "{{env `hyperv_switch`}}",
     "iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
     "iso_url": "http://download.microsoft.com/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO",
     "memory": "4096",
