@@ -1,13 +1,13 @@
 execute 'run cleanmgr' do
   command 'C:\Windows\System32\cleanmgr.exe /sagerun:10﻿'
   ignore_failure true
-  only_if { node['kernel']['product_type'] == 'Workstaton' } # cleanmgr isn't on servers
+  only_if { windows_workstation? } # cleanmgr isn't on servers
 end
 
 execute 'clean SxS' do
   command 'Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase'
   ignore_failure true
-  only_if { node['platform_version'].to_f > 6.1 } # command not present on Windows 7
+  only_if { windows_nt_version > 6.1 } # command not present on Windows 7
 end
 
 powershell_script 'remove unnecesary directories' do

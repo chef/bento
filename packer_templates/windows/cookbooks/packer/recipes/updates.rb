@@ -7,7 +7,7 @@ registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Windo
   }]
 end
 
-if node['platform_version'].to_f == 6.1 # 2008R2
+if windows_nt_version == 6.1 # 2008R2
 
   # This is basically a service pack and we should install it to fix a giant pile of bugs
   msu_package '2018-10 monthly rollup' do

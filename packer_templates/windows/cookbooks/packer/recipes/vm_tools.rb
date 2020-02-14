@@ -1,6 +1,5 @@
-# install the correct tools per virtualization system
-case node['virtualization']['system']
-when 'vbox'
+# install virtualbox guest additions on vbox guests
+if vbox?
   directory 'C:/Windows/Temp/virtualbox' do
     recursive true
   end
