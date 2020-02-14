@@ -89,6 +89,8 @@
       "iso_checksum_type": "sha1",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
       "communicator": "winrm",
+      "tools_upload_flavor": "windows",
+      "tools_upload_path": "c:/Windows/Temp/vmware.iso",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
