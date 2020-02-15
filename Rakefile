@@ -3,7 +3,7 @@ require "fileutils"
 
 desc "Validate all templates using Packer"
 task :validate do
-  Dir.glob("**/*.json").sort.each do |template_path|
+  Dir.glob("packer_templates/**/*.json").sort.each do |template_path|
     template_dir = File.dirname(template_path)
     filename = File.basename(template_path)
 
