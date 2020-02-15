@@ -19,3 +19,18 @@ if vbox?
     action :delete
   end
 end
+
+# install vmware tools on vmware guests
+# This is from https://github.com/luciusbono/Packer-Windows10/blob/master/install-guest-tools.ps1
+if vmware?
+  powershell_script 'install vbox guest additions' do
+    code <<-EOH
+      $isopath = "C:\\Windows\\Temp\\vmware.iso"
+      Mount-DiskImage -ImagePath $isopath
+      $exe = ((Get-DiskImage -ImagePath $isopath | Get-Volume).Driveletter + ':\setup.exe')
+      $parameters = '/S /v "/qr REBOOT=R"'
+      Dismount-DiskImage -ImagePath $isopath
+      Remove-Item $isopath
+    EOH
+  end
+end
