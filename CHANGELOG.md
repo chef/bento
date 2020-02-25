@@ -1,5 +1,143 @@
 # Change Log
 
+## [v201812.27.0](https://github.com/chef/bento/tree/v201812.27.0) (2019-01-16)
+[Full Changelog](https://github.com/chef/bento/compare/v201808.24.0...v201812.27.0)
+
+**New Platforms:**
+
+- Debian 9.6 [\#1138](https://github.com/chef/bento/pull/1138) ([cheeseplus](https://github.com/cheeseplus))
+- Fedora 29 [\#1126](https://github.com/chef/bento/pull/1126) ([avanzzzi](https://github.com/avanzzzi))
+- CentOS 7.6 [\#1152](https://github.com/chef/bento/pull/1152) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Oracle Linux 7.6 [\#1146](https://github.com/chef/bento/pull/1146) ([tas50](https://github.com/tas50))
+- FreeBSD 12.0-RELEASE [\#1153](https://github.com/chef/bento/pull/1153) ([lwhsu](https://github.com/lwhsu))
+- Ubuntu 18.10 [\#1124](https://github.com/chef/bento/pull/1124) ([chenhan1218](https://github.com/chenhan1218))
+
+**Deprecated Platforms:**
+
+- FreeBSD 11.1 [\#1120](https://github.com/chef/bento/pull/1120) ([juliandunn](https://github.com/juliandunn))
+- FreeBSD 10.4 [\#1142](https://github.com/chef/bento/pull/1142) ([tas50](https://github.com/tas50))
+
+**Fixes and updates:**
+
+- Whiteout all spaces [\#1151](https://github.com/chef/bento/pull/1151) ([Sorbog](https://github.com/Sorbog))
+- Reduce centos locale size [\#1149](https://github.com/chef/bento/pull/1149) ([Sorbog](https://github.com/Sorbog))
+- Update from rhel 7.5 to 7.6 [\#1143](https://github.com/chef/bento/pull/1143) ([chrispoupart](https://github.com/chrispoupart))
+- Support for fedora29 in libvirt and public release [\#1137](https://github.com/chef/bento/pull/1137) ([avanzzzi](https://github.com/avanzzzi))
+- Fix build/upload of freebsd-11.2-i386 [\#1136](https://github.com/chef/bento/pull/1136) ([tmm1](https://github.com/tmm1))
+- Update for Ubuntu 16.04.5 i386 [\#1134](https://github.com/chef/bento/pull/1134) ([sheurich](https://github.com/sheurich))
+- Update for Ubuntu 16.04.5 amd64 [\#1133](https://github.com/chef/bento/pull/1133) ([sheurich](https://github.com/sheurich))
+- add vmware-iso to windows 2016 [\#1132](https://github.com/chef/bento/pull/1132) ([mkinney](https://github.com/mkinney))
+- update debian provision: purge installation-report in cleanup.sh [\#1131](https://github.com/chef/bento/pull/1131) ([UniIsland](https://github.com/UniIsland))
+- Make sure to disable UAC on windows [\#1130](https://github.com/chef/bento/pull/1130) ([tas50](https://github.com/tas50))
+- Fix the download link for Windows 2012R2 [\#1128](https://github.com/chef/bento/pull/1128) ([tas50](https://github.com/tas50))
+- Fix startup mount error on Parallels 14 guest tools [\#1122](https://github.com/chef/bento/pull/1122) ([max-arnold](https://github.com/max-arnold))
+
+## [v201808.24.0](https://github.com/chef/bento/tree/v201808.24.0) (2018-09-02)
+
+[Full Changelog](https://github.com/chef/bento/compare/v201807.12.0...v201808.24.0)
+
+**New Platforms**
+
+- CentOS 5.11 (resurrected)
+- OpenSUSE 15
+
+## [v201807.12.0](https://github.com/chef/bento/tree/v201807.12.0) (2018-07-16)
+
+[Full Changelog](https://github.com/chef/bento/compare/v201806.08.0...v201807.12.0)
+
+**New Platforms**
+
+- FreeBSD 11.2-RELEASE [\#1068](https://github.com/chef/bento/pull/1068) ([lwhsu](https://github.com/lwhsu))
+- Debian 8.11 [\#1064](https://github.com/chef/bento/pull/1064) ([kenhys](https://github.com/kenhys))
+- Debian 9.5
+- CentOS 6.10
+
+**Deprecated Platforms**
+
+- Debian 7 [\#1059](https://github.com/chef/bento/pull/1059) ([tas50](https://github.com/tas50))
+- Fedora 26 [\#1074](https://github.com/chef/bento/pull/1074) ([tas50](https://github.com/tas50))
+- Ubuntu 17.10 [\#1077](https://github.com/chef/bento/pull/1077) ([tas50](https://github.com/tas50))
+- macOS 10.9 [\#1076](https://github.com/chef/bento/pull/1076) ([tas50](https://github.com/tas50))
+
+**Fixes and Improvements**
+- Use a faster scientific mirror [\#1081](https://github.com/chef/bento/pull/1081) ([tas50](https://github.com/tas50))
+- Install the latest 2008-06 update for 2k8r2 [\#1080](https://github.com/chef/bento/pull/1080) ([tas50](https://github.com/tas50))
+- Update RHELs to 6.10 / 7.5 [\#1079](https://github.com/chef/bento/pull/1079) ([tas50](https://github.com/tas50))
+- Blank netplan machine-id \(DUID\) so Ubuntu machines get unique ID generated on boot. [\#1073](https://github.com/chef/bento/pull/1073) ([NoahO](https://github.com/NoahO))
+- openSUSE: no space issue and SLES network persistence [\#1072](https://github.com/chef/bento/pull/1072) ([bkonick](https://github.com/bkonick))
+- Set correct permissions on /etc/sudoers.d/vagrant [\#1067](https://github.com/chef/bento/pull/1067) ([kbpease](https://github.com/kbpease))
+- Ubuntu 18.04: Use en\_US.UTF-8 locale instead of en\_US [\#1066](https://github.com/chef/bento/pull/1066) ([davejagoda](https://github.com/davejagoda))
+- Increase build time memory to 4GB on Windows boxes [\#1061](https://github.com/chef/bento/pull/1061) ([tas50](https://github.com/tas50))
+
+## [v201806.08.0](https://github.com/chef/bento/tree/v201806.08.0) (2018-06-07)
+[Full Changelog](https://github.com/chef/bento/compare/201803.24.0...v201806.08.0)
+
+**New Platforms**
+
+- Ubuntu 18.04 (Release version)
+- CentOS 7.5 [\#1037](https://github.com/chef/bento/pull/1037) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Fedora 28 [\#1035](https://github.com/chef/bento/pull/1035) ([fkrull](https://github.com/fkrull))
+- HardenedBSD v1100055.2 [\#1033](https://github.com/chef/bento/pull/1033) ([nusenu](https://github.com/nusenu))
+
+**Deprecated Platforms**
+- Remove EOL'd FreeBSD-10.3 [\#1060](https://github.com/chef/bento/pull/1060) ([lwhsu](https://github.com/lwhsu))
+
+**Fixes and Improvements**
+- fedora, centos, rhel: added deltarpm to kickstart files [\#1030](https://github.com/chef/bento/pull/1030) ([muellerbe](https://github.com/muellerbe))
+- Clean up network configs [\#1025](https://github.com/chef/bento/pull/1025) ([Superdawg](https://github.com/Superdawg))
+- OpenSuse: Create a new 'vagrant' group for vagrant user [\#1020](https://github.com/chef/bento/pull/1020) ([hwoarang](https://github.com/hwoarang))
+- Improvements for Windows 2008 R2 [\#1057](https://github.com/chef/bento/pull/1057) ([tas50](https://github.com/tas50))
+- Update for Ubuntu 16.04.4 [\#1056](https://github.com/chef/bento/pull/1056) ([JBenPiel](https://github.com/JBenPiel))
+- Initial windows support [\#1053](https://github.com/chef/bento/pull/1053) ([tas50](https://github.com/tas50))
+- centos, rhel, oracle: remove previous kernels to minimize image size [\#1052](https://github.com/chef/bento/pull/1052) ([ceetav](https://github.com/ceetav))
+- Scientific Linux templates  [\#1051](https://github.com/chef/bento/pull/1051) ([githubfoam](https://github.com/githubfoam))
+- Fix Fedora cleanup script not to cause unintended software removal. [\#1050](https://github.com/chef/bento/pull/1050) ([mgruner](https://github.com/mgruner))
+
+**Tooling**
+- VirtualBox 5.2.12
+- Parallels 13.3.1
+- VMware Fusion 10.1.2
+- Packer 1.2.3
+- Vagrant 2.1.1
+
+## [201803.24.0](https://github.com/chef/bento/tree/201803.24.0) (2018-03-24)
+
+**New Platforms**
+- Ubuntu 18.04 (pre-release)
+- HardenedBSD 11
+- FreeBSD 10/11 32bit
+
+**Improvements**
+- Ubuntu 16.04+ and Debian 9: fix issues with disabling predictable interface names
+- Ubuntu/Debian: further mitigate apt locks at startup
+- Multiple platforms: cleanup errant \*.iso files
+- OpenSUSE Leap: disable Snappter/btrfs snapshots, increase disk size
+
+**Tooling**
+- VirtualBox 5.2.6 (Note: we are not using 5.2.8)
+- Parallels 13.3.0
+- VMware Fusion 10.1.1
+- Packer 1.2.1
+- Vagrant 2.0.3
+- Hyper-V 10.0.16299.15
+
+## [201802.02.0](https://github.com/chef/bento/tree/201802.02.0) (2018-02-02)
+
+**Improvements**
+- Ubuntu: remove linux-firmware bloat w/o removing package and breaking upgrades
+- macOS: enable autologin for vagrant user
+
+**EOL**
+- Ubuntu 17.04
+- Windows Nano TP3
+
+**Tooling**
+- VirtualBox 5.2.6
+- Parallels 13.2.0
+- VMware Fusion 10.1.1
+- Packer 1.1.3
+- Vagrant 2.0.1
+
 ## [201801.05.0](https://github.com/chef/bento/tree/201801.05.0) (2018-01-05)
 
 **New Platforms**

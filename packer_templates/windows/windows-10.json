@@ -1,0 +1,202 @@
+{
+  "builders": [{
+      "type": "hyperv-iso",
+      "switch_name": "{{user `hyperv_switch`}}",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
+      ]
+    },
+    {
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "48"],
+        ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
+      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+      "guest_os_type": "Windows10_64",
+      "hard_drive_interface": "sata",
+      "iso_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
+      ]
+    },
+    {
+      "type": "parallels-iso",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "guest_os_type": "win-10",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
+      "parallels_tools_flavor": "win",
+      "parallels_tools_mode" : "attach",
+      "prlctl_version_file": ".prlctl_version",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "prlctl": [
+        ["set", "{{.Name}}", "--efi-boot", "off"]
+      ],
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "version": 11,
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "disk_adapter_type": "lsisas1068",
+      "guest_os_type": "windows9srv-64",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
+      "communicator": "winrm",
+      "tools_upload_flavor": "windows",
+      "tools_upload_path": "c:/Windows/Temp/vmware.iso",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
+      ]
+    },
+    {
+      "type": "qemu",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-smp", "{{ user `cpus` }}" ],
+        [ "-drive", "file={{ user `virtio_win_iso` }},media=cdrom,index=3" ],
+        [ "-drive", "file={{ user `build_directory` }}/packer-{{ user `template` }}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1" ]
+      ],
+      "floppy_files": [
+        "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}",
+        "{{template_dir}}/scripts/base_setup.ps1"
+      ]
+    }
+  ],
+  "provisioners": [{
+      "type": "chef-solo",
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::disable_uac",
+        "packer::disable_onedrive",
+        "packer::disable_restore",
+        "packer::disable_windows_update",
+        "packer::remove_defender",
+        "packer::configure_power",
+        "packer::disable_screensaver"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::vm_tools",
+        "packer::features",
+        "packer::enable_file_sharing",
+        "packer::enable_remote_desktop",
+        "packer::ui_tweaks"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["{{template_dir}}/cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::cleanup",
+        "packer::defrag"
+      ]
+    },
+    {
+      "type": "powershell",
+      "script": "{{template_dir}}/scripts/cleanup.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "{{ user `template` }}-{{.Provider}}.box",
+      "vagrantfile_template": "{{template_dir}}/vagrantfile-windows.template"
+    }]
+  ],
+  "variables": {
+    "build_directory": "../../builds",
+    "cpus": "2",
+    "floppy_dir": "{{template_dir}}/answer_files",
+    "guest_additions_mode": "attach",
+    "guest_additions_url": "",
+    "headless": "true",
+    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "iso_checksum": "489ebee676e26cdb81377b0e6385c001a22589b8",
+    "iso_url": "https://software-download.microsoft.com/download/pr/18363.418.191007-0143.19h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "memory": "4096",
+    "template": "windows-10",
+    "unattended_file_path": "10/Autounattend.xml",
+    "virtio_win_iso": "~/virtio-win.iso"
+  }
+}

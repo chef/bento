@@ -1,0 +1,203 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "OpenSUSE_64",
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `iso_name`}}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "vboxmanage": [
+        [
+          "storageattach",
+          "{{.Name}}",
+          "--storagectl",
+          "SATA Controller",
+          "--port",
+          "1",
+          "--device",
+          "0",
+          "--type",
+          "dvddrive",
+          "--medium",
+          "{{user `mirror`}}/{{user `packages_iso`}}"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `template` }}"
+    },
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_os_type": "sles12-64",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `iso_name`}}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
+      "vm_name": "{{ user `template` }}",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1"
+      },
+      "vmx_remove_ethernet_interfaces": true
+    },
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_os_type": "suse",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `iso_name`}}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
+      "parallels_tools_flavor": "lin",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "prlctl_version_file": ".prlctl_version",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "parallels-iso",
+      "vm_name": "{{ user `template` }}"
+    },
+    {
+      "boot_command": [
+        "<esc><enter><wait>",
+        "linux netdevice=eth0 netsetup=dhcp install=cd:/<wait>",
+        " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}}<wait>",
+        " textmode=1<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_url": "{{user `mirror`}}/{{user `iso_name`}}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        ["-drive", "file=../../builds/packer-{{user `template`}}-qemu/{{user `template`}},if=virtio,cache=writeback,discard=ignore,format=qcow2"],
+        ["-drive", "file={{user `mirror`}}/{{user `packages_iso`}},format=raw,if=none,id=cdrom1,readonly=on"],
+        ["-object", "iothread,id=iothread1"],
+        ["-device", "virtio-scsi-pci,iothread=iothread1,id=scsi1"],
+        ["-device", "scsi-cd,bus=scsi1.0,drive=cdrom1"]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "{{template_dir}}/../_common/motd.sh",
+        "{{template_dir}}/../_common/sshd.sh",
+        "{{template_dir}}/../_common/vagrant.sh",
+        "{{template_dir}}/scripts/unsupported-modules.sh",
+        "{{template_dir}}/../_common/virtualbox.sh",
+        "{{template_dir}}/../_common/vmware.sh",
+        "{{template_dir}}/../_common/parallels.sh",
+        "{{template_dir}}/scripts/sudoers.sh",
+        "{{template_dir}}/scripts/zypper-locks.sh",
+        "{{template_dir}}/scripts/remove-dvd-source.sh",
+        "{{template_dir}}/scripts/cleanup.sh",
+        "{{template_dir}}/../_common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "_DOWNLOAD_SITE": "https://www.suse.com/products/server/download",
+    "_README": "You must download the installer (DVD1) and Packages (DVD1) iso from the following page, and then place them in the packer_cache dir",
+    "arch": "64",
+    "autoinst_cfg": "sles-15-x86_64-autoinst.xml",
+    "box_basename": "sles-15",
+    "build_directory": "../../builds",
+    "http_directory": "{{template_dir}}/http",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
+    "disk_size": "65536",
+    "git_revision": "__unknown_git_revision__",
+    "headless": "",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "guest_additions_url": "",
+    "iso_checksum": "06bd8b78ef0ca6d5ff5000688727953e894805dc3de59060d74441f0fd0539ab",
+    "iso_checksum_type": "sha256",
+    "iso_name": "SLE-15-Installer-DVD-x86_64-GM-DVD1.iso",
+    "memory": "1024",
+    "mirror": "./packer_cache",
+    "name": "sles-15",
+    "packages_iso": "SLE-15-Packages-x86_64-GM-DVD1.iso",
+    "template": "sles-15-x86_64",
+    "version": "TIMESTAMP"
+  }
+}

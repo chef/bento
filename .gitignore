@@ -1,6 +1,9 @@
 .bundle/
-iso
+*.iso
 *.box
+*.ovf
+*.vmdk
+*.vdi
 virtualfloppy.vfd
 packer_cache
 packer.log
@@ -12,3 +15,5 @@ packer.log
 .kitchen.yml
 Gemfile.lock
 bootstrap.sh
+Berksfile.lock
+ubuntu/scripts/homestead.sh
