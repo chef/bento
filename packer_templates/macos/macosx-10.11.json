@@ -17,7 +17,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "tools_upload_flavor": "darwin",
       "tools_upload_path": "/tmp/vmtools.iso",
       "type": "vmware-iso",
@@ -50,7 +50,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "type": "virtualbox-iso",
       "vboxmanage": [
         [
@@ -167,7 +167,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "type": "parallels-iso",
       "vm_name": "{{ user `template` }}"
     }
@@ -231,4 +231,3 @@
     "version": "TIMESTAMP"
   }
 }
-

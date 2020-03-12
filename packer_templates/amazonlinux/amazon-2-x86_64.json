@@ -6,7 +6,7 @@
       "http_directory": "{{user `http_directory`}}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "ssh_port": 22,
       "type": "virtualbox-ovf",
       "source_path": "{{template_dir}}/amazon2.ovf",

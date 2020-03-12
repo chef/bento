@@ -38,7 +38,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "type": "qemu",
       "qemu_binary": "qemu-system-ppc64le",
       "machine_type": "pseries",

@@ -35,7 +35,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "type": "virtualbox-iso",
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
@@ -74,7 +74,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
@@ -121,7 +121,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "type": "parallels-iso",
       "vm_name": "{{ user `template` }}"
     },
@@ -158,7 +158,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
+      "ssh_timeout": "10000s",
       "type": "qemu",
       "vm_name": "{{ user `template` }}"
     }
