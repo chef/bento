@@ -30,7 +30,6 @@ public:
 - 'ubuntu-16.04-i386'
 - 'ubuntu-16.04'
 - 'ubuntu-18.04'
-- 'ubuntu-18.10'
 - 'ubuntu-19.10'
 
 # slug box name: text string from standard box name to match (generally the same)
