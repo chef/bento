@@ -26,7 +26,6 @@ class UploadRunner
     banner("Uploads finished in #{duration(time.real)}.")
   end
 
-
   #
   # Upload all the boxes defined in the passed metadata file
   #

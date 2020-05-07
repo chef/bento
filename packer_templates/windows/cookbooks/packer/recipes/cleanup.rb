@@ -7,7 +7,6 @@ end
 execute 'clean SxS' do
   command 'Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase'
   ignore_failure true
-  only_if { windows_nt_version > 6.1 } # command not present on Windows 7
 end
 
 powershell_script 'remove unnecesary directories' do
