@@ -81,7 +81,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-9.11",
+    "box_basename": "debian-9.12",
     "build_directory": "../../builds",
     "http_directory": "{{template_dir}}/http",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
@@ -91,16 +91,16 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "5d785af424e0259474f48bf55c5bf7aee19a945fdd74a3eb765f1c55f83cb554",
+    "iso_checksum": "b35d8b33c9fc316c03178d8f493ecb858269082337150f82af75c8d4663cc324",
     "iso_checksum_type": "sha256",
-    "iso_name": "debian-9.11.0-ppc64el-netinst.iso",
+    "iso_name": "debian-9.12.0-ppc64el-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
-    "mirror_directory": "9.11.0/ppc64el/iso-cd",
-    "name": "debian-9.11",
+    "mirror_directory": "9.12.0/ppc64el/iso-cd",
+    "name": "debian-9.12",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
-    "template": "debian-9.11-ppc64el",
+    "template": "debian-9.12-ppc64el",
     "version": "TIMESTAMP"
   }
 }
