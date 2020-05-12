@@ -153,7 +153,7 @@ class Options
           opts.banner = "Usage: #{NAME} upload"
         end,
         argv: md_json_argv_proc,
-      }
+      },
     }
 
     global.order!

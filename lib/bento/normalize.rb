@@ -72,7 +72,7 @@ class NormalizeRunner
   def validate(template)
     for_packer_run_with(template) do |md_file, var_file|
       cmd = packer_validate_cmd(template, var_file.path)
-      banner("[#{template}] Validating: '#{cmd.join(' ')}'")
+      banner("[#{template}] Validating: '#{cmd.join(" ")}'")
       if debug
         banner("[#{template}] DEBUG: var_file(#{var_file.path}) is:")
         puts IO.read(var_file.path)

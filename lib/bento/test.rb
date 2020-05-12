@@ -34,8 +34,8 @@ class TestRunner
 
     boxes.each do |box|
       b = box.split(" ")
-      rm_cmd = Mixlib::ShellOut.new("vagrant box remove --force #{b[0]} --provider #{b[1].to_s.gsub(/(,|\()/, '')}")
-      banner("Removing #{b[0]} for provider #{b[1].to_s.gsub(/(,|\()/, '')}")
+      rm_cmd = Mixlib::ShellOut.new("vagrant box remove --force #{b[0]} --provider #{b[1].to_s.gsub(/(,|\()/, "")}")
+      banner("Removing #{b[0]} for provider #{b[1].to_s.gsub(/(,|\()/, "")}")
       rm_cmd.run_command
     end
   end

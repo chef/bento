@@ -35,29 +35,29 @@ class UploadRunner
   def upload_box(md_file)
     md_data = box_metadata(md_file)
 
-    md_data['providers'].each_pair do |prov, prov_data|
-      if File.exist?(File.join('builds', prov_data['file']))
-        banner("Uploading bento/#{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
+    md_data["providers"].each_pair do |prov, prov_data|
+      if File.exist?(File.join("builds", prov_data["file"]))
+        banner("Uploading bento/#{md_data["name"]} version:#{md_data["version"]} provider:#{prov}...")
 
-        upload_cmd = "vagrant cloud publish bento/#{md_data['name']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data, prov)}' --force --release"
+        upload_cmd = "vagrant cloud publish bento/#{md_data["name"]} #{md_data["version"]} #{prov} builds/#{prov_data["file"]} --description '#{box_desc(md_data["name"])}' --short-description '#{box_desc(md_data["name"])}' --version-description '#{ver_desc(md_data, prov)}' --force --release"
         shellout(upload_cmd)
 
-        slug_name = lookup_slug(md_data['name'])
+        slug_name = lookup_slug(md_data["name"])
         if slug_name
-          banner("Uploading slug bento/#{slug_name} from #{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
-          upload_cmd = "vagrant cloud publish bento/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data, prov)}' --force --release"
+          banner("Uploading slug bento/#{slug_name} from #{md_data["name"]} version:#{md_data["version"]} provider:#{prov}...")
+          upload_cmd = "vagrant cloud publish bento/#{slug_name} #{md_data["version"]} #{prov} builds/#{prov_data["file"]} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data, prov)}' --force --release"
           shellout(upload_cmd)
         end
 
         # move the box file to the completed directory
-        FileUtils.mv(File.join('builds', prov_data['file']), File.join('builds', 'uploaded', prov_data['file']))
+        FileUtils.mv(File.join("builds", prov_data["file"]), File.join("builds", "uploaded", prov_data["file"]))
       else # box in metadata isn't on disk
-        warn "The #{prov} box defined in the metadata file #{md_file} does not exist at builds/#{prov_data['file']}. Skipping!"
+        warn "The #{prov} box defined in the metadata file #{md_file} does not exist at builds/#{prov_data["file"]}. Skipping!"
       end
     end
 
     # move the metadata file to the completed directory
-    FileUtils.mv(md_file, File.join('builds', 'uploaded', File.basename(md_file)))
+    FileUtils.mv(md_file, File.join("builds", "uploaded", File.basename(md_file)))
   end
 
   #
@@ -67,9 +67,10 @@ class UploadRunner
   #
   def lookup_slug(name)
     builds_yml["slugs"].each_pair do |slug, match_string|
-      return slug if name.start_with?(match_string) && !name.include?('i386')
+      return slug if name.start_with?(match_string) && !name.include?("i386")
     end
-    return nil
+
+    nil
   end
 
   def box_desc(name)
@@ -81,6 +82,6 @@ class UploadRunner
   end
 
   def ver_desc(md_data, provider)
-    "#{md_data['name'].tr("-", " ").capitalize} Vagrant box version #{md_data['version']} created with Bento by Chef. Tool versions: #{provider}: #{md_data['providers'][provider]['version']}, packer: #{md_data['packer']}"
+    "#{md_data["name"].tr("-", " ").capitalize} Vagrant box version #{md_data["version"]} created with Bento by Chef. Tool versions: #{provider}: #{md_data["providers"][provider]["version"]}, packer: #{md_data["packer"]}"
   end
 end
