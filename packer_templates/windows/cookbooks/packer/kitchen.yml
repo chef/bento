@@ -22,9 +22,6 @@ platforms:
   - name: windows-2012r2
     driver_config:
       box: tas50/windows_2012r2
-  - name: windows-2008r2
-    driver_config:
-      box: tas50/windows_2008r2
 
 suites:
   - name: default
