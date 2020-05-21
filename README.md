@@ -44,11 +44,11 @@ $ cd ubuntu
 $ packer build -only=virtualbox-iso ubuntu-18.04-amd64.json
 ```
 
-To build Debian 10.3 32bit boxes for all possible providers (simultaneously)
+To build Debian 10.4 32bit boxes for all possible providers (simultaneously)
 
 ```
 $ cd debian
-$ packer build debian-10.3-i386.json
+$ packer build debian-10.4-i386.json
 ```
 
 To build CentOS 7.7 boxes for all providers except VMware and Parallels
