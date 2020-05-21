@@ -49,7 +49,7 @@ class NormalizeRunner
     raise "[#{template}] Error fixing, exited #{$CHILD_STATUS}" if $CHILD_STATUS.exitstatus != 0
 
     # preserve ampersands in shell commands,
-    # see: https://github.com/mitchellh/packer/issues/784
+    # see: https://github.com/hashicorp/packer/issues/784
     output.gsub!("\\u0026", "&")
     File.open(file, "wb") { |dest| dest.write(output) }
     fixed_checksum = checksum(file)
