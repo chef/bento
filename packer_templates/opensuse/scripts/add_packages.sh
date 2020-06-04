@@ -3,7 +3,12 @@
 # Install missing packages
 zypper install -y kernel-default-devel gcc
 
-# this is needed for the vmware tools install to complete
-if [[ "$PACKER_BUILDER_TYPE" == vmware-iso ]]; then
-  zypper install -y insserv-compat
-fi
+# make sure we have tools we need for the vm extensions
+case "$PACKER_BUILDER_TYPE" in
+virtualbox-iso|virtualbox-ovf)
+  zypper install -y bzip2;
+  ;;
+vmware-iso)
+  zypper install -y insserv-compat;
+  ;;
+esac
