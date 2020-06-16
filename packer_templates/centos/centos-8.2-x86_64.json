@@ -156,7 +156,7 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-8.1",
+    "box_basename": "centos-8.2",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"2019102650405\"}}",
     "cpus": "1",
@@ -176,10 +176,9 @@
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/centos",
     "mirror_directory": "8.2.2004/isos/x86_64",
-    "name": "centos-8.1",
+    "name": "centos-8.2",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-8.1-x86_64",
+    "template": "centos-8.2-x86_64",
     "version": "TIMESTAMP"
   }
 }
-
