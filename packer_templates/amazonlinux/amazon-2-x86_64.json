@@ -6,12 +6,12 @@
       "http_directory": "{{user `http_directory`}}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
-      "ssh_timeout": "10000s",
-      "ssh_port": 22,
-      "type": "virtualbox-ovf",
       "source_path": "{{template_dir}}/amazon2.ovf",
-      "ssh_username": "vagrant",
       "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
+      "type": "virtualbox-ovf",
       "vboxmanage": [
         [
           "modifyvm",
@@ -62,12 +62,12 @@
   "variables": {
     "box_basename": "amazon-2",
     "build_directory": "../../builds",
-    "http_directory": "{{template_dir}}/http",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
+    "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "memory": "1024",
@@ -77,3 +77,4 @@
     "version": "TIMESTAMP"
   }
 }
+

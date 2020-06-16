@@ -2,25 +2,24 @@
   "builders": [
     {
       "boot_wait": "2s",
-      "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
-      "usb": true,
       "guest_os_type": "darwin12-64",
       "headless": "{{ user `headless` }}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_url`}}",
+      "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
       "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
       "skip_compaction": true,
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_username": "vagrant",
       "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
       "tools_upload_flavor": "darwin",
       "tools_upload_path": "/tmp/vmtools.iso",
       "type": "vmware-iso",
+      "usb": true,
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
@@ -35,22 +34,21 @@
     },
     {
       "boot_wait": "2s",
-      "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_mode": "disable",
       "guest_os_type": "MacOS1011_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_url`}}",
+      "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
       "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_username": "vagrant",
       "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
       "type": "virtualbox-iso",
       "vboxmanage": [
         [
@@ -146,13 +144,12 @@
     },
     {
       "boot_wait": "2s",
-      "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "macosx",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_url`}}",
+      "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "mac",
       "prlctl": [
@@ -166,8 +163,8 @@
       "shutdown_command": "echo 'vagrant'| sudo -S shutdown -h now",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_username": "vagrant",
       "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
       "type": "parallels-iso",
       "vm_name": "{{ user `template` }}"
     }
@@ -231,3 +228,4 @@
     "version": "TIMESTAMP"
   }
 }
+
