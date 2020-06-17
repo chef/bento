@@ -3,6 +3,9 @@
 # These were only needed for building VMware/Virtualbox extensions:
 zypper -n rm -u gcc make kernel-default-devel kernel-devel
 
+# Remove some bogus packages we don't need and don't fail if zypper fails (because it does sometimes)
+zypper -n rm -u wallpaper-branding release-notes sound-theme-freedesktop || true
+
 # cleanup all the downloaded RPMs
 zypper clean --all
 
@@ -11,6 +14,7 @@ rm -f /etc/udev/rules.d/70-persistent-net.rules;
 touch /etc/udev/rules.d/75-persistent-net-generator.rules;
 
 # truncate any logs that have built up during the install
+find /var/log/ -type f -name "*.log.*" -exec rm -rf {} \;
 find /var/log -type f -exec truncate --size=0 {} \;
 
 # remove the contents of /tmp and /var/tmp
