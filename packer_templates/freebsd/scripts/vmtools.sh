@@ -20,9 +20,6 @@ virtualbox-iso|virtualbox-ovf)
     echo 'virtio_balloon_load="YES"' >>/boot/loader.conf;
     echo 'if_vtnet_load="YES"' >>/boot/loader.conf;
 
-    # Don't waste 10 seconds waiting for boot
-    echo 'autoboot_delay="-1"' >>/boot/loader.conf;
-
     echo 'ifconfig_vtnet0_name="em0"' >>/etc/rc.conf;
     echo 'ifconfig_vtnet1_name="em1"' >>/etc/rc.conf;
     echo 'ifconfig_vtnet2_name="em2"' >>/etc/rc.conf;
@@ -37,9 +34,6 @@ vmware-iso|vmware-vmx)
 
     # for shared folder
     echo 'fuse_load="YES"' >>/boot/loader.conf;
-
-    # Don't waste 10 seconds waiting for boot
-    echo 'autoboot_delay="-1"' >>/boot/loader.conf;
 
     echo 'ifconfig_vmx0="dhcp"' >>/etc/rc.conf;
     ;;
