@@ -65,6 +65,13 @@ $ cd fedora
 $ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-31-x86_64.json
 ```
 
+To build a Windows 10 Enterprise Gen 2 box for only the Hyper-V provider
+
+```
+$ cd windows
+$ packer build windows-10gen2.json
+```
+
 If the build is successful, ready to import box files will be in the `builds` directory at the root of the repository.
 
 \***NOTE:** box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-18.04'`
@@ -89,11 +96,15 @@ Most of the providers expect unrestricted access to networking in order to build
 
 #### Windows
 
-```
+```powershell
 $VS = "Standardswitch"
 $IF_ALIAS = (Get-NetAdapter -Name "vEthernet ($VS)").ifAlias
 New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -InterfaceAlias $IF_ALIAS -Action Allow
 ```
+
+#### Hyper-V Generation 2 VM's
+
+There are fundamental differences between the 2 VM types (Gen 1 and Gen 2) in Hyper-V. Most notably, there is no floppy drive support for Gen 2. In order to provide the same resources you previously did with a floppy drive, you will now need to create an iso image that contains those files (in particular, the autounattend.xml and the base_setup.ps1 files) and then attach those images via the "secondary_iso_images" parameter. You will also need to manage the driver disk that holds on the hyper-v guest services drivers and adjust the autounattend.xml file as appropriate. Also note that there is an updated Autounattend.xml file for Gen 2 which supports EFI partitions.
 
 #### macOS / OSX
 
