@@ -104,7 +104,7 @@ New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -
 
 #### Hyper-V Generation 2 VM's
 
-There are fundamental differences between the 2 VM types (Gen 1 and Gen 2) in Hyper-V. Most notably, there is no floppy drive support for Gen 2. In order to provide the same resources you previously did with a floppy drive, you will now need to create an iso image that contains those files (in particular, the autounattend.xml and the base_setup.ps1 files) and then attach those images via the "secondary_iso_images" parameter. You will also need to manage the driver disk that holds on the hyper-v guest services drivers and adjust the autounattend.xml file as appropriate. Also note that there is an updated Autounattend.xml file for Gen 2 which supports EFI partitions.
+There are fundamental differences between the 2 VM types (Gen 1 and Gen 2) in Hyper-V. Most notably, there is no floppy drive support for Gen 2. In order to provide the same resources you previously did with a floppy drive, you will now need to create iso images that contain those files (in particular, the autounattend.xml and the base_setup.ps1 files) and then attach those images via the "secondary_iso_images" parameter. You will also need to manage the driver disk that holds on the hyper-v guest services drivers and adjust the autounattend.xml file as appropriate. Also note that there is an updated Autounattend.xml file for Gen 2 which supports EFI partitions.
 
 #### macOS / OSX
 

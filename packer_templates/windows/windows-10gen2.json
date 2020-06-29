@@ -24,9 +24,7 @@
         "template": "vagrantfile-windows-gen2.template",
         "sysprep_unattended": "",
         "vagrant_sysprep_unattended": "",
-        "guest_additions_mode": "upload",
-        "secondary_iso_images": "e:\\images\\unattend.iso,e:\\images\\virtio-win-0.1.171.iso"
-
+        "guest_additions_mode": "upload"
     },
     "builders": [
         {
@@ -54,8 +52,7 @@
                 "aaaaaaa"
             ],
             "secondary_iso_images": [
-                "e:\\images\\unattend.iso",
-                "e:\\images\\virtio-win-0.1.171.iso"
+
             ]
         }
     ],
