@@ -8,17 +8,8 @@ ZROOT="zroot/ROOT/default"
 COMPRESSION=$(zfs get -H compression $ZROOT | cut -f3);
 
 zfs set compression=off $ZROOT;
-dd if=/dev/zero of=/EMPTY bs=1m &
-PID=$!;
-
-avail=$(zfs get -pH avail $ZROOT | cut -f3);
-while [ "$avail" -ne 0 ]; do
-  sleep 15;
-  avail=$(zfs get -pH avail $ZROOT | cut -f3);
-done
-
-kill $PID || echo "dd already exited";
-
+dd if=/dev/zero of=/EMPTY bs=1m || echo "dd(1) exits after taking over all the space"
+sync
 rm -f /EMPTY;
 # Block until the empty file has been removed, otherwise, Packer
 # will try to kill the box while the disk is still full and that's bad
