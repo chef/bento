@@ -5,15 +5,13 @@ debian_version="`lsb_release -r | awk '{print $2}'`";
 major_version="`echo $debian_version | awk -F. '{print $1}'`";
 
 # Disable systemd apt timers/services
-if [ "$major_version" -ge "9" ]; then
-  systemctl stop apt-daily.timer;
-  systemctl stop apt-daily-upgrade.timer;
-  systemctl disable apt-daily.timer;
-  systemctl disable apt-daily-upgrade.timer;
-  systemctl mask apt-daily.service;
-  systemctl mask apt-daily-upgrade.service;
-  systemctl daemon-reload;
-fi
+systemctl stop apt-daily.timer;
+systemctl stop apt-daily-upgrade.timer;
+systemctl disable apt-daily.timer;
+systemctl disable apt-daily-upgrade.timer;
+systemctl mask apt-daily.service;
+systemctl mask apt-daily-upgrade.service;
+systemctl daemon-reload;
 
 # Disable periodic activities of apt
 cat <<EOF >/etc/apt/apt.conf.d/10periodic;
