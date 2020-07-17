@@ -157,7 +157,7 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "oracle-7.7",
+    "box_basename": "oracle-7.8",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
@@ -177,9 +177,9 @@
     "memory": "1024",
     "mirror": "http://mirrors.dotsrc.org/oracle-linux",
     "mirror_directory": "OL7/u8/x86_64",
-    "name": "oracle-7.7",
+    "name": "oracle-7.8",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "oracle-7.7-x86_64",
+    "template": "oracle-7.8-x86_64",
     "version": "TIMESTAMP"
   }
 }
