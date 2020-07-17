@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}} net.ifnames=0 biosdevname=0<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -28,7 +28,7 @@
     },
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}} net.ifnames=0 biosdevname=0 <enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -55,7 +55,7 @@
     },
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}} net.ifnames=0 biosdevname=0<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -78,7 +78,7 @@
     },
     {
       "boot_command": [
-        "<wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
+        "<wait5><tab> text ks=hd:fd0:/ks.cfg net.ifnames=0 biosdevname=0<enter><wait5><esc>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -104,7 +104,7 @@
     },
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}} net.ifnames=0 biosdevname=0<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -156,9 +156,10 @@
     }
   ],
   "variables": {
-    "box_basename": "oracle-8.1",
+    "arch": "64",
+    "box_basename": "oracle-7.7",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"2019102650405\"}}",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -169,17 +170,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "8a8afc79c3e30209058201ff91a662b030f13951c7fa4d896f89dd356b3c6f22",
+    "iso_checksum": "6e1069ff42f7e59b19af4e2fcacae2fca3f195c7f2904275b0df386efdcd616d",
     "iso_checksum_type": "sha256",
-    "iso_name": "OracleLinux-R8-U1-x86_64-dvd.iso",
-    "ks_path": "8/ks.cfg",
+    "iso_name": "OracleLinux-R7-U8-Server-x86_64-dvd.iso",
+    "ks_path": "7/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.dotsrc.org/oracle-linux",
-    "mirror_directory": "OL8/u1/x86_64",
-    "name": "oracle-8.1",
+    "mirror_directory": "OL7/u8/x86_64",
+    "name": "oracle-7.7",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "oracle-8.1-x86_64",
+    "template": "oracle-7.7-x86_64",
     "version": "TIMESTAMP"
   }
 }
-
