@@ -2,14 +2,11 @@ steps:
 
 - label: run-packer-validate
   command:
-    - bundle install
-    - wget https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip
-    - unzip -d /usr/local/bin packer_1.6.0_linux_amd64.zip
-    - rake validate
+    - find packer_templates/ -name '*.json' -exec echo "Validating {}" \; -exec packer validate {} \;
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: hashicorp/packer
 
 - label: windows-build-cookbook-cookstyle
   command:
@@ -18,4 +15,4 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: ruby:2.7-stretch
