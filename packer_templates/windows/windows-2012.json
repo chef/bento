@@ -3,11 +3,12 @@
     {
       "communicator": "winrm",
       "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ],
       "headless": "{{ user `headless` }}",
-      "iso_checksum": "sha1:{{ user `iso_checksum` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
@@ -22,6 +23,7 @@
     {
       "communicator": "winrm",
       "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ],
@@ -31,7 +33,7 @@
       "guest_os_type": "Windows2012_64",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
-      "iso_checksum": "sha1:{{ user `iso_checksum` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_interface": "sata",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
@@ -60,11 +62,12 @@
     {
       "communicator": "winrm",
       "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ],
       "guest_os_type": "win-2012",
-      "iso_checksum": "sha1:{{ user `iso_checksum` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
@@ -89,12 +92,13 @@
       "communicator": "winrm",
       "cpus": "{{ user `cpus` }}",
       "disk_adapter_type": "lsisas1068",
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ],
       "guest_os_type": "windows9srv-64",
       "headless": "{{ user `headless` }}",
-      "iso_checksum": "sha1:{{ user `iso_checksum` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-vmware",
@@ -111,11 +115,12 @@
     {
       "communicator": "winrm",
       "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ],
       "headless": "{{ user `headless` }}",
-      "iso_checksum": "sha1:{{ user `iso_checksum` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
@@ -212,13 +217,13 @@
   "variables": {
     "build_directory": "../../builds",
     "cpus": "2",
+    "disk_size": "40000",
     "floppy_dir": "{{template_dir}}/answer_files",
     "guest_additions_mode": "attach",
     "guest_additions_url": "",
     "headless": "true",
     "hyperv_switch": "{{env `hyperv_switch`}}",
     "iso_checksum": "922b365c3360ce630f6a4b4f2f3c79e66165c0fb",
-    "iso_checksum_type": "sha1",
     "iso_url": "http://download.microsoft.com/download/6/D/A/6DAB58BA-F939-451D-9101-7DE07DC09C03/9200.16384.WIN8_RTM.120725-1247_X64FRE_SERVER_EVAL_EN-US-HRM_SSS_X64FREE_EN-US_DV5.ISO",
     "memory": "4096",
     "template": "windows-2012-standard",
