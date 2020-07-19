@@ -3,8 +3,8 @@ steps:
 - label: run-packer-validate
   command:
     - bundle install
-    - wget https://releases.hashicorp.com/packer/1.4.2/packer_1.4.2_linux_amd64.zip
-    - unzip -d /usr/local/bin packer_1.4.2_linux_amd64.zip
+    - wget https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip
+    - unzip -d /usr/local/bin packer_1.6.0_linux_amd64.zip
     - rake validate
   expeditor:
     executor:
