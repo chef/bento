@@ -1,0 +1,121 @@
+{
+    "variables": {
+        "build_version": "1",
+        "package_location": "",
+        "working_directory": "",
+        "autounattend": "Autounattend.xml",
+        "unattend": "answer_files\\unattend.xml",
+        "disk_size": "61440",
+        "disk_type_id": "1",
+        "headless": "false",
+        "iso_checksum": "F57E034095E0423FEB575CA82855F73E39FFA713",
+        "iso_checksum_type": "sha1",
+        "iso_url": "https://software-download.microsoft.com/download/pr/19041.264.200511-0456.vb_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+        "restart_timeout": "5m",
+        "vhv_enable": "false",
+        "winrm_timeout": "6h",
+        "vm_name": "windows_10",
+        "virtio_win_iso": "virtio-win.iso",
+        "hyperv_switch": "Default Switch",
+        "memory": "4096",
+        "cpus": "2",
+        "template_dir": "",
+        "build_directory": "",
+        "template": "vagrantfile-windows-gen2.template",
+        "sysprep_unattended": "",
+        "vagrant_sysprep_unattended": "",
+        "guest_additions_mode": "upload"
+    },
+    "builders": [
+        {
+            "type": "hyperv-iso",
+            "generation": "2",
+            "switch_name": "{{user `hyperv_switch`}}",
+            "memory": "{{user `memory`}}",
+            "enable_dynamic_memory": "true",
+            "cpus": "{{user `cpus`}}",
+            "headless": "false",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "iso_checksum_type": "{{user `iso_checksum_type`}}",
+            "output_directory": "c:\\packer-build\\",
+            "communicator": "winrm",
+            "winrm_username": "vagrant",
+            "winrm_password": "vagrant",
+            "winrm_timeout": "12h",
+            "shutdown_command": "shutdown /s /t 10 /c \"Packer Shutdown\" /f /d p:4:1",
+            "shutdown_timeout": "15m",
+            "enable_secure_boot": false,
+            "skip_export": false,
+            "boot_wait": "1s",
+            "boot_command": [
+                "aaaaaaa"
+            ],
+            "secondary_iso_images": [
+
+            ]
+        }
+    ],
+    "provisioners": [
+      {
+          "cookbook_paths": [
+              "{{template_dir}}/cookbooks"
+          ],
+          "guest_os_type": "windows",
+          "run_list": [
+              "packer::disable_uac",
+              "packer::disable_onedrive",
+              "packer::disable_restore",
+              "packer::disable_windows_update",
+              "packer::remove_defender",
+              "packer::configure_power",
+              "packer::disable_screensaver"
+          ],
+          "type": "chef-solo"
+      },
+      {
+          "type": "windows-restart"
+      },
+      {
+          "cookbook_paths": [
+              "{{template_dir}}/cookbooks"
+          ],
+          "guest_os_type": "windows",
+          "run_list": [
+              "packer::vm_tools",
+              "packer::features",
+              "packer::enable_file_sharing",
+              "packer::enable_remote_desktop",
+              "packer::ui_tweaks"
+          ],
+          "type": "chef-solo"
+      },
+      {
+          "type": "windows-restart"
+      },
+      {
+          "cookbook_paths": [
+              "{{template_dir}}/cookbooks"
+          ],
+          "guest_os_type": "windows",
+          "run_list": [
+              "packer::cleanup"
+          ],
+          "type": "chef-solo"
+      },
+      {
+          "elevated_password": "vagrant",
+          "elevated_user": "vagrant",
+          "script": "{{template_dir}}/scripts/cleanup.ps1",
+          "type": "powershell"
+      }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "keep_input_artifact": true,
+            "output": "{{.Provider}}_windows-10.box",
+            "vagrantfile_template": "{{template_dir}}/{{user `template`}}"
+        }
+    ]
+}

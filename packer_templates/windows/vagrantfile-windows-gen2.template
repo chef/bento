@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 1.6.2"
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "hyperv_win_10"
+    config.vm.communicator = "winrm"
+    config.vm.synced_folder ".", "/vagrant", SharedFoldersEnableSymlinksCreate: false
+
+    config.vm.guest = :windows
+
+    config.vm.network :forwarded_port, guest: 3389, host: 3399, id: "rdp", auto_correct: true
+    config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+
+    config.vm.provider "hyperv" do |hv|
+        hv.ip_address_timeout = 240
+        hv.memory = 2048
+        hv.cpus = 2
+        hv.enable_virtualization_extensions = true
+    end
+end
