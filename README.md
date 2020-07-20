@@ -65,7 +65,7 @@ $ cd fedora
 $ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-31-x86_64.json
 ```
 
-To build a Windows 10 Enterprise Gen 2 box for only the Hyper-V provider
+To build a Windows 10 Enterprise Gen 2 box for the Hyper-V provider
 
 ```
 $ cd windows
