@@ -272,11 +272,11 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "2",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "16afb1375372c57471ea5e29803a89a5a6bd1f6aabea2e5e34ac1ab7eb9786ac",
-    "iso_name": "ubuntu-16.04.6-server-amd64.iso",
+    "iso_checksum": "b23488689e16cad7a269eb2d3a3bf725d3457ee6b0868e00c8762d3816e25848",
+    "iso_name": "ubuntu-16.04.7-server-amd64.iso",
     "memory": "1024",
     "mirror": "http://releases.ubuntu.com",
-    "mirror_directory": "16.04.6",
+    "mirror_directory": "16.04.7",
     "name": "ubuntu-16.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
@@ -284,4 +284,3 @@
     "version": "TIMESTAMP"
   }
 }
-
