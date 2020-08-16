@@ -193,7 +193,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-10.4",
+    "box_basename": "debian-9.13",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
@@ -204,16 +204,15 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "ab3763d553330e90869487a6843c88f1d4aa199333ff16b653e60e59ac1fc60b",
-    "iso_name": "debian-10.4.0-amd64-netinst.iso",
+    "iso_checksum": "51109882680c5db06eaf348e1ac7da04dc52798b164724a9db1b95e0275ee013",
+    "iso_name": "debian-9.13.0-amd64-netinst.iso",
     "memory": "1024",
-    "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "10.4.0/amd64/iso-cd",
-    "name": "debian-10.4",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
+    "mirror_directory": "9.13.0/amd64/iso-cd",
+    "name": "debian-9.13",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
-    "template": "debian-10.4-amd64",
+    "template": "debian-9.13-amd64",
     "version": "TIMESTAMP"
   }
 }
-
