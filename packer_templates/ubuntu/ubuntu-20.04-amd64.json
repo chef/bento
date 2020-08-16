@@ -268,11 +268,11 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "2",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "36f15879bd9dfd061cd588620a164a82972663fdd148cce1f70d57d314c21b73",
-    "iso_name": "ubuntu-20.04-legacy-server-amd64.iso",
+    "iso_checksum": "f11bda2f2caed8f420802b59f382c25160b114ccc665dbac9c5046e7fceaced2",
+    "iso_name": "ubuntu-20.04.1-legacy-server-amd64.iso",
     "memory": "1024",
     "mirror": "http://cdimage.ubuntu.com",
-    "mirror_directory": "ubuntu-legacy-server/releases/20.04/release",
+    "mirror_directory": "ubuntu-legacy-server/releases/20.04.1/release",
     "name": "ubuntu-20.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
@@ -280,4 +280,3 @@
     "version": "TIMESTAMP"
   }
 }
-
