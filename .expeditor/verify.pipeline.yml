@@ -3,13 +3,13 @@ steps:
 - label: run-packer-validate
   command:
     - bundle install
-    - wget https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip
-    - unzip -d /usr/local/bin packer_1.6.0_linux_amd64.zip
+    - wget https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
+    - unzip -d /usr/local/bin packer_1.6.1_linux_amd64.zip
     - rake validate
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: ruby:2.7-buster
 
 - label: windows-build-cookbook-cookstyle
   command:
@@ -18,4 +18,4 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:2.6-stretch
+        image: ruby:2.7-buster
