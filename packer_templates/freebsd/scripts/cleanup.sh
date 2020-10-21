@@ -1,5 +1,10 @@
 #!/bin/sh -eux
 
+# cleanup orphaned packages and cache
+pkg autoremove --yes
+pkg clean --yes --all
+rm -f /var/db/pkg/repo-FreeBSD.sqlite
+
 # Purge files we don't need any longer
 rm -rf /var/db/freebsd-update/files;
 mkdir -p /var/db/freebsd-update/files;
