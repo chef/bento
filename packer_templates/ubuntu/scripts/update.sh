@@ -1,22 +1,17 @@
 #!/bin/sh -eux
 export DEBIAN_FRONTEND=noninteractive
 
-ubuntu_version="`lsb_release -r | awk '{print $2}'`";
-major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
-
 # Disable release-upgrades
 sed -i.bak 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades;
 
 # Disable systemd apt timers/services
-if [ "$major_version" -ge "16" ]; then
-  systemctl stop apt-daily.timer;
-  systemctl stop apt-daily-upgrade.timer;
-  systemctl disable apt-daily.timer;
-  systemctl disable apt-daily-upgrade.timer;
-  systemctl mask apt-daily.service;
-  systemctl mask apt-daily-upgrade.service;
-  systemctl daemon-reload;
-fi
+systemctl stop apt-daily.timer;
+systemctl stop apt-daily-upgrade.timer;
+systemctl disable apt-daily.timer;
+systemctl disable apt-daily-upgrade.timer;
+systemctl mask apt-daily.service;
+systemctl mask apt-daily-upgrade.service;
+systemctl daemon-reload;
 
 # Disable periodic activities of apt to be safe
 cat <<EOF >/etc/apt/apt.conf.d/10periodic;
