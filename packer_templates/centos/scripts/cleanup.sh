@@ -107,7 +107,7 @@ if [ "$distro" != 'redhat' ]; then
 fi
 
 # remove the install log
-rm -f /root/anaconda-ks.cfg
+rm -f /root/anaconda-ks.cfg /root/original-ks.cfg
 
 # remove the contents of /tmp and /var/tmp
 rm -rf /tmp/* /var/tmp/*
