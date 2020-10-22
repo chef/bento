@@ -3,7 +3,7 @@
     {
       "accelerator": "kvm",
       "boot_command": [
-        "<tab> linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -31,7 +31,7 @@
     },
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -57,7 +57,7 @@
     },
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -85,7 +85,7 @@
     },
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
@@ -108,7 +108,7 @@
     },
     {
       "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
+        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
