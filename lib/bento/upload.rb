@@ -87,6 +87,6 @@ class UploadRunner
     tool_versions.sort!
     tool_versions << "packer: #{md_data["packer"]}"
 
-    "#{md_data["name"].tr("-", " ").capitalize} Vagrant box version #{md_data["version"]} created with Bento by Chef. Tool versions: #{tool_versions.join(", ")}"
+    "#{md_data["name"].tr("-", " ").capitalize} Vagrant box version #{md_data["version"]} created with Bento by Chef. Built with: #{tool_versions.join(", ")}"
   end
 end
