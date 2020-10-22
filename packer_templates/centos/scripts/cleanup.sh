@@ -120,3 +120,6 @@ fi
 # clear the history so our install isn't there
 export HISTSIZE=0
 rm -f /root/.wget-hsts
+
+# force a new random seed to be generated
+rm -f /var/lib/systemd/random-seed
