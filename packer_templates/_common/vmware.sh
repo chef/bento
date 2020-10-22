@@ -18,6 +18,13 @@ vmware-iso|vmware-vmx)
     VER="`echo "${TOOLS_PATH}" | cut -f2 -d'-'`";
     MAJ_VER="`echo ${VER} | cut -d '.' -f 1`";
 
+    # Make sure we have perl for the installer
+    if [ -f "/bin/dnf" ]; then
+        dnf install -y perl gcc make kernel-headers kernel-devel
+    elif [ -f "/bin/yum" ]; then
+        yum install -y perl gcc make kernel-headers kernel-devel
+    fi
+
     echo "VMware Tools Version: $VER";
 
     tar xzf ${TOOLS_PATH} -C /tmp/vmware-archive;
