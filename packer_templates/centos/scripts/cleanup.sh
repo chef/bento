@@ -40,7 +40,7 @@ for ndev in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do
 done
 
 # new-style network device naming for centos7
-if grep -q -i "release 7" /etc/redhat-release ; then
+if [ "$major_version" -eq 7 ]; then
   # radio off & remove all interface configration
   nmcli radio all off
   /bin/systemctl stop NetworkManager.service
