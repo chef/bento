@@ -145,7 +145,6 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "{{template_dir}}/scripts/swap.sh",
         "{{template_dir}}/scripts/fix-slow-dns.sh",
         "{{template_dir}}/scripts/build-tools.sh",
         "{{template_dir}}/scripts/install-supporting-packages.sh",
