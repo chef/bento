@@ -9,7 +9,7 @@ virtualbox-iso|virtualbox-ovf)
     ISO="VBoxGuestAdditions_$VER.iso";
     mkdir -p /tmp/vbox;
     mount -o loop $HOME_DIR/$ISO /tmp/vbox;
-    sh /tmp/vbox/VBoxLinuxAdditions.run \
+    sh /tmp/vbox/VBoxLinuxAdditions.run --nox11 \
         || echo "VBoxLinuxAdditions.run exited $? and is suppressed." \
             "For more read https://www.virtualbox.org/ticket/12479";
     umount /tmp/vbox;
