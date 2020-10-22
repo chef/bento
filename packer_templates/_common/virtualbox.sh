@@ -19,6 +19,8 @@ virtualbox-iso|virtualbox-ovf)
         yum install gcc make bzip2 tar kernel-headers kernel-devel -y
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get install build-essential bzip2 tar -y
+        # avoid warnings and failures
+        apt-get remove cryptsetup-initramfs -y
     fi
 
     # install the vbox additions
