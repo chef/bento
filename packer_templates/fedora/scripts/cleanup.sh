@@ -16,7 +16,7 @@ find /var/log -type f -exec truncate --size=0 {} \;
 find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
 
 # remove the install log
-rm -f /root/anaconda-ks.cfg
+rm -f /root/anaconda-ks.cfg /root/original-ks.cfg
 
 # remove the contents of /tmp and /var/tmp
 rm -rf /tmp/* /var/tmp/*
