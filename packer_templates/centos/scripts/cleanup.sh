@@ -5,6 +5,13 @@ distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
 
 major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
 
+
+# reduce the grub menu time to 1 second
+if [ "$major_version" -ge 7 ]; then
+  sed -i -e 's/^GRUB_TIMEOUT=[0-9]\+$/GRUB_TIMEOUT=1/' /etc/default/grub
+  grub2-mkconfig -o /boot/grub2/grub.cfg
+fi
+
 # make sure we use dnf on EL 8+
 if [ "$major_version" -ge 8 ]; then
   pkg_cmd="dnf"
