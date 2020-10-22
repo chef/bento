@@ -1,4 +1,4 @@
-require "digest"
+require "digest" unless defined?(Digest)
 require "bento/common"
 
 class ProviderMetadata

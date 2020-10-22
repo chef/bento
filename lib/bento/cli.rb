@@ -1,5 +1,5 @@
-require "optparse"
-require "ostruct"
+require "optparse" unless defined?(OptionParser)
+require "ostruct" unless defined?(OpenStruct)
 
 require "bento/common"
 require "bento/runner"

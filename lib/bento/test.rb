@@ -1,6 +1,6 @@
 require "bento/common"
-require "mixlib/shellout"
-require "erb"
+require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
+require "erb" unless defined?(Erb)
 
 class TestRunner
   include Common
