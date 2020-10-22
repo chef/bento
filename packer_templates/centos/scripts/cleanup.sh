@@ -16,7 +16,7 @@ fi
 if [ "$major_version" -ge 8 ]; then
   dnf autoremove -y
   dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
-elif [ "$major_version" -gt 5 ]; then # yum-utils isn't in RHEL 5 so don't try to run this
+else
   if ! command -v package-cleanup >/dev/null 2>&1; then
   yum install -y yum-utils
   fi
