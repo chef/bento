@@ -39,5 +39,8 @@ virtualbox-iso|virtualbox-ovf)
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get remove gcc g++ make libc6-dev -y
     fi
+
+    # cleanup leftover logs
+    rm -rf /var/log/vboxadd*
     ;;
 esac
