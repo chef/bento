@@ -74,34 +74,6 @@ fi
 # truncate any logs that have built up during the install
 find /var/log -type f -exec truncate --size=0 {} \;
 
-# we try to remove these in the ks file, but they're still there
-# in the builds so let's remove them here to be sure :shrug:
-#
-# 12.2019 note: We can probably remove this now, but let's confirm it
-$pkg_cmd remove -y \
-  aic94xx-firmware \
-  atmel-firmware \
-  bfa-firmware \
-  ipw2100-firmware \
-  ipw2200-firmware \
-  ivtv-firmware \
-  iwl1000-firmware \
-  iwl3945-firmware \
-  iwl4965-firmware \
-  iwl5000-firmware \
-  iwl5150-firmware \
-  iwl6000-firmware \
-  iwl6050-firmware \
-  kernel-uek-firmware \
-  libertas-usb8388-firmware \
-  netxen-firmware \
-  ql2xxx-firmware \
-  rt61pci-firmware \
-  rt73usb-firmware \
-  zd1211-firmware \
-  linux-firmware \
-  microcode_ctl
-
 if [ "$distro" != 'redhat' ]; then
   $pkg_cmd -y clean all;
 fi
