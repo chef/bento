@@ -155,6 +155,7 @@
         "{{template_dir}}/scripts/vmware.sh",
         "{{template_dir}}/../_common/parallels.sh",
         "{{template_dir}}/../_common/vagrant.sh",
+        "{{template_dir}}/scripts/real-tmp.sh",
         "{{template_dir}}/scripts/cleanup.sh",
         "{{template_dir}}/../_common/minimize.sh"
       ],
