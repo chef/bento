@@ -24,5 +24,5 @@ rm -rf /tmp/* /var/tmp/*
 truncate -s 0 /etc/machine-id
 
 # clear the history so our install isn't there
-export HISTSIZE=0
 rm -f /root/.wget-hsts
+export HISTSIZE=0

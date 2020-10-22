@@ -46,6 +46,9 @@ find /var/log -type f -exec truncate --size=0 {} \;
 # Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
 truncate -s 0 /etc/machine-id
 
+# force a new random seed to be generated
+rm -f /var/lib/systemd/random-seed
+
 # clear the history so our install isn't there
-export HISTSIZE=0
 rm -f /root/.wget-hsts
+export HISTSIZE=0

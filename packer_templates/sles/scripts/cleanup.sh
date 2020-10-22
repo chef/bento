@@ -13,6 +13,9 @@ find /var/log -type f -exec truncate --size=0 {} \;
 # remove the contents of /tmp and /var/tmp
 rm -rf /tmp/* /var/tmp/*
 
+# force a new random seed to be generated
+rm -f /var/lib/systemd/random-seed
+
 # clear the history so our install isn't there
-export HISTSIZE=0
 rm -f /root/.wget-hsts
+export HISTSIZE=0
