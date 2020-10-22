@@ -19,19 +19,31 @@ else
   pkg_cmd="yum"
 fi
 
-# remove previous kernels that yum/dnf preserved for rollback
+
+echo "Remove development and kernel source packages"
+$pkg_cmd -y remove gcc cpp gc kernel-devel kernel-headers glibc-devel elfutils-libelf-devel glibc-headers kernel-devel kernel-headers
+
 if [ "$major_version" -ge 8 ]; then
-  dnf autoremove -y
-  dnf remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
+  echo "remove orphaned packages"
+  dnf -y autoremove
+  echo "Remove previous kernels that preserved for rollbacks"
+  dnf -y remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
 else
   if ! command -v package-cleanup >/dev/null 2>&1; then
-  yum install -y yum-utils
+  yum -y install yum-utils
   fi
   package-cleanup --oldkernels --count=1 -y
 fi
 
-# Remove development and kernel source packages
-$pkg_cmd -y remove gcc cpp kernel-devel kernel-headers;
+# Avoid ~200 meg firmware package we don't need
+# this cannot be done in the KS file so we do it here
+echo "Removing extra firmware packages"
+$pkg_cmd -y remove linux-firmware
+
+if [ "$distro" != 'redhat' ]; then
+  echo "clean all package cache information"
+  $pkg_cmd -y clean all  --enablerepo=\*;
+fi
 
 # Clean up network interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules;
@@ -78,27 +90,23 @@ _EOF_
   chmod +x /etc/rc.d/rc.local
 fi
 
-# truncate any logs that have built up during the install
+echo "truncate any logs that have built up during the install"
 find /var/log -type f -exec truncate --size=0 {} \;
 
-if [ "$distro" != 'redhat' ]; then
-  $pkg_cmd -y clean all;
-fi
-
-# remove the install log
+echo "remove the install log"
 rm -f /root/anaconda-ks.cfg /root/original-ks.cfg
 
-# remove the contents of /tmp and /var/tmp
+echo "remove the contents of /tmp and /var/tmp"
 rm -rf /tmp/* /var/tmp/*
 
 if [ "$major_version" -ge 7 ]; then
-  # force a new random seed to be generated
+  echo "Force a new random seed to be generated"
   rm -f /var/lib/systemd/random-seed
 
-  # Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
+  echo "Wipe netplan machine-id (DUID) so machines get unique ID generated on boot"
   truncate -s 0 /etc/machine-id
 fi
 
-# clear the history so our install isn't there
+echo "Clear the history so our install commands aren't there"
 rm -f /root/.wget-hsts
 export HISTSIZE=0
