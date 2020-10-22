@@ -18,16 +18,19 @@ vmware-iso|vmware-vmx)
     VER="`echo "${TOOLS_PATH}" | cut -f2 -d'-'`";
     MAJ_VER="`echo ${VER} | cut -d '.' -f 1`";
 
-    # Make sure we have perl for the installer
     if [ -f "/bin/dnf" ]; then
+        echo "Installing deps for the vmware tools"
         dnf install -y perl gcc make kernel-headers kernel-devel
     elif [ -f "/bin/yum" ]; then
+        echo "Installing deps for the vmware tools"
         yum install -y perl gcc make kernel-headers kernel-devel
     fi
 
     echo "VMware Tools Version: $VER";
 
+    echo "Expanding the tools archive"
     tar xzf ${TOOLS_PATH} -C /tmp/vmware-archive;
+    echo "Installing tools"
     if [ "${MAJ_VER}" -lt "10" ]; then
         /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --default;
     else
