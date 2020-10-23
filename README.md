@@ -120,6 +120,7 @@ Please use GitHub issues to report bugs, features, or other problems.
 ## Related projects
 
 * https://github.com/boxcutter
+* https://github.com/lavabit/robox
 * https://github.com/mcandre/packer-templates
 * https://github.com/timsutton/osx-vm-templates
 * https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes
