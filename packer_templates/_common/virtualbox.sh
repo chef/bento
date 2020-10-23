@@ -38,7 +38,7 @@ virtualbox-iso|virtualbox-ovf)
     elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
         yum remove -y gcc cpp kernel-headers kernel-devel kernel-uek-devel
     elif [ -f "/usr/bin/apt-get" ]; then
-        apt-get remove -y gcc g++ make dkms libc6-dev
+        apt-get remove -y build-essential gcc g++ make libc6-dev dkms linux-headers-`uname -r`
     elif [ -f "/usr/bin/zypper" ]; then
         zypper -n rm -u kernel-default-devel gcc make
     fi
