@@ -96,6 +96,11 @@
   </partitioning>
   <bootloader>
     <loader_type>grub2</loader_type>
+		<global>
+			<activate config:type="boolean">true</activate>
+			<timeout config:type="integer">1</timeout>
+			<boot_mbr>true</boot_mbr>
+		</global>
   </bootloader>
   <networking>
     <ipv6 config:type="boolean">false</ipv6>
