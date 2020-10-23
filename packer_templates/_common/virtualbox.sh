@@ -12,11 +12,11 @@ virtualbox-iso|virtualbox-ovf)
     mkdir -p /tmp/vbox;
     mount -o loop $HOME_DIR/$ISO /tmp/vbox;
 
-    # OS specific packages we need
+    # OS specific packages we need. We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
     if [ -f "/bin/dnf" ]; then
-        dnf install gcc make bzip2 tar kernel-headers kernel-devel -y
+        dnf install gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
     elif [ -f "/bin/yum" ]; then
-        yum install gcc make bzip2 tar kernel-headers kernel-devel -y
+        yum install gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get install build-essential bzip2 tar -y
         # avoid warnings and failures
@@ -33,9 +33,9 @@ virtualbox-iso|virtualbox-ovf)
 
     # OS specific packages we don't need
     if [ -f "/bin/dnf" ]; then
-        dnf remove gcc cpp kernel-headers kernel-devel -y
+        dnf remove gcc cpp kernel-headers kernel-devel kernel-uek-devel -y
     elif [ -f "/bin/yum" ]; then
-        yum remove gcc cpp kernel-headers kernel-devel -y
+        yum remove gcc cpp kernel-headers kernel-devel kernel-uek-devel -y
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get remove gcc g++ make libc6-dev -y
     fi
