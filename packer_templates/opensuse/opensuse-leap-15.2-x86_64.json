@@ -148,7 +148,6 @@
       "scripts": [
         "{{template_dir}}/scripts/repositories.sh",
         "{{template_dir}}/scripts/update.sh",
-        "{{template_dir}}/scripts/add_packages.sh",
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/vagrant.sh",

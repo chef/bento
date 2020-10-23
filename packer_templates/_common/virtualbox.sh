@@ -15,13 +15,15 @@ virtualbox-iso|virtualbox-ovf)
     echo "installing deps necessary to compile kernel modules"
     # We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
     if [ -f "/bin/dnf" ]; then
-        dnf install perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
+        dnf install -y perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
     elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
-        yum install perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
+        yum install -y perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
     elif [ -f "/usr/bin/apt-get" ]; then
-        apt-get install build-essential bzip2 tar -y
+        apt-get install -y build-essential bzip2 tar
         # avoid warnings and failures
-        apt-get remove cryptsetup-initramfs -y
+        apt-get remove -y cryptsetup-initramfs
+    elif [ -f "/usr/bin/zypper" ]; then
+        zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
     fi
 
     echo "installing the vbox additions"
@@ -34,11 +36,13 @@ virtualbox-iso|virtualbox-ovf)
 
     echo "removing kernel dev packages and compilers we no longer need"
     if [ -f "/bin/dnf" ]; then
-        dnf remove gcc cpp kernel-headers kernel-devel kernel-uek-devel -y
+        dnf remove -y gcc cpp kernel-headers kernel-devel kernel-uek-devel
     elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
-        yum remove gcc cpp kernel-headers kernel-devel kernel-uek-devel -y
+        yum remove -y gcc cpp kernel-headers kernel-devel kernel-uek-devel
     elif [ -f "/usr/bin/apt-get" ]; then
-        apt-get remove gcc g++ make libc6-dev -y
+        apt-get remove -y gcc g++ make libc6-dev
+    elif [ -f "/usr/bin/zypper" ]; then
+        zypper -n rm -u kernel-default-devel gcc make
     fi
 
     echo "removing leftover logs"
