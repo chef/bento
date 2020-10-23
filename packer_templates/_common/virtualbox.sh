@@ -12,26 +12,27 @@ virtualbox-iso|virtualbox-ovf)
     mkdir -p /tmp/vbox;
     mount -o loop $HOME_DIR/$ISO /tmp/vbox;
 
-    # OS specific packages we need. We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
+    echo "installing deps necessary to compile kernel modules"
+    # We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
     if [ -f "/bin/dnf" ]; then
-        dnf install gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
-    elif [ -f "/bin/yum" ]; then
-        yum install gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
+        dnf install cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
+    elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
+        yum install cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get install build-essential bzip2 tar -y
         # avoid warnings and failures
         apt-get remove cryptsetup-initramfs -y
     fi
 
-    # install the vbox additions
+    echo "installing the vbox additions"
     sh /tmp/vbox/VBoxLinuxAdditions.run --nox11
 
-    # unmount and nuke the ISO
+    echo "unmounting and removing the vbox ISO"
     umount /tmp/vbox;
     rm -rf /tmp/vbox;
     rm -f $HOME_DIR/*.iso;
 
-    # OS specific packages we don't need
+    echo "removing kernel dev packages and compilers we no longer need"
     if [ -f "/bin/dnf" ]; then
         dnf remove gcc cpp kernel-headers kernel-devel kernel-uek-devel -y
     elif [ -f "/bin/yum" ]; then
@@ -40,7 +41,7 @@ virtualbox-iso|virtualbox-ovf)
         apt-get remove gcc g++ make libc6-dev -y
     fi
 
-    # cleanup leftover logs
+    echo "removing leftover logs"
     rm -rf /var/log/vboxadd*
     ;;
 esac
