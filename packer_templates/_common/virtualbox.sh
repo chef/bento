@@ -15,9 +15,9 @@ virtualbox-iso|virtualbox-ovf)
     echo "installing deps necessary to compile kernel modules"
     # We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
     if [ -f "/bin/dnf" ]; then
-        dnf install cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
+        dnf install perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
     elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
-        yum install cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
+        yum install perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel -y || true # not all these packages are on every system
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get install build-essential bzip2 tar -y
         # avoid warnings and failures
