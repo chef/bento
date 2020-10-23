@@ -1,10 +1,10 @@
 #!/bin/sh -eux
 export DEBIAN_FRONTEND=noninteractive
 
-# Disable release-upgrades
+echo "disable release-upgrades"
 sed -i.bak 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades;
 
-# Disable systemd apt timers/services
+echo "disable systemd apt timers/services"
 systemctl stop apt-daily.timer;
 systemctl stop apt-daily-upgrade.timer;
 systemctl disable apt-daily.timer;
@@ -22,14 +22,14 @@ APT::Periodic::AutocleanInterval "0";
 APT::Periodic::Unattended-Upgrade "0";
 EOF
 
-# Clean and nuke the package from orbit
+echo "remove the unattended-upgrades package"
 rm -rf /var/log/unattended-upgrades;
 apt-get -y purge unattended-upgrades;
 
-# Update the package list
+echo "update the package list"
 apt-get -y update;
 
-# Upgrade all installed packages incl. kernel and kernel headers
+echo "upgrade all installed packages incl. kernel and kernel headers"
 apt-get -y dist-upgrade -o Dpkg::Options::="--force-confnew";
 
 reboot
