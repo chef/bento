@@ -33,6 +33,9 @@ fi
 # Remove development and kernel source packages
 $pkg_cmd -y remove gcc cpp kernel-devel kernel-headers;
 
+# Couldn't exclude it during kickstart (kernel-core requires it), remove it now
+$pkg_cmd -y remove linux-firmware
+
 # Clean up network interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules;
 mkdir -p /etc/udev/rules.d/70-persistent-net.rules;
