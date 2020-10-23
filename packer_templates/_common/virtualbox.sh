@@ -19,7 +19,7 @@ virtualbox-iso|virtualbox-ovf)
     elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
         yum install -y perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
     elif [ -f "/usr/bin/apt-get" ]; then
-        apt-get install -y build-essential bzip2 tar
+        apt-get install -y build-essential dkms bzip2 tar
     elif [ -f "/usr/bin/zypper" ]; then
         zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
     fi
@@ -38,7 +38,7 @@ virtualbox-iso|virtualbox-ovf)
     elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
         yum remove -y gcc cpp kernel-headers kernel-devel kernel-uek-devel
     elif [ -f "/usr/bin/apt-get" ]; then
-        apt-get remove -y gcc g++ make libc6-dev
+        apt-get remove -y gcc g++ make dkms libc6-dev
     elif [ -f "/usr/bin/zypper" ]; then
         zypper -n rm -u kernel-default-devel gcc make
     fi
