@@ -13,6 +13,13 @@ dpkg --list \
     | grep -v `uname -r` \
     | xargs apt-get -y purge;
 
+echo "remove old kernel modules packages"
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep 'linux-modules-.*-generic' \
+    | grep -v `uname -r` \
+    | xargs apt-get -y purge;
+
 echo "remove linux-source package"
 dpkg --list \
     | awk '{ print $2 }' \
