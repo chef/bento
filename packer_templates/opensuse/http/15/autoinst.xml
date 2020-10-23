@@ -127,7 +127,6 @@
       <package>glibc-locale</package>
       <package>iputils</package>
       <package>kernel-default</package>
-      <package>make</package>
       <package>sudo</package>
       <package>yast2</package>
       <package>yast2-firstboot</package>
