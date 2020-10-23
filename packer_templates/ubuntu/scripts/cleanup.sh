@@ -45,7 +45,7 @@ echo "remove obsolete networking packages"
 apt-get -y purge ppp pppconfig pppoeconf;
 
 echo "remove packages we don't need"
-apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
+apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect motd-news-config usbutils grub-legacy-ec2 fonts-ubuntu-console;
 
 echo "removing command-not-found-data"
 # 19.10+ don't have this package so fail gracefully
