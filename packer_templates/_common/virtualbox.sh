@@ -25,8 +25,14 @@ virtualbox-iso|virtualbox-ovf)
     fi
 
     echo "installing the vbox additions"
-    sh /tmp/vbox/VBoxLinuxAdditions.run --nox11
+    # this install script fails with non-zero exit codes for no apparent reason so we need better ways to know if it worked
+    /tmp/vbox/VBoxLinuxAdditions.run --nox11 || true
 
+    if ! modinfo vboxsf >/dev/null 2>&1; then
+         echo "Cannot find vbox kernel module. Installation of guest additions unsuccessful!"
+         exit 1
+    fi
+    
     echo "unmounting and removing the vbox ISO"
     umount /tmp/vbox;
     rm -rf /tmp/vbox;
