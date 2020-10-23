@@ -21,7 +21,7 @@ vmware-iso|vmware-vmx)
     if [ -f "/bin/dnf" ]; then
         echo "Installing deps for the vmware tools"
         dnf install -y perl gcc make kernel-headers kernel-devel
-    elif [ -f "/bin/yum" ]; then
+    elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
         echo "Installing deps for the vmware tools"
         yum install -y perl gcc make kernel-headers kernel-devel
     fi
