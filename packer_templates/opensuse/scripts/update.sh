@@ -1,5 +1,6 @@
 #!/bin/sh -eux
 
-# Update all packages
+echo "updating all packages"
 zypper update -y
+
 reboot
