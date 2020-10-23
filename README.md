@@ -143,7 +143,7 @@ macOS templates were adopted wholesale from [Fletcher Nichol's packer templates]
 - Author: Tom Duffield ([tom@chef.io](mailto:tom@chef.io))
 
 ```text
-Copyright 2012-2019, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2020, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
