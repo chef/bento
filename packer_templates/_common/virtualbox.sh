@@ -20,8 +20,6 @@ virtualbox-iso|virtualbox-ovf)
         yum install -y perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
     elif [ -f "/usr/bin/apt-get" ]; then
         apt-get install -y build-essential bzip2 tar
-        # avoid warnings and failures
-        apt-get remove -y cryptsetup-initramfs
     elif [ -f "/usr/bin/zypper" ]; then
         zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
     fi
