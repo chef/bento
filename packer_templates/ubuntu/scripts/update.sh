@@ -22,9 +22,9 @@ APT::Periodic::AutocleanInterval "0";
 APT::Periodic::Unattended-Upgrade "0";
 EOF
 
-echo "remove the unattended-upgrades package"
+echo "remove the unattended-upgrades and ubuntu-release-upgrader-core packages"
 rm -rf /var/log/unattended-upgrades;
-apt-get -y purge unattended-upgrades;
+apt-get -y purge unattended-upgrades ubuntu-release-upgrader-core;
 
 echo "update the package list"
 apt-get -y update;
