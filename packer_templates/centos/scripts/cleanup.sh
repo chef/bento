@@ -6,7 +6,7 @@ distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
 major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
 
 
-# reduce the grub menu time to 1 second
+echo "reduce the grub menu time to 1 second"
 if ! [ "$major_version" -eq 6 ]; then
   sed -i -e 's/^GRUB_TIMEOUT=[0-9]\+$/GRUB_TIMEOUT=1/' /etc/default/grub
   grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -29,8 +29,9 @@ if [ "$major_version" -ge 8 ]; then
   echo "Remove previous kernels that preserved for rollbacks"
   dnf -y remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
 else
+  echo "Remove previous kernels that preserved for rollbacks"
   if ! command -v package-cleanup >/dev/null 2>&1; then
-  yum -y install yum-utils
+    yum -y install yum-utils
   fi
   package-cleanup --oldkernels --count=1 -y
 fi
