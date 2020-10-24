@@ -21,10 +21,10 @@ dpkg --list \
     | grep linux-source \
     | xargs apt-get -y purge;
 
-# Delete development packages
+echo "remove all development packages"
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep -- '-dev$' \
+    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
     | xargs apt-get -y purge;
 
 # Delete X11 libraries

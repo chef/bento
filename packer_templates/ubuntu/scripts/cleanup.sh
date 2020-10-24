@@ -29,7 +29,7 @@ dpkg --list \
 echo "remove all development packages"
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep -- '-dev$' \
+    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
     | xargs apt-get -y purge;
 
 echo "remove docs packages"
