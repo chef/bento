@@ -40,7 +40,10 @@ apt-get -y purge installation-report;
 apt-get -y autoremove;
 apt-get -y clean;
 
-# truncate any logs that have built up during the install
+echo "remove /var/cache"
+find /var/cache -type f -exec rm -rf {} \;
+
+echo "truncate any logs that have built up during the install"
 find /var/log -type f -exec truncate --size=0 {} \;
 
 # Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
