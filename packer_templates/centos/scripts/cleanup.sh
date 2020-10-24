@@ -7,7 +7,7 @@ major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | aw
 
 
 # reduce the grub menu time to 1 second
-if [ "$major_version" -ge 7 ]; then
+if ! [ "$major_version" -eq 6 ]; then
   sed -i -e 's/^GRUB_TIMEOUT=[0-9]\+$/GRUB_TIMEOUT=1/' /etc/default/grub
   grub2-mkconfig -o /boot/grub2/grub.cfg
 fi
