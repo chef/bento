@@ -8,11 +8,30 @@ windows_package 'Skype' do
   action :remove
 end
 
-execute 'run cleanmgr' do
-  command 'C:\Windows\System32\cleanmgr.exe /sagerun:10﻿'
-  ignore_failure true
-  only_if { windows_workstation? } # cleanmgr isn't on servers
-  live_stream true
+if windows_workstation? # cleanmgr isn't on servers
+  # registry key locations pulled from https://github.com/spjeff/spadmin/blob/master/Cleanmgr.ps1
+  # thanks @spjeff!
+  registry_key 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup' do
+    values [{
+      name: 'StateFlags0001',
+      type: :dword,
+      data: 2,
+    }]
+  end
+
+  registry_key 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Files' do
+    values [{
+      name: 'StateFlags0001',
+      type: :dword,
+      data: 2,
+    }]
+  end
+
+  execute 'run cleanmgr' do
+    command 'C:\Windows\System32\cleanmgr.exe /sagerun:1'
+    ignore_failure true
+    live_stream true
+  end
 end
 
 execute 'clean SxS' do
