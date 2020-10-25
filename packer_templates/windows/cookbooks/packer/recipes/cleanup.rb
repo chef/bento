@@ -68,7 +68,7 @@ end
   end
 end
 
-# remove pagefile
+# remove pagefile. it will get created on boot next time
 registry_key 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' do
   values [{
     name: 'PagingFiles',
