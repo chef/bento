@@ -3,6 +3,11 @@ windows_package 'Microsoft OneDrive' do
   action :remove
 end
 
+# Skype takes up 26 megs
+windows_package 'Skype' do
+  action :remove
+end
+
 execute 'run cleanmgr' do
   command 'C:\Windows\System32\cleanmgr.exe /sagerun:10﻿'
   ignore_failure true
