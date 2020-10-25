@@ -12,11 +12,13 @@ execute 'run cleanmgr' do
   command 'C:\Windows\System32\cleanmgr.exe /sagerun:10﻿'
   ignore_failure true
   only_if { windows_workstation? } # cleanmgr isn't on servers
+  live_stream true
 end
 
 execute 'clean SxS' do
   command 'Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase'
   ignore_failure true
+  live_stream true
 end
 
 powershell_script 'remove unnecesary directories' do
