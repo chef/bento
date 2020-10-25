@@ -1,5 +1,5 @@
 remote_file ::File.join(Chef::Config[:file_cache_path], 'ultradefrag.zip') do
-  source 'http://downloads.sourceforge.net/ultradefrag/ultradefrag-portable-7.0.2.bin.amd64.zip'
+  source 'http://downloads.sourceforge.net/ultradefrag/ultradefrag-portable-7.1.4.bin.amd64.zip'
   action :create
 end
 
