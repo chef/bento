@@ -8,7 +8,7 @@ windows_package 'Skype' do
   action :remove
 end
 
-if windows_workstation? # cleanmgr isn't on servers
+if windows_workstation? && !node['platform_version'].to_i == 10 # cleanmgr isn't on servers
   # registry key locations pulled from https://github.com/spjeff/spadmin/blob/master/Cleanmgr.ps1
   # thanks @spjeff!
   registry_key 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup' do
