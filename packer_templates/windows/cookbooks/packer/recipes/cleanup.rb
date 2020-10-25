@@ -46,6 +46,7 @@ powershell_script 'remove unnecesary directories' do
       "C:\\Recovery",
       "$env:localappdata\\temp\\*",
       "$env:windir\\logs",
+      "$env:windir\\temp",
       "$env:windir\\winsxs\\manifestcache",
       "C:\\Users\\vagrant\Favorites\\*"
   ) | % {
