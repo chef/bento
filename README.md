@@ -88,7 +88,7 @@ packer build --only=qemu --var virtio_win_iso=~/virtio-win.iso windows-2019.json
 
 ### Proprietary Templates
 
-Templates for operating systems only available via license or subscription are also available in the repository, these include but are not limited to: macOS, Red Hat Enterprise Linux, and SUSE Linux Enterprise. As the ISOs are not publicly available the URL values will need to be overridden as appropriate. We rely on the efforts of those with access to licensed versions of the operating systems to keep these up-to-date.
+Templates for operating systems only available via license or subscription are also available in the repository, these include but are not limited to: Red Hat Enterprise Linux, and SUSE Linux Enterprise. As the ISOs are not publicly available the URL values will need to be overridden as appropriate. We rely on the efforts of those with access to licensed versions of the operating systems to keep these up-to-date.
 
 ### Networking/Firewalls
 
@@ -109,15 +109,13 @@ Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resou
 - `autounattend.xml`: The Gen 2 `autounattend.xml` file supports EFI partitions. Update the `autounattend.xml` with the correct Windows version for your systems and ensure that the partitions are correct for your situation. You also need to manage the driver disk that holds the hyper-v guest services drivers and adjust the `autounattend.xml` file as appropriate.
 - `base_setup.ps1`
 
-#### macOS / OSX
-
-See this [wiki page](https://github.com/chef/bento/wiki/macOS)
-
 ## Bugs and Issues
 
 Please use GitHub issues to report bugs, features, or other problems.
 
 ## Related projects
+
+A huge thank you to these related projects from which we've taken inspiration and often used as a source for workarounds in complex world of base box building.
 
 * https://github.com/boxcutter
 * https://github.com/lavabit/robox
@@ -128,8 +126,6 @@ Please use GitHub issues to report bugs, features, or other problems.
 ## License & Authors
 
 These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee) definitions originally based on [work done by Tim Dysinger](https://github.com/dysinger/basebox) to make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
-
-macOS templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
 
 - Author: Chris McClimans ([chris@hippiehacker.org](mailto:chris@hippiehacker.org))
 - Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))
