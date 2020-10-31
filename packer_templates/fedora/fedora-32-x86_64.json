@@ -2,9 +2,7 @@
   "builders": [
     {
       "accelerator": "kvm",
-      "boot_command": [
-        "<up><wait><tab> linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_cache": "unsafe",
@@ -30,9 +28,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -56,9 +52,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -84,9 +78,7 @@
       "vmx_remove_ethernet_interfaces": true
     },
     {
-      "boot_command": [
-        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -107,9 +99,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -183,6 +173,7 @@
     "name": "fedora-32",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "fedora-32-x86_64",
+    "boot_command": "<up><wait><tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
 }
