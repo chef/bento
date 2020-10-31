@@ -125,6 +125,7 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
+      "qemuargs": [["{{ user `qemuargs_opt` }}","{{ user `qemuargs_value` }}"]],
       "vm_name": "{{ user `template` }}"
     }
   ],
@@ -183,6 +184,8 @@
     "name": "fedora-31",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "fedora-31-x86_64",
+    "qemuargs_opt": "-m",
+    "qemuargs_value": "1024M",
     "version": "TIMESTAMP"
   }
 }
