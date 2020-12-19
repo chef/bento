@@ -24,6 +24,42 @@
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
       "winrm_username": "vagrant"
+    },
+    {
+      "boot_command": [
+	"aaaaaaa<wait><enter><wait><enter><wait><enter>"
+      ],
+      "communicator": "winrm",
+      "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{ user `iso_url` }}",
+      "memory": "{{ user `memory` }}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
+      "cd_files": "{{ user `cd_files` }}",
+      "disk_interface": "{{ user `disk_interface` }}",
+      "qemuargs": [
+        [
+          "-m",
+          "{{ user `memory` }}"
+        ],
+        [
+          "-smp",
+          "{{ user `cpus` }}"
+        ],
+        [
+          "-bios",
+          "{{ user `qemu_bios` }}"
+        ]
+      ],
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "type": "qemu",
+      "boot_wait": "{{ user `boot_wait` }}",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "winrm_username": "vagrant"
     }
   ],
   "post-processors": [
@@ -112,6 +148,10 @@
     "virtio_win_iso": "virtio-win.iso",
     "vm_name": "windows_10",
     "winrm_timeout": "6h",
-    "working_directory": ""
+    "working_directory": "",
+    "qemu_bios": "/usr/share/OVMF/OVMF_CODE.fd",
+    "disk_interface": "ide",
+    "boot_wait": "10s",
+    "cd_files": "{{template_dir}}/answer_files/10/Autounattend.xml"
   }
 }
