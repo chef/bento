@@ -2,9 +2,7 @@
   "builders": [
     {
       "accelerator": "kvm",
-      "boot_command": [
-        "<tab> linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_cache": "unsafe",
@@ -30,9 +28,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -56,9 +52,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -84,9 +78,7 @@
       "vmx_remove_ethernet_interfaces": true
     },
     {
-      "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -107,6 +99,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -123,8 +116,7 @@
       "ssh_username": "vagrant",
       "type": "qemu",
       "vm_name": "{{ user `template` }}",
-      "qemuargs": [["{{ user `qemuargs_opt` }}","{{ user `qemuargs_value` }}"]],
-      "boot_command": "{{user `boot_command`}}"
+      "qemuargs": [["{{ user `qemuargs_opt` }}","{{ user `qemuargs_value` }}"]]
     }
   ],
   "post-processors": [
