@@ -156,7 +156,7 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-7.8",
+    "box_basename": "centos-7.9",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
@@ -169,16 +169,15 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "{{env `hyperv_switch`}}",
-    "iso_checksum": "659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193",
-    "iso_name": "CentOS-7-x86_64-Minimal-2003.iso",
+    "iso_checksum": "07b94e6b1a0b0260b94c83d6bb76b26bf7a310dc78d7a9c7432809fb9bc6194a",
+    "iso_name": "CentOS-7-x86_64-Minimal-2009.iso",
     "ks_path": "7/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "7.8.2003/isos/x86_64",
-    "name": "centos-7.8",
+    "mirror_directory": "7.9.2009/isos/x86_64",
+    "name": "centos-7.9",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "centos-7.8-x86_64",
+    "template": "centos-7.9-x86_64",
     "version": "TIMESTAMP"
   }
 }
-
