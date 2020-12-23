@@ -21,6 +21,7 @@ module Common
     sout = Mixlib::ShellOut.new(cmd)
     sout.live_stream = STDOUT
     sout.run_command
+    sout.error! # fail hard if the cmd fails
   end
 
   def warn(msg)
