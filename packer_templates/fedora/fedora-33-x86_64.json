@@ -2,10 +2,8 @@
   "builders": [
     {
       "accelerator": "kvm",
-      "boot_command": [
-        "<tab> linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `ks_path`}}<enter><wait>"
-      ],
-      "boot_wait": "10s",
+      "boot_command": "{{user `boot_command`}}",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_cache": "unsafe",
       "disk_compression": true,
@@ -30,10 +28,8 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
-      "boot_wait": "10s",
+      "boot_command": "{{user `boot_command`}}",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
@@ -56,10 +52,8 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
-      "boot_wait": "10s",
+      "boot_command": "{{ user `boot_command` }}",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "fedora-64",
@@ -84,10 +78,8 @@
       "vmx_remove_ethernet_interfaces": true
     },
     {
-      "boot_command": [
-        "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
-      "boot_wait": "10s",
+      "boot_command": "{{user `boot_command`}}",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "fedora-core",
@@ -123,8 +115,7 @@
       "ssh_username": "vagrant",
       "type": "qemu",
       "vm_name": "{{ user `template` }}",
-      "qemuargs": [["{{ user `qemuargs_opt` }}","{{ user `qemuargs_value` }}"]],
-      "boot_command": "{{user `boot_command`}}"
+      "qemuargs": [["{{ user `qemuargs_opt` }}","{{ user `qemuargs_value` }}"]]
     }
   ],
   "post-processors": [
@@ -184,7 +175,7 @@
     "template": "fedora-33-x86_64",
     "qemuargs_opt": "-m",
     "qemuargs_value": "1024M",
-    "boot_command": "<tab> linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
+    "boot_command": "<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
 }
