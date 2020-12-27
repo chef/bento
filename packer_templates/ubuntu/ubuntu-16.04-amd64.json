@@ -27,7 +27,7 @@
         " -- <wait>",
         "<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
@@ -76,7 +76,7 @@
         " -- <wait>",
         "<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_adapter_type": "sata",
       "disk_size": "{{user `disk_size`}}",
@@ -128,7 +128,7 @@
         " -- <wait>",
         "<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "ubuntu",
@@ -174,7 +174,7 @@
         " -- <wait>",
         "<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",
@@ -205,7 +205,7 @@
         "initrd /install/initrd.gz<enter>",
         "boot<enter>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "communicator": "ssh",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",

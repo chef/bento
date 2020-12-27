@@ -99,7 +99,8 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_wait": "10s",
+      "boot_command": "{{user `boot_command`}}",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "headless": "{{ user `headless` }}",

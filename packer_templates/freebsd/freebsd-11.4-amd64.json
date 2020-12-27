@@ -12,7 +12,7 @@
         "dhclient -p /tmp/dhclient.em0.pid -l /tmp/dhclient.lease.em0 em0<enter><wait>",
         "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} \u0026\u0026 bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_mode": "disable",
@@ -45,7 +45,7 @@
         "<wait5>",
         "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `install_path`}} \u0026\u0026 bsdinstall script /tmp/installerconfig<enter><wait>"
       ],
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "freebsd-64",
