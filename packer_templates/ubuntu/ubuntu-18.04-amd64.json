@@ -76,6 +76,7 @@
       ],
       "boot_wait": "10s",
       "cpus": "{{ user `cpus` }}",
+      "disk_adapter_type": "sata",
       "disk_size": "{{user `disk_size`}}",
       "guest_os_type": "ubuntu-64",
       "headless": "{{ user `headless` }}",
