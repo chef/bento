@@ -177,7 +177,7 @@
     "template": "fedora-33-x86_64",
     "qemuargs_opt": "-m",
     "qemuargs_value": "1024M",
-    "boot_command": "<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
+    "boot_command": "<up><wait><tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
 }
