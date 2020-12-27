@@ -130,7 +130,7 @@
     "box_basename": "solaris-11.4",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20200222210405\"}}",
-    "cpus": "1",
+    "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
     "guest_additions_url": "",
@@ -143,4 +143,3 @@
     "version": "TIMESTAMP"
   }
 }
-

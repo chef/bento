@@ -63,7 +63,7 @@
     "box_basename": "amazon-2",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
-    "cpus": "1",
+    "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
@@ -77,4 +77,3 @@
     "version": "TIMESTAMP"
   }
 }
-

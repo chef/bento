@@ -184,7 +184,7 @@
     "box_basename": "freebsd-12.1-i386",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
-    "cpus": "1",
+    "cpus": "2",
     "disk_size": "40960",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
@@ -204,4 +204,3 @@
     "version": "TIMESTAMP"
   }
 }
-
