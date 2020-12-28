@@ -268,7 +268,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "2",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996",
     "iso_name": "ubuntu-18.04.5-server-amd64.iso",
     "memory": "1024",

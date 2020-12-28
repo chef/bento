@@ -265,7 +265,7 @@
         "http_proxy": "{{env `http_proxy`}}",
         "https_proxy": "{{env `https_proxy`}}",
         "hyperv_generation": "2",
-        "hyperv_switch": "{{env `hyperv_switch`}}",
+        "hyperv_switch": "bento",
         "iso_checksum": "defdc1ad3af7b661fe2b4ee861fb6fdb5f52039389ef56da6efc05e6adfe3d45",
         "iso_name": "ubuntu-20.10-live-server-amd64.iso",
         "memory": "1024",

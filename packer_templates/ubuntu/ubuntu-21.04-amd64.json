@@ -265,7 +265,7 @@
         "http_proxy": "{{env `http_proxy`}}",
         "https_proxy": "{{env `https_proxy`}}",
         "hyperv_generation": "2",
-        "hyperv_switch": "{{env `hyperv_switch`}}",
+        "hyperv_switch": "bento",
         "iso_checksum": "dade2fb5cd82f70b14c1677c0e3968cadf1f95740473247a27ef4cf98fbd140e",
         "iso_name": "hirsute-live-server-amd64.iso",
         "memory": "1024",

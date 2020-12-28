@@ -222,7 +222,7 @@
     "guest_additions_mode": "attach",
     "guest_additions_url": "",
     "headless": "true",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "922b365c3360ce630f6a4b4f2f3c79e66165c0fb",
     "iso_url": "http://download.microsoft.com/download/6/D/A/6DAB58BA-F939-451D-9101-7DE07DC09C03/9200.16384.WIN8_RTM.120725-1247_X64FRE_SERVER_EVAL_EN-US-HRM_SSS_X64FREE_EN-US_DV5.ISO",
     "memory": "4096",
@@ -231,4 +231,3 @@
     "virtio_win_iso": "~/virtio-win.iso"
   }
 }
-

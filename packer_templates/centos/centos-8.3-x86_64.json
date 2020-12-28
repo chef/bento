@@ -168,7 +168,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "aaf9d4b3071c16dbbda01dfe06085e5d0fdac76df323e3bbe87cce4318052247",
     "iso_name": "CentOS-8.3.2011-x86_64-dvd1.iso",
     "ks_path": "8/ks.cfg",

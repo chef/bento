@@ -168,7 +168,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "a68e46970678d4d297d46086ae2efdd3e994322d6d862ff51dcce25a0759e41c",
     "iso_name": "CentOS-6.10-x86_64-bin-DVD1.iso",
     "ks_path": "6/ks.cfg",

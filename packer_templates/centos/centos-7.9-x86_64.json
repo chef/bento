@@ -168,7 +168,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "07b94e6b1a0b0260b94c83d6bb76b26bf7a310dc78d7a9c7432809fb9bc6194a",
     "iso_name": "CentOS-7-x86_64-Minimal-2009.iso",
     "ks_path": "7/ks.cfg",

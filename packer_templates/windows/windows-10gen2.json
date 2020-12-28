@@ -132,7 +132,7 @@
     "disk_type_id": "1",
     "guest_additions_mode": "upload",
     "headless": "false",
-    "hyperv_switch": "Default Switch",
+    "hyperv_switch": "bento",
     "iso_checksum": "F57E034095E0423FEB575CA82855F73E39FFA713",
     "iso_checksum_type": "sha1",
     "iso_url": "https://software-download.microsoft.com/download/pr/19041.264.200511-0456.vb_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",

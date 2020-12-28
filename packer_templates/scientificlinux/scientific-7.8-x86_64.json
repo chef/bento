@@ -168,7 +168,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "64eb2df3616cc1f4c278eb553dccc721bfb9a5aad3f5b5dcc677e709ad8a8b4e",
     "iso_name": "SL-7-DVD-x86_64.iso",
     "ks_path": "7/ks.cfg",

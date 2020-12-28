@@ -272,7 +272,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "2",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "b23488689e16cad7a269eb2d3a3bf725d3457ee6b0868e00c8762d3816e25848",
     "iso_name": "ubuntu-16.04.7-server-amd64.iso",
     "memory": "1024",

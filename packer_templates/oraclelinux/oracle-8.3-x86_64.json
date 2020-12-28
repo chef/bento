@@ -164,7 +164,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "771e383adfd5406d1a360ff24822011a88cbb45b6019e2f1095758c46a406aaa",
     "iso_name": "OracleLinux-R8-U3-x86_64-dvd.iso",
     "ks_path": "8/ks.cfg",

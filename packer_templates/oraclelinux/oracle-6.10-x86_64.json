@@ -169,7 +169,7 @@
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
-    "hyperv_switch": "{{env `hyperv_switch`}}",
+    "hyperv_switch": "bento",
     "iso_checksum": "c32e2a7c8eb471db731741f1a30be37e49deda8ce961710273a71b26c9a04a36",
     "iso_name": "OracleLinux-R6-U9-Server-x86_64-dvd.iso",
     "ks_path": "6/ks.cfg",
