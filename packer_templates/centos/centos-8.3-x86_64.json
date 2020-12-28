@@ -1,9 +1,7 @@
 {
   "builders": [
     {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{ user `boot_command` }}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -27,9 +25,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{ user `boot_command` }}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -54,9 +50,7 @@
       "vmx_remove_ethernet_interfaces": true
     },
     {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -78,7 +72,7 @@
     },
     {
       "boot_command": [
-        "<wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
+        "<wait5><up><wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
       ],
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
@@ -103,9 +97,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{ user `boot_command` }}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -178,6 +170,7 @@
     "name": "centos-8.3",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-8.3-x86_64",
+    "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
 }

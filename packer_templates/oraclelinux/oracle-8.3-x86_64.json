@@ -1,9 +1,7 @@
 {
   "builders": [
     {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{ user `boot_command` }}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -74,7 +72,7 @@
     },
     {
       "boot_command": [
-        "<wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
+        "<wait5><up><wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
       ],
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
@@ -99,9 +97,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
+      "boot_command": "{{ user `boot_command` }}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
