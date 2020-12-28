@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bento"
-  s.version = Ohai::VERSION
+  s.version = "1.0"
   s.summary = "Bento builds generic Vagrant boxes "
   s.description = s.summary
   s.license = "Apache-2.0"
