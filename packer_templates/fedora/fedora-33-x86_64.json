@@ -148,6 +148,7 @@
         "{{template_dir}}/../_common/vagrant.sh",
         "{{template_dir}}/scripts/real-tmp.sh",
         "{{template_dir}}/scripts/cleanup.sh",
+        "{{template_dir}}/scripts/crypto-policy.sh",
         "{{template_dir}}/../_common/minimize.sh"
       ],
       "type": "shell"
