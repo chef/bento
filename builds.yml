@@ -1,5 +1,6 @@
 ---
 public:
+- 'almalinux-8.3'
 - 'amazon-2'
 - 'centos-6.10-i386'
 - 'centos-6.10'
@@ -31,6 +32,7 @@ public:
 
 # slug box name: text string from standard box name to match (generally the same)
 slugs:
+  'almalinux-8': 'almalinux-8'
   'centos-6': 'centos-6'
   'centos-7': 'centos-7'
   'centos-8': 'centos-8'
