@@ -15,8 +15,6 @@ public:
 - 'fedora-33'
 - 'freebsd-11.4-i386'
 - 'freebsd-11.4'
-- 'freebsd-12.1-i386'
-- 'freebsd-12.1'
 - 'freebsd-12.2-i386'
 - 'freebsd-12.2'
 - 'opensuse-leap-15.2'
