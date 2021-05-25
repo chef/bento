@@ -25,8 +25,6 @@ public:
 - 'oracle-8.3'
 - 'scientific-7.8'
 - 'springdalelinux-7.9'
-- 'ubuntu-16.04-i386'
-- 'ubuntu-16.04'
 - 'ubuntu-18.04'
 - 'ubuntu-20.04'
 - 'ubuntu-20.10'
