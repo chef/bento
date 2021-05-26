@@ -148,7 +148,7 @@
     }
   ],
   "variables": {
-    "box_basename": "rocky-8.3",
+    "box_basename": "rockylinux-8.3",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"2019102650405\"}}",
     "cpus": "2",
@@ -167,9 +167,9 @@
     "memory": "1024",
     "mirror": "http://download.rockylinux.org/pub/rocky",
     "mirror_directory": "8.3/isos/x86_64",
-    "name": "rocky-8.3",
+    "name": "rockylinux-8.3",
     "no_proxy": "{{env `no_proxy`}}",
-    "template": "rocky-8.3-x86_64",
+    "template": "rockylinux-8.3-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }

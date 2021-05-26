@@ -23,11 +23,13 @@ public:
 - 'oracle-6.10'
 - 'oracle-7.9'
 - 'oracle-8.3'
+- 'rockylinux-8.3'
 - 'scientific-7.8'
 - 'springdalelinux-7.9'
 - 'ubuntu-18.04'
 - 'ubuntu-20.04'
 - 'ubuntu-20.10'
+- 'ubuntu-21.04'
 
 # slug box name: text string from standard box name to match (generally the same)
 slugs:
@@ -40,6 +42,7 @@ slugs:
   'oracle-6': 'oracle-6'
   'oracle-7': 'oracle-7'
   'oracle-8': 'oracle-8'
+  'rockylinux-8': 'rockylinux-8'
   'scientific-7': 'scientific-7'
   'springdalelinux-7': 'springdalelinux-7'
   'freebsd-11': 'freebsd-11'
