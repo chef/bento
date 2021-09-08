@@ -5,7 +5,7 @@ public:
 - 'centos-6.10-i386'
 - 'centos-6.10'
 - 'centos-7.9'
-- 'centos-8.3'
+- 'centos-8.4'
 - 'centos-stream-8'
 - 'debian-9.13-i386'
 - 'debian-9.13'
