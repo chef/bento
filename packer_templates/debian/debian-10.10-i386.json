@@ -207,7 +207,7 @@
     "iso_checksum": "cf824084643fb82f74d1fbec804baaf74539dadd279af2098da94254f758e5b7",
     "iso_name": "debian-10.10.0-i386-netinst.iso",
     "memory": "1024",
-    "mirror": "http://cdimage.debian.org/cdimage/release",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "10.10.0/i386/iso-cd",
     "name": "debian-10.10-i386",
     "no_proxy": "{{env `no_proxy`}}",
