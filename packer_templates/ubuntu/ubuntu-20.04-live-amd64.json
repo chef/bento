@@ -41,20 +41,15 @@
         },
         {
             "boot_command": [
-                " <wait>",
-                " <wait>",
-                " <wait>",
-                " <wait>",
-                " <wait>",
+                "<escOn><wait5><escOff><enter><wait>",
+                "<esc><wait5>",
+                "<enter><wait>",
+                "<f6><wait5>",
                 "<esc><wait>",
-                "<f6><wait>",
-                "<esc><wait>",
-                "<bs><bs><bs><bs><wait>",
-                " autoinstall<wait5>",
-                " ds=nocloud-net<wait5>",
-                ";s=http://<wait5>{{.HTTPIP}}<wait5>:{{.HTTPPort}}/<wait5>",
-                " ---<wait5>",
-                "<enter><wait5>"
+                "<bs><bs><bs><bs>",
+                "autoinstall ds=nocloud-net;s=http://<wait5>{{.HTTPIP}}<wait5>:{{.HTTPPort}}/<wait5>",
+                " ---",
+                "<enter>"
             ],
             "boot_wait": "5s",
             "cpus": "{{ user `cpus` }}",
