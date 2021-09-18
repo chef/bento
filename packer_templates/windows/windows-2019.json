@@ -32,6 +32,8 @@
       "guest_additions_url": "{{ user `guest_additions_url` }}",
       "guest_os_type": "Windows2016_64",
       "hard_drive_interface": "sata",
+      "iso_interface": "ide",
+      "guest_additions_interface": "sata",
       "headless": "{{ user `headless` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_interface": "sata",
