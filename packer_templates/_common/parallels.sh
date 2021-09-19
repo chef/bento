@@ -6,7 +6,11 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 case "$PACKER_BUILDER_TYPE" in
 parallels-iso|parallels-pvm)
     mkdir -p /tmp/parallels;
-    mount -o loop $HOME_DIR/prl-tools-lin.iso /tmp/parallels;
+    if [ `uname -m` = "aarch64" ] ; then
+        mount -o loop $HOME_DIR/prl-tools-lin-arm.iso /tmp/parallels;
+    else
+        mount -o loop $HOME_DIR/prl-tools-lin.iso /tmp/parallels;
+    fi
     VER="`cat /tmp/parallels/version`";
 
     echo "Parallels Tools Version: $VER";
