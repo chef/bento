@@ -121,7 +121,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -178,6 +182,7 @@
     "mirror_directory": "OL7/u9/x86_64",
     "name": "oracle-7.9",
     "no_proxy": "{{env `no_proxy`}}",
+    "qemu_display": "none",
     "template": "oracle-7.9-x86_64",
     "version": "TIMESTAMP"
   }

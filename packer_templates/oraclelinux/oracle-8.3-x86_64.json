@@ -113,7 +113,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -169,6 +173,7 @@
     "mirror_directory": "OL8/u3/x86_64",
     "name": "oracle-8.3",
     "no_proxy": "{{env `no_proxy`}}",
+    "qemu_display": "none",
     "template": "oracle-8.3-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"

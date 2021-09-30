@@ -156,7 +156,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -212,6 +216,7 @@
     "name": "debian-11.0-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
+    "qemu_display": "none",
     "template": "debian-11.0-i386",
     "version": "TIMESTAMP"
   }

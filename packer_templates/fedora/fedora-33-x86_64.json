@@ -25,7 +25,11 @@
       "ssh_timeout": "3600s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     },
     {
       "boot_command": "{{user `boot_command`}}",
@@ -117,7 +121,10 @@
       "ssh_username": "vagrant",
       "type": "qemu",
       "vm_name": "{{ user `template` }}",
-      "qemuargs": [["{{ user `qemuargs_opt` }}","{{ user `qemuargs_value` }}"]]
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -175,9 +182,8 @@
     "mirror_directory": "releases/33/Server/x86_64/iso",
     "name": "fedora-33",
     "no_proxy": "{{env `no_proxy`}}",
+    "qemu_display": "none",
     "template": "fedora-33-x86_64",
-    "qemuargs_opt": "-m",
-    "qemuargs_value": "1024M",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }

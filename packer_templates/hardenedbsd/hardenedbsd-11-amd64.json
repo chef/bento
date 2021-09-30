@@ -147,7 +147,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -197,6 +201,7 @@
     "mirror_directory": "pub/hardenedbsd/11-stable/amd64/amd64/build-3",
     "name": "hardenedbsd-11",
     "no_proxy": "{{env `no_proxy`}}",
+    "qemu_display": "none",
     "template": "hardenedbsd-11-amd64",
     "version": "TIMESTAMP"
   }

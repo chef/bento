@@ -149,7 +149,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -207,6 +211,7 @@
     "mirror": "./packer_cache",
     "name": "sles-15",
     "packages_iso": "SLE-15-Packages-x86_64-GM-DVD1.iso",
+    "qemu_display": "none",
     "template": "sles-15-x86_64",
     "version": "TIMESTAMP"
   }

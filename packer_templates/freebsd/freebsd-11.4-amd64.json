@@ -147,7 +147,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -200,6 +204,7 @@
     "name": "freebsd-11.4",
     "no_proxy": "{{env `no_proxy`}}",
     "pkg_branch": "quarterly",
+    "qemu_display": "none",
     "template": "freebsd-11.4-amd64",
     "version": "TIMESTAMP"
   }

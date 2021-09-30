@@ -111,7 +111,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     }
   ],
   "post-processors": [
@@ -167,6 +171,7 @@
     "memory": "1024",
     "mirror": "./packer_cache",
     "name": "sles-11-sp4",
+    "qemu_display": "none",
     "template": "sles-11-sp4-x86_64",
     "version": "TIMESTAMP"
   }
