@@ -184,7 +184,11 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}"
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
     },
     {
       "boot_command": [
@@ -276,6 +280,7 @@
     "name": "ubuntu-20.04",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
+    "qemu_display": "none",
     "template": "ubuntu-20.04-amd64",
     "version": "TIMESTAMP"
   }

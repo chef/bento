@@ -51,6 +51,10 @@
         [
           "-bios",
           "{{ user `qemu_bios` }}"
+        ],
+        [
+          "-display",
+          "{{ user `qemu_display` }}"
         ]
       ],
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
@@ -150,6 +154,7 @@
     "winrm_timeout": "6h",
     "working_directory": "",
     "qemu_bios": "/usr/share/OVMF/OVMF_CODE.fd",
+    "qemu_display": "none",
     "disk_interface": "ide",
     "boot_wait": "10s",
     "cd_files": "{{template_dir}}/answer_files/10/Autounattend.xml"

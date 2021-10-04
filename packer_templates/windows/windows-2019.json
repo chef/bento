@@ -141,6 +141,10 @@
         [
           "-drive",
           "file={{ user `build_directory` }}/packer-{{ user `template` }}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"
+        ],
+        [
+          "-display",
+          "{{ user `qemu_display` }}"
         ]
       ],
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
@@ -227,6 +231,7 @@
     "iso_checksum": "3022424f777b66a698047ba1c37812026b9714c5",
     "iso_url": "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",
     "memory": "4096",
+    "qemu_display": "none",
     "template": "windows-2019-standard",
     "unattended_file_path": "2019/Autounattend.xml",
     "virtio_win_iso": "~/virtio-win.iso"

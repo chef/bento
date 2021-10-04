@@ -138,6 +138,7 @@
     "memory": "2048",
     "mirror": "./packer_cache",
     "name": "solaris-11.3",
+    "qemu_display": "none",
     "template": "solaris-11.3-x86",
     "version": "TIMESTAMP"
   }
