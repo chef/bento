@@ -141,6 +141,14 @@
         [
           "-device",
           "scsi-cd,bus=scsi1.0,drive=cdrom1"
+        ],
+        [
+          "-m",
+          "{{ user `memory` }}"
+        ],
+        [
+          "-display",
+          "{{ user `qemu_display` }}"
         ]
       ],
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
@@ -149,11 +157,7 @@
       "ssh_timeout": "10000s",
       "ssh_username": "vagrant",
       "type": "qemu",
-      "vm_name": "{{ user `template` }}",
-      "qemuargs": [
-        [ "-m", "{{ user `memory` }}" ],
-        [ "-display", "{{ user `qemu_display` }}" ]
-      ]
+      "vm_name": "{{ user `template` }}"
     }
   ],
   "post-processors": [
