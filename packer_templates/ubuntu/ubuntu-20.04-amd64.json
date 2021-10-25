@@ -243,7 +243,7 @@
         "iso_name": "ubuntu-20.04.2-live-server-amd64.iso",
         "memory": "1024",
         "mirror": "http://releases.ubuntu.com",
-        "mirror_directory": "releases/20.04/release",
+        "mirror_directory": "focal",
         "name": "ubuntu-20.04",
         "no_proxy": "{{env `no_proxy`}}",
         "preseed_path": "preseed.cfg",
