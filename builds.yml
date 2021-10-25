@@ -26,6 +26,8 @@ public:
 - 'rockylinux-8.4'
 - 'scientific-7.9'
 - 'springdalelinux-7.9'
+- 'ubuntu-16.04-i386'
+- 'ubuntu-16.04'
 - 'ubuntu-18.04'
 - 'ubuntu-20.04'
 - 'ubuntu-20.10'
