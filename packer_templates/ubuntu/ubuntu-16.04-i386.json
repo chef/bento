@@ -276,7 +276,7 @@
     "iso_name": "ubuntu-16.04.6-server-i386.iso",
     "memory": "1024",
     "mirror": "http://releases.ubuntu.com",
-    "mirror_directory": "16.04.6",
+    "mirror_directory": "16.04",
     "name": "ubuntu-16.04-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
