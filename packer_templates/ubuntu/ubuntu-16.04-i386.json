@@ -275,7 +275,7 @@
     "iso_checksum": "7509cabb2f9f6ba0a95f8454d432be2ef26679d31ce35baa626acc5321460fab",
     "iso_name": "ubuntu-16.04.6-server-i386.iso",
     "memory": "1024",
-    "mirror": "http://releases.ubuntu.com/releases",
+    "mirror": "http://releases.ubuntu.com",
     "mirror_directory": "16.04.6",
     "name": "ubuntu-16.04-i386",
     "no_proxy": "{{env `no_proxy`}}",
