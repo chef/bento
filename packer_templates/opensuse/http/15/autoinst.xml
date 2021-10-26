@@ -133,7 +133,6 @@
     <start_firewall config:type="boolean">false</start_firewall>
   </firewall>
   <software>
-    <image />
     <instsource />
     <packages config:type="list">
       <package>grub2</package>
@@ -147,7 +146,6 @@
       <package>yast2-trans-en_US</package>
       <package>wget</package>
       <package>curl</package>
-      <package>grub2-branding-openSUSE</package>
       <package>less</package>
       <package>openssh</package>
       <package>openssh-server</package>
