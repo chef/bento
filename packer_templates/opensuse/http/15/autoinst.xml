@@ -106,17 +106,25 @@
     <ipv6 config:type="boolean">false</ipv6>
     <keep_install_network config:type="boolean">true</keep_install_network>
     <dns>
-      <dhcp_hostname config:type="boolean">true</dhcp_hostname>
-      <dhcp_resolv config:type="boolean">true</dhcp_resolv>
-      <domain>vagrantup.com</domain>
-      <hostname>opensuse-leap-x64</hostname>
+      <dhcp_hostname config:type="boolean">false</dhcp_hostname>
+      <domain>localdomain</domain>
+      <hostname>opensuse15.localdomain</hostname>
     </dns>
     <interfaces config:type="list">
       <interface>
         <bootproto>dhcp</bootproto>
+        <device>enp0s3</device>
+        <startmode>hotplug</startmode>
+      </interface>
+      <interface>
+        <bootproto>dhcp</bootproto>
+        <device>ens33</device>
+        <startmode>hotplug</startmode>
+      </interface>
+      <interface>
+        <bootproto>dhcp</bootproto>
         <device>eth0</device>
-        <startmode>auto</startmode>
-        <usercontrol>no</usercontrol>
+        <startmode>hotplug</startmode>
       </interface>
     </interfaces>
   </networking>
@@ -157,7 +165,7 @@
     </remove-packages>
   </software>
   <services-manager>
-    <default_target>graphical</default_target>
+    <default_target>multi-user</default_target>
     <services>
       <disable config:type="list" />
       <enable config:type="list">
