@@ -63,6 +63,20 @@
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
       "parallels_tools_flavor": "lin",
       "prlctl_version_file": ".prlctl_version",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--3d-accelerate",
+          "off"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--videosize",
+          "16"
+        ]
+      ],
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "vagrant",
       "ssh_port": 22,
