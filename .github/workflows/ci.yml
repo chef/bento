@@ -1,0 +1,59 @@
+---
+
+name: Packer
+
+on:
+  push:
+
+jobs:
+  windows-build-cookbook-cookstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Chef
+        uses: actionshub/chef-install@main
+        env:
+          CHEF_LICENSE: accept-no-persist
+      - name: Run Cookstyle
+        run: cookstyle packer_templates/windows/cookbooks
+
+  enumerate_templates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: enumerate-templates
+        shell: pwsh
+        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path packer_templates -Include *.json -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
+        id: enumerate-templates
+
+    outputs:
+      matrix: ${{ steps.enumerate-templates.outputs.matrix }}
+
+  packer-validate:
+    needs: enumerate_templates
+
+    runs-on: ubuntu-latest
+    name: packer
+
+    strategy:
+      matrix:
+        template: ${{ fromJson(needs.enumerate_templates.outputs.matrix) }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Fix Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: fix
+          target: "packer_templates/${{ matrix.template }}"
+
+      - name: Validate Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: "packer_templates/${{ matrix.template }}"
