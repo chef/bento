@@ -197,7 +197,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-10.10",
+    "box_basename": "debian-10.11",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -208,16 +208,16 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "c433254a7c5b5b9e6a05f9e1379a0bd6ab3323f89b56537b684b6d1bd1f8b6ad",
-    "iso_name": "debian-10.10.0-amd64-netinst.iso",
+    "iso_checksum": "133430141272d8bf96cfb10b6bfd1c945f5a59ea0efc2bcb56d1033c7f2866ea",
+    "iso_name": "debian-10.11.0-amd64-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
-    "mirror_directory": "10.10.0/amd64/iso-cd",
-    "name": "debian-10.10",
+    "mirror_directory": "10.11.0/amd64/iso-cd",
+    "name": "debian-10.11",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
-    "template": "debian-10.10-amd64",
+    "template": "debian-10.11-amd64",
     "version": "TIMESTAMP"
   }
 }
