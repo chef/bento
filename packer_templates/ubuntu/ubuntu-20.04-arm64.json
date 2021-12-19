@@ -65,7 +65,7 @@
         }
     ],
     "variables": {
-        "box_basename": "ubuntu-20.04-live",
+        "box_basename": "ubuntu-20.04-arm64",
         "build_directory": "../../builds",
         "build_timestamp": "{{isotime \"20060102150405\"}}",
         "cpus": "2",
@@ -83,10 +83,10 @@
         "memory": "1024",
         "mirror": "http://cdimage.ubuntu.com",
         "mirror_directory": "releases/20.04/release",
-        "name": "ubuntu-20.04-live",
+        "name": "ubuntu-20.04-arm64",
         "no_proxy": "{{env `no_proxy`}}",
         "preseed_path": "preseed.cfg",
-        "template": "ubuntu-20.04-live-arm64",
+        "template": "ubuntu-20.04-arm64",
         "version": "TIMESTAMP"
     }
 }

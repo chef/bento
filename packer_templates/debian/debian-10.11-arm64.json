@@ -76,7 +76,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-10.11",
+    "box_basename": "debian-10.11-arm64",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -92,7 +92,7 @@
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
     "mirror_directory": "10.11.0/arm64/iso-cd",
-    "name": "debian-10.11",
+    "name": "debian-10.11-arm64",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
