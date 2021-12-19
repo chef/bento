@@ -167,7 +167,7 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-8.4",
+    "box_basename": "centos-8.5",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"2019102650405\"}}",
     "cpus": "2",
@@ -180,16 +180,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "0394ecfa994db75efc1413207d2e5ac67af4f6685b3b896e2837c682221fd6b2",
-    "iso_name": "CentOS-8.4.2105-x86_64-dvd1.iso",
+    "iso_checksum": "3b795863001461d4f670b0dedd02d25296b6d64683faceb8f2b60c53ac5ebb3e",
+    "iso_name": "CentOS-8.5.2111-x86_64-dvd1.iso",
     "ks_path": "8/ks.cfg",
     "memory": "1024",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "8.4.2105/isos/x86_64",
-    "name": "centos-8.4",
+    "mirror_directory": "8.5.2111/isos/x86_64",
+    "name": "centos-8.5",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "centos-8.4-x86_64",
+    "template": "centos-8.5-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
