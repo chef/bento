@@ -197,7 +197,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-11.1-i386",
+    "box_basename": "debian-11.2-i386",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -208,16 +208,16 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "c08215e95f510905f132de558291487f4a8cdddde2a73632e93e889b78063f06",
-    "iso_name": "debian-11.1.0-i386-netinst.iso",
+    "iso_checksum": "14f7758c2ee5d33b751d0dd7d00c77c6482f9b3be59ea39da9338aa07a062972",
+    "iso_name": "debian-11.2.0-i386-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "11.1.0/i386/iso-cd",
-    "name": "debian-11.1-i386",
+    "mirror_directory": "11.2.0/i386/iso-cd",
+    "name": "debian-11.2-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
-    "template": "debian-11.1-i386",
+    "template": "debian-11.2-i386",
     "version": "TIMESTAMP"
   }
 }
