@@ -1,0 +1,103 @@
+---
+
+name: Packer
+
+on:
+  push:
+
+jobs:
+  windows-build-cookbook-cookstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Chef
+        uses: actionshub/chef-install@main
+        env:
+          CHEF_LICENSE: accept-no-persist
+      - name: Run Cookstyle
+        run: cookstyle packer_templates/windows/cookbooks
+
+  enumerate_packer_templates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: enumerate_packer_templates
+        shell: pwsh
+        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path packer_templates -Include *.json -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
+        id: enumerate_packer_templates
+
+    outputs:
+      matrix: ${{ steps.enumerate_packer_templates.outputs.matrix }}
+
+  packer-validate:
+    needs: enumerate_packer_templates
+
+    runs-on: ubuntu-latest
+    name: packer-validate
+
+    strategy:
+      fail-fast: false
+      matrix:
+        template: ${{ fromJson(needs.enumerate_packer_templates.outputs.matrix) }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Fix Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: fix
+          target: "packer_templates/${{ matrix.template }}"
+
+      - name: Validate Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: "packer_templates/${{ matrix.template }}"
+
+  enumerate_iso_validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: enumerate_iso_validation
+        env:
+          EXCLUDE: 'amazon-2*,rhel*,sles*,solaris*'
+        shell: pwsh
+        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path packer_templates -Include *.json -Exclude ${{ env.EXCLUDE }} -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
+        id: enumerate_iso_validation
+
+    outputs:
+      matrix: ${{ steps.enumerate_iso_validation.outputs.matrix }}
+
+  iso-availability:
+    needs: enumerate_iso_validation
+
+    runs-on: ubuntu-latest
+    name: iso-validate
+
+    strategy:
+      fail-fast: false
+      matrix:
+        template: ${{ fromJson(needs.enumerate_iso_validation.outputs.matrix) }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: iso-availability
+        shell: pwsh
+        run: |
+          $(Get-Content "packer_templates/${{ matrix.template }}" | ConvertFrom-Json ) | 
+            Foreach-Object {
+              if($_.variables.iso_url){
+                $_.variables.iso_url
+              }else{
+                '{0}/{1}/{2}' -f $_.variables.mirror,$_.variables.mirror_directory,$_.variables.iso_name
+              }
+            } | Foreach-Object {
+              Invoke-RestMethod -Uri $_ -Method Head -Verbose
+            }
