@@ -17,6 +17,7 @@ public:
 - 'freebsd-11.4'
 - 'freebsd-12.2-i386'
 - 'freebsd-12.2'
+- 'freebsd-12.3'
 - 'freebsd-13.0'
 - 'opensuse-leap-15.3'
 - 'oracle-6.10-i386'
