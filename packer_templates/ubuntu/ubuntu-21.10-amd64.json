@@ -257,7 +257,7 @@
         }
     ],
     "variables": {
-        "box_basename": "ubuntu-20.10",
+        "box_basename": "ubuntu-21.10",
         "build_directory": "../../builds",
         "build_timestamp": "{{isotime \"20060102150405\"}}",
         "cpus": "2",
@@ -270,16 +270,16 @@
         "https_proxy": "{{env `https_proxy`}}",
         "hyperv_generation": "2",
         "hyperv_switch": "bento",
-        "iso_checksum": "defdc1ad3af7b661fe2b4ee861fb6fdb5f52039389ef56da6efc05e6adfe3d45",
-        "iso_name": "ubuntu-20.10-live-server-amd64.iso",
+        "iso_checksum": "e84f546dfc6743f24e8b1e15db9cc2d2c698ec57d9adfb852971772d1ce692d4",
+        "iso_name": "ubuntu-21.10-live-server-amd64.iso",
         "memory": "1024",
         "mirror": "http://releases.ubuntu.com",
-        "mirror_directory": "groovy",
-        "name": "ubuntu-20.10",
+        "mirror_directory": "impish",
+        "name": "ubuntu-21.10",
         "no_proxy": "{{env `no_proxy`}}",
         "preseed_path": "preseed.cfg",
         "qemu_display": "none",
-        "template": "ubuntu-20.10-amd64",
+        "template": "ubuntu-21.10-amd64",
         "version": "TIMESTAMP"
     }
 }
