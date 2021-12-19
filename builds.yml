@@ -1,6 +1,6 @@
 ---
 public:
-- 'almalinux-8.4'
+- 'almalinux-8.5'
 - 'amazon-2'
 - 'centos-7.9'
 - 'centos-8.5'
@@ -27,7 +27,7 @@ public:
 - 'oracle-6.10'
 - 'oracle-7.9'
 - 'oracle-8.3'
-- 'rockylinux-8.4'
+- 'rockylinux-8.5'
 - 'scientific-7.9'
 - 'springdalelinux-7.9'
 - 'ubuntu-16.04-i386'
