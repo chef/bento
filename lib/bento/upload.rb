@@ -67,7 +67,7 @@ class UploadRunner
   #
   def lookup_slug(name)
     builds_yml["slugs"].each_pair do |slug, match_string|
-      return slug if name.start_with?(match_string) && !name.include?("i386")
+      return slug if name.start_with?(match_string) && !(name.include?("i386") || name.include?("arm64"))
     end
 
     nil
