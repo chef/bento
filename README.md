@@ -138,7 +138,7 @@ These basebox templates were converted from [veewee](https://github.com/jedi4eve
 - Author: Tom Duffield ([tom@chef.io](mailto:tom@chef.io))
 
 ```text
-Copyright 2012-2020, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2021, Chef Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
