@@ -1,7 +1,5 @@
 # Bento
 
-[![Build status](https://badge.buildkite.com/2d56b8ca08562a7d17fd25920a2e02079c5e6f28cbc6d426ee.svg?branch=master)](https://buildkite.com/chef-oss/chef-bento-master-verify)
-
 Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. These published boxes serve as the default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
 
 ### Using Public Boxes
