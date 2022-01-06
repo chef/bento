@@ -145,6 +145,7 @@
       "expect_disconnect": true,
       "scripts": [
         "{{template_dir}}/scripts/fix-slow-dns.sh",
+        "{{template_dir}}/scripts/update.sh",
         "{{template_dir}}/scripts/build-tools.sh",
         "{{template_dir}}/scripts/install-supporting-packages.sh",
         "{{template_dir}}/../_common/motd.sh",
