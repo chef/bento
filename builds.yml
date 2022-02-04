@@ -29,6 +29,7 @@ public:
 - 'rockylinux-8.5'
 - 'scientific-7.9'
 - 'springdalelinux-7.9'
+- 'springdalelinux-8.5'
 - 'ubuntu-16.04-i386'
 - 'ubuntu-16.04'
 - 'ubuntu-18.04'
@@ -55,3 +56,4 @@ slugs:
   'rockylinux-8': 'rockylinux-8'
   'scientific-7': 'scientific-7'
   'springdalelinux-7': 'springdalelinux-7'
+  'springdalelinux-8': 'springdalelinux-8'
