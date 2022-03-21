@@ -34,6 +34,22 @@ end
 
 \***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
+#### Using `bento` executable
+To build a Debian vagrant box using the bento tool with the template available in the `packer_templates` dir, we can use the following command:
+
+```
+bento build --cpus 2 packer_templates/debian/debian-11.2-i386.json
+```
+
+Other available options:
+- cpus - Specify the number of CUPs needed in the new build.
+- mem - Specify the memory
+- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration.
+- dry-run - This will not create any build, but will create a metadata file for reference.
+- debug - Print the debug logs
+- headed - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
+- single - This can be used to disable the parallel builds.
+
 #### Using `packer`
 
 To build an Ubuntu 18.04 box for only the VirtualBox provider
@@ -107,6 +123,13 @@ Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resou
 
 - `autounattend.xml`: The Gen 2 `autounattend.xml` file supports EFI partitions. Update the `autounattend.xml` with the correct Windows version for your systems and ensure that the partitions are correct for your situation. You also need to manage the driver disk that holds the hyper-v guest services drivers and adjust the `autounattend.xml` file as appropriate.
 - `base_setup.ps1`
+
+### Testing the build with the test-kitchen
+If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Place your `kitchen.yml.erb` and `bootstrap.sh.erb` files inside the `templates` directory and run the following command to test the build.
+
+```
+bento test
+```
 
 ## Bugs and Issues
 
