@@ -42,7 +42,7 @@ bento build --cpus 2 packer_templates/debian/debian-11.2-i386.json
 ```
 
 Other available options:
-- cpus - Specify the number of CUPs needed in the new build.
+- cpus - Specify the number of CPUs needed in the new build.
 - mem - Specify the memory
 - mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration.
 - dry-run - This will not create any build, but will create a metadata file for reference.
