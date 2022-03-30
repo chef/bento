@@ -38,7 +38,7 @@ end
 To build a Debian vagrant box using the bento tool with the template available in the `packer_templates` dir, we can use the following command:
 
 ```
-bento build --cpus 2 packer_templates/debian/debian-11.2-i386.json
+bento build --cpus 2 packer_templates/debian/debian-11.3-i386.json
 ```
 
 Other available options:
@@ -59,11 +59,11 @@ $ cd packer_templates/ubuntu
 $ packer build -only=virtualbox-iso ubuntu-18.04-amd64.json
 ```
 
-To build Debian 11.2 32bit boxes for all possible providers (simultaneously)
+To build Debian 11.3 32bit boxes for all possible providers (simultaneously)
 
 ```
 $ cd packer_templates/debian
-$ packer build debian-11.2-i386.json
+$ packer build debian-11.3-i386.json
 ```
 
 To build CentOS 7.7 boxes for all providers except VMware and Parallels
