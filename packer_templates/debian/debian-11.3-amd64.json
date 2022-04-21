@@ -1,24 +1,7 @@
 {
   "builders": [
     {
-      "boot_command": [
-        "<esc><wait>",
-        "install <wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
-        "debian-installer=en_US.UTF-8 <wait>",
-        "auto <wait>",
-        "locale=en_US.UTF-8 <wait>",
-        "kbd-chooser/method=us <wait>",
-        "keyboard-configuration/xkb-keymap=us <wait>",
-        "netcfg/get_hostname={{ .Name }} <wait>",
-        "netcfg/get_domain=vagrantup.com <wait>",
-        "fb=false <wait>",
-        "debconf/frontend=noninteractive <wait>",
-        "console-setup/ask_detect=false <wait>",
-        "console-keymaps-at/keymap=us <wait>",
-        "grub-installer/bootdev=/dev/sda <wait>",
-        "<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -42,24 +25,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<esc><wait>",
-        "install <wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
-        "debian-installer=en_US.UTF-8 <wait>",
-        "auto <wait>",
-        "locale=en_US.UTF-8 <wait>",
-        "kbd-chooser/method=us <wait>",
-        "keyboard-configuration/xkb-keymap=us <wait>",
-        "netcfg/get_hostname={{ .Name }} <wait>",
-        "netcfg/get_domain=vagrantup.com <wait>",
-        "fb=false <wait>",
-        "debconf/frontend=noninteractive <wait>",
-        "console-setup/ask_detect=false <wait>",
-        "console-keymaps-at/keymap=us <wait>",
-        "grub-installer/bootdev=/dev/sda <wait>",
-        "<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -85,24 +51,7 @@
       "vmx_remove_ethernet_interfaces": true
     },
     {
-      "boot_command": [
-        "<esc><wait>",
-        "install <wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
-        "debian-installer=en_US.UTF-8 <wait>",
-        "auto <wait>",
-        "locale=en_US.UTF-8 <wait>",
-        "kbd-chooser/method=us <wait>",
-        "keyboard-configuration/xkb-keymap=us <wait>",
-        "netcfg/get_hostname={{ .Name }} <wait>",
-        "netcfg/get_domain=vagrantup.com <wait>",
-        "fb=false <wait>",
-        "debconf/frontend=noninteractive <wait>",
-        "console-setup/ask_detect=false <wait>",
-        "console-keymaps-at/keymap=us <wait>",
-        "grub-installer/bootdev=/dev/sda <wait>",
-        "<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -123,24 +72,7 @@
       "vm_name": "{{ user `template` }}"
     },
     {
-      "boot_command": [
-        "<esc><wait>",
-        "install <wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
-        "debian-installer=en_US.UTF-8 <wait>",
-        "auto <wait>",
-        "locale=en_US.UTF-8 <wait>",
-        "kbd-chooser/method=us <wait>",
-        "keyboard-configuration/xkb-keymap=us <wait>",
-        "netcfg/get_hostname={{ .Name }} <wait>",
-        "netcfg/get_domain=vagrantup.com <wait>",
-        "fb=false <wait>",
-        "debconf/frontend=noninteractive <wait>",
-        "console-setup/ask_detect=false <wait>",
-        "console-keymaps-at/keymap=us <wait>",
-        "grub-installer/bootdev=/dev/vda <wait>",
-        "<enter><wait>"
-      ],
+      "boot_command": "{{user `boot_command`}}",
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
@@ -159,6 +91,7 @@
       "vm_name": "{{ user `template` }}",
       "qemuargs": [
         [ "-m", "{{ user `memory` }}" ],
+        [ "-bios", "{{ user `qemu_bios` }}" ],
         [ "-display", "{{ user `qemu_display` }}" ]
       ]
     }
@@ -217,7 +150,9 @@
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
+    "qemu_bios": "bios-256k.bin",
     "template": "debian-11.3-amd64",
+    "boot_command": "<esc><wait>install <wait> preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>debian-installer=en_US.UTF-8 <wait>auto <wait>locale=en_US.UTF-8 <wait>kbd-chooser/method=us <wait>keyboard-configuration/xkb-keymap=us <wait>netcfg/get_hostname={{ .Name }} <wait>netcfg/get_domain=vagrantup.com <wait>fb=false <wait>debconf/frontend=noninteractive <wait>console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait>grub-installer/bootdev=default <wait><enter><wait>",
     "version": "TIMESTAMP"
   }
 }
