@@ -1,7 +1,9 @@
 ---
 public:
-- 'almalinux-8.5'
+- 'almalinux-8.6'
+- 'almalinux-9.0'
 - 'amazon-2'
+- 'amazon-2022'
 - 'centos-7.9'
 - 'centos-8.5'
 - 'centos-stream-8'
@@ -40,6 +42,9 @@ public:
 # slug box name: text string from standard box name to match (generally the same)
 slugs:
   'almalinux-8': 'almalinux-8'
+  'almalinux-9': 'almalinux-9'
+  'amazon-2': 'amazon-2'
+  'amazon-2022': 'amazon-2022'
   'centos-7': 'centos-7'
   'centos-8': 'centos-8'
   'debian-11': 'debian-11'

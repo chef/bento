@@ -30,12 +30,12 @@
       "guest_additions_mode": "{{ user `guest_additions_mode` }}",
       "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
       "guest_additions_url": "{{ user `guest_additions_url` }}",
-      "guest_os_type": "Windows2012_64",
+      "guest_os_type": "Windows2019_64",
       "hard_drive_interface": "sata",
-      "headless": "{{ user `headless` }}",
-      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_interface": "ide",
       "guest_additions_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
@@ -67,7 +67,7 @@
       "floppy_files": [
         "{{ user `floppy_dir` }}/{{ user `unattended_file_path` }}"
       ],
-      "guest_os_type": "win-2012",
+      "guest_os_type": "win-2019",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
@@ -108,7 +108,7 @@
       "tools_upload_flavor": "windows",
       "tools_upload_path": "c:/Windows/Temp/vmware.iso",
       "type": "vmware-iso",
-      "version": 11,
+      "version": 14,
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
       "winrm_username": "vagrant"
@@ -175,7 +175,6 @@
         "packer::disable_uac",
         "packer::disable_restore",
         "packer::disable_windows_update",
-        "packer::remove_defender",
         "packer::configure_power",
         "packer::disable_screensaver"
       ],
@@ -228,12 +227,12 @@
     "guest_additions_url": "",
     "headless": "true",
     "hyperv_switch": "bento",
-    "iso_checksum": "922b365c3360ce630f6a4b4f2f3c79e66165c0fb",
-    "iso_url": "http://download.microsoft.com/download/6/D/A/6DAB58BA-F939-451D-9101-7DE07DC09C03/9200.16384.WIN8_RTM.120725-1247_X64FRE_SERVER_EVAL_EN-US-HRM_SSS_X64FREE_EN-US_DV5.ISO",
+    "iso_checksum": "sha256:4f1457c4fe14ce48c9b2324924f33ca4f0470475e6da851b39ccbf98f44e7852",
+    "iso_url": "https://software-download.microsoft.com/download/sg/20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
     "memory": "4096",
     "qemu_display": "none",
-    "template": "windows-2012-standard",
-    "unattended_file_path": "2012/Autounattend.xml",
+    "template": "windows-2022-standard",
+    "unattended_file_path": "2022/Autounattend.xml",
     "virtio_win_iso": "~/virtio-win.iso"
   }
 }

@@ -1,4 +1,4 @@
-{
+  {
   "builders": [
     {
       "boot_command": "{{ user `boot_command` }}",
@@ -153,9 +153,9 @@
       "expect_disconnect": true,
       "scripts": [
         "{{template_dir}}/../centos/scripts/update.sh",
+        "{{template_dir}}/../centos/scripts/networking.sh",
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
-        "{{template_dir}}/../centos/scripts/networking.sh",
         "{{template_dir}}/../_common/vagrant.sh",
         "{{template_dir}}/../_common/virtualbox.sh",
         "{{template_dir}}/../_common/vmware.sh",
@@ -167,9 +167,9 @@
     }
   ],
   "variables": {
-    "box_basename": "rockylinux-8.5",
+    "box_basename": "almalinux-9.0",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"2019102650405\"}}",
+    "build_timestamp": "{{isotime \"202205251531\"}}",
     "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -180,16 +180,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "0081f8b969d0cef426530f6d618b962c7a01e71eb12a40581a83241f22dfdc25",
-    "iso_name": "Rocky-8.5-x86_64-dvd1.iso",
+    "iso_checksum": "6617436f8f2ee5408ff448a4eedce4ce61e2fdb3153a646b875010256bc9fd6b",
+    "iso_name": "AlmaLinux-9.0-x86_64-dvd.iso",
     "ks_path": "8/ks.cfg",
     "memory": "1024",
-    "mirror": "http://download.rockylinux.org/pub/rocky",
-    "mirror_directory": "8.5/isos/x86_64",
-    "name": "rockylinux-8.5",
+    "mirror": "https://repo.almalinux.org/almalinux",
+    "mirror_directory": "9.9/isos/x86_64",
+    "name": "almalinux-9.0",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "rockylinux-8.5-x86_64",
+    "template": "almalinux-9.0-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
