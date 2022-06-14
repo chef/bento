@@ -7,7 +7,6 @@
 
 - almalinux 8.6 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
 - almalinux 9.0 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
-- amazonlinux 2022 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
 - rocklinux 8.6 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
 - windows 11 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
 - windows 2022 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
@@ -17,7 +16,6 @@
 **Fixes and updates:**
 
 - update windows builds to be created in builds folder [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
-- update amazonlinux readme for 2022 version [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
 
 ## [v201812.27.0](https://github.com/chef/bento/tree/v201812.27.0) (2019-01-16)
 [Full Changelog](https://github.com/chef/bento/compare/v201808.24.0...v201812.27.0)
