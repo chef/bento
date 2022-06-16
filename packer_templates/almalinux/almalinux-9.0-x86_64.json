@@ -185,7 +185,7 @@
     "ks_path": "8/ks.cfg",
     "memory": "1024",
     "mirror": "https://repo.almalinux.org/almalinux",
-    "mirror_directory": "9.9/isos/x86_64",
+    "mirror_directory": "9.0/isos/x86_64",
     "name": "almalinux-9.0",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
