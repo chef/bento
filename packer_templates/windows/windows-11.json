@@ -145,7 +145,7 @@
       "tools_upload_flavor": "windows",
       "tools_upload_path": "c:/Windows/Temp/vmware.iso",
       "type": "vmware-iso",
-      "version": 11,
+      "version": 19,
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
       "winrm_username": "vagrant"

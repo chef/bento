@@ -84,7 +84,6 @@
         "packer::disable_uac",
         "packer::disable_restore",
         "packer::disable_windows_update",
-        "packer::remove_defender",
         "packer::configure_power",
         "packer::disable_screensaver"
       ],
