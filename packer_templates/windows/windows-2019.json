@@ -108,7 +108,7 @@
       "tools_upload_flavor": "windows",
       "tools_upload_path": "c:/Windows/Temp/vmware.iso",
       "type": "vmware-iso",
-      "version": 11,
+      "version": 19,
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
       "winrm_username": "vagrant"
@@ -159,7 +159,7 @@
     [
       {
         "keep_input_artifact": true,
-        "output": "{{ user `template` }}-{{.Provider}}.box",
+        "output": "{{ user `build_directory` }}/{{ user `template` }}-{{.Provider}}.box",
         "type": "vagrant",
         "vagrantfile_template": "{{template_dir}}/vagrantfile-windows.template"
       }
@@ -175,7 +175,6 @@
         "packer::disable_uac",
         "packer::disable_restore",
         "packer::disable_windows_update",
-        "packer::remove_defender",
         "packer::configure_power",
         "packer::disable_screensaver"
       ],

@@ -69,7 +69,7 @@
   "post-processors": [
     {
       "keep_input_artifact": true,
-      "output": "{{ user `build_directory` }}/{{.Provider}}_windows-10.box",
+      "output": "{{ user `build_directory` }}/{{.Provider}}_windows-11.box",
       "type": "vagrant",
       "vagrantfile_template": "{{template_dir}}/{{user `template`}}"
     }
@@ -136,9 +136,9 @@
     "guest_additions_mode": "upload",
     "headless": "false",
     "hyperv_switch": "bento",
-    "iso_checksum": "F57E034095E0423FEB575CA82855F73E39FFA713",
-    "iso_checksum_type": "sha1",
-    "iso_url": "https://software-download.microsoft.com/download/pr/19041.264.200511-0456.vb_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "iso_checksum": "684BC16ADBD792EF2F7810158A3F387F23BF95E1AEE5F16270C5B7F56DB753B6",
+    "iso_checksum_type": "sha256",
+    "iso_url": "https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/22000.318.211104-1236.co_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
     "memory": "4096",
     "package_location": "",
     "restart_timeout": "5m",
@@ -149,13 +149,13 @@
     "vagrant_sysprep_unattended": "",
     "vhv_enable": "false",
     "virtio_win_iso": "virtio-win.iso",
-    "vm_name": "windows_10",
+    "vm_name": "windows_11",
     "winrm_timeout": "6h",
     "working_directory": "",
     "qemu_bios": "/usr/share/OVMF/OVMF_CODE.fd",
     "qemu_display": "none",
     "disk_interface": "ide",
     "boot_wait": "10s",
-    "cd_files": "{{template_dir}}/answer_files/10/Autounattend.xml"
+    "cd_files": "{{template_dir}}/answer_files/11/gen2_Autounattend.xml"
   }
 }

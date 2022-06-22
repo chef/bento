@@ -74,7 +74,7 @@
       "ssh_username": "vagrant",
       "tools_upload_flavor": "linux",
       "type": "vmware-iso",
-      "version": "11",
+      "version": 19,
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",

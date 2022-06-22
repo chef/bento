@@ -1,5 +1,22 @@
 # Change Log
 
+## [v202206.14.0](https://github.com/chef/bento/tree/v202206.14.0) (2022-06-14)
+[Full Changelog](https://github.com/chef/bento/compare/v201812.27.0...v202206.14.0)
+
+**New Platforms:**
+
+- almalinux 8.6 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
+- almalinux 9.0 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
+- rocklinux 8.6 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
+- windows 11 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
+- windows 2022 [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
+
+**Deprecated Platforms:**
+
+**Fixes and updates:**
+
+- update windows builds to be created in builds folder [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
+
 ## [v201812.27.0](https://github.com/chef/bento/tree/v201812.27.0) (2019-01-16)
 [Full Changelog](https://github.com/chef/bento/compare/v201808.24.0...v201812.27.0)
 

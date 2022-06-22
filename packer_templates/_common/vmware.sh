@@ -6,39 +6,16 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
 
-    # make sure we have /sbin in our path. RHEL systems lack this
-    PATH=/sbin:$PATH
-    export PATH
+    #!/bin/sh -eux
 
-    mkdir -p /tmp/vmware;
-    mkdir -p /tmp/vmware-archive;
-    mount -o loop $HOME_DIR/linux.iso /tmp/vmware;
+    # determine the major EL version we're runninng
+    major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
 
-    TOOLS_PATH="`ls /tmp/vmware/VMwareTools-*.tar.gz`";
-    VER="`echo "${TOOLS_PATH}" | cut -f2 -d'-'`";
-    MAJ_VER="`echo ${VER} | cut -d '.' -f 1`";
-
-    if [ -f "/bin/dnf" ]; then
-        echo "Installing deps for the vmware tools"
-        dnf install -y perl gcc make kernel-headers kernel-devel
-    elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
-        echo "Installing deps for the vmware tools"
-        yum install -y perl gcc make kernel-headers kernel-devel
-    fi
-
-    echo "VMware Tools Version: $VER";
-
-    echo "Expanding the tools archive"
-    tar xzf ${TOOLS_PATH} -C /tmp/vmware-archive;
-    echo "Installing tools"
-    if [ "${MAJ_VER}" -lt "10" ]; then
-        /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --default;
+    # make sure we use dnf on EL 8+
+    if [ "$major_version" -ge 8 ]; then
+      dnf -y install open-vm-tools
     else
-        /tmp/vmware-archive/vmware-tools-distrib/vmware-install.pl --force-install;
+      yum -y insttall open-vm-tools
     fi
-    umount /tmp/vmware;
-    rm -rf  /tmp/vmware;
-    rm -rf  /tmp/vmware-archive;
-    rm -f $HOME_DIR/*.iso;
     ;;
 esac
