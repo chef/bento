@@ -170,7 +170,7 @@
     "iso_name": "OracleLinux-R8-U6-x86_64-dvd.iso",
     "ks_path": "8/ks.cfg",
     "memory": "1024",
-    "mirror": "https://mirror.netcologne.de/oracle-linux",
+    "mirror": "https://yum.oracle.com/ISOS/OracleLinux",
     "mirror_directory": "OL8/u6/x86_64",
     "name": "oracle-8.6",
     "no_proxy": "{{env `no_proxy`}}",
