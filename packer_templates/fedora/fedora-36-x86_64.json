@@ -24,7 +24,7 @@
       "ssh_port": 22,
       "ssh_timeout": "3600s",
       "ssh_username": "vagrant",
-      "type": "qemu",
+      "type": "libvirt",
       "vm_name": "{{ user `template` }}",
       "qemuargs": [
         [ "-m", "{{ user `memory` }}" ],
@@ -185,7 +185,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
     "template": "fedora-36-x86_64",
-    "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
+    "boot_command": "<up>e<wait><down><down><end> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><f10><wait>",
     "version": "TIMESTAMP"
   }
 }

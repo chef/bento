@@ -24,7 +24,7 @@
       "ssh_port": 22,
       "ssh_timeout": "3600s",
       "ssh_username": "vagrant",
-      "type": "qemu",
+      "type": "libvirt",
       "vm_name": "{{ user `template` }}",
       "qemuargs": [
         [ "-m", "{{ user `memory` }}" ],
