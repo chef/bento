@@ -1,6 +1,7 @@
 {
   "builders": [
     {
+      "libvirt_uri": "qemu:///system",
       "accelerator": "kvm",
       "boot_command": "{{user `boot_command`}}",
       "boot_wait": "5s",
