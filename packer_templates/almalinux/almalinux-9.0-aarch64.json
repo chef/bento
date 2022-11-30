@@ -151,8 +151,22 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
+      "pause_after": "30s",
       "scripts": [
-        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/update.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": false,
+      "scripts": [
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/vagrant.sh",
@@ -183,7 +197,7 @@
     "iso_name": "AlmaLinux-9.0-aarch64-dvd.iso",
     "ks_path": "9/ks.cfg",
     "memory": "1024",
-    "mirror": "http://mirror.cov.ukservers.com/almalinux",
+    "mirror": "https://mirrors.ukfast.co.uk/sites/almalinux.org",
     "mirror_directory": "9.0/isos/aarch64",
     "name": "almalinux-9.0",
     "no_proxy": "{{env `no_proxy`}}",
