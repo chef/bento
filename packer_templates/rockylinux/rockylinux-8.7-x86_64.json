@@ -167,7 +167,7 @@
     }
   ],
   "variables": {
-    "box_basename": "rockylinux-8.6",
+    "box_basename": "rockylinux-8.7",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"202205152221\"}}",
     "cpus": "2",
@@ -180,16 +180,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "1d48e0af63d07ff4e582a1819348e714c694e7fd33207f48879c2bc806960786",
-    "iso_name": "Rocky-8.6-x86_64-dvd1.iso",
+    "iso_checksum": "4827dce1c58560d3ca470a5053e8d86ba059cbb77cfca3b5f6a5863d2aac5b84",
+    "iso_name": "Rocky-8.7-x86_64-dvd1.iso",
     "ks_path": "8/ks.cfg",
     "memory": "1024",
     "mirror": "http://download.rockylinux.org/pub/rocky",
-    "mirror_directory": "8.6/isos/x86_64",
-    "name": "rockylinux-8.6",
+    "mirror_directory": "8.7/isos/x86_64",
+    "name": "rockylinux-8.7",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "rockylinux-8.6-x86_64",
+    "template": "rockylinux-8.7-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }

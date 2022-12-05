@@ -28,7 +28,7 @@ public:
 - 'oracle-7.9'
 - 'oracle-8.6'
 - 'oracle-9.0'
-- 'rockylinux-8.6'
+- 'rockylinux-8.7'
 - 'rockylinux-9.0'
 - 'scientific-7.9'
 - 'springdalelinux-7.9'
