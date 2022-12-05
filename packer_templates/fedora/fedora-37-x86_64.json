@@ -164,7 +164,7 @@
   ],
   "variables": {
     "arch": "64",
-    "box_basename": "fedora-35",
+    "box_basename": "fedora-37",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -175,17 +175,17 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "sha256:3fe521d6c7b12c167f3ac4adab14c1f344dd72136ba577aa2bcc4a67bcce2bc6",
-    "iso_name": "Fedora-Server-dvd-x86_64-35-1.2.iso",
+    "iso_checksum": "sha256:0a4de5157af47b41a07a53726cd62ffabd04d5c1a4afece5ee7c7a84c1213e4f",
+    "iso_name": "Fedora-Server-dvd-x86_64-37-1.7.iso",
     "ks_path": "ks-fedora.cfg",
     "memory": "1024",
     "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
-    "mirror_directory": "releases/35/Server/x86_64/iso",
-    "name": "fedora-35",
+    "mirror_directory": "releases/37/Server/x86_64/iso",
+    "name": "fedora-37",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "fedora-35-x86_64",
-    "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
+    "template": "fedora-37-x86_64",
+    "boot_command": "<up><up>e<wait><down><down><end> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<F10><wait>",
     "version": "TIMESTAMP"
   }
 }
