@@ -171,7 +171,7 @@
     "ks_path": "9/ks.cfg",
     "memory": "1024",
     "mirror": "https://yum.oracle.com/ISOS/OracleLinux",
-    "mirror_directory": "OL9/u0/x86_64",
+    "mirror_directory": "OL9/u1/x86_64",
     "name": "oracle-9.1",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
