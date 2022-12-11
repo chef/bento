@@ -153,7 +153,7 @@
     }
   ],
   "variables": {
-    "box_basename": "oracle-9.0",
+    "box_basename": "oracle-9.1",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"2019102650405\"}}",
     "cpus": "2",
@@ -166,16 +166,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "d5fe339e2f6c4bc157e294bd218eb49c1a920473cae552fb00cfc8978ead3d67",
-    "iso_name": "OracleLinux-R9-U0-x86_64-dvd.iso",
+    "iso_checksum": "a46ac0b717881a2673c7dc981b3219f6dea747e3d6bd18908fcb8c1f42b82786",
+    "iso_name": "OracleLinux-R9-U1-x86_64-dvd.iso",
     "ks_path": "9/ks.cfg",
     "memory": "1024",
     "mirror": "https://yum.oracle.com/ISOS/OracleLinux",
     "mirror_directory": "OL9/u0/x86_64",
-    "name": "oracle-9.0",
+    "name": "oracle-9.1",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "oracle-9.0-x86_64",
+    "template": "oracle-9.1-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
