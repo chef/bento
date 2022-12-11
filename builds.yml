@@ -22,7 +22,7 @@ public:
 - 'freebsd-12.3-i386'
 - 'freebsd-12.3'
 - 'freebsd-13.0'
-- 'opensuse-leap-15.3'
+- 'opensuse-leap-15.4'
 - 'oracle-6.10-i386'
 - 'oracle-6.10'
 - 'oracle-7.9'

@@ -170,7 +170,7 @@
   "variables": {
     "arch": "64",
     "autoinst_cfg": "15/autoinst.xml",
-    "box_basename": "opensuse-leap-15.3",
+    "box_basename": "opensuse-leap-15.4",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -181,15 +181,15 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "e377fff244d36c3a1a03092d6f14230fdae8bd116dff638a2b3a41d89d51390a",
-    "iso_name": "openSUSE-Leap-15.3-2-DVD-x86_64-Current.iso",
+    "iso_checksum": "4683345f242397c7fd7d89a50731a120ffd60a24460e21d2634e783b3c169695",
+    "iso_name": "openSUSE-Leap-15.4-DVD-x86_64-Media.iso",
     "memory": "1024",
-    "mirror": "http://suse.mobile-central.org/distribution",
-    "mirror_directory": "leap/15.3/iso",
-    "name": "opensuse-leap-15.3",
+    "mirror": "http://sfo-korg-mirror.kernel.org/opensuse/distribution",
+    "mirror_directory": "leap/15.4/iso",
+    "name": "opensuse-leap-15.4",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "opensuse-leap-15.3-x86_64",
+    "template": "opensuse-leap-15.4-x86_64",
     "version": "TIMESTAMP"
   }
 }
