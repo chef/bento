@@ -38,7 +38,8 @@ public:
 - 'ubuntu-18.04'
 - 'ubuntu-20.04'
 - 'ubuntu-21.04'
-- 'ubuntu-21.10'
+- 'ubuntu-22.04'
+- 'ubuntu-22.10'
 
 # slug box name: text string from standard box name to match (generally the same)
 slugs:

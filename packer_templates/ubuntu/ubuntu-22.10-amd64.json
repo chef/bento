@@ -256,7 +256,7 @@
         }
     ],
     "variables": {
-        "box_basename": "ubuntu-21.10",
+        "box_basename": "ubuntu-22.10",
         "build_directory": "../../builds",
         "build_timestamp": "{{isotime \"20060102150405\"}}",
         "cpus": "2",
@@ -269,16 +269,16 @@
         "https_proxy": "{{env `https_proxy`}}",
         "hyperv_generation": "2",
         "hyperv_switch": "bento",
-        "iso_checksum": "e84f546dfc6743f24e8b1e15db9cc2d2c698ec57d9adfb852971772d1ce692d4",
-        "iso_name": "ubuntu-21.10-live-server-amd64.iso",
+        "iso_checksum": "874452797430a94ca240c95d8503035aa145bd03ef7d84f9b23b78f3c5099aed",
+        "iso_name": "ubuntu-22.10-live-server-amd64.iso",
         "memory": "1024",
         "mirror": "http://releases.ubuntu.com",
-        "mirror_directory": "impish",
-        "name": "ubuntu-21.10",
+        "mirror_directory": "kinetic",
+        "name": "ubuntu-22.10",
         "no_proxy": "{{env `no_proxy`}}",
         "preseed_path": "preseed.cfg",
         "qemu_display": "none",
-        "template": "ubuntu-21.10-amd64",
+        "template": "ubuntu-22.10-amd64",
         "version": "TIMESTAMP"
     }
 }
