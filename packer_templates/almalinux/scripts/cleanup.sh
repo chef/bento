@@ -9,6 +9,7 @@ dnf -y remove gcc cpp gc kernel-devel kernel-headers glibc-devel elfutils-libelf
 
 echo "remove orphaned packages"
 dnf -y autoremove
+
 echo "Remove previous kernels that preserved for rollbacks"
 dnf -y remove -y $(dnf repoquery --installonly --latest-limit=-1 -q)
 
@@ -18,7 +19,7 @@ echo "Removing extra firmware packages"
 dnf -y remove linux-firmware
 
 echo "clean all package cache information"
-dnf -y clean all  --enablerepo=\*;
+dnf -y clean all --enablerepo=\*
 
 # Clean up network interface persistence
 rm -f /etc/udev/rules.d/70-persistent-net.rules;
