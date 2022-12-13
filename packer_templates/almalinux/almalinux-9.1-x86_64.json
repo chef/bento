@@ -153,7 +153,6 @@
       "expect_disconnect": true,
       "scripts": [
         "{{template_dir}}/scripts/update.sh",
-        "{{template_dir}}/scripts/networking.sh",
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/vagrant.sh",
@@ -167,9 +166,9 @@
     }
   ],
   "variables": {
-    "box_basename": "almalinux-8.6",
+    "box_basename": "almalinux-9.1",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"202205111847\"}}",
+    "build_timestamp": "{{isotime \"202205251531\"}}",
     "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -180,16 +179,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "8c3bd1ff3d88b5599147626fa2616d85edcc861ec00edd6863b81dbfb135874c",
-    "iso_name": "AlmaLinux-8.6-x86_64-dvd.iso",
-    "ks_path": "8/ks.cfg",
+    "iso_checksum": "2a44e3f8a012c132da19b9aae2bf949e20b116f0a2a7ac3eca111972f4ac952f",
+    "iso_name": "AlmaLinux-9.1-x86_64-dvd.iso",
+    "ks_path": "9/ks.cfg",
     "memory": "1024",
     "mirror": "https://repo.almalinux.org/almalinux",
-    "mirror_directory": "8.6/isos/x86_64",
-    "name": "almalinux-8.6",
+    "mirror_directory": "9.1/isos/x86_64",
+    "name": "almalinux-9.1",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "almalinux-8.6-x86_64",
+    "template": "almalinux-9.1-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }

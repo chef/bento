@@ -61,7 +61,7 @@
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
-      "parallels_tools_flavor": "lin-arm",
+      "parallels_tools_flavor": "lin",
       "prlctl_version_file": ".prlctl_version",
       "prlctl": [
         [
@@ -151,22 +151,9 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
-      "pause_after": "30s",
       "scripts": [
-        "{{template_dir}}/scripts/update.sh"
-      ],
-      "type": "shell"
-    },
-    {
-      "environment_vars": [
-        "HOME_DIR=/home/vagrant",
-        "http_proxy={{user `http_proxy`}}",
-        "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}"
-      ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
-      "expect_disconnect": false,
-      "scripts": [
+        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/networking.sh",
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/vagrant.sh",
@@ -180,9 +167,9 @@
     }
   ],
   "variables": {
-    "box_basename": "almalinux-9.0",
+    "box_basename": "almalinux-8.7",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"202205251531\"}}",
+    "build_timestamp": "{{isotime \"202205111847\"}}",
     "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -193,17 +180,17 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "dcbb69c766575d8107b34371fb8b947abf3d6aea3df04515385fff0edb9c16ed",
-    "iso_name": "AlmaLinux-9.0-aarch64-dvd.iso",
-    "ks_path": "9/ks.cfg",
+    "iso_checksum": "b95ddf9d56a849cc8eb4b95dd2321c13af637d3379b91f5d96c39e96fb4403b3",
+    "iso_name": "AlmaLinux-8.7-x86_64-dvd.iso",
+    "ks_path": "8/ks.cfg",
     "memory": "1024",
-    "mirror": "https://mirrors.ukfast.co.uk/sites/almalinux.org",
-    "mirror_directory": "9.0/isos/aarch64",
-    "name": "almalinux-9.0",
+    "mirror": "https://repo.almalinux.org/almalinux",
+    "mirror_directory": "8.7/isos/x86_64",
+    "name": "almalinux-8.7",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "almalinux-9.0-aarch64",
-    "boot_command": "e<down><down><end><bs><bs><bs><bs><bs>inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<leftCtrlOn>x<leftCtrlOff>",
+    "template": "almalinux-8.7-x86_64",
+    "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
 }

@@ -1,7 +1,7 @@
 ---
 public:
-- 'almalinux-8.6'
-- 'almalinux-9.0'
+- 'almalinux-8.7'
+- 'almalinux-9.1'
 - 'amazon-2'
 - 'centos-7.9'
 - 'centos-stream-8'
