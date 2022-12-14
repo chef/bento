@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ CDDL HEADER START
+
+ The contents of this file are subject to the terms of the
+ Common Development and Distribution License (the "License").
+ You may not use this file except in compliance with the License.
+
+ You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+ or http://www.opensolaris.org/os/licensing.
+ See the License for the specific language governing permissions
+ and limitations under the License.
+
+ When distributing Covered Code, include this CDDL HEADER in each
+ file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+ If applicable, add the following below this CDDL HEADER, with the
+ fields enclosed by brackets "[]" replaced with your own identifying
+ information: Portions Copyright [yyyy] [name of copyright owner]
+
+ CDDL HEADER END
+
+ Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+
+-->
+<!DOCTYPE auto_install SYSTEM "file:///usr/share/install/ai.dtd.1">
+<auto_install>
+  <ai_instance name="default">
+    <target>
+      <logical>
+        <zpool name="rpool" is_root="true">
+          <filesystem name="export" mountpoint="/export"/>
+          <filesystem name="export/home"/>
+          <be name="solaris"/>
+        </zpool>
+      </logical>
+    </target>
+    <software>
+      <source>
+        <publisher name="solaris">
+          <origin name="http://pkg.oracle.com/solaris/release"/>
+        </publisher>
+      </source>
+      <!--
+	By default the latest build available, in the specified IPS
+	repository, is installed.  If another build is required, the 
+	build number has to be appended to the 'entire' package in following
+	form:
+
+	<name>pkg:/entire@0.5.11-0.build#</name>
+      -->
+      <software_data action="install">
+        <name>pkg:/server_install</name>
+        <name>pkg:/library/python/six</name>
+        <name>pkg:/library/python/cryptography</name>
+      </software_data>
+      <!--
+	    babel_install and slim_install are group packages used to
+	    define the default installation.  They are removed here so
+	    that they do not inhibit removal of other packages on the
+	    installed system.
+        -->
+      <software_data action="uninstall">
+        <name>pkg:/server_install</name>
+      </software_data>
+   	
+    </software>
+  </ai_instance>
+</auto_install>
