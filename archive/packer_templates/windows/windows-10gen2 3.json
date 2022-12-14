@@ -1,0 +1,161 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "aaaaaaa"
+      ],
+      "boot_wait": "1s",
+      "communicator": "winrm",
+      "cpus": "{{user `cpus`}}",
+      "enable_dynamic_memory": "true",
+      "enable_secure_boot": false,
+      "generation": "2",
+      "headless": "false",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "memory": "{{user `memory`}}",
+      "output_directory": "c:\\packer-build\\",
+      "secondary_iso_images": [],
+      "shutdown_command": "shutdown /s /t 10 /c \"Packer Shutdown\" /f /d p:4:1",
+      "shutdown_timeout": "15m",
+      "skip_export": false,
+      "switch_name": "{{user `hyperv_switch`}}",
+      "type": "hyperv-iso",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "winrm_username": "vagrant"
+    },
+    {
+      "boot_command": [
+	"aaaaaaa<wait><enter><wait><enter><wait><enter>"
+      ],
+      "communicator": "winrm",
+      "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "headless": "{{ user `headless` }}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{ user `iso_url` }}",
+      "memory": "{{ user `memory` }}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
+      "cd_files": "{{ user `cd_files` }}",
+      "disk_interface": "{{ user `disk_interface` }}",
+      "qemuargs": [
+        [
+          "-m",
+          "{{ user `memory` }}"
+        ],
+        [
+          "-smp",
+          "{{ user `cpus` }}"
+        ],
+        [
+          "-bios",
+          "{{ user `qemu_bios` }}"
+        ],
+        [
+          "-display",
+          "{{ user `qemu_display` }}"
+        ]
+      ],
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "type": "qemu",
+      "boot_wait": "{{ user `boot_wait` }}",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "winrm_username": "vagrant"
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": true,
+      "output": "{{ user `build_directory` }}/{{.Provider}}_windows-10.box",
+      "type": "vagrant",
+      "vagrantfile_template": "{{template_dir}}/{{user `template`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "cookbook_paths": [
+        "{{template_dir}}/cookbooks"
+      ],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::disable_uac",
+        "packer::disable_restore",
+        "packer::disable_windows_update",
+        "packer::configure_power",
+        "packer::disable_screensaver"
+      ],
+      "type": "chef-solo"
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "cookbook_paths": [
+        "{{template_dir}}/cookbooks"
+      ],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::vm_tools",
+        "packer::features",
+        "packer::enable_file_sharing",
+        "packer::enable_remote_desktop",
+        "packer::ui_tweaks"
+      ],
+      "type": "chef-solo"
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "cookbook_paths": [
+        "{{template_dir}}/cookbooks"
+      ],
+      "guest_os_type": "windows",
+      "run_list": [
+        "packer::cleanup"
+      ],
+      "type": "chef-solo"
+    },
+    {
+      "elevated_password": "vagrant",
+      "elevated_user": "vagrant",
+      "script": "{{template_dir}}/scripts/cleanup.ps1",
+      "type": "powershell"
+    }
+  ],
+  "variables": {
+    "autounattend": "Autounattend.xml",
+    "build_directory": "../../builds",
+    "build_version": "1",
+    "cpus": "2",
+    "disk_size": "61440",
+    "disk_type_id": "1",
+    "guest_additions_mode": "upload",
+    "headless": "false",
+    "hyperv_switch": "bento",
+    "iso_checksum": "F57E034095E0423FEB575CA82855F73E39FFA713",
+    "iso_checksum_type": "sha1",
+    "iso_url": "https://software-download.microsoft.com/download/pr/19041.264.200511-0456.vb_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "memory": "4096",
+    "package_location": "",
+    "restart_timeout": "5m",
+    "sysprep_unattended": "",
+    "template": "vagrantfile-windows-gen2.template",
+    "template_dir": "",
+    "unattend": "answer_files\\unattend.xml",
+    "vagrant_sysprep_unattended": "",
+    "vhv_enable": "false",
+    "virtio_win_iso": "virtio-win.iso",
+    "vm_name": "windows_10",
+    "winrm_timeout": "6h",
+    "working_directory": "",
+    "qemu_bios": "/usr/share/OVMF/OVMF_CODE.fd",
+    "qemu_display": "none",
+    "disk_interface": "ide",
+    "boot_wait": "10s",
+    "cd_files": "{{template_dir}}/answer_files/10/Autounattend.xml"
+  }
+}

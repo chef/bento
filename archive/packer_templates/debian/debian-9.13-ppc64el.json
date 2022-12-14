@@ -1,0 +1,109 @@
+{
+  "builders": [
+    {
+      "accelerator": "kvm",
+      "boot_command": [
+        "c<wait>",
+        "setparams 'Automated install'<enter><wait>",
+        "<enter><wait>",
+        "set options=\" preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>",
+        "debian-installer=en_US.UTF-8 <wait>",
+        "auto <wait>",
+        "locale=en_US.UTF-8 <wait>",
+        "kbd-chooser/method=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "netcfg/get_hostname={{ .Name }} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "grub-installer/bootdev=/dev/vda1 <wait>",
+        "\"",
+        "<enter><wait>",
+        "boot_one<wait>",
+        "<enter><wait>",
+        "boot<enter>"
+      ],
+      "boot_wait": "5s",
+      "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "machine_type": "pseries",
+      "memory": "{{ user `memory` }}",
+      "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-qemu",
+      "qemu_binary": "qemu-system-ppc64le",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/shutdown -hP now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
+      "type": "qemu",
+      "use_default_display": true,
+      "vm_name": "{{ user `template` }}",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-display", "{{ user `qemu_display` }}" ]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "{{ user `build_directory` }}/{{user `box_basename`}}.{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/../_common/motd.sh",
+        "{{template_dir}}/../_common/sshd.sh",
+        "{{template_dir}}/scripts/networking.sh",
+        "{{template_dir}}/scripts/sudoers.sh",
+        "{{template_dir}}/../_common/vagrant.sh",
+        "{{template_dir}}/scripts/systemd.sh",
+        "{{template_dir}}/../_common/virtualbox.sh",
+        "{{template_dir}}/../ubuntu/scripts/vmware.sh",
+        "{{template_dir}}/../_common/parallels.sh",
+        "{{template_dir}}/scripts/cleanup.sh",
+        "{{template_dir}}/../_common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "box_basename": "debian-9.13",
+    "build_directory": "../../builds",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "2",
+    "disk_size": "65536",
+    "git_revision": "__unknown_git_revision__",
+    "headless": "",
+    "http_directory": "{{template_dir}}/http",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "iso_checksum": "b35d8b33c9fc316c03178d8f493ecb858269082337150f82af75c8d4663cc324",
+    "iso_name": "debian-9.13.0-ppc64el-netinst.iso",
+    "memory": "1024",
+    "mirror": "http://cdimage.debian.org/cdimage/archive",
+    "mirror_directory": "9.13.0/ppc64el/iso-cd",
+    "name": "debian-9.13",
+    "no_proxy": "{{env `no_proxy`}}",
+    "preseed_path": "debian-9/preseed.cfg",
+    "qemu_display": "none",
+    "template": "debian-9.13-ppc64el",
+    "version": "TIMESTAMP"
+  }
+}

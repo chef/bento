@@ -1,0 +1,29 @@
+#cloud-config
+#vim:syntax=yaml
+user: vagrant
+password: vagrant
+
+# install packages for vbox guest additions to complete
+packages:
+  - gcc
+  - kernel-devel
+  - kernel-headers
+  - dkms
+  - make
+  - bzip2
+  - perl
+
+# make sure we don't setup the network on every boot
+write_files:
+  - path: /etc/cloud/cloud.cfg.d/80_disable_network_after_firstboot.cfg
+    content: |
+      # Disable network configuration after first boot
+      network:
+        config: disabled
+
+  - path: /etc/cloud/cloud.cfg.d/90_enable_ssh_pwauth.cfg
+    content: |
+      runcmd:
+        - sed -i "s/^PasswordAuthentication.*/PasswordAuthentication yes/" /etc/ssh/sshd_config
+        - sed -i "/^HWADDR/d" /etc/sysconfig/network-scripts/ifcfg-eth0
+        - systemctl restart network sshd
