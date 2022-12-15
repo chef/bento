@@ -31,10 +31,10 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Run Packer Init
-        run: packer init packer
-      - name: Run packer validate
-        run: packer validate packer
+      - name: Packer Init
+        run: packer init packer_files
+      - name: Packer Validate
+        run: packer validate packer_files
 
 #  enumerate_iso_validation:
 #    runs-on: ubuntu-latest

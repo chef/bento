@@ -22,6 +22,9 @@
       "ssh_username": "vagrant",
       "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
+      ],
       "vm_name": "{{ user `template` }}"
     },
     {
