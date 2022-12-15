@@ -27,21 +27,21 @@ packer {
     }
     vmware = {
       version = ">= 0.0.1"
-      source = "github.com/hashicorp/vmware"
+      source  = "github.com/hashicorp/vmware"
     }
     windows-update = {
       version = ">= 0.14.1"
-      source = "github.com/rgl/windows-update"
+      source  = "github.com/rgl/windows-update"
     }
   }
 }
 
 variable "os_name" {
-  type = string
+  type        = string
   description = "OS Brand Name"
 }
 variable "os_version" {
-  type = string
+  type        = string
   description = "OS version number"
 }
 variable "os_arch" {
@@ -70,7 +70,7 @@ variable "hyperv_generation" {
 build {
   sources = [
     "source.hyperv-iso.hyperv",
-#    "source.libvirt.libvirt",
+    # "source.libvirt.libvirt",
     "source.parallels-iso.parallels",
     "source.qemu.qemu",
     "source.virtualbox-iso.virtualbox",
@@ -78,12 +78,12 @@ build {
   ]
 
   provisioner "shell" {
-    environment_vars  = [
+    environment_vars = [
       "HOME_DIR=/home/vagrant"
     ]
     execute_command   = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
     expect_disconnect = true
-    scripts           = [
+    scripts = [
       "${path.root}/scripts/update.sh",
       "${path.root}/_common/motd.sh",
       "${path.root}/_common/sshd.sh",
@@ -97,6 +97,6 @@ build {
   }
 
   post-processor "vagrant" {
-    output = "../builds/${var.os_name}-${var.os_arch}.{{ .Provider }}.box"
+    output = "${path.root}/../builds/${var.os_name}-${var.os_arch}.{{ .Provider }}.box"
   }
 }
