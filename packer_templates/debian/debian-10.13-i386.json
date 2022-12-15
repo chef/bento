@@ -24,7 +24,7 @@
       "disk_size": "{{user `disk_size`}}",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "guest_additions_url": "{{ user `guest_additions_url` }}",
-      "guest_os_type": "Debian_64",
+      "guest_os_type": "Debian",
       "hard_drive_interface": "sata",
       "headless": "{{ user `headless` }}",
       "http_directory": "{{user `http_directory`}}",
@@ -63,7 +63,7 @@
       "boot_wait": "5s",
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "debian8-64",
+      "guest_os_type": "debian8",
       "headless": "{{ user `headless` }}",
       "http_directory": "{{user `http_directory`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
@@ -197,7 +197,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-10.11",
+    "box_basename": "debian-10.13-i386",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -208,16 +208,16 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "133430141272d8bf96cfb10b6bfd1c945f5a59ea0efc2bcb56d1033c7f2866ea",
-    "iso_name": "debian-10.11.0-amd64-netinst.iso",
+    "iso_checksum": "af48af8142c6a162e15d70d1f7c77d205ab86e070270939961d0c3021557179f",
+    "iso_name": "debian-10.13.0-i386-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/archive",
-    "mirror_directory": "10.11.0/amd64/iso-cd",
-    "name": "debian-10.11",
+    "mirror_directory": "10.13.0/i386/iso-cd",
+    "name": "debian-10.13-i386",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
-    "template": "debian-10.11-amd64",
+    "template": "debian-10.13-i386",
     "version": "TIMESTAMP"
   }
 }

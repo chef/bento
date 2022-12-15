@@ -1,4 +1,4 @@
-{
+  {
   "builders": [
     {
       "boot_command": "{{ user `boot_command` }}",
@@ -61,7 +61,7 @@
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-parallels",
-      "parallels_tools_flavor": "lin",
+      "parallels_tools_flavor": "lin-arm",
       "prlctl_version_file": ".prlctl_version",
       "prlctl": [
         [
@@ -151,11 +151,24 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
+      "pause_after": "30s",
       "scripts": [
-        "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/update.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": false,
+      "scripts": [
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
-        "{{template_dir}}/scripts/networking.sh",
         "{{template_dir}}/../_common/vagrant.sh",
         "{{template_dir}}/../_common/virtualbox.sh",
         "{{template_dir}}/../_common/vmware.sh",
@@ -167,9 +180,9 @@
     }
   ],
   "variables": {
-    "box_basename": "centos-8.5",
+    "box_basename": "almalinux-9.1",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"2019102650405\"}}",
+    "build_timestamp": "{{isotime \"202205251531\"}}",
     "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -180,17 +193,17 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "3b795863001461d4f670b0dedd02d25296b6d64683faceb8f2b60c53ac5ebb3e",
-    "iso_name": "CentOS-8.5.2111-x86_64-dvd1.iso",
-    "ks_path": "8/ks.cfg",
+    "iso_checksum": "a6f0fb355b9c82f13a95f3f02e19b0f07906a7e0f27e3bca144338ebac9abf40",
+    "iso_name": "AlmaLinux-9.1-aarch64-dvd.iso",
+    "ks_path": "9/ks.cfg",
     "memory": "1024",
-    "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "8.5.2111/isos/x86_64",
-    "name": "centos-8.5",
+    "mirror": "https://mirrors.ukfast.co.uk/sites/almalinux.org",
+    "mirror_directory": "9.1/isos/aarch64",
+    "name": "almalinux-9.1",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "centos-8.5-x86_64",
-    "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
+    "template": "almalinux-9.1-aarch64",
+    "boot_command": "e<down><down><end><bs><bs><bs><bs><bs>inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<leftCtrlOn>x<leftCtrlOff>",
     "version": "TIMESTAMP"
   }
 }

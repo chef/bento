@@ -1,4 +1,4 @@
-{
+  {
   "builders": [
     {
       "boot_command": "{{ user `boot_command` }}",
@@ -22,6 +22,9 @@
       "ssh_username": "vagrant",
       "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
+      ],
       "vm_name": "{{ user `template` }}"
     },
     {
@@ -155,7 +158,6 @@
         "{{template_dir}}/scripts/update.sh",
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
-        "{{template_dir}}/scripts/networking.sh",
         "{{template_dir}}/../_common/vagrant.sh",
         "{{template_dir}}/../_common/virtualbox.sh",
         "{{template_dir}}/../_common/vmware.sh",
@@ -167,9 +169,9 @@
     }
   ],
   "variables": {
-    "box_basename": "rockylinux-9.0",
+    "box_basename": "almalinux-9.1",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"202207180452\"}}",
+    "build_timestamp": "{{isotime \"202205251531\"}}",
     "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -180,16 +182,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "55dbf904b35969be9f6d96f042b7470d1a3cb5c953bba47ab8f79740560d8a8d",
-    "iso_name": "Rocky-9.0-x86_64-dvd.iso",
+    "iso_checksum": "2a44e3f8a012c132da19b9aae2bf949e20b116f0a2a7ac3eca111972f4ac952f",
+    "iso_name": "AlmaLinux-9.1-x86_64-dvd.iso",
     "ks_path": "9/ks.cfg",
     "memory": "1024",
-    "mirror": "http://download.rockylinux.org/pub/rocky",
-    "mirror_directory": "9/isos/x86_64",
-    "name": "rockylinux-9.0",
+    "mirror": "https://repo.almalinux.org/almalinux",
+    "mirror_directory": "9.1/isos/x86_64",
+    "name": "almalinux-9.1",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "rockylinux-9.0-x86_64",
+    "template": "almalinux-9.1-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }

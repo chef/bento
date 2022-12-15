@@ -22,9 +22,6 @@
       "ssh_username": "vagrant",
       "type": "virtualbox-iso",
       "virtualbox_version_file": ".vbox_version",
-      "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
-      ],
       "vm_name": "{{ user `template` }}"
     },
     {
@@ -156,6 +153,7 @@
       "expect_disconnect": true,
       "scripts": [
         "{{template_dir}}/scripts/update.sh",
+        "{{template_dir}}/scripts/networking.sh",
         "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/vagrant.sh",
@@ -169,9 +167,9 @@
     }
   ],
   "variables": {
-    "box_basename": "almalinux-9.0",
+    "box_basename": "almalinux-8.7",
     "build_directory": "../../builds",
-    "build_timestamp": "{{isotime \"202205251531\"}}",
+    "build_timestamp": "{{isotime \"202205111847\"}}",
     "cpus": "2",
     "disk_size": "65536",
     "git_revision": "__unknown_git_revision__",
@@ -182,16 +180,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "6617436f8f2ee5408ff448a4eedce4ce61e2fdb3153a646b875010256bc9fd6b",
-    "iso_name": "AlmaLinux-9.0-x86_64-dvd.iso",
-    "ks_path": "9/ks.cfg",
+    "iso_checksum": "b95ddf9d56a849cc8eb4b95dd2321c13af637d3379b91f5d96c39e96fb4403b3",
+    "iso_name": "AlmaLinux-8.7-x86_64-dvd.iso",
+    "ks_path": "8/ks.cfg",
     "memory": "1024",
     "mirror": "https://repo.almalinux.org/almalinux",
-    "mirror_directory": "9.0/isos/x86_64",
-    "name": "almalinux-9.0",
+    "mirror_directory": "8.7/isos/x86_64",
+    "name": "almalinux-8.7",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "almalinux-9.0-x86_64",
+    "template": "almalinux-8.7-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }

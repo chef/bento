@@ -153,7 +153,7 @@
     }
   ],
   "variables": {
-    "box_basename": "oracle-8.6",
+    "box_basename": "oracle-8.7",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"202207110855\"}}",
     "cpus": "2",
@@ -166,16 +166,16 @@
     "https_proxy": "{{env `https_proxy`}}",
     "hyperv_generation": "1",
     "hyperv_switch": "bento",
-    "iso_checksum": "988969accaddd7fbf4f7ddced16c1b69d3e5c097435fcb2474426936a9c52aeb",
-    "iso_name": "OracleLinux-R8-U6-x86_64-dvd.iso",
+    "iso_checksum": "dd6ede6c0597189b7dffb800b32835002bd95f19c254734aeb58f58651aa03fb",
+    "iso_name": "OracleLinux-R8-U7-x86_64-dvd.iso",
     "ks_path": "8/ks.cfg",
     "memory": "1024",
     "mirror": "https://yum.oracle.com/ISOS/OracleLinux",
-    "mirror_directory": "OL8/u6/x86_64",
-    "name": "oracle-8.6",
+    "mirror_directory": "OL8/u7/x86_64",
+    "name": "oracle-8.7",
     "no_proxy": "{{env `no_proxy`}}",
     "qemu_display": "none",
-    "template": "oracle-8.6-x86_64",
+    "template": "oracle-8.7-x86_64",
     "boot_command": "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>",
     "version": "TIMESTAMP"
   }
