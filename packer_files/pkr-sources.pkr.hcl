@@ -1,11 +1,11 @@
 locals {
   boot_command    = "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${substr(var.os_version, 0, 1)}/ks.cfg<enter><wait>"
   build_timestamp = "${formatdate("'v'YYYY'.'MM'.'DD'.0'", timestamp())}"
-  memory          = var.is_windows ? 4096 : 2048
+  memory          = var.is_windows ? 2048 : 1024
 }
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
-source "hyperv-iso" "hyperv" {
+source "hyperv-iso" "vm" {
   boot_command = [
     "<wait5><up><wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
   ]
@@ -50,7 +50,7 @@ source "hyperv-iso" "hyperv" {
 #  ssh_username         = "vagrant"
 #  vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
 #}
-source "parallels-iso" "parallels" {
+source "parallels-iso" "vm" {
   guest_os_type          = "centos"
   parallels_tools_flavor = "lin"
   prlctl = [
@@ -86,8 +86,9 @@ source "parallels-iso" "parallels" {
   ssh_username     = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
-source "qemu" "qemu" {
+source "qemu" "vm" {
   headless = true
+  accelerator = "hvf"
   qemuargs = [
     [
       "-m", "${local.memory}"
@@ -114,12 +115,13 @@ source "qemu" "qemu" {
   ssh_username     = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
-source "virtualbox-iso" "virtualbox" {
-  guest_additions_path    = "VBoxGuestAdditions_{{ .Version }}.iso"
-  guest_additions_url     = ""
-  guest_os_type           = "RedHat_64"
-  hard_drive_interface    = "sata"
-  headless                = true
+source "virtualbox-iso" "vm" {
+  gfx_controller       = "vboxsvga"
+  gfx_vram_size        = var.is_windows ? 99 : 33
+  guest_additions_path = "VBoxGuestAdditions_{{ .Version }}.iso"
+  guest_os_type        = var.vbox_guest_os_type
+  hard_drive_interface = "sata"
+  headless             = true
   virtualbox_version_file = ".vbox_version"
   vboxmanage = [
     [
@@ -127,10 +129,6 @@ source "virtualbox-iso" "virtualbox" {
       "{{.Name}}",
       "--nat-localhostreachable1",
       "on",
-      "--graphicscontroller",
-      "vmsvga",
-      "--vram",
-      "33"
     ]
   ]
   boot_command = [
@@ -142,6 +140,7 @@ source "virtualbox-iso" "virtualbox" {
   http_directory   = "${path.root}/http"
   iso_checksum     = var.iso_checksum
   iso_url          = var.iso_url
+  iso_interface    = "sata"
   memory           = local.memory
   output_directory = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
   shutdown_command = "echo 'vagrant' | sudo -S /sbin/halt -h -p"
@@ -151,10 +150,35 @@ source "virtualbox-iso" "virtualbox" {
   ssh_username     = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
-source "vmware-iso" "vmware" {
-  guest_os_type       = "centos-64"
+source "virtualbox-ovf" "amazonlinux" {
+  guest_additions_path = "VBoxGuestAdditions_{{ .Version }}.iso"
+  headless             = true
+  vboxmanage           = [
+    [
+      "modifyvm",
+      "{{ .Name }}",
+      "--memory",
+      "${local.memory}",
+      "--cpus", "2",
+      "--nat-localhostreachable1",
+      "on",
+    ]
+  ]
+  source_path      = "${path.root}/amz_working_files/amazon2.ovf"
+  http_directory   = "${path.root}/http"
+  output_directory = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
+  shutdown_command = "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  ssh_password     = "vagrant"
+  ssh_port         = 22
+  ssh_timeout      = "10000s"
+  ssh_username     = "vagrant"
+  virtualbox_version_file = ".vbox_version"
+  vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
+}
+source "vmware-iso" "vm" {
+  guest_os_type       = var.vmware_guest_os_type
   headless            = true
-  tools_upload_flavor = var.is_windows ? "windows" : "linux"
+  tools_upload_flavor = var.is_windows ? "windows" : null
   version             = 19
   vmx_data = {
     "cpuid.coresPerSocket" = "1"

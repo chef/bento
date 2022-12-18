@@ -47,10 +47,10 @@ variable "os_version" {
 variable "os_arch" {
   type = string
   validation {
-    condition     = var.os_arch == "x86_64" || var.os_arch == "aarm64"
-    error_message = "The OS architecture type should be either x86_64 or aarm64."
+    condition     = var.os_arch == "x86_64" || var.os_arch == "aarch64"
+    error_message = "The OS architecture type should be either x86_64 or aarch64."
   }
-  description = "OS architecture type, x86_64 or aarm64"
+  description = "OS architecture type, x86_64 or aarch64"
 }
 variable "is_windows" {
   type = bool
@@ -65,16 +65,21 @@ variable "hyperv_generation" {
   type    = number
   default = 1
 }
+variable "vbox_guest_os_type" {
+  type        = string
+  description = "OS type, for list run `VBoxManage list ostypes`"
+}
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/build
 build {
   sources = [
-    "source.hyperv-iso.hyperv",
-    # "source.libvirt.libvirt",
-    "source.parallels-iso.parallels",
-    "source.qemu.qemu",
-    "source.virtualbox-iso.virtualbox",
-    "source.vmware-iso.vmware"
+    "source.hyperv-iso.vm",
+    # "source.libvirt.vm",
+    "source.parallels-iso.vm",
+    "source.qemu.vm",
+    "source.virtualbox-iso.vm",
+    "source.virtualbox-ovf.amazonlinux",
+    "source.vmware-iso.vm"
   ]
 
   provisioner "shell" {
@@ -94,9 +99,23 @@ build {
       "${path.root}/scripts/cleanup.sh",
       "${path.root}/_common/minimize.sh"
     ]
+    override = {
+      amazonlinux = {
+        scripts = [
+          "${path.root}/scripts/amz_update.sh",
+          "${path.root}/_common/motd.sh",
+          "${path.root}/_common/sshd.sh",
+          "${path.root}/scripts/networking.sh",
+          "${path.root}/_common/vagrant.sh",
+          "${path.root}/_common/virtualbox.sh",
+          "${path.root}/scripts/amz_cleanup.sh",
+          "${path.root}/_common/minimize.sh"
+        ]
+      }
+    }
   }
 
   post-processor "vagrant" {
-    output = "${path.root}/../builds/${var.os_name}-${var.os_arch}.{{ .Provider }}.box"
+    output = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
   }
 }
