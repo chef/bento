@@ -1,0 +1,9 @@
+os_name                 = "centos-stream"
+os_version              = "9"
+os_arch                 = "x86_64"
+is_windows              = false
+iso_url                 = "http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso"
+iso_checksum            = "file:http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso.SHA256SUM"
+parallels_guest_os_type = "centos"
+vbox_guest_os_type      = "RedHat_64"
+vmware_guest_os_type    = "centos-64"

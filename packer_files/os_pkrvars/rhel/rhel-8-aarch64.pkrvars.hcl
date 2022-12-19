@@ -1,0 +1,9 @@
+os_name                 = "rhel"
+os_version              = "8.7"
+os_arch                 = "aarch64"
+is_windows              = false
+iso_url                 = "userspecified"
+iso_checksum            = "userspecified"
+parallels_guest_os_type = "rhel"
+vbox_guest_os_type      = "RedHat_64"
+vmware_guest_os_type    = "centos-64"

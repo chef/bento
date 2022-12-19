@@ -51,8 +51,8 @@ source "hyperv-iso" "vm" {
 #  vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
 #}
 source "parallels-iso" "vm" {
-  guest_os_type          = "centos"
-  parallels_tools_flavor = "lin"
+  guest_os_type          = var.parallels_os_type
+  parallels_tools_flavor = var.is_windows ? "win" : "lin"
   prlctl = [
     [
       "set",
@@ -87,8 +87,8 @@ source "parallels-iso" "vm" {
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
 source "qemu" "vm" {
-  headless = true
-  accelerator = "hvf"
+  headless    = true
+  accelerator = "kvm"
   qemuargs = [
     [
       "-m", "${local.memory}"
@@ -116,12 +116,12 @@ source "qemu" "vm" {
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
 source "virtualbox-iso" "vm" {
-  gfx_controller       = "vboxsvga"
-  gfx_vram_size        = var.is_windows ? 99 : 33
-  guest_additions_path = "VBoxGuestAdditions_{{ .Version }}.iso"
-  guest_os_type        = var.vbox_guest_os_type
-  hard_drive_interface = "sata"
-  headless             = true
+  gfx_controller          = "vboxsvga"
+  gfx_vram_size           = var.is_windows ? 99 : 33
+  guest_additions_path    = "VBoxGuestAdditions_{{ .Version }}.iso"
+  guest_os_type           = var.vbox_guest_os_type
+  hard_drive_interface    = "sata"
+  headless                = true
   virtualbox_version_file = ".vbox_version"
   vboxmanage = [
     [
@@ -153,7 +153,7 @@ source "virtualbox-iso" "vm" {
 source "virtualbox-ovf" "amazonlinux" {
   guest_additions_path = "VBoxGuestAdditions_{{ .Version }}.iso"
   headless             = true
-  vboxmanage           = [
+  vboxmanage = [
     [
       "modifyvm",
       "{{ .Name }}",
@@ -164,16 +164,16 @@ source "virtualbox-ovf" "amazonlinux" {
       "on",
     ]
   ]
-  source_path      = "${path.root}/amz_working_files/amazon2.ovf"
-  http_directory   = "${path.root}/http"
-  output_directory = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-  shutdown_command = "echo 'vagrant' | sudo -S /sbin/halt -h -p"
-  ssh_password     = "vagrant"
-  ssh_port         = 22
-  ssh_timeout      = "10000s"
-  ssh_username     = "vagrant"
+  source_path             = "${path.root}/amz_working_files/amazon2.ovf"
+  http_directory          = "${path.root}/http"
+  output_directory        = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
+  shutdown_command        = "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  ssh_password            = "vagrant"
+  ssh_port                = 22
+  ssh_timeout             = "10000s"
+  ssh_username            = "vagrant"
   virtualbox_version_file = ".vbox_version"
-  vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
+  vm_name                 = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
 source "vmware-iso" "vm" {
   guest_os_type       = var.vmware_guest_os_type

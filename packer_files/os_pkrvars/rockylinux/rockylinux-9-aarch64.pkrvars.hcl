@@ -1,0 +1,9 @@
+os_name                 = "rockylinux"
+os_version              = "9.1"
+os_arch                 = "aarch64"
+is_windows              = false
+iso_url                 = "https://download.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-9.1-aarch64-dvd.iso"
+iso_checksum            = "file:https://download.rockylinux.org/pub/rocky/9/isos/aarch64/CHECKSUM"
+parallels_guest_os_type = "centos"
+vbox_guest_os_type      = "RedHat_64"
+vmware_guest_os_type    = "centos-64"

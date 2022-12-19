@@ -53,21 +53,72 @@ variable "os_arch" {
   description = "OS architecture type, x86_64 or aarch64"
 }
 variable "is_windows" {
-  type = bool
+  type        = bool
+  description = "Determines to set setting for Windows or Linux"
 }
 variable "iso_url" {
-  type = string
+  type        = string
+  default     = null
+  description = "ISO download url"
 }
 variable "iso_checksum" {
-  type = string
+  type        = string
+  default     = null
+  description = "ISO download checksum"
 }
 variable "hyperv_generation" {
-  type    = number
-  default = 1
+  type        = number
+  default     = 1
+  description = "Hyper-v generation version"
+}
+variable "parallels_guest_os_type" {
+  type        = string
+  default     = null
+  description = "OS type for virtualization optimization"
 }
 variable "vbox_guest_os_type" {
   type        = string
-  description = "OS type, for list run `VBoxManage list ostypes`"
+  default     = null
+  description = "OS type for virtualization optimization"
+}
+variable "vmware_guest_os_type" {
+  type        = string
+  default     = null
+  description = "OS type for virtualization optimization"
+}
+
+locals {
+  shell_scripts = var.is_windows ? [
+    "${path.root}/scripts/cleanup.ps1"
+    ] : (
+    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonliunux-2" ||
+    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
+    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
+    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
+    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
+    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [
+      "${path.root}/scripts/update_yum.sh",
+      "${path.root}/_common/motd.sh",
+      "${path.root}/_common/sshd.sh",
+      "${path.root}/scripts/networking.sh",
+      "${path.root}/_common/vagrant.sh",
+      "${path.root}/_common/virtualbox.sh",
+      "${path.root}/_common/vmware.sh",
+      "${path.root}/_common/parallels.sh",
+      "${path.root}/scripts/cleanup_yum.sh",
+      "${path.root}/_common/minimize.sh"
+      ] : [
+      "${path.root}/scripts/update_dnf.sh",
+      "${path.root}/_common/motd.sh",
+      "${path.root}/_common/sshd.sh",
+      "${path.root}/_common/vagrant.sh",
+      "${path.root}/_common/virtualbox.sh",
+      "${path.root}/_common/vmware.sh",
+      "${path.root}/_common/parallels.sh",
+      "${path.root}/scripts/cleanup_dnf.sh",
+      "${path.root}/_common/minimize.sh"
+    ]
+  )
 }
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/build
@@ -88,31 +139,7 @@ build {
     ]
     execute_command   = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
     expect_disconnect = true
-    scripts = [
-      "${path.root}/scripts/update.sh",
-      "${path.root}/_common/motd.sh",
-      "${path.root}/_common/sshd.sh",
-      "${path.root}/_common/vagrant.sh",
-      "${path.root}/_common/virtualbox.sh",
-      "${path.root}/_common/vmware.sh",
-      "${path.root}/_common/parallels.sh",
-      "${path.root}/scripts/cleanup.sh",
-      "${path.root}/_common/minimize.sh"
-    ]
-    override = {
-      amazonlinux = {
-        scripts = [
-          "${path.root}/scripts/amz_update.sh",
-          "${path.root}/_common/motd.sh",
-          "${path.root}/_common/sshd.sh",
-          "${path.root}/scripts/networking.sh",
-          "${path.root}/_common/vagrant.sh",
-          "${path.root}/_common/virtualbox.sh",
-          "${path.root}/scripts/amz_cleanup.sh",
-          "${path.root}/_common/minimize.sh"
-        ]
-      }
-    }
+    scripts           = local.shell_scripts
   }
 
   post-processor "vagrant" {

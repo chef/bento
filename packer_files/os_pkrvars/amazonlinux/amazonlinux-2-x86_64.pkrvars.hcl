@@ -1,0 +1,5 @@
+os_name            = "amazonlinux"
+os_version         = "2"
+os_arch            = "x86_64"
+is_windows         = false
+vbox_guest_os_type = "RedHat_64"
