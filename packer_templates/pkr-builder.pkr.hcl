@@ -162,12 +162,14 @@ locals {
       ]
     )
   )
+  source_names = [for source in var.sources_enabled : trimprefix(source, "source.")]
 }
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/build
 build {
   sources = var.sources_enabled
 
+  # Linux Shell scipts
   provisioner "shell" {
     environment_vars = [
       "HOME_DIR=/home/vagrant"
@@ -175,9 +177,21 @@ build {
     execute_command   = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
     expect_disconnect = true
     scripts           = local.shell_scripts
-    except            = var.is_windows ? var.sources_enabled : null
+    except            = var.is_windows ? local.source_names : null
+  }
+
+  # Windows Updates and scripts
+  provisioner "windows-update" {
+    search_criteria = "IsInstalled=0"
+    filters = [
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true",
+    ]
+    only = var.is_windows ? local.source_names : null
   }
   provisioner "chef-solo" {
+    chef_license = "accept-no-persist"
+    version = "17"
     cookbook_paths = [
       "${path.root}/cookbooks"
     ]
@@ -189,12 +203,14 @@ build {
       "packer::configure_power",
       "packer::disable_screensaver"
     ]
-    only = var.is_windows ? var.sources_enabled : null
+    only = var.is_windows ? local.source_names : null
   }
   provisioner "windows-restart" {
-    only = var.is_windows ? var.sources_enabled : null
+    only = var.is_windows ? local.source_names : null
   }
   provisioner "chef-solo" {
+    chef_license = "accept-no-persist"
+    version = "17"
     cookbook_paths = [
       "${path.root}/cookbooks"
     ]
@@ -206,12 +222,14 @@ build {
       "packer::enable_remote_desktop",
       "packer::ui_tweaks"
     ]
-    only = var.is_windows ? var.sources_enabled : null
+    only = var.is_windows ? local.source_names : null
   }
   provisioner "windows-restart" {
-    only = var.is_windows ? var.sources_enabled : null
+    only = var.is_windows ? local.source_names : null
   }
   provisioner "chef-solo" {
+    chef_license = "accept-no-persist"
+    version = "17"
     cookbook_paths = [
       "${path.root}/cookbooks"
     ]
@@ -220,14 +238,17 @@ build {
       "packer::cleanup",
       "packer::defrag"
     ]
-    only = var.is_windows ? var.sources_enabled : null
+    only = var.is_windows ? local.source_names : null
   }
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     script            = "${path.root}/scripts/cleanup.ps1"
-    only              = var.is_windows ? var.sources_enabled : null
+    timeout = "5m"
+    only              = var.is_windows ? local.source_names : null
   }
+
+  # Convert machines to vagrant boxes
   post-processor "vagrant" {
     keep_input_artifact  = var.is_windows
     output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
