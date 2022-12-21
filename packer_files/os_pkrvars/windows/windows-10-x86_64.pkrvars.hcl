@@ -1,0 +1,9 @@
+os_name                 = "windows"
+os_version              = "10"
+os_arch                 = "x86_64"
+is_windows              = true
+iso_url                 = "https://software-download.microsoft.com/download/pr/18363.418.191007-0143.19h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
+iso_checksum            = "489ebee676e26cdb81377b0e6385c001a22589b8"
+parallels_guest_os_type = "win-10"
+vbox_guest_os_type      = "Windows10_64"
+vmware_guest_os_type    = "windows9srv-64"

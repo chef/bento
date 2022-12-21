@@ -66,6 +66,16 @@ variable "iso_checksum" {
   default     = null
   description = "ISO download checksum"
 }
+variable "boot_command" {
+  type        = string
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
+variable "boot_command_hyperv" {
+  type        = string
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "hyperv_generation" {
   type        = number
   default     = 1
@@ -86,52 +96,77 @@ variable "vmware_guest_os_type" {
   default     = null
   description = "OS type for virtualization optimization"
 }
-
-locals {
-  shell_scripts = var.is_windows ? [
-    "${path.root}/scripts/cleanup.ps1"
-    ] : (
-    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonliunux-2" ||
-    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
-    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
-    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
-    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
-    "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [
-      "${path.root}/scripts/update_yum.sh",
-      "${path.root}/_common/motd.sh",
-      "${path.root}/_common/sshd.sh",
-      "${path.root}/scripts/networking.sh",
-      "${path.root}/_common/vagrant.sh",
-      "${path.root}/_common/virtualbox.sh",
-      "${path.root}/_common/vmware.sh",
-      "${path.root}/_common/parallels.sh",
-      "${path.root}/scripts/cleanup_yum.sh",
-      "${path.root}/_common/minimize.sh"
-      ] : [
-      "${path.root}/scripts/update_dnf.sh",
-      "${path.root}/_common/motd.sh",
-      "${path.root}/_common/sshd.sh",
-      "${path.root}/_common/vagrant.sh",
-      "${path.root}/_common/virtualbox.sh",
-      "${path.root}/_common/vmware.sh",
-      "${path.root}/_common/parallels.sh",
-      "${path.root}/scripts/cleanup_dnf.sh",
-      "${path.root}/_common/minimize.sh"
-    ]
-  )
+variable "headless" {
+  type        = bool
+  default     = true
+  description = "Start GUI window to interact with VM"
 }
-
-# https://www.packer.io/docs/templates/hcl_templates/blocks/build
-build {
-  sources = [
+variable "sources_enabled" {
+  type = list(string)
+  default = [
     "source.hyperv-iso.vm",
     # "source.libvirt.vm",
     "source.parallels-iso.vm",
     "source.qemu.vm",
     "source.virtualbox-iso.vm",
-    "source.virtualbox-ovf.amazonlinux",
-    "source.vmware-iso.vm"
+    "source.vmware-iso.vm",
   ]
+  description = "Build Sources to use for building vagrant boxes"
+}
+
+locals {
+  shell_scripts = var.is_windows ? [
+    "${path.root}/scripts/cleanup.ps1"
+    ] : (
+    var.os_name == "ubuntu" ||
+    var.os_name == "debian" ? [
+      "${path.root}/scripts/update_apt.sh",
+      "${path.root}/_common/motd.sh",
+      "${path.root}/_common/sshd.sh",
+      "${path.root}/scripts/networking_ubuntu.sh",
+      "${path.root}/scripts/sudoers_ubuntu.sh",
+      "${path.root}/_common/vagrant.sh",
+      "${path.root}/_common/virtualbox.sh",
+      "${path.root}/_common/vmware_ubuntu.sh",
+      "${path.root}/_common/parallels.sh",
+      "${path.root}/scripts/hyperv_ubuntu.sh",
+      "${path.root}/scripts/cleanup_apt.sh",
+      "${path.root}/_common/minimize.sh"
+      ] : (
+      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonliunux-2" ||
+      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
+      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
+      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
+      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
+      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [
+        "${path.root}/scripts/update_yum.sh",
+        "${path.root}/_common/motd.sh",
+        "${path.root}/_common/sshd.sh",
+        "${path.root}/scripts/networking_rhel7.sh",
+        "${path.root}/_common/vagrant.sh",
+        "${path.root}/_common/virtualbox.sh",
+        "${path.root}/_common/vmware_rhel.sh",
+        "${path.root}/_common/parallels.sh",
+        "${path.root}/scripts/cleanup_yum.sh",
+        "${path.root}/_common/minimize.sh"
+        ] : [
+        "${path.root}/scripts/update_dnf.sh",
+        "${path.root}/_common/motd.sh",
+        "${path.root}/_common/sshd.sh",
+        "${path.root}/_common/vagrant.sh",
+        "${path.root}/_common/virtualbox.sh",
+        "${path.root}/_common/vmware_rhel.sh",
+        "${path.root}/_common/parallels.sh",
+        "${path.root}/scripts/cleanup_dnf.sh",
+        "${path.root}/_common/minimize.sh"
+      ]
+    )
+  )
+}
+
+# https://www.packer.io/docs/templates/hcl_templates/blocks/build
+build {
+  sources = var.sources_enabled
 
   provisioner "shell" {
     environment_vars = [
@@ -140,9 +175,62 @@ build {
     execute_command   = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
     expect_disconnect = true
     scripts           = local.shell_scripts
+    except            = var.is_windows ? var.sources_enabled : null
   }
-
+  provisioner "chef-solo" {
+    cookbook_paths = [
+      "${path.root}/cookbooks"
+    ]
+    guest_os_type = "windows"
+    run_list = [
+      "packer::disable_uac",
+      "packer::disable_restore",
+      "packer::disable_windows_update",
+      "packer::configure_power",
+      "packer::disable_screensaver"
+    ]
+    only = var.is_windows ? var.sources_enabled : null
+  }
+  provisioner "windows-restart" {
+    only = var.is_windows ? var.sources_enabled : null
+  }
+  provisioner "chef-solo" {
+    cookbook_paths = [
+      "${path.root}/cookbooks"
+    ]
+    guest_os_type = "windows"
+    run_list = [
+      "packer::vm_tools",
+      "packer::features",
+      "packer::enable_file_sharing",
+      "packer::enable_remote_desktop",
+      "packer::ui_tweaks"
+    ]
+    only = var.is_windows ? var.sources_enabled : null
+  }
+  provisioner "windows-restart" {
+    only = var.is_windows ? var.sources_enabled : null
+  }
+  provisioner "chef-solo" {
+    cookbook_paths = [
+      "${path.root}/cookbooks"
+    ]
+    guest_os_type = "windows"
+    run_list = [
+      "packer::cleanup",
+      "packer::defrag"
+    ]
+    only = var.is_windows ? var.sources_enabled : null
+  }
+  provisioner "powershell" {
+    elevated_password = "vagrant"
+    elevated_user     = "vagrant"
+    script            = "${path.root}/scripts/cleanup.ps1"
+    only              = var.is_windows ? var.sources_enabled : null
+  }
   post-processor "vagrant" {
-    output = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    keep_input_artifact  = var.is_windows
+    output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    vagrantfile_template = var.is_windows ? (var.hyperv_generation == 1 ? "${path.root}/vagrantfile-windows.template" : "${path.root}/vagrantfile-windows-gen2.template") : null
   }
 }

@@ -1,0 +1,9 @@
+os_name                 = "windows"
+os_version              = "2019"
+os_arch                 = "x86_64"
+is_windows              = true
+iso_url                 = "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
+iso_checksum            = "3022424f777b66a698047ba1c37812026b9714c5"
+parallels_guest_os_type = "win-2019"
+vbox_guest_os_type      = "Windows2019_64"
+vmware_guest_os_type    = "windows9srv-64"
