@@ -182,11 +182,11 @@ build {
 
   # Windows Updates and scripts
   provisioner "windows-update" {
-    search_criteria = "IsInstalled=0"
-    filters = [
-      "exclude:$_.Title -like '*Preview*'",
-      "include:$true",
-    ]
+#    search_criteria = "IsInstalled=0"
+#    filters = [
+#      "exclude:$_.Title -like '*Preview*'",
+#      "include:$true",
+#    ]
     only = var.is_windows ? local.source_names : null
   }
   provisioner "chef-solo" {
@@ -201,21 +201,7 @@ build {
       "packer::disable_restore",
       "packer::disable_windows_update",
       "packer::configure_power",
-      "packer::disable_screensaver"
-    ]
-    only = var.is_windows ? local.source_names : null
-  }
-  provisioner "windows-restart" {
-    only = var.is_windows ? local.source_names : null
-  }
-  provisioner "chef-solo" {
-    chef_license = "accept-no-persist"
-    version = "17"
-    cookbook_paths = [
-      "${path.root}/cookbooks"
-    ]
-    guest_os_type = "windows"
-    run_list = [
+      "packer::disable_screensaver",
       "packer::vm_tools",
       "packer::features",
       "packer::enable_file_sharing",
@@ -250,6 +236,7 @@ build {
 
   # Convert machines to vagrant boxes
   post-processor "vagrant" {
+    compression_level    = 9
     keep_input_artifact  = var.is_windows
     output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? (var.hyperv_generation == 1 ? "${path.root}/vagrantfile-windows.template" : "${path.root}/vagrantfile-windows-gen2.template") : null

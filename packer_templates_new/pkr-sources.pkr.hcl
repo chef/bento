@@ -42,29 +42,6 @@ source "hyperv-iso" "vm" {
   winrm_username       = "vagrant"
   vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
-#source "libvirt" "libvert" {
-#  libvirt_uri          = "qemu:///system"
-#  boot_command         = var.is_windows ? null : local.boot_command
-#  boot_wait            = "5s"
-#  cpus                 = 2
-#  communicator = var.is_windows ? "winrm" : "ssh"
-#  disk_size            = 65536
-#  http_directory       = "${path.root}/http"
-#  iso_checksum         = var.iso_checksum
-#  iso_url              = var.iso_url
-#  memory               = local.memory
-#  output_directory     = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-#  shutdown_command     = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
-#  shutdown_timeout = var.is_windows ? "15m" : null
-#  ssh_password         = "vagrant"
-#  ssh_port             = 22
-#  ssh_timeout          = "10000s"
-#  ssh_username         = "vagrant"
-#  winrm_password   = "vagrant"
-#  winrm_timeout    = "12h"
-#  winrm_username   = "vagrant"
-#  vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
-#}
 source "parallels-iso" "vm" {
   guest_os_type = var.parallels_guest_os_type
   floppy_files = var.is_windows ? [
