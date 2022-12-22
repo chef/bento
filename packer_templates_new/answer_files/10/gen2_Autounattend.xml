@@ -49,10 +49,6 @@
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
                     <Path>F:\vioserial\w10\amd64</Path>
                 </PathAndCredentials>
-
-                <PathAndCredentials wcm:action="add" wcm:keyValue="12">
-                    <Path>F:\vioserial\w10\amd64</Path>
-                </PathAndCredentials>
             </DriverPaths>
         </component>
         <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
