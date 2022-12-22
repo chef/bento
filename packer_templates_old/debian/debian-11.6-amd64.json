@@ -130,7 +130,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-11.5",
+    "box_basename": "debian-11.6",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -141,17 +141,17 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "e307d0e583b4a8f7e5b436f8413d4707dd4242b70aea61eb08591dc0378522f3",
-    "iso_name": "debian-11.5.0-amd64-netinst.iso",
+    "iso_checksum": "e482910626b30f9a7de9b0cc142c3d4a079fbfa96110083be1d0b473671ce08d",
+    "iso_name": "debian-11.6.0-amd64-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "11.5.0/amd64/iso-cd",
-    "name": "debian-11.5",
+    "mirror_directory": "11.6.0/amd64/iso-cd",
+    "name": "debian-11.6",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
     "qemu_bios": "bios-256k.bin",
-    "template": "debian-11.5-amd64",
+    "template": "debian-11.6-amd64",
     "boot_command": "<esc><wait>install <wait> preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_path`}} <wait>debian-installer=en_US.UTF-8 <wait>auto <wait>locale=en_US.UTF-8 <wait>kbd-chooser/method=us <wait>keyboard-configuration/xkb-keymap=us <wait>netcfg/get_hostname={{ .Name }} <wait>netcfg/get_domain=vagrantup.com <wait>fb=false <wait>debconf/frontend=noninteractive <wait>console-setup/ask_detect=false <wait>console-keymaps-at/keymap=us <wait>grub-installer/bootdev=default <wait><enter><wait>",
     "version": "TIMESTAMP"
   }

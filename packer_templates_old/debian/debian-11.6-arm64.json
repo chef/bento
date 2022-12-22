@@ -76,7 +76,7 @@
     }
   ],
   "variables": {
-    "box_basename": "debian-11.5-arm64",
+    "box_basename": "debian-11.6-arm64",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
@@ -87,16 +87,16 @@
     "http_directory": "{{template_dir}}/http",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "70b19f7f0178d594b409822c724c2b7c0834716df1ad7e13dd10e1580380c7c9",
-    "iso_name": "debian-11.5.0-arm64-netinst.iso",
+    "iso_checksum": "522706a58317915aceb5eef9b777d04ab573982b36670705e2e6d83dd4669e52",
+    "iso_name": "debian-11.6.0-arm64-netinst.iso",
     "memory": "1024",
     "mirror": "http://cdimage.debian.org/cdimage/release",
-    "mirror_directory": "11.5.0/arm64/iso-cd",
-    "name": "debian-11.5-arm64",
+    "mirror_directory": "11.6.0/arm64/iso-cd",
+    "name": "debian-11.6-arm64",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-9/preseed.cfg",
     "qemu_display": "none",
-    "template": "debian-11.5-arm64",
+    "template": "debian-11.6-arm64",
     "version": "TIMESTAMP"
   }
 }
