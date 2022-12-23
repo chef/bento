@@ -118,6 +118,8 @@ jobs:
           version: latest
       - name: Packer Init
         if: steps.verify-changed-files.outputs.files_changed == 'true'
+        env:
+          PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
         run: packer init packer_templates
       - name: Packer Validate
         if: steps.verify-changed-files.outputs.files_changed == 'true'
@@ -179,12 +181,16 @@ jobs:
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         shell: pwsh
         run: |
-          $(Get-Content "os_pkrvars/${{ matrix.template }}" | ConvertFrom-StringData) |
+          $(Get-Content "os_pkrvars/${{ matrix.template }}" | ConvertFrom-StringData ) | 
             Foreach-Object {
-              Invoke-RestMethod -Uri $_.iso_url -Method Head -Verbose
+              if($_.iso_url){
+                $_.iso_url
+              }
+            } | Foreach-Object {
+              Invoke-RestMethod -Uri $_ -Method Head -Verbose
             }
 
-  check:
+  check_jobs_pass:
     if: always()
     needs:
       - markdownlint
