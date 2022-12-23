@@ -83,8 +83,6 @@
 
 ## [v201806.08.0](https://github.com/chef/bento/tree/v201806.08.0) (2018-06-07)
 
-[Full Changelog](https://github.com/chef/bento/compare/201803.24.0...v201806.08.0)
-
 ### New Platforms
 
 - Ubuntu 18.04 (Release version)
@@ -258,10 +256,10 @@
 - Suppress VMX whitelisting warning by removing interfaces at end of build
 - Use archive.ubuntu.com instead of US specific domain
 - Latest Tooling
-  - VirtualBox 5.1.24
-  - VMware Fusion 8.5.8
-  - Parallels 12.2.1
-  - Packer 1.0.3
+   - VirtualBox 5.1.24
+   - VMware Fusion 8.5.8
+   - Parallels 12.2.1
+   - Packer 1.0.3
 
 ## [2.3.7] (2017-07-03)
 
@@ -609,7 +607,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[DRY\] up rhel [\#475](https://github.com/chef/bento/pull/475) ([cheeseplus](https://github.com/cheeseplus))
 - \[DRY\] SLES [\#474](https://github.com/chef/bento/pull/474) ([cheeseplus](https://github.com/cheeseplus))
 - \[DRY\] Oracle Linux [\#473](https://github.com/chef/bento/pull/473) ([cheeseplus](https://github.com/cheeseplus))
-- Minimized AutoYaST profiles for SLES 11.3/12 to enhance readability [\#373](https://github.com/chef/bento/pull/373) ([mattiasgiese](https://github.com/mattiasgiese))
+- Minimized AutoYaST profiles for SLES 11.3/12 to enhance readability [\#373](https://github.com/chef/bento/pull/373) ([mattiasgiese])
 
 ## [2.2.2](https://github.com/chef/bento/tree/2.2.2) (2015-10-07)
 

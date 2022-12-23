@@ -177,7 +177,7 @@ jobs:
       - name: iso-availability
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         shell: pwsh
-        run: $(Get-Content os_pkrvars/${{ matrix.template }} | ConvertFrom-StringData).iso_url | Invoke-RestMethod -Uri $_ -Method Head -Verbose
+        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/almalinux/almalinux-8-aarch64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
 
   check_jobs_pass:
     if: always()

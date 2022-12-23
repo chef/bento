@@ -27,12 +27,12 @@ end
 - [Packer](https://www.packer.io/)
 - [Vagrant](https://www.vagrantup.com/)
 - At least one of the following virtualization providers:
-  - [VirtualBox](https://www.virtualbox.org/)
-  - [VMware Fusion](https://www.vmware.com/products/fusion.html)
-  - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
-  - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/)
-  - [qemu](https://www.qemu.org/) *
-  - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *
+   - [VirtualBox](https://www.virtualbox.org/)
+   - [VMware Fusion](https://www.vmware.com/products/fusion.html)
+   - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
+   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/)
+   - [qemu](https://www.qemu.org/) *
+   - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *
 
 ***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
