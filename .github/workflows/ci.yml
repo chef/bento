@@ -62,7 +62,7 @@ jobs:
           version: latest
       - name: Packer FMT
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: if packer fmt -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
+        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
 
   enumerate_pkrvars_validation:
     runs-on: ubuntu-latest

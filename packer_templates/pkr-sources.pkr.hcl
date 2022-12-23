@@ -14,7 +14,7 @@ source "hyperv-iso" "vm" {
     var.is_windows ? [
       "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
       "${path.root}/scripts/windows/base_setup.ps1"
-    ] : (
+      ] : (
       var.os_name == "almalinux" ||
       var.os_name == "centos" ||
       var.os_name == "oraclelinux" ||
@@ -158,8 +158,8 @@ source "virtualbox-iso" "vm" {
       "{{.Name}}",
       "--audio",
       "none",
-#      "--nat-localhostreachable1",
-#      "on",
+      #      "--nat-localhostreachable1",
+      #      "on",
     ]
   ]
   iso_interface    = "sata"

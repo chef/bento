@@ -281,7 +281,7 @@ build {
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
-    scripts            = local.scripts
+    scripts           = local.scripts
     only              = var.is_windows ? local.source_names : null
   }
 
