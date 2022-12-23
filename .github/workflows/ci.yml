@@ -124,9 +124,11 @@ jobs:
       - name: Packer Validate
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
-          foreach pkrvars ${{ matrix.pkrvars }}
-            packer validate -var-file=os_pkrvars/$pkr packer_tamplates
-          end
+          for pkrvars in "${{ matrix.pkrvars }}"
+          do
+            echo $pkrvars
+            packer validate -var-file=os_pkrvars/$pkrvars packer_tamplates
+          done
 
   enumerate_iso_validation:
     runs-on: ubuntu-latest
@@ -187,6 +189,7 @@ jobs:
                 $_.iso_url
               }
             } | Foreach-Object {
+              echo $_
               Invoke-RestMethod -Uri $_ -Method Head -Verbose
             }
 
