@@ -115,7 +115,7 @@ variable "sources_enabled" {
 }
 
 locals {
-  shell_scripts = var.is_windows ? [
+  scripts = var.is_windows ? [
     "${path.root}/scripts/windows/cleanup.ps1"
     ] : (
     var.os_name == "solaris" ? [
@@ -229,7 +229,7 @@ build {
     ]
     execute_command   = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
     expect_disconnect = true
-    scripts           = local.shell_scripts
+    scripts           = local.scripts
     except            = var.is_windows ? local.source_names : null
   }
 
@@ -282,8 +282,7 @@ build {
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
-    script            = "${path.root}/scripts/cleanup.ps1"
-    timeout           = "5m"
+    scripts            = local.scripts
     only              = var.is_windows ? local.source_names : null
   }
 

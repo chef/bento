@@ -123,11 +123,7 @@ jobs:
         run: packer init packer_templates
       - name: Packer Validate
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: |
-          for pkrvars in "${{ matrix.pkrvars }}"
-          do
-            packer validate -var-file=os_pkrvars/$pkrvars packer_templates
-          done
+        run: packer validate -var-file=os_pkrvars/"${{ matrix.pkrvars }}" packer_templates
 
   enumerate_iso_validation:
     runs-on: ubuntu-latest
@@ -181,8 +177,7 @@ jobs:
       - name: iso-availability
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         shell: pwsh
-        run: |
-          $(Get-Content "os_pkrvars/${{ matrix.template }}" | ConvertFrom-StringData).iso_url | Foreach-Object { Invoke-RestMethod -Uri $_ -Method Head -Verbose }
+        run: Invoke-RestMethod -Uri ($(Get-Content "os_pkrvars/${{ matrix.template }}" | ConvertFrom-StringData).iso_url) -Method Head -Verbose }
 
   check_jobs_pass:
     if: always()
