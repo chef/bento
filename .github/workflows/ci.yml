@@ -176,7 +176,8 @@ jobs:
           fi
       - name: iso-availability
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: cat ${{ matrix.template }} | grep iso_url | cut -d= -f 2 | xargs curl --head $ -v
+        shell: pwsh
+        run: $(Get-Content os_pkrvars/${{ matrix.template }} | ConvertFrom-StringData).iso_url | Invoke-RestMethod -Uri $_ -Method Head -Verbose
 
   check_jobs_pass:
     if: always()

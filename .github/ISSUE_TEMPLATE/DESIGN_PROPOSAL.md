@@ -4,7 +4,7 @@ about: I have a significant change I would like to propose and discuss before st
 labels: "Status: Untriaged"
 ---
 
-### When a Change Needs a Design Proposal
+# When a Change Needs a Design Proposal
 
 A design proposal should be opened any time a change meets one of the following qualifications:
 
@@ -12,7 +12,7 @@ A design proposal should be opened any time a change meets one of the following 
 - Significantly changes the underlying architecture of the project in a way that impacts other developers.
 - Changes the development or testing process of the project such as a change of CI systems or test frameworks.
 
-### Why We Use This Process
+## Why We Use This Process
 
 - Allows all interested parties (including any community member) to discuss large impact changes to a project.
 - Serves as a durable paper trail for discussions regarding project architecture.

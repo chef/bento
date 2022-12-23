@@ -4,17 +4,17 @@ Bento is a project that encapsulates [Packer](https://www.packer.io/) templates 
 
 ***NOTE:** Virutalbox 7.x requires extra config to allow nat network to connect to the host. To use uncomment lines #153 and #154 in bento/packer_templates/pkr-sources.pkr.hcl
 
-### Using Public Boxes
+## Using Public Boxes
 
 Adding a bento box to Vagrant
 
-```
-$ vagrant box add bento/ubuntu-18.04
+```bash
+vagrant box add bento/ubuntu-18.04
 ```
 
 Using a bento box in a Vagrantfile
 
-```
+```ruby
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.04"
 end
@@ -40,41 +40,40 @@ end
 
 To build a Ubuntu 22.04 box for only the VirtualBox provider
 
-```
-$ cd <path/to>/bento
-$ packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-22.04-x86_64.pkrvars.hcl ./packer_templates
+```bash
+cd <path/to>/bento
+packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-22.04-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To build latest Debian 11 boxes for all possible providers (simultaneously)
 
-```
-$ cd <path/to>/bento
-$ packer build -var-file=os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl ./packer_templates
+```bash
+cd <path/to>/bento
+packer build -var-file=os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To build latest CentOS 7 boxes for all providers except VMware and Parallels
 
-```
-$ cd <path/to>/bento
-$ packer build -except=parallels-iso.vm,vmware-iso.vm -var-file=os_pkrvars/centos/centos-7-x86_64.pkrvars.hcl ./packer_templates
+```bash
+cd <path/to>/bento
+packer build -except=parallels-iso.vm,vmware-iso.vm -var-file=os_pkrvars/centos/centos-7-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To use an alternate url
 
-```
-$ cd <path/to>/bento
-$ packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
-```
+````bash
+cd <path/to>/bento
+packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
+````
 
 To build a Windows 10 Enterprise Gen 2 box for the Hyper-V provider
 
-```
-$ cd <path/to>/bento
-$ packer build -var-file=os_pkrvars/windows/windows-10gen2-x86_64.pkrvars.hcl ./packer_templates
+```bash
+cd <path/to>/bento
+packer build -var-file=os_pkrvars/windows/windows-10gen2-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
-
 
 #### KVM/qemu support for Windows
 
@@ -82,7 +81,7 @@ You must download [the iso image with the Windows drivers for paravirtualized KV
 
 You can use the following sample command to build a KVM/qemu Windows box:
 
-```
+```bash
 packer build --only=qemu.vm -var-file=os_pkrvars/windwos/windows-2022-x86_64.pkrvars.hcl ./packer_templates
 ```
 
@@ -113,7 +112,7 @@ Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resou
 
 If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Place your `kitchen.yml` and `bootstrap.sh` files inside the `templates` directory and run the following command to test the build.
 
-```
+```bash
 kitchen test
 ```
 
@@ -125,15 +124,15 @@ Please use GitHub issues to report bugs, features, or other problems.
 
 A huge thank you to these related projects from which we've taken inspiration and often used as a source for workarounds in complex world of base box building.
 
-* https://github.com/boxcutter
-* https://github.com/lavabit/robox
-* https://github.com/mcandre/packer-templates
-* https://github.com/timsutton/osx-vm-templates
-* https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes
+- <https://github.com/boxcutter>
+- <https://github.com/lavabit/robox>
+- <https://github.com/mcandre/packer-templates>
+- <https://github.com/timsutton/osx-vm-templates>
+- <https://github.com/ferventcoder/vagrant-windows-puppet/tree/master/baseboxes>
 
 ## License & Authors
 
-These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee) definitions originally based on [work done by Tim Dysinger](https://github.com/dysinger/basebox) to make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
+These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee) definitions originally based on [work done by Tim Dysinger](https://github.com/dysinger) to make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
 
 - Author: Chris McClimans ([chris@hippiehacker.org](mailto:chris@hippiehacker.org))
 - Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))

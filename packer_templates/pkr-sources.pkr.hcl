@@ -13,10 +13,18 @@ source "hyperv-iso" "vm" {
   floppy_files = var.hyperv_generation == 2 ? null : (
     var.is_windows ? [
       "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
-      "${path.root}/scripts/base_setup.ps1"
-      ] : [
-      "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"
-    ]
+      "${path.root}/scripts/windows/base_setup.ps1"
+    ] : (
+      var.os_name == "almalinux" ||
+      var.os_name == "centos" ||
+      var.os_name == "oraclelinux" ||
+      var.os_name == "rhel" ||
+      var.os_name == "rockylinux" ||
+      var.os_name == "scientificlinux" ||
+      var.os_name == "springdalelinux" ? [
+        "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"
+      ] : null
+    )
   )
   generation           = var.hyperv_generation
   guest_additions_mode = "disable"
@@ -46,7 +54,7 @@ source "parallels-iso" "vm" {
   guest_os_type = var.parallels_guest_os_type
   floppy_files = var.is_windows ? [
     "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
-    "${path.root}/scripts/base_setup.ps1"
+    "${path.root}/scripts/windows/base_setup.ps1"
   ] : null
   parallels_tools_flavor = var.is_windows ? (
     var.os_arch == "x86_64" ? "win" : "win-arm"
@@ -89,7 +97,7 @@ source "qemu" "vm" {
   floppy_files = var.hyperv_generation == 2 && var.is_windows ? null : (
     var.is_windows ? [
       "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
-      "${path.root}/scripts/base_setup.ps1"
+      "${path.root}/scripts/windows/base_setup.ps1"
     ] : null
   )
   qemuargs = var.hyperv_generation == 2 && var.is_windows ? [
@@ -141,7 +149,7 @@ source "virtualbox-iso" "vm" {
   headless                  = var.headless
   floppy_files = var.is_windows ? [
     "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
-    "${path.root}/scripts/base_setup.ps1"
+    "${path.root}/scripts/windows/base_setup.ps1"
   ] : null
   virtualbox_version_file = ".vbox_version"
   vboxmanage = [
@@ -207,7 +215,7 @@ source "vmware-iso" "vm" {
   headless          = var.headless
   floppy_files = var.is_windows ? [
     "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
-    "${path.root}/scripts/base_setup.ps1"
+    "${path.root}/scripts/windows/base_setup.ps1"
   ] : null
   tools_upload_flavor = var.is_windows ? "windows" : null
   tools_upload_path   = var.is_windows ? "c:/Windows/Temp/vmware.iso" : null

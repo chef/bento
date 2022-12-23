@@ -4,26 +4,26 @@ about: If something isn't working as expected �.
 labels: "Status: Untriaged"
 ---
 
-# Version:
+# Version
 
 [Version of the project installed]
 
-# Environment:
+## Environment
 
 [Details about the environment such as the Operating System, cookbook details, etc...]
 
-# Scenario:
+## Scenario
 
 [What you are trying to achieve and you can't?]
 
-# Steps to Reproduce:
+## Steps to Reproduce
 
 [If you are filing an issue what are the things we need to do in order to repro your problem?]
 
-# Expected Result:
+## Expected Result
 
 [What are you expecting to happen as the consequence of above reproduction steps?]
 
-# Actual Result:
+## Actual Result
 
 [What actually happens after the reproduction steps?]

@@ -105,7 +105,6 @@ variable "sources_enabled" {
   type = list(string)
   default = [
     "source.hyperv-iso.vm",
-    # "source.libvirt.vm",
     "source.parallels-iso.vm",
     "source.qemu.vm",
     "source.virtualbox-iso.vm",
@@ -128,7 +127,7 @@ locals {
         "${path.root}/scripts/freebsd/update_freebsd.sh",
         "${path.root}/scripts/freebsd/postinstall_freebsd.sh",
         "${path.root}/scripts/freebsd/sudoers_freebsd.sh",
-        "${path.root}/scripts/_common/vagrant_freebsd.sh",
+        "${path.root}/scripts/_common/vagrant.sh",
         "${path.root}/scripts/freebsd/vmtools_freebsd.sh",
         "${path.root}/scripts/freebsd/cleanup_freebsd.sh",
         "${path.root}/scripts/freebsd/minimize_freebsd.sh"
@@ -140,14 +139,14 @@ locals {
           "${path.root}/scripts/_common/motd.sh",
           "${path.root}/scripts/_common/sshd.sh",
           "${path.root}/scripts/_common/vagrant.sh",
-          "${path.root}/scripts/suse/unsupported-modules.sh",
+          "${path.root}/scripts/suse/unsupported-modules_suse.sh",
           "${path.root}/scripts/_common/virtualbox.sh",
           "${path.root}/scripts/_common/vmware_suse.sh",
           "${path.root}/scripts/_common/parallels.sh",
           "${path.root}/scripts/suse/vagrant_group_suse.sh",
           "${path.root}/scripts/suse/sudoers_suse.sh",
           "${path.root}/scripts/suse/zypper-locks_suse.sh",
-          "${path.root}/scripts/suse/remove-dvd-source.sh",
+          "${path.root}/scripts/suse/remove-dvd-source_suse.sh",
           "${path.root}/scripts/suse/cleanup_suse.sh",
           "${path.root}/scripts/_common/minimize.sh"
           ] : (
@@ -159,11 +158,11 @@ locals {
             "${path.root}/scripts/${var.os_name}/networking_${var.os_name}.sh",
             "${path.root}/scripts/${var.os_name}/sudoers_${var.os_name}.sh",
             "${path.root}/scripts/_common/vagrant.sh",
-            "${path.root}/scripts/${var.os_name}/systemd_debian_ubuntu.sh",
+            "${path.root}/scripts/${var.os_name}/systemd_${var.os_name}.sh",
             "${path.root}/scripts/_common/virtualbox.sh",
             "${path.root}/scripts/_common/vmware_debian_ubuntu.sh",
             "${path.root}/scripts/_common/parallels.sh",
-            "${path.root}/scripts/${var.os_name}/hyperv_debian_ubuntu.sh",
+            "${path.root}/scripts/${var.os_name}/hyperv_${var.os_name}.sh",
             "${path.root}/scripts/${var.os_name}/cleanup_${var.os_name}.sh",
             "${path.root}/scripts/_common/minimize.sh"
             ] : (
