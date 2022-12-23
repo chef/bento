@@ -24,7 +24,7 @@ end
 
 #### Requirements
 
-- [Packer](https://www.packer.io/)
+- [Packer](https://www.packer.io/) >= 1.7.0
 - [Vagrant](https://www.vagrantup.com/)
 - At least one of the following virtualization providers:
    - [VirtualBox](https://www.virtualbox.org/)
@@ -42,6 +42,7 @@ To build a Ubuntu 22.04 box for only the VirtualBox provider
 
 ```bash
 cd <path/to>/bento
+packer init -upgrade ./packer_templates
 packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-22.04-x86_64.pkrvars.hcl ./packer_templates
 ```
 
@@ -49,6 +50,7 @@ To build latest Debian 11 boxes for all possible providers (simultaneously)
 
 ```bash
 cd <path/to>/bento
+packer init -upgrade ./packer_templates
 packer build -var-file=os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl ./packer_templates
 ```
 
@@ -56,6 +58,7 @@ To build latest CentOS 7 boxes for all providers except VMware and Parallels
 
 ```bash
 cd <path/to>/bento
+packer init -upgrade ./packer_templates
 packer build -except=parallels-iso.vm,vmware-iso.vm -var-file=os_pkrvars/centos/centos-7-x86_64.pkrvars.hcl ./packer_templates
 ```
 
@@ -63,6 +66,7 @@ To use an alternate url
 
 ````bash
 cd <path/to>/bento
+packer init -upgrade ./packer_templates
 packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
 ````
 
@@ -70,6 +74,7 @@ To build a Windows 10 Enterprise Gen 2 box for the Hyper-V provider
 
 ```bash
 cd <path/to>/bento
+packer init -upgrade ./packer_templates
 packer build -var-file=os_pkrvars/windows/windows-10gen2-x86_64.pkrvars.hcl ./packer_templates
 ```
 
@@ -82,6 +87,7 @@ You must download [the iso image with the Windows drivers for paravirtualized KV
 You can use the following sample command to build a KVM/qemu Windows box:
 
 ```bash
+packer init -upgrade ./packer_templates
 packer build --only=qemu.vm -var-file=os_pkrvars/windwos/windows-2022-x86_64.pkrvars.hcl ./packer_templates
 ```
 
