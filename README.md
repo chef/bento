@@ -2,6 +2,8 @@
 
 Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. These published boxes serve as the default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
 
+***NOTE:** Virutalbox 7.x requires extra config to allow nat network to connect to the host. To use uncomment lines #153 and #154 in bento/packer_templates/pkr-sources.pkr.hcl
+
 ### Using Public Boxes
 
 Adding a bento box to Vagrant
@@ -29,67 +31,50 @@ end
   - [VMware Fusion](https://www.vmware.com/products/fusion.html)
   - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/)
-  - [KVM](https://www.linux-kvm.org/page/Main_Page) *
+  - [qemu](https://www.qemu.org/) *
   - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *
 
-\***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
-
-#### Using `bento` executable
-To build a Debian vagrant box using the bento tool with the template available in the `packer_templates` dir, we can use the following command:
-
-```
-bento build --cpus 2 packer_templates/debian/debian-11.6-i386.json
-```
-
-Other available options:
-- cpus - Specify the number of CPUs needed in the new build.
-- mem - Specify the memory
-- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration.
-- dry-run - This will not create any build, but will create a metadata file for reference.
-- debug - Print the debug logs
-- headed - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
-- single - This can be used to disable the parallel builds.
+***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
 #### Using `packer`
 
-To build an Ubuntu 18.04 box for only the VirtualBox provider
+To build a Ubuntu 22.04 box for only the VirtualBox provider
 
 ```
-$ cd packer_templates/ubuntu
-$ packer build -only=virtualbox-iso ubuntu-18.04-amd64.json
+$ cd <path/to>/bento
+$ packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-22.04-x86_64.pkrvars.hcl ./packer_templates
 ```
 
-To build Debian 11.6 32bit boxes for all possible providers (simultaneously)
+To build latest Debian 11 boxes for all possible providers (simultaneously)
 
 ```
-$ cd packer_templates/debian
-$ packer build debian-11.6-i386.json
+$ cd <path/to>/bento
+$ packer build -var-file=os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl ./packer_templates
 ```
 
-To build CentOS 7.7 boxes for all providers except VMware and Parallels
+To build latest CentOS 7 boxes for all providers except VMware and Parallels
 
 ```
-$ cd packer_templates/centos
-$ packer build -except=parallels-iso,vmware-iso centos-7.7-x86_64.json
+$ cd <path/to>/bento
+$ packer build -except=parallels-iso.vm,vmware-iso.vm -var-file=os_pkrvars/centos/centos-7-x86_64.pkrvars.hcl ./packer_templates
 ```
 
-To use an alternate mirror
+To use an alternate url
 
 ```
-$ cd packer_templates/fedora
-$ packer build -var 'mirror=http://mirror.utexas.edu/fedora/linux' fedora-31-x86_64.json
+$ cd <path/to>/bento
+$ packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To build a Windows 10 Enterprise Gen 2 box for the Hyper-V provider
 
 ```
-$ cd packer_templates/windows
-$ packer build windows-10gen2.json
+$ cd <path/to>/bento
+$ packer build -var-file=os_pkrvars/windows/windows-10gen2-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
 
-\***NOTE:** box_basename can be overridden like other Packer vars with `-var 'box_basename=ubuntu-18.04'`
 
 #### KVM/qemu support for Windows
 
@@ -98,7 +83,7 @@ You must download [the iso image with the Windows drivers for paravirtualized KV
 You can use the following sample command to build a KVM/qemu Windows box:
 
 ```
-packer build --only=qemu --var virtio_win_iso=~/virtio-win.iso windows-2019.json
+packer build --only=qemu.vm -var-file=os_pkrvars/windwos/windows-2022-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 ### Proprietary Templates
@@ -125,10 +110,11 @@ Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resou
 - `base_setup.ps1`
 
 ### Testing the build with the test-kitchen
-If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Place your `kitchen.yml.erb` and `bootstrap.sh.erb` files inside the `templates` directory and run the following command to test the build.
+
+If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Place your `kitchen.yml` and `bootstrap.sh` files inside the `templates` directory and run the following command to test the build.
 
 ```
-bento test
+kitchen test
 ```
 
 ## Bugs and Issues
@@ -159,9 +145,10 @@ These basebox templates were converted from [veewee](https://github.com/jedi4eve
 - Author: Tim Dysinger ([tim@dysinger.net](mailto:tim@dysinger.net))
 - Author: Tim Smith ([tsmith@chef.io](mailto:tsmith@chef.io))
 - Author: Tom Duffield ([tom@chef.io](mailto:tom@chef.io))
+- Author: Corey Hemminger ([corey.hemminger@progress.com](mailto:corey.hemminger@progress.com))
 
 ```text
-Copyright 2012-2021, Chef Software, Inc. (<legal@chef.io>)
+Copyright 2012-2022, Progress Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");

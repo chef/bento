@@ -1,6 +1,7 @@
 # Change Log
 
 ## [v202206.14.0](https://github.com/chef/bento/tree/v202206.14.0) (2022-06-14)
+
 [Full Changelog](https://github.com/chef/bento/compare/v201812.27.0...v202206.14.0)
 
 **New Platforms:**
@@ -18,6 +19,7 @@
 - update windows builds to be created in builds folder [\#1414](https://github.com/chef/bento/pull/1414) ([stromweld](https://github.com/stromweld))
 
 ## [v201812.27.0](https://github.com/chef/bento/tree/v201812.27.0) (2019-01-16)
+
 [Full Changelog](https://github.com/chef/bento/compare/v201808.24.0...v201812.27.0)
 
 **New Platforms:**
@@ -77,6 +79,7 @@
 - macOS 10.9 [\#1076](https://github.com/chef/bento/pull/1076) ([tas50](https://github.com/tas50))
 
 **Fixes and Improvements**
+
 - Use a faster scientific mirror [\#1081](https://github.com/chef/bento/pull/1081) ([tas50](https://github.com/tas50))
 - Install the latest 2008-06 update for 2k8r2 [\#1080](https://github.com/chef/bento/pull/1080) ([tas50](https://github.com/tas50))
 - Update RHELs to 6.10 / 7.5 [\#1079](https://github.com/chef/bento/pull/1079) ([tas50](https://github.com/tas50))
@@ -87,6 +90,7 @@
 - Increase build time memory to 4GB on Windows boxes [\#1061](https://github.com/chef/bento/pull/1061) ([tas50](https://github.com/tas50))
 
 ## [v201806.08.0](https://github.com/chef/bento/tree/v201806.08.0) (2018-06-07)
+
 [Full Changelog](https://github.com/chef/bento/compare/201803.24.0...v201806.08.0)
 
 **New Platforms**
@@ -97,9 +101,11 @@
 - HardenedBSD v1100055.2 [\#1033](https://github.com/chef/bento/pull/1033) ([nusenu](https://github.com/nusenu))
 
 **Deprecated Platforms**
+
 - Remove EOL'd FreeBSD-10.3 [\#1060](https://github.com/chef/bento/pull/1060) ([lwhsu](https://github.com/lwhsu))
 
 **Fixes and Improvements**
+
 - fedora, centos, rhel: added deltarpm to kickstart files [\#1030](https://github.com/chef/bento/pull/1030) ([muellerbe](https://github.com/muellerbe))
 - Clean up network configs [\#1025](https://github.com/chef/bento/pull/1025) ([Superdawg](https://github.com/Superdawg))
 - OpenSuse: Create a new 'vagrant' group for vagrant user [\#1020](https://github.com/chef/bento/pull/1020) ([hwoarang](https://github.com/hwoarang))
@@ -111,6 +117,7 @@
 - Fix Fedora cleanup script not to cause unintended software removal. [\#1050](https://github.com/chef/bento/pull/1050) ([mgruner](https://github.com/mgruner))
 
 **Tooling**
+
 - VirtualBox 5.2.12
 - Parallels 13.3.1
 - VMware Fusion 10.1.2
@@ -120,17 +127,20 @@
 ## [201803.24.0](https://github.com/chef/bento/tree/201803.24.0) (2018-03-24)
 
 **New Platforms**
+
 - Ubuntu 18.04 (pre-release)
 - HardenedBSD 11
 - FreeBSD 10/11 32bit
 
 **Improvements**
+
 - Ubuntu 16.04+ and Debian 9: fix issues with disabling predictable interface names
 - Ubuntu/Debian: further mitigate apt locks at startup
 - Multiple platforms: cleanup errant \*.iso files
 - OpenSUSE Leap: disable Snappter/btrfs snapshots, increase disk size
 
 **Tooling**
+
 - VirtualBox 5.2.6 (Note: we are not using 5.2.8)
 - Parallels 13.3.0
 - VMware Fusion 10.1.1
@@ -141,14 +151,17 @@
 ## [201802.02.0](https://github.com/chef/bento/tree/201802.02.0) (2018-02-02)
 
 **Improvements**
+
 - Ubuntu: remove linux-firmware bloat w/o removing package and breaking upgrades
 - macOS: enable autologin for vagrant user
 
 **EOL**
+
 - Ubuntu 17.04
 - Windows Nano TP3
 
 **Tooling**
+
 - VirtualBox 5.2.6
 - Parallels 13.2.0
 - VMware Fusion 10.1.1
@@ -158,9 +171,11 @@
 ## [201801.05.0](https://github.com/chef/bento/tree/201801.05.0) (2018-01-05)
 
 **New Platforms**
+
 - Oracle Linux 7.4
 
 **Tooling**
+
 - VirtualBox 5.2.4
 - Parallels 13.2.0
 - Packer 1.1.3
@@ -169,11 +184,13 @@
 ## [201801.02.0](https://github.com/chef/bento/tree/201801.02.0) (2018-01-02)
 
 **New Platforms**
+
 - Debian 9.3
 - Debian 8.10
 - Fedora 27
 
 **Hyper-V Boxes (experimental)**
+
 - centos-7.4
 - centos-6.9
 - ubuntu-17.10
@@ -182,6 +199,7 @@
 - ubuntu-14.04
 
 **Tooling**
+
 - VirtualBox 5.2.4
 - VMware Fusion 10.1.0
 - Parallels 13.2.0
@@ -192,6 +210,7 @@
 ## [201710.31.0](https://github.com/chef/bento/tree/201710.31.0) (2017-10-31)
 
 **New Platforms**
+
 - Ubuntu 17.10
 - Debian 9.2
 - Debian 8.10
@@ -199,6 +218,7 @@
 - CentOS 7.4
 
 **Tooling**
+
 - VirtualBox 5.1.30
 - VMware Fusion 10.0.1
 - Parallels 13.1.1
@@ -206,6 +226,7 @@
 - Vagrant 2.0.0
 
 **Fixes/Updates**
+
 - SLES fixes
 - 1GB of RAM as default for boxen
 - re-organized into platform folders
@@ -216,16 +237,19 @@
 ## [201708.22.0](https://github.com/chef/bento/tree/201708.22.0) (2017-08-22)
 
 **New**
+
 - Debian 9.1
 - Debian 8.9
 - FreeBSD 11.1
 
 **Improvements**
+
 - Top level slugs for point release platforms, i.e. centos-7 -> centos-7.3
 - Move to date based versioning scheme `YYYYMM.DD.PATCH`
 - Automatically update RHEL-ish platforms as we do with other platforms
 
 **Tooling**
+
 - VirtualBox 5.1.26
 - VMware Fusion 8.5.8
 - VMware Workstation 12.5.7
@@ -235,6 +259,7 @@
 ## [2.3.8](https://github.com/chef/bento/tree/2.3.8) (2017-07-20)
 
 **New**
+
 - Fedora 26
 
 **Improvements**
@@ -249,17 +274,20 @@
 ## [2.3.7](https://github.com/chef/bento/tree/2.3.7) (2017-07-03)
 
 **New**
+
 - Debian 8.8
 - Debian 9.0 [\#818](https://github.com/chef/bento/pull/818)
 - Oracle 6.9
 - Ubuntu 17.04 [\#808](https://github.com/chef/bento/pull/808)
 
 **Removed**
+
 - OmniOS
 - Ubuntu 12.04
 - SLES 12 / 12 SP1
 
 **Fixes**
+
 - Fedora cleanup and size reduction
 
 ## [2.3.6](https://github.com/chef/bento/tree/2.3.6) (2017-05-03)
@@ -271,9 +299,11 @@
 - Release primarily around broken VirtualBox 5.1.20/21 (fixed)
 
 **New**
+
 - CentOS 6.9 [\#788](https://github.com/chef/bento/pull/788)
 
 **Fixes**
+
 - Oracle 6.8 `box_basename` [\#784](https://github.com/chef/bento/pull/784)
 - MacOS 10.12 issue w/ memory var [\#768](https://github.com/chef/bento/pull/768)
 
@@ -285,26 +315,33 @@
 ## [2.3.3](https://github.com/chef/bento/tree/2.3.3) (2017-02-19)
 
 **Added and Updated Platforms**
+
 - Debian 8.7
 
 ## [2.3.2](https://github.com/chef/bento/tree/2.3.2) (2016-12-19)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.3.1...2.3.2)
 
 **Added and Updated Platforms**
+
 - CentOS and RHEL 7.3 [\#739](https://github.com/chef/bento/pull/739) ([rickard-von-essen](https://github.com/rickard-von-essen))
 - SLES 12 SP2 [\#735](https://github.com/chef/bento/pull/735) ([mattiasgiese](https://github.com/mattiasgiese))
 
 **Improvements**
+
 - Update VMware tools to fix CentOS 7.3 build [\#743](https://github.com/chef/bento/pull/743) ([cheeseplus](https://github.com/cheeseplus))
 - Remove CentOS requiretty sudoers workaround, this is now the default [\#740](https://github.com/chef/bento/pull/740) ([mvermaes](https://github.com/mvermaes))
 
 **Pipeline**
+
 - Use the bento-ya gem, add builds.yml [\#745](https://github.com/chef/bento/pull/745) ([cheeseplus](https://github.com/cheeseplus))
 
 ## [2.3.1](https://github.com/chef/bento/tree/2.3.1) (2016-11-30)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.3.0...2.3.1)
 
 **Added and Updated Platforms**
+
 - Fedora 25 [\#725](https://github.com/chef/bento/pull/725) ([rickard-von-essen](https://github.com/rickard-von-essen))
 - FreeBSD 11.0 [\#492](https://github.com/chef/bento/pull/492) ([rickard-von-essen](https://github.com/rickard-von-essen))
 - macOS Sierra [\#715](https://github.com/chef/bento/pull/715) ([kameghamegha](https://github.com/kameghamegha))
@@ -338,6 +375,7 @@
 - OpenSuSE Leap 42.2 builds for all providers but will _only_ start properly under VMware Fusion/Workstation
 
 ## [2.3.0](https://github.com/chef/bento/tree/2.3.0) (2016-09-30)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.9...2.3.0)
 
 **SPECIAL NOTE:**
@@ -374,6 +412,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Vagrant 1.8.6
 
 ## [2.2.9](https://github.com/chef/bento/tree/2.2.9) (2016-08-01)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.8...2.2.9)
 
 **Improvements:**
@@ -399,6 +438,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
  - Parallels Pro 11.2.1
 
 ## [2.2.8](https://github.com/chef/bento/tree/2.2.8) (2016-07-22)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.7...2.2.8)
 
 **Improvements:**
@@ -428,6 +468,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Parallels Pro 11.2.0
 
 ## [2.2.7](https://github.com/chef/bento/tree/2.2.7) (2016-05-20)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.6...2.2.7)
 
 **Improvements:**
@@ -451,6 +492,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Parallels Pro 11.2.0
 
 ## [2.2.6](https://github.com/chef/bento/tree/2.2.6) (2016-04-28)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.5...2.2.6)
 
 **Tool Versions:**
@@ -487,6 +529,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Ubuntu: use dist-upgrade and install build packages in preseed [\#551](https://github.com/chef/bento/pull/551) ([cheeseplus](https://github.com/cheeseplus))
 
 ## [2.2.4](https://github.com/chef/bento/tree/2.2.4) (2016-03-29)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.3...2.2.4)
 
 **Closed issues:**
@@ -525,6 +568,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Cutting 2.2.3 [\#515](https://github.com/chef/bento/pull/515) ([cheeseplus](https://github.com/cheeseplus))
 
 ## [2.2.3](https://github.com/chef/bento/tree/2.2.3) (2015-12-28)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.2...2.2.3)
 
 **Fixed bugs:**
@@ -575,6 +619,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Minimized AutoYaST profiles for SLES 11.3/12 to enhance readability [\#373](https://github.com/chef/bento/pull/373) ([mattiasgiese](https://github.com/mattiasgiese))
 
 ## [2.2.2](https://github.com/chef/bento/tree/2.2.2) (2015-10-07)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.1...2.2.2)
 
 **Closed issues:**
@@ -603,6 +648,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Adding verification \(tk\) stage to build process [\#451](https://github.com/chef/bento/pull/451) ([cheeseplus](https://github.com/cheeseplus))
 
 ## [2.2.1](https://github.com/chef/bento/tree/2.2.1) (2015-09-16)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.2.0...2.2.1)
 
 **Closed issues:**
@@ -648,6 +694,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - CentOS kickstarts: Change sed to not rewrite sudo comments [\#326](https://github.com/chef/bento/pull/326) ([mvermaes](https://github.com/mvermaes))
 
 ## [2.2.0](https://github.com/chef/bento/tree/2.2.0) (2015-08-26)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.1.0...2.2.0)
 
 **Merged pull requests:**
@@ -660,6 +707,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[macosx-\*\] Increase disk\_size to ~40G from ~20G. [\#413](https://github.com/chef/bento/pull/413) ([fnichol](https://github.com/fnichol))
 
 ## [2.1.0](https://github.com/chef/bento/tree/2.1.0) (2015-08-07)
+
 [Full Changelog](https://github.com/chef/bento/compare/2.0.0...2.1.0)
 
 **Fixed bugs:**
@@ -685,6 +733,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Add @cheeseplus to MAINTAINERS.md [\#392](https://github.com/chef/bento/pull/392) ([fnichol](https://github.com/fnichol))
 
 ## [2.0.0](https://github.com/chef/bento/tree/2.0.0) (2015-07-03)
+
 **Fixed bugs:**
 
 - Do not write metadata files when `bento build` is in dry run mode [\#368](https://github.com/chef/bento/issues/368)
@@ -955,7 +1004,5 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - BENTO-17 passes validation for windows 7 and 2008R2 [\#15](https://github.com/chef/bento/pull/15) ([hh](https://github.com/hh))
 - \[BENTO-2\] Update Ubuntu iso filenames, md5sums. [\#6](https://github.com/chef/bento/pull/6) ([torandu](https://github.com/torandu))
 - \[BENTO-4\] Updated centos 6.2 iso urls to use the vault.centos.org url [\#4](https://github.com/chef/bento/pull/4) ([cburyta](https://github.com/cburyta))
-
-
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
