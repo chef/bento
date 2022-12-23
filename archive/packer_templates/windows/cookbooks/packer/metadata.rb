@@ -1,7 +1,0 @@
-name 'packer'
-maintainer 'Tim Smith'
-maintainer_email 'tsmith@chef.io'
-license 'Apache-2.0'
-description 'Resources run during packer builds'
-version '1.0.0'
-chef_version '>= 15.0'
