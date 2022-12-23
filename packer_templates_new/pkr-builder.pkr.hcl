@@ -116,50 +116,96 @@ variable "sources_enabled" {
 
 locals {
   shell_scripts = var.is_windows ? [
-    "${path.root}/scripts/cleanup.ps1"
+    "${path.root}/scripts/windows/cleanup.ps1"
     ] : (
-    var.os_name == "ubuntu" ||
-    var.os_name == "debian" ? [
-      "${path.root}/scripts/update_apt.sh",
-      "${path.root}/_common/motd.sh",
-      "${path.root}/_common/sshd.sh",
-      "${path.root}/scripts/networking_ubuntu.sh",
-      "${path.root}/scripts/sudoers_ubuntu.sh",
-      "${path.root}/_common/vagrant.sh",
-      "${path.root}/_common/virtualbox.sh",
-      "${path.root}/_common/vmware_ubuntu.sh",
-      "${path.root}/_common/parallels.sh",
-      "${path.root}/scripts/hyperv_ubuntu.sh",
-      "${path.root}/scripts/cleanup_apt.sh",
-      "${path.root}/_common/minimize.sh"
+    var.os_name == "freebsd" ? [
+      "${path.root}/scripts/freebsd/update_freebsd.sh",
+      "${path.root}/scripts/freebsd/postinstall_freebsd.sh",
+      "${path.root}/scripts/freebsd/sudoers_freebsd.sh",
+      "${path.root}/scripts/_common/vagrant_freebsd.sh",
+      "${path.root}/scripts/freebsd/vmtools_freebsd.sh",
+      "${path.root}/scripts/freebsd/cleanup_freebsd.sh",
+      "${path.root}/scripts/freebsd/minimize_freebsd.sh"
       ] : (
-      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonliunux-2" ||
-      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
-      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
-      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
-      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
-      "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [
-        "${path.root}/scripts/update_yum.sh",
-        "${path.root}/_common/motd.sh",
-        "${path.root}/_common/sshd.sh",
-        "${path.root}/scripts/networking_rhel7.sh",
-        "${path.root}/_common/vagrant.sh",
-        "${path.root}/_common/virtualbox.sh",
-        "${path.root}/_common/vmware_rhel.sh",
-        "${path.root}/_common/parallels.sh",
-        "${path.root}/scripts/cleanup_yum.sh",
-        "${path.root}/_common/minimize.sh"
-        ] : [
-        "${path.root}/scripts/update_dnf.sh",
-        "${path.root}/_common/motd.sh",
-        "${path.root}/_common/sshd.sh",
-        "${path.root}/_common/vagrant.sh",
-        "${path.root}/_common/virtualbox.sh",
-        "${path.root}/_common/vmware_rhel.sh",
-        "${path.root}/_common/parallels.sh",
-        "${path.root}/scripts/cleanup_dnf.sh",
-        "${path.root}/_common/minimize.sh"
-      ]
+      var.os_name == "opensuse" ||
+      var.os_name == "sles" ? [
+        "${path.root}/scripts/suse/repositories_suse.sh",
+        "${path.root}/scripts/suse/update_suse.sh",
+        "${path.root}/scripts/_common/motd.sh",
+        "${path.root}/scripts/_common/sshd.sh",
+        "${path.root}/scripts/_common/vagrant.sh",
+        "${path.root}/scripts/suse/unsupported-modules.sh",
+        "${path.root}/scripts/_common/virtualbox.sh",
+        "${path.root}/scripts/_common/vmware_suse.sh",
+        "${path.root}/scripts/_common/parallels.sh",
+        "${path.root}/scripts/suse/vagrant_group_suse.sh",
+        "${path.root}/scripts/suse/sudoers_suse.sh",
+        "${path.root}/scripts/suse/zypper-locks_suse.sh",
+        "${path.root}/scripts/suse/remove-dvd-source.sh",
+        "${path.root}/scripts/suse/cleanup_suse.sh",
+        "${path.root}/scripts/_common/minimize.sh"
+        ] : (
+        var.os_name == "ubuntu" ||
+        var.os_name == "debian" ? [
+          "${path.root}/scripts/${var.os_name}/update_${var.os_name}.sh",
+          "${path.root}/scripts/_common/motd.sh",
+          "${path.root}/scripts/_common/sshd.sh",
+          "${path.root}/scripts/${var.os_name}/networking_${var.os_name}.sh",
+          "${path.root}/scripts/${var.os_name}/sudoers_${var.os_name}.sh",
+          "${path.root}/scripts/_common/vagrant.sh",
+          "${path.root}/scripts/${var.os_name}/systemd_debian_ubuntu.sh",
+          "${path.root}/scripts/_common/virtualbox.sh",
+          "${path.root}/scripts/_common/vmware_debian_ubuntu.sh",
+          "${path.root}/scripts/_common/parallels.sh",
+          "${path.root}/scripts/${var.os_name}/hyperv_debian_ubuntu.sh",
+          "${path.root}/scripts/${var.os_name}/cleanup_${var.os_name}.sh",
+          "${path.root}/scripts/_common/minimize.sh"
+          ] : (
+          var.os_name == "fedora" ? [
+            "${path.root}/scripts/fedora/networking_fedora.sh",
+            "${path.root}/scripts/fedora/update_dnf.sh",
+            "${path.root}/scripts/fedora/build-tools_fedora.sh",
+            "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
+            "${path.root}/scripts/_common/motd.sh",
+            "${path.root}/scripts/_common/sshd.sh",
+            "${path.root}/scripts/_common/virtualbox.sh",
+            "${path.root}/scripts/_common/vmware_fedora.sh",
+            "${path.root}/scripts/_common/parallels.sh",
+            "${path.root}/scripts/_common/vagrant.sh",
+            "${path.root}/scripts/fedora/real-tmp_fedora.sh",
+            "${path.root}/scripts/fedora/cleanup_dnf.sh",
+            "${path.root}/scripts/_common/minimize.sh"
+            ] : (
+            "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonliunux-2" ||
+            "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
+            "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
+            "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
+            "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
+            "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [
+              "${path.root}/scripts/rhel/update_yum.sh",
+              "${path.root}/scripts/_common/motd.sh",
+              "${path.root}/scripts/_common/sshd.sh",
+              "${path.root}/scripts/rhel/networking_rhel7.sh",
+              "${path.root}/scripts/_common/vagrant.sh",
+              "${path.root}/scripts/_common/virtualbox.sh",
+              "${path.root}/scripts/_common/vmware_rhel.sh",
+              "${path.root}/scripts/_common/parallels.sh",
+              "${path.root}/scripts/rhel/cleanup_yum.sh",
+              "${path.root}/scripts/_common/minimize.sh"
+              ] : [
+              "${path.root}/scripts/rhel/update_dnf.sh",
+              "${path.root}/scripts/_common/motd.sh",
+              "${path.root}/scripts/_common/sshd.sh",
+              "${path.root}/scripts/_common/vagrant.sh",
+              "${path.root}/scripts/_common/virtualbox.sh",
+              "${path.root}/scripts/_common/vmware_rhel.sh",
+              "${path.root}/scripts/_common/parallels.sh",
+              "${path.root}/scripts/rhel/cleanup_dnf.sh",
+              "${path.root}/scripts/_common/minimize.sh"
+            ]
+          )
+        )
+      )
     )
   )
   source_names = [for source in var.sources_enabled : trimprefix(source, "source.")]
@@ -182,16 +228,16 @@ build {
 
   # Windows Updates and scripts
   provisioner "windows-update" {
-#    search_criteria = "IsInstalled=0"
-#    filters = [
-#      "exclude:$_.Title -like '*Preview*'",
-#      "include:$true",
-#    ]
+    #    search_criteria = "IsInstalled=0"
+    #    filters = [
+    #      "exclude:$_.Title -like '*Preview*'",
+    #      "include:$true",
+    #    ]
     only = var.is_windows ? local.source_names : null
   }
   provisioner "chef-solo" {
     chef_license = "accept-no-persist"
-    version = "17"
+    version      = "17"
     cookbook_paths = [
       "${path.root}/cookbooks"
     ]
@@ -215,7 +261,7 @@ build {
   }
   provisioner "chef-solo" {
     chef_license = "accept-no-persist"
-    version = "17"
+    version      = "17"
     cookbook_paths = [
       "${path.root}/cookbooks"
     ]
@@ -230,7 +276,7 @@ build {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     script            = "${path.root}/scripts/cleanup.ps1"
-    timeout = "5m"
+    timeout           = "5m"
     only              = var.is_windows ? local.source_names : null
   }
 
