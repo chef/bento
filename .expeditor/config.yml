@@ -2,8 +2,8 @@
 ---
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
-#slack:
-#  notify_channel: chef-found-notify
+slack:
+  notify_channel: chef-found-notify
 
 github:
   # This deletes the GitHub PR branch after successfully merged into the release branch
