@@ -126,8 +126,7 @@ jobs:
         run: |
           for pkrvars in "${{ matrix.pkrvars }}"
           do
-            echo $pkrvars
-            packer validate -var-file=os_pkrvars/$pkrvars packer_tamplates
+            packer validate -var-file=os_pkrvars/$pkrvars packer_templates
           done
 
   enumerate_iso_validation:
@@ -183,15 +182,7 @@ jobs:
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         shell: pwsh
         run: |
-          $(Get-Content "os_pkrvars/${{ matrix.template }}" | ConvertFrom-StringData ) | 
-            Foreach-Object {
-              if($_.iso_url){
-                $_.iso_url
-              }
-            } | Foreach-Object {
-              echo $_
-              Invoke-RestMethod -Uri $_ -Method Head -Verbose
-            }
+          $(Get-Content "os_pkrvars/${{ matrix.template }}" | ConvertFrom-StringData).iso_url | Foreach-Object { Invoke-RestMethod -Uri $_ -Method Head -Verbose }
 
   check_jobs_pass:
     if: always()
