@@ -7,7 +7,7 @@ locals {
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "hyperv-iso" "vm" {
-  boot_command          = var.is_windows ? null : local.boot_command_hyperv
+  boot_command          = local.boot_command_hyperv
   enable_dynamic_memory = var.hyperv_generation == 2 && var.is_windows ? "true" : null
   enable_secure_boot    = var.hyperv_generation == 2 && var.is_windows ? false : null
   floppy_files = var.hyperv_generation == 2 ? null : (
@@ -30,7 +30,7 @@ source "hyperv-iso" "vm" {
   guest_additions_mode = "disable"
   switch_name          = "bento"
   headless             = var.headless
-  boot_wait            = "5s"
+  boot_wait            = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus                 = 2
   communicator         = var.is_windows ? "winrm" : "ssh"
   disk_size            = 65536
@@ -69,8 +69,8 @@ source "parallels-iso" "vm" {
     ["set", "{{ .Name }}", "--videosize", "16"]
   ]
   prlctl_version_file = ".prlctl_version"
-  boot_command        = var.is_windows && var.os_version == 10 ? null : local.boot_command
-  boot_wait           = "5s"
+  boot_command        = local.boot_command
+  boot_wait           = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus                = 2
   communicator        = var.is_windows ? "winrm" : "ssh"
   disk_size           = 65536
@@ -117,8 +117,8 @@ source "qemu" "vm" {
       ["-display", "none"]
     ]
   )
-  boot_command     = var.is_windows ? null : local.boot_command
-  boot_wait        = "5s"
+  boot_command     = local.boot_command
+  boot_wait        = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus             = 2
   communicator     = var.is_windows ? "winrm" : "ssh"
   disk_size        = 65536
@@ -163,8 +163,8 @@ source "virtualbox-iso" "vm" {
     ]
   ]
   iso_interface    = "sata"
-  boot_command     = var.is_windows ? null : local.boot_command
-  boot_wait        = "5s"
+  boot_command     = local.boot_command
+  boot_wait        = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus             = 2
   communicator     = var.is_windows ? "winrm" : "ssh"
   disk_size        = 65536
@@ -224,8 +224,8 @@ source "vmware-iso" "vm" {
     "cpuid.coresPerSocket" = "1"
   }
   vmx_remove_ethernet_interfaces = true
-  boot_command                   = var.is_windows ? null : local.boot_command
-  boot_wait                      = "5s"
+  boot_command                   = local.boot_command
+  boot_wait                      = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus                           = 2
   communicator                   = var.is_windows ? "winrm" : "ssh"
   disk_size                      = 65536

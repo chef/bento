@@ -5,7 +5,7 @@ SCRIPT_RELATIVE_DIR=$(dirname "${BASH_SOURCE[0]}")
 cd $SCRIPT_RELATIVE_DIR
 
 # set tmp dir for files
-AMZDIR="$(pwd)/amz_working_files"
+AMZDIR="$(pwd)/packer_templates/amz_working_files"
 
 # Get virtualbox vdi file name with latest version number
 IMG="$(wget -q https://cdn.amazonlinux.com/os-images/latest/virtualbox/ -O - | grep ".vdi" | cut -d "\"" -f 2)"
@@ -59,7 +59,7 @@ echo Deleting the VM
 vboxmanage unregistervm $VM --delete
 
 echo starting packer build of amazonlinux
-if packer build -only=virtualbox-ovf.amazonlinux -var-file="$AMZDIR/../os_pkrvars/amazonlinux-2-x86_64.pkrvars.hcl" $AMZDIR/..; then
+if packer build -only=virtualbox-ovf.amazonlinux -var-file="$AMZDIR/../../os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl" $AMZDIR/..; then
   echo "Cleaning up files"
   rm $AMZDIR/*.ovf $AMZDIR/*.vmdk $AMZDIR/*.iso
 fi

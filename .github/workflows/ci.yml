@@ -2,6 +2,10 @@
 on:
   pull_request:
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   markdownlint:
     uses: Stromweld/github-workflows/.github/workflows/markdownlint.yml@main
