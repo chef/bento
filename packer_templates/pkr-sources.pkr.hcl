@@ -158,8 +158,8 @@ source "virtualbox-iso" "vm" {
       "{{.Name}}",
       "--audio",
       "none",
-      #      "--nat-localhostreachable1",
-      #      "on",
+      # "--nat-localhostreachable1",
+      # "on",
     ]
   ]
   iso_interface    = "sata"
