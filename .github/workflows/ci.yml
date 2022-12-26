@@ -8,22 +8,22 @@ concurrency:
 
 jobs:
   markdown-lint:
-    uses: chef/bento/.github/workflows/markdownlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/markdownlint.yml@main
 
   markdown-link-checker:
-    uses: chef/bento/.github/workflows/markdownlinkchecker.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/markdownlinkchecker.yml@main
 
   yaml-lint:
-    uses: chef/bento/.github/workflows/yamllint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/yamllint.yml@main
 
   jsonlint:
-    uses: chef/bento/.github/workflows/jsonlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
 
   xml-lint:
-    uses: chef/bento/.github/workflows/jsonlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
 
   powershell-lint:
-    uses: chef/bento/.github/workflows/jsonlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
 
   packer-fmt:
     runs-on: ubuntu-latest
