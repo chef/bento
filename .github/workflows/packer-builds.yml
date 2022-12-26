@@ -61,7 +61,7 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "::set-output name=files_changed::true"
+            echo "true" $GITHUB_OUTPUT
           else
             echo "::set-output name=files_changed::false"
           fi

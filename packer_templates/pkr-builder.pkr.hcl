@@ -239,7 +239,7 @@ build {
     #      "exclude:$_.Title -like '*Preview*'",
     #      "include:$true",
     #    ]
-    only = var.is_windows ? local.source_names : null
+    only = var.is_windows ? local.source_names : []
   }
   provisioner "chef-solo" {
     chef_license = "accept-no-persist"
@@ -260,10 +260,10 @@ build {
       "packer::enable_remote_desktop",
       "packer::ui_tweaks"
     ]
-    only = var.is_windows ? local.source_names : null
+    only = var.is_windows ? local.source_names : []
   }
   provisioner "windows-restart" {
-    only = var.is_windows ? local.source_names : null
+    only = var.is_windows ? local.source_names : []
   }
   provisioner "chef-solo" {
     chef_license = "accept-no-persist"
@@ -276,13 +276,13 @@ build {
       "packer::cleanup",
       "packer::defrag"
     ]
-    only = var.is_windows ? local.source_names : null
+    only = var.is_windows ? local.source_names : []
   }
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     scripts           = local.scripts
-    only              = var.is_windows ? local.source_names : null
+    only              = var.is_windows ? local.source_names : []
   }
 
   # Convert machines to vagrant boxes
