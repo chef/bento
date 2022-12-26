@@ -2,10 +2,6 @@
 on:
   pull_request:
 
-concurrency:
-  group: packer-builds
-  cancel-in-progress: true
-
 jobs:
   builds-x86_64:
     runs-on: macos-latest
@@ -61,9 +57,9 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "true" >> $GITHUB_OUTPUT
+            echo "::set-output name=files_changed::true"
           else
-            echo "false" >> $GITHUB_OUTPUT
+            echo "::set-output name=files_changed::false"
           fi
       - name: Setup Packer
         if: steps.verify-changed-files.outputs.files_changed == 'true'
