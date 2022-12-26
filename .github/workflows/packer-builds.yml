@@ -78,11 +78,11 @@ jobs:
         run: packer init packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }} -var-file=os_pkrvars/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }} -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@main
         with:
-          name: dist-without-markdown
+          name: vagrant-boxes
           path: |
             builds
             !builds/packer-*/*
@@ -145,7 +145,7 @@ jobs:
         run: packer init packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }} -var-file=os_pkrvars/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }} -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
