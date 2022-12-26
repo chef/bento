@@ -15,7 +15,6 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
-          - amazonlinux-2
           - centos-7
           - centos-stream-8
           - centos-stream-9
