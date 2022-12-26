@@ -3,10 +3,16 @@ on:
   pull_request:
 #  workflow_call:
 #    inputs:
+#      runs-on:
+#        required: true
+#        type: string
+#      cpu-arch:
+#        required: true
+#        type: string
 #      matrix-os:
 #        required: true
 #        type: string
-#      matric-provider:
+#      matrix-provider:
 #        required: true
 #        type: string
 
@@ -21,6 +27,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        runs-on:
+          - macos-latest
         os:
           - almalinux-8
           - almalinux-9
@@ -57,6 +65,7 @@ jobs:
         provider:
           - qemu
           - virtualbox-iso
+
     steps:
       - name: Install qemu
         run: brew install qemu
