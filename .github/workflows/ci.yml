@@ -20,10 +20,10 @@ jobs:
     uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
 
   xml-lint:
-    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/xmllint.yml@main
 
   powershell-lint:
-    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/powershelllint.yml@main
 
   packer-fmt:
     runs-on: ubuntu-latest

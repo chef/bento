@@ -1,20 +1,6 @@
 ---
 on:
   pull_request:
-#  workflow_call:
-#    inputs:
-#      runs-on:
-#        required: true
-#        type: string
-#      cpu-arch:
-#        required: true
-#        type: string
-#      matrix-os:
-#        required: true
-#        type: string
-#      matrix-provider:
-#        required: true
-#        type: string
 
 concurrency:
   group: ${{ github.ref }}
@@ -26,8 +12,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runs-on:
-          - macos-latest
         os:
           - almalinux-8
           - almalinux-9
