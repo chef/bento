@@ -16,7 +16,7 @@ jobs:
   yaml-lint:
     uses: Stromweld/github-workflows/.github/workflows/yamllint.yml@main
 
-  jsonlint:
+  json-lint:
     uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
 
   xml-lint:
