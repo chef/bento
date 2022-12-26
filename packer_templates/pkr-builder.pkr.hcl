@@ -234,11 +234,7 @@ build {
 
   # Windows Updates and scripts
   provisioner "windows-update" {
-    #    search_criteria = "IsInstalled=0"
-    #    filters = [
-    #      "exclude:$_.Title -like '*Preview*'",
-    #      "include:$true",
-    #    ]
+    search_criteria = "IsInstalled=0"
     only = var.is_windows ? local.source_names : []
   }
   provisioner "chef-solo" {

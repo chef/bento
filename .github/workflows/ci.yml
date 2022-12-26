@@ -110,7 +110,7 @@ jobs:
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
-        run: packer init packer_templates
+        run: packer init -upgrade packer_templates
       - name: Packer Validate
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: packer validate -var-file=os_pkrvars/"${{ matrix.pkrvars }}" packer_templates
