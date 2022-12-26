@@ -78,7 +78,7 @@ jobs:
         run: packer init packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }} -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
@@ -114,10 +114,10 @@ jobs:
           - ubuntu-22.04
           - ubuntu-22.10
         provider:
-          - parallels
+          - parallels-iso
           - qemu
           - virtualbox-iso
-          - vmware
+          - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -145,7 +145,7 @@ jobs:
         run: packer init packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }} -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
