@@ -10,7 +10,7 @@ packer {
       source  = "github.com/hashicorp/inspec"
     }
     parallels = {
-      version = ">= 1.0.0"
+      version = ">= 1.0.1"
       source  = "github.com/hashicorp/parallels"
     }
     qemu = {

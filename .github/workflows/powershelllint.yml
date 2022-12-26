@@ -1,0 +1,25 @@
+---
+on:
+  workflow_call:
+
+jobs:
+  powershell-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+      - name: Pull Change list
+        id: changed-files
+        uses: collin-miller/git-changesets@master
+      - name: Verify Changed files
+        id: verify-changed-files
+        run: |
+          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
+          if grep ".*\.ps1" changed.txt; then
+            echo "::set-output name=files_changed::true"
+          else
+            echo "::set-output name=files_changed::false"
+          fi
+      - name: Run PowerShell Linter
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: microsoft/psscriptanalyzer-action@main

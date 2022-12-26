@@ -7,37 +7,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  markdownlint:
-    uses: Stromweld/github-workflows/.github/workflows/markdownlint.yml@main
+  markdown-lint:
+    uses: chef/bento/.github/workflows/markdownlint.yml@main
 
-  md-links:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.md" changed.txt; then
-            echo "::set-output name=files_changed::true"
-          else
-            echo "::set-output name=files_changed::false"
-          fi
-      - name: markdown-link-check
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: gaurav-nelson/github-action-markdown-link-check@master
-        with:
-          use-verbose-mode: "yes"
+  markdown-link-checker:
+    uses: chef/bento/.github/workflows/markdownlinkchecker.yml@main
 
-  yamllint:
-    uses: Stromweld/github-workflows/.github/workflows/yamllint.yml@main
+  yaml-lint:
+    uses: chef/bento/.github/workflows/yamllint.yml@main
 
   jsonlint:
-    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
+    uses: chef/bento/.github/workflows/jsonlint.yml@main
+
+  xml-lint:
+    uses: chef/bento/.github/workflows/jsonlint.yml@main
+
+  powershell-lint:
+    uses: chef/bento/.github/workflows/jsonlint.yml@main
 
   packer-fmt:
     runs-on: ubuntu-latest
@@ -186,10 +172,12 @@ jobs:
   check_jobs_pass:
     if: always()
     needs:
-      - markdownlint
-      - md-links
-      - yamllint
-      - jsonlint
+      - markdown-lint
+      - markdown-link-checker
+      - yaml-lint
+      - json-lint
+      - xml-lint
+      - powershell-lint
       - packer-fmt
       - packer-validate
       - iso-availability

@@ -1,0 +1,27 @@
+---
+on:
+  workflow_call:
+
+jobs:
+  markdown-link-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@main
+      - name: Pull Change list
+        id: changed-files
+        uses: collin-miller/git-changesets@master
+      - name: Verify Changed files
+        id: verify-changed-files
+        run: |
+          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
+          if grep ".*\.md" changed.txt; then
+            echo "::set-output name=files_changed::true"
+          else
+            echo "::set-output name=files_changed::false"
+          fi
+      - name: markdown-link-check
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: gaurav-nelson/github-action-markdown-link-check@master
+        with:
+          use-verbose-mode: "yes"
