@@ -3,7 +3,7 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.ref }}
+  group: packer-builds
   cancel-in-progress: true
 
 jobs:
