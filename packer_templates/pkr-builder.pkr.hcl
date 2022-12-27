@@ -226,7 +226,9 @@ build {
     environment_vars = [
       "HOME_DIR=/home/vagrant"
     ]
-    execute_command   = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
+    execute_command = var.os_name == "freebsd" ? "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'" : (
+      var.os_name == "solaris" ? "echo 'vagrant'|sudo -S bash {{.Path}}" : "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
+    )
     expect_disconnect = true
     scripts           = local.scripts
     except            = var.is_windows ? local.source_names : null
@@ -235,7 +237,7 @@ build {
   # Windows Updates and scripts
   provisioner "windows-update" {
     search_criteria = "IsInstalled=0"
-    except            = var.is_windows ? null : local.source_names
+    except          = var.is_windows ? null : local.source_names
   }
   provisioner "chef-solo" {
     chef_license = "accept-no-persist"
@@ -278,7 +280,7 @@ build {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     scripts           = local.scripts
-    except              = var.is_windows ? null : local.source_names
+    except            = var.is_windows ? null : local.source_names
   }
 
   # Convert machines to vagrant boxes
