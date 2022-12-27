@@ -67,12 +67,12 @@ variable "iso_checksum" {
   description = "ISO download checksum"
 }
 variable "boot_command" {
-  type        = string
+  type        = list(string)
   default     = null
   description = "Commands to pass to gui session to initiate automated install"
 }
 variable "boot_command_hyperv" {
-  type        = string
+  type        = list(string)
   default     = null
   description = "Commands to pass to gui session to initiate automated install"
 }

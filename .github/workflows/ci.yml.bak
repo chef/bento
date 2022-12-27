@@ -37,9 +37,9 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "::set-output name=files_changed::true"
+            echo "files_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=files_changed::false"
+            echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Setup Packer
         if: steps.verify-changed-files.outputs.files_changed == 'true'
@@ -63,9 +63,9 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "::set-output name=files_changed::true"
+            echo "files_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=files_changed::false"
+            echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Enumerate pkrvars validation
         if: steps.verify-changed-files.outputs.files_changed == 'true'
@@ -93,9 +93,9 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.hcl" changed.txt; then
-            echo "::set-output name=files_changed::true"
+            echo "files_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=files_changed::false"
+            echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Setup Packer
         if: steps.verify-changed-files.outputs.files_changed == 'true'
@@ -124,9 +124,9 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "::set-output name=files_changed::true"
+            echo "files_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=files_changed::false"
+            echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Enumerate iso
         if: steps.verify-changed-files.outputs.files_changed == 'true'
@@ -156,9 +156,9 @@ jobs:
         run: |
           echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
           if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "::set-output name=files_changed::true"
+            echo "files_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=files_changed::false"
+            echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: iso-availability
         if: steps.verify-changed-files.outputs.files_changed == 'true'
