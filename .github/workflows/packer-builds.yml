@@ -46,7 +46,6 @@ jobs:
         exclude:
           - os: centos-stream-9
             provider: virtualbox-iso
-
     steps:
       - name: Install qemu
         run: brew install qemu
@@ -93,6 +92,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
+          - almalinux-8
           - almalinux-9
           - centos-7
           - centos-stream-8
@@ -104,6 +104,7 @@ jobs:
           - oraclelinux-7
           - oraclelinux-8
           - oraclelinux-9
+          - rockylinux-8
           - rockylinux-9
           - ubuntu-18.04
           - ubuntu-20.04
@@ -112,8 +113,13 @@ jobs:
         provider:
           - parallels-iso
           # - qemu
-          - virtualbox-iso
-          - vmware-iso
+          # - virtualbox-iso
+          # - vmware-iso
+        exclude:
+          - os: almalinux-8
+            provider: parallels-iso
+          - os: rockylinux-8
+            provider: parallels-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main

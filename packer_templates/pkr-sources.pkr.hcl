@@ -1,6 +1,5 @@
 locals {
-  build_timestamp = "${formatdate("'v'YYYY'.'MM'.'DD'.0'", timestamp())}"
-  memory          = var.is_windows ? 4096 : 2048
+  memory = var.is_windows ? 4096 : 2048
 }
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
@@ -41,10 +40,10 @@ source "hyperv-iso" "vm" {
   shutdown_timeout     = var.is_windows ? "15m" : null
   ssh_password         = "vagrant"
   ssh_port             = 22
-  ssh_timeout          = "15m"
+  ssh_timeout          = "20m"
   ssh_username         = "vagrant"
   winrm_password       = "vagrant"
-  winrm_timeout        = "15m"
+  winrm_timeout        = "20m"
   winrm_username       = "vagrant"
   vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -81,10 +80,10 @@ source "parallels-iso" "vm" {
   shutdown_timeout    = var.is_windows ? "15m" : null
   ssh_password        = "vagrant"
   ssh_port            = 22
-  ssh_timeout         = "15m"
+  ssh_timeout         = "20m"
   ssh_username        = "vagrant"
   winrm_password      = "vagrant"
-  winrm_timeout       = "15m"
+  winrm_timeout       = "20m"
   winrm_username      = "vagrant"
   vm_name             = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -129,10 +128,10 @@ source "qemu" "vm" {
   shutdown_timeout = var.is_windows ? "15m" : null
   ssh_password     = "vagrant"
   ssh_port         = 22
-  ssh_timeout      = "15m"
+  ssh_timeout      = "20m"
   ssh_username     = "vagrant"
   winrm_password   = "vagrant"
-  winrm_timeout    = "15m"
+  winrm_timeout    = "20m"
   winrm_username   = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -175,10 +174,10 @@ source "virtualbox-iso" "vm" {
   shutdown_timeout = var.is_windows ? "15m" : null
   ssh_password     = "vagrant"
   ssh_port         = 22
-  ssh_timeout      = "15m"
+  ssh_timeout      = "20m"
   ssh_username     = "vagrant"
   winrm_password   = "vagrant"
-  winrm_timeout    = "15m"
+  winrm_timeout    = "20m"
   winrm_username   = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -202,7 +201,7 @@ source "virtualbox-ovf" "amazonlinux" {
   shutdown_command        = "echo 'vagrant' | sudo -S /sbin/halt -h -p"
   ssh_password            = "vagrant"
   ssh_port                = 22
-  ssh_timeout             = "15m"
+  ssh_timeout             = "20m"
   ssh_username            = "vagrant"
   virtualbox_version_file = ".vbox_version"
   vm_name                 = "${var.os_name}-${var.os_version}-${var.os_arch}"
@@ -236,10 +235,10 @@ source "vmware-iso" "vm" {
   shutdown_timeout               = var.is_windows ? "15m" : null
   ssh_password                   = "vagrant"
   ssh_port                       = 22
-  ssh_timeout                    = "15m"
+  ssh_timeout                    = "20m"
   ssh_username                   = "vagrant"
   winrm_password                 = "vagrant"
-  winrm_timeout                  = "15m"
+  winrm_timeout                  = "20m"
   winrm_username                 = "vagrant"
   vm_name                        = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }

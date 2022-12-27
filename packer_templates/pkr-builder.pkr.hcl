@@ -223,9 +223,20 @@ build {
 
   # Linux Shell scipts
   provisioner "shell" {
-    environment_vars = [
-      "HOME_DIR=/home/vagrant"
-    ]
+    environment_vars = var.os_name == "freebsd" ? [
+      "HOME_DIR=/home/vagrant",
+      "http_proxy={{env `http_proxy`}}",
+      "https_proxy={{env `https_proxy`}}",
+      "no_proxy={{env `no_proxy`}}",
+      "pkg_branch=quarterly"
+      ] : (
+      var.os_name == "solaris" ? [] : [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{env `http_proxy`}}",
+        "https_proxy={{env `https_proxy`}}",
+        "no_proxy={{env `no_proxy`}}"
+      ]
+    )
     execute_command = var.os_name == "freebsd" ? "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'" : (
       var.os_name == "solaris" ? "echo 'vagrant'|sudo -S bash {{.Path}}" : "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
     )
