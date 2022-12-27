@@ -7,5 +7,5 @@ iso_checksum            = "c14fae79d5e26bc41e75f0a65063ab684199a7ea3a6bd0a8086e1
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "RedHat_64"
 vmware_guest_os_type    = "centos-64"
-boot_command            = "<up><wait>e<right66> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/#{os_major_version}ks.cfg <leftCtrlOn>x<leftCtrlOff><wait>"
-boot_command_hyperv     = "<wait5><up><wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"
+boot_command            = ["<up><wait>e<wait>inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/8ks.cfg <leftCtrlOn>x<leftCtrlOff>"]
+boot_command_hyperv     = ["<wait5><up><wait5><tab> text ks=hd:fd0:/ks.cfg<enter><wait5><esc>"]

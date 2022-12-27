@@ -1,13 +1,11 @@
 locals {
-  boot_command        = var.boot_command != null ? [replace(var.boot_command, "#{os_major_version}", substr(var.os_version, 0, 1))] : null
-  boot_command_hyperv = var.boot_command_hyperv != null ? [replace(var.boot_command_hyperv, "#{os_major_version}", substr(var.os_version, 0, 1))] : null
   build_timestamp     = "${formatdate("'v'YYYY'.'MM'.'DD'.0'", timestamp())}"
   memory              = var.is_windows ? 4096 : 1024
 }
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "hyperv-iso" "vm" {
-  boot_command          = local.boot_command_hyperv
+  boot_command          = var.boot_command_hyperv
   enable_dynamic_memory = var.hyperv_generation == 2 && var.is_windows ? "true" : null
   enable_secure_boot    = var.hyperv_generation == 2 && var.is_windows ? false : null
   floppy_files = var.hyperv_generation == 2 ? null : (
@@ -69,7 +67,7 @@ source "parallels-iso" "vm" {
     ["set", "{{ .Name }}", "--videosize", "16"]
   ]
   prlctl_version_file = ".prlctl_version"
-  boot_command        = local.boot_command
+  boot_command        = var.boot_command
   boot_wait           = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus                = 2
   communicator        = var.is_windows ? "winrm" : "ssh"
@@ -117,7 +115,7 @@ source "qemu" "vm" {
       ["-display", "none"]
     ]
   )
-  boot_command     = local.boot_command
+  boot_command     = var.boot_command
   boot_wait        = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus             = 2
   communicator     = var.is_windows ? "winrm" : "ssh"
@@ -163,7 +161,7 @@ source "virtualbox-iso" "vm" {
     ]
   ]
   iso_interface    = "sata"
-  boot_command     = local.boot_command
+  boot_command     = var.boot_command
   boot_wait        = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus             = 2
   communicator     = var.is_windows ? "winrm" : "ssh"
@@ -224,7 +222,7 @@ source "vmware-iso" "vm" {
     "cpuid.coresPerSocket" = "1"
   }
   vmx_remove_ethernet_interfaces = true
-  boot_command                   = local.boot_command
+  boot_command                   = var.boot_command
   boot_wait                      = var.is_windows && (var.os_version == "11" || var.os_version == "11gen2") ? "60s" : "5s"
   cpus                           = 2
   communicator                   = var.is_windows ? "winrm" : "ssh"

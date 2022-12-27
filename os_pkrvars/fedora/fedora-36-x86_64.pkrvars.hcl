@@ -7,4 +7,4 @@ iso_checksum            = "sha256:5edaf708a52687b09f9810c2b6d2a3432edac1b18f4d8c
 parallels_guest_os_type = "fedora-core"
 vbox_guest_os_type      = "Fedora_64"
 vmware_guest_os_type    = "fedora-64"
-boot_command            = "<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora/ks.cfg<enter><wait>"
+boot_command            = ["<up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora/ks.cfg<enter><wait>"]
