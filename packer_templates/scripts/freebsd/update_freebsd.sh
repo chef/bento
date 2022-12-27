@@ -1,10 +1,5 @@
 #!/bin/sh -eux
 
-# Unset these as if they're empty it'll break freebsd-update
-[ -z "$no_proxy" ] && unset no_proxy
-[ -z "$http_proxy" ] && unset http_proxy
-[ -z "$https_proxy" ] && unset https_proxy
-
 freebsd_update="/usr/sbin/freebsd-update --not-running-from-cron";
 
 # Update FreeBSD
