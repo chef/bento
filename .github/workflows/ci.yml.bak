@@ -18,6 +18,9 @@ jobs:
   xml-lint:
     uses: Stromweld/github-workflows/.github/workflows/xmllint.yml@main
 
+  shellcheck-lint:
+    uses: Stromweld/github-workflows/.github/workflows/shellchecklint.yml@main
+
   powershell-lint:
     uses: Stromweld/github-workflows/.github/workflows/powershelllint.yml@main
 

@@ -1,7 +1,6 @@
 os_name                 = "freebsd"
 os_version              = "13.1"
 os_arch                 = "x86_64"
-is_windows              = false
 iso_url                 = "https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.1/FreeBSD-13.1-RELEASE-amd64-disc1.iso"
 iso_checksum            = "697d81653fa246b921ddfcf1d15562c55249cc727b11fa3e47f470e2cf2b6a40"
 parallels_guest_os_type = "freebsd"

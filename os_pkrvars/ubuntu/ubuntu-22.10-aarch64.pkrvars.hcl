@@ -1,8 +1,8 @@
 os_name                 = "ubuntu"
-os_version              = "22.04"
-os_arch                 = "x86_64"
-iso_url                 = "http://releases.ubuntu.com/jammy/ubuntu-22.04.1-live-server-amd64.iso"
-iso_checksum            = "sha256:10f19c5b2b8d6db711582e0e27f5116296c34fe4b313ba45f9b201a5007056cb"
+os_version              = "22.10"
+os_arch                 = "aarch64"
+iso_url                 = "https://cdimage.ubuntu.com/releases/22.10/release/ubuntu-22.10-live-server-arm64.iso"
+iso_checksum            = "a19d956e993a16fc6496c371e36dcc0eb85d2bdf6a8e86028b92ce62e9f585cd"
 hyperv_generation       = 2
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_64"

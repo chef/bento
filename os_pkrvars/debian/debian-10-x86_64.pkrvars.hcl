@@ -1,9 +1,8 @@
 os_name                 = "debian"
 os_version              = "10.13"
 os_arch                 = "x86_64"
-is_windows              = false
-iso_url                 = "http://cdimage.debian.org/cdimage/archive/10.13.0/amd64/iso-cd/debian-10.13.0-amd64-netinst.iso"
-iso_checksum            = "75aa64071060402a594dcf1e14afd669ca0f8bf757b56d4c9c1a31b8f7c8f931"
+iso_url                 = "https://cdimage.debian.org/cdimage/archive/10.13.0/amd64/iso-dvd/debian-10.13.0-amd64-DVD-1.iso"
+iso_checksum            = "07d493c305aa5313e767181af5ef2c2b2758a4a3f57e78fb4a4fcba1dcefb198"
 parallels_guest_os_type = "debian"
 vbox_guest_os_type      = "Debian_64"
 vmware_guest_os_type    = "debian-64"

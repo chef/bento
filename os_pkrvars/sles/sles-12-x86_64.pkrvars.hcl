@@ -1,7 +1,6 @@
 os_name                 = "suse"
 os_version              = "12.5"
 os_arch                 = "x86_64"
-is_windows              = false
 iso_url                 = "https://updates.suse.com/SUSE/Products/SLE-SERVER/12-SP5/x86_64/iso/SLE-12-SP5-Server-DVD-x86_64-GM-DVD1.iso"
 iso_checksum            = "5a12561f8c2869bca4f820787971f3b92f44dce77442906115cd21c359327b9f"
 parallels_guest_os_type = "suse"

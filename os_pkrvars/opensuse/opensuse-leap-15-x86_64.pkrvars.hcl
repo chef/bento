@@ -1,7 +1,6 @@
 os_name                 = "opensuse"
 os_version              = "15.4"
 os_arch                 = "x86_64"
-is_windows              = false
 iso_url                 = "http://sfo-korg-mirror.kernel.org/opensuse/distribution/leap/15.4/iso/openSUSE-Leap-15.4-DVD-x86_64-Media.iso"
 iso_checksum            = "4683345f242397c7fd7d89a50731a120ffd60a24460e21d2634e783b3c169695"
 parallels_guest_os_type = "opensuse"

@@ -1,7 +1,6 @@
 os_name                 = "freebsd"
 os_version              = "12.4"
 os_arch                 = "x86_64"
-is_windows              = false
 iso_url                 = "https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/12.4/FreeBSD-12.4-RELEASE-amd64-disc1.iso"
 iso_checksum            = "606435637b76991f96df68f561badf03266f3d5452e9f72ed9b130d96b188800"
 parallels_guest_os_type = "freebsd"

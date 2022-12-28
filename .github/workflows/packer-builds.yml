@@ -48,7 +48,9 @@ jobs:
             provider: virtualbox-iso
     steps:
       - name: Install qemu
-        run: brew install qemu
+        run: brew install qemu virtualbox virtualbox-extension-pack
+      - name: vbox version
+        run: VBoxManage -v
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
@@ -81,9 +83,7 @@ jobs:
         with:
           name: vagrant-boxes
           path: |
-            builds
-            !builds/packer-*/*
-            !build/.gitkeep
+            builds/*.box
           retention-days: 10
 
   builds-aarch64:
@@ -106,7 +106,6 @@ jobs:
           - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-22.10
@@ -151,7 +150,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: dist-without-markdown
+          name: vagrant-boxes
           path: |
             builds
             !builds/packer-*/*

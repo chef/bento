@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
 # Set the time correctly
-ntpdate -v -b 0.freebsd.pool.ntp.org
+ntpdate -v -b 0.pool.ntp.org
 
 # Install curl and ca_root_nss
 pkg install -y curl ca_root_nss dmidecode;

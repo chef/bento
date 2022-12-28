@@ -43,7 +43,7 @@ source "hyperv-iso" "vm" {
   ssh_timeout          = "20m"
   ssh_username         = "vagrant"
   winrm_password       = "vagrant"
-  winrm_timeout        = "20m"
+  winrm_timeout        = "30m"
   winrm_username       = "vagrant"
   vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -83,7 +83,7 @@ source "parallels-iso" "vm" {
   ssh_timeout         = "20m"
   ssh_username        = "vagrant"
   winrm_password      = "vagrant"
-  winrm_timeout       = "20m"
+  winrm_timeout       = "30m"
   winrm_username      = "vagrant"
   vm_name             = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -131,7 +131,7 @@ source "qemu" "vm" {
   ssh_timeout      = "20m"
   ssh_username     = "vagrant"
   winrm_password   = "vagrant"
-  winrm_timeout    = "20m"
+  winrm_timeout    = "30m"
   winrm_username   = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -177,7 +177,7 @@ source "virtualbox-iso" "vm" {
   ssh_timeout      = "20m"
   ssh_username     = "vagrant"
   winrm_password   = "vagrant"
-  winrm_timeout    = "20m"
+  winrm_timeout    = "30m"
   winrm_username   = "vagrant"
   vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
@@ -238,7 +238,7 @@ source "vmware-iso" "vm" {
   ssh_timeout                    = "20m"
   ssh_username                   = "vagrant"
   winrm_password                 = "vagrant"
-  winrm_timeout                  = "20m"
+  winrm_timeout                  = "30m"
   winrm_username                 = "vagrant"
   vm_name                        = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }

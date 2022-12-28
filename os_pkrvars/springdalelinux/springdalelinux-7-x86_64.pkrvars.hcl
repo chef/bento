@@ -1,9 +1,8 @@
 os_name                 = "springdalelinux"
 os_version              = "7.9"
 os_arch                 = "x86_64"
-is_windows              = false
-iso_url                 = "http://springdale.princeton.edu/data/springdale/7.5/x86_64/iso/Springdale%20Linux-7.5-x86_64-DVD.iso"
-iso_checksum            = "f4324776f92ee6f4d8a8fc96ddcb7b346e96a51cbc6eac39b51ac8b485a602ad"
+iso_url                 = "http://springdale.princeton.edu/data/springdale/7/x86_64/iso/Springdale%20Linux-7.9-x86_64-netinst.iso"
+iso_checksum            = "ad47807e17f796bdca35bb3ec5b65f1340d43b698ee04dcf60faecc8c6818c67"
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "RedHat_64"
 vmware_guest_os_type    = "centos-64"

@@ -1,7 +1,6 @@
 os_name                 = "solaris"
 os_version              = "11.4"
 os_arch                 = "x86_64"
-is_windows              = false
 iso_url                 = "./packer_cache/sol-11_4-ai-x86.iso"
 iso_checksum            = "sha256:e3a29507e583acbc0b912f371c8f328fea7cb6257d587cbc0a651477a52b0a29"
 parallels_guest_os_type = "solaris"
