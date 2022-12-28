@@ -68,17 +68,17 @@ variable "iso_checksum" {
 }
 variable "http_proxy" {
   type        = string
-  default     = "{{env `http_proxy`}}"
+  default     = env("http_proxy")
   description = "Http proxy url to connect to the internet"
 }
 variable "https_proxy" {
   type        = string
-  default     = "{{env `https_proxy`}}"
+  default     = env("https_proxy")
   description = "Https proxy url to connect to the internet"
 }
 variable "no_proxy" {
   type        = string
-  default     = "{{env `no_proxy`}}"
+  default     = env("no_proxy")
   description = "No Proxy"
 }
 variable "boot_command" {
@@ -240,16 +240,16 @@ build {
   provisioner "shell" {
     environment_vars = var.os_name == "freebsd" ? [
       "HOME_DIR=/home/vagrant",
-      "http_proxy={{user `http_proxy`}}",
-      "https_proxy={{user `https_proxy`}}",
-      "no_proxy={{user `no_proxy`}}",
+      "http_proxy=${var.http_proxy}",
+      "https_proxy=${var.https_proxy}",
+      "no_proxy=${var.no_proxy}",
       "pkg_branch=quarterly"
       ] : (
       var.os_name == "solaris" ? [] : [
         "HOME_DIR=/home/vagrant",
-        "http_proxy={{user `http_proxy`}}",
-        "https_proxy={{user `https_proxy`}}",
-        "no_proxy={{user `no_proxy`}}"
+        "http_proxy=${var.http_proxy}",
+        "https_proxy=${var.https_proxy}",
+        "no_proxy=${var.no_proxy}"
       ]
     )
     execute_command = var.os_name == "freebsd" ? "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'" : (
