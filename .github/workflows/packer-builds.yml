@@ -48,7 +48,7 @@ jobs:
             provider: virtualbox-iso
     steps:
       - name: HomeBrew
-        run: brew update && brew install qemu && brew upgrade --cask virtualbox && brew search virtualbox-extension-pack
+        run: brew update && brew upgrade qemu && brew upgrade --cask virtualbox
       - name: vbox version
         run: VBoxManage -v
       - name: Checkout
@@ -120,6 +120,8 @@ jobs:
           - os: rockylinux-8
             provider: parallels-iso
     steps:
+#      - name: Update HomeBrew
+#        run: brew update && brew upgrade && brew upgrade --cask
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
