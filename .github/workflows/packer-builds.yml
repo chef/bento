@@ -48,7 +48,7 @@ jobs:
             provider: virtualbox-iso
     steps:
       - name: Install qemu
-        run: brew install qemu virtualbox virtualbox-extension-pack
+        run: brew update && brew upgrade && brew upgrade --cask && brew install qemu && brew install --cask virtualbox #virtualbox-extension-pack
       - name: vbox version
         run: VBoxManage -v
       - name: Checkout
