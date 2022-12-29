@@ -4,169 +4,32 @@ on:
 
 jobs:
   markdown-lint:
-    uses: Stromweld/github-workflows/.github/workflows/markdownlint.yml@main
+    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
 
   markdown-link-checker:
-    uses: Stromweld/github-workflows/.github/workflows/markdownlinkchecker.yml@main
+    uses: chef/github-workflows/.github/workflows/markdownlinkchecker.yml@main
 
   yaml-lint:
-    uses: Stromweld/github-workflows/.github/workflows/yamllint.yml@main
+    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
 
   json-lint:
-    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
+    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
 
   xml-lint:
-    uses: Stromweld/github-workflows/.github/workflows/xmllint.yml@main
+    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
 
   shellcheck-lint:
-    uses: Stromweld/github-workflows/.github/workflows/shellchecklint.yml@main
+    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
 
   powershell-lint:
-    uses: Stromweld/github-workflows/.github/workflows/powershelllint.yml@main
+    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
-  packer-fmt:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "files_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "files_changed=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Setup Packer
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Packer FMT
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
+  packer-iso-check:
+    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
 
-  enumerate_pkrvars_validation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "files_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "files_changed=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Enumerate pkrvars validation
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        shell: pwsh
-        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path os_pkrvars -Include *.pkrvars.hcl -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
-        id: enumerate_pkrvars_validation
-    outputs:
-      matrix: ${{ steps.enumerate_pkrvars_validation.outputs.matrix }}
+  packer-lint:
+    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
 
-  packer-validate:
-    needs: enumerate_pkrvars_validation
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        pkrvars: ${{ fromJson(needs.enumerate_pkrvars_validation.outputs.matrix) }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.hcl" changed.txt; then
-            echo "files_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "files_changed=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Setup Packer
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Packer Init
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        env:
-          PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
-        run: packer init -upgrade packer_templates
-      - name: Packer Validate
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer validate -var-file=os_pkrvars/"${{ matrix.pkrvars }}" packer_templates
-
-  enumerate_iso_validation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "files_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "files_changed=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Enumerate iso
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        env:
-          EXCLUDE: 'amazon-2*,rhel*,sles*,solaris*'
-        shell: pwsh
-        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path os_pkrvars -Include *.pkrvars.hcl -Exclude ${{ env.EXCLUDE }} -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
-        id: enumerate_iso_validation
-    outputs:
-      matrix: ${{ steps.enumerate_iso_validation.outputs.matrix }}
-
-  iso-availability:
-    needs: enumerate_iso_validation
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        template: ${{ fromJson(needs.enumerate_iso_validation.outputs.matrix) }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "files_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "files_changed=false" >> $GITHUB_OUTPUT
-          fi
-      - name: iso-availability
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/almalinux/almalinux-8-aarch64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
 
   check_jobs_pass:
     if: always()
@@ -177,14 +40,13 @@ jobs:
       - json-lint
       - xml-lint
       - powershell-lint
-      - packer-fmt
-      - packer-validate
-      - iso-availability
+      - packer-iso-check
+      - packer-lint
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@main
         with:
-          allowed-failures:
+          allowed-failures: markdown-link-checker
           allowed-skips:
           jobs: ${{ toJSON(needs) }}

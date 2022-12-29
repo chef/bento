@@ -38,7 +38,18 @@ packer {
 
 locals {
   scripts = var.is_windows ? [
-    "${path.root}/scripts/windows/cleanup.ps1"
+    "${path.root}/scripts/windows/base_setup.ps1",
+    "${path.root}/scripts/windows/disable-windows-updates.ps1",
+    "${path.root}/scripts/windows/disable-windows-defender.ps1",
+    "${path.root}/scripts/windows/remove-one-drive.ps1",
+    "${path.root}/scripts/windows/remove-apps.ps1",
+    "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
+    "${path.root}/scripts/windows/provision-quest-tools-qemu-kvm.ps1",
+    "${path.root}/scripts/windows/provision-vmwaretools.ps1",
+    "${path.root}/scripts/windows/provision-winrm.ps1",
+    "${path.root}/scripts/windows/provision.ps1",
+    "${path.root}/scripts/windows/enable-remote-desktop.ps1",
+    "${path.root}/scripts/windows/eject-media.ps1"
     ] : (
     var.os_name == "solaris" ? [
       "${path.root}/scripts/solaris/update_solaris.sh",
@@ -169,6 +180,15 @@ build {
   }
 
   # Windows Updates and scripts
+  provisioner "powershell" {
+    elevated_password = "vagrant"
+    elevated_user     = "vagrant"
+    scripts           = local.scripts
+    except            = var.is_windows ? null : local.source_names
+  }
+  provisioner "windows-restart" {
+    except = var.is_windows ? null : local.source_names
+  }
   provisioner "windows-update" {
     search_criteria = "IsInstalled=0"
     except          = var.is_windows ? null : local.source_names
@@ -182,14 +202,10 @@ build {
     guest_os_type = "windows"
     run_list = [
       "packer::disable_uac",
-      "packer::disable_restore",
-      "packer::disable_windows_update",
       "packer::configure_power",
       "packer::disable_screensaver",
-      "packer::vm_tools",
       "packer::features",
       "packer::enable_file_sharing",
-      "packer::enable_remote_desktop",
       "packer::ui_tweaks"
     ]
     except = var.is_windows ? null : local.source_names
@@ -213,7 +229,10 @@ build {
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
-    scripts           = local.scripts
+    scripts           = [
+      "${path.root}/scripts/windows/cleanup.ps1",
+      "${path.root}/scripts/windows/optimize.ps1"
+    ]
     except            = var.is_windows ? null : local.source_names
   }
 

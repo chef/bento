@@ -7,5 +7,5 @@ hyperv_generation       = 2
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_64"
 vmware_guest_os_type    = "ubuntu-64"
-boot_command            = ["<esc>linux /casper/vmlinuz quiet autoinstall ds='nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/preseed.cfg'<enter>initrd /casper/initrd<enter>boot<enter>"]
-boot_command_hyperv     = ["<esc>linux /casper/vmlinuz quiet autoinstall ds='nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/preseed-hyperv.cfg'<enter>initrd /casper/initrd<enter>boot<enter>"]
+boot_command            = ["<esc>linux /casper/vmlinuz quiet autoinstall ds='nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/'<enter>initrd /casper/initrd<enter>boot<enter>"]
+boot_command_hyperv     = ["<esc>linux /casper/vmlinuz quiet autoinstall ds='nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/'<enter>initrd /casper/initrd<enter>boot<enter>"]
