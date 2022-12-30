@@ -1,6 +1,9 @@
 ---
 on:
   workflow_call:
+    secrets:
+      PACKER_GITHUB_API_TOKEN:
+        required: true
 
 jobs:
   builds-x86_64:
