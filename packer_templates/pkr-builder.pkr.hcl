@@ -44,7 +44,7 @@ locals {
     "${path.root}/scripts/windows/remove-one-drive.ps1",
     "${path.root}/scripts/windows/remove-apps.ps1",
     "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-    "${path.root}/scripts/windows/provision-quest-tools-qemu-kvm.ps1",
+    "${path.root}/scripts/windows/provision-guest-tools-qemu-kvm.ps1",
     "${path.root}/scripts/windows/provision-vmwaretools.ps1",
     "${path.root}/scripts/windows/provision-winrm.ps1",
     "${path.root}/scripts/windows/provision.ps1",
@@ -229,11 +229,11 @@ build {
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
-    scripts           = [
+    scripts = [
       "${path.root}/scripts/windows/cleanup.ps1",
       "${path.root}/scripts/windows/optimize.ps1"
     ]
-    except            = var.is_windows ? null : local.source_names
+    except = var.is_windows ? null : local.source_names
   }
 
   # Convert machines to vagrant boxes

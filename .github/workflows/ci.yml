@@ -30,6 +30,8 @@ jobs:
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
 
+  packer-builds:
+    uses: ./.github/workflows/packer-builds.yml
 
   check_jobs_pass:
     if: always()
@@ -42,6 +44,7 @@ jobs:
       - powershell-lint
       - packer-iso-check
       - packer-lint
+      - packef-builds
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed

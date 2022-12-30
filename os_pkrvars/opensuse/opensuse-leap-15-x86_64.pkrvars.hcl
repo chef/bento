@@ -6,4 +6,4 @@ iso_checksum            = "4683345f242397c7fd7d89a50731a120ffd60a24460e21d2634e7
 parallels_guest_os_type = "opensuse"
 vbox_guest_os_type      = "OpenSUSE_64"
 vmware_guest_os_type    = "opensuse-64"
-boot_command            = ["<esc><enter><wait>linux biosdevname=0 net.ifnames=0 netdevice=eth0 netsetup=dhcp lang=en_US textmode=1 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/autoinst.cfg}<enter><wait>"]
+boot_command            = ["<esc><enter><wait>linux biosdevname=0 net.ifnames=0 netdevice=eth0 netsetup=dhcp lang=en_US textmode=1 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/autoinst.xml}<enter><wait>"]

@@ -1,6 +1,6 @@
 ---
 on:
-  pull_request:
+  workflow_call:
 
 jobs:
   builds-x86_64:
