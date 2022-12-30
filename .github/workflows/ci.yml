@@ -19,7 +19,7 @@ jobs:
     uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
 
   shellcheck-lint:
-    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
+    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@fix_shellcheck
 
   powershell-lint:
     uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
