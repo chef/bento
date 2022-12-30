@@ -7,7 +7,7 @@ jobs:
     uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
 
   markdown-link-checker:
-    uses: chef/github-workflows/.github/workflows/markdownlinkchecker.yml@main
+    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
 
   yaml-lint:
     uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
