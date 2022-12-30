@@ -36,18 +36,18 @@ source "hyperv-iso" "vm" {
   iso_url              = var.iso_url
   memory               = local.memory
   output_directory     = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-  shutdown_command     = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
+  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
     var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
   )
-  shutdown_timeout     = var.is_windows ? "15m" : null
-  ssh_password         = "vagrant"
-  ssh_port             = 22
-  ssh_timeout          = "20m"
-  ssh_username         = "vagrant"
-  winrm_password       = "vagrant"
-  winrm_timeout        = "30m"
-  winrm_username       = "vagrant"
-  vm_name              = "${var.os_name}-${var.os_version}-${var.os_arch}"
+  shutdown_timeout = var.is_windows ? "15m" : null
+  ssh_password     = "vagrant"
+  ssh_port         = 22
+  ssh_timeout      = "20m"
+  ssh_username     = "vagrant"
+  winrm_password   = "vagrant"
+  winrm_timeout    = "30m"
+  winrm_username   = "vagrant"
+  vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
 source "parallels-iso" "vm" {
   guest_os_type = var.parallels_guest_os_type
@@ -78,16 +78,18 @@ source "parallels-iso" "vm" {
   iso_url             = var.iso_url
   memory              = local.memory
   output_directory    = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-  shutdown_command    = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
-  shutdown_timeout    = var.is_windows ? "15m" : null
-  ssh_password        = "vagrant"
-  ssh_port            = 22
-  ssh_timeout         = "20m"
-  ssh_username        = "vagrant"
-  winrm_password      = "vagrant"
-  winrm_timeout       = "30m"
-  winrm_username      = "vagrant"
-  vm_name             = "${var.os_name}-${var.os_version}-${var.os_arch}"
+  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
+    var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  )
+  shutdown_timeout = var.is_windows ? "15m" : null
+  ssh_password     = "vagrant"
+  ssh_port         = 22
+  ssh_timeout      = "20m"
+  ssh_username     = "vagrant"
+  winrm_password   = "vagrant"
+  winrm_timeout    = "30m"
+  winrm_username   = "vagrant"
+  vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }
 source "qemu" "vm" {
   accelerator = "kvm"
@@ -126,7 +128,9 @@ source "qemu" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
+    var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  )
   shutdown_timeout = var.is_windows ? "15m" : null
   ssh_password     = "vagrant"
   ssh_port         = 22
@@ -172,7 +176,9 @@ source "virtualbox-iso" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
+    var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  )
   shutdown_timeout = var.is_windows ? "15m" : null
   ssh_password     = "vagrant"
   ssh_port         = 22
@@ -233,14 +239,16 @@ source "vmware-iso" "vm" {
   iso_url                        = var.iso_url
   memory                         = local.memory
   output_directory               = "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}"
-  shutdown_command               = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
-  shutdown_timeout               = var.is_windows ? "15m" : null
-  ssh_password                   = "vagrant"
-  ssh_port                       = 22
-  ssh_timeout                    = "20m"
-  ssh_username                   = "vagrant"
-  winrm_password                 = "vagrant"
-  winrm_timeout                  = "30m"
-  winrm_username                 = "vagrant"
-  vm_name                        = "${var.os_name}-${var.os_version}-${var.os_arch}"
+  shutdown_command = var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
+    var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+  )
+  shutdown_timeout = var.is_windows ? "15m" : null
+  ssh_password     = "vagrant"
+  ssh_port         = 22
+  ssh_timeout      = "20m"
+  ssh_username     = "vagrant"
+  winrm_password   = "vagrant"
+  winrm_timeout    = "30m"
+  winrm_username   = "vagrant"
+  vm_name          = "${var.os_name}-${var.os_version}-${var.os_arch}"
 }

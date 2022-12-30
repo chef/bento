@@ -25,10 +25,12 @@ jobs:
     uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
   packer-iso-check:
-    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
+    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@fix_shellcheck
+    secrets: inherit
 
   packer-lint:
-    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
+    uses: chef/github-workflows/.github/workflows/packer-lint.yml@fix_shellcheck
+    secrets: inherit
 
   packer-builds:
     needs:
