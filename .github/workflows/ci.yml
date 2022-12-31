@@ -19,17 +19,17 @@ jobs:
     uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
 
   shellcheck-lint:
-    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@fix_shellcheck
+    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
 
   powershell-lint:
-    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@fix_shellcheck
+    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
   packer-iso-check:
-    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@fix_shellcheck
+    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
     secrets: inherit
 
   packer-lint:
-    uses: chef/github-workflows/.github/workflows/packer-lint.yml@fix_shellcheck
+    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
     secrets: inherit
 
   packer-builds:

@@ -11,7 +11,7 @@ echo "remove orphaned packages"
 dnf -y autoremove
 
 echo "Remove previous kernels that preserved for rollbacks"
-dnf -y remove $(dnf repoquery --installonly --latest-limit=-1 -q)
+dnf -y remove "$(dnf repoquery --installonly --latest-limit=-1 -q)"
 
 # Avoid ~200 meg firmware package we don't need
 # this cannot be done in the KS file so we do it here
@@ -27,8 +27,8 @@ mkdir -p /etc/udev/rules.d/70-persistent-net.rules;
 rm -f /lib/udev/rules.d/75-persistent-net-generator.rules;
 rm -rf /dev/.udev/;
 
-for ndev in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do
-    if [ "`basename $ndev`" != "ifcfg-lo" ]; then
+for ndev in /etc/sysconfig/network-scripts/ifcfg-*; do
+    if [ "$(basename "$ndev")" != "ifcfg-lo" ]; then
         sed -i '/^HWADDR/d' "$ndev";
         sed -i '/^UUID/d' "$ndev";
     fi

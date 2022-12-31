@@ -1,7 +1,5 @@
 #!/bin/sh -eux
 
-freebsd_major="`uname -r | awk -F. '{print $1}'`";
-
 case "$PACKER_BUILDER_TYPE" in
 
 virtualbox-iso|virtualbox-ovf)

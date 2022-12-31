@@ -6,16 +6,16 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 case "$PACKER_BUILDER_TYPE" in
 parallels-iso|parallels-pvm)
     # determine the major EL version we're runninng
-    major_version="`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}'`";
+    major_version="$(sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}')";
 
     # make sure we use dnf on EL 8+
     mkdir -p /tmp/parallels;
-    if [ `uname -m` = "aarch64" ] ; then
-        mount -o loop $HOME_DIR/prl-tools-lin-arm.iso /tmp/parallels;
+    if [ $(uname -m) = "aarch64" ] ; then
+        mount -o loop "$HOME_DIR"/prl-tools-lin-arm.iso /tmp/parallels;
     else
-        mount -o loop $HOME_DIR/prl-tools-lin.iso /tmp/parallels;
+        mount -o loop "$HOME_DIR"/prl-tools-lin.iso /tmp/parallels;
     fi
-    VER="`cat /tmp/parallels/version`";
+    VER="$(cat /tmp/parallels/version)";
 
     echo "Parallels Tools Version: $VER";
 
@@ -27,7 +27,7 @@ parallels-iso|parallels-pvm)
           exit $code);
     umount /tmp/parallels;
     rm -rf /tmp/parallels;
-    rm -f $HOME_DIR/*.iso;
+    rm -f "$HOME_DIR"/*.iso;
 
     # Parallels Tools for Linux includes native auto-mount script,
     # which causes losing some of Vagrant-relative shared folders.
@@ -35,10 +35,8 @@ parallels-iso|parallels-pvm)
     # https://github.com/Parallels/vagrant-parallels/issues/325#issuecomment-418727113
     auto_mount_script='/usr/bin/prlfsmountd'
     if [ -f "${auto_mount_script}" ]; then
-        echo -e '#!/bin/sh\n'\
-        '# Shared folders auto-mount is disabled by Vagrant ' \
-        > "${auto_mount_script}"
+        printf '#!/bin/sh\n # Shared folders auto-mount is disabled by Vagrant' > "${auto_mount_script}"
     fi
-    
+
     ;;
 esac

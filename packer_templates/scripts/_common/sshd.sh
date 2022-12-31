@@ -3,7 +3,7 @@
 SSHD_CONFIG="/etc/ssh/sshd_config"
 
 # ensure that there is a trailing newline before attempting to concatenate
-sed -i -e '$a\' "$SSHD_CONFIG"
+sed -i -e '$a' "$SSHD_CONFIG"
 
 USEDNS="UseDNS no"
 if grep -q -E "^[[:space:]]*UseDNS" "$SSHD_CONFIG"; then

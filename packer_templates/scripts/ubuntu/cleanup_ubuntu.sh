@@ -10,14 +10,14 @@ echo "remove specific Linux kernels, such as linux-image-3.11.0-15-generic but k
 dpkg --list \
     | awk '{ print $2 }' \
     | grep 'linux-image-.*-generic' \
-    | grep -v `uname -r` \
+    | grep -v $(uname -r) \
     | xargs apt-get -y purge;
 
 echo "remove old kernel modules packages"
 dpkg --list \
     | awk '{ print $2 }' \
     | grep 'linux-modules-.*-generic' \
-    | grep -v `uname -r` \
+    | grep -v $(uname -r) \
     | xargs apt-get -y purge;
 
 echo "remove linux-source package"
