@@ -2,7 +2,7 @@
 
 # Getting script directory location
 SCRIPT_RELATIVE_DIR=$(dirname "${BASH_SOURCE[0]}")
-cd "$SCRIPT_RELATIVE_DIR"
+cd "$SCRIPT_RELATIVE_DIR" || exit
 
 # set tmp dir for files
 AMZDIR="$(pwd)/packer_templates/amz_working_files"

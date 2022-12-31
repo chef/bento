@@ -10,7 +10,6 @@ env PAGER=/bin/cat "$freebsd_update" install || true;
 # shellcheck disable=SC2154
 if [ "$pkg_branch" != "quarterly" ]; then
   sed -i.bak -e "s,pkg+http://pkg.FreeBSD.org/\${ABI}/quarterly,pkg+http://pkg.FreeBSD.org/\${ABI}/${pkg_branch}," /etc/pkg/FreeBSD.conf
-  # shellcheck enable=SC2154
   rm -f /etc/pkg/FreeBSD.conf.bak
 fi
 
