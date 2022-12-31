@@ -33,14 +33,14 @@ jobs:
     secrets: inherit
 
   packer-builds:
-    needs:
+#    needs:
 #      - yaml-lint
 #      - json-lint
 #      - xml-lint
 #      - powershell-lint
 #      - shellcheck-lint
-      - packer-iso-check
-      - packer-lint
+#      - packer-iso-check
+#      - packer-lint
     uses: ./.github/workflows/packer-builds.yml
     secrets: inherit
 
