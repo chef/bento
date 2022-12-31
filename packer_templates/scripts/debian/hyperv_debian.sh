@@ -1,6 +1,4 @@
 #!/bin/sh -eux
-os_version="`lsb_release -r | awk '{print $2}'`";
-major_version="`echo $os_version | awk -F. '{print $1}'`";
 
 case "$PACKER_BUILDER_TYPE" in
 hyperv-iso)

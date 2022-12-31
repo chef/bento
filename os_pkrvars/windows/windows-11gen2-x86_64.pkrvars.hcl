@@ -11,7 +11,4 @@ vmware_guest_os_type    = "windows9srv-64"
 hyperv_generation       = 2
 boot_command_hyperv     = ["aaaaaaa"]
 boot_command            = ["aaaaaaa<wait><enter><wait><enter><wait><enter>"]
-sources_enabled = [
-  "source.hyperv-iso.vm",
-  "source.qemu.vm"
-]
+sources_enabled         = ["source.hyperv-iso.vm", "source.qemu.vm"]
