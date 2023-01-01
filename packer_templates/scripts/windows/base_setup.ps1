@@ -22,12 +22,12 @@ Enable-PSRemoting -SkipNetworkProfileCheck -Force
 # May not be necessary since we set the profile to Private above
 Set-NetFirewallRule -Name "WINRM-HTTP-In-TCP" -RemoteAddress Any # allow winrm over public profile interfaces
 
-Write-Host '* Deleting any pre-existing listeners'
-winrm delete winrm/config/listener?Address=*+Transport=HTTP  2>$Null
-winrm delete winrm/config/listener?Address=*+Transport=HTTPS 2>$Null
-Write-Host '* Creating an HTTP listener'
-winrm create winrm/config/listener?Address=*+Transport=HTTP | Out-Null
-winrm create winrm/config/listener?Address=*+Transport=HTTPS | Out-Null
+#Write-Host '* Deleting any pre-existing listeners'
+#winrm delete winrm/config/listener?Address=*+Transport=HTTP  2>$Null
+#winrm delete winrm/config/listener?Address=*+Transport=HTTPS 2>$Null
+#Write-Host '* Creating an HTTP listener'
+#winrm create winrm/config/listener?Address=*+Transport=HTTP | Out-Null
+#winrm create winrm/config/listener?Address=*+Transport=HTTPS | Out-Null
 
 winrm set winrm/config '@{MaxTimeoutms="1800000"}'
 winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="2048"}'
