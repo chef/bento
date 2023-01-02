@@ -13,14 +13,14 @@ Set-ItemProperty -Path "registry::HKLM\Software\Microsoft\Windows\CurrentVersion
 # Supress network location Prompt
 New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" -Force
 
-# The above suppresses the prompt but defaults to "Public" which prevents WinRM from being enabled even with the SkipNetworkProfileCheck arg
-# This command sets any network connections detected to Private to allow WinRM to be configured and started
-Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory "Private"
-
-# Does a lot: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-6
-Enable-PSRemoting -SkipNetworkProfileCheck -Force
-# May not be necessary since we set the profile to Private above
-Set-NetFirewallRule -Name "WINRM-HTTP-In-TCP" -RemoteAddress Any # allow winrm over public profile interfaces
+## The above suppresses the prompt but defaults to "Public" which prevents WinRM from being enabled even with the SkipNetworkProfileCheck arg
+## This command sets any network connections detected to Private to allow WinRM to be configured and started
+#Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory "Private"
+#
+## Does a lot: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-6
+#Enable-PSRemoting -SkipNetworkProfileCheck -Force
+## May not be necessary since we set the profile to Private above
+#Set-NetFirewallRule -Name "WINRM-HTTP-In-TCP" -RemoteAddress Any # allow winrm over public profile interfaces
 
 #Write-Host '* Deleting any pre-existing listeners'
 #winrm delete winrm/config/listener?Address=*+Transport=HTTP  2>$Null

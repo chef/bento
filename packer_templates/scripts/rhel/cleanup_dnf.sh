@@ -16,7 +16,7 @@ dnf -y remove "$(dnf repoquery --installonly --latest-limit=-1 -q)"
 # Avoid ~200 meg firmware package we don't need
 # this cannot be done in the KS file so we do it here
 echo "Removing extra firmware packages"
-dnf -y remove linux-firmware
+dnf -y remove linux-firmware --skip-broken
 
 echo "clean all package cache information"
 dnf -y clean all --enablerepo=\*

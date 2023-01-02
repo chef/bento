@@ -4,10 +4,14 @@ autoinstall:
   identity:
     hostname: vagrant
     username: vagrant
-    # Generated via: printf vagrant | mkpasswd -m sha-512 -S vagrant. -s
-    password: "$6$vagrant.$sd6r0/OKL.FIGZbhanVkrLassSxoPRv1h5lkISsmBONqaLUGVXkEcD22Ddak5W8JSxeU0VFkU/We1Y7o4hVO/1"
+    password: '$6$rounds=4096$5CU3LEj/MQvbkfPb$LmKEF9pCfU8R.dA.GemgE/8GT6r9blge3grJvdsVTMFKyLEQwzEF3SGWqAzjawY/XHRpWj4fOiLBrRyxJhIRJ1'
   early-commands:
     # otherwise packer tries to connect and exceed max attempts:
     - systemctl stop ssh
   ssh:
-    install-server: true
+    install-server: yes
+    allow-pw: yes
+  late-commands:
+      - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
+      - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
+
