@@ -10,8 +10,8 @@ Set-ItemProperty -Path "registry::HKLM\Software\Microsoft\Windows\CurrentVersion
 # parts of this are from https://github.com/luciusbono/Packer-Windows10/blob/master/configure-winrm.ps1
 # and https://github.com/rgl/windows-2016-vagrant/blob/master/winrm.ps1
 
-# Supress network location Prompt
-New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" -Force
+## Supress network location Prompt
+#New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" -Force
 
 ## The above suppresses the prompt but defaults to "Public" which prevents WinRM from being enabled even with the SkipNetworkProfileCheck arg
 ## This command sets any network connections detected to Private to allow WinRM to be configured and started
