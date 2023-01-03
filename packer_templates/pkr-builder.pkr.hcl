@@ -37,20 +37,36 @@ packer {
 }
 
 locals {
-  scripts = var.is_windows ? [
-    # "${path.root}/scripts/windows/base_setup.ps1",
-    "${path.root}/scripts/windows/disable-windows-updates.ps1",
-    "${path.root}/scripts/windows/disable-windows-defender.ps1",
-    "${path.root}/scripts/windows/remove-one-drive.ps1",
-    "${path.root}/scripts/windows/remove-apps.ps1",
-    "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-    "${path.root}/scripts/windows/provision-guest-tools-qemu-kvm.ps1",
-    "${path.root}/scripts/windows/provision-vmwaretools.ps1",
-    "${path.root}/scripts/windows/provision-winrm.ps1",
-    "${path.root}/scripts/windows/provision.ps1",
-    "${path.root}/scripts/windows/enable-remote-desktop.ps1",
-    "${path.root}/scripts/windows/eject-media.ps1"
-    ] : (
+  scripts = var.is_windows ? (
+    substr(var.os_version, 0, 2) == "10" ||
+    substr(var.os_version, 0, 2) == "11" ? [
+      # "${path.root}/scripts/windows/base_setup.ps1",
+      "${path.root}/scripts/windows/disable-windows-updates.ps1",
+      "${path.root}/scripts/windows/disable-windows-defender.ps1",
+      "${path.root}/scripts/windows/remove-one-drive.ps1",
+      "${path.root}/scripts/windows/remove-apps.ps1",
+      "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
+      "${path.root}/scripts/windows/provision-guest-tools-qemu-kvm.ps1",
+      "${path.root}/scripts/windows/provision-vmwaretools.ps1",
+      "${path.root}/scripts/windows/provision-winrm.ps1",
+      "${path.root}/scripts/windows/provision.ps1",
+      "${path.root}/scripts/windows/enable-remote-desktop.ps1",
+      "${path.root}/scripts/windows/eject-media.ps1"
+      ] : [
+      # "${path.root}/scripts/windows/base_setup.ps1",
+      "${path.root}/scripts/windows/disable-windows-updates.ps1",
+      "${path.root}/scripts/windows/disable-windows-defender.ps1",
+      "${path.root}/scripts/windows/remove-one-drive.ps1",
+      # "${path.root}/scripts/windows/remove-apps.ps1",
+      "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
+      "${path.root}/scripts/windows/provision-guest-tools-qemu-kvm.ps1",
+      "${path.root}/scripts/windows/provision-vmwaretools.ps1",
+      "${path.root}/scripts/windows/provision-winrm.ps1",
+      "${path.root}/scripts/windows/provision.ps1",
+      "${path.root}/scripts/windows/enable-remote-desktop.ps1",
+      "${path.root}/scripts/windows/eject-media.ps1"
+    ]
+    ) : (
     var.os_name == "solaris" ? [
       "${path.root}/scripts/solaris/update_solaris.sh",
       "${path.root}/scripts/_common/vagrant.sh",

@@ -2,7 +2,7 @@
 
 Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. These published boxes serve as the default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
 
-***NOTE:** Virutalbox 7.x requires extra config to allow nat network to connect to the host. To use uncomment lines #153 and #154 in bento/packer_templates/pkr-sources.pkr.hcl
+***NOTE:** Virutalbox 7.x requires extra config to allow nat network to connect to the host. To use uncomment lines #79 and #80 in bento/packer_templates/pkr-sources.pkr.hcl
 
 ## Using Public Boxes
 
