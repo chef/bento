@@ -94,7 +94,7 @@ source "parallels-iso" "vm" {
 source "qemu" "vm" {
   accelerator = "kvm"
   headless    = var.headless
-  cd_files    = var.hyperv_generation == 2 && var.is_windows ? ["${path.root}/answer_files/${substr(var.os_version, 0, 2)}/Autounattend.xml"] : null
+  cd_files    = var.hyperv_generation == 2 && var.is_windows ? ["${path.root}/win_answer_files/${substr(var.os_version, 0, 2)}/gen2_Autounattend.xml"] : null
   floppy_files = var.hyperv_generation == 2 && var.is_windows ? null : (
     var.is_windows ? [
       "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
