@@ -233,7 +233,7 @@ source "virtualbox-iso" "vm" {
 source "virtualbox-ovf" "amazonlinux" {
   guest_additions_path    = var.vbox_guest_additions_path
   source_path             = local.vbox_source
-  vboxmanage              = local.vboxmanage
+  vboxmanage              = var.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   communicator            = local.communicator
   headless                = var.headless
