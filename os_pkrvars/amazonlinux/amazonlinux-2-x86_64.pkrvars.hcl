@@ -10,7 +10,7 @@ vboxmanage = [
     "modifyvm",
     "{{ .Name }}",
     "--memory",
-    "${local.memory}",
+    "2048",
     "--cpus", "2",
     "--nat-localhostreachable1",
     "on",

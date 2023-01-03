@@ -16,7 +16,7 @@ dnf -y remove "$(dnf repoquery --installonly --latest-limit=-1 -q)"
 # Avoid ~200 meg firmware package we don't need
 # this cannot be done in the KS file so we do it here
 # Skip Oracle linux because it causes errors by removing kernel-uek-core
-distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
+distro="$(rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-')"
 if [ "$distro" != 'oraclelinux' ]; then
   echo "Removing extra firmware packages"
   dnf -y remove linux-firmware
