@@ -9,7 +9,7 @@ source "hyperv-iso" "vm" {
   enable_secure_boot    = var.hyperv_generation == 2 && var.is_windows ? false : null
   floppy_files = var.hyperv_generation == 2 ? null : (
     var.is_windows ? [
-      "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
+      "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
       "${path.root}/scripts/windows/base_setup.ps1"
       ] : (
       var.os_name == "almalinux" ||
@@ -52,7 +52,7 @@ source "hyperv-iso" "vm" {
 source "parallels-iso" "vm" {
   guest_os_type = var.parallels_guest_os_type
   floppy_files = var.is_windows ? [
-    "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
+    "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
     "${path.root}/scripts/windows/base_setup.ps1"
   ] : null
   parallels_tools_flavor = var.is_windows ? (
@@ -97,7 +97,7 @@ source "qemu" "vm" {
   cd_files    = var.hyperv_generation == 2 && var.is_windows ? ["${path.root}/answer_files/${substr(var.os_version, 0, 2)}/Autounattend.xml"] : null
   floppy_files = var.hyperv_generation == 2 && var.is_windows ? null : (
     var.is_windows ? [
-      "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
+      "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
       "${path.root}/scripts/windows/base_setup.ps1"
     ] : null
   )
@@ -151,7 +151,7 @@ source "virtualbox-iso" "vm" {
   hard_drive_interface      = "sata"
   headless                  = var.headless
   floppy_files = var.is_windows ? [
-    "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
+    "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
     "${path.root}/scripts/windows/base_setup.ps1"
   ] : null
   virtualbox_version_file = ".vbox_version"
@@ -219,7 +219,7 @@ source "vmware-iso" "vm" {
   disk_adapter_type = var.is_windows ? "lsisas1068" : null
   headless          = var.headless
   floppy_files = var.is_windows ? [
-    "${path.root}/answer_files/${var.os_version}/Autounattend.xml",
+    "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
     "${path.root}/scripts/windows/base_setup.ps1"
   ] : null
   tools_upload_flavor = var.is_windows ? "windows" : null

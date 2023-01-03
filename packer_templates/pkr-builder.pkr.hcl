@@ -38,7 +38,7 @@ packer {
 
 locals {
   scripts = var.is_windows ? [
-    "${path.root}/scripts/windows/base_setup.ps1",
+    # "${path.root}/scripts/windows/base_setup.ps1",
     "${path.root}/scripts/windows/disable-windows-updates.ps1",
     "${path.root}/scripts/windows/disable-windows-defender.ps1",
     "${path.root}/scripts/windows/remove-one-drive.ps1",

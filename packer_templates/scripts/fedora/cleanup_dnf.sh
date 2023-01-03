@@ -1,4 +1,4 @@
-#!/bin/sh -eux
+#!/bin/bash -eux
 
 echo "reduce the grub menu time to 1 second"
 sed -i -e 's/^GRUB_TIMEOUT=[0-9]\+$/GRUB_TIMEOUT=1/' /etc/default/grub
@@ -21,21 +21,11 @@ dnf -y remove linux-firmware
 echo "clean all package cache information"
 dnf -y clean all --enablerepo=\*
 
-# Clean up network interface persistence
-rm -f /etc/udev/rules.d/70-persistent-net.rules;
-mkdir -p /etc/udev/rules.d/70-persistent-net.rules;
-rm -f /lib/udev/rules.d/75-persistent-net-generator.rules;
-rm -rf /dev/.udev/;
-
-for ndev in /etc/sysconfig/network-scripts/ifcfg-*; do
-    if [ "$(basename "$ndev")" != "ifcfg-lo" ]; then
-        sed -i '/^HWADDR/d' "$ndev";
-        sed -i '/^UUID/d' "$ndev";
-    fi
-done
-
 echo "truncate any logs that have built up during the install"
 find /var/log -type f -exec truncate --size=0 {} \;
+
+echo "Remove any non-loopback network configs"
+find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
 
 echo "remove the install log"
 rm -f /root/anaconda-ks.cfg /root/original-ks.cfg
