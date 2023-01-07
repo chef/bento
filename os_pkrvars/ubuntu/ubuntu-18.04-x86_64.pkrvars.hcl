@@ -7,18 +7,7 @@ hyperv_generation       = 2
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_64"
 vmware_guest_os_type    = "ubuntu-64"
-boot_command = [
-  "<wait>",
-  "<esc><wait>",
-  "<esc><wait>",
-  "<f6><wait>",
-  "<esc><wait>",
-  "<bs><bs><bs><bs>",
-  " auto",
-  " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg",
-  " ---",
-  "<enter>"
-]
+boot_command            = ["<wait>", "<esc><wait>", "<esc><wait>", "<f6><wait>", "<esc><wait>", "<bs><bs><bs><bs>", " auto", " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg", " ---", "<enter>"]
 #boot_command = [
 #  "<wait><esc><wait><esc><wait><esc><wait><enter><wait>",
 #  "linux /casper/vmlinuz boot=casper hostname={{ .Name }} textonly preseed/allow-network=true --- initrd /casper/initrd preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg"
@@ -61,4 +50,4 @@ boot_command = [
 #  " -- <wait>",
 #  "<enter><wait>"
 #]
-boot_command_hyperv     = ["<esc><wait10><esc><esc><enter><wait>set gfxpayload=1024x768<enter>linux /install/vmlinuz preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed-hyperv.cfg debian-installer=en_US.UTF-8 auto locale=en_US.UTF-8 kbd-chooser/method=us hostname={{ .Name }} fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>initrd /install/initrd.gz<enter>boot<enter>"]
+boot_command_hyperv = ["<esc><wait10><esc><esc><enter><wait>set gfxpayload=1024x768<enter>linux /install/vmlinuz preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed-hyperv.cfg debian-installer=en_US.UTF-8 auto locale=en_US.UTF-8 kbd-chooser/method=us hostname={{ .Name }} fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>initrd /install/initrd.gz<enter>boot<enter>"]
