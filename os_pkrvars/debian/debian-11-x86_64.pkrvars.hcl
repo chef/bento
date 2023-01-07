@@ -6,4 +6,4 @@ iso_checksum            = "55f6f49b32d3797621297a9481a6cc3e21b3142f57d8e1279412f
 parallels_guest_os_type = "debian"
 vbox_guest_os_type      = "Debian_64"
 vmware_guest_os_type    = "debian-64"
-boot_command            = ["<esc>auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"]
+boot_command            = ["<esc><wait>auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian/preseed.cfg netcfg/get_hostname={{ .Name }}<enter>"]

@@ -108,7 +108,9 @@ locals {
       var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
     )
   ) : var.shutdown_command
-  vm_name = var.vm_name == null ? "${var.os_name}-${var.os_version}-${var.os_arch}" : var.vm_name
+  vm_name = var.vm_name == null ? (
+    var.os_arch == "x86_64" ? "${var.os_name}-${var.os_version}-amd64" : "${var.os_name}-${var.os_version}-${var.os_arch}"
+  ) : var.vm_name
 }
 
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
