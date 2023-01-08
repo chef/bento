@@ -191,12 +191,22 @@ dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
 
 Write-Host 'Reclaiming the free disk space...'
 $results = defrag.exe C: /H /L
-if ($results -eq 'The operation completed successfully.') {
+if ($results -eq 'The operation completed successfully.')
+{
     $results
-} else {
-    Write-Host 'Zero filling the free disk space...'
-    (New-Object System.Net.WebClient).DownloadFile('https://download.sysinternals.com/files/SDelete.zip', "$env:TEMP\SDelete.zip")
-    Expand-Archive "$env:TEMP\SDelete.zip" $env:TEMP
-    Remove-Item "$env:TEMP\SDelete.zip"
-    &"$env:TEMP\sdelete64.exe" -accepteula -z C:
+}
+else
+{
+    if ((Get-CimInstance Win32_OperatingSystem).version -eq "6.3.9600")
+    {
+        return
+    }
+    else
+    {
+        Write-Host 'Zero filling the free disk space...'
+        (New-Object System.Net.WebClient).DownloadFile('https://download.sysinternals.com/files/SDelete.zip', "$env:TEMP\SDelete.zip")
+        Expand-Archive "$env:TEMP\SDelete.zip" $env:TEMP
+        Remove-Item "$env:TEMP\SDelete.zip"
+        &"$env:TEMP\sdelete64.exe" -accepteula -z C:
+    }
 }
