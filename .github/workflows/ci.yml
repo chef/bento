@@ -1,103 +1,67 @@
 ---
-
-name: Packer
-
 on:
-  push:
+  pull_request:
 
 jobs:
-  windows-build-cookbook-cookstyle:
-    runs-on: ubuntu-latest
+  markdown-lint:
+    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
 
+  markdown-link-checker:
+    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
+
+  yaml-lint:
+    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
+
+  json-lint:
+    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
+
+  xml-lint:
+    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
+
+  shellcheck-lint:
+    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
+
+  powershell-lint:
+    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
+
+  packer-iso-check:
+    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
+    secrets: inherit
+
+  packer-lint:
+    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
+    secrets: inherit
+
+  packer-builds:
+    needs:
+      - yaml-lint
+      - json-lint
+      - xml-lint
+      - powershell-lint
+      - shellcheck-lint
+      - packer-iso-check
+      - packer-lint
+    uses: ./.github/workflows/packer-builds.yml
+    secrets: inherit
+
+  check_jobs_pass:
+    if: always()
+    needs:
+      - markdown-lint
+      - markdown-link-checker
+      - yaml-lint
+      - json-lint
+      - xml-lint
+      - powershell-lint
+      - shellcheck-lint
+      - packer-iso-check
+      - packer-lint
+      - packer-builds
+    runs-on: Ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Chef
-        uses: actionshub/chef-install@main
-        env:
-          CHEF_LICENSE: accept-no-persist
-      - name: Run Cookstyle
-        run: cookstyle packer_templates/windows/cookbooks
-
-  enumerate_packer_templates:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: enumerate_packer_templates
-        shell: pwsh
-        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path packer_templates -Include *.json -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
-        id: enumerate_packer_templates
-
-    outputs:
-      matrix: ${{ steps.enumerate_packer_templates.outputs.matrix }}
-
-  packer-validate:
-    needs: enumerate_packer_templates
-
-    runs-on: ubuntu-latest
-    name: packer-validate
-
-    strategy:
-      fail-fast: false
-      matrix:
-        template: ${{ fromJson(needs.enumerate_packer_templates.outputs.matrix) }}
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Fix Template
-        uses: hashicorp/packer-github-actions@master
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@main
         with:
-          command: fix
-          target: "packer_templates/${{ matrix.template }}"
-
-      - name: Validate Template
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: -syntax-only
-          target: "packer_templates/${{ matrix.template }}"
-
-  enumerate_iso_validation:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: enumerate_iso_validation
-        env:
-          EXCLUDE: 'amazon-2*,rhel*,sles*,solaris*'
-        shell: pwsh
-        run: "'::set-output name=matrix::{0}' -f $(Get-ChildItem -Path packer_templates -Include *.json -Exclude ${{ env.EXCLUDE }} -Recurse | Foreach-Object {Join-Path -Path $_.Directory.Name -ChildPath $_.Name} | ConvertTo-Json -Compress)"
-        id: enumerate_iso_validation
-
-    outputs:
-      matrix: ${{ steps.enumerate_iso_validation.outputs.matrix }}
-
-  iso-availability:
-    needs: enumerate_iso_validation
-
-    runs-on: ubuntu-latest
-    name: iso-validate
-
-    strategy:
-      fail-fast: false
-      matrix:
-        template: ${{ fromJson(needs.enumerate_iso_validation.outputs.matrix) }}
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: iso-availability
-        shell: pwsh
-        run: |
-          $(Get-Content "packer_templates/${{ matrix.template }}" | ConvertFrom-Json ) | 
-            Foreach-Object {
-              if($_.variables.iso_url){
-                $_.variables.iso_url
-              }else{
-                '{0}/{1}/{2}' -f $_.variables.mirror,$_.variables.mirror_directory,$_.variables.iso_name
-              }
-            } | Foreach-Object {
-              Invoke-RestMethod -Uri $_ -Method Head -Verbose
-            }
+          allowed-failures: markdown-link-checker
+          allowed-skips:
+          jobs: ${{ toJSON(needs) }}
