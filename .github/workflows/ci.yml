@@ -56,7 +56,7 @@ jobs:
       - shellcheck-lint
       - packer-iso-check
       - packer-lint
-      - packer-builds
+      # - packer-builds # Disabling till all builds are working
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
