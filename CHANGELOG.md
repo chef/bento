@@ -6,7 +6,7 @@
 
 - Manual run command from within the bento directory `packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/almalinux/almalinux-9-x86_64.pkrvars.hcl ./packer_templates`
 - Old Bento code and Json templates moved to protected branch `bento_old_json_templates`
-- All x86_64 builds are currently tested on macos-12 with virtualbox 6.1.38 in Github Actions 
+- All x86_64 builds are currently tested on macos-12 with virtualbox 6.1.38 in Github Actions
 - All aarch64 buiils are currently tested on internal runner with M1 macos-13.1 and parallels 18.1.1
 - Source, builder, variable hcl code found in packer_templates folder
 - Pkrvars.hcl files representing each OS, version, architecture found in os_pkrvars folders
