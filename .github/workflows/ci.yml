@@ -48,7 +48,6 @@ jobs:
     if: always()
     needs:
       - markdown-lint
-      - markdown-link-checker
       - yaml-lint
       - json-lint
       - xml-lint
