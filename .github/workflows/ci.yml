@@ -48,6 +48,7 @@ jobs:
     if: always()
     needs:
       - markdown-lint
+      - markdown-link-checker
       - yaml-lint
       - json-lint
       - xml-lint
@@ -62,5 +63,5 @@ jobs:
         uses: re-actors/alls-green@main
         with:
           allowed-failures: markdown-link-checker
-          allowed-skips:
+          allowed-skips: ${{ toJSON(needs) }}
           jobs: ${{ toJSON(needs) }}
