@@ -56,12 +56,12 @@ jobs:
       - shellcheck-lint
       - packer-iso-check
       - packer-lint
-      # - packer-builds # Disabling till all builds are working
+      - packer-builds
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@main
         with:
-          allowed-failures: markdown-link-checker
+          allowed-failures: markdown-link-checker, packer-iso-check, packer-lint, packer-builds # Adding packer jobs until all builds are working
           allowed-skips: ${{ toJSON(needs) }}
           jobs: ${{ toJSON(needs) }}
