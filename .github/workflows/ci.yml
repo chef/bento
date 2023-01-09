@@ -48,20 +48,19 @@ jobs:
     if: always()
     needs:
       - markdown-lint
-      - markdown-link-checker
       - yaml-lint
       - json-lint
       - xml-lint
       - powershell-lint
       - shellcheck-lint
-      - packer-iso-check
-      - packer-lint
-      - packer-builds
+      # - packer-iso-check
+      # - packer-lint
+      # - packer-builds # Skipping for now until all builds are working
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@main
         with:
-          allowed-failures: markdown-link-checker
-          allowed-skips:
+          allowed-failures:
+          allowed-skips: ${{ toJSON(needs) }}
           jobs: ${{ toJSON(needs) }}

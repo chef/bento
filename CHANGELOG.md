@@ -1,5 +1,80 @@
 # Change Log
 
+## [v202301.09.0] (2023-01-09)
+
+### Notes
+
+- Manual run command from within the bento directory `packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/almalinux/almalinux-9-x86_64.pkrvars.hcl ./packer_templates`
+- Old Bento code and Json templates moved to protected branch `bento_old_json_templates`
+- All x86_64 builds are currently tested on macos-12 with virtualbox 6.1.38 in Github Actions
+- All aarch64 buiils are currently tested on internal runner with M1 macos-13.1 and parallels 18.1.1
+- Source, builder, variable hcl code found in packer_templates folder
+- Pkrvars.hcl files representing each OS, version, architecture found in os_pkrvars folders
+
+### New Platforms
+
+- CentOS 7.9 - aarch64
+- CentOS-Stream 8 - aarch64
+- CentOS-Stream 9 - aarch64
+- Fedora 37 - aarch64
+- OracleLinux 7.9 - aarch64
+- OracleLinux 8.7 - aarch64
+- OracleLinux 9.1 - aarch64
+- Rhel 7.9 - aarch64
+- Rhel 8.7 - aarch64
+- Rhel 9.1 - aarch64
+- Rhel 9.1 - x86_64
+- RockyLinux 8.7 - aarch64
+- RockyLinux 9.1 - aarch64
+- Springdalelinux 9.1 - x86_64
+- Ubuntu 22.10 - aarch64
+
+### Removed Platforms
+
+- Debian 9 - all archs
+- Debian 10.13 - i386
+- Debian 11.6 - i386
+- Freebsd 12.3 - all archs
+- Freebsd 12.4 - i386
+- OracleLinux 6 - all archs
+- Rhel 6 - all archs
+- Sles 11 - all archs
+- Ubuntu 16.04 - all archs
+- Windows 2012 - all archs
+
+### Fixes and updates
+
+- rewrite of json templates to hcl2
+- Added linting checks of files and scripts
+- Added a build pipeline for integration testing
+- Removed 32bit OS builds
+- Added several more aarch64(arm64) builds
+
+### Known Issues
+
+#### Failing Builds
+
+- OpenSUSE Leap 15 - x86_64
+- SpringdaleLinux 8 - x86_64
+- Ubuntu 22.10 - x86_64
+- CentOS 7 - aarch64
+- CentOS-Stream 8 - aarch64
+- CentOS-Stream - aarch64
+- Fedora 36 - aarch64
+- Fedora 37 - aarch64
+- OracleLinux 7 - aarch64
+- OracleLinux 8 - aarch64
+- Ubuntu 22.04 - aarch64
+- Ubuntu 22.10 - aarch64
+
+### Todo
+
+- Fix failing builds
+- Add more Virtualization providers to build pipelines
+- Update pipelines to only run on updated pkrvars files
+- Create CD pipeline to upload vagrant boxes after PR is merged
+- Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+
 ## [v202206.14.0] (2022-06-14)
 
 ### New Platforms

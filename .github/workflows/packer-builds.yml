@@ -115,11 +115,6 @@ jobs:
           # - qemu
           # - virtualbox-iso
           # - vmware-iso
-        exclude:
-          - os: almalinux-8
-            provider: parallels-iso
-          - os: rockylinux-8
-            provider: parallels-iso
     steps:
       # - name: Update HomeBrew
       #   run: brew update && brew upgrade && brew upgrade --cask
