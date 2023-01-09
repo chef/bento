@@ -53,14 +53,14 @@ jobs:
       - xml-lint
       - powershell-lint
       - shellcheck-lint
-      - packer-iso-check
-      - packer-lint
+      # - packer-iso-check
+      # - packer-lint
       # - packer-builds # Skipping for now until all builds are working
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@main
         with:
-          allowed-failures: packer-iso-check, packer-lint # Adding packer jobs until all builds are working
+          allowed-failures:
           allowed-skips: ${{ toJSON(needs) }}
           jobs: ${{ toJSON(needs) }}
