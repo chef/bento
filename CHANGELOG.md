@@ -71,6 +71,10 @@
 
 - Fix failing builds
 - Add more Virtualization providers to build pipelines
+- Finish removal of deprecated chef-solo provider to powershell provider for windows
+- migrate from http directory for hosting files to cd_files in source templates
+    - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+    - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 - Update pipelines to only run on updated pkrvars files
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
