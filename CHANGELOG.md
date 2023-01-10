@@ -335,10 +335,10 @@
 - Suppress VMX whitelisting warning by removing interfaces at end of build
 - Use archive.ubuntu.com instead of US specific domain
 - Latest Tooling
-   - VirtualBox 5.1.24
-   - VMware Fusion 8.5.8
-   - Parallels 12.2.1
-   - Packer 1.0.3
+  - VirtualBox 5.1.24
+  - VMware Fusion 8.5.8
+  - Parallels 12.2.1
+  - Packer 1.0.3
 
 ## [2.3.7] (2017-07-03)
 
