@@ -7,7 +7,8 @@ autoinstall:
     password: '$6$rounds=4096$5CU3LEj/MQvbkfPb$LmKEF9pCfU8R.dA.GemgE/8GT6r9blge3grJvdsVTMFKyLEQwzEF3SGWqAzjawY/XHRpWj4fOiLBrRyxJhIRJ1'
   early-commands:
     # otherwise packer tries to connect and exceed max attempts:
-    - systemctl stop ssh
+    - systemctl stop ssh.service
+    - systemctl stop ssh.socket
   ssh:
     install-server: yes
     allow-pw: yes
