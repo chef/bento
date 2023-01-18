@@ -102,7 +102,7 @@ locals {
   ) : var.floppy_files
   http_directory   = var.http_directory == null ? "${path.root}/http" : var.http_directory
   memory           = var.memory == null ? (var.is_windows ? 4096 : 2048) : var.memory
-  output_directory = var.output_directory == null ? "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-${source.type}" : var.output_directory
+  output_directory = var.output_directory == null ? "builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
     var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
       var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
@@ -131,7 +131,7 @@ source "hyperv-iso" "vm" {
   iso_checksum          = var.iso_checksum
   iso_url               = var.iso_url
   memory                = local.memory
-  output_directory      = local.output_directory
+  output_directory      = "${local.output_directory}-hyperv"
   shutdown_command      = local.shutdown_command
   shutdown_timeout      = var.shutdown_timeout
   ssh_password          = var.ssh_password
@@ -159,7 +159,7 @@ source "parallels-iso" "vm" {
   iso_checksum           = var.iso_checksum
   iso_url                = var.iso_url
   memory                 = local.memory
-  output_directory       = local.output_directory
+  output_directory       = "${local.output_directory}-parallels"
   shutdown_command       = local.shutdown_command
   shutdown_timeout       = var.shutdown_timeout
   ssh_password           = var.ssh_password
@@ -186,7 +186,7 @@ source "qemu" "vm" {
   iso_checksum     = var.iso_checksum
   iso_url          = var.iso_url
   memory           = local.memory
-  output_directory = local.output_directory
+  output_directory = "${local.output_directory}-qemu"
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
@@ -220,7 +220,7 @@ source "virtualbox-iso" "vm" {
   iso_checksum              = var.iso_checksum
   iso_url                   = var.iso_url
   memory                    = local.memory
-  output_directory          = local.output_directory
+  output_directory          = "${local.output_directory}-virtualbox"
   shutdown_command          = local.shutdown_command
   shutdown_timeout          = var.shutdown_timeout
   ssh_password              = var.ssh_password
@@ -239,7 +239,7 @@ source "virtualbox-ovf" "amazonlinux" {
   virtualbox_version_file = var.virtualbox_version_file
   communicator            = local.communicator
   headless                = var.headless
-  output_directory        = local.output_directory
+  output_directory        = "${local.output_directory}-virtualbox-ovf"
   shutdown_command        = local.shutdown_command
   shutdown_timeout        = var.shutdown_timeout
   ssh_password            = var.ssh_password
@@ -267,7 +267,7 @@ source "vmware-iso" "vm" {
   iso_checksum                   = var.iso_checksum
   iso_url                        = var.iso_url
   memory                         = local.memory
-  output_directory               = local.output_directory
+  output_directory               = "${local.output_directory}-vmware"
   shutdown_command               = local.shutdown_command
   shutdown_timeout               = var.shutdown_timeout
   ssh_password                   = var.ssh_password

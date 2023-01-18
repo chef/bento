@@ -49,6 +49,8 @@ jobs:
         exclude:
           - os: centos-stream-9
             provider: virtualbox-iso
+          - os: springdalelinux-7
+            provider: virtualbox-iso
     steps:
       # - name: HomeBrew
       #   run: brew update && brew upgrade qemu && brew upgrade --cask virtualbox
