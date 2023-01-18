@@ -2,10 +2,10 @@
 
 Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. A subset of templates are built and published to the [bento org](https://app.vagrantup.com/bento) on Vagrant Cloud. These published boxes serve as the default boxes for [kitchen-vagrant](https://github.com/test-kitchen/kitchen-vagrant/).
 
-***NOTE:** 
+***NOTE:**
 
 - Virutalbox 7.x requires extra config to allow nat network to connect to the host. To use uncomment lines #154 and #155 in bento/packer_templates/pkr-variables.pkr.hcl
-- When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/<build_name> directory. Otherwise if the output_directory variable isn't overwritten a directory called builds/<build_name> will be created in the current working directory
+- When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/(build_name) directory by default. If the output_directory variable isn't overwritten a directory called builds/(build_name) will be created in the current working directory that you are running the command from
 
 ## Using Public Boxes
 
