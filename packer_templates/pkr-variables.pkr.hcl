@@ -102,7 +102,7 @@ variable "parallels_prlctl_version_file" {
 # qemu
 variable "qemu_accelerator" {
   type    = string
-  default = "kvm"
+  default = null
 }
 variable "qemuargs" {
   type    = list(list(string))

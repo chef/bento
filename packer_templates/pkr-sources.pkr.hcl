@@ -40,7 +40,7 @@ locals {
         ["-m", "${local.memory}"],
         ["-smp", "2"],
         ["-drive", "file=~/virtio-win.iso,media=cdrom,index=3"],
-        ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
+        ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
         ["-display", "none"]
         ] : [
         ["-m", "${local.memory}"],

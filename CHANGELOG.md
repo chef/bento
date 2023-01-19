@@ -1,4 +1,46 @@
 # Change Log
+## [v202301.19.0] (2023-01-19)
+
+### Notes
+
+- When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/(build_name) directory by default. If the output_directory variable isn't overwritten a directory called builds/(build_name) will be created in the current working directory that you are running the command from
+
+### Fixes and updates
+
+- fixed x86_64 Ubuntu 22.10 build
+- set qemu_accelerator to null
+- fixed bug in output_directory variable - the provisioner option doesn't take template variables only hcl variables
+- updated AMZ_README_FIRST.md with how to use the updated script and actions it'll perform
+- updated README.md with vbox 7 fix and added note on builds directory being relative to the current working directory
+
+### Known Issues
+
+#### Failing Builds
+
+- OpenSUSE Leap 15 - x86_64
+- SpringdaleLinux 7 - x86_64
+- almalinux 8 - aarch64
+- CentOS 7 - aarch64
+- CentOS-Stream 8 - aarch64
+- CentOS-Stream - aarch64
+- Fedora 36 - aarch64
+- Fedora 37 - aarch64
+- OracleLinux 7 - aarch64
+- OracleLinux 8 - aarch64
+- Ubuntu 22.04 - aarch64
+- Ubuntu 22.10 - aarch64
+
+### Todo
+
+- Fix failing builds
+- Add more Virtualization providers to build pipelines
+- Finish removal of deprecated chef-solo provider to powershell provider for windows
+- migrate from http directory for hosting files to cd_files in source templates
+  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+- Update pipelines to only run on updated pkrvars files
+- Create CD pipeline to upload vagrant boxes after PR is merged
+- Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
 ## [v202301.09.0] (2023-01-09)
 
