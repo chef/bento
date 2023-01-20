@@ -1,4 +1,5 @@
 .bundle/
+**/builds/
 *.iso
 *.box
 *.ovf

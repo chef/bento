@@ -44,14 +44,12 @@ jobs:
           - windows-2019
           - windows-2022
         provider:
-          # - qemu
+          - qemu
           - virtualbox-iso
         exclude:
           - os: centos-stream-9
             provider: virtualbox-iso
     steps:
-      # - name: HomeBrew
-      #   run: brew update && brew upgrade qemu && brew upgrade --cask virtualbox
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
@@ -78,7 +76,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
@@ -116,8 +114,6 @@ jobs:
           # - virtualbox-iso
           # - vmware-iso
     steps:
-      # - name: Update HomeBrew
-      #   run: brew update && brew upgrade && brew upgrade --cask
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
@@ -144,7 +140,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -222,7 +218,7 @@ jobs:
 #        run: packer init -upgrade packer_templates
 #      - name: Packer build
 #        if: steps.verify-changed-files.outputs.files_changed == 'true'
-#        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+#        run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=whpx" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
 #      - name: Upload build artifact
 #        uses: actions/upload-artifact@main
 #        with:
