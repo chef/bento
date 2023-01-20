@@ -64,17 +64,17 @@ jobs:
             echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Setup Packer
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: hashicorp/setup-packer@main
         with:
           version: latest
       - name: Packer Init
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
         run: packer init -upgrade packer_templates
       - name: Packer build
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
@@ -140,17 +140,17 @@ jobs:
             echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Setup Packer
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: hashicorp/setup-packer@main
         with:
           version: latest
       - name: Packer Init
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
         run: packer init -upgrade packer_templates
       - name: Packer build
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=kvm" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
@@ -204,17 +204,17 @@ jobs:
             echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Setup Packer
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: hashicorp/setup-packer@main
         with:
           version: latest
       - name: Packer Init
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
         run: packer init -upgrade packer_templates
       - name: Packer build
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        #if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
