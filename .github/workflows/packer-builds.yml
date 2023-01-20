@@ -127,8 +127,6 @@ jobs:
           - qemu
 
     steps:
-      - name: Check cpu
-        run: egrep -c '(vmx|svm)' /proc/cpuinfo
       - name: Check cpu vendor
         run: grep -E --color '(vmx|svm)' /proc/cpuinfo
       - name: Install libvirt/qemu
