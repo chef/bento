@@ -130,7 +130,7 @@ jobs:
       - name: Install libvirt and qemu
         run: |
           sudo apt-get update && sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst libvirt-daemon
-          systemctl start libvirtd
+          sudo systemctl start libvirtd
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
