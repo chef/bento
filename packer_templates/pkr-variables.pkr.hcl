@@ -161,7 +161,7 @@ variable "virtualbox_version_file" {
   default = ".vbox_version"
 }
 
-# virtualbox-ovg
+# virtualbox-ovf
 variable "vbox_source" {
   type    = string
   default = null
