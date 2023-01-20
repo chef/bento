@@ -127,10 +127,12 @@ jobs:
           - qemu
 
     steps:
+      - name: Check cpu
+        run: egrep -c '(vmx|svm)' /proc/cpuinfo
+      - name: Check cpu vendor
+        run: grep -E --color '(vmx|svm)' /proc/cpuinfo
       - name: Install libvirt/qemu
         run: |
-          egrep -c '(vmx|svm)' /proc/cpuinfo
-          grep -E --color '(vmx|svm)' /proc/cpuinfo
           sudo apt-get update && sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst libvirt-daemon
           systemctl start libvirtd
       - name: Checkout
