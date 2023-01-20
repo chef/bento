@@ -7,6 +7,8 @@ on:
 
 jobs:
   builds-x86_64-vbox:
+    needs:
+      - builds-x86_64-qemu
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -125,6 +127,10 @@ jobs:
           - qemu
 
     steps:
+      - name: Install libvirt/qemu
+        run: |
+          kvm-ok
+          apt-get update && apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
@@ -161,6 +167,8 @@ jobs:
           retention-days: 10
 
   builds-aarch64:
+    needs:
+      - builds-x86_64-qemu
     runs-on: self-hosted
     strategy:
       fail-fast: false
