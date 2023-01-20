@@ -87,7 +87,7 @@ jobs:
           retention-days: 10
 
   builds-x86_64-qemu:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
@@ -127,10 +127,10 @@ jobs:
           - qemu
 
     steps:
-      - name: Install libvirt and qemu
-        run: |
-          sudo apt-get update && sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst libvirt-daemon
-          sudo systemctl start libvirtd
+#      - name: Install libvirt and qemu
+#        run: |
+#          sudo apt-get update && sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst libvirt-daemon
+#          sudo systemctl start libvirtd
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
@@ -157,7 +157,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         #if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -debug -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -debug -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
