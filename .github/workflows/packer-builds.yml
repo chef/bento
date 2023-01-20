@@ -129,7 +129,7 @@ jobs:
     steps:
       - name: Install libvirt/qemu
         run: |
-          apt-get update && apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+          sudo apt-get update && sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
