@@ -1,5 +1,63 @@
 # Change Log
 
+## [unreleased] (2023-01-19)
+
+### New Platforms
+
+- Ubuntu 18.04 aarch64
+
+### Fixes and updates
+
+- fixed Ubuntu aarch64 builds
+- added qemu pipeline builds
+
+### Known Issues
+
+#### Failing Builds
+
+- OpenSUSE Leap 15 - x86_64 - vbox
+- SpringdaleLinux 7 - x86_64 - vbox
+- almalinux 8 - aarch64 - parallels
+- CentOS 7 - aarch64 - parallels
+- CentOS-Stream 8 - aarch64 - parallels
+- CentOS-Stream - aarch64 - parallels
+- Fedora 36 - aarch64 - parallels
+- Fedora 37 - aarch64 - parallels
+- OracleLinux 7 - aarch64 - parallels
+- OracleLinux 8 - aarch64 - parallels
+- Ubuntu 22.10 - aarch64 - parallels
+- Almalinux 9 - x86_64 - qemu
+- CentOS-Stream 9 - x86_64 - qemu
+- Debian 10 - x86_64 - qemu
+- Debian 11 - x86_64 - qemu
+- FreeBSD 12 - x86_64 - qemu
+- FreeBSD 13 - x86_64 - qemu
+- OpenSUSE Leap 15 - x86_64 - qemu
+- OracleLinux 9 - x86_64 - qemu
+- RockyLinux 9 - x86_64 - qemu
+- ScientificLinux 7 - x86_64 - qemu
+
+### Todo
+
+- Fix failing builds
+- Add more Virtualization providers to build pipelines
+  - vmware
+    - x86_64
+    - aarch64 - vmware plugin has issues with fusion 13
+  - hyper-v
+    - x86_64
+  - parallels
+    - x86_64
+  - virtualbox
+    - aarch64 - Vbox Beta support currently
+- Finish removal of deprecated chef-solo provider to powershell provider for windows
+- migrate from http directory for hosting files to cd_files in source templates
+  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+- Update pipelines to only run on updated pkrvars files
+- Create CD pipeline to upload vagrant boxes after PR is merged
+- Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+
 ## [v202301.19.0] (2023-01-19)
 
 ### Notes
