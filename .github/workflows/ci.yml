@@ -32,7 +32,7 @@ jobs:
 #    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
 #    secrets: inherit
 
-  packer-builds:
+  packer-builds-amzlinux:
 #    needs:
 #      - yaml-lint
 #      - json-lint
@@ -41,7 +41,67 @@ jobs:
 #      - shellcheck-lint
 #      - packer-iso-check
 #      - packer-lint
-    uses: ./.github/workflows/packer-builds.yml
+    uses: ./.github/workflows/packer-builds-amzlinux.yml
+    secrets: inherit
+
+  packer-builds-hyperv:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/packer-builds-hyperv.yml
+    secrets: inherit
+
+  packer-builds-parallels:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/packer-builds-parallels.yml
+    secrets: inherit
+
+  packer-builds-qemu:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/packer-builds-qemu.yml
+    secrets: inherit
+
+  packer-builds-virtualbox:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/packer-builds-virtualbox.yml
+    secrets: inherit
+
+  packer-builds-vmware:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/packer-builds-vmware.yml
     secrets: inherit
 #
 #  check_jobs_pass:
@@ -55,7 +115,12 @@ jobs:
 #      - shellcheck-lint
 #      # - packer-iso-check
 #      # - packer-lint
-#      # - packer-builds # Skipping for now until all builds are working
+#      # - packer-builds-amzlinux
+#      # - packer-builds-hyperv
+#      # - packer-builds-parallels
+#      # - packer-builds-qemu
+#      # - packer-builds-virtualbox
+#      # - packer-builds-vmware
 #    runs-on: Ubuntu-latest
 #    steps:
 #      - name: Decide whether the needed jobs succeeded or failed
