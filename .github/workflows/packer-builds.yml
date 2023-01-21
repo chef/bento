@@ -58,7 +58,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -121,7 +121,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=180m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -264,6 +264,8 @@ jobs:
           else
             echo "files_changed=false" >> $GITHUB_OUTPUT
           fi
+      - name: Download virtio-win.iso
+        run: curl https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.229-1/virtio-win.iso -o packer_templates/win_answer_files/virtio-win.iso
       - name: Setup Packer
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: hashicorp/setup-packer@main
@@ -276,7 +278,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=90m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=180m" -var "winrm_timeout=180m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
