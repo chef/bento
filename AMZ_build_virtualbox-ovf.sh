@@ -62,4 +62,6 @@ echo starting packer build of amazonlinux
 if packer build -only=virtualbox-ovf.amazonlinux -var-file="$SCRIPT_RELATIVE_DIR"/os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$SCRIPT_RELATIVE_DIR"/packer_templates; then
   echo "Cleaning up files"
   rm "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
+else
+  return 1
 fi
