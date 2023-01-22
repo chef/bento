@@ -11,7 +11,7 @@ AMZDIR="$(pwd)/packer_templates/amz_working_files"
 IMG="$(wget -q https://cdn.amazonlinux.com/os-images/latest/virtualbox/ -O - | grep ".vdi" | cut -d "\"" -f 2)"
 
 # Download vbox vdi
-wget -q -O "$AMZDIR"/amazon.vdi -c https://cdn.amazonlinux.com/os-images/latest/virtualbox/"$IMG"
+wget -O "$AMZDIR"/amazon.vdi -c https://cdn.amazonlinux.com/os-images/latest/virtualbox/"$IMG"
 
 if [ ! -f "$AMZDIR"/amazon.vdi ]; then
   echo There must be a file named amazon.vdi in "$AMZDIR"!
@@ -20,10 +20,10 @@ if [ ! -f "$AMZDIR"/amazon.vdi ]; then
 fi
 
 echo "Cleaning up old files"
-rm "$AMZDIR"/*.iso "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk
+rm -f "$AMZDIR"/*.iso "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk
 
 echo "Creating ISO"
-hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata seed_iso
+hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
 
 VM="AmazonLinuxBento"
 echo Powering off and deleting any existing VMs named $VM
@@ -59,9 +59,9 @@ echo Deleting the VM
 vboxmanage unregistervm $VM --delete
 
 echo starting packer build of amazonlinux
-if packer build -only=virtualbox-ovf.amazonlinux -var-file="$SCRIPT_RELATIVE_DIR"/os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$SCRIPT_RELATIVE_DIR"/packer_templates; then
+if packer build -only=virtualbox-ovf.amazonlinux -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
   echo "Cleaning up files"
-  rm "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
+  rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
 else
-  return 1
+  exit 1
 fi

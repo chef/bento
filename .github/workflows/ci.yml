@@ -44,17 +44,17 @@ jobs:
     uses: ./.github/workflows/packer-builds-amzlinux.yml
     secrets: inherit
 
-  packer-builds-hyperv:
-    #    needs:
-    #      - yaml-lint
-    #      - json-lint
-    #      - xml-lint
-    #      - powershell-lint
-    #      - shellcheck-lint
-    #      - packer-iso-check
-    #      - packer-lint
-    uses: ./.github/workflows/packer-builds-hyperv.yml
-    secrets: inherit
+#  packer-builds-hyperv:
+#    #    needs:
+#    #      - yaml-lint
+#    #      - json-lint
+#    #      - xml-lint
+#    #      - powershell-lint
+#    #      - shellcheck-lint
+#    #      - packer-iso-check
+#    #      - packer-lint
+#    uses: ./.github/workflows/packer-builds-hyperv.yml
+#    secrets: inherit
 
   packer-builds-parallels:
     #    needs:

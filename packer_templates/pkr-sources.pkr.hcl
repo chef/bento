@@ -67,9 +67,9 @@ locals {
     var.is_windows && var.hyperv_generation == 1 ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
 
-  # virtualbox-ovg
+  # virtualbox-ovf
   vbox_source = var.vbox_source == null ? (
-    var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
+    var.os_name == "amazonlinux-2" ? "${path.root}/amz_working_files/amazon2.ovf" : null
   ) : var.vbox_source
 
   # vmware-iso

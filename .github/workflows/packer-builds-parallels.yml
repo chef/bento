@@ -7,7 +7,7 @@ on:
 
 jobs:
   aarch64:
-    runs-on: self-hosted
+    runs-on: [self-hosted, ARM64, parallels]
     strategy:
       fail-fast: false
       matrix:
