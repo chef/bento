@@ -11,7 +11,7 @@ AMZDIR="$(pwd)/packer_templates/amz_working_files"
 IMG="$(wget -q https://cdn.amazonlinux.com/os-images/latest/virtualbox/ -O - | grep ".vdi" | cut -d "\"" -f 2)"
 
 # Download vbox vdi
-wget -O "$AMZDIR"/amazon.vdi -c https://cdn.amazonlinux.com/os-images/latest/virtualbox/"$IMG"
+wget -q -O "$AMZDIR"/amazon.vdi -c https://cdn.amazonlinux.com/os-images/latest/virtualbox/"$IMG"
 
 if [ ! -f "$AMZDIR"/amazon.vdi ]; then
   echo There must be a file named amazon.vdi in "$AMZDIR"!

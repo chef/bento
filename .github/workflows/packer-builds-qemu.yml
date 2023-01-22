@@ -58,7 +58,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=180m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=90m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -135,7 +135,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=180m" -var "winrm_timeout=180m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=90m" -var "winrm_timeout=180m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:

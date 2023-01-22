@@ -68,17 +68,17 @@ jobs:
     uses: ./.github/workflows/packer-builds-parallels.yml
     secrets: inherit
 
-  packer-builds-qemu:
-    #    needs:
-    #      - yaml-lint
-    #      - json-lint
-    #      - xml-lint
-    #      - powershell-lint
-    #      - shellcheck-lint
-    #      - packer-iso-check
-    #      - packer-lint
-    uses: ./.github/workflows/packer-builds-qemu.yml
-    secrets: inherit
+#  packer-builds-qemu:
+#    #    needs:
+#    #      - yaml-lint
+#    #      - json-lint
+#    #      - xml-lint
+#    #      - powershell-lint
+#    #      - shellcheck-lint
+#    #      - packer-iso-check
+#    #      - packer-lint
+#    uses: ./.github/workflows/packer-builds-qemu.yml
+#    secrets: inherit
 
   packer-builds-virtualbox:
     #    needs:
