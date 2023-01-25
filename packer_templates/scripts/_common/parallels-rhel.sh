@@ -8,9 +8,9 @@ parallels-iso|parallels-pvm)
     major_version="$(sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}')"
     # make sure we use dnf on EL 8+
     if [ "$major_version" -ge 8 ]; then
-      dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel-"$(uname -r)" kernel-headers-"$(uname -r)" make
+      dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     else
-      yum -y insttall checkpolicy selinux-policy-devel gcc kernel-devel-"$(uname -r)" kernel-headers-"$(uname -r)" make
+      yum -y insttall checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     fi
 
     mkdir -p /tmp/parallels;
