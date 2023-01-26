@@ -1,0 +1,69 @@
+---
+on:
+  workflow_call:
+    secrets:
+      PACKER_GITHUB_API_TOKEN:
+        required: true
+
+jobs:
+  aarch64:
+    runs-on: [self-hosted, ARM64, qemu]
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - almalinux-8
+          - almalinux-9
+          - centos-7
+          - centos-stream-8
+          - centos-stream-9
+          - debian-10
+          - debian-11
+          - fedora-36
+          - fedora-37
+          - oraclelinux-7
+          - oraclelinux-8
+          - oraclelinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - ubuntu-18.04
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - ubuntu-22.10
+        provider:
+          - qemu
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Pull Change list
+        id: changed-files
+        uses: collin-miller/git-changesets@master
+      - name: Verify Changed files
+        id: verify-changed-files
+        run: |
+          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
+          if grep ".*\.pkrvars.hcl" changed.txt; then
+            echo "files_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "files_changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Setup Packer
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Packer Init
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        env:
+          PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
+        run: packer init -upgrade packer_templates
+      - name: Packer build
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: packer build -only=${{ matrix.provider }}.vm -var "ssh_timeout=90m" -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ matrix.os }}-qemu-aarch64.box"
+          path: |
+            builds/*.box
+          retention-days: 10

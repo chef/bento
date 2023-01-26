@@ -6,8 +6,32 @@ on:
         required: true
 
 jobs:
-  x86_64:
-    runs-on: macos-latest
+  aarch64:
+    runs-on: [self-hosted, ARM64, virtualbox]
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - almalinux-8
+          - almalinux-9
+          - centos-7
+          - centos-stream-8
+          - centos-stream-9
+          - debian-10
+          - debian-11
+          - fedora-36
+          - fedora-37
+          - oraclelinux-7
+          - oraclelinux-8
+          - oraclelinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - ubuntu-18.04
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - ubuntu-22.10
+        provider:
+          - virtualbox-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -35,11 +59,11 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: ./AMZ_build_virtualbox-ovf.sh
+        run: packer build -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-virtualbox-x86_64.box"
+          name: "${{ matrix.os }}-virtualbox-aarch64.box"
           path: |
             builds/*.box
           retention-days: 10

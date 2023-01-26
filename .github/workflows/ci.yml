@@ -32,7 +32,7 @@ jobs:
 #    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
 #    secrets: inherit
 
-  packer-builds-amzlinux:
+  pkr-bld-amazonlinux-x64:
 #    needs:
 #      - yaml-lint
 #      - json-lint
@@ -41,10 +41,10 @@ jobs:
 #      - shellcheck-lint
 #      - packer-iso-check
 #      - packer-lint
-    uses: ./.github/workflows/packer-builds-amzlinux.yml
+    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
 
-#  packer-builds-hyperv:
+#  pkr-bld-hyperv-x64:
 #    #    needs:
 #    #      - yaml-lint
 #    #      - json-lint
@@ -53,10 +53,10 @@ jobs:
 #    #      - shellcheck-lint
 #    #      - packer-iso-check
 #    #      - packer-lint
-#    uses: ./.github/workflows/packer-builds-hyperv.yml
+#    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
 #    secrets: inherit
 
-  packer-builds-parallels:
+  pkr-bld-parallels-arm64:
     #    needs:
     #      - yaml-lint
     #      - json-lint
@@ -65,22 +65,10 @@ jobs:
     #      - shellcheck-lint
     #      - packer-iso-check
     #      - packer-lint
-    uses: ./.github/workflows/packer-builds-parallels.yml
+    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
     secrets: inherit
 
-#  packer-builds-qemu:
-#    #    needs:
-#    #      - yaml-lint
-#    #      - json-lint
-#    #      - xml-lint
-#    #      - powershell-lint
-#    #      - shellcheck-lint
-#    #      - packer-iso-check
-#    #      - packer-lint
-#    uses: ./.github/workflows/packer-builds-qemu.yml
-#    secrets: inherit
-
-  packer-builds-virtualbox:
+  pkr-bld-parallels-x64:
     #    needs:
     #      - yaml-lint
     #      - json-lint
@@ -89,10 +77,10 @@ jobs:
     #      - shellcheck-lint
     #      - packer-iso-check
     #      - packer-lint
-    uses: ./.github/workflows/packer-builds-virtualbox.yml
+    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
     secrets: inherit
 
-  packer-builds-vmware:
+  pkr-bld-qemu-arm64:
     #    needs:
     #      - yaml-lint
     #      - json-lint
@@ -101,9 +89,69 @@ jobs:
     #      - shellcheck-lint
     #      - packer-iso-check
     #      - packer-lint
-    uses: ./.github/workflows/packer-builds-vmware.yml
+    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
     secrets: inherit
-#
+
+  pkr-bld-qemu-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-arm64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-arm64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
+    secrets: inherit
+
 #  check_jobs_pass:
 #    if: always()
 #    needs:
@@ -115,12 +163,16 @@ jobs:
 #      - shellcheck-lint
 #      # - packer-iso-check
 #      # - packer-lint
-#      # - packer-builds-amzlinux
-#      # - packer-builds-hyperv
-#      # - packer-builds-parallels
-#      # - packer-builds-qemu
-#      # - packer-builds-virtualbox
-#      # - packer-builds-vmware
+#      # - pkr-bld-amazonlinux-x64
+#      # - pkr-bld-hyperv-x64
+#      # - pkr-bld-parallels-arm64
+#      # - pkr-bld-parallels-x64
+#      # - pkr-bld-qemu-arm64
+#      # - pkr-bld-qemu-x64
+#      # - pkr-bld-virtualbox-arm64
+#      # - pkr-bld-virtualbox-x64
+#      # - pkr-bld-vmware-arm64
+#      # - pkr-bld-vmware-x64
 #    runs-on: Ubuntu-latest
 #    steps:
 #      - name: Decide whether the needed jobs succeeded or failed

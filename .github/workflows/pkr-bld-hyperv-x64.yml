@@ -7,7 +7,7 @@ on:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, x64, hyper-v]
+    runs-on: [self-hosted, X64, hyper-v]
     strategy:
       fail-fast: false
       matrix:
