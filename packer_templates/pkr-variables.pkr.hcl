@@ -104,6 +104,18 @@ variable "qemu_accelerator" {
   type    = string
   default = null
 }
+variable "qemu_binary" {
+  type = string
+  default = null
+}
+variable "qemu_display" {
+  type = string
+  default = "none"
+}
+variable "qemu_machine_type" {
+  type = string
+  default = null
+}
 variable "qemuargs" {
   type    = list(list(string))
   default = null

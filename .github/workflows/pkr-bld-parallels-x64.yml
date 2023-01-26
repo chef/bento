@@ -76,7 +76,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ matrix.os }}-parallels-aarch64.box"
+          name: "${{ matrix.os }}-parallels-x86_64.box"
           path: |
             builds/*.box
           retention-days: 10
