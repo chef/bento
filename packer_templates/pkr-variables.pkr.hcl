@@ -105,15 +105,15 @@ variable "qemu_accelerator" {
   default = null
 }
 variable "qemu_binary" {
-  type = string
+  type    = string
   default = null
 }
 variable "qemu_display" {
-  type = string
+  type    = string
   default = "none"
 }
 variable "qemu_machine_type" {
-  type = string
+  type    = string
   default = null
 }
 variable "qemuargs" {
@@ -163,8 +163,8 @@ variable "vboxmanage" {
       "{{.Name}}",
       "--audio",
       "none",
-      # "--nat-localhostreachable1",
-      # "on",
+      "--nat-localhostreachable1",
+      "on",
     ]
   ]
 }
@@ -202,10 +202,10 @@ variable "vmware_version" {
   default = 19
 }
 variable "vmware_vmx_data" {
-  type    = map(string)
+  type = map(string)
   default = {
-    "cpuid.coresPerSocket" = "1"
-    "ethernet0.pciSlotNumber"  = "32"
+    "cpuid.coresPerSocket"    = "1"
+    "ethernet0.pciSlotNumber" = "32"
   }
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {

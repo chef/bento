@@ -31,16 +31,20 @@ locals {
   # qemu
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_machine_type = var.qemu_machine_type == null ? (
-    var.os_arch == "aarch64" ? "virt" : null
+    var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
     var.hyperv_generation == 2 && var.is_windows ? [
       ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
-    ] : (
+      ] : (
       var.is_windows ? [
         ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
         ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
-      ] : null
+        ] : (
+        var.os_arch == "aarch64" ? [
+          ["-boot", "strict=off"]
+        ] : null
+      )
     )
   ) : var.qemuargs
 
@@ -168,7 +172,7 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   accelerator      = var.qemu_accelerator
-  display          = var.headless ? "gtk" : var.qemu_display
+  display          = var.headless ? "none" : var.qemu_display
   machine_type     = local.qemu_machine_type
   qemu_binary      = local.qemu_binary
   qemuargs         = local.qemuargs

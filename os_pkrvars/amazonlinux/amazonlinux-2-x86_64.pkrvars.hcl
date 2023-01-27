@@ -14,7 +14,7 @@ vboxmanage = [
     "--cpus", "2",
     "--audio",
     "none",
-    # "--nat-localhostreachable1",
-    # "on",
+    "--nat-localhostreachable1",
+    "on",
   ]
 ]
