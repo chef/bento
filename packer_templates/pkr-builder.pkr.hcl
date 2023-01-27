@@ -5,10 +5,6 @@ packer {
       version = ">= 1.0.0"
       source  = "github.com/hashicorp/hyperv"
     }
-    inspec = {
-      version = ">= 0.0.1"
-      source  = "github.com/hashicorp/inspec"
-    }
     parallels = {
       version = ">= 1.0.1"
       source  = "github.com/hashicorp/parallels"
