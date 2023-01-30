@@ -10,7 +10,7 @@ parallels-iso|parallels-pvm)
     if [ "$major_version" -ge 8 ]; then
       dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     else
-      yum -y insttall checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
+      yum -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     fi
 
     mkdir -p /tmp/parallels;
