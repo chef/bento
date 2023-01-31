@@ -59,7 +59,15 @@ Add-Type -A System.IO.Compression.FileSystem
 # install Guest Additions.
 $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Property Vendor).Vendor
 if ($systemVendor -eq 'QEMU') {
-    # do nothing. this was installed in provision-guest-tools-qemu-kvm.ps1.
+    $guestToolsPath = "e:\drivers\virtio-win-guest-tools.exe"
+    $guestTools = "$env:TEMP\$(Split-Path -Leaf $guestToolsPath)"
+    $guestToolsLog = "$guestTools.log"
+    Write-Host 'Installing the guest tools...'
+    &$guestTools /install /norestart /quiet /log $guestToolsLog | Out-String -Stream
+    if ($LASTEXITCODE) {
+        throw "failed to install guest tools with exit code $LASTEXITCODE"
+    }
+    Write-Host "Done installing the guest tools."
 } elseif ($systemVendor -eq 'innotek GmbH') {
     Write-Host 'Importing the Oracle (for VirtualBox) certificate as a Trusted Publisher...'
     E:\cert\VBoxCertUtil.exe add-trusted-publisher E:\cert\vbox-sha1.cer
@@ -74,10 +82,20 @@ if ($systemVendor -eq 'QEMU') {
     }
 } elseif ($systemVendor -eq 'Microsoft Corporation') {
     # do nothing. Hyper-V enlightments are already bundled with Windows.
-} elseif ($systemVendor -eq 'VMware, Inc.') {
-    # do nothing. VMware Tools were already installed by provision-vmtools.ps1 (executed from autounattend.xml).
+} elseif ($systemVendor -eq 'VMware, Inc.')
+{
+    Write-Output 'Installing VMware Tools...'
+    # silent install without rebooting.
+    E:\setup64.exe /s /v '/qn reboot=r' `
+        | Out-String -Stream
+} elseif ($systemVendor -eq 'Parallels Software International Inc.') {
+    Write-Host 'Installing the Parallels Tools for Guest VM...'
+    E:\PTAgent.exe /install_silent | Out-String -Stream
+    if ($LASTEXITCODE) {
+        throw "failed to install with exit code $LASTEXITCODE. Check the logs at C:\Program Files\Oracle\VirtualBox Guest Additions\install.log."
+    }
 } else {
-    throw "Cannot install Guest Additions: Unsupported system ($systemVendor)."
+    Write-Host "Cannot install Guest Additions: Unsupported system ($systemVendor)."
 }
 
 Write-Host 'Setting the vagrant account properties...'

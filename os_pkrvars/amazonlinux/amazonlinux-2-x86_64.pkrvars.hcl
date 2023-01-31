@@ -13,5 +13,9 @@ vboxmanage = [
     "2048",
     "--cpus",
     "2",
+    "--audio",
+    "none",
+    "--nat-localhostreachable1",
+    "on",
   ]
 ]
