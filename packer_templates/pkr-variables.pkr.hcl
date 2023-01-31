@@ -199,7 +199,7 @@ variable "vmware_tools_upload_path" {
 }
 variable "vmware_version" {
   type    = number
-  default = 19
+  default = 20
 }
 variable "vmware_vmx_data" {
   type = map(string)
@@ -288,7 +288,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "30m"
+  default = "60m"
 }
 variable "ssh_username" {
   type    = string

@@ -4,7 +4,6 @@
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
   dnf install -y open-vm-tools
-  mkdir /mnt/hgfs;
   systemctl enable vmtoolsd
   systemctl start vmtoolsd
 esac

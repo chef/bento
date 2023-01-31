@@ -155,7 +155,11 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
     } catch {
         Write-Host "Ignoring taking ownership of temporary files error: $_"
     }
-    Remove-Item $_ -Exclude 'packer-*' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+    try {
+        Remove-Item $_ -Exclude 'packer-*' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+    } catch {
+        Write-Host "Ignoring failure to remove files error: $_"
+    }
 }
 
 
