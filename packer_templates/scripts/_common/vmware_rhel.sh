@@ -12,7 +12,7 @@ vmware-iso|vmware-vmx)
     if [ "$major_version" -ge 8 ]; then
       dnf -y install open-vm-tools
     else
-      yum -y insttall open-vm-tools
+      yum -y install open-vm-tools
     fi
     ;;
 esac

@@ -37,24 +37,24 @@ locals {
     substr(var.os_version, 0, 2) == "10" ||
     substr(var.os_version, 0, 2) == "11" ? [
       # "${path.root}/scripts/windows/base_setup.ps1",
+      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
       "${path.root}/scripts/windows/remove-one-drive.ps1",
       "${path.root}/scripts/windows/remove-apps.ps1",
       "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
       "${path.root}/scripts/windows/provision-winrm.ps1",
-      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
       ] : [
       # "${path.root}/scripts/windows/base_setup.ps1",
+      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
       "${path.root}/scripts/windows/remove-one-drive.ps1",
       # "${path.root}/scripts/windows/remove-apps.ps1",
       "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
       "${path.root}/scripts/windows/provision-winrm.ps1",
-      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
     ]
