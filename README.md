@@ -5,6 +5,7 @@ Bento is a project that encapsulates [Packer](https://www.packer.io/) templates 
 ***NOTE:**
 
 - Virutalbox 7.x requires extra config to allow nat network to connect to the host. To use uncomment lines #154 and #155 in bento/packer_templates/pkr-variables.pkr.hcl
+- Virtualbox disable by default the host I/O cache of the SATA controler. This reduce the performance of the VM. It is possible to evaluate if enable this swtich can improve the speed of the box creation when uncomment lines #157 to #164 in bento/packer_templates/pkr-variables.pkr.hcl.
 - When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/(build_name) directory by default. If the output_directory variable isn't overwritten a directory called builds/(build_name) will be created in the current working directory that you are running the command from
 
 ## Using Public Boxes

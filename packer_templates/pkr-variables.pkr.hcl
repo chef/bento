@@ -154,6 +154,14 @@ variable "vboxmanage" {
       # "--nat-localhostreachable1",
       # "on",
     ]
+    #,
+    #[
+    #  "storagectl",
+    #  "{{.Name}}",
+    #  "--name",
+    #  "SATA Controller",
+    #  "--hostiocache", "on",
+    #]
   ]
 }
 variable "virtualbox_version_file" {
