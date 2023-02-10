@@ -38,6 +38,7 @@ rm -f /var/lib/systemd/random-seed
 
 echo "Wipe netplan machine-id (DUID) so machines get unique ID generated on boot"
 truncate -s 0 /etc/machine-id
+truncate -s 0 /var/lib/dbus/machine-id  # if not symlinked to "/etc/machine-id"
 
 echo "Clear the history so our install commands aren't there"
 rm -f /root/.wget-hsts
