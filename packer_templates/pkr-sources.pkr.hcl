@@ -68,12 +68,6 @@ locals {
   vmware_disk_adapter_type = var.vmware_disk_adapter_type == null ? (
     var.is_windows ? "lsisas1068" : null
   ) : var.vmware_disk_adapter_type
-  vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? "windows" : null
-  ) : var.vmware_tools_upload_flavor
-  vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
-    var.is_windows ? "c:/Windows/Temp/vmware.iso" : null
-  ) : var.vmware_tools_upload_path
 
   # Source block common
   boot_wait = var.boot_wait == null ? (
@@ -253,8 +247,8 @@ source "virtualbox-ovf" "amazonlinux" {
 source "vmware-iso" "vm" {
   guest_os_type                  = var.vmware_guest_os_type
   disk_adapter_type              = local.vmware_disk_adapter_type
-  tools_upload_flavor            = local.vmware_tools_upload_flavor
-  tools_upload_path              = local.vmware_tools_upload_path
+  tools_upload_flavor            = var.vmware_tools_upload_flavor
+  tools_upload_path              = var.vmware_tools_upload_path
   version                        = var.vmware_version
   vmx_data                       = var.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
