@@ -131,7 +131,7 @@ locals {
               "${path.root}/scripts/fedora/cleanup_dnf.sh",
               "${path.root}/scripts/_common/minimize.sh"
               ] : (
-              "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonliunux-2" ||
+              "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonlinux-2" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
