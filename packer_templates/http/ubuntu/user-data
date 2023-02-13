@@ -1,0 +1,18 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: vagrant
+    username: vagrant
+    password: '$6$rounds=4096$5CU3LEj/MQvbkfPb$LmKEF9pCfU8R.dA.GemgE/8GT6r9blge3grJvdsVTMFKyLEQwzEF3SGWqAzjawY/XHRpWj4fOiLBrRyxJhIRJ1'
+  early-commands:
+    # otherwise packer tries to connect and exceed max attempts:
+    - systemctl stop ssh.service
+    - systemctl stop ssh.socket
+  ssh:
+    install-server: yes
+    allow-pw: yes
+  late-commands:
+      - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
+      - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
+
