@@ -140,18 +140,18 @@ jobs:
 #    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
 #    secrets: inherit
 #
-  pkr-bld-qemu-x64:
-    #    needs:
-    #      - yaml-lint
-    #      - json-lint
-    #      - xml-lint
-    #      - powershell-lint
-    #      - shellcheck-lint
-    #      - packer-iso-check
-    #      - packer-lint
-    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
-    secrets: inherit
-
+#  pkr-bld-qemu-x64:
+#    #    needs:
+#    #      - yaml-lint
+#    #      - json-lint
+#    #      - xml-lint
+#    #      - powershell-lint
+#    #      - shellcheck-lint
+#    #      - packer-iso-check
+#    #      - packer-lint
+#    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
+#    secrets: inherit
+#
 #  check_jobs_pass:
 #    if: always()
 #    needs:
