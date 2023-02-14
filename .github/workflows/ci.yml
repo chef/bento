@@ -116,17 +116,17 @@ jobs:
     uses: ./.github/workflows/pkr-bld-vmware-x64.yml
     secrets: inherit
 
-  #  pkr-bld-hyperv-x64:
-  #    #    needs:
-  #    #      - yaml-lint
-  #    #      - json-lint
-  #    #      - xml-lint
-  #    #      - powershell-lint
-  #    #      - shellcheck-lint
-  #    #      - packer-iso-check
-  #    #      - packer-lint
-  #    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
-  #    secrets: inherit
+  pkr-bld-hyperv-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
+    secrets: inherit
 
 #  pkr-bld-qemu-arm64:
 #    #    needs:
