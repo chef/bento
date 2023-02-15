@@ -49,11 +49,6 @@ variable "sources_enabled" {
 
 # Source block provider specific variables
 # hyperv-iso
-variable "boot_command_hyperv" {
-  type        = list(string)
-  default     = null
-  description = "Commands to pass to gui session to initiate automated install"
-}
 variable "hyperv_enable_dynamic_memory" {
   type    = bool
   default = null

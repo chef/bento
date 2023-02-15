@@ -113,7 +113,7 @@ source "hyperv-iso" "vm" {
   generation            = var.hyperv_generation
   guest_additions_mode  = var.hyperv_guest_additions_mode
   switch_name           = var.hyperv_switch_name
-  boot_command          = var.boot_command_hyperv
+  boot_command          = var.boot_command
   boot_wait             = local.boot_wait
   cpus                  = var.cpus
   communicator          = local.communicator
