@@ -7,7 +7,7 @@
 *.vdi
 *.log
 virtualfloppy.vfd
-packer_cache
+packer_cache/
 packer.log
 .DS_Store
 Gemfile.lock
