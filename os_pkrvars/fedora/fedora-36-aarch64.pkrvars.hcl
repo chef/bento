@@ -1,6 +1,6 @@
 os_name                 = "fedora"
 os_version              = "36"
-os_arch                 = "x86_64"
+os_arch                 = "aarch64"
 iso_url                 = "https://na.edge.kernel.org/fedora/releases/36/Server/aarch64/iso/Fedora-Server-dvd-aarch64-36-1.5.iso"
 iso_checksum            = "sha256:0ab4000575ff8b258576750ecf4ca39b266f0c88cab5fe3d8d2f88c9bea4830d"
 parallels_guest_os_type = "fedora-core"
