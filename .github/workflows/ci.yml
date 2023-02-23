@@ -32,16 +32,124 @@ jobs:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
     secrets: inherit
 
-  packer-builds:
-    needs:
-      - yaml-lint
-      - json-lint
-      - xml-lint
-      - powershell-lint
-      - shellcheck-lint
-      - packer-iso-check
-      - packer-lint
-    uses: ./.github/workflows/packer-builds.yml
+  pkr-bld-amazonlinux-x64:
+#    needs:
+#      - yaml-lint
+#      - json-lint
+#      - xml-lint
+#      - powershell-lint
+#      - shellcheck-lint
+#      - packer-iso-check
+#      - packer-lint
+    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
+    secrets: inherit
+
+  #  pkr-bld-virtualbox-arm64:
+  #    #    needs:
+  #    #      - yaml-lint
+  #    #      - json-lint
+  #    #      - xml-lint
+  #    #      - powershell-lint
+  #    #      - shellcheck-lint
+  #    #      - packer-iso-check
+  #    #      - packer-lint
+  #    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+  #    secrets: inherit
+
+  pkr-bld-virtualbox-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
+
+  #  pkr-bld-parallels-arm64:
+  #    #    needs:
+  #    #      - yaml-lint
+  #    #      - json-lint
+  #    #      - xml-lint
+  #    #      - powershell-lint
+  #    #      - shellcheck-lint
+  #    #      - packer-iso-check
+  #    #      - packer-lint
+  #    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
+  #    secrets: inherit
+
+  pkr-bld-parallels-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
+    secrets: inherit
+
+  #  pkr-bld-vmware-arm64:
+  #    #    needs:
+  #    #      - yaml-lint
+  #    #      - json-lint
+  #    #      - xml-lint
+  #    #      - powershell-lint
+  #    #      - shellcheck-lint
+  #    #      - packer-iso-check
+  #    #      - packer-lint
+  #    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+  #    secrets: inherit
+
+  pkr-bld-vmware-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
+    secrets: inherit
+
+  pkr-bld-hyperv-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
+    secrets: inherit
+
+#  pkr-bld-qemu-arm64:
+#    #    needs:
+#    #      - yaml-lint
+#    #      - json-lint
+#    #      - xml-lint
+#    #      - powershell-lint
+#    #      - shellcheck-lint
+#    #      - packer-iso-check
+#    #      - packer-lint
+#    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
+#    secrets: inherit
+
+  pkr-bld-qemu-x64:
+    #    needs:
+    #      - yaml-lint
+    #      - json-lint
+    #      - xml-lint
+    #      - powershell-lint
+    #      - shellcheck-lint
+    #      - packer-iso-check
+    #      - packer-lint
+    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
     secrets: inherit
 
   check_jobs_pass:
@@ -55,7 +163,16 @@ jobs:
       - shellcheck-lint
       # - packer-iso-check
       # - packer-lint
-      # - packer-builds # Skipping for now until all builds are working
+      # - pkr-bld-amazonlinux-x64
+      # - pkr-bld-hyperv-x64
+      # - pkr-bld-parallels-arm64
+      # - pkr-bld-parallels-x64
+      # - pkr-bld-qemu-arm64
+      # - pkr-bld-qemu-x64
+      # - pkr-bld-virtualbox-arm64
+      # - pkr-bld-virtualbox-x64
+      # - pkr-bld-vmware-arm64
+      # - pkr-bld-vmware-x64
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed

@@ -5,10 +5,6 @@ packer {
       version = ">= 1.0.0"
       source  = "github.com/hashicorp/hyperv"
     }
-    inspec = {
-      version = ">= 0.0.1"
-      source  = "github.com/hashicorp/inspec"
-    }
     parallels = {
       version = ">= 1.0.1"
       source  = "github.com/hashicorp/parallels"
@@ -27,7 +23,7 @@ packer {
     }
     vmware = {
       version = ">= 0.0.1"
-      source  = "github.com/hashicorp/vmware"
+      source  = "github.com/stromweld/vmware" # TODO: switching to stromweld repo for fix to vmware tools for fusion 13 till official fix is in place https://github.com/hashicorp/packer-plugin-vmware/issues/109
     }
     windows-update = {
       version = ">= 0.14.1"
@@ -41,28 +37,24 @@ locals {
     substr(var.os_version, 0, 2) == "10" ||
     substr(var.os_version, 0, 2) == "11" ? [
       # "${path.root}/scripts/windows/base_setup.ps1",
+      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
       "${path.root}/scripts/windows/remove-one-drive.ps1",
       "${path.root}/scripts/windows/remove-apps.ps1",
       "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-      "${path.root}/scripts/windows/provision-guest-tools-qemu-kvm.ps1",
-      "${path.root}/scripts/windows/provision-vmwaretools.ps1",
       "${path.root}/scripts/windows/provision-winrm.ps1",
-      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
       ] : [
       # "${path.root}/scripts/windows/base_setup.ps1",
+      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
       "${path.root}/scripts/windows/remove-one-drive.ps1",
       # "${path.root}/scripts/windows/remove-apps.ps1",
       "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-      "${path.root}/scripts/windows/provision-guest-tools-qemu-kvm.ps1",
-      "${path.root}/scripts/windows/provision-vmwaretools.ps1",
       "${path.root}/scripts/windows/provision-winrm.ps1",
-      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
     ]
@@ -125,7 +117,7 @@ locals {
               "${path.root}/scripts/_common/sshd.sh",
               "${path.root}/scripts/_common/virtualbox.sh",
               "${path.root}/scripts/_common/vmware_fedora.sh",
-              "${path.root}/scripts/_common/parallels.sh",
+              "${path.root}/scripts/_common/parallels-rhel.sh",
               "${path.root}/scripts/_common/vagrant.sh",
               "${path.root}/scripts/fedora/real-tmp_fedora.sh",
               "${path.root}/scripts/fedora/cleanup_dnf.sh",
@@ -144,7 +136,7 @@ locals {
                 "${path.root}/scripts/_common/vagrant.sh",
                 "${path.root}/scripts/_common/virtualbox.sh",
                 "${path.root}/scripts/_common/vmware_rhel.sh",
-                "${path.root}/scripts/_common/parallels.sh",
+                "${path.root}/scripts/_common/parallels-rhel.sh",
                 "${path.root}/scripts/rhel/cleanup_yum.sh",
                 "${path.root}/scripts/_common/minimize.sh"
                 ] : [
@@ -154,7 +146,7 @@ locals {
                 "${path.root}/scripts/_common/vagrant.sh",
                 "${path.root}/scripts/_common/virtualbox.sh",
                 "${path.root}/scripts/_common/vmware_rhel.sh",
-                "${path.root}/scripts/_common/parallels.sh",
+                "${path.root}/scripts/_common/parallels-rhel.sh",
                 "${path.root}/scripts/rhel/cleanup_dnf.sh",
                 "${path.root}/scripts/_common/minimize.sh"
               ]

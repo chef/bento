@@ -29,23 +29,22 @@ locals {
   ) : var.parallels_prlctl
 
   # qemu
+  qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
+  qemu_machine_type = var.qemu_machine_type == null ? (
+    var.os_arch == "aarch64" ? "virt" : "q35"
+  ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
     var.hyperv_generation == 2 && var.is_windows ? [
-      ["-m", "${local.memory}"],
-      ["-smp", "2"],
       ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
-      ["-display", "none"]
       ] : (
       var.is_windows ? [
-        ["-m", "${local.memory}"],
-        ["-smp", "2"],
-        ["-drive", "file=~/virtio-win.iso,media=cdrom,index=3"],
+        ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
         ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
-        ["-display", "none"]
-        ] : [
-        ["-m", "${local.memory}"],
-        ["-display", "none"]
-      ]
+        ] : (
+        var.os_arch == "aarch64" ? [
+          ["-boot", "strict=off"]
+        ] : null
+      )
     )
   ) : var.qemuargs
 
@@ -60,7 +59,7 @@ locals {
     var.is_windows && var.hyperv_generation == 1 ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
 
-  # virtualbox-ovg
+  # virtualbox-ovf
   vbox_source = var.vbox_source == null ? (
     var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
   ) : var.vbox_source
@@ -69,16 +68,10 @@ locals {
   vmware_disk_adapter_type = var.vmware_disk_adapter_type == null ? (
     var.is_windows ? "lsisas1068" : null
   ) : var.vmware_disk_adapter_type
-  vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? "windows" : null
-  ) : var.vmware_tools_upload_flavor
-  vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
-    var.is_windows ? "c:/Windows/Temp/vmware.iso" : null
-  ) : var.vmware_tools_upload_path
 
   # Source block common
   boot_wait = var.boot_wait == null ? (
-    var.is_windows ? "60s" : "5s"
+    var.is_windows ? "60s" : "10s"
   ) : var.boot_wait
   cd_files = var.cd_files == null ? (
     var.hyperv_generation == 2 && var.is_windows ? [
@@ -120,7 +113,7 @@ source "hyperv-iso" "vm" {
   generation            = var.hyperv_generation
   guest_additions_mode  = var.hyperv_guest_additions_mode
   switch_name           = var.hyperv_switch_name
-  boot_command          = var.boot_command_hyperv
+  boot_command          = var.boot_command
   boot_wait             = local.boot_wait
   cpus                  = var.cpus
   communicator          = local.communicator
@@ -173,6 +166,9 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   accelerator      = var.qemu_accelerator
+  display          = var.headless ? "none" : var.qemu_display
+  machine_type     = local.qemu_machine_type
+  qemu_binary      = local.qemu_binary
   qemuargs         = local.qemuargs
   boot_command     = var.boot_command
   boot_wait        = local.boot_wait
@@ -251,8 +247,8 @@ source "virtualbox-ovf" "amazonlinux" {
 source "vmware-iso" "vm" {
   guest_os_type                  = var.vmware_guest_os_type
   disk_adapter_type              = local.vmware_disk_adapter_type
-  tools_upload_flavor            = local.vmware_tools_upload_flavor
-  tools_upload_path              = local.vmware_tools_upload_path
+  tools_upload_flavor            = var.vmware_tools_upload_flavor
+  tools_upload_path              = var.vmware_tools_upload_path
   version                        = var.vmware_version
   vmx_data                       = var.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces

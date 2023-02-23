@@ -5,6 +5,14 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 
 case "$PACKER_BUILDER_TYPE" in
 parallels-iso|parallels-pvm)
+    major_version="$(sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}')"
+    # make sure we use dnf on EL 8+
+    if [ "$major_version" -ge 8 ]; then
+      dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
+    else
+      yum -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
+    fi
+
     mkdir -p /tmp/parallels;
     if [ "$(uname -m)" = "aarch64" ] ; then
         mount -o loop "$HOME_DIR"/prl-tools-lin-arm.iso /tmp/parallels;

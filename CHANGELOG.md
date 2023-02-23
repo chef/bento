@@ -1,5 +1,87 @@
 # Change Log
 
+## Working Builds
+
+***Note:**
+Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
+
+|  | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| almalinux-8 |  | x |  | x |  | x |  | x |  |
+| almalinux-9 |  | x |  |  |  | x |  | x |  |
+| amazonlinux-2 |  | na | na | na | na | x |  | na | na |
+| amazonlinux-2022 | na | na | na | na | na | na | na | na | na |
+| centos-7 |  | x |  | x |  | x |  | x |  |
+| centos-stream-8 |  | x |  | x |  | x |  | x |  |
+| centos-stream-9 |  |  |  |  |  | x |  | x |  |
+| debian-10 |  |  |  |  |  | x |  | x |  |
+| debian-11 |  | x |  |  |  | x |  | x |  |
+| fedora-36 |  | x |  | x |  | x |  | x |  |
+| fedora-37 |  | x |  | x |  | x |  | x |  |
+| freebsd-12 |  |  | na |  | na | x | na |  | na |
+| freebsd-13 |  |  | na |  | na | x | na |  | na |
+| opensuse-leap-15 |  |  | na |  | na |  | na | x | na |
+| oraclelinux-7 |  | x |  | x |  | x |  | x |  |
+| oraclelinux-8 |  |  |  | x |  | x |  | x |  |
+| oraclelinux-9 |  | x |  |  |  | x |  | x |  |
+| rhel-7 |  |  |  |  |  |  |  |  |  |
+| rhel-8 |  |  |  |  |  |  |  |  |  |
+| rhel-9 |  |  |  |  |  |  |  |  |  |
+| rockylinux-8 |  | x |  | x |  | x |  | x |  |
+| rockylinux-9 |  | x |  |  |  | x |  | x |  |
+| scientificlinux-7 |  | x | na |  | na | x | na | x | na |
+| sles-12 |  |  | na |  | na |  | na |  | na |
+| sles-13 |  |  | na |  | na |  | na |  | na |
+| solaris-11 |  |  | na |  | na |  | na |  | na |
+| springdalelinux-7 |  | x | na | x | na |  | na |  | na |
+| springdalelinux-8 |  | x | na | x | na | x | na | x | na |
+| springdalelinux-9 |  | x | na |  | na | x | na | x | na |
+| ubuntu-18.04 |  | x |  |  |  | x |  | x |  |
+| ubuntu-20.04 |  |  |  |  |  |  |  |  |  |
+| ubuntu-22.04 |  | x |  | x |  | x |  |  |  |
+| ubuntu-22.10 |  | x |  | x |  | x |  | x |  |
+| ubuntu-23.04 | na | na | na | na | na | na | na | na | na |
+| windows-10 | x | x | na |  | na | x | na |  | na |
+| windows-10gen2 |  | na | na | na | na | na | na | na | na |
+| windows-11 | x | x | na |  | na | x | na |  | na |
+| windows-11gen2 |  | na | na | na | na | na | na | na | na |
+| windows-2012r2 |  | x | na |  | na | x | na |  | na |
+| windows-2016 | x | x | na |  | na | x | na | x | na |
+| windows-2019 | x | x | na |  | na | x | na |  | na |
+| windows-2022 | x | x | na |  | na | x | na |  | na |
+
+## [unreleased] (2023-02-22)
+
+## [v202302.22.0]  (2023-02-22)
+
+### New Platforms
+
+- Ubuntu 18.04 aarch64
+
+### Fixes and updates
+
+- fixed Ubuntu aarch64 builds
+- various box fixes as found
+- added qemu pipeline builds
+- added hyperv pipeline builds
+- added vmware pipeline builds
+
+### Todo
+
+- Fix failing builds
+- Add more Virtualization providers to build pipelines
+  - vmware
+    - aarch64 - vmware plugin has issues with fusion 13
+  - virtualbox
+    - aarch64 - Vbox Beta support currently
+- Finish removal of deprecated chef-solo provider to powershell provider for windows
+- migrate from http directory for hosting files to cd_files in source templates
+  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+- Update pipelines to only run on updated pkrvars files
+- Create CD pipeline to upload vagrant boxes after PR is merged
+- Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+
 ## [v202301.19.0] (2023-01-19)
 
 ### Notes
