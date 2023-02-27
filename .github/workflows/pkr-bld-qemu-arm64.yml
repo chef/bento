@@ -35,8 +35,10 @@ jobs:
     steps:
       - name: Set up QEMU
         run: |
+          sudo egrep -c '(vmx|svm)' /proc/cpuinfo
+          sudo grep -E --color '(vmx|svm)' /proc/cpuinfo
+          sudo apt update && sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virtinst libvirt-daemon -y
           sudo kvm-ok
-          sudo apt update && sudo apt install libvirt-daemon-system qemu-kvm -y
           sudo adduser $USER libvirt
           sudo systemctl start libvirtd
       - name: Checkout
@@ -65,7 +67,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=kvm" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
