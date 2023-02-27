@@ -35,7 +35,9 @@ jobs:
     steps:
       - name: Set up QEMU
         run: |
-          sudo apt update && sudo apt install libvirt-daemon qemu-kvm -y
+          sudo kvm-ok
+          sudo apt update && sudo apt install libvirt-daemon-system qemu-kvm -y
+          sudo adduser $USER libvirt
           sudo systemctl start libvirtd
       - name: Checkout
         uses: actions/checkout@main
