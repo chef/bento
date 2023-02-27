@@ -36,7 +36,6 @@ jobs:
       - name: Set up QEMU
         run: |
           sudo apt update && sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virtinst libvirt-daemon -y
-          sudo kvm-ok
           sudo adduser $USER libvirt
           sudo systemctl start libvirtd
       - name: Checkout
