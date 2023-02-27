@@ -48,8 +48,8 @@ jobs:
     steps:
       - name: Set up QEMU
         run: |
-          apt update && apt install libvirt-daemon qemu-kvm -y
-          systemctl start libvirtd
+          sudo apt update && sudo apt install libvirt-daemon qemu-kvm -y
+          sudo systemctl start libvirtd
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
