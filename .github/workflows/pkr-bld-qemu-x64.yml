@@ -47,7 +47,9 @@ jobs:
           - qemu
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@master
+        run: |
+          apt update && apt install libvirt-daemon qemu-kvm -y
+          systemctl start libvirtd
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
