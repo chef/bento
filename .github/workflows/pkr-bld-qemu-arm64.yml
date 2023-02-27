@@ -7,7 +7,7 @@ on:
 
 jobs:
   aarch64:
-    runs-on: [self-hosted, ARM64, qemu]
+    runs-on: ubuntu-latest # [self-hosted, ARM64, qemu]
     strategy:
       fail-fast: false
       matrix:
@@ -33,6 +33,8 @@ jobs:
         provider:
           - qemu
     steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@master
       - name: Checkout
         uses: actions/checkout@main
       - name: Pull Change list
@@ -59,7 +61,7 @@ jobs:
         run: packer init -upgrade packer_templates
       - name: Packer build
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=kvm" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
