@@ -6,4 +6,4 @@ iso_checksum            = "5a12561f8c2869bca4f820787971f3b92f44dce77442906115cd2
 parallels_guest_os_type = "suse"
 vbox_guest_os_type      = "SUSE_LE_64"
 vmware_guest_os_type    = "sles12-64"
-boot_command            = ["<esc><enter><wait>linux netdevice=eth0 netsetup=dhcp install=cd:/<wait> lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles/12-autoinst.xml<wait> textmode=1<wait><enter><wait>"]
+boot_command            = ["<wait><esc><enter><wait>linux netdevice=eth0 netsetup=dhcp install=cd:/<wait> lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles/12-autoinst.xml<wait> textmode=1<wait><enter><wait>"]
