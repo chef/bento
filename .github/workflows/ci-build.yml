@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test script
         timeout-minutes: 1
+        shell: /bin/bash
         run: ./ghaction_script.sh
 
 #---

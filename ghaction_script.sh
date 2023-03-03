@@ -14,10 +14,12 @@ trap 'exit_script SIGINT' SIGINT
 
 
 echo "running the job! PID: $$"
+i=0
 while true;
 do
     sleep 1;
-    echo "test";
+    i=+1
+    echo "$(hostname) $i";
 done
 
 echo "Script finished Done"
