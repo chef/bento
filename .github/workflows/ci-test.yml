@@ -10,7 +10,6 @@ jobs:
       - name: Test script
         timeout-minutes: 1
         run: |
-          #!/bin/bash
           exit_script() {
             echo "Received signal: $1"
             echo "Going to kill a process"
