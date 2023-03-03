@@ -18,7 +18,7 @@ i=0
 while true;
 do
     sleep 1;
-    i=+1
+    i=$((i+1))
     echo "$(hostname) $i";
 done
 
