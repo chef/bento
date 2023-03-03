@@ -1,5 +1,6 @@
 ---
 on:
+  pull_request:
   schedule:
     - cron: '0 0 * * 0'
 
@@ -32,3 +33,23 @@ jobs:
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
     secrets: inherit
+
+  check_jobs_pass:
+    if: always()
+    needs:
+      - markdown-lint
+      - yaml-lint
+      - json-lint
+      - xml-lint
+      - powershell-lint
+      - shellcheck-lint
+      - packer-iso-check
+      - packer-lint
+    runs-on: Ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@main
+        with:
+          allowed-failures:
+          allowed-skips: ${{ toJSON(needs) }}
+          jobs: ${{ toJSON(needs) }}
