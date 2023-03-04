@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
 
-  pkr-bld-virtualbox-arm64:
+  pkr-bld-hyperv-x64:
     # needs:
     #   - yaml-lint
     #   - json-lint
@@ -24,19 +24,7 @@ jobs:
     #   - shellcheck-lint
     #   - packer-iso-check
     #   - packer-lint
-    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
-    secrets: inherit
-
-  pkr-bld-virtualbox-x64:
-    # needs:
-    #   - yaml-lint
-    #   - json-lint
-    #   - xml-lint
-    #   - powershell-lint
-    #   - shellcheck-lint
-    #   - packer-iso-check
-    #   - packer-lint
-    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
     secrets: inherit
 
   pkr-bld-parallels-arm64:
@@ -63,42 +51,6 @@ jobs:
     uses: ./.github/workflows/pkr-bld-parallels-x64.yml
     secrets: inherit
 
-  pkr-bld-vmware-arm64:
-    # needs:
-    #   - yaml-lint
-    #   - json-lint
-    #   - xml-lint
-    #   - powershell-lint
-    #   - shellcheck-lint
-    #   - packer-iso-check
-    #   - packer-lint
-    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
-    secrets: inherit
-
-  pkr-bld-vmware-x64:
-    # needs:
-    #   - yaml-lint
-    #   - json-lint
-    #   - xml-lint
-    #   - powershell-lint
-    #   - shellcheck-lint
-    #   - packer-iso-check
-    #   - packer-lint
-    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
-    secrets: inherit
-
-  pkr-bld-hyperv-x64:
-    # needs:
-    #   - yaml-lint
-    #   - json-lint
-    #   - xml-lint
-    #   - powershell-lint
-    #   - shellcheck-lint
-    #   - packer-iso-check
-    #   - packer-lint
-    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
-    secrets: inherit
-
   pkr-bld-qemu-arm64:
     # needs:
     #   - yaml-lint
@@ -121,4 +73,52 @@ jobs:
     #   - packer-iso-check
     #   - packer-lint
     uses: ./.github/workflows/pkr-bld-qemu-x64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-arm64:
+    # needs:
+    #   - yaml-lint
+    #   - json-lint
+    #   - xml-lint
+    #   - powershell-lint
+    #   - shellcheck-lint
+    #   - packer-iso-check
+    #   - packer-lint
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-x64:
+    # needs:
+    #   - yaml-lint
+    #   - json-lint
+    #   - xml-lint
+    #   - powershell-lint
+    #   - shellcheck-lint
+    #   - packer-iso-check
+    #   - packer-lint
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-arm64:
+    # needs:
+    #   - yaml-lint
+    #   - json-lint
+    #   - xml-lint
+    #   - powershell-lint
+    #   - shellcheck-lint
+    #   - packer-iso-check
+    #   - packer-lint
+    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-x64:
+    # needs:
+    #   - yaml-lint
+    #   - json-lint
+    #   - xml-lint
+    #   - powershell-lint
+    #   - shellcheck-lint
+    #   - packer-iso-check
+    #   - packer-lint
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
     secrets: inherit
