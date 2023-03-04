@@ -50,7 +50,7 @@ jobs:
       - name: Packer FMT
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/"${{ matrix.pkrvars }}" packer_templates
+        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Packer build
         run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact

@@ -8,6 +8,11 @@ on:
 jobs:
   x86_64:
     runs-on: [self-hosted, X64, virtualbox]
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - amazonlinux-2
     steps:
       - name: Checkout
         uses: actions/checkout@main
