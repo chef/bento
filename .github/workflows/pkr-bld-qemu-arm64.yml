@@ -35,30 +35,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Pull Change list
-        id: changed-files
-        uses: collin-miller/git-changesets@master
-      - name: Verify Changed files
-        id: verify-changed-files
-        run: |
-          echo '${{ steps.changed-files.outputs.added_modified }}' > changed.txt
-          if grep ".*\.pkrvars.hcl" changed.txt; then
-            echo "files_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "files_changed=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Setup Packer
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
+      - name: iso-availability
+        shell: pwsh
+        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
+#      - name: Setup Packer
+#        if: steps.verify-changed-files.outputs.files_changed == 'true'
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
       - name: Packer Init
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.PACKER_GITHUB_API_TOKEN }}"
         run: packer init -upgrade packer_templates
+      - name: Packer FMT
+        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
+      - name: Packer Validate
+        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Packer build
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
