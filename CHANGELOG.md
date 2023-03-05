@@ -70,7 +70,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-
 ## [v202302.22.0]  (2023-02-22)
 
 ### New Platforms
