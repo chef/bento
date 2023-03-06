@@ -106,6 +106,12 @@ if [ "$major_version" -ge 7 ]; then
 
   echo "Wipe netplan machine-id (DUID) so machines get unique ID generated on boot"
   truncate -s 0 /etc/machine-id
+if test -f /var/lib/dbus/machine-id
+then
+  truncate -s 0 /var/lib/dbus/machine-id  # if not symlinked to "/etc/machine-id"
+fi
+
+
 fi
 
 echo "Clear the history so our install commands aren't there"
