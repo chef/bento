@@ -54,7 +54,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [v202303.06] (2023-03-06)
 
-- Added a cleanup step in build pipelines for cancelled jobs that otherwise leave vm in place 
+- Added a cleanup step in build pipelines for cancelled jobs that otherwise leave vm in place
 
 ## [v202303.05.0] (2023-03-05)
 
