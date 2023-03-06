@@ -28,7 +28,7 @@ hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name 
 VM="AmazonLinuxBento"
 echo Powering off and deleting any existing VMs named $VM
 VBoxManage controlvm $VM poweroff --type headless 2> /dev/null
-vboxmanage unregistervm $VM --delete 2> /dev/null
+VBoxManage unregistervm $VM --delete 2> /dev/null
 sleep 5
 
 echo "Creating the VM"
