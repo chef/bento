@@ -67,6 +67,7 @@ jobs:
         run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
         if: always()
+        continue-on-error: true
         run: |
           echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
           VBoxManage controlvm ${{ matrix.os }}*-amd64 poweroff --type headless 2> /dev/null
