@@ -65,6 +65,15 @@ jobs:
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Packer build
         run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Remove VM in case of canceled job
+        if: always()
+        continue-on-error: true
+        run: |
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+          vmrun -T fusion stop builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx hard 2> /dev/null
+          sleep 1
+          vmrun -T fusion deleteVM builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx 2> /dev/null
+          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:

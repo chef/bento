@@ -50,7 +50,11 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-05)
+## [unreleased] (2023-03-07)
+
+## [v202303.06] (2023-03-07)
+
+- Added a cleanup step in build pipelines for cancelled jobs that otherwise leave vm in place
 
 ## [v202303.05.0] (2023-03-05)
 

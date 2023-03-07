@@ -67,6 +67,15 @@ jobs:
         run: packer validate -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Packer build
         run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Remove VM in case of canceled job
+        if: always()
+        continue-on-error: true
+        run: |
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+          Stop-VM -Force ${{ matrix.os }}*-amd64
+          sleep 1
+          Remove-VM -Force ${{ matrix.os }}*-amd64
+          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
