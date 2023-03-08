@@ -28,8 +28,7 @@ jobs:
       - name: Packer build
         run: ./AMZ_build_virtualbox-ovf.sh
       - name: Remove VM in case of canceled job
-        if: always()
-        continue-on-error: true
+        if: cancelled()
         run: |
           echo Powering off and deleting any existing VMs named AmazonLinuxBento
           VBoxManage controlvm AmazonLinuxBento poweroff --type headless 2> /dev/null

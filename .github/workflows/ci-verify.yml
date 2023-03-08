@@ -28,7 +28,6 @@ jobs:
 
   packer-iso-check:
     uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
-    secrets: inherit
 
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
