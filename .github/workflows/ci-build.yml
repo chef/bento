@@ -1,74 +1,48 @@
 ---
-
-# Note:
-# * The virtualbox-x64 job is started first. No other jobs are started until it completes succesfully.
-# * The remaining x64 and arm64 jobs are split into two seperate dependency flows, as they probably run on seperate hardware.
-# * This setup prevents running 300+ builds in parallel, when only about 30 are needed to validate if all OS images even build.
-#   Once all images are known to build correctly on at least one platform, the remaining builds are starrted.
-#   This prevents a massive CPU and network usage spike in general and in particular, it fails relatively early if errors are detected.
-
 on:
   pull_request:
 
+concurrency:
+  group: ci-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  #prep:
-  #  needs:
-  #    - yaml-lint
-  #    - json-lint
-  #    - xml-lint
-  #    - powershell-lint
-  #    - shellcheck-lint
-  #    - packer-iso-check
-  #    - packer-lint
-
-  pkr-bld-virtualbox-x64:
-    #needs: prep
-    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
-    secrets: inherit
-
-
-  pkr-bld-parallels-x64:
-    needs: pkr-bld-virtualbox-x64
-    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
-    secrets: inherit
-
-  pkr-bld-qemu-x64:
-    needs: pkr-bld-parallels-x64
-    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
-    secrets: inherit
-
-  pkr-bld-vmware-x64:
-    needs: pkr-bld-qemu-x64
-    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
-    secrets: inherit
-
   pkr-bld-amazonlinux-x64:
-    needs: pkr-bld-vmware-x64
     uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
 
   pkr-bld-hyperv-x64:
-    needs: pkr-bld-vmware-x64
     uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
     secrets: inherit
 
-
-  pkr-bld-virtualbox-arm64:
-    needs: pkr-bld-virtualbox-x86
-    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
-    secrets: inherit
-
   pkr-bld-parallels-arm64:
-    needs: pkr-bld-virtualbox-arm64
     uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
     secrets: inherit
 
+  pkr-bld-parallels-x64:
+    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
+    secrets: inherit
+
   pkr-bld-qemu-arm64:
-    needs: pkr-bld-parallels-arm64
     uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
     secrets: inherit
 
+  pkr-bld-qemu-x64:
+    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-arm64:
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-x64:
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
+
   pkr-bld-vmware-arm64:
-    needs: pkr-bld-qemu-arm64
     uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-x64:
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
     secrets: inherit
