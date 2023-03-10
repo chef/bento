@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+concurrency:
+  group: ci-lint-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   markdown-lint:
     uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
@@ -28,7 +32,6 @@ jobs:
 
   packer-iso-check:
     uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
-    secrets: inherit
 
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
