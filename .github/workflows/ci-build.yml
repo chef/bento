@@ -7,6 +7,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  ci-lint:
+    uses: ./.github/workflows/ci-lint.yml
+    secrets: inherit
+
   pkr-bld-amazonlinux-x64:
     uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
