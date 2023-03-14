@@ -1,2 +1,2 @@
-require "bento/common"
-require "bento/version"
+require 'bento/common'
+require 'bento/version'

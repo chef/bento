@@ -1,4 +1,4 @@
-require "bento/common"
+require 'bento/common'
 
 class NormalizeRunner
   include Common
@@ -10,11 +10,11 @@ class NormalizeRunner
     @templates = opts.template_files
     @debug = opts.debug
     @modified = []
-    @build_timestamp = Time.now.gmtime.strftime("%Y%m%d%H%M%S")
+    @build_timestamp = Time.now.gmtime.strftime('%Y%m%d%H%M%S')
   end
 
   def start
-    banner("Normalizing for templates:")
+    banner('Normalizing for templates:')
     templates.each { |t| puts "- #{t}" }
     time = Benchmark.measure do
       templates.each do |file|
@@ -27,8 +27,8 @@ class NormalizeRunner
       end
     end
     unless @modified.empty?
-      info("")
-      info("The following templates were modified:")
+      info('')
+      info('The following templates were modified:')
       @modified.sort.each { |template| info("  * #{template}") }
     end
     banner("Normalizing finished in #{duration(time.real)}.")
@@ -51,27 +51,27 @@ class NormalizeRunner
 
       # preserve ampersands in shell commands,
       # see: https://github.com/hashicorp/packer/issues/784
-      output.gsub!("\\u0026", "&")
-      File.open(file, "wb") { |dest| dest.write(output) }
+      output.gsub!('\\u0026', '&')
+      File.binwrite(file, output)
       fixed_checksum = checksum(file)
 
       if original_checksum == fixed_checksum
-        puts("No changes made.")
+        puts('No changes made.')
       else
         warn("Template #{template} has been modified.")
         @modified << template
       end
     elsif File.exist?("#{template}.pkrvars.hcl")
-      raise "packer fix only works with JSON files for now."
+      raise 'packer fix only works with JSON files for now.'
     else
       raise "Template file doesn't exist"
     end
   end
 
-  def packer_validate_cmd(template, var_file)
+  def packer_validate_cmd(template, _var_file)
     pkrvars = "#{template}.pkrvars.hcl"
     vars = "#{template}.variables.json"
-    cmd = %W{packer validate -var-file=#{pkrvars} ../../packer_templates}
+    cmd = %W(packer validate -var-file=#{pkrvars} ../../packer_templates)
     cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     cmd
   end
@@ -79,7 +79,7 @@ class NormalizeRunner
   def validate(template)
     for_packer_run_with(template) do |md_file, var_file|
       cmd = packer_validate_cmd(template, var_file.path)
-      banner("[#{template}] Validating: '#{cmd.join(" ")}'")
+      banner("[#{template}] Validating: '#{cmd.join(' ')}'")
       if debug
         banner("[#{template}] DEBUG: var_file(#{var_file.path}) is:")
         puts IO.read(var_file.path)

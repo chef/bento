@@ -1,9 +1,9 @@
-require "benchmark" unless defined?(Benchmark)
-require "fileutils" unless defined?(FileUtils)
-require "json" unless defined?(JSON)
-require "tempfile" unless defined?(Tempfile)
-require "yaml"
-require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
+require 'benchmark' unless defined?(Benchmark)
+require 'fileutils' unless defined?(FileUtils)
+require 'json' unless defined?(JSON)
+require 'tempfile' unless defined?(Tempfile)
+require 'yaml'
+require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
 
 MEGABYTE = 1024.0 * 1024.0
 
@@ -34,7 +34,9 @@ module Common
   # @return [Boolean]
   #
   def logged_in?
-    shellout = Mixlib::ShellOut.new("vagrant cloud auth whoami").run_command
+    # rubocop:disable Modernize/ShellOutHelper
+    shellout = Mixlib::ShellOut.new('vagrant cloud auth whoami').run_command
+    # rubocop:enable Modernize/ShellOutHelper
 
     if shellout.error?
       error_output = !shellout.stderr.empty? ? shellout.stderr : shellout.stdout
@@ -51,7 +53,7 @@ module Common
     total = 0 if total.nil?
     minutes = (total / 60).to_i
     seconds = (total - (minutes * 60))
-    format("%dm%.2fs", minutes, seconds)
+    format('%dm%.2fs', minutes, seconds)
   end
 
   def box_metadata(metadata_file)
@@ -60,42 +62,42 @@ module Common
     json = JSON.parse(file)
 
     # metadata needed for upload: boxname, version, provider, box filename
-    metadata["name"] = json["name"]
-    metadata["version"] = json["version"]
-    metadata["box_basename"] = json["box_basename"]
-    metadata["packer"] = json["packer"]
-    metadata["vagrant"] = json["vagrant"]
-    metadata["providers"] = {}
-    json["providers"].each do |provider|
-      metadata["providers"][provider["name"]] = provider.reject { |k, _| k == "name" }
+    metadata['name'] = json['name']
+    metadata['version'] = json['version']
+    metadata['box_basename'] = json['box_basename']
+    metadata['packer'] = json['packer']
+    metadata['vagrant'] = json['vagrant']
+    metadata['providers'] = {}
+    json['providers'].each do |provider|
+      metadata['providers'][provider['name']] = provider.reject { |k, _| k == 'name' }
     end
     metadata
   end
 
   def metadata_files
-    @metadata_files ||= Dir.glob("builds/*.json")
+    @metadata_files ||= Dir.glob('builds/*.json')
   end
 
   def builds_yml
-    YAML.load(File.read("builds.yml"))
+    YAML.load(File.read('builds.yml'))
   end
 
   def build_list
     arm64 = []
     x86_64 = []
-    builds_yml["public"].each do |platform, versions|
+    builds_yml['public'].each do |platform, versions|
       versions.each do |version, archs|
         archs.each do |arch|
           folder = case platform
-                   when "opensuse-leap"
-                     "opensuse"
-                   when "oracle"
-                     "oraclelinux"
+                   when 'opensuse-leap'
+                     'opensuse'
+                   when 'oracle'
+                     'oraclelinux'
                    else
                      platform
                    end
           case arch
-          when "aarch64"
+          when 'aarch64'
             arm64 << "#{folder}/#{platform}-#{version}-#{arch}"
           else
             x86_64 << "#{folder}/#{platform}-#{version}-#{arch}"
@@ -107,7 +109,7 @@ module Common
   end
 
   def private_box?(boxname)
-    proprietary_os_list = %w{macos windows sles solaris rhel}
+    proprietary_os_list = %w(macos windows sles solaris rhel)
     proprietary_os_list.any? { |p| boxname.include?(p) }
   end
 

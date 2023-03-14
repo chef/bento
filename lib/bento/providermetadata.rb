@@ -1,5 +1,5 @@
-require "digest" unless defined?(Digest)
-require "bento/common"
+require 'digest' unless defined?(Digest)
+require 'bento/common'
 
 class ProviderMetadata
   include Common
@@ -14,7 +14,7 @@ class ProviderMetadata
         name: provider_from_file(file),
         version: version(provider_from_file(file)),
         file: "#{File.basename(file)}",
-        checksum_type: "sha256",
+        checksum_type: 'sha256',
         checksum: shasum(file),
         size: "#{size_in_mb(file)} MB",
       }
@@ -27,8 +27,8 @@ class ProviderMetadata
 
   def provider_from_file(file)
     provider = file.sub(/^.*\.([^.]+)\.box$/, '\1')
-    if provider == "vmware"
-      "vmware_desktop"
+    if provider == 'vmware'
+      'vmware_desktop'
     else
       provider
     end
@@ -62,29 +62,29 @@ class ProviderMetadata
   def ver_vmware
     if macos?
       path = File.join('/Applications/VMware\ Fusion.app/Contents/Library')
-      fusion_cmd = File.join(path, "vmware-vmx -v")
+      fusion_cmd = File.join(path, 'vmware-vmx -v')
       cmd = Mixlib::ShellOut.new(fusion_cmd)
       cmd.run_command
-      cmd.stderr.split(" ")[5]
+      cmd.stderr.split(' ')[5]
     else
-      cmd = Mixlib::ShellOut.new("vmware --version")
+      cmd = Mixlib::ShellOut.new('vmware --version')
       cmd.run_command
-      cmd.stdout.split(" ")[2]
+      cmd.stdout.split(' ')[2]
     end
   end
 
   def ver_parallels
-    raise "Platform is not macOS, exiting..." unless macos?
+    raise 'Platform is not macOS, exiting...' unless macos?
 
-    cmd = Mixlib::ShellOut.new("prlctl --version")
+    cmd = Mixlib::ShellOut.new('prlctl --version')
     cmd.run_command
-    cmd.stdout.split(" ")[2]
+    cmd.stdout.split(' ')[2]
   end
 
   def ver_vbox
-    cmd = Mixlib::ShellOut.new("VBoxManage --version")
+    cmd = Mixlib::ShellOut.new('VBoxManage --version')
     cmd.run_command
-    cmd.stdout.split("r")[0]
+    cmd.stdout.split('r')[0]
   end
 
   def ver_qemu

@@ -1,27 +1,27 @@
-require "optparse" unless defined?(OptionParser)
-require "ostruct" unless defined?(OpenStruct)
+require 'optparse' unless defined?(OptionParser)
+require 'ostruct' unless defined?(OpenStruct)
 
-require "bento/common"
-require "bento/runner"
-require "bento/normalize"
-require "bento/test"
-require "bento/upload"
+require 'bento/common'
+require 'bento/runner'
+require 'bento/normalize'
+require 'bento/test'
+require 'bento/upload'
 
 class Options
   NAME = File.basename($PROGRAM_NAME).freeze
 
   def self.parse(args)
-    not_buildable = YAML.load(File.read("builds.yml"))["do_not_build"]
+    not_buildable = YAML.load(File.read('builds.yml'))['do_not_build']
     options = OpenStruct.new
-    options.template_files = calculate_templates("os_pkrvars/**/*-#{RbConfig::CONFIG["host_cpu"]}.pkrvars.hcl")
+    options.template_files = calculate_templates("os_pkrvars/**/*-#{RbConfig::CONFIG['host_cpu']}.pkrvars.hcl")
     not_buildable.each do |os|
       options.template_files.delete_if { |template| template.include?(os) }
     end
 
     global = OptionParser.new do |opts|
       opts.banner = "Usage: #{NAME} [SUBCOMMAND [options]]"
-      opts.separator ""
-      opts.separator <<-COMMANDS.gsub(/^ {8}/, "")
+      opts.separator ''
+      opts.separator <<-COMMANDS.gsub(/^ {8}/, '')
         build        :   build one or more templates
         help         :   prints this help message
         list         :   list all templates in project
@@ -42,11 +42,6 @@ class Options
       end
     }
 
-    box_version_argv_proc = proc { |opts|
-      opts.box = ARGV[0]
-      opts.version = ARGV[1]
-    }
-
     md_json_argv_proc = proc { |opts|
       opts.md_json = ARGV[0]
     }
@@ -64,50 +59,50 @@ class Options
         parser: OptionParser.new do |opts|
           opts.banner = "Usage: #{NAME} build [options] TEMPLATE[ TEMPLATE ...]"
 
-          opts.on("-n", "--dry-run", "Dry run (what would happen)") do |opt|
+          opts.on('-n', '--dry-run', 'Dry run (what would happen)') do |opt|
             options.dry_run = opt
           end
 
-          opts.on("-c BUILD_YML", "--config BUILD_YML", "Use a configuration file") do |opt|
+          opts.on('-c BUILD_YML', '--config BUILD_YML', 'Use a configuration file') do |opt|
             options.config = opt
           end
 
-          opts.on("-d", "--[no-]debug", "Run packer with debug output") do |opt|
+          opts.on('-d', '--[no-]debug', 'Run packer with debug output') do |opt|
             options.debug = opt
           end
 
-          opts.on("-o BUILDS", "--only BUILDS", "Only build some Packer builds (ex: parallels-iso,virtualbox-iso,vmware-iso)") do |opt|
+          opts.on('-o BUILDS', '--only BUILDS', 'Only build some Packer builds (ex: parallels-iso,virtualbox-iso,vmware-iso)') do |opt|
             options.only = opt
           end
 
-          opts.on("-e BUILDS", "--except BUILDS", "Build all Packer builds except these (ex: parallels-iso,virtualbox-iso,vmware-iso)") do |opt|
+          opts.on('-e BUILDS', '--except BUILDS', 'Build all Packer builds except these (ex: parallels-iso,virtualbox-iso,vmware-iso)') do |opt|
             options.except = opt
           end
 
-          opts.on("-m MIRROR", "--mirror MIRROR", "Look for isos at MIRROR") do |opt|
+          opts.on('-m MIRROR', '--mirror MIRROR', 'Look for isos at MIRROR') do |opt|
             options.mirror = opt
           end
 
-          opts.on("-C cpus", "--cpus CPUS", "# of CPUs per provider") do |opt|
+          opts.on('-C cpus', '--cpus CPUS', '# of CPUs per provider') do |opt|
             options.cpus = opt
           end
 
-          opts.on("-M MEMORY", "--memory MEMORY", "Memory (MB) per provider") do |opt|
+          opts.on('-M MEMORY', '--memory MEMORY', 'Memory (MB) per provider') do |opt|
             options.mem = opt
           end
 
-          opts.on("-H", "--headed", "Display provider UI windows") do |opt|
+          opts.on('-H', '--headed', 'Display provider UI windows') do |opt|
             options.headed = opt
           end
 
-          opts.on("-S", "--single", "Disable parallelization of Packer builds") do |opt|
+          opts.on('-S', '--single', 'Disable parallelization of Packer builds') do |opt|
             options.single = opt
           end
 
           # the default template override version unless a user passes one
-          options.override_version = Time.now.gmtime.strftime("%Y%m.%d.0")
+          options.override_version = Time.now.gmtime.strftime('%Y%m.%d.0')
 
-          opts.on("-v VERSION", "--version VERSION", "Override the date computed version of #{options.override_version}") do |opt|
+          opts.on('-v VERSION', '--version VERSION', "Override the date computed version of #{options.override_version}") do |opt|
             options.override_version = opt
           end
         end,
@@ -125,7 +120,7 @@ class Options
         parser: OptionParser.new do |opts|
           opts.banner = "Usage: #{NAME} normalize TEMPLATE[ TEMPLATE ...]"
 
-          opts.on("-d", "--[no-]debug", "Run packer with debug output") do |opt|
+          opts.on('-d', '--[no-]debug', 'Run packer with debug output') do |opt|
             options.debug = opt
           end
         end,
@@ -136,11 +131,11 @@ class Options
         parser: OptionParser.new do |opts|
           opts.banner = "Usage: #{NAME} test [options]"
 
-          opts.on("--no-shared-folder", "Disable shared folder testing") do |opt|
+          opts.on('--no-shared-folder', 'Disable shared folder testing') do |opt|
             options.no_shared = opt
           end
 
-          opts.on("-p", "--provisioner PROVISIONER", "Use a specfic provisioner") do |opt|
+          opts.on('-p', '--provisioner PROVISIONER', 'Use a specfic provisioner') do |opt|
             options.provisioner = opt
           end
         end,
@@ -167,12 +162,11 @@ class Options
   end
 
   def self.calculate_templates(globs)
-    Array(globs)
-      .map { |glob| result = Dir.glob(glob); result.empty? ? glob : result }
-      .flatten
-      .sort
-      .delete_if { |file| file =~ /\.(variables||metadata)\.json/ }
-      .map { |template| template.sub(/\.pkrvars\.hcl$/, "") }
+    templates = Array(globs).map do |glob|
+      result = Dir.glob(glob)
+      result.empty? ? glob : result
+    end
+    templates.flatten.sort.delete_if { |file| file =~ /\.(variables||metadata)\.json/ }.map { |template| template.sub(/\.pkrvars\.hcl$/, '') }
   end
 end
 

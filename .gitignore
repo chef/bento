@@ -17,4 +17,5 @@ Berksfile.lock
 /builds/
 .kitchen
 .kitchen.yml
+kitchen.yml
 *.metadata.json

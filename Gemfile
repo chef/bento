@@ -1,8 +1,8 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gemspec
 
 group :development do
-  gem "cookstyle"
-  gem "rake", ">= 12"
+  gem 'cookstyle'
+  gem 'rake', '>= 12'
 end
