@@ -39,6 +39,45 @@ end
 
 ***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
+#### Using `bento` executable
+
+### build
+
+To build a Debian vagrant box using the bento tool with the template available in the `os_pkrvars` dir, we can use the following command:
+
+```bash
+bento build --cpus 2 packer_templates/debian/debian-11.6-i386.json
+```
+
+Other available options:
+- cpus - Specify the number of CPUs needed in the new build.
+- mem - Specify the memory
+- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration.
+- dry-run - This will not create any build, but will create a metadata file for reference.
+- only - Only build some Packer builds (Default: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm
+- except - Build all Packer builds except these (ex: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm)
+- debug - Print the debug logs
+- headed - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
+- single - This can be used to disable the parallel builds.
+
+### list
+
+Used to list all builds available for the workstations cpu architecture. This list is also filtered by the build.yml file do_not_build: section. All entries are matched via regex to filter out build templates from the list.
+
+This only shows what would be built with `bento build` and no template is specified. If any template is specified even if it's in the build.yml to be filtered it'll override the filter.
+
+```bash
+bento list
+```
+
+### test
+
+If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Run the following command to test the build.
+
+```bash
+bento test
+```
+
 #### Using `packer`
 
 To build a Ubuntu 22.04 box for only the VirtualBox provider
@@ -116,14 +155,6 @@ Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resou
 
 - `autounattend.xml`: The Gen 2 `autounattend.xml` file supports EFI partitions. Update the `autounattend.xml` with the correct Windows version for your systems and ensure that the partitions are correct for your situation. You also need to manage the driver disk that holds the hyper-v guest services drivers and adjust the `autounattend.xml` file as appropriate.
 - `base_setup.ps1`
-
-### Testing the build with the test-kitchen
-
-If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Place your `kitchen.yml` and `bootstrap.sh` files inside the `templates` directory and run the following command to test the build.
-
-```bash
-kitchen test
-```
 
 ## Bugs and Issues
 

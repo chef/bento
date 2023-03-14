@@ -66,9 +66,9 @@ class BuildMetadata
                            file.each_line do |line|
                              line_data = line.split('=')
                              if line_data[0].strip.gsub(/"|os_/, '') == 'version'
-                               file_data["name"] = "#{file_data["name"]}-#{line_data[1].strip.tr('"', '')}"
+                               file_data["name"] = "#{file_data["name"]}-#{line_data[1]&.strip&.tr('"', '')}"
                              else
-                               file_data[line_data[0].strip.gsub(/"|os_/, '')] = line_data[1].strip.tr('"', '')
+                               file_data[line_data[0]&.strip&.gsub(/"|os_/, '')] = line_data[1]&.strip&.tr('"', '')
                              end
                            end
                            file_data["template"] = "#{file_data["name"]}-#{file_data['arch']}"

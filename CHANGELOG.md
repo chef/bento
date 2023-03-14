@@ -50,7 +50,14 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-07)
+## [unreleased] (2023-03-14)
+
+## [v3.0.0] (2023-03-14)
+
+- updated ubuntu 20.04 x86_64 pkrvars to fix boot command issue for build
+- fixed pipeline secrets issue for github api requests and secrets not working for forked repos
+- add back the bento ruby code and updated it to work with hcl2 templates, Json templates are no longer supported
+- made bento builds for all templates configurable through the builds.yml file on which OSes to skip
 
 ## [v202303.06] (2023-03-07)
 

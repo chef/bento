@@ -56,3 +56,11 @@ slugs:
   'springdalelinux-7': 'springdalelinux-7'
   'springdalelinux-8': 'springdalelinux-8'
   'springdalelinux-9': 'springdalelinux-9'
+
+do_not_build:
+  - amazon
+  - macos
+  - sles
+  - solaris
+  - rhel
+  - windows

@@ -46,10 +46,10 @@ class TestRunner
     @providers = md["providers"]
     @share_disabled = no_shared || /(bsd|opensuse)/.match(boxname) ? true : false
 
-    dir = "#{File.expand_path("../../", File.dirname(__FILE__))}/test_templates"
+    dir = "#{File.expand_path("../../", File.dirname(__FILE__))}/lib/bento/test_templates"
     %w{kitchen.yml bootstrap.sh}.each do |file|
       t = file =~ /\.kitchen/ ? "kitchen.yml.erb" : "#{file}.erb"
-      erb = ERB.new(File.read(dir + "/#{t}"), nil, "-").result(binding)
+      erb = ERB.new(File.read(dir + "/#{t}"), trim_mode: "-").result(binding)
       File.open(file, "w") { |f| f.puts erb }
     end
 

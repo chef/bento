@@ -43,11 +43,13 @@ class BuildRunner
     dir = File.dirname(file)
     template = File.basename(file)
     Dir.chdir dir
+    banner("Installing packer plugins if needed")
+    system("packer init ../../packer_templates")
     for_packer_run_with(template) do |md_file, _var_file|
       cmd = packer_build_cmd(template, md_file.path)
       banner("[#{template}] Building: '#{cmd.join(" ")}'")
       time = Benchmark.measure do
-        system(*cmd) || raise("[#{template}] Error building, exited #{$CHILD_STATUS}")
+        system(*cmd) || puts("[#{template}] Error building, exited #{$CHILD_STATUS}")
       end
       write_final_metadata(template, time.real.ceil)
       banner("[#{template}] Finished building in #{duration(time.real)}.")
@@ -58,7 +60,7 @@ class BuildRunner
   def packer_build_cmd(template, var_file)
     pkrvars = "#{template}.pkrvars.hcl"
     vars = "#{template}.variables.json"
-    cmd = %W{packer build -force -var-file=#{pkrvars} ../../packer_templates}
+    cmd = %W{packer build -timestamp-ui -force -var-file=#{pkrvars} ../../packer_templates}
     # cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
     # cmd.insert(2, "-var-file=#{var_file}") if File.exist?(var_file)
     cmd.insert(2, "-only=#{only}")

@@ -52,6 +52,10 @@ class ProviderMetadata
       ver_vbox
     when /parallels/
       ver_parallels
+    when /qemu/
+      ver_qemu
+    when /hyperv/
+      ver_hyperv
     end
   end
 
@@ -81,5 +85,15 @@ class ProviderMetadata
     cmd = Mixlib::ShellOut.new("VBoxManage --version")
     cmd.run_command
     cmd.stdout.split("r")[0]
+  end
+
+  def ver_qemu
+    cmd = Mixlib::ShellOut.new("qemu-system-#{base.split('-')[2]} -version")
+    cmd.run_command
+    cmd.stdout.split(' ')[3]
+  end
+
+  def ver_hyperv
+    # TODO: write code
   end
 end

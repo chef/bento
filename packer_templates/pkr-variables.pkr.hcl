@@ -283,7 +283,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "60m"
+  default = "30m"
 }
 variable "ssh_username" {
   type    = string
@@ -295,7 +295,7 @@ variable "winrm_password" {
 }
 variable "winrm_timeout" {
   type    = string
-  default = "60m"
+  default = "30m"
 }
 variable "winrm_username" {
   type    = string

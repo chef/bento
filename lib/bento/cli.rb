@@ -11,8 +11,12 @@ class Options
   NAME = File.basename($PROGRAM_NAME).freeze
 
   def self.parse(args)
+    not_buildable = YAML.load(File.read("builds.yml"))["do_not_build"]
     options = OpenStruct.new
-    options.template_files = calculate_templates("os_pkrvars/**/*.pkrvars.hcl")
+    options.template_files = calculate_templates("os_pkrvars/**/*-#{RbConfig::CONFIG["host_cpu"]}.pkrvars.hcl")
+    not_buildable.each do |os|
+      options.template_files.delete_if { |template| template.include?(os) }
+    end
 
     global = OptionParser.new do |opts|
       opts.banner = "Usage: #{NAME} [SUBCOMMAND [options]]"

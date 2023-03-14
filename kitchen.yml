@@ -1,0 +1,31 @@
+---
+provisioner:
+  name: shell
+
+platforms:
+- name: almalinux-8.7-parallels
+  driver:
+    name: vagrant
+    provider: parallels
+    box: bento-almalinux-8.7
+    box_url: file:///Users/corey.hemminger/Documents/github/personal/chef_community/bento/builds/almalinux-8.7-x86_64.parallels.box
+    synced_folders:
+      - [".", "/vagrant", "disabled: false"]
+- name: almalinux-8.7-virtualbox
+  driver:
+    name: vagrant
+    provider: virtualbox
+    box: bento-almalinux-8.7
+    box_url: file:///Users/corey.hemminger/Documents/github/personal/chef_community/bento/builds/almalinux-8.7-x86_64.virtualbox.box
+    synced_folders:
+      - [".", "/vagrant", "disabled: false"]
+- name: almalinux-8.7-vmware_desktop
+  driver:
+    name: vagrant
+    provider: vmware_fusion
+    box: bento-almalinux-8.7
+    box_url: file:///Users/corey.hemminger/Documents/github/personal/chef_community/bento/builds/almalinux-8.7-x86_64.vmware.box
+    synced_folders:
+      - [".", "/vagrant", "disabled: false"]
+suites:
+- name: default
