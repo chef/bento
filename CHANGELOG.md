@@ -50,9 +50,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-14)
+## [unreleased] (2023-03-15)
 
-## [v3.0.0] (2023-03-14)
+## [v3.0.0] (2023-03-15)
 
 - updated ubuntu 20.04 x86_64 pkrvars to fix boot command issue for build
 - fixed pipeline secrets issue for github api requests and secrets not working for forked repos
