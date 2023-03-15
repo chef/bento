@@ -104,7 +104,7 @@ variable "qemu_binary" {
   default = null
 }
 variable "qemu_boot_wait" {
-  type = string
+  type    = string
   default = "2s"
 }
 variable "qemu_display" {
