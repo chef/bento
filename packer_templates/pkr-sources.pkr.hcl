@@ -171,7 +171,7 @@ source "qemu" "vm" {
   qemu_binary      = local.qemu_binary
   qemuargs         = local.qemuargs
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.qemu_boot_wait
   cd_files         = local.cd_files
   cpus             = var.cpus
   communicator     = local.communicator

@@ -66,14 +66,9 @@ class BuildRunner
     cmd.insert(2, "-only=#{only}")
     cmd.insert(2, "-except=#{except}") if except
     # Build the command line in the correct order and without spaces as future input for the splat operator.
-    cmd.insert(2, "cpus=#{cpus}") if cpus
-    cmd.insert(2, '-var') if cpus
-    cmd.insert(2, "memory=#{mem}") if mem
-    cmd.insert(2, '-var') if mem
-    cmd.insert(2, "mirror=#{mirror}") if mirror
-    cmd.insert(2, '-var') if mirror
-    cmd.insert(2, 'headless=true') unless headed
-    cmd.insert(2, '-var') unless headed
+    cmd.insert(2, "-var cpus=#{cpus}") if cpus
+    cmd.insert(2, "-var memory=#{mem}") if mem
+    # cmd.insert(2, '-var headless=true') unless headed
     cmd.insert(2, '-parallel=false') if single
     cmd.insert(2, '-debug') if debug
     cmd.insert(0, 'echo') if dry_run

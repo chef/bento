@@ -103,6 +103,10 @@ variable "qemu_binary" {
   type    = string
   default = null
 }
+variable "qemu_boot_wait" {
+  type = string
+  default = "2s"
+}
 variable "qemu_display" {
   type    = string
   default = "none"
@@ -283,7 +287,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "30m"
+  default = "60m"
 }
 variable "ssh_username" {
   type    = string
@@ -295,7 +299,7 @@ variable "winrm_password" {
 }
 variable "winrm_timeout" {
   type    = string
-  default = "30m"
+  default = "60m"
 }
 variable "winrm_username" {
   type    = string
