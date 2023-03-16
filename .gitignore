@@ -13,3 +13,9 @@ packer.log
 Gemfile.lock
 bootstrap.sh
 Berksfile.lock
+*.variables.json
+/builds/
+.kitchen
+.kitchen.yml
+kitchen.yml
+*.metadata.json

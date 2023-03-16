@@ -95,7 +95,7 @@ locals {
   ) : var.floppy_files
   http_directory   = var.http_directory == null ? "${path.root}/http" : var.http_directory
   memory           = var.memory == null ? (var.is_windows ? 4096 : 2048) : var.memory
-  output_directory = var.output_directory == null ? "builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
+  output_directory = var.output_directory == null ? "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
     var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
       var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
