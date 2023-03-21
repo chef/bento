@@ -11,7 +11,10 @@ vboxmanage = [
     "{{ .Name }}",
     "--memory",
     "2048",
-    "--cpus", "2",
+    "--cpus",
+    "2",
+    "--audio",
+    "none",
     "--nat-localhostreachable1",
     "on",
   ]

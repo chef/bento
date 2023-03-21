@@ -5,9 +5,6 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
-
-    #!/bin/sh -eux
-
     # determine the major EL version we're runninng
     major_version="$(sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}')";
 
@@ -15,7 +12,7 @@ vmware-iso|vmware-vmx)
     if [ "$major_version" -ge 8 ]; then
       dnf -y install open-vm-tools
     else
-      yum -y insttall open-vm-tools
+      yum -y install open-vm-tools
     fi
     ;;
 esac

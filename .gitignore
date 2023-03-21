@@ -7,9 +7,15 @@
 *.vdi
 *.log
 virtualfloppy.vfd
-packer_cache
+packer_cache/
 packer.log
 .DS_Store
 Gemfile.lock
 bootstrap.sh
 Berksfile.lock
+*.variables.json
+/builds/
+.kitchen
+.kitchen.yml
+kitchen.yml
+*.metadata.json

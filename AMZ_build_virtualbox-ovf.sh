@@ -20,15 +20,15 @@ if [ ! -f "$AMZDIR"/amazon.vdi ]; then
 fi
 
 echo "Cleaning up old files"
-rm "$AMZDIR"/*.iso "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk
+rm -f "$AMZDIR"/*.iso "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk
 
 echo "Creating ISO"
-hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata seed_iso
+hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
 
 VM="AmazonLinuxBento"
 echo Powering off and deleting any existing VMs named $VM
 VBoxManage controlvm $VM poweroff --type headless 2> /dev/null
-vboxmanage unregistervm $VM --delete 2> /dev/null
+VBoxManage unregistervm $VM --delete 2> /dev/null
 sleep 5
 
 echo "Creating the VM"
@@ -59,7 +59,9 @@ echo Deleting the VM
 vboxmanage unregistervm $VM --delete
 
 echo starting packer build of amazonlinux
-if packer build -only=virtualbox-ovf.amazonlinux -var-file="$SCRIPT_RELATIVE_DIR"/os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$SCRIPT_RELATIVE_DIR"/packer_templates; then
+if packer build -timestamp-ui -only=virtualbox-ovf.amazonlinux -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
   echo "Cleaning up files"
-  rm "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
+  rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
+else
+  exit 1
 fi
