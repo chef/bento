@@ -56,7 +56,8 @@ locals {
       "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
       "${path.root}/scripts/windows/provision-winrm.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
-      "${path.root}/scripts/windows/eject-media.ps1"
+      "${path.root}/scripts/windows/eject-media.ps1",
+      "${path.root}/scripts/windows/install-chocolatey.ps1"
     ]
     ) : (
     var.os_name == "solaris" ? [
@@ -243,7 +244,19 @@ build {
     ]
     except = var.is_windows ? null : local.source_names
   }
-
+  provisioner "file" {
+    source = "${path.root}/scripts/windows/packages.config"
+    destination = "C:/Windows/Temp/packages.config"
+    except = var.is_windows ? null : local.source_names
+  }
+ provisioner "powershell" {
+    elevated_password = "vagrant"
+    elevated_user     = "vagrant"
+    inline = [
+      "choco install C:/Windows/Temp/packages.config --yes --no-progress"
+    ]
+    except = var.is_windows ? null : local.source_names
+ } 
   # Convert machines to vagrant boxes
   post-processor "vagrant" {
     compression_level    = 9
