@@ -8,5 +8,3 @@ parallels_guest_os_type   = "ubuntu"
 vbox_guest_os_type        = "Ubuntu_64"
 vmware_guest_os_type      = "ubuntu-64"
 boot_command              = ["<wait>e<wait><down><down><down><end><wait>", "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>", "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>", "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>", "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>", "<bs><wait>auto console-setup/ask_detect=false", " console-setup/layoutcode=us", " console-setup/modelcode=pc105", " debconf/frontend=noninteractive", " debian-installer=en_US.UTF-8", " fb=false", " initrd=/install/initrd.gz", " kbd-chooser/method=us", " keyboard-configuration/layout=USA", " keyboard-configuration/variant=USA", " locale=en_US.UTF-8", " netcfg/get_hostname=vagrant", " grub-installer/bootdev=/dev/sda", " noapic", " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg", " ---", "<f10><wait>"]
-vmware_cdrom_adapter_type = "sata"
-vmware_disk_adapter_type  = "sata"

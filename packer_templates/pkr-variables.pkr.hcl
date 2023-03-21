@@ -177,12 +177,12 @@ variable "vbox_source" {
 # vmware-iso
 variable "vmware_cdrom_adapter_type" {
   type        = string
-  default     = null
+  default     = "sata"
   description = "CDROM adapter type.  Needs to be SATA (or non-SCSI) for ARM64 builds."
 }
 variable "vmware_disk_adapter_type" {
   type        = string
-  default     = null
+  default     = "sata"
   description = "Disk adapter type.  Needs to be SATA (PVSCSI, or non-SCSI) for ARM64 builds."
 }
 variable "vmware_guest_os_type" {
