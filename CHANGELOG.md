@@ -50,7 +50,15 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-07)
+## [unreleased] (2023-03-16)
+
+- Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
+
+## [v3.0.0] (2023-03-16)
+
+- fixed pipeline secrets issue for github api requests and secrets not working for forked repos
+- add back the bento ruby code and updated it to work with hcl2 templates, Json templates are no longer supported
+- made bento builds for all templates configurable through the builds.yml file on which OSes to skip
 
 ## [v202303.06] (2023-03-07)
 
