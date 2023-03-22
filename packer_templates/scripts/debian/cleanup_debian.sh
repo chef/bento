@@ -9,7 +9,7 @@ dpkg --list \
 echo "remove specific Linux kernels, such as linux-image-4.9.0-13-amd64 but keeps the current kernel and does not touch the virtual packages"
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep 'linux-image-[234].*' \
+    | grep 'linux-image-[1-9].*' \
     | grep -v "$(uname -r)" \
     | xargs apt-get -y purge;
 
