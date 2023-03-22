@@ -52,6 +52,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2023-03-16)
 
+- Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
+
 ## [v3.0.0] (2023-03-16)
 
 - fixed pipeline secrets issue for github api requests and secrets not working for forked repos

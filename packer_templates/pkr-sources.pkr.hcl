@@ -64,11 +64,6 @@ locals {
     var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
   ) : var.vbox_source
 
-  # vmware-iso
-  vmware_disk_adapter_type = var.vmware_disk_adapter_type == null ? (
-    var.is_windows ? "lsisas1068" : null
-  ) : var.vmware_disk_adapter_type
-
   # Source block common
   boot_wait = var.boot_wait == null ? (
     var.is_windows ? "60s" : "10s"
@@ -245,8 +240,9 @@ source "virtualbox-ovf" "amazonlinux" {
   vm_name                 = local.vm_name
 }
 source "vmware-iso" "vm" {
+  cdrom_adapter_type             = var.vmware_cdrom_adapter_type
+  disk_adapter_type              = var.vmware_disk_adapter_type
   guest_os_type                  = var.vmware_guest_os_type
-  disk_adapter_type              = local.vmware_disk_adapter_type
   tools_upload_flavor            = var.vmware_tools_upload_flavor
   tools_upload_path              = var.vmware_tools_upload_path
   version                        = var.vmware_version
