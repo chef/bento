@@ -1,8 +1,8 @@
 os_name                 = "ubuntu"
 os_version              = "20.04"
 os_arch                 = "x86_64"
-iso_url                 = "https://releases.ubuntu.com/focal/ubuntu-20.04.5-live-server-amd64.iso"
-iso_checksum            = "sha256:5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4"
+iso_url                 = "https://releases.ubuntu.com/focal/ubuntu-20.04.6-live-server-amd64.iso"
+iso_checksum            = "file:https://releases.ubuntu.com/focal/SHA256SUMS"
 hyperv_generation       = 2
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_64"

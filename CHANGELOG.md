@@ -10,7 +10,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | almalinux-8 |  | x |  | x |  | x |  | x |  |
 | almalinux-9 |  | x | x |  |  | x |  | x |  |
 | amazonlinux-2 |  | na | na | na | na | x |  | na | na |
-| amazonlinux-2022 | na | na | na | na | na | na | na | na | na |
+| amazonlinux-2023 | na | na | na | na | na | na | na | na | na |
 | centos-7 |  | x |  | x |  | x |  | x |  |
 | centos-stream-8 |  | x |  | x |  | x |  | x |  |
 | centos-stream-9 |  |  |  |  |  | x |  | x |  |
@@ -53,6 +53,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ## [unreleased] (2023-03-16)
 
 - Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
+- Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
+- Fixed readme example for bento debian build
+- Added pkrvars file for amazon 2023, more work needed to build vagrant box if/when amazon releases images for providers
 
 ## [v3.0.0] (2023-03-16)
 

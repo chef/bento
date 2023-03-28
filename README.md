@@ -46,7 +46,7 @@ end
 To build a Debian vagrant box using the bento tool with the template available in the `os_pkrvars` dir, we can use the following command:
 
 ```bash
-bento build --cpus 2 packer_templates/debian/debian-11.6-i386.json
+bento build --cpus 2 os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl
 ```
 
 Other available options:
