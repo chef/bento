@@ -6,4 +6,4 @@ iso_checksum            = "file:https://repo.almalinux.org/almalinux/8/isos/aarc
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "RedHat_64"
 vmware_guest_os_type    = "arm-centos-64"
-boot_command            = ["<wait><up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/8ks.cfg<enter><wait>"]
+boot_command            = ["<wait><up>e<wait><down><down><end><wait> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/8ks.cfg <leftCtrlOn>x<leftCtrlOff>"]
