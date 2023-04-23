@@ -16,8 +16,8 @@ jobs:
           - centos-stream-9
           - debian-10
           - debian-11
-          - fedora-36
           - fedora-37
+          - fedora-38
           - freebsd-12
           - freebsd-13
           - opensuse-leap-15
