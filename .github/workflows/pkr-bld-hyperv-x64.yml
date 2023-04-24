@@ -34,6 +34,7 @@ jobs:
           - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-22.10
+          - ubuntu-23.04
 #          - windows-10
 #          - windows-10gen2
 #          - windows-11
