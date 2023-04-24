@@ -23,7 +23,7 @@ packer {
     }
     vmware = {
       version = ">= 1.0.8"
-      source  = "https://github.com/hashicorp/packer-plugin-vmware"
+      source  = "github.com/hashicorp/packer-plugin-vmware"
     }
     windows-update = {
       version = ">= 0.14.1"
