@@ -10,14 +10,14 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | almalinux-8 |  | x |  | x |  | x |  | x |  |
 | almalinux-9 |  | x | x |  |  | x |  | x |  |
 | amazonlinux-2 |  | na | na | na | na | x |  | na | na |
-| amazonlinux-2023 | na | na | na | na | na | na | na | na | na |
+| amazonlinux-2022 | na | na | na | na | na | na | na | na | na |
 | centos-7 |  | x |  | x |  | x |  | x |  |
 | centos-stream-8 |  | x |  | x |  | x |  | x |  |
 | centos-stream-9 |  |  |  |  |  | x |  | x |  |
 | debian-10 |  |  | x |  |  | x |  | x |  |
 | debian-11 |  | x | x |  |  | x |  | x |  |
-| fedora-36 |  | x | x | x |  | x |  | x |  |
 | fedora-37 |  | x | x | x |  | x |  | x |  |
+| fedora-38 |  | x |  | x |  | x |  | x |  |
 | freebsd-12 |  |  | na |  | na | x | na |  | na |
 | freebsd-13 |  |  | na |  | na | x | na |  | na |
 | opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
@@ -50,12 +50,16 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-16)
+## [unreleased] (2023-04-24)
 
 - Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
 - Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
 - Fixed readme example for bento debian build
 - Added pkrvars file for amazon 2023, more work needed to build vagrant box if/when amazon releases images for providers
+- Removed EOL Fedora 36 build
+- Added Fedora 38 build
+- Added Ubuntu 23.04 x86_64 and aarch64
+- Switched vmware plugin back to official one with fusion 13 arm64 guest additions fix
 
 ## [v3.0.0] (2023-03-16)
 
