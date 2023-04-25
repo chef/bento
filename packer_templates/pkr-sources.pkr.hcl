@@ -64,6 +64,19 @@ locals {
     var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
   ) : var.vbox_source
 
+  # vmware-iso
+  vmware_vmx_data = var.vmware_vmx_data == null ? (
+    var.os_arch == "aarch64" ? {
+      "cpuid.coresPerSocket"    = "2"
+      "ethernet0.pciSlotNumber" = "32"
+      "svga.autodetect"         = true
+      "usb_xhci.present"        = true
+    } : {
+      "cpuid.coresPerSocket"    = "2"
+      "ethernet0.pciSlotNumber" = "32"
+    }
+  ) : var.vmware_vmx_data
+
   # Source block common
   boot_wait = var.boot_wait == null ? (
     var.is_windows ? "60s" : "10s"
@@ -246,7 +259,7 @@ source "vmware-iso" "vm" {
   tools_upload_flavor            = var.vmware_tools_upload_flavor
   tools_upload_path              = var.vmware_tools_upload_path
   version                        = var.vmware_version
-  vmx_data                       = var.vmware_vmx_data
+  vmx_data                       = local.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   boot_command                   = var.boot_command
   boot_wait                      = local.boot_wait

@@ -204,12 +204,7 @@ variable "vmware_version" {
 }
 variable "vmware_vmx_data" {
   type = map(string)
-  default = {
-    "cpuid.coresPerSocket"    = "2"
-    "ethernet0.pciSlotNumber" = "32"
-    "svga.autodetect"         = true
-    "usb_xhci.present"        = true
-  }
+  default = null
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
