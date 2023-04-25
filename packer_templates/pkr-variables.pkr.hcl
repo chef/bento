@@ -203,7 +203,7 @@ variable "vmware_version" {
   default = 20
 }
 variable "vmware_vmx_data" {
-  type = map(string)
+  type    = map(string)
   default = null
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
