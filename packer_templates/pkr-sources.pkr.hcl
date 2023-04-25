@@ -67,13 +67,13 @@ locals {
   # vmware-iso
   vmware_vmx_data = var.vmware_vmx_data == null ? (
     var.os_arch == "aarch64" ? {
-      cpuid.coresPerSocket    = "2"
-      ethernet0.pciSlotNumber = "32"
-      svga.autodetect         = true
-      usb_xhci.present        = true
+      "cpuid.coresPerSocket"    = "2"
+      "ethernet0.pciSlotNumber" = "32"
+      "svga.autodetect"         = true
+      "usb_xhci.present"        = true
       } : {
-      cpuid.coresPerSocket    = "2"
-      ethernet0.pciSlotNumber = "32"
+      "cpuid.coresPerSocket"    = "2"
+      "ethernet0.pciSlotNumber" = "32"
     }
   ) : var.vmware_vmx_data
 
