@@ -8,5 +8,4 @@ parallels_guest_os_type = "win-10"
 vbox_guest_os_type      = "Windows10_64"
 vmware_guest_os_type    = "windows9srv-64"
 boot_command            = ["<wait>aaaaaaa<wait><enter><wait><enter><wait><enter>"]
-hyperv_generation       = 2
 sources_enabled         = ["source.hyperv-iso.vm", "source.qemu.vm"]

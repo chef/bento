@@ -59,7 +59,7 @@ variable "hyperv_enable_secure_boot" {
 }
 variable "hyperv_generation" {
   type        = number
-  default     = 1
+  default     = 2
   description = "Hyper-v generation version"
 }
 variable "hyperv_guest_additions_mode" {
