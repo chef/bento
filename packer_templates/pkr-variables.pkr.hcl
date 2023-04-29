@@ -59,7 +59,7 @@ variable "hyperv_enable_secure_boot" {
 }
 variable "hyperv_generation" {
   type        = number
-  default     = 2
+  default     = 1
   description = "Hyper-v generation version"
 }
 variable "hyperv_guest_additions_mode" {
@@ -68,7 +68,7 @@ variable "hyperv_guest_additions_mode" {
 }
 variable "hyperv_switch_name" {
   type    = string
-  default = "default"
+  default = "bento"
 }
 
 # parallels-iso
