@@ -67,7 +67,11 @@ class UploadRunner
   #
   def lookup_slug(name)
     builds_yml['slugs'].each_pair do |slug, match_string|
-      return slug if name.start_with?(match_string) && !(name.include?('i386') || name.include?('arm64'))
+      if name.include?('arm64')
+        return slug if name.start_with?(match_string) && slug.include?('arm64')
+      else
+        return slug if name.start_with?(match_string) && !slug.include?('arm64')
+      end
     end
 
     nil
@@ -78,7 +82,7 @@ class UploadRunner
   end
 
   def slug_desc(name)
-    "Vanilla #{name.tr('-', ' ').capitalize}.x Vagrant box created with Bento by Chef. This box will be updated with the latest releases of #{name.tr('-', ' ').capitalize} as they become available"
+    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Chef. This box will be updated with the latest releases of #{name.tr('-', ' ').capitalize} as they become available"
   end
 
   def ver_desc(md_data)

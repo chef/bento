@@ -60,6 +60,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added Fedora 38 build
 - Added Ubuntu 23.04 x86_64 and aarch64
 - Switched vmware plugin back to official one with fusion 13 arm64 guest additions fix
+- Updated Bento app to support arm64 builds and upload to vagrant
+- Added Freebsd aarch64 templates
 
 ## [v3.0.0] (2023-03-16)
 
