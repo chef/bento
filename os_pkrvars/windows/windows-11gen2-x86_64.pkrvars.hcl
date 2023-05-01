@@ -8,5 +8,6 @@ iso_checksum            = "sha256:e8b1d2a1a85a09b4bf6154084a8be8e3c814894a15a7bc
 parallels_guest_os_type = "win-11"
 vbox_guest_os_type      = "Windows11_64"
 vmware_guest_os_type    = "windows9srv-64"
+hyperv_generation       = 2
 boot_command            = ["<wait>aaaaaaa<wait><enter><wait><enter><wait><enter>"]
 sources_enabled         = ["source.hyperv-iso.vm", "source.qemu.vm"]
