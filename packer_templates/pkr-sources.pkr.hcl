@@ -270,4 +270,7 @@ source "vmware-iso" "vm" {
   winrm_timeout                  = var.winrm_timeout
   winrm_username                 = var.winrm_username
   vm_name                        = local.vm_name
+  usb                            = var.vmware_enable_usb
+  network                        = var.vmware_network
+  network_adapter_type           = var.vmware_network_adapter_type
 }

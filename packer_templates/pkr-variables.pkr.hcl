@@ -213,7 +213,18 @@ variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
   default = true
 }
-
+variable "vmware_enable_usb" {
+  type    = bool
+  default = true
+}
+variable "vmware_network_adapter_type" {
+  type    = string
+  default = "e1000e"
+}
+variable "vmware_network" {
+  type    = string
+  default = "nat"
+}
 # Source block common variables
 variable "boot_command" {
   type        = list(string)
