@@ -203,7 +203,7 @@ variable "vmware_version" {
   default = 20
 }
 variable "vmware_vmx_data" {
-  type    = map(string)
+  type = map(string)
   default = {
     "cpuid.coresPerSocket"    = "1"
     "ethernet0.pciSlotNumber" = "32"
