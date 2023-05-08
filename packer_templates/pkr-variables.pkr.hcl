@@ -204,7 +204,10 @@ variable "vmware_version" {
 }
 variable "vmware_vmx_data" {
   type    = map(string)
-  default = null
+  default = {
+    "cpuid.coresPerSocket"    = "1"
+    "ethernet0.pciSlotNumber" = "32"
+  }
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
@@ -222,6 +225,7 @@ variable "vmware_network" {
   type    = string
   default = "nat"
 }
+
 # Source block common variables
 variable "boot_command" {
   type        = list(string)
