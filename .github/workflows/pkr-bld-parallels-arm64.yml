@@ -20,9 +20,9 @@ jobs:
           - fedora-38
           - freebsd-12
           - freebsd-13
-          - oraclelinux-7
-          - oraclelinux-8
-          - oraclelinux-9
+          - oracle-7
+          - oracle-8
+          - oracle-9
           - rockylinux-8
           - rockylinux-9
           - ubuntu-18.04

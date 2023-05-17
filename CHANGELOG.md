@@ -21,9 +21,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | freebsd-12 |  |  | na |  | na | x | na |  | na |
 | freebsd-13 |  |  | na |  | na | x | na |  | na |
 | opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
-| oraclelinux-7 |  | x |  | x |  | x |  | x |  |
-| oraclelinux-8 |  |  |  | x |  | x |  | x |  |
-| oraclelinux-9 |  | x | x |  |  | x |  | x |  |
+| oracle-7 |  | x |  | x |  | x |  | x |  |
+| oracle-8 |  |  |  | x |  | x |  | x |  |
+| oracle-9 |  | x | x |  |  | x |  | x |  |
 | rhel-7 |  |  |  |  |  |  |  |  |  |
 | rhel-8 |  |  |  |  |  |  |  |  |  |
 | rhel-9 |  |  |  |  |  |  |  |  |  |
