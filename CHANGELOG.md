@@ -62,7 +62,11 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2023-04-24)
+## [unreleased] (2023-05-17)
+
+- Update RHEL 9 clones to 9.2
+
+## [v3.1.0] (2023-05-17)
 
 - Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
 - Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
