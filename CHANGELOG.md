@@ -16,8 +16,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-9 |  |  |  |  |  | x |  | x |  |
 | debian-10 |  |  | x |  |  | x |  | x |  |
 | debian-11 |  | x | x |  |  | x |  | x |  |
-| fedora-36 |  | x | x | x |  | x |  | x |  |
 | fedora-37 |  | x | x | x |  | x |  | x |  |
+| fedora-38 |  | x |  | x |  | x |  | x |  |
 | freebsd-12 |  |  | na |  | na | x | na |  | na |
 | freebsd-13 |  |  | na |  | na | x | na |  | na |
 | opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
@@ -50,12 +50,32 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-16)
+### Todo
+
+- Fix failing builds
+- Finish removal of deprecated chef-solo provider to powershell provider for windows
+- migrate from http directory for hosting files to cd_files in source templates
+  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+- Update pipelines to only run on updated pkrvars files
+- Look into making all build uefi default builds
+- Create CD pipeline to upload vagrant boxes after PR is merged
+- Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+
+## [unreleased] (2023-04-24)
 
 - Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
 - Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
 - Fixed readme example for bento debian build
 - Added pkrvars file for amazon 2023, more work needed to build vagrant box if/when amazon releases images for providers
+- Removed EOL Fedora 36 build
+- Added Fedora 38 build
+- Added Ubuntu 23.04 x86_64 and aarch64
+- Switched vmware plugin back to official one with fusion 13 arm64 guest additions fix
+- Updated Bento app to support arm64 builds and upload to vagrant
+- Added Freebsd aarch64 templates
+- Added new default VMware hardware configuration settings
+- Update Debian 11 to 11.7
 
 ## [v3.0.0] (2023-03-16)
 

@@ -53,7 +53,12 @@ class BuildMetadata
   end
 
   def name
-    merged_vars.fetch('name', template)
+    arch = merged_vars.fetch('arch', UNKNOWN).downcase
+    if arch == 'aarch64' || arch == 'arm64'
+      "#{merged_vars.fetch('name', template)}-arm64"
+    else
+      merged_vars.fetch('name', template)
+    end
   end
 
   def arch

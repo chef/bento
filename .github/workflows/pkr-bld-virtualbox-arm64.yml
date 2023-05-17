@@ -18,6 +18,8 @@ jobs:
           - debian-11
           - fedora-37
           - fedora-38
+          - freebsd-12
+          - freebsd-13
           - oraclelinux-7
           - oraclelinux-8
           - oraclelinux-9
@@ -27,6 +29,7 @@ jobs:
           - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-22.10
+          - ubuntu-23.04
         provider:
           - virtualbox-iso
     steps:

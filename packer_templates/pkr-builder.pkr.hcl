@@ -22,8 +22,8 @@ packer {
       source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
-      version = ">= 0.0.1"
-      source  = "github.com/stromweld/vmware" # TODO: switching to stromweld repo for fix to vmware tools for fusion 13 till official fix is in place https://github.com/hashicorp/packer-plugin-vmware/issues/109
+      version = ">= 1.0.8"
+      source  = "github.com/hashicorp/vmware"
     }
     windows-update = {
       version = ">= 0.14.1"
@@ -125,7 +125,7 @@ locals {
               ] : (
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonlinux-2" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
-              "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oraclelinux-7" ||
+              "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oracle-7" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
               "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = 'bento'
-  s.version = '3.0.0'
+  s.version = '3.1.0'
   s.summary = 'Bento builds generic Vagrant boxes '
   s.description = s.summary
   s.license = 'Apache-2.0'

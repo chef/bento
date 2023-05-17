@@ -19,3 +19,4 @@ Berksfile.lock
 .kitchen.yml
 kitchen.yml
 *.metadata.json
+bento-*.gem

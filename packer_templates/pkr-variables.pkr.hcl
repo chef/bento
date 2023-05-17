@@ -225,6 +225,7 @@ variable "vmware_network" {
   type    = string
   default = "nat"
 }
+
 # Source block common variables
 variable "boot_command" {
   type        = list(string)

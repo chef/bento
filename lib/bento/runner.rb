@@ -29,6 +29,8 @@ class BuildRunner
   def start
     templates = config ? build_list : template_files
     banner('Starting build for templates:')
+    banner('Installing packer plugins')
+    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates")
     templates.each { |t| puts "- #{t}" }
     time = Benchmark.measure do
       templates.each { |template| build(template) }
@@ -43,8 +45,6 @@ class BuildRunner
     dir = File.dirname(file)
     template = File.basename(file)
     Dir.chdir dir
-    banner('Installing packer plugins if needed')
-    system('packer init ../../packer_templates')
     for_packer_run_with(template) do |md_file, _var_file|
       cmd = packer_build_cmd(template, md_file.path)
       banner("[#{template}] Building: '#{cmd.join(' ')}'")
