@@ -55,7 +55,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fix failing builds
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+  - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 - Update pipelines to only run on updated pkrvars files
 - Look into making all build uefi default builds
@@ -65,6 +65,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ## [unreleased] (2023-05-17)
 
 - Update RHEL 9 clones to 9.2
+- Update RHEL 8 clones to 8.8
 
 ## [v3.1.0] (2023-05-17)
 
