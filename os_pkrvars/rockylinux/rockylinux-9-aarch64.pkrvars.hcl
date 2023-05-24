@@ -1,5 +1,5 @@
 os_name                 = "rockylinux"
-os_version              = "9.1"
+os_version              = "9.2"
 os_arch                 = "aarch64"
 iso_url                 = "https://download.rockylinux.org/pub/rocky/9/isos/aarch64/Rocky-aarch64-minimal.iso"
 iso_checksum            = "file:https://download.rockylinux.org/pub/rocky/9/isos/aarch64/CHECKSUM"
