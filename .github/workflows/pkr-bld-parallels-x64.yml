@@ -21,9 +21,9 @@ jobs:
           - freebsd-12
           - freebsd-13
           - opensuse-leap-15
-          - oraclelinux-7
-          - oraclelinux-8
-          - oraclelinux-9
+          - oracle-7
+          - oracle-8
+          - oracle-9
           - rockylinux-8
           - rockylinux-9
           - scientificlinux-7

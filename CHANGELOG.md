@@ -21,9 +21,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | freebsd-12 |  |  | na |  | na | x | na |  | na |
 | freebsd-13 |  |  | na |  | na | x | na |  | na |
 | opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
-| oraclelinux-7 |  | x |  | x |  | x |  | x |  |
-| oraclelinux-8 |  |  |  | x |  | x |  | x |  |
-| oraclelinux-9 |  | x | x |  |  | x |  | x |  |
+| oracle-7 |  | x |  | x |  | x |  | x |  |
+| oracle-8 |  |  |  | x |  | x |  | x |  |
+| oracle-9 |  | x | x |  |  | x |  | x |  |
 | rhel-7 |  |  |  |  |  |  |  |  |  |
 | rhel-8 |  |  |  |  |  |  |  |  |  |
 | rhel-9 |  |  |  |  |  |  |  |  |  |
@@ -55,14 +55,19 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fix failing builds
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+  - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 - Update pipelines to only run on updated pkrvars files
 - Look into making all build uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2023-04-24)
+## [unreleased] (2023-05-17)
+
+- Update RHEL 9 clones to 9.2
+- Update RHEL 8 clones to 8.8
+
+## [v3.1.0] (2023-05-17)
 
 - Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
 - Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
