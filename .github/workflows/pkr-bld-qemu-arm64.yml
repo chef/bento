@@ -14,6 +14,7 @@ jobs:
           - centos-7
           - centos-stream-8
           - centos-stream-9
+          - debian-10
           - debian-11
           - debian-12
           - fedora-37

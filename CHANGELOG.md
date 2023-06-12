@@ -14,6 +14,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-7 |  | x |  | x |  | x |  | x |  |
 | centos-stream-8 |  | x |  | x |  | x |  | x |  |
 | centos-stream-9 |  |  |  |  |  | x |  | x |  |
+| debian-10 | | | x | | | x | | x | |
 | debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x |  |
 | fedora-37 |  | x | x | x |  | x |  | x |  |
