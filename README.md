@@ -46,7 +46,7 @@ end
 To build a Debian vagrant box using the bento tool with the template available in the `os_pkrvars` dir, we can use the following command:
 
 ```bash
-bento build --cpus 2 os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl
+bento build --cpus 2 os_pkrvars/debian/debian-12-x86_64.pkrvars.hcl
 ```
 
 Other available options:
@@ -89,12 +89,12 @@ packer init -upgrade ./packer_templates
 packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-22.04-x86_64.pkrvars.hcl ./packer_templates
 ```
 
-To build latest Debian 11 boxes for all possible providers (simultaneously)
+To build latest Debian 12 boxes for all possible providers (simultaneously)
 
 ```bash
 cd <path/to>/bento
 packer init -upgrade ./packer_templates
-packer build -var-file=os_pkrvars/debian/debian-11-x86_64.pkrvars.hcl ./packer_templates
+packer build -var-file=os_pkrvars/debian/debian-12-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To build latest CentOS 7 boxes for all providers except VMware and Parallels
