@@ -1,6 +1,10 @@
 packer {
   required_version = ">= 1.7.0"
   required_plugins {
+    chef = {
+      version = ">= 1.0.0"
+      source  = "github.com/hashicorp/chef"
+    }
     hyperv = {
       version = ">= 1.0.0"
       source  = "github.com/hashicorp/hyperv"
