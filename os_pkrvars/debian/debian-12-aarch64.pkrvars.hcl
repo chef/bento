@@ -1,7 +1,7 @@
 os_name                 = "debian"
 os_version              = "12.0"
 os_arch                 = "aarch64"
-iso_url                 = "https://cdimage.debian.org/cdimage/release/12.0.0/arm64/iso-dvd/debian-12.0.0-amd64-DVD-1.iso"
+iso_url                 = "https://cdimage.debian.org/cdimage/release/12.0.0/arm64/iso-dvd/debian-12.0.0-arm64-DVD-1.iso"
 iso_checksum            = "file:https://cdimage.debian.org/cdimage/release/12.0.0/arm64/iso-dvd/SHA256SUMS"
 parallels_guest_os_type = "debian"
 vbox_guest_os_type      = "Debian_64"

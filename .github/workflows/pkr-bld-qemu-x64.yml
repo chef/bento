@@ -52,10 +52,10 @@ jobs:
         run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
       - name: Download virtio-win.iso
         run: curl https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.229-1/virtio-win.iso -o packer_templates/win_answer_files/virtio-win.iso
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
+#      - name: Setup Packer
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
       - name: Packer Init
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
