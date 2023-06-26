@@ -71,6 +71,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fixed pipeline issue with plugins
 - Updated debian 11 iso url
 - switched pipeline to use bento build command and upload box and metadata.json files
+- add opensuse-leap aarch64 build
+- updated opensuse-leap to 15.5
 
 ## [v3.1.0] (2023-05-17)
 

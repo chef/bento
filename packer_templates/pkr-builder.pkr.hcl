@@ -11,7 +11,7 @@ packer {
     }
     parallels = {
       version = ">= 1.0.1"
-      source  = "github.com/hashicorp/parallels"
+      source  = "github.com/parallels/parallels"
     }
     qemu = {
       version = ">= 1.0.8"
