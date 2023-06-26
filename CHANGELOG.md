@@ -69,6 +69,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update RHEL 8 clones to 8.8
 - Added Debian 12 variables
 - Fixed pipeline issue with plugins
+- Updated debian 11 iso url
+- switched pipeline to use bento build command and upload box and metadata.json files
 
 ## [v3.1.0] (2023-05-17)
 
