@@ -66,7 +66,7 @@ jobs:
       - name: Packer build
 #        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
         run: |
-          eval "$(chef shell-init zsh)"
+          eval "$(/opt/chef-workstation/bin/chef shell-init zsh)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
       - name: Remove VM in case of canceled job
         if: cancelled()
