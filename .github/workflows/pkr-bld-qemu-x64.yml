@@ -59,8 +59,8 @@ jobs:
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
-#      - name: Packer Init
-#        run: packer init -upgrade packer_templates
+      - name: Packer Init
+        run: packer init -upgrade packer_templates
       - name: Packer FMT
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
