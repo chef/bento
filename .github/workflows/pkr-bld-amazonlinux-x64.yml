@@ -28,6 +28,7 @@ jobs:
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Packer build
         run: |
+          eval "$(chef shell-init bash)"
           ./AMZ_build_virtualbox-ovf.sh
           bento build -n os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" >> builds/amazonlinux-2-x86_64.metadata.json
       - name: Remove VM in case of canceled job
