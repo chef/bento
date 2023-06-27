@@ -50,6 +50,7 @@ class BuildRunner
     for_packer_run_with(template) do |md_file, _var_file|
       cmd = Mixlib::ShellOut.new(packer_build_cmd(template, md_file.path).join(' '))
       cmd.live_stream = STDOUT
+      cmd.timeout = 28800
       banner("[#{template}] Building: '#{cmd.command}'")
       time = Benchmark.measure do
         cmd.run_command
