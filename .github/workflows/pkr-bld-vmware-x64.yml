@@ -79,7 +79,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ matrix.os }}-vmware-x86_64.box"
+          name: "${{ matrix.os }}-vmware-x86_64"
           path: |
             builds/*.box
             builds/*.json

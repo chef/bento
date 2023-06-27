@@ -78,7 +78,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-hyperv-x86_64.box"
+          name: "${{ matrix.os }}-hyperv-x86_64"
           path: |
             builds/*.box
           retention-days: 10
