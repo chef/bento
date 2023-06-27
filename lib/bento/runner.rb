@@ -2,6 +2,7 @@ require 'bento/common'
 require 'bento/buildmetadata'
 require 'bento/providermetadata'
 require 'bento/packerexec'
+require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
 
 class BuildRunner
   include Common
@@ -44,17 +45,20 @@ class BuildRunner
     bento_dir = Dir.pwd
     dir = File.dirname(file)
     template = File.basename(file)
+    cmd = nil
     Dir.chdir dir
     for_packer_run_with(template) do |md_file, _var_file|
-      cmd = packer_build_cmd(template, md_file.path)
-      banner("[#{template}] Building: '#{cmd.join(' ')}'")
+      cmd = Mixlib::ShellOut.new(packer_build_cmd(template, md_file.path).join(' '))
+      cmd.live_stream = STDOUT
+      banner("[#{template}] Building: '#{cmd.command}'")
       time = Benchmark.measure do
-        system(*cmd) || puts("[#{template}] Error building, exited #{$CHILD_STATUS}")
+        cmd.run_command
       end
-      write_final_metadata(template, time.real.ceil)
+      write_final_metadata(template, time.real.ceil) unless Dir.glob("../../builds/#{template}.*.box").empty?
       banner("[#{template}] Finished building in #{duration(time.real)}.")
     end
     Dir.chdir(bento_dir)
+    cmd.error! # fail hard if the cmd fails
   end
 
   def packer_build_cmd(template, _var_file)

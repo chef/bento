@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+require_relative 'lib/bento/version'
 
 Gem::Specification.new do |s|
   s.name = 'bento'
-  s.version = '3.1.0'
+  s.version = Bento::VERSION
   s.summary = 'Bento builds generic Vagrant boxes '
   s.description = s.summary
   s.license = 'Apache-2.0'
