@@ -27,13 +27,13 @@ packer {
     }
     vmware = {
       version = ">= 1.0.9"
-      source = "github.com/Stromweld/vmware"
+      source  = "github.com/Stromweld/vmware"
     }
     # Temp switch till bug fix for x86 tools location is fixed
-#    vmware = {
-#      version = ">= 1.0.8"
-#      source  = "github.com/hashicorp/vmware"
-#    }
+    # vmware = {
+    #   version = ">= 1.0.8"
+    #   source  = "github.com/hashicorp/vmware"
+    # }
     windows-update = {
       version = ">= 0.14.1"
       source  = "github.com/rgl/windows-update"
