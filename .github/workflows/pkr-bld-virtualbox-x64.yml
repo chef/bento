@@ -68,6 +68,7 @@ jobs:
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          ls -alh builds
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -81,6 +82,6 @@ jobs:
         with:
           name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds
+            !builds/uploaded
           retention-days: 10

@@ -31,6 +31,7 @@ jobs:
           eval "$(chef shell-init bash)"
           ./AMZ_build_virtualbox-ovf.sh
           bento build -n os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" >> builds/amazonlinux-2-x86_64.metadata.json
+          ls -alh builds
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -44,6 +45,6 @@ jobs:
         with:
           name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds
+            !builds/uploaded
           retention-days: 10

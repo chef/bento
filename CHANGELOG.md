@@ -7,50 +7,49 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 |  | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 |  | x |  | x |  | x |  | x |  |
-| almalinux-9 |  | x | x |  |  | x |  | x |  |
-| amazonlinux-2 |  | na | na | na | na | x |  | na | na |
+| almalinux-8 |  |  |  | x |  | x |  |  |  |
+| almalinux-9 |  | x | x |  |  | x |  |  |  |
+| amazonlinux-2 |  | na | na |  |  |  | na |  | na |
 | amazonlinux-2023 | na | na | na | na | na | na | na | na | na |
-| centos-7 |  | x |  | x |  | x |  | x |  |
-| centos-stream-8 |  | x |  | x |  | x |  | x |  |
-| centos-stream-9 |  |  |  |  |  | x |  | x |  |
-| debian-10 | | | x | | | x | | x | |
-| debian-11 |  | x | x |  |  | x |  | x |  |
-| debian-12 |  | x | x |  |  | x |  | x |  |
-| fedora-37 |  | x | x | x |  | x |  | x |  |
-| fedora-38 |  | x |  | x |  | x |  | x |  |
-| freebsd-12 |  |  | na |  | na | x | na |  | na |
-| freebsd-13 |  |  | na |  | na | x | na |  | na |
-| opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
-| oracle-7 |  | x |  | x |  | x |  | x |  |
-| oracle-8 |  |  |  | x |  | x |  | x |  |
-| oracle-9 |  | x | x |  |  | x |  | x |  |
-| rhel-7 |  |  |  |  |  |  |  |  |  |
-| rhel-8 |  |  |  |  |  |  |  |  |  |
-| rhel-9 |  |  |  |  |  |  |  |  |  |
-| rockylinux-8 |  | x |  | x |  | x |  | x |  |
-| rockylinux-9 |  | x | x |  |  | x |  | x |  |
-| scientificlinux-7 |  | x | na | x | na | x | na | x | na |
-| sles-12 |  |  | na |  | na |  | na |  | na |
-| sles-13 |  |  | na |  | na |  | na |  | na |
-| solaris-11 |  |  | na |  | na |  | na |  | na |
-| springdalelinux-7 |  | x | na | x | na |  | na |  | na |
-| springdalelinux-8 |  | x | na | x | na | x | na | x | na |
-| springdalelinux-9 |  | x | na |  | na | x | na | x | na |
-| ubuntu-18.04 |  | x |  |  |  | x |  | x |  |
-| ubuntu-20.04 |  |  | x |  |  |  |  |  |  |
-| ubuntu-22.04 |  | x | x | x |  | x |  | x |  |
-| ubuntu-22.10 |  | x | x | x |  | x |  | x |  |
-| ubuntu-23.04 | na | na | na | na | na | na | na | na | na |
+| centos-7 |  | x |  |  |  |  |  |  |  |
+| centos-stream-8 | x |  |  | x |  | x |  |  |  |
+| centos-stream-9 |  | x |  |  |  |  |  |  |  |
+| debian-10 |  |  | x |  |  |  |  |  |  |
+| debian-11 |  | x | x |  |  |  |  |  |  |
+| debian-12 |  | x | x |  |  | x |  |  |  |
+| fedora-37 |  | x | x | x |  |  |  |  |  |
+| fedora-38 |  |  |  | x |  |  |  |  |  |
+| freebsd-12 |  |  |  |  |  |  |  |  |  |
+| freebsd-13 |  |  |  |  |  | x |  |  |  |
+| opensuse-leap-15 | x | x | x |  |  |  |  |  |  |
+| oraclelinux-7 | x | x |  |  |  | x |  |  |  |
+| oraclelinux-8 | x |  |  | x |  | x |  |  |  |
+| oraclelinux-9 |  | x | x |  |  |  |  |  |  |
+| rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rockylinux-8 |  |  |  | x |  | x |  |  |  |
+| rockylinux-9 |  | x | x |  |  | x |  |  |  |
+| scientificlinux-7 |  | x | na |  | na | x | na |  | na |
+| sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| sles-13 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| springdalelinux-7 |  | x | na |  | na |  | na |  | na |
+| springdalelinux-8 | x |  | na | x | na |  | na |  | na |
+| springdalelinux-9 | x | x | na |  | na |  | na |  | na |
+| ubuntu-18.04 |  | x |  |  |  | x |  |  |  |
+| ubuntu-20.04 |  | x | x | x |  |  |  |  |  |
+| ubuntu-22.04 |  |  |  |  |  | x |  |  |  |
+| ubuntu-22.10 |  | x | x | x |  | x |  |  |  |
+| ubuntu-23.04 |  |  |  |  |  | x |  |  |  |
 | windows-10 | x | x | na |  | na | x | na |  | na |
 | windows-10gen2 |  | na | na | na | na | na | na | na | na |
 | windows-11 | x | x | na |  | na | x | na |  | na |
 | windows-11gen2 |  | na | na | na | na | na | na | na | na |
 | windows-2012r2 |  | x | na |  | na | x | na |  | na |
-| windows-2016 | x | x | na |  | na | x | na | x | na |
+| windows-2016 | x | x | na |  | na | x | na |  | na |
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
-
 ### Todo
 
 - Fix failing builds
