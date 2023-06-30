@@ -50,6 +50,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | windows-2016 | x | x | na |  | na | x | na |  | na |
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
+
 ### Todo
 
 - Fix failing builds
@@ -62,9 +63,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2023-06-28)
+## [unreleased] (2023-06-29)
 
-## [v3.1.1] (2023-06-28)
+## [v3.1.1] (2023-06-29)
 
 - Update RHEL 9 clones to 9.2
 - Update RHEL 8 clones to 8.8
@@ -75,6 +76,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - add opensuse-leap aarch64 build
 - updated opensuse-leap to 15.5
 - Bento command exits with error status and code when a build fails for a provider
+- fixed bento metadata generation for aarch64 machines
 
 ## [v3.1.0] (2023-05-17)
 

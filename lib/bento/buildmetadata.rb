@@ -31,7 +31,7 @@ class BuildMetadata
   attr_reader :template, :build_timestamp, :override_version
 
   def box_basename
-    "#{name.gsub('/', '__')}-#{arch}"
+    "#{name.gsub('/', '__')}"
   end
 
   def git_revision
@@ -57,7 +57,7 @@ class BuildMetadata
     if arch == 'aarch64' || arch == 'arm64'
       "#{merged_vars.fetch('name', template)}-arm64"
     else
-      merged_vars.fetch('name', template)
+      "#{merged_vars.fetch('name', template)}-x86_64"
     end
   end
 

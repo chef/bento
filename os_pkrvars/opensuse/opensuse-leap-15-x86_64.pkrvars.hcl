@@ -1,5 +1,5 @@
 os_name                 = "opensuse"
-os_version              = "15.4"
+os_version              = "15.5"
 os_arch                 = "x86_64"
 iso_url                 = "http://sfo-korg-mirror.kernel.org/opensuse/distribution/leap/15.5/iso/openSUSE-Leap-15.5-DVD-x86_64-Media.iso"
 iso_checksum            = "file:http://sfo-korg-mirror.kernel.org/opensuse/distribution/leap/15.5/iso/openSUSE-Leap-15.5-DVD-x86_64-Media.iso.sha256"
