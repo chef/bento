@@ -75,5 +75,5 @@ jobs:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
             builds
-            !builds/uploaded
+            !builds/uploaded/*
           retention-days: 10

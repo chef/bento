@@ -77,5 +77,5 @@ jobs:
           name: "${{ matrix.os }}-qemu-x86_64"
           path: |
             builds
-            !builds/uploaded/.gitkeep
+            !builds/uploaded/*
           retention-days: 10

@@ -46,5 +46,5 @@ jobs:
           name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
             builds
-            !builds/uploaded/.gitkeep
+            !builds/uploaded/*
           retention-days: 10
