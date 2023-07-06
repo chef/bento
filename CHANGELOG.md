@@ -7,47 +7,47 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 |  | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 |  | x |  | x |  | x |  | x |  |
-| almalinux-9 |  | x | x |  |  | x |  | x |  |
-| amazonlinux-2 |  | na | na | na | na | x |  | na | na |
+| almalinux-8 |  |  |  | x |  | x |  | x |  |
+| almalinux-9 |  | x |  |  |  | x |  | x |  |
+| amazonlinux-2 |  | na | na |  |  |  | na |  | na |
 | amazonlinux-2023 | na | na | na | na | na | na | na | na | na |
-| centos-7 |  | x |  | x |  | x |  | x |  |
-| centos-stream-8 |  | x |  | x |  | x |  | x |  |
-| centos-stream-9 |  |  |  |  |  | x |  | x |  |
-| debian-10 | | | x | | | x | | x | |
-| debian-11 |  | x | x |  |  | x |  | x |  |
-| debian-12 |  | x | x |  |  | x |  | x |  |
-| fedora-37 |  | x | x | x |  | x |  | x |  |
-| fedora-38 |  | x |  | x |  | x |  | x |  |
-| freebsd-12 |  |  | na |  | na | x | na |  | na |
-| freebsd-13 |  |  | na |  | na | x | na |  | na |
-| opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
-| oracle-7 |  | x |  | x |  | x |  | x |  |
-| oracle-8 |  |  |  | x |  | x |  | x |  |
-| oracle-9 |  | x | x |  |  | x |  | x |  |
-| rhel-7 |  |  |  |  |  |  |  |  |  |
-| rhel-8 |  |  |  |  |  |  |  |  |  |
-| rhel-9 |  |  |  |  |  |  |  |  |  |
-| rockylinux-8 |  | x |  | x |  | x |  | x |  |
-| rockylinux-9 |  | x | x |  |  | x |  | x |  |
-| scientificlinux-7 |  | x | na | x | na | x | na | x | na |
-| sles-12 |  |  | na |  | na |  | na |  | na |
-| sles-13 |  |  | na |  | na |  | na |  | na |
-| solaris-11 |  |  | na |  | na |  | na |  | na |
-| springdalelinux-7 |  | x | na | x | na |  | na |  | na |
-| springdalelinux-8 |  | x | na | x | na | x | na | x | na |
-| springdalelinux-9 |  | x | na |  | na | x | na | x | na |
+| centos-7 |  | x |  |  |  |  |  | x |  |
+| centos-stream-8 | x |  |  | x |  |  |  | x |  |
+| centos-stream-9 |  | x |  |  |  |  |  | x |  |
+| debian-10 |  |  | x |  |  |  |  | x |  |
+| debian-11 |  | x | x |  |  |  |  | x |  |
+| debian-12 |  | x | x |  |  | x |  | x | x |
+| fedora-37 |  | x |  | x |  |  |  | x | x |
+| fedora-38 |  |  |  |  |  | x |  | x | x |
+| freebsd-12 |  |  |  |  |  | x |  |  |  |
+| freebsd-13 |  |  |  |  |  | x |  |  |  |
+| opensuse-leap-15 | x | x |  |  |  |  |  | x |  |
+| oraclelinux-7 | x | x |  |  |  | x |  | x |  |
+| oraclelinux-8 | x |  |  | x |  | x |  | x |  |
+| oraclelinux-9 |  | x |  |  |  | x |  | x |  |
+| rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rockylinux-8 |  |  |  | x |  | x |  | x |  |
+| rockylinux-9 |  | x | x |  |  |  |  | x |  |
+| scientificlinux-7 |  | x | na |  | na |  | na | x | na |
+| sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| sles-13 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| springdalelinux-7 |  | x | na |  | na |  | na |  | na |
+| springdalelinux-8 | x |  | na | x | na | x | na | x | na |
+| springdalelinux-9 | x | x | na |  | na |  | na | x | na |
 | ubuntu-18.04 |  | x |  |  |  | x |  | x |  |
-| ubuntu-20.04 |  |  | x |  |  |  |  |  |  |
-| ubuntu-22.04 |  | x | x | x |  | x |  | x |  |
-| ubuntu-22.10 |  | x | x | x |  | x |  | x |  |
-| ubuntu-23.04 | na | na | na | na | na | na | na | na | na |
+| ubuntu-20.04 |  | x |  | x |  |  |  | x | x |
+| ubuntu-22.04 |  | x |  | x |  | x |  | x | x |
+| ubuntu-22.10 |  | x |  |  |  |  |  |  | x |
+| ubuntu-23.04 |  | x |  | x |  |  |  | x | x |
 | windows-10 | x | x | na |  | na | x | na |  | na |
 | windows-10gen2 |  | na | na | na | na | na | na | na | na |
 | windows-11 | x | x | na |  | na | x | na |  | na |
 | windows-11gen2 |  | na | na | na | na | na | na | na | na |
 | windows-2012r2 |  | x | na |  | na | x | na |  | na |
-| windows-2016 | x | x | na |  | na | x | na | x | na |
+| windows-2016 | x | x | na |  | na | x | na |  | na |
 | windows-2019 | x | x | na |  | na | x | na |  | na |
 | windows-2022 | x | x | na |  | na | x | na |  | na |
 
@@ -63,12 +63,20 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2023-06-15)
+## [unreleased] (2023-07-07)
+
+## [v3.1.1] (2023-07-07)
 
 - Update RHEL 9 clones to 9.2
 - Update RHEL 8 clones to 8.8
 - Added Debian 12 variables
 - Fixed pipeline issue with plugins
+- Updated debian 11 iso url
+- switched pipeline to use bento build command and upload box and metadata.json files
+- add opensuse-leap aarch64 build
+- updated opensuse-leap to 15.5
+- Bento command exits with error status and code when a build fails for a provider
+- fixed bento metadata generation for aarch64 machines
 
 ## [v3.1.0] (2023-05-17)
 

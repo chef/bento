@@ -2,6 +2,7 @@ require 'bento/common'
 require 'bento/buildmetadata'
 require 'bento/providermetadata'
 require 'bento/packerexec'
+require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
 
 class BuildRunner
   include Common
@@ -30,7 +31,7 @@ class BuildRunner
     templates = config ? build_list : template_files
     banner('Starting build for templates:')
     banner('Installing packer plugins')
-    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates")
+    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run
     templates.each { |t| puts "- #{t}" }
     time = Benchmark.measure do
       templates.each { |template| build(template) }
@@ -44,17 +45,25 @@ class BuildRunner
     bento_dir = Dir.pwd
     dir = File.dirname(file)
     template = File.basename(file)
+    cmd = nil
     Dir.chdir dir
     for_packer_run_with(template) do |md_file, _var_file|
-      cmd = packer_build_cmd(template, md_file.path)
-      banner("[#{template}] Building: '#{cmd.join(' ')}'")
+      cmd = Mixlib::ShellOut.new(packer_build_cmd(template, md_file.path).join(' '))
+      cmd.live_stream = STDOUT
+      cmd.timeout = 28800
+      banner("[#{template}] Building: '#{cmd.command}'")
       time = Benchmark.measure do
-        system(*cmd) || puts("[#{template}] Error building, exited #{$CHILD_STATUS}")
+        cmd.run_command
       end
-      write_final_metadata(template, time.real.ceil)
+      if Dir.glob("../../builds/*.box").empty?
+        banner("Not writing metadata file since no boxes exist")
+      else
+        write_final_metadata(template, time.real.ceil)
+      end
       banner("[#{template}] Finished building in #{duration(time.real)}.")
     end
     Dir.chdir(bento_dir)
+    cmd.error! # fail hard if the cmd fails
   end
 
   def packer_build_cmd(template, _var_file)
@@ -78,8 +87,8 @@ class BuildRunner
   def write_final_metadata(template, buildtime)
     md = BuildMetadata.new(template, build_timestamp, override_version).read
     path = File.join('../../builds')
-    filename = File.join(path, "#{md[:box_basename]}.metadata.json")
-    md[:providers] = ProviderMetadata.new(path, md[:box_basename]).read
+    filename = File.join(path, "#{md[:template]}.metadata.json")
+    md[:providers] = ProviderMetadata.new(path, md[:template]).read
     md[:providers].each do |p|
       p[:build_time] = buildtime
       p[:build_cpus] = cpus unless cpus.nil?
@@ -87,7 +96,7 @@ class BuildRunner
     end
 
     if dry_run
-      banner('(Dry run) Metadata file contents would be something similar to:')
+      banner("(Dry run) Metadata file would be written to #{filename} with content similar to:")
       puts JSON.pretty_generate(md)
     else
       File.binwrite(filename, JSON.pretty_generate(md))

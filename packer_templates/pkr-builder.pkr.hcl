@@ -11,7 +11,7 @@ packer {
     }
     parallels = {
       version = ">= 1.0.1"
-      source  = "github.com/hashicorp/parallels"
+      source  = "github.com/parallels/parallels"
     }
     qemu = {
       version = ">= 1.0.8"
@@ -26,9 +26,14 @@ packer {
       source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
-      version = ">= 1.0.8"
-      source  = "github.com/hashicorp/vmware"
+      version = ">= 1.0.9"
+      source  = "github.com/Stromweld/vmware"
     }
+    # Temp switch till bug fix for x86 tools location is fixed
+    # vmware = {
+    #   version = ">= 1.0.8"
+    #   source  = "github.com/hashicorp/vmware"
+    # }
     windows-update = {
       version = ">= 0.14.1"
       source  = "github.com/rgl/windows-update"

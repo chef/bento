@@ -2,6 +2,9 @@
 on:
   workflow_call:
 
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
 jobs:
   aarch64:
     runs-on: [self-hosted, ARM64, virtualbox]
@@ -21,6 +24,7 @@ jobs:
           - fedora-38
           - freebsd-12
           - freebsd-13
+          - opensuse-leap-15
           - oracle-7
           - oracle-8
           - oracle-9
@@ -45,15 +49,17 @@ jobs:
 #        with:
 #          version: latest
       - name: Packer Init
-        env:
-          PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: packer init -upgrade packer_templates
       - name: Packer FMT
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -65,7 +71,8 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-virtualbox-aarch64.box"
+          name: "${{ matrix.os }}-virtualbox-aarch64"
           path: |
-            builds/*.box
+            builds
+            !builds/uploaded/*
           retention-days: 10
