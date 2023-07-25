@@ -59,11 +59,14 @@ Add-Type -A System.IO.Compression.FileSystem
 # install Guest Additions.
 $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Property Vendor).Vendor
 if ($systemVendor -eq 'QEMU') {
-    $guestToolsPath = "e:\drivers\virtio-win-guest-tools.exe"
-    $guestTools = "$env:TEMP\$(Split-Path -Leaf $guestToolsPath)"
-    $guestToolsLog = "$guestTools.log"
+    # in more recent virtio-win.iso virtio-win-guest-tools.exe has move to E:\
+    $guestToolsPath = dir -Path E:\ -Filter virtio-win-guest-tools.exe -Recurse | %{$_.FullName}
+    if (!$guestToolsPath) {
+        throw "did not find virtio-win-guest-tools.exe on E:\"
+    }
+    $guestToolsLog = "$env:TEMP\$(Split-Path -Leaf $guestToolsPath).log"
     Write-Host 'Installing the guest tools...'
-    &$guestTools /install /norestart /quiet /log $guestToolsLog | Out-String -Stream
+    &$guestToolsPath /install /norestart /quiet /log $guestToolsLog | Out-String -Stream
     if ($LASTEXITCODE) {
         throw "failed to install guest tools with exit code $LASTEXITCODE"
     }
