@@ -85,7 +85,7 @@
             </ModifyPartition>
             <ModifyPartition wcm:action="add">
               <Format>NTFS</Format>
-              <Label>Windows 10</Label>
+              <Label>Windows</Label>
               <Letter>C</Letter>
               <Order>2</Order>
               <PartitionID>2</PartitionID>

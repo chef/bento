@@ -31,7 +31,12 @@ class BuildMetadata
   attr_reader :template, :build_timestamp, :override_version
 
   def box_basename
-    "#{name.gsub('/', '__')}"
+    temp_name = name.gsub('/', '__').split('-')
+    if temp_name.last == 'arm64'
+      temp_name.join('-')
+    else
+      (temp_name.first temp_name.size - 1).join('-')
+    end
   end
 
   def git_revision

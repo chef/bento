@@ -7,3 +7,4 @@ iso_checksum            = "6612b5b1f53e845aacdf96e974bb119a3d9b4dcb5b82e65804ab7
 parallels_guest_os_type = "win-2012"
 vbox_guest_os_type      = "Windows2012_64"
 vmware_guest_os_type    = "windows9srv-64"
+hyperv_generation       = 2

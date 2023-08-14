@@ -1,4 +1,5 @@
 ---
+vagrant_cloud_account: 'bento'
 public:
   - 'almalinux-8'
   - 'almalinux-9'

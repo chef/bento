@@ -7,3 +7,4 @@ iso_checksum            = "1ce702a578a3cb1ac3d14873980838590f06d5b7101c5daaccbac
 parallels_guest_os_type = "win-2016"
 vbox_guest_os_type      = "Windows2016_64"
 vmware_guest_os_type    = "windows9srv-64"
+hyperv_generation       = 2

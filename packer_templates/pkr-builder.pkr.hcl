@@ -258,6 +258,6 @@ build {
     compression_level    = 9
     keep_input_artifact  = var.is_windows
     output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
-    vagrantfile_template = var.is_windows ? (var.hyperv_generation == 1 ? "${path.root}/vagrantfile-windows.template" : "${path.root}/vagrantfile-windows-gen2.template") : null
+    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : null
   }
 }

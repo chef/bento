@@ -87,12 +87,12 @@ if ($systemVendor -eq 'QEMU') {
     # do nothing. Hyper-V enlightments are already bundled with Windows.
 } elseif ($systemVendor -eq 'VMware, Inc.') {
     Write-Host 'Mounting VMware Tools ISO...'
-    Mount-DiskImage -ImagePath C:\\vmware-tools.iso -PassThru | Get-Volume | Set-Volume -DriveLetter B
+    Mount-DiskImage -ImagePath C:\\vmware-tools.iso -PassThru | Get-Volume
     Write-Host 'Installing VMware Tools...'
-    Start-Process -Wait -FilePath D:\\setup.exe -ArgumentList '/s'
+    Start-Process -Wait -FilePath E:\\setup64.exe -ArgumentList '/s'
     Write-Output 'Installing VMware Tools...'
     # silent install without rebooting.
-    B:\setup64.exe /s /v '/qn reboot=r'| Out-String -Stream
+    E:\\setup64.exe /s /v '/qn reboot=r'| Out-String -Stream
 } elseif ($systemVendor -eq 'Parallels Software International Inc.') {
     Write-Host 'Installing the Parallels Tools for Guest VM...'
     E:\PTAgent.exe /install_silent | Out-String -Stream

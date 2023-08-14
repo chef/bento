@@ -7,3 +7,4 @@ iso_checksum            = "549bca46c055157291be6c22a3aaaed8330e78ef4382c99ee82c8
 parallels_guest_os_type = "win-2019"
 vbox_guest_os_type      = "Windows2019_64"
 vmware_guest_os_type    = "windows9srv-64"
+hyperv_generation       = 2

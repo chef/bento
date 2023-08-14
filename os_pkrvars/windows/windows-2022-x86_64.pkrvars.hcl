@@ -7,3 +7,4 @@ iso_checksum            = "sha256:3e4fa6d8507b554856fc9ca6079cc402df11a8b7934487
 parallels_guest_os_type = "win-2022"
 vbox_guest_os_type      = "Windows2022_64"
 vmware_guest_os_type    = "windows9srv-64"
+hyperv_generation       = 2
