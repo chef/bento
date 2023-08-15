@@ -56,12 +56,12 @@ jobs:
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
-#      - name: Packer Init
-#        run: packer init -upgrade packer_templates
-#      - name: Packer FMT
-#        run: packer fmt -check -recursive .
-#      - name: Packer Validate
-#        run: packer validate -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Packer Init
+        run: packer init -upgrade packer_templates
+      - name: Packer FMT
+        run: packer fmt -check -recursive .
+      - name: Packer Validate
+        run: packer validate -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Packer build
         run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
