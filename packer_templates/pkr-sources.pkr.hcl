@@ -73,10 +73,15 @@ locals {
     var.is_windows ? "60s" : "10s"
   ) : var.boot_wait
   cd_files = var.cd_files == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? [
-      "${path.root}/win_answer_files/${var.os_version}/hyperv_gen2_Autounattend.xml",
-      "${path.root}/scripts/windows/base_setup.ps1"
-    ] : null
+    var.is_windows ? (
+      var.hyperv_generation == 2 ? [
+        "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
+        "${path.root}/scripts/windows/base_setup.ps1"
+        ] : [
+        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+        "${path.root}/scripts/windows/base_setup.ps1"
+      ]
+    ) : null
   ) : var.cd_files
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"

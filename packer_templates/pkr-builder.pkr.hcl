@@ -43,8 +43,7 @@ packer {
 
 locals {
   scripts = var.is_windows ? (
-    substr(var.os_version, 0, 2) == "10" ||
-    substr(var.os_version, 0, 2) == "11" ? [
+    var.os_version == "10" || var.os_version == "11" ? [
       # "${path.root}/scripts/windows/base_setup.ps1",
       "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
