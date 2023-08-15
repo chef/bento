@@ -13,15 +13,15 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
+  - name: windows-2022
+    driver_config:
+      box: stromweld/windows-2022
   - name: windows-2019
     driver_config:
-      box: tas50/windows_2019
+      box: stromweld/windows-2019
   - name: windows-2016
     driver_config:
-      box: tas50/windows_2016
-  - name: windows-2012r2
-    driver_config:
-      box: tas50/windows_2012r2
+      box: stromweld/windows-2016
 
 suites:
   - name: default
