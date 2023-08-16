@@ -68,6 +68,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added bento upload to use vagrant account configured in builds.yml
 - Updated windows vagrant template to default to 4GB of memory
 - Default hyperv to generation 2
+- Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10
 
 ## [v3.1.1] (2023-07-07)
 
