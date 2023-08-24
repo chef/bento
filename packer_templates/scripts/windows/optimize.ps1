@@ -23,6 +23,7 @@
 Set-StrictMode -Version Latest
 $ProgressPreference = 'SilentlyContinue'
 $ErrorActionPreference = 'Stop'
+
 trap {
     Write-Host
     Write-Host "ERROR: $_"
@@ -111,6 +112,8 @@ Write-Host 'Running Automatic Maintenance...'
 MSchedExe.exe Start
 Wait-Condition {@(Get-ScheduledTasks | Where-Object {($_.State -ge 4) -and (Test-IsMaintenanceTask $_.XML)}).Count -eq 0} -DebounceSeconds 60
 
+# remove pagefile. it will get created on boot next time
+New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name PagingFiles -Value '' -Force
 
 #
 # generate the .net frameworks native images.
@@ -147,6 +150,7 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
     "$env:windir\Panther\*"
     "$env:windir\WinSxS\ManifestCache\*"
     "$env:windir\SoftwareDistribution\Download"
+    "C:\\Users\\vagrant\Favorites\\*"
 ) | Where-Object {Test-Path $_} | ForEach-Object {
     Write-Host "Removing temporary files $_..."
     try {
@@ -161,7 +165,6 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
         Write-Host "Ignoring failure to remove files error: $_"
     }
 }
-
 
 #
 # cleanup the WinSxS folder.
@@ -188,7 +191,6 @@ if ($LASTEXITCODE) {
 #    NB a removed feature can still be installed from other sources (e.g. windows update).
 Write-Host 'Analyzing the WinSxS folder...'
 dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
-
 
 #
 # reclaim the free disk space.

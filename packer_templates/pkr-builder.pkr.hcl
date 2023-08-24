@@ -1,16 +1,12 @@
 packer {
   required_version = ">= 1.7.0"
   required_plugins {
-    chef = {
-      version = ">= 1.0.0"
-      source  = "github.com/hashicorp/chef"
-    }
     hyperv = {
       version = ">= 1.0.0"
       source  = "github.com/hashicorp/hyperv"
     }
     parallels = {
-      version = ">= 1.0.1"
+      version = ">= 1.0.2"
       source  = "github.com/parallels/parallels"
     }
     qemu = {
@@ -27,13 +23,8 @@ packer {
     }
     vmware = {
       version = ">= 1.0.9"
-      source  = "github.com/Stromweld/vmware"
+      source  = "github.com/hashicorp/vmware"
     }
-    # Temp switch till bug fix for x86 tools location is fixed
-    # vmware = {
-    #   version = ">= 1.0.8"
-    #   source  = "github.com/hashicorp/vmware"
-    # }
     windows-update = {
       version = ">= 0.14.1"
       source  = "github.com/rgl/windows-update"
@@ -42,31 +33,23 @@ packer {
 }
 
 locals {
-  scripts = var.is_windows ? (
-    var.os_version == "10" || var.os_version == "11" ? [
-      # "${path.root}/scripts/windows/base_setup.ps1",
-      "${path.root}/scripts/windows/provision.ps1",
-      "${path.root}/scripts/windows/disable-windows-updates.ps1",
-      "${path.root}/scripts/windows/disable-windows-defender.ps1",
-      "${path.root}/scripts/windows/remove-one-drive.ps1",
-      "${path.root}/scripts/windows/remove-apps.ps1",
-      "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-      "${path.root}/scripts/windows/provision-winrm.ps1",
-      "${path.root}/scripts/windows/enable-remote-desktop.ps1",
-      "${path.root}/scripts/windows/eject-media.ps1"
-      ] : [
-      # "${path.root}/scripts/windows/base_setup.ps1",
-      "${path.root}/scripts/windows/provision.ps1",
-      "${path.root}/scripts/windows/disable-windows-updates.ps1",
-      "${path.root}/scripts/windows/disable-windows-defender.ps1",
-      "${path.root}/scripts/windows/remove-one-drive.ps1",
-      # "${path.root}/scripts/windows/remove-apps.ps1",
-      "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-      "${path.root}/scripts/windows/provision-winrm.ps1",
-      "${path.root}/scripts/windows/enable-remote-desktop.ps1",
-      "${path.root}/scripts/windows/eject-media.ps1"
-    ]
-    ) : (
+  scripts = var.is_windows ? [
+    "${path.root}/scripts/windows/provision.ps1",
+    "${path.root}/scripts/windows/configure-power.ps1",
+    "${path.root}/scripts/windows/disable-windows-uac.ps1",
+    "${path.root}/scripts/windows/disable-system-restore.ps1",
+    "${path.root}/scripts/windows/disable-screensaver.ps1",
+    "${path.root}/scripts/windows/ui-tweaks.ps1",
+    "${path.root}/scripts/windows/disable-windows-updates.ps1",
+    "${path.root}/scripts/windows/disable-windows-defender.ps1",
+    "${path.root}/scripts/windows/remove-one-drive.ps1",
+    "${path.root}/scripts/windows/remove-apps.ps1",
+    # "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
+    # "${path.root}/scripts/windows/provision-winrm.ps1",
+    "${path.root}/scripts/windows/enable-remote-desktop.ps1",
+    "${path.root}/scripts/windows/enable-file-sharing.ps1",
+    "${path.root}/scripts/windows/eject-media.ps1"
+    ] : (
     var.os_name == "solaris" ? [
       "${path.root}/scripts/solaris/update_solaris.sh",
       "${path.root}/scripts/_common/vagrant.sh",
@@ -209,37 +192,7 @@ build {
     search_criteria = "IsInstalled=0"
     except          = var.is_windows ? null : local.source_names
   }
-  provisioner "chef-solo" {
-    chef_license = "accept-no-persist"
-    version      = "17"
-    cookbook_paths = [
-      "${path.root}/cookbooks"
-    ]
-    guest_os_type = "windows"
-    run_list = [
-      "packer::disable_uac",
-      "packer::configure_power",
-      "packer::disable_screensaver",
-      "packer::features",
-      "packer::enable_file_sharing",
-      "packer::ui_tweaks"
-    ]
-    except = var.is_windows ? null : local.source_names
-  }
   provisioner "windows-restart" {
-    except = var.is_windows ? null : local.source_names
-  }
-  provisioner "chef-solo" {
-    chef_license = "accept-no-persist"
-    version      = "17"
-    cookbook_paths = [
-      "${path.root}/cookbooks"
-    ]
-    guest_os_type = "windows"
-    run_list = [
-      "packer::cleanup",
-      "packer::defrag"
-    ]
     except = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {

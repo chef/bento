@@ -91,7 +91,7 @@ class Options
             options.mem = opt
           end
 
-          opts.on('-H', '--headed', 'Display provider UI windows') do |opt|
+          opts.on('-g', '--gui', 'Display provider GUI windows') do |opt|
             options.headed = opt
           end
 

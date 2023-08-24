@@ -34,6 +34,7 @@ trap {
     Exit 1
 }
 
+Write-Host 'Disabling windows automatic updates'
 # disable automatic updates.
 # XXX this does not seem to work anymore.
 # see How to configure automatic updates by using Group Policy or registry settings
@@ -68,7 +69,7 @@ New-ItemProperty `
 New-ItemProperty `
     -Path $auPath `
     -Name AUOptions `
-    -Value 2 `
+    -Value 1 `
     -PropertyType DWORD `
     -Force `
     | Out-Null

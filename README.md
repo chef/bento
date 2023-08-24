@@ -113,14 +113,6 @@ packer init -upgrade ./packer_templates
 packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
 ````
 
-To build a Windows 10 Enterprise Gen 2 box for the Hyper-V provider
-
-```bash
-cd <path/to>/bento
-packer init -upgrade ./packer_templates
-packer build -var-file=os_pkrvars/windows/windows-10gen2-x86_64.pkrvars.hcl ./packer_templates
-```
-
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
 
 #### KVM/qemu support for Windows
@@ -155,7 +147,6 @@ New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -
 Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resources using a floppy drive, you must add those files to your Gen 2 iso images, in particular:
 
 - `autounattend.xml`: The Gen 2 `autounattend.xml` file supports EFI partitions. Update the `autounattend.xml` with the correct Windows version for your systems and ensure that the partitions are correct for your situation. You also need to manage the driver disk that holds the hyper-v guest services drivers and adjust the `autounattend.xml` file as appropriate.
-- `base_setup.ps1`
 
 ## Bugs and Issues
 

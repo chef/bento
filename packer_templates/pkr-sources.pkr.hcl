@@ -76,10 +76,8 @@ locals {
     var.is_windows ? (
       var.hyperv_generation == 2 ? [
         "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
-        "${path.root}/scripts/windows/base_setup.ps1"
         ] : [
         "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-        "${path.root}/scripts/windows/base_setup.ps1"
       ]
     ) : null
   ) : var.cd_files
@@ -89,7 +87,6 @@ locals {
   floppy_files = var.floppy_files == null ? (
     var.is_windows ? [
       "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-      "${path.root}/scripts/windows/base_setup.ps1"
       ] : (
       var.os_name == "springdalelinux" ? [
         "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"

@@ -54,7 +54,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ### Todo
 
 - Fix failing builds
-- Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to floppy_files or cd_files in source templates
   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
@@ -69,6 +68,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated windows vagrant template to default to 4GB of memory
 - Default hyperv to generation 2
 - Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10
+- Remove use of deprecated chef-solo provisioner and cookbooks for widnows builds
 
 ## [v3.1.1] (2023-07-07)
 
