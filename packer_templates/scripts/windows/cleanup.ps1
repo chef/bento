@@ -27,8 +27,7 @@ if ($osInfo.ProductType -eq 1) { # cleanmgr isn't on servers
     New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Files' -Name StateFlags0001 -Value 2 -Type DWord
 
     Write-Host 'Starting CleanMgr.exe...'
-    Start-Process -FilePath CleanMgr.exe -ArgumentList '/sagerun:1' -WindowStyle Hidden -Wait
-
+    Start-Process -FilePath CleanMgr.exe -ArgumentList '/sagerun:1' -Wait # -WindowStyle Hidden
     Write-Host 'Waiting for CleanMgr and DismHost processes. Second wait neccesary as CleanMgr.exe spins off separate processes.'
     Get-Process -Name cleanmgr,dismhost -ErrorAction SilentlyContinue | Wait-Process
 }
@@ -50,29 +49,68 @@ try {
   Remove-Item "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
 } catch { }
 
-Write-Host "Optimizing Drive"
-Optimize-Volume -DriveLetter C
+#
+# remove temporary files.
+# NB we ignore the packer generated files so it won't complain in the output.
 
-Write-Host "Wiping empty space on disk..."
-$FilePath="c:\zero.tmp"
-$Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
-$ArraySize= 64kb
-$SpaceToLeave= $Volume.Size * 0.05
-$FileSize= $Volume.FreeSpace - $SpacetoLeave
-$ZeroArray= new-object byte[]($ArraySize)
-
-$Stream= [io.File]::OpenWrite($FilePath)
-try {
-   $CurFileSize = 0
-    while($CurFileSize -lt $FileSize) {
-        $Stream.Write($ZeroArray,0, $ZeroArray.Length)
-        $CurFileSize +=$ZeroArray.Length
+Write-Host 'Stopping services that might interfere with temporary file removal...'
+function Stop-ServiceForReal($name) {
+    while ($true) {
+        Stop-Service -ErrorAction SilentlyContinue $name
+        if ((Get-Service $name).Status -eq 'Stopped') {
+            break
+        }
     }
 }
-finally {
-    if($Stream) {
-        $Stream.Close()
+Stop-ServiceForReal TrustedInstaller   # Windows Modules Installer
+Stop-ServiceForReal wuauserv           # Windows Update
+Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
+@(
+"$env:LOCALAPPDATA\Temp\*"
+"$env:windir\Temp\*"
+"$env:windir\Logs\*"
+"$env:windir\Panther\*"
+"$env:windir\WinSxS\ManifestCache\*"
+"$env:windir\SoftwareDistribution\Download"
+"C:\Users\vagrant\Favorites\*"
+) | Where-Object {Test-Path $_} | ForEach-Object {
+    Write-Host "Removing temporary files $_..."
+    try {
+        takeown.exe /D Y /R /F $_ | Out-Null
+        icacls.exe $_ /grant:r Administrators:F /T /C /Q 2>&1 | Out-Null
+    } catch {
+        Write-Host "Ignoring taking ownership of temporary files error: $_"
+    }
+    try {
+        Remove-Item $_ -Exclude 'packer-*' -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+    } catch {
+        Write-Host "Ignoring failure to remove files error: $_"
     }
 }
 
-Remove-Item $FilePath
+#
+# cleanup the WinSxS folder.
+
+# NB even thou the automatic maintenance includes a component cleanup task,
+#    it will not clean everything, as such, dism will clean the rest.
+# NB to analyse the used space use: dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+# see https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/clean-up-the-winsxs-folder
+Write-Host 'Cleaning up the WinSxS folder...'
+dism.exe /Online /Quiet /Cleanup-Image /StartComponentCleanup /ResetBase
+if ($LASTEXITCODE) {
+    throw "Failed with Exit Code $LASTEXITCODE"
+}
+
+# NB even after cleaning up the WinSxS folder the "Backups and Disabled Features"
+#    field of the analysis report will display a non-zero number because the
+#    disabled features packages are still on disk. you can remove them with:
+Get-WindowsOptionalFeature -Online | Where-Object {$_.State -eq 'Disabled'} | ForEach-Object {
+    Write-Host "Removing feature $($_.FeatureName)..."
+    dism.exe /Online /Quiet /Disable-Feature "/FeatureName:$($_.FeatureName)" /Remove
+}
+#    NB a removed feature can still be installed from other sources (e.g. windows update).
+Write-Host 'Analyzing the WinSxS folder...'
+dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+
+Write-Host 'Remove pagefile, it will get created on boot next time.'
+New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name PagingFiles -Value '' -Force

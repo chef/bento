@@ -42,10 +42,8 @@ locals {
     "${path.root}/scripts/windows/ui-tweaks.ps1",
     "${path.root}/scripts/windows/disable-windows-updates.ps1",
     "${path.root}/scripts/windows/disable-windows-defender.ps1",
-    "${path.root}/scripts/windows/remove-one-drive.ps1",
+    "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
     "${path.root}/scripts/windows/remove-apps.ps1",
-    # "${path.root}/scripts/windows/virtualbox-prevent-vboxsrv-resolution-delay.ps1",
-    # "${path.root}/scripts/windows/provision-winrm.ps1",
     "${path.root}/scripts/windows/enable-remote-desktop.ps1",
     "${path.root}/scripts/windows/enable-file-sharing.ps1",
     "${path.root}/scripts/windows/eject-media.ps1"
@@ -179,18 +177,18 @@ build {
   }
 
   # Windows Updates and scripts
+  provisioner "windows-update" {
+    search_criteria = "IsInstalled=0"
+    except          = var.is_windows ? null : local.source_names
+  }
+  provisioner "windows-restart" {
+    except = var.is_windows ? null : local.source_names
+  }
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     scripts           = local.scripts
     except            = var.is_windows ? null : local.source_names
-  }
-  provisioner "windows-restart" {
-    except = var.is_windows ? null : local.source_names
-  }
-  provisioner "windows-update" {
-    search_criteria = "IsInstalled=0"
-    except          = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
     except = var.is_windows ? null : local.source_names
@@ -204,11 +202,13 @@ build {
     ]
     except = var.is_windows ? null : local.source_names
   }
+  provisioner "windows-restart" {
+    except = var.is_windows ? null : local.source_names
+  }
 
   # Convert machines to vagrant boxes
   post-processor "vagrant" {
     compression_level    = 9
-    keep_input_artifact  = var.is_windows
     output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : null
   }

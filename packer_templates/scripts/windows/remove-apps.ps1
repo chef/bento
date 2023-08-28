@@ -63,6 +63,7 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
 # NB some packages fail to be removed and thats OK.
 # see https://docs.microsoft.com/en-us/windows/application-management/apps-in-windows-10
 @(
+    'Clipchamp.Clipchamp'
     'Microsoft.549981C3F5F10'
     'Microsoft.BingNews'
     'Microsoft.BingWeather'
@@ -104,6 +105,7 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
     'Microsoft.YourPhone'
     'Microsoft.ZuneMusic'
     'Microsoft.ZuneVideo'
+    'MicrosoftCorporationII.QuickAssist'
     'MicrosoftWindows.Client.WebExperience'
     'MicrosoftTeams'
 ) | ForEach-Object {
