@@ -193,24 +193,29 @@ dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
 #
 # reclaim the free disk space.
 
-Write-Host 'Reclaiming the free disk space...'
-$results = defrag.exe C: /H /L
-if ($results -eq 'The operation completed successfully.')
-{
-    $results
-}
-else
-{
-    if ((Get-CimInstance Win32_OperatingSystem).version -eq "6.3.9600")
-    {
-        return
-    }
-    else
-    {
-        Write-Host 'Zero filling the free disk space...'
-        (New-Object System.Net.WebClient).DownloadFile('https://download.sysinternals.com/files/SDelete.zip', "$env:TEMP\SDelete.zip")
-        Expand-Archive "$env:TEMP\SDelete.zip" $env:TEMP
-        Remove-Item "$env:TEMP\SDelete.zip"
-        &"$env:TEMP\sdelete64.exe" -accepteula -z C:
+Write-Host "Optimizing Drive"
+Optimize-Volume -DriveLetter C -Analyze -Defrag
+
+Write-Host "Wiping empty space on disk..."
+$FilePath = "C:\zero.tmp"
+$Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
+$ArraySize = 64kb
+$SpaceToLeave = $Volume.Size * 0.05
+$FileSize = $Volume.FreeSpace - $SpacetoLeave
+$ZeroArray = new-object byte[]($ArraySize)
+
+$Stream = [io.File]::OpenWrite($FilePath)
+try {
+   $CurFileSize = 0
+    while($CurFileSize -lt $FileSize) {
+        $Stream.Write($ZeroArray, 0, $ZeroArray.Length)
+        $CurFileSize += $ZeroArray.Length
     }
 }
+finally {
+    if($Stream) {
+        $Stream.Close()
+    }
+}
+
+Remove-Item $FilePath
