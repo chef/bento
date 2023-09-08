@@ -63,7 +63,9 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
       - name: Bento Test
-        run: bento test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:

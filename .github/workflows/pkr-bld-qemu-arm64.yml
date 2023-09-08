@@ -52,12 +52,16 @@ jobs:
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
-      - name: Packer build
+      - name: Bento build
 #        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
