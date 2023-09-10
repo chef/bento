@@ -33,7 +33,7 @@ end
    - [VirtualBox](https://www.virtualbox.org/)
    - [VMware Fusion](https://www.vmware.com/products/fusion.html)
    - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
-   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/)
+   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/) for versons < 19.x
    - [qemu](https://www.qemu.org/) *
    - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *
 
@@ -51,15 +51,19 @@ bento build --cpus 2 os_pkrvars/debian/debian-12-x86_64.pkrvars.hcl
 
 Other available options:
 
-- cpus - Specify the number of CPUs needed in the new build.
+- cpus - Specify the number of CPUs needed in the new build
 - mem - Specify the memory
-- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration.
-- dry-run - This will not create any build, but will create a metadata file for reference.
+- config - Use a configuration file other than default builds.yml
+- vars - Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")
+- var_files - Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)
+- metadata_only - Only generate the metadata json file
+- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration
+- dry-run - This will not create any build, but will create a metadata file for reference
 - only - Only build some Packer builds (Default: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm
 - except - Build all Packer builds except these (ex: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm)
 - debug - Print the debug logs
-- headed - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
-- single - This can be used to disable the parallel builds.
+- gui - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
+- single - This can be used to disable the parallel builds
 
 ### list
 

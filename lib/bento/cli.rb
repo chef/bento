@@ -67,7 +67,7 @@ class Options
             options.metadata_only = opt
           end
 
-          opts.on('--vars VARS', 'Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s"') do |opt|
+          opts.on('--vars VARS', 'Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")') do |opt|
             options.vars = opt
           end
 
