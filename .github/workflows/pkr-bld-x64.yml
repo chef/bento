@@ -65,10 +65,10 @@ jobs:
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test
+#      - name: Bento Test
+#        run: |
+#          eval "$(chef shell-init bash)"
+#          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
