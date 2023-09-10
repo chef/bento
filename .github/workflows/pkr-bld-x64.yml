@@ -7,7 +7,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, vmware-fusion]
+    runs-on: [self-hosted, X64, qemu]
     strategy:
       fail-fast: false
       matrix:
@@ -38,6 +38,9 @@ jobs:
           - ubuntu-22.04
           - ubuntu-23.04
         provider:
+          - parallels-iso
+          - qemu
+          - virtualbox-iso
           - vmware-iso
     steps:
       - name: Checkout
@@ -45,6 +48,8 @@ jobs:
       - name: iso-availability
         shell: pwsh
         run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
+      - name: Download virtio-win.iso
+        run: curl https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.229-1//virtio-win.iso -o packer_templates/win_answer_files/virtio-win.iso
 #      - name: Setup Packer
 #        uses: hashicorp/setup-packer@main
 #        with:
@@ -58,24 +63,16 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
           bento test
-      - name: Remove VM in case of canceled job
-        if: cancelled()
-        run: |
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-          vmrun -T fusion stop builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx hard 2> /dev/null
-          sleep 1
-          vmrun -T fusion deleteVM builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx 2> /dev/null
-          sleep 2
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-vmware-x86_64"
+          name: "${{ matrix.os }}-${{ matrix.provider }}-x86_64"
           path: |
             builds
             !builds/uploaded/*

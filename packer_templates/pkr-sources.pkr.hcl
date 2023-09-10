@@ -69,9 +69,9 @@ locals {
   ) : var.vmware_tools_upload_path
 
   # Source block common
-  boot_wait = var.boot_wait == null ? (
-    var.is_windows ? "60s" : "10s"
-  ) : var.boot_wait
+  default_boot_wait = var.default_boot_wait == null ? (
+    var.is_windows ? "60s" : "5s"
+  ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
       var.hyperv_generation == 2 ? [
@@ -116,7 +116,7 @@ source "hyperv-iso" "vm" {
   switch_name           = var.hyperv_switch_name
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
   cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
   cpus             = var.cpus
   communicator     = local.communicator
@@ -148,7 +148,7 @@ source "parallels-iso" "vm" {
   prlctl_version_file    = var.parallels_prlctl_version_file
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size
@@ -178,7 +178,7 @@ source "qemu" "vm" {
   qemuargs     = local.qemuargs
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
   cd_files         = local.cd_files
   cpus             = var.cpus
   communicator     = local.communicator
@@ -215,7 +215,7 @@ source "virtualbox-iso" "vm" {
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size
@@ -270,7 +270,7 @@ source "vmware-iso" "vm" {
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size

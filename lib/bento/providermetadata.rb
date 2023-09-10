@@ -52,7 +52,7 @@ class ProviderMetadata
       ver_vbox
     when /parallels/
       ver_parallels
-    when /qemu/
+    when /libvirt/
       ver_qemu
     when /hyperv/
       ver_hyperv

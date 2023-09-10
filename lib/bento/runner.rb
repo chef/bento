@@ -9,12 +9,13 @@ class BuildRunner
   include PackerExec
 
   attr_reader :template_files, :config, :dry_run, :debug, :only, :except, :mirror, :headed, :single,
-              :override_version, :build_timestamp, :cpus, :mem
+              :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files
 
   def initialize(opts)
     @template_files = opts.template_files
     @config = opts.config ||= false
     @dry_run = opts.dry_run
+    @metadata_only = opts.metadata_only
     @debug = opts.debug
     @only = opts.only ||= 'parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm'
     @except = opts.except
@@ -25,13 +26,15 @@ class BuildRunner
     @build_timestamp = Time.now.gmtime.strftime('%Y%m%d%H%M%S')
     @cpus = opts.cpus
     @mem = opts.mem
+    @vars = opts.vars&.split(',')
+    @var_files = opts.var_files&.split(',')
   end
 
   def start
     templates = config ? build_list : template_files
     banner('Starting build for templates:')
     banner('Installing packer plugins')
-    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run
+    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
     templates.each { |t| puts "- #{t}" }
     time = Benchmark.measure do
       templates.each { |template| build(template) }
@@ -63,24 +66,27 @@ class BuildRunner
       banner("[#{template}] Finished building in #{duration(time.real)}.")
     end
     Dir.chdir(bento_dir)
-    cmd.error! # fail hard if the cmd fails
+    cmd.stderr if cmd.error?
   end
 
   def packer_build_cmd(template, _var_file)
     pkrvars = "#{template}.pkrvars.hcl"
-    # vars = "#{template}.variables.json"
     cmd = %W(packer build -timestamp-ui -force -var-file=#{pkrvars} ../../packer_templates)
-    # cmd.insert(2, "-var-file=#{vars}") if File.exist?(vars)
-    # cmd.insert(2, "-var-file=#{var_file}") if File.exist?(var_file)
-    cmd.insert(2, "-only=#{only}")
-    cmd.insert(2, "-except=#{except}") if except
+    vars.each do |var|
+      cmd.insert(4, "-var #{var}")
+    end if vars
+    var_files.each do |var_file|
+      cmd.insert(5, "-var-file=#{var_file}") if File.exist?(var_file)
+    end if var_files
+    cmd.insert(4, "-only=#{only}")
+    cmd.insert(4, "-except=#{except}") if except
     # Build the command line in the correct order and without spaces as future input for the splat operator.
-    cmd.insert(2, "-var cpus=#{cpus}") if cpus
-    cmd.insert(2, "-var memory=#{mem}") if mem
-    cmd.insert(2, '-var headless=false') if headed
+    cmd.insert(4, "-var cpus=#{cpus}") if cpus
+    cmd.insert(4, "-var memory=#{mem}") if mem
+    cmd.insert(4, '-var headless=false') if headed
     cmd.insert(2, '-parallel=false') if single
     cmd.insert(2, '-debug') if debug
-    cmd.insert(0, 'echo') if dry_run
+    cmd.insert(0, 'echo') if dry_run || metadata_only
     cmd
   end
 
