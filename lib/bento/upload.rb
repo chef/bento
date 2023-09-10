@@ -88,7 +88,17 @@ class UploadRunner
   def ver_desc(md_data)
     tool_versions = []
     md_data['providers'].each_key do |hv|
-      tool_versions << "#{hv == 'vmware_desktop' ? (macos? ? 'vmware-fusion' : 'vmware-workstation') : (hv == 'libvirt' ? 'qemu' : hv)}: #{md_data['providers'][hv]['version']}"
+      tool_versions << if hv == 'vmware_desktop'
+                         if macos?
+                           "vmware-fusion: #{md_data['providers'][hv]['version']}"
+                         else
+                           "vmware-workstation: #{md_data['providers'][hv]['version']}"
+                         end
+                       elsif hv == 'libvirt'
+                         "qemu: #{md_data['providers'][hv]['version']}"
+                       else
+                         "#{hv}: #{md_data['providers'][hv]['version']}"
+                       end
     end
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"

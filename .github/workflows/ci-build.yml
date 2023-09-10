@@ -36,9 +36,9 @@ jobs:
     uses: ./.github/workflows/pkr-bld-arm64.yml
     secrets: inherit
 
-  pkr-bld-amazonlinux-x64:
-    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
-    secrets: inherit
+#  pkr-bld-amazonlinux-x64:
+#    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
+#    secrets: inherit
 
   pkr-bld-hyperv-x64:
     uses: ./.github/workflows/pkr-bld-hyperv-x64.yml

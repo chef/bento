@@ -48,13 +48,7 @@ class BuildMetadata
   end
 
   def merged_vars
-    @merged_vars ||= begin
-      if File.exist?("#{template}.variables.json")
-        template_vars.merge(JSON.load(IO.read("#{template}.variables.json")))
-      else
-        template_vars
-      end
-    end
+    @merged_vars ||= template_vars
   end
 
   def name
@@ -89,8 +83,7 @@ class BuildMetadata
   end
 
   def version
-    override_version || merged_vars.fetch('version', "#{UNKNOWN}.TIMESTAMP")
-                                   .rpartition('.').first.concat(build_timestamp.to_s)
+    override_version || merged_vars.fetch('version', "#{UNKNOWN}.TIMESTAMP").rpartition('.').first.concat(build_timestamp.to_s)
   end
 
   def packer_ver

@@ -88,7 +88,7 @@ class ProviderMetadata
   end
 
   def ver_qemu
-    cmd = Mixlib::ShellOut.new("qemu-system-#{base.split('-')[2]} -version")
+    cmd = Mixlib::ShellOut.new("qemu-system-#{base.split('-').last} -version")
     cmd.run_command
     cmd.stdout.split(' ')[3]
   end

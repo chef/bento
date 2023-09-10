@@ -9,7 +9,7 @@ class BuildRunner
   include PackerExec
 
   attr_reader :template_files, :config, :dry_run, :debug, :only, :except, :mirror, :headed, :single,
-              :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files
+              :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files, :errors
 
   def initialize(opts)
     @template_files = opts.template_files
@@ -28,6 +28,7 @@ class BuildRunner
     @mem = opts.mem
     @vars = opts.vars&.split(',')
     @var_files = opts.var_files&.split(',')
+    @errors = []
   end
 
   def start
@@ -40,6 +41,10 @@ class BuildRunner
       templates.each { |template| build(template) }
     end
     banner("Build finished in #{duration(time.real)}.")
+    unless errors.empty?
+      banner("Failed Builds:\n #{errors.join("\n")}")
+      exit(1)
+    end
   end
 
   private
@@ -66,7 +71,10 @@ class BuildRunner
       banner("[#{template}] Finished building in #{duration(time.real)}.")
     end
     Dir.chdir(bento_dir)
-    cmd.stderr if cmd.error?
+    if cmd.error?
+      cmd.stderr
+      errors << template
+    end
   end
 
   def packer_build_cmd(template, _var_file)
