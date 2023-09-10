@@ -67,8 +67,14 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added bento upload to use vagrant account configured in builds.yml
 - Updated windows vagrant template to default to 4GB of memory
 - Default hyperv to generation 2
-- Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10
+- Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10, Debian 10
 - Remove use of deprecated chef-solo provisioner and cookbooks for widnows builds
+- Add boot_wait variables for each provider
+- Adjusted default_boot_wait for linux to 5s
+- Added --vars and --var_files flags
+- Fixed upload description for libvirt to add qemu hv and version
+- Updated ubuntu 20.04 boot_command
+- Changed workflows to be based on cpu architecture
 
 ## [v3.1.1] (2023-07-07)
 
