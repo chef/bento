@@ -4,10 +4,11 @@ require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
 class BuildMetadata
   include Common
 
-  def initialize(template, build_timestamp, override_version)
+  def initialize(template, build_timestamp, override_version, pkr_cmd)
     @template = template
     @build_timestamp = build_timestamp
     @override_version = override_version
+    @pkr_cmd = pkr_cmd
   end
 
   def read
@@ -16,6 +17,7 @@ class BuildMetadata
       version:          version,
       arch:             arch,
       build_timestamp:  build_timestamp,
+      packer_command:   pkr_cmd,
       git_revision:     git_revision,
       git_status:       git_clean? ? 'clean' : 'dirty',
       box_basename:     box_basename,
@@ -28,7 +30,7 @@ class BuildMetadata
 
   UNKNOWN = '__unknown__'.freeze
 
-  attr_reader :template, :build_timestamp, :override_version
+  attr_reader :template, :build_timestamp, :override_version, :pkr_cmd
 
   def box_basename
     temp_name = name.gsub('/', '__').split('-')

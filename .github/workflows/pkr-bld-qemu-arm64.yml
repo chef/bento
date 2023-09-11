@@ -33,10 +33,7 @@ jobs:
           - ubuntu-22.04
           - ubuntu-23.04
         provider:
-          - parallels-iso
           - qemu
-          - virtualbox-iso
-          - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -54,7 +51,7 @@ jobs:
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
-      - name: Bento build
+      - name: Packer build
 #        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
         run: |
           eval "$(chef shell-init bash)"
@@ -67,7 +64,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ matrix.os }}-${{ matrix.provider }}-aarch64"
+          name: "${{ matrix.os }}-qemu-aarch64"
           path: |
             builds
             !builds/uploaded/*

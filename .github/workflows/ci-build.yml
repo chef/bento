@@ -28,20 +28,44 @@ jobs:
   powershell-lint:
     uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
-  pkr-bld-x64:
-    uses: ./.github/workflows/pkr-bld-x64.yml
+  pkr-bld-amazonlinux-x64:
+    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
-
-  pkr-bld-arm64:
-    uses: ./.github/workflows/pkr-bld-arm64.yml
-    secrets: inherit
-
-#  pkr-bld-amazonlinux-x64:
-#    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
-#    secrets: inherit
 
   pkr-bld-hyperv-x64:
     uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
+    secrets: inherit
+
+  pkr-bld-parallels-arm64:
+    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
+    secrets: inherit
+
+  pkr-bld-parallels-x64:
+    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
+    secrets: inherit
+
+  pkr-bld-qemu-arm64:
+    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
+    secrets: inherit
+
+  pkr-bld-qemu-x64:
+    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-arm64:
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+    secrets: inherit
+
+  pkr-bld-virtualbox-x64:
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-arm64:
+    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
+
+  pkr-bld-vmware-x64:
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
     secrets: inherit
 
   check_jobs_pass:

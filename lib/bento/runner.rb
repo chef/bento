@@ -8,8 +8,8 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :template_files, :config, :dry_run, :debug, :only, :except, :mirror, :headed, :single,
-              :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files, :errors
+  attr_reader :template_files, :config, :dry_run, :debug, :only, :except, :mirror, :headed, :single, :errors,
+              :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files, :pkr_cmd
 
   def initialize(opts)
     @template_files = opts.template_files
@@ -29,21 +29,21 @@ class BuildRunner
     @vars = opts.vars&.split(',')
     @var_files = opts.var_files&.split(',')
     @errors = []
+    @pkr_cmd = nil
   end
 
   def start
     templates = config ? build_list : template_files
     banner('Starting build for templates:')
-    banner('Installing packer plugins')
-    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
+    banner('Installing packer plugins') unless dry_run || metadata_only
+    # shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
     templates.each { |t| puts "- #{t}" }
     time = Benchmark.measure do
       templates.each { |template| build(template) }
     end
     banner("Build finished in #{duration(time.real)}.")
     unless errors.empty?
-      banner("Failed Builds:\n #{errors.join("\n")}")
-      exit(1)
+      raise("Failed Builds:\n #{errors.join("\n")}\n exited #{$CHILD_STATUS}")
     end
   end
 
@@ -59,6 +59,7 @@ class BuildRunner
       cmd = Mixlib::ShellOut.new(packer_build_cmd(template, md_file.path).join(' '))
       cmd.live_stream = STDOUT
       cmd.timeout = 28800
+      @pkr_cmd = cmd.command
       banner("[#{template}] Building: '#{cmd.command}'")
       time = Benchmark.measure do
         cmd.run_command
@@ -99,9 +100,9 @@ class BuildRunner
   end
 
   def write_final_metadata(template, buildtime)
-    md = BuildMetadata.new(template, build_timestamp, override_version).read
+    md = BuildMetadata.new(template, build_timestamp, override_version, pkr_cmd).read
     path = File.join('../../builds')
-    filename = File.join(path, "#{md[:template]}.metadata.json")
+    filename = File.join(path, "#{md[:template]}._metadata.json")
     md[:providers] = ProviderMetadata.new(path, md[:template]).read
     md[:providers].each do |p|
       p[:build_time] = buildtime

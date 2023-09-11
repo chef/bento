@@ -9,6 +9,9 @@ class ProviderMetadata
   end
 
   def read
+    if File.exist?("#{base}.libvirt.box")
+      FileUtils.cp("#{base}.libvirt.box", "#{base}.qemu.box")
+    end
     Dir.glob("#{base}.*.box").map do |file|
       {
         name: provider_from_file(file),
@@ -53,6 +56,8 @@ class ProviderMetadata
     when /parallels/
       ver_parallels
     when /libvirt/
+      ver_libvirt
+    when /qemu/
       ver_qemu
     when /hyperv/
       ver_hyperv
@@ -84,7 +89,13 @@ class ProviderMetadata
   def ver_vbox
     cmd = Mixlib::ShellOut.new('VBoxManage --version')
     cmd.run_command
-    cmd.stdout.split('r')[0]
+    cmd.stdout.split('r').first
+  end
+
+  def ver_libvirt
+    cmd = Mixlib::ShellOut.new('/usr/local/opt/libvirt/sbin/libvirtd -V')
+    cmd.run_command
+    cmd.stdout.split(' ').last
   end
 
   def ver_qemu
@@ -94,6 +105,8 @@ class ProviderMetadata
   end
 
   def ver_hyperv
-    # TODO: write code
+    cmd = Mixlib::ShellOut.new('(Get-VMHostSupportedVersion -Default | Select-Object -Property Version | Format-Table -HideTableHeaders | Out-String).trim()')
+    cmd.run_command
+    cmd.stdout + 'Gen 2'
   end
 end

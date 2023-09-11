@@ -30,7 +30,7 @@ jobs:
         run: |
           eval "$(chef shell-init bash)"
           ./AMZ_build_virtualbox-ovf.sh
-          bento build -n os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" >> builds/amazonlinux-2-x86_64.metadata.json
+          bento build --metadata_only os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
 #      - name: Bento Test
 #        run: |

@@ -6,8 +6,8 @@ env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
-  aarch64:
-    runs-on: [self-hosted, ARM64, qemu]
+  x86_64:
+    runs-on: [self-hosted, X64, qemu]
     strategy:
       fail-fast: false
       matrix:
@@ -29,22 +29,24 @@ jobs:
           - oracle-9
           - rockylinux-8
           - rockylinux-9
+          - scientificlinux-7
+          - springdalelinux-7
+          - springdalelinux-8
+          - springdalelinux-9
           - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-23.04
         provider:
-          - parallels-iso
           - qemu
-          - virtualbox-iso
-          - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
       - name: iso-availability
         shell: pwsh
         run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
+      - name: Download virtio-win.iso
+        run: curl https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.229-1/virtio-win.iso -o packer_templates/win_answer_files/virtio-win.iso
 #      - name: Setup Packer
-#        if: steps.verify-changed-files.outputs.files_changed == 'true'
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
@@ -53,21 +55,21 @@ jobs:
       - name: Packer FMT
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
-      - name: Bento build
-#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Packer build
+#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
 #      - name: Bento Test
 #        run: |
 #          eval "$(chef shell-init bash)"
 #          bento test
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-${{ matrix.provider }}-aarch64"
+          name: "${{ matrix.os }}-qemu-x86_64"
           path: |
             builds
             !builds/uploaded/*

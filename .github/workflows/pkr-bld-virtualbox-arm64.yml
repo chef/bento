@@ -7,7 +7,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: [self-hosted, ARM64, qemu]
+    runs-on: [self-hosted, ARM64, virtualbox]
     strategy:
       fail-fast: false
       matrix:
@@ -33,10 +33,7 @@ jobs:
           - ubuntu-22.04
           - ubuntu-23.04
         provider:
-          - parallels-iso
-          - qemu
           - virtualbox-iso
-          - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -54,20 +51,28 @@ jobs:
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
-      - name: Bento build
-#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+      - name: Packer build
+#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds
 #      - name: Bento Test
 #        run: |
 #          eval "$(chef shell-init bash)"
 #          bento test
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          VBoxManage controlvm ${{ matrix.os }}*-aarch64 poweroff --type headless 2> /dev/null
+          sleep 1
+          VBoxManage unregistervm ${{ matrix.os }}*-aarch64 --delete 2> /dev/null
+          sleep 2
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-${{ matrix.provider }}-aarch64"
+          name: "${{ matrix.os }}-virtualbox-aarch64"
           path: |
             builds
             !builds/uploaded/*
