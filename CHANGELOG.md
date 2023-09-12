@@ -20,23 +20,23 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | fedora-38 |  | x |  | x |  | x |  | x | x |
 | freebsd-12 |  |  |  |  |  | x |  | x |  |
 | freebsd-13 |  |  |  |  |  | x |  | x |  |
-| opensuse-leap-15 | x | x |  |  |  | x |  | x |  |
-| oraclelinux-7 | x | x |  |  |  | x |  | x |  |
+| opensuse-leap-15 | x | x |  | x |  | x |  | x |  |
+| oraclelinux-7 | x | x |  | x |  | x |  | x |  |
 | oraclelinux-8 | x |  |  | x |  | x |  | x |  |
 | oraclelinux-9 |  | x |  |  |  | x |  | x |  |
 | rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-| rockylinux-8 |  | x |  |  |  | x |  | x |  |
+| rockylinux-8 |  | x |  | x |  | x |  | x |  |
 | rockylinux-9 |  | x | x |  |  | x |  | x |  |
-| scientificlinux-7 |  | x | na |  | na | x | na | x | na |
+| scientificlinux-7 |  | x | na | x | na | x | na | x | na |
 | sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | sles-13 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | springdalelinux-7 |  | x | na | x | na |  | na |  | na |
 | springdalelinux-8 | x | x | na | x | na | x | na | x | na |
 | springdalelinux-9 | x |  | na |  | na |  | na |  | na |
-| ubuntu-20.04 |  | x |  | x |  | x |  | x | x |
+| ubuntu-20.04 |  | x |  |  |  | x |  | x | x |
 | ubuntu-22.04 |  | x |  | x |  | x |  | x | x |
 | ubuntu-23.04 |  | x |  | x |  | x |  | x | x |
 | windows-10 | x | x | na |  | na | x | na |  | na |
@@ -71,6 +71,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated ubuntu 20.04 boot_command
 - Changed workflows to be based on cpu architecture
 - Updated Beto to continue builds even if one fails and report all failures at the end and exit with exit code 1
+- Added qemu clone of libvirt box when metadata file is created for uploading to vagrant qemu provider
 
 ## [v3.1.1] (2023-07-07)
 
