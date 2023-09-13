@@ -36,7 +36,7 @@ class BuildRunner
     templates = config ? build_list : template_files
     banner('Starting build for templates:')
     banner('Installing packer plugins') unless dry_run || metadata_only
-    # shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
+    shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
     templates.each { |t| puts "- #{t}" }
     time = Benchmark.measure do
       templates.each { |template| build(template) }

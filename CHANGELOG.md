@@ -56,6 +56,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Look into making all build uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+- Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
 ## [unreleased] (2023-07-07)
 
@@ -70,8 +71,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fixed upload description for libvirt to add qemu hv and version
 - Updated ubuntu 20.04 boot_command
 - Changed workflows to be based on cpu architecture
-- Updated Beto to continue builds even if one fails and report all failures at the end and exit with exit code 1
+- Updated Bento to continue builds even if one fails and report all failures at the end and exit with exit code 1
 - Added qemu clone of libvirt box when metadata file is created for uploading to vagrant qemu provider
+- Made build shell scripts customizable through packer variable
 
 ## [v3.1.1] (2023-07-07)
 

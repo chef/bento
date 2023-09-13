@@ -345,3 +345,9 @@ variable "vm_name" {
   type    = string
   default = null
 }
+
+# builder common block
+variable "scripts" {
+  type    = list(string)
+  default = null
+}
