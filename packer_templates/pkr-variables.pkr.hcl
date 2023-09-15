@@ -49,6 +49,10 @@ variable "sources_enabled" {
 
 # Source block provider specific variables
 # hyperv-iso
+variable "hyperv_boot_wait" {
+  type    = string
+  default = null
+}
 variable "hyperv_enable_dynamic_memory" {
   type    = bool
   default = null
@@ -59,7 +63,7 @@ variable "hyperv_enable_secure_boot" {
 }
 variable "hyperv_generation" {
   type        = number
-  default     = 1
+  default     = 2
   description = "Hyper-v generation version"
 }
 variable "hyperv_guest_additions_mode" {
@@ -72,6 +76,10 @@ variable "hyperv_switch_name" {
 }
 
 # parallels-iso
+variable "parallels_boot_wait" {
+  type    = string
+  default = null
+}
 variable "parallels_guest_os_type" {
   type        = string
   default     = null
@@ -103,6 +111,10 @@ variable "qemu_binary" {
   type    = string
   default = null
 }
+variable "qemu_boot_wait" {
+  type    = string
+  default = null
+}
 variable "qemu_display" {
   type    = string
   default = "none"
@@ -117,6 +129,10 @@ variable "qemuargs" {
 }
 
 # virtualbox-iso
+variable "vbox_boot_wait" {
+  type    = string
+  default = null
+}
 variable "vbox_gfx_controller" {
   type    = string
   default = null
@@ -175,6 +191,10 @@ variable "vbox_source" {
 }
 
 # vmware-iso
+variable "vmware_boot_wait" {
+  type    = string
+  default = null
+}
 variable "vmware_cdrom_adapter_type" {
   type        = string
   default     = "sata"
@@ -234,7 +254,7 @@ variable "boot_command" {
   default     = null
   description = "Commands to pass to gui session to initiate automated install"
 }
-variable "boot_wait" {
+variable "default_boot_wait" {
   type    = string
   default = null
 }
@@ -303,7 +323,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "60m"
+  default = "30m"
 }
 variable "ssh_username" {
   type    = string
@@ -323,5 +343,11 @@ variable "winrm_username" {
 }
 variable "vm_name" {
   type    = string
+  default = null
+}
+
+# builder common block
+variable "scripts" {
+  type    = list(string)
   default = null
 }

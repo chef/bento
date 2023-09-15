@@ -63,6 +63,18 @@ class Options
             options.dry_run = opt
           end
 
+          opts.on('--metadata_only', 'Only generate the metadata json file') do |opt|
+            options.metadata_only = opt
+          end
+
+          opts.on('--vars VARS', 'Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")') do |opt|
+            options.vars = opt
+          end
+
+          opts.on('--var_files VAR_FILES', 'Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)') do |opt|
+            options.var_files = opt
+          end
+
           opts.on('-c BUILD_YML', '--config BUILD_YML', 'Use a configuration file') do |opt|
             options.config = opt
           end
@@ -91,7 +103,7 @@ class Options
             options.mem = opt
           end
 
-          opts.on('-H', '--headed', 'Display provider UI windows') do |opt|
+          opts.on('-g', '--gui', 'Display provider GUI windows') do |opt|
             options.headed = opt
           end
 

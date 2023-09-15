@@ -87,12 +87,14 @@ if ($systemVendor -eq 'QEMU') {
     # do nothing. Hyper-V enlightments are already bundled with Windows.
 } elseif ($systemVendor -eq 'VMware, Inc.') {
     Write-Host 'Mounting VMware Tools ISO...'
-    Mount-DiskImage -ImagePath C:\\vmware-tools.iso -PassThru | Get-Volume | Set-Volume -DriveLetter B
+    Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
     Write-Host 'Installing VMware Tools...'
-    Start-Process -Wait -FilePath D:\\setup.exe -ArgumentList '/s'
+    Start-Process -Wait -FilePath E:\setup64.exe -ArgumentList '/S /v "/qn REBOOT=R"'
     Write-Output 'Installing VMware Tools...'
     # silent install without rebooting.
-    B:\setup64.exe /s /v '/qn reboot=r'| Out-String -Stream
+    E:\setup64.exe /S /v '/qn reboot=r'| Out-String -Stream
+    Dismount-DiskImage -ImagePath C:\vmware-tools.iso
+    Remove-Item C:\vmware-tools.iso
 } elseif ($systemVendor -eq 'Parallels Software International Inc.') {
     Write-Host 'Installing the Parallels Tools for Guest VM...'
     E:\PTAgent.exe /install_silent | Out-String -Stream
@@ -129,12 +131,6 @@ Set-ItemProperty `
     -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters' `
     -Name DisabledComponents `
     -Value 0xff
-
-Write-Host 'Disabling hibernation...'
-powercfg /hibernate off
-
-Write-Host 'Setting the power plan to high performance...'
-powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 
 Write-Host 'Disabling the Windows Boot Manager menu...'
 # NB to have the menu show with a lower timeout, run this instead: bcdedit /timeout 2

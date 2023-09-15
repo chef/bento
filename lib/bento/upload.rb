@@ -37,15 +37,17 @@ class UploadRunner
 
     md_data['providers'].each_pair do |prov, prov_data|
       if File.exist?(File.join('builds', prov_data['file']))
-        banner("Uploading bento/#{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
+        puts ''
+        banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
 
-        upload_cmd = "vagrant cloud publish bento/#{md_data['name']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data)}' --force --release --no-private"
+        upload_cmd = "vagrant cloud publish --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
         shellout(upload_cmd)
 
         slug_name = lookup_slug(md_data['name'])
         if slug_name
-          banner("Uploading slug bento/#{slug_name} from #{md_data['name']} version:#{md_data['version']} provider:#{prov}...")
-          upload_cmd = "vagrant cloud publish bento/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data)}' --force --release  --no-private"
+          puts ''
+          banner("Uploading slug #{builds_yml['vagrant_cloud_account']}/#{slug_name} from #{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
+          upload_cmd = "vagrant cloud publish --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data)}' --force --release  #{public_private_box(md_data['box_basename'])}"
           shellout(upload_cmd)
         end
 
@@ -77,6 +79,18 @@ class UploadRunner
     nil
   end
 
+  def public_private_box(name)
+    builds_yml['public'].each do |public|
+      if name.include?('arm64')
+        return '--no-private' if name.start_with?(public) && public.include?('arm64')
+      else
+        return '--no-private' if name.start_with?(public) && !public.include?('arm64')
+      end
+
+      return '--private'
+    end
+  end
+
   def box_desc(name)
     "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Chef"
   end
@@ -87,7 +101,17 @@ class UploadRunner
 
   def ver_desc(md_data)
     tool_versions = []
-    md_data['providers'].each_key { |hv| tool_versions << "#{hv == 'vmware_desktop' ? (macos? ? 'vmware-fusion' : 'vmware-workstation') : hv}: #{md_data['providers'][hv]['version']}" }
+    md_data['providers'].each_key do |hv|
+      tool_versions << if hv == 'vmware_desktop'
+                         if macos?
+                           "vmware-fusion: #{md_data['providers'][hv]['version']}"
+                         else
+                           "vmware-workstation: #{md_data['providers'][hv]['version']}"
+                         end
+                       else
+                         "#{hv}: #{md_data['providers'][hv]['version']}"
+                       end
+    end
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"
 

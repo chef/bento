@@ -33,15 +33,15 @@ end
    - [VirtualBox](https://www.virtualbox.org/)
    - [VMware Fusion](https://www.vmware.com/products/fusion.html)
    - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
-   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/)
+   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/) for versons < 19.x
    - [qemu](https://www.qemu.org/) *
    - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *
 
 ***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
-#### Using `bento` executable
+### Using `bento` executable
 
-### build
+#### build
 
 To build a Debian vagrant box using the bento tool with the template available in the `os_pkrvars` dir, we can use the following command:
 
@@ -51,17 +51,21 @@ bento build --cpus 2 os_pkrvars/debian/debian-12-x86_64.pkrvars.hcl
 
 Other available options:
 
-- cpus - Specify the number of CPUs needed in the new build.
+- cpus - Specify the number of CPUs needed in the new build
 - mem - Specify the memory
-- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration.
-- dry-run - This will not create any build, but will create a metadata file for reference.
+- config - Use a configuration file other than default builds.yml
+- vars - Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")
+- var_files - Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)
+- metadata_only - Only generate the metadata json file
+- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration
+- dry-run - This will not create any build, but will create a metadata file for reference
 - only - Only build some Packer builds (Default: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm
 - except - Build all Packer builds except these (ex: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm)
 - debug - Print the debug logs
-- headed - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
-- single - This can be used to disable the parallel builds.
+- gui - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
+- single - This can be used to disable the parallel builds
 
-### list
+#### list
 
 Used to list all builds available for the workstations cpu architecture. This list is also filtered by the build.yml file do_not_build: section. All entries are matched via regex to filter out build templates from the list.
 
@@ -71,7 +75,7 @@ This only shows what would be built with `bento build` and no template is specif
 bento list
 ```
 
-### test
+#### test
 
 If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Run the following command to test the build.
 
@@ -79,7 +83,19 @@ If you have successfully built a vagrant box using the bento tool, you should ha
 bento test
 ```
 
-#### Using `packer`
+#### upload
+
+To upload boxes in the builds directory to your vagrant cloud account update the build.yml file to specify your account name and which OSs are going to be public.
+
+Make sure you have configured the vagrant cli and logged into your account for the upload command to work.
+
+```bash
+bento upload
+```
+
+When running `bento upload` it'll read each <box_name>._metadata.json file and use the data provided to generate the `vagrant cloud publish` command with the descriptions, version, provider, and checksums all coming from the <box_name>._metadata.json file.
+
+### Using `packer`
 
 To build a Ubuntu 22.04 box for only the VirtualBox provider
 
@@ -113,17 +129,9 @@ packer init -upgrade ./packer_templates
 packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
 ````
 
-To build a Windows 10 Enterprise Gen 2 box for the Hyper-V provider
-
-```bash
-cd <path/to>/bento
-packer init -upgrade ./packer_templates
-packer build -var-file=os_pkrvars/windows/windows-10gen2-x86_64.pkrvars.hcl ./packer_templates
-```
-
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
 
-#### KVM/qemu support for Windows
+### KVM/qemu support for Windows
 
 You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso). You can do this from the command line: `wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O virtio-win.iso` and place it in the packer_templates/win_answer_files/ directory.
 
@@ -142,7 +150,7 @@ Templates for operating systems only available via license or subscription are a
 
 Most of the providers expect unrestricted access to networking in order to build as expected. We can't enumerate all possible firewall configurations but include some snippets below that might be useful to users.
 
-#### Windows
+### Windows
 
 ```powershell
 $VS = "Standardswitch"
@@ -155,9 +163,8 @@ New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -
 Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resources using a floppy drive, you must add those files to your Gen 2 iso images, in particular:
 
 - `autounattend.xml`: The Gen 2 `autounattend.xml` file supports EFI partitions. Update the `autounattend.xml` with the correct Windows version for your systems and ensure that the partitions are correct for your situation. You also need to manage the driver disk that holds the hyper-v guest services drivers and adjust the `autounattend.xml` file as appropriate.
-- `base_setup.ps1`
 
-## Bugs and Issues
+### Bugs and Issues
 
 Please use GitHub issues to report bugs, features, or other problems.
 

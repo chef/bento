@@ -7,63 +7,75 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 |  | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 |  |  |  | x |  | x |  | x |  |
-| almalinux-9 |  | x |  |  |  | x |  | x |  |
+| almalinux-8 |  | x |  | x |  | x |  | x |  |
+| almalinux-9 |  | x | x |  |  | x |  | x | x |
 | amazonlinux-2 |  | na | na |  |  |  | na |  | na |
 | amazonlinux-2023 | na | na | na | na | na | na | na | na | na |
-| centos-7 |  | x |  |  |  |  |  | x |  |
-| centos-stream-8 | x |  |  | x |  |  |  | x |  |
-| centos-stream-9 |  | x |  |  |  |  |  | x |  |
-| debian-10 |  |  | x |  |  |  |  | x |  |
-| debian-11 |  | x | x |  |  |  |  | x |  |
+| centos-7 |  | x |  | x |  | x |  | x |  |
+| centos-stream-8 |  | x |  | x |  | x |  | x |  |
+| centos-stream-9 |  |  | x |  |  |  |  |  |  |
+| debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x | x |
-| fedora-37 |  | x |  | x |  |  |  | x | x |
-| fedora-38 |  |  |  |  |  | x |  | x | x |
-| freebsd-12 |  |  |  |  |  | x |  |  |  |
-| freebsd-13 |  |  |  |  |  | x |  |  |  |
-| opensuse-leap-15 | x | x |  |  |  |  |  | x |  |
-| oraclelinux-7 | x | x |  |  |  | x |  | x |  |
-| oraclelinux-8 | x |  |  | x |  | x |  | x |  |
-| oraclelinux-9 |  | x |  |  |  | x |  | x |  |
+| fedora-37 |  | x | x | x |  | x |  | x | x |
+| fedora-38 |  | x |  | x |  | x |  | x | x |
+| freebsd-12 |  |  |  |  |  | x |  | x |  |
+| freebsd-13 |  |  |  |  |  | x |  | x |  |
+| opensuse-leap-15 |  | x |  | x |  | x |  | x |  |
+| oraclelinux-7 |  | x |  | x |  | x |  | x |  |
+| oraclelinux-8 |  |  |  | x |  | x |  | x |  |
+| oraclelinux-9 |  | x | x |  |  | x |  | x |  |
 | rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-| rockylinux-8 |  |  |  | x |  | x |  | x |  |
-| rockylinux-9 |  | x | x |  |  |  |  | x |  |
-| scientificlinux-7 |  | x | na |  | na |  | na | x | na |
+| rockylinux-8 |  | x |  | x |  | x |  | x |  |
+| rockylinux-9 |  | x |  |  |  | x |  | x | x |
+| scientificlinux-7 |  | x | na | x | na | x | na | x | na |
 | sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | sles-13 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-| springdalelinux-7 |  | x | na |  | na |  | na |  | na |
-| springdalelinux-8 | x |  | na | x | na | x | na | x | na |
-| springdalelinux-9 | x | x | na |  | na |  | na | x | na |
-| ubuntu-18.04 |  | x |  |  |  | x |  | x |  |
-| ubuntu-20.04 |  | x |  | x |  |  |  | x | x |
-| ubuntu-22.04 |  | x |  | x |  | x |  | x | x |
-| ubuntu-22.10 |  | x |  |  |  |  |  |  | x |
-| ubuntu-23.04 |  | x |  | x |  |  |  | x | x |
-| windows-10 | x | x | na |  | na | x | na |  | na |
-| windows-10gen2 |  | na | na | na | na | na | na | na | na |
-| windows-11 | x | x | na |  | na | x | na |  | na |
-| windows-11gen2 |  | na | na | na | na | na | na | na | na |
-| windows-2012r2 |  | x | na |  | na | x | na |  | na |
-| windows-2016 | x | x | na |  | na | x | na |  | na |
-| windows-2019 | x | x | na |  | na | x | na |  | na |
-| windows-2022 | x | x | na |  | na | x | na |  | na |
+| springdalelinux-7 |  | x | na | x | na |  | na |  | na |
+| springdalelinux-8 |  | x | na | x | na | x | na | x | na |
+| springdalelinux-9 |  |  | na |  | na |  | na |  | na |
+| ubuntu-20.04 |  | x | x |  |  | x |  | x | x |
+| ubuntu-22.04 |  | x |  | x |  | x |  | x |  |
+| ubuntu-23.04 |  | x |  | x |  | x |  | x |  |
+| windows-10 |  | x | na |  | na | x | na |  | na |
+| windows-11 |  | x | na |  | na | x | na |  | na |
+| windows-2016 |  | x | na |  | na | x | na |  | na |
+| windows-2019 |  | x | na |  | na | x | na |  | na |
+| windows-2022 |  | x | na |  | na | x | na |  | na |
 
 ### Todo
 
 - Fix failing builds
-- Finish removal of deprecated chef-solo provider to powershell provider for windows
-- migrate from http directory for hosting files to cd_files in source templates
+- migrate from http directory for hosting files to floppy_files or cd_files in source templates
   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+  - Also eliminates any potential networking issues
 - Update pipelines to only run on updated pkrvars files
 - Look into making all build uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+- Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
-## [unreleased] (2023-07-07)
+## [unreleased] (2023-09-15)
+
+## [v.3.2.0] (2023-09-15)
+
+- Added bento upload to use vagrant account configured in builds.yml
+- Updated windows vagrant template to default to 4GB of memory
+- Default hyperv to generation 2
+- Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10, Debian 10
+- Remove use of deprecated chef-solo provisioner and cookbooks for widnows builds
+- Add boot_wait variables for each provider
+- Adjusted default_boot_wait for linux to 5s
+- Added --vars and --var_files flags
+- Fixed upload description for libvirt to add qemu hv and version
+- Updated ubuntu 20.04 boot_command
+- Changed workflows to be based on cpu architecture
+- Updated Bento to continue builds even if one fails and report all failures at the end and exit with exit code 1
+- Added qemu clone of libvirt box when metadata file is created for uploading to vagrant qemu provider
+- Made build shell scripts customizable through packer variable
 
 ## [v3.1.1] (2023-07-07)
 

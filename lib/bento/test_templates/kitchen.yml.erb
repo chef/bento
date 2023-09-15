@@ -8,6 +8,7 @@ platforms:
   driver:
     name: vagrant
     provider: <%= k %>
+    vm_hostname: bento-test
     box: bento-<%= @boxname %>
     box_url: file://<%= Dir.pwd %>/builds/<%= v['file'] %>
     synced_folders:

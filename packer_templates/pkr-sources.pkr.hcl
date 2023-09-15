@@ -34,17 +34,13 @@ locals {
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? [
-      ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
+    var.is_windows ? [
+      ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
       ] : (
-      var.is_windows ? [
-        ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
-        ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
-        ] : (
-        var.os_arch == "aarch64" ? [
-          ["-boot", "strict=off"]
-        ] : null
-      )
+      var.os_arch == "aarch64" ? [
+        ["-boot", "strict=off"]
+      ] : null
     )
   ) : var.qemuargs
 
@@ -56,7 +52,7 @@ locals {
     var.is_windows ? 128 : 33
   ) : var.vbox_gfx_vram_size
   vbox_guest_additions_mode = var.vbox_guest_additions_mode == null ? (
-    var.is_windows && var.hyperv_generation == 1 ? "attach" : "upload"
+    var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
 
   # virtualbox-ovf
@@ -73,27 +69,28 @@ locals {
   ) : var.vmware_tools_upload_path
 
   # Source block common
-  boot_wait = var.boot_wait == null ? (
-    var.is_windows ? "60s" : "10s"
-  ) : var.boot_wait
+  default_boot_wait = var.default_boot_wait == null ? (
+    var.is_windows ? "60s" : "5s"
+  ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? [
-      "${path.root}/win_answer_files/${substr(var.os_version, 0, 2)}/gen2_Autounattend.xml"
-    ] : null
+    var.is_windows ? (
+      var.hyperv_generation == 2 ? [
+        "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
+        ] : [
+        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+      ]
+    ) : null
   ) : var.cd_files
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
   floppy_files = var.floppy_files == null ? (
-    var.hyperv_generation == 2 ? null : (
-      var.is_windows ? [
-        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-        "${path.root}/scripts/windows/base_setup.ps1"
-        ] : (
-        var.os_name == "springdalelinux" ? [
-          "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"
-        ] : null
-      )
+    var.is_windows ? [
+      "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+      ] : (
+      var.os_name == "springdalelinux" ? [
+        "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"
+      ] : null
     )
   ) : var.floppy_files
   http_directory   = var.http_directory == null ? "${path.root}/http" : var.http_directory
@@ -119,11 +116,12 @@ source "hyperv-iso" "vm" {
   switch_name           = var.hyperv_switch_name
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
+  cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = var.hyperv_generation == 2 ? null : local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -150,7 +148,7 @@ source "parallels-iso" "vm" {
   prlctl_version_file    = var.parallels_prlctl_version_file
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size
@@ -180,7 +178,7 @@ source "qemu" "vm" {
   qemuargs     = local.qemuargs
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
   cd_files         = local.cd_files
   cpus             = var.cpus
   communicator     = local.communicator
@@ -217,7 +215,7 @@ source "virtualbox-iso" "vm" {
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size
@@ -272,7 +270,7 @@ source "vmware-iso" "vm" {
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   # Source block common options
   boot_command     = var.boot_command
-  boot_wait        = local.boot_wait
+  boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = var.disk_size

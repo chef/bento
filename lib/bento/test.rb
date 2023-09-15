@@ -41,6 +41,9 @@ class TestRunner
   end
 
   def test_box(md_json)
+    bento_dir = Dir.pwd
+    temp_dir = "#{bento_dir}/builds/test-kitchen"
+    Dir.mkdir(temp_dir) unless Dir.exist?(temp_dir)
     md = box_metadata(md_json)
     @boxname = md['name']
     @providers = md['providers']
@@ -50,11 +53,15 @@ class TestRunner
     %w(kitchen.yml bootstrap.sh).each do |file|
       t = file =~ /kitchen/ ? 'kitchen.yml.erb' : "#{file}.erb"
       erb = ERB.new(File.read(dir + "/#{t}"), trim_mode: '-').result(binding)
-      File.open(file, 'w') { |f| f.puts erb }
+      File.open("#{temp_dir}/#{file}", 'w') { |f| f.puts erb }
     end
 
+    Dir.chdir(temp_dir)
+    banner("Test kitchen file located in #{temp_dir}")
     test = Mixlib::ShellOut.new('kitchen test', timeout: 900, live_stream: STDOUT)
     test.run_command
     test.error!
+    Dir.chdir(bento_dir)
+    FileUtils.rm_rf(temp_dir)
   end
 end

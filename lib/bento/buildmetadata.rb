@@ -4,10 +4,11 @@ require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
 class BuildMetadata
   include Common
 
-  def initialize(template, build_timestamp, override_version)
+  def initialize(template, build_timestamp, override_version, pkr_cmd)
     @template = template
     @build_timestamp = build_timestamp
     @override_version = override_version
+    @pkr_cmd = pkr_cmd
   end
 
   def read
@@ -16,6 +17,7 @@ class BuildMetadata
       version:          version,
       arch:             arch,
       build_timestamp:  build_timestamp,
+      packer_command:   pkr_cmd,
       git_revision:     git_revision,
       git_status:       git_clean? ? 'clean' : 'dirty',
       box_basename:     box_basename,
@@ -28,10 +30,15 @@ class BuildMetadata
 
   UNKNOWN = '__unknown__'.freeze
 
-  attr_reader :template, :build_timestamp, :override_version
+  attr_reader :template, :build_timestamp, :override_version, :pkr_cmd
 
   def box_basename
-    "#{name.gsub('/', '__')}"
+    temp_name = name.gsub('/', '__').split('-')
+    if temp_name.last == 'arm64'
+      temp_name.join('-')
+    else
+      (temp_name.first temp_name.size - 1).join('-')
+    end
   end
 
   def git_revision
@@ -43,13 +50,7 @@ class BuildMetadata
   end
 
   def merged_vars
-    @merged_vars ||= begin
-      if File.exist?("#{template}.variables.json")
-        template_vars.merge(JSON.load(IO.read("#{template}.variables.json")))
-      else
-        template_vars
-      end
-    end
+    @merged_vars ||= template_vars
   end
 
   def name
@@ -84,8 +85,7 @@ class BuildMetadata
   end
 
   def version
-    override_version || merged_vars.fetch('version', "#{UNKNOWN}.TIMESTAMP")
-                                   .rpartition('.').first.concat(build_timestamp.to_s)
+    override_version || merged_vars.fetch('version', "#{UNKNOWN}.TIMESTAMP").rpartition('.').first.concat(build_timestamp.to_s)
   end
 
   def packer_ver

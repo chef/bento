@@ -17,7 +17,6 @@ jobs:
           - centos-7
           - centos-stream-8
           - centos-stream-9
-          - debian-10
           - debian-11
           - debian-12
           - fedora-37
@@ -30,10 +29,8 @@ jobs:
           - oracle-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-22.04
-          - ubuntu-22.10
           - ubuntu-23.04
         provider:
           - qemu
@@ -58,8 +55,12 @@ jobs:
 #        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds
+#      - name: Bento Test
+#        run: |
+#          eval "$(chef shell-init bash)"
+#          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:

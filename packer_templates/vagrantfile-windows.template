@@ -6,19 +6,23 @@ Vagrant.configure(2) do |config|
   config.vm.communicator = "winrm"
   config.vm.boot_timeout = 300
   config.vm.network :forwarded_port, guest: 3389, host: 3389, id: 'rdp', auto_correct: true
+  config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
-    vb.memory = 2048
+    vb.cpus = 2
+    vb.memory = 4096
   end
 
   config.vm.provider 'hyperv' do |hv|
     hv.ip_address_timeout = 240
-    hv.memory = 2048
+    hv.memory = 4096
+    hv.cpus = 2
+    hv.enable_virtualization_extensions = true
   end
 
   config.vm.provider :libvirt do |domain|
-    domain.memory = 2028
+    domain.memory = 4096
     domain.cpus = 2
   end
 end
