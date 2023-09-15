@@ -39,9 +39,9 @@ end
 
 ***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
 
-#### Using `bento` executable
+### Using `bento` executable
 
-### build
+#### build
 
 To build a Debian vagrant box using the bento tool with the template available in the `os_pkrvars` dir, we can use the following command:
 
@@ -65,7 +65,7 @@ Other available options:
 - gui - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
 - single - This can be used to disable the parallel builds
 
-### list
+#### list
 
 Used to list all builds available for the workstations cpu architecture. This list is also filtered by the build.yml file do_not_build: section. All entries are matched via regex to filter out build templates from the list.
 
@@ -75,7 +75,7 @@ This only shows what would be built with `bento build` and no template is specif
 bento list
 ```
 
-### test
+#### test
 
 If you have successfully built a vagrant box using the bento tool, you should have the vagrant box and a metadata file in the `builds` folder. You can use these files to test the build with a test-kitchen configuration. Run the following command to test the build.
 
@@ -83,7 +83,19 @@ If you have successfully built a vagrant box using the bento tool, you should ha
 bento test
 ```
 
-#### Using `packer`
+#### upload
+
+To upload boxes in the builds directory to your vagrant cloud account update the build.yml file to specify your account name and which OSs are going to be public.
+
+Make sure you have configured the vagrant cli and logged into your account for the upload command to work.
+
+```bash
+bento upload
+```
+
+When running `bento upload` it'll read each <box_name>._metadata.json file and use the data provided to generate the `vagrant cloud publish` command with the descriptions, version, provider, and checksums all coming from the <box_name>._metadata.json file.
+
+### Using `packer`
 
 To build a Ubuntu 22.04 box for only the VirtualBox provider
 
@@ -119,7 +131,7 @@ packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_p
 
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
 
-#### KVM/qemu support for Windows
+### KVM/qemu support for Windows
 
 You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso). You can do this from the command line: `wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O virtio-win.iso` and place it in the packer_templates/win_answer_files/ directory.
 
@@ -138,7 +150,7 @@ Templates for operating systems only available via license or subscription are a
 
 Most of the providers expect unrestricted access to networking in order to build as expected. We can't enumerate all possible firewall configurations but include some snippets below that might be useful to users.
 
-#### Windows
+### Windows
 
 ```powershell
 $VS = "Standardswitch"
@@ -152,7 +164,7 @@ Hyper-V Gen 2 VMs do not support floppy drives. If you previously provided resou
 
 - `autounattend.xml`: The Gen 2 `autounattend.xml` file supports EFI partitions. Update the `autounattend.xml` with the correct Windows version for your systems and ensure that the partitions are correct for your situation. You also need to manage the driver disk that holds the hyper-v guest services drivers and adjust the `autounattend.xml` file as appropriate.
 
-## Bugs and Issues
+### Bugs and Issues
 
 Please use GitHub issues to report bugs, features, or other problems.
 
