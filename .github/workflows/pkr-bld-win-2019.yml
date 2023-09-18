@@ -12,11 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - windows-10
-          - windows-11
-          - windows-2016
           - windows-2019
-          - windows-2022
         provider:
           - parallels-iso
           - qemu
@@ -42,7 +38,7 @@ jobs:
         #        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          bento build -o parallels-iso.vm,qemu.vm,virtualbox-iso.vm,vmware-iso.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
       #      - name: Bento Test
       #        run: |
@@ -58,9 +54,10 @@ jobs:
           prlctl delete "$VM" 2> /dev/null
           sleep 2
       - name: Upload build artifact
+        if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ matrix.os }}-all-x86_64"
+          name: "${{ matrix.os }}-x86_64"
           path: |
             builds
             !builds/uploaded/*
