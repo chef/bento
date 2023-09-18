@@ -1,0 +1,54 @@
+---
+on:
+  workflow_call:
+
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+jobs:
+  x86_64:
+    runs-on: [self-hosted, X64, Windows, hyperv]
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-10
+          - windows-11
+          - windows-2016
+          - windows-2019
+          - windows-2022
+        provider:
+          - hyperv-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: iso-availability
+        shell: pwsh
+        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
+      #      - name: Setup Packer
+      #        uses: hashicorp/setup-packer@main
+      #        with:
+      #          version: latest
+      - name: Packer Init
+        run: packer init -upgrade packer_templates
+      - name: Packer FMT
+        run: packer fmt -check -recursive .
+      - name: Packer Validate
+        run: packer validate -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Packer build
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+          Stop-VM -Force ${{ matrix.os }}*-amd64
+          sleep 1
+          Remove-VM -Force ${{ matrix.os }}*-amd64
+          sleep 2
+      - name: Upload build artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: "${{ matrix.os }}-hyperv-x86_64"
+          path: |
+            builds/*.box
+          retention-days: 10
