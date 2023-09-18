@@ -46,6 +46,7 @@ jobs:
           Remove-VM -Force ${{ matrix.os }}*-amd64
           sleep 2
       - name: Upload build artifact
+        if: always()
         uses: actions/upload-artifact@main
         with:
           name: "${{ matrix.os }}-hyperv-x86_64"
