@@ -68,8 +68,24 @@ jobs:
 #    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
 #    secrets: inherit
 
-  pkr-bld-win-all:
-    uses: ./.github/workflows/pkr-bld-win-all.yml
+  pkr-bld-win-10:
+    uses: ./.github/workflows/pkr-bld-win-10.yml
+    secrets: inherit
+
+  pkr-bld-win-11:
+    uses: ./.github/workflows/pkr-bld-win-11.yml
+    secrets: inherit
+
+  pkr-bld-win-2016:
+    uses: ./.github/workflows/pkr-bld-win-2016.yml
+    secrets: inherit
+
+  pkr-bld-win-2019:
+    uses: ./.github/workflows/pkr-bld-win-2019.yml
+    secrets: inherit
+
+  pkr-bld-win-2022:
+    uses: ./.github/workflows/pkr-bld-win-2022.yml
     secrets: inherit
 
   pkr-bld-win-hyperv:
