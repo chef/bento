@@ -74,6 +74,7 @@ jobs:
 
   pkr-bld-win-hyperv:
     uses: ./.github/workflows/pkr-bld-win-hyperv.yml
+    secrets: inherit
 
   check_jobs_pass:
     if: always()
