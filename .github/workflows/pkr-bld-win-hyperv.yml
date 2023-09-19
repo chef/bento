@@ -17,8 +17,6 @@ jobs:
           - windows-2016
           - windows-2019
           - windows-2022
-        provider:
-          - hyperv-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -36,7 +34,7 @@ jobs:
       - name: Packer Validate
         run: packer validate -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only="hyperv-iso.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
