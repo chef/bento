@@ -25,11 +25,11 @@ jobs:
       - name: Packer FMT
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/windows/windows-2019-x86_64.pkrvars.hcl" packer_templates
+        run: packer validate -var-file=os_pkrvars/windows/windows-2019-x86_64.pkrvars.hcl packer_templates
       - name: Packer build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o parallels-iso.vm,qemu.vm,virtualbox-iso.vm,vmware-iso.vm --vars "qemu_accelerator=hvf" os_pkrvars/windows/windows-2019-x86_64.pkrvars.hcl"
+          bento build -o parallels-iso.vm,qemu.vm,virtualbox-iso.vm,vmware-iso.vm --vars "qemu_accelerator=hvf" os_pkrvars/windows/windows-2019-x86_64.pkrvars.hcl
           ls -alh builds
       #      - name: Bento Test
       #        run: |
