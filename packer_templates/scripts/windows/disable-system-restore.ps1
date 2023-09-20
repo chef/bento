@@ -13,5 +13,10 @@ trap {
     Exit 1
 }
 
-Write-Host 'Disabling System Restore'
-Disable-ComputerRestore -Drive "C:\"
+$osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
+if ($osInfo.ProductType -eq 1)
+{
+# system-restore isn't on servers
+    Write-Host 'Disabling System Restore'
+    Disable-ComputerRestore -Drive "C:\"
+}
