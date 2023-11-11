@@ -126,7 +126,7 @@ To use an alternate url
 ````bash
 cd <path/to>/bento
 packer init -upgrade ./packer_templates
-packer build -var 'iso_url=http://mirror.utexas.edu/fedora/linux' -var-file=os_pkrvars/fedora/fedor-37-x86_64.pkrvars.hcl ./packer_templates
+packer build -var 'iso_url=https://mirrors.rit.edu/fedora/fedora/linux/releases/39/Server/x86_64/iso/Fedora-Server-dvd-x86_64-39-1.5.iso' -var-file=os_pkrvars/fedora/fedora-39-x86_64.pkrvars.hcl ./packer_templates
 ````
 
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
