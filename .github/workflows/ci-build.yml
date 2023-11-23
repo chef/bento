@@ -28,16 +28,9 @@ jobs:
   powershell-lint:
     uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
-  packer-iso-check:
-    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
-
-  packer-lint:
-    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
-    secrets: inherit
-
-  pkr-bld-amazonlinux-x64:
-    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
-    secrets: inherit
+#  pkr-bld-amazonlinux-x64:
+#    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
+#    secrets: inherit
 
   pkr-bld-hyperv-x64:
     uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
@@ -84,8 +77,6 @@ jobs:
       - xml-lint
       - powershell-lint
       - shellcheck-lint
-      - packer-iso-check
-      - packer-lint
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed

@@ -59,11 +59,14 @@ Add-Type -A System.IO.Compression.FileSystem
 # install Guest Additions.
 $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Property Vendor).Vendor
 if ($systemVendor -eq 'QEMU') {
-    $guestToolsPath = "e:\drivers\virtio-win-guest-tools.exe"
-    $guestTools = "$env:TEMP\$(Split-Path -Leaf $guestToolsPath)"
-    $guestToolsLog = "$guestTools.log"
+    # in more recent virtio-win.iso virtio-win-guest-tools.exe has move to E:\
+    $guestToolsPath = dir -Path E:\ -Filter virtio-win-guest-tools.exe -Recurse | %{$_.FullName}
+    if (!$guestToolsPath) {
+        throw "did not find virtio-win-guest-tools.exe on E:\"
+    }
+    $guestToolsLog = "$env:TEMP\$(Split-Path -Leaf $guestToolsPath).log"
     Write-Host 'Installing the guest tools...'
-    &$guestTools /install /norestart /quiet /log $guestToolsLog | Out-String -Stream
+    &$guestToolsPath /install /norestart /quiet /log $guestToolsLog | Out-String -Stream
     if ($LASTEXITCODE) {
         throw "failed to install guest tools with exit code $LASTEXITCODE"
     }
@@ -83,9 +86,15 @@ if ($systemVendor -eq 'QEMU') {
 } elseif ($systemVendor -eq 'Microsoft Corporation') {
     # do nothing. Hyper-V enlightments are already bundled with Windows.
 } elseif ($systemVendor -eq 'VMware, Inc.') {
+    Write-Host 'Mounting VMware Tools ISO...'
+    Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
+    Write-Host 'Installing VMware Tools...'
+    Start-Process -Wait -FilePath E:\setup64.exe -ArgumentList '/S /v "/qn REBOOT=R"'
     Write-Output 'Installing VMware Tools...'
     # silent install without rebooting.
-    E:\setup64.exe /s /v '/qn reboot=r'| Out-String -Stream
+    E:\setup64.exe /S /v '/qn reboot=r'| Out-String -Stream
+    Dismount-DiskImage -ImagePath C:\vmware-tools.iso
+    Remove-Item C:\vmware-tools.iso
 } elseif ($systemVendor -eq 'Parallels Software International Inc.') {
     Write-Host 'Installing the Parallels Tools for Guest VM...'
     E:\PTAgent.exe /install_silent | Out-String -Stream
@@ -122,12 +131,6 @@ Set-ItemProperty `
     -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters' `
     -Name DisabledComponents `
     -Value 0xff
-
-Write-Host 'Disabling hibernation...'
-powercfg /hibernate off
-
-Write-Host 'Setting the power plan to high performance...'
-powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 
 Write-Host 'Disabling the Windows Boot Manager menu...'
 # NB to have the menu show with a lower timeout, run this instead: bcdedit /timeout 2

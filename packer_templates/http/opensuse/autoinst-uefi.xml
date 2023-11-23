@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<!DOCTYPE profile>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+  <report>
+    <messages>
+      <show config:type="boolean">false</show>
+      <timeout config:type="integer">10</timeout>
+      <log config:type="boolean">true</log>
+    </messages>
+    <warnings>
+      <show config:type="boolean">false</show>
+      <timeout config:type="integer">10</timeout>
+      <log config:type="boolean">true</log>
+    </warnings>
+    <errors>
+      <show config:type="boolean">false</show>
+      <timeout config:type="integer">10</timeout>
+      <log config:type="boolean">true</log>
+    </errors>
+  </report>
+  <keyboard>
+    <keymap>english-us</keymap>
+  </keyboard>
+  <language>
+    <language>en_US</language>
+    <languages>en_US</languages>
+  </language>
+  <bootloader t="map">
+    <global t="map">
+      <append>splash=silent biosdevname=0 net.ifnames=0 modprobe.blacklist=vmwgfx preempt=full mitigations=auto quiet</append>
+      <secure_boot>false</secure_boot>
+      <terminal>console</terminal>
+      <timeout t="integer">1</timeout>
+      <update_nvram>true</update_nvram>
+    </global>
+    <loader_type>grub2-efi</loader_type>
+  </bootloader>
+  <firewall t="map">
+    <enable_firewall t="boolean">false</enable_firewall>
+    <start_firewall t="boolean">false</start_firewall>
+  </firewall>
+  <general t="map">
+    <mode t="map">
+      <confirm t="boolean">false</confirm>
+      <forceboot config:type="boolean">true</forceboot>
+      <final_reboot config:type="boolean">false</final_reboot>
+    </mode>
+  </general>
+  <groups t="list">
+    <group t="map">
+      <gid>100</gid>
+      <groupname>users</groupname>
+      <userlist/>
+    </group>
+  </groups>
+  <networking t="map">
+    <ipv6 t="boolean">false</ipv6>
+    <keep_install_network t="boolean">true</keep_install_network>
+    <dns t="map">
+      <dhcp_hostname t="boolean">false</dhcp_hostname>
+      <hostname>opensuse15.localdomain</hostname>
+      <domain>localdomain</domain>
+    </dns>
+    <interfaces t="list">
+      <interface t="map">
+        <bootproto>dhcp</bootproto>
+        <name>eth0</name>
+        <startmode>auto</startmode>
+        <zone>public</zone>
+      </interface>
+    </interfaces>
+  </networking>
+  <ntp-client t="map">
+    <ntp_policy>auto</ntp_policy>
+    <ntp_servers t="list">
+      <ntp_server t="map">
+        <address>1.opensuse.pool.ntp.org</address>
+        <iburst t="boolean">true</iburst>
+        <offline t="boolean">false</offline>
+      </ntp_server>
+    </ntp_servers>
+    <ntp_sync>systemd</ntp_sync>
+  </ntp-client>
+  <partitioning t="list">
+    <drive t="map">
+      <device>/dev/sda</device>
+      <disklabel>gpt</disklabel>
+      <initialize config:type="boolean">true</initialize>
+      <enable_snapshots t="boolean">false</enable_snapshots>
+      <partitions t="list">
+        <partition t="map">
+          <create t="boolean">true</create>
+          <filesystem t="symbol">vfat</filesystem>
+          <format t="boolean">true</format>
+          <fstopt>utf8</fstopt>
+          <mount>/boot/efi</mount>
+          <mountby t="symbol">uuid</mountby>
+          <partition_id t="integer">259</partition_id>
+          <partition_nr t="integer">1</partition_nr>
+          <resize t="boolean">false</resize>
+          <size>256M</size>
+        </partition>
+        <partition t="map">
+          <create t="boolean">true</create>
+          <create_subvolumes t="boolean">true</create_subvolumes>
+          <filesystem t="symbol">btrfs</filesystem>
+          <format t="boolean">true</format>
+          <mount>/</mount>
+          <mountby t="symbol">uuid</mountby>
+          <partition_id t="integer">131</partition_id>
+          <partition_nr t="integer">2</partition_nr>
+          <quotas t="boolean">true</quotas>
+          <resize t="boolean">false</resize>
+          <size>max</size>
+          <subvolumes t="list">
+            <subvolume t="map">
+              <copy_on_write t="boolean">false</copy_on_write>
+              <path>var</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>usr/local</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>tmp</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>srv</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>root</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>opt</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>home</path>
+            </subvolume>
+            <subvolume t="map">
+              <copy_on_write t="boolean">true</copy_on_write>
+              <path>boot/grub2/arm64-efi</path>
+            </subvolume>
+          </subvolumes>
+          <subvolumes_prefix>@</subvolumes_prefix>
+        </partition>
+        <partition t="map">
+          <create t="boolean">true</create>
+          <filesystem t="symbol">swap</filesystem>
+          <format t="boolean">true</format>
+          <mount>swap</mount>
+          <mountby t="symbol">uuid</mountby>
+          <partition_id t="integer">130</partition_id>
+          <partition_nr t="integer">3</partition_nr>
+          <resize t="boolean">false</resize>
+          <size>512M</size>
+        </partition>
+      </partitions>
+      <type t="symbol">CT_DISK</type>
+      <use>all</use>
+    </drive>
+  </partitioning>
+  <services-manager t="map">
+    <default_target>multi-user</default_target>
+    <services t="map">
+      <enable t="list">
+        <service>sshd</service>
+      </enable>
+    </services>
+  </services-manager>
+  <software t="map">
+    <instsource/>
+    <packages t="list">
+      <package>wicked</package>
+      <package>shim</package>
+      <package>openssh</package>
+      <package>openssh-server</package>
+      <package>yast2</package>
+      <package>yast2-firstboot</package>
+      <package>yast2-trans-en_US</package>
+      <package>openSUSE-release</package>
+      <package>mokutil</package>
+      <package>kexec-tools</package>
+      <package>grub2-arm64-efi</package>
+      <package>glibc</package>
+      <package>firewalld</package>
+      <package>e2fsprogs</package>
+      <package>dosfstools</package>
+      <package>chrony</package>
+      <package>btrfsprogs</package>
+      <package>wget</package>
+      <package>curl</package>
+      <package>less</package>
+      <package>sudo</package>
+      <package>fuse</package>
+    </packages>
+    <remove-packages t="list">
+      <package>bash-completion</package>
+      <package>telnet</package>
+      <package>virtualbox-guest-kmp-default</package>
+      <package>virtualbox-guest-tools</package>
+      <package>snapper</package>
+      <package>snapper-zypp-plugin</package>
+    </remove-packages>
+    <patterns t="list">
+      <pattern>documentation</pattern>
+      <pattern>minimal_base</pattern>
+      <pattern>sw_management</pattern>
+      <pattern>yast2_basis</pattern>
+    </patterns>
+    <products t="list">
+      <product>Leap</product>
+    </products>
+  </software>
+  <timezone t="map">
+    <hwclock>UTC</hwclock>
+    <timezone>Etc/UTC</timezone>
+  </timezone>
+  <user_defaults t="map">
+    <expire/>
+    <group>100</group>
+    <home>/home</home>
+    <inactive>-1</inactive>
+    <no_groups config:type="boolean">true</no_groups>
+    <shell>/bin/bash</shell>
+    <skel>/etc/skel</skel>
+    <umask>022</umask>
+  </user_defaults>
+  <users t="list">
+    <user t="map">
+      <user_password>vagrant</user_password>
+      <username>root</username>
+    </user>
+    <user t="map">
+      <fullname>vagrant</fullname>
+      <gid>100</gid>
+      <home>/home/vagrant</home>
+      <password_settings t="map">
+        <expire/>
+        <flag/>
+        <inact/>
+        <max>99999</max>
+        <min>0</min>
+        <warn>7</warn>
+      </password_settings>
+      <shell>/bin/bash</shell>
+      <uid>1000</uid>
+      <user_password>vagrant</user_password>
+      <username>vagrant</username>
+    </user>
+  </users>
+  <kdump>
+    <add_crash_kernel config:type="boolean">false</add_crash_kernel>
+  </kdump>
+  <scripts>
+    <post-scripts config:type="list">
+      <script>
+        <filename>post.sh</filename>
+        <interpreter>shell</interpreter>
+          <source><![CDATA[
+#!/bin/bash
+dmesg | grep -E "Hypervisor detected: Microsoft HyperV|Hypervisor detected: Microsoft Hyper-V"
+if [ $? -eq 0 ]; then systemctl enable hv_kvp_daemon.service ; fi
+]]>
+          </source>
+        </script>
+      </post-scripts>
+    </scripts>
+</profile>

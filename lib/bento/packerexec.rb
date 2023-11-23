@@ -10,13 +10,13 @@ module PackerExec
   end
 
   def write_box_metadata(template, io)
-    md = BuildMetadata.new(template, build_timestamp, override_version).read
+    md = BuildMetadata.new(template, build_timestamp, override_version, pkr_cmd).read
     io.write(JSON.pretty_generate(md))
     io.close
   end
 
   def write_var_file(template, md_file, io)
-    md = BuildMetadata.new(template, build_timestamp, override_version).read
+    md = BuildMetadata.new(template, build_timestamp, override_version, pkr_cmd).read
 
     io.write(JSON.pretty_generate({
       box_basename:     md[:box_basename],

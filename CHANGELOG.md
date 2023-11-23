@@ -8,49 +8,102 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 |  | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | almalinux-8 |  | x |  | x |  | x |  | x |  |
-| almalinux-9 |  | x | x |  |  | x |  | x |  |
-| amazonlinux-2 |  | na | na | na | na | x |  | na | na |
-| amazonlinux-2022 | na | na | na | na | na | na | na | na | na |
+| almalinux-9 |  | x | x |  |  | x |  | x | x |
+| amazonlinux-2 |  | na | na |  |  |  | na |  | na |
+| amazonlinux-2023 | na | na | na | na | na | na | na | na | na |
 | centos-7 |  | x |  | x |  | x |  | x |  |
 | centos-stream-8 |  | x |  | x |  | x |  | x |  |
-| centos-stream-9 |  |  |  |  |  | x |  | x |  |
-| debian-10 |  |  | x |  |  | x |  | x |  |
+| centos-stream-9 |  |  | x |  |  |  |  |  |  |
 | debian-11 |  | x | x |  |  | x |  | x |  |
-| fedora-36 |  | x | x | x |  | x |  | x |  |
-| fedora-37 |  | x | x | x |  | x |  | x |  |
-| freebsd-12 |  |  | na |  | na | x | na |  | na |
-| freebsd-13 |  |  | na |  | na | x | na |  | na |
-| opensuse-leap-15 |  |  | na | x | na |  | na | x | na |
+| debian-12 |  | x | x |  |  | x |  | x | x |
+| fedora-37 |  | x | x | x |  | x |  | x | x |
+| fedora-38 |  | x |  | x |  | x |  | x | x |
+| freebsd-12 |  |  |  |  |  | x |  | x |  |
+| freebsd-13 |  |  |  |  |  | x |  | x |  |
+| opensuse-leap-15 |  | x |  | x |  | x |  | x |  |
 | oraclelinux-7 |  | x |  | x |  | x |  | x |  |
 | oraclelinux-8 |  |  |  | x |  | x |  | x |  |
 | oraclelinux-9 |  | x | x |  |  | x |  | x |  |
-| rhel-7 |  |  |  |  |  |  |  |  |  |
-| rhel-8 |  |  |  |  |  |  |  |  |  |
-| rhel-9 |  |  |  |  |  |  |  |  |  |
+| rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rockylinux-8 |  | x |  | x |  | x |  | x |  |
-| rockylinux-9 |  | x | x |  |  | x |  | x |  |
+| rockylinux-9 |  | x |  |  |  | x |  | x | x |
 | scientificlinux-7 |  | x | na | x | na | x | na | x | na |
-| sles-12 |  |  | na |  | na |  | na |  | na |
-| sles-13 |  |  | na |  | na |  | na |  | na |
-| solaris-11 |  |  | na |  | na |  | na |  | na |
+| sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| sles-13 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | springdalelinux-7 |  | x | na | x | na |  | na |  | na |
 | springdalelinux-8 |  | x | na | x | na | x | na | x | na |
-| springdalelinux-9 |  | x | na |  | na | x | na | x | na |
-| ubuntu-18.04 |  | x |  |  |  | x |  | x |  |
-| ubuntu-20.04 |  |  | x |  |  |  |  |  |  |
-| ubuntu-22.04 |  | x | x | x |  | x |  | x |  |
-| ubuntu-22.10 |  | x | x | x |  | x |  | x |  |
-| ubuntu-23.04 | na | na | na | na | na | na | na | na | na |
-| windows-10 | x | x | na |  | na | x | na |  | na |
-| windows-10gen2 |  | na | na | na | na | na | na | na | na |
-| windows-11 | x | x | na |  | na | x | na |  | na |
-| windows-11gen2 |  | na | na | na | na | na | na | na | na |
-| windows-2012r2 |  | x | na |  | na | x | na |  | na |
-| windows-2016 | x | x | na |  | na | x | na | x | na |
-| windows-2019 | x | x | na |  | na | x | na |  | na |
-| windows-2022 | x | x | na |  | na | x | na |  | na |
+| springdalelinux-9 |  |  | na |  | na |  | na |  | na |
+| ubuntu-20.04 |  | x | x |  |  | x |  | x | x |
+| ubuntu-22.04 |  | x |  | x |  | x |  | x |  |
+| ubuntu-23.04 |  | x |  | x |  | x |  | x |  |
+| windows-10 |  | x | na |  | na | x | na |  | na |
+| windows-11 |  | x | na |  | na | x | na |  | na |
+| windows-2016 |  | x | na |  | na | x | na |  | na |
+| windows-2019 |  | x | na |  | na | x | na |  | na |
+| windows-2022 |  | x | na |  | na | x | na |  | na |
 
-## [unreleased] (2023-03-16)
+### Todo
+
+- Fix failing builds
+- migrate from http directory for hosting files to floppy_files or cd_files in source templates
+  - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
+  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+  - Also eliminates any potential networking issues
+- Update pipelines to only run on updated pkrvars files
+- Look into making all build uefi default builds
+- Create CD pipeline to upload vagrant boxes after PR is merged
+- Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+- Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
+
+## [unreleased] (2023-09-15)
+
+## [v.3.2.0] (2023-09-15)
+
+- Added bento upload to use vagrant account configured in builds.yml
+- Updated windows vagrant template to default to 4GB of memory
+- Default hyperv to generation 2
+- Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10, Debian 10
+- Remove use of deprecated chef-solo provisioner and cookbooks for widnows builds
+- Add boot_wait variables for each provider
+- Adjusted default_boot_wait for linux to 5s
+- Added --vars and --var_files flags
+- Fixed upload description for libvirt to add qemu hv and version
+- Updated ubuntu 20.04 boot_command
+- Changed workflows to be based on cpu architecture
+- Updated Bento to continue builds even if one fails and report all failures at the end and exit with exit code 1
+- Added qemu clone of libvirt box when metadata file is created for uploading to vagrant qemu provider
+- Made build shell scripts customizable through packer variable
+
+## [v3.1.1] (2023-07-07)
+
+- Update RHEL 9 clones to 9.2
+- Update RHEL 8 clones to 8.8
+- Added Debian 12 variables
+- Fixed pipeline issue with plugins
+- Updated debian 11 iso url
+- switched pipeline to use bento build command and upload box and metadata.json files
+- add opensuse-leap aarch64 build
+- updated opensuse-leap to 15.5
+- Bento command exits with error status and code when a build fails for a provider
+- fixed bento metadata generation for aarch64 machines
+
+## [v3.1.0] (2023-05-17)
+
+- Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
+- Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
+- Fixed readme example for bento debian build
+- Added pkrvars file for amazon 2023, more work needed to build vagrant box if/when amazon releases images for providers
+- Removed EOL Fedora 36 build
+- Added Fedora 38 build
+- Added Ubuntu 23.04 x86_64 and aarch64
+- Switched vmware plugin back to official one with fusion 13 arm64 guest additions fix
+- Updated Bento app to support arm64 builds and upload to vagrant
+- Added Freebsd aarch64 templates
+- Added new default VMware hardware configuration settings
+- Update Debian 11 to 11.7
 
 ## [v3.0.0] (2023-03-16)
 

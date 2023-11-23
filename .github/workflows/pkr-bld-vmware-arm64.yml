@@ -2,6 +2,9 @@
 on:
   workflow_call:
 
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
 jobs:
   aarch64:
     runs-on: [self-hosted, ARM64, vmware-fusion]
@@ -14,19 +17,21 @@ jobs:
           - centos-7
           - centos-stream-8
           - centos-stream-9
-          - debian-10
           - debian-11
-          - fedora-36
-          - fedora-37
-          - oraclelinux-7
-          - oraclelinux-8
-          - oraclelinux-9
+          - debian-12
+          - fedora-38
+          - fedora-39
+          - freebsd-12
+          - freebsd-13
+          - opensuse-leap-15
+          - oracle-7
+          - oracle-8
+          - oracle-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-22.04
-          - ubuntu-22.10
+          - ubuntu-23.04
         provider:
           - vmware-iso
     steps:
@@ -41,15 +46,21 @@ jobs:
 #        with:
 #          version: latest
       - name: Packer Init
-        env:
-          PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: packer init -upgrade packer_templates
       - name: Packer FMT
         run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
       - name: Packer Validate
         run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds
+#      - name: Bento Test
+#        run: |
+#          eval "$(chef shell-init bash)"
+#          bento test
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -61,7 +72,8 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ matrix.os }}-vmware-aarch64.box"
+          name: "${{ matrix.os }}-vmware-aarch64"
           path: |
-            builds/*.box
+            builds
+            !builds/uploaded/*
           retention-days: 10

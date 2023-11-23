@@ -34,6 +34,7 @@ trap {
     Exit 1
 }
 
+Write-Host 'Disabling Windows Defender'
 if (Get-Command -ErrorAction SilentlyContinue Uninstall-WindowsFeature) {
     # for Windows Server.
     Get-WindowsFeature 'Windows-Defender*' | Uninstall-WindowsFeature

@@ -23,6 +23,7 @@
 Set-StrictMode -Version Latest
 $ProgressPreference = 'SilentlyContinue'
 $ErrorActionPreference = 'Stop'
+
 trap {
     Write-Host
     Write-Host "ERROR: $_"
@@ -62,7 +63,11 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
 # NB some packages fail to be removed and thats OK.
 # see https://docs.microsoft.com/en-us/windows/application-management/apps-in-windows-10
 @(
+    'Clipchamp.Clipchamp'
+    'Microsoft.549981C3F5F10'
+    'Microsoft.BingNews'
     'Microsoft.BingWeather'
+    'Microsoft.GamingApp'
     'Microsoft.GetHelp'
     'Microsoft.Getstarted'
     'Microsoft.Microsoft3DViewer'
@@ -72,11 +77,15 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
     'Microsoft.MixedReality.Portal'
     'Microsoft.MSPaint'
     'Microsoft.Office.OneNote'
+    'Microsoft.OneDriveSync'
+    'Microsoft.Paint'
     'Microsoft.People'
+    'Microsoft.PowerAutomateDesktop'
     'Microsoft.ScreenSketch'
     'Microsoft.Services.Store.Engagement'
     'Microsoft.SkypeApp'
     'Microsoft.StorePurchaseApp'
+    'Microsoft.Todos'
     'Microsoft.Wallet'
     'Microsoft.Windows.Photos'
     'Microsoft.WindowsAlarms'
@@ -96,7 +105,9 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
     'Microsoft.YourPhone'
     'Microsoft.ZuneMusic'
     'Microsoft.ZuneVideo'
-    #'Microsoft.BioEnrollment' # NB this fails to remove.
+    'MicrosoftCorporationII.QuickAssist'
+    'MicrosoftWindows.Client.WebExperience'
+    'MicrosoftTeams'
 ) | ForEach-Object {
     $appx = Get-AppxPackage -AllUsers $_
     if ($appx) {
@@ -104,7 +115,7 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
         try {
             $appx | Remove-AppxPackage -AllUsers
         } catch {
-            Write-Output "WARN Failed to remove appx: $_"
+            Write-Host "WARN Failed to remove appx: $_"
         }
     }
 }
