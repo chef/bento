@@ -1,6 +1,6 @@
 os_name                 = "freebsd"
 os_version              = "13.2"
-os_arch                 = "x86_64"
+os_arch                 = "aarch64"
 iso_url                 = "https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-arm64-aarch64-disc1.iso"
 iso_checksum            = "file:https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.2/CHECKSUM.SHA256-FreeBSD-13.2-RELEASE-arm64-aarch64"
 parallels_guest_os_type = "freebsd"
