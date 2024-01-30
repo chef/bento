@@ -64,7 +64,7 @@ class BuildRunner
       time = Benchmark.measure do
         cmd.run_command
       end
-      if Dir.glob("../../builds/*.box").empty?
+      if Dir.glob("#{dir}/../../builds/*.box").empty?
         banner("Not writing metadata file since no boxes exist")
       else
         write_final_metadata(template, time.real.ceil)

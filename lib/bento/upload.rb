@@ -39,8 +39,15 @@ class UploadRunner
       if File.exist?(File.join('builds', prov_data['file']))
         puts ''
         banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
-
-        upload_cmd = "vagrant cloud publish --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
+        arch = case md_data['arch']
+                when 'x86_64', 'amd64'
+                  'amd64'
+               when 'aarch64', 'arm64'
+                  'arm64'
+               else
+                 raise "Unknown arch #{md_data.inspect}"
+               end
+        upload_cmd = "vagrant cloud publish --architecture #{arch} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
         shellout(upload_cmd)
 
         slug_name = lookup_slug(md_data['name'])
