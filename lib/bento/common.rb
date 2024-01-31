@@ -64,6 +64,7 @@ module Common
     # metadata needed for upload: boxname, version, provider, box filename
     metadata['name'] = json['name']
     metadata['version'] = json['version']
+    metadata['arch'] = json['arch']
     metadata['box_basename'] = json['box_basename']
     metadata['packer'] = json['packer']
     metadata['vagrant'] = json['vagrant']

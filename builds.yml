@@ -21,9 +21,6 @@ public:
   - 'oracle-9'
   - 'rockylinux-8'
   - 'rockylinux-9'
-  - 'springdalelinux-7'
-  - 'springdalelinux-8'
-  - 'springdalelinux-9'
   - 'ubuntu-20.04'
   - 'ubuntu-22.04'
   - 'ubuntu-23.10'
@@ -46,9 +43,6 @@ public:
   - 'oracle-9-arm64'
   - 'rockylinux-8-arm64'
   - 'rockylinux-9-arm64'
-  - 'springdalelinux-7-arm64'
-  - 'springdalelinux-8-arm64'
-  - 'springdalelinux-9-arm64'
   - 'ubuntu-20.04-arm64'
   - 'ubuntu-22.04-arm64'
   - 'ubuntu-23.10-arm64'
@@ -69,9 +63,6 @@ slugs:
   'oracle-9': 'oracle-9'
   'rockylinux-8': 'rockylinux-8'
   'rockylinux-9': 'rockylinux-9'
-  'springdalelinux-7': 'springdalelinux-7'
-  'springdalelinux-8': 'springdalelinux-8'
-  'springdalelinux-9': 'springdalelinux-9'
   'almalinux-8-arm64': 'almalinux-8'
   'almalinux-9-arm64': 'almalinux-9'
   'centos-7-arm64': 'centos-7'
@@ -99,6 +90,4 @@ do_not_build:
 #  - opensuse-leap
 #  - oracle
 #  - rockylinux
-#  - scientificlinux
-#  - springdalelinux
 #  - ubuntu

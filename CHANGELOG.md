@@ -32,9 +32,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 |      sles-12      | license<br>needed | license<br>needed |          na          | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 |      sles-13      | license<br>needed | license<br>needed |          na          | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 |    solaris-11     | license<br>needed | license<br>needed |          na          | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-| springdalelinux-7 |  | x |          na          | x | na |  | na |  | na |
-| springdalelinux-8 |  | x |          na          | x | na | x | na | x | na |
-| springdalelinux-9 |  |  |          na          |  | na |  | na |  | na |
 |   ubuntu-20.04    |  | x |          x           |  |  | x |  | x | x |
 |   ubuntu-22.04    |  | x |                      | x |  | x |  | x |  |
 |   ubuntu-23.10    |  |  |                      |  |  |  |  |  |  |
@@ -57,7 +54,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 - Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
-## [unreleased] (2024-01-30)
+## [unreleased] (2024-01-31)
 
 - Fix build list generation on aarch64 machines
 - Updated Debian 12 to 12.4
@@ -69,6 +66,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added Fedora 39
 - Removed Fedora 37
 - Remove Scientific Linux 7
+- Remove Springdale Linux builds
 - Removed Ubuntu 23.04
 - Added Ubuntu 23.10
 
