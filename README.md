@@ -33,11 +33,12 @@ end
    - [VirtualBox](https://www.virtualbox.org/)
    - [VMware Fusion](https://www.vmware.com/products/fusion.html)
    - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
-   - [Parallels Desktop](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/) for versons < 19.x
-   - [qemu](https://www.qemu.org/) *
-   - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *
+   - [Parallels Desktop Pro](https://www.parallels.com/products/desktop/)*2 also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/) for versions < 19.x
+   - [qemu](https://www.qemu.org/) *1
+   - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *1
 
-***NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
+*1**NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
+*2**NOTE:** AARCH64 or ARM64 support is only guaranteed through parallels provider.
 
 ### Using `bento` executable
 

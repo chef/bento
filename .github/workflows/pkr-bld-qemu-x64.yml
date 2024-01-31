@@ -21,7 +21,6 @@ jobs:
           - debian-12
           - fedora-38
           - fedora-39
-          - freebsd-12
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
@@ -30,13 +29,9 @@ jobs:
           - oracle-9
           - rockylinux-8
           - rockylinux-9
-          - scientificlinux-7
-          - springdalelinux-7
-          - springdalelinux-8
-          - springdalelinux-9
           - ubuntu-20.04
           - ubuntu-22.04
-          - ubuntu-23.04
+          - ubuntu-23.10
         provider:
           - qemu
     steps:

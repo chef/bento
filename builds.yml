@@ -13,7 +13,6 @@ public:
   - 'debian-12'
   - 'fedora-38'
   - 'fedora-39'
-  - 'freebsd-12'
   - 'freebsd-13'
   - 'freebsd-14'
   - 'opensuse-leap-15'
@@ -22,13 +21,9 @@ public:
   - 'oracle-9'
   - 'rockylinux-8'
   - 'rockylinux-9'
-  - 'scientific-7'
-  - 'springdalelinux-7'
-  - 'springdalelinux-8'
-  - 'springdalelinux-9'
   - 'ubuntu-20.04'
   - 'ubuntu-22.04'
-  - 'ubuntu-23.04'
+  - 'ubuntu-23.10'
   - 'almalinux-8-arm64'
   - 'almalinux-9-arm64'
   - 'amazon-2-arm64'
@@ -40,7 +35,6 @@ public:
   - 'debian-12-arm64'
   - 'fedora-38-arm64'
   - 'fedora-39-arm64'
-  - 'freebsd-12-arm64'
   - 'freebsd-13-arm64'
   - 'freebsd-14-arm64'
   - 'opensuse-leap-15-arm64'
@@ -49,13 +43,9 @@ public:
   - 'oracle-9-arm64'
   - 'rockylinux-8-arm64'
   - 'rockylinux-9-arm64'
-  - 'scientific-7-arm64'
-  - 'springdalelinux-7-arm64'
-  - 'springdalelinux-8-arm64'
-  - 'springdalelinux-9-arm64'
   - 'ubuntu-20.04-arm64'
   - 'ubuntu-22.04-arm64'
-  - 'ubuntu-23.04-arm64'
+  - 'ubuntu-23.10-arm64'
 
 # slug box name: text string from standard box name to match (generally the same)
 slugs:
@@ -64,8 +54,7 @@ slugs:
   'centos-7': 'centos-7'
   'debian-12': 'debian-12'
   'debian-11': 'debian-11'
-  'fedora-latest': 'fedora-38'
-  'freebsd-12': 'freebsd-12'
+  'fedora-latest': 'fedora-39'
   'freebsd-13': 'freebsd-13'
   'freebsd-14': 'freebsd-14'
   'opensuse-leap-15': 'opensuse-leap-15'
@@ -74,16 +63,12 @@ slugs:
   'oracle-9': 'oracle-9'
   'rockylinux-8': 'rockylinux-8'
   'rockylinux-9': 'rockylinux-9'
-  'scientific-7': 'scientific-7'
-  'springdalelinux-7': 'springdalelinux-7'
-  'springdalelinux-8': 'springdalelinux-8'
-  'springdalelinux-9': 'springdalelinux-9'
   'almalinux-8-arm64': 'almalinux-8'
   'almalinux-9-arm64': 'almalinux-9'
   'centos-7-arm64': 'centos-7'
   'debian-12-arm64': 'debian-12'
   'debian-11-arm64': 'debian-11'
-  'fedora-latest-arm64': 'fedora-38'
+  'fedora-latest-arm64': 'fedora-39'
   'oracle-7-arm64': 'oracle-7'
   'oracle-8-arm64': 'oracle-8'
   'oracle-9-arm64': 'oracle-9'
@@ -105,6 +90,4 @@ do_not_build:
 #  - opensuse-leap
 #  - oracle
 #  - rockylinux
-#  - scientificlinux
-#  - springdalelinux
 #  - ubuntu

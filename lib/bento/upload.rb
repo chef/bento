@@ -34,20 +34,26 @@ class UploadRunner
   #
   def upload_box(md_file)
     md_data = box_metadata(md_file)
-
+    arch = case md_data['arch']
+           when 'x86_64', 'amd64'
+             'amd64'
+           when 'aarch64', 'arm64'
+             'arm64'
+           else
+             raise "Unknown arch #{md_data.inspect}"
+           end
     md_data['providers'].each_pair do |prov, prov_data|
       if File.exist?(File.join('builds', prov_data['file']))
         puts ''
         banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
-
-        upload_cmd = "vagrant cloud publish --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['name'])}' --short-description '#{box_desc(md_data['name'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
+        upload_cmd = "vagrant cloud publish --architecture #{arch} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['box_basename'])}' --short-description '#{box_desc(md_data['box_basename'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
         shellout(upload_cmd)
 
         slug_name = lookup_slug(md_data['name'])
         if slug_name
           puts ''
           banner("Uploading slug #{builds_yml['vagrant_cloud_account']}/#{slug_name} from #{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
-          upload_cmd = "vagrant cloud publish --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data)}' --force --release  #{public_private_box(md_data['box_basename'])}"
+          upload_cmd = "vagrant cloud publish --architecture #{arch} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data)}' --force --release  #{public_private_box(md_data['box_basename'])}"
           shellout(upload_cmd)
         end
 
@@ -86,9 +92,8 @@ class UploadRunner
       else
         return '--no-private' if name.start_with?(public) && !public.include?('arm64')
       end
-
-      return '--private'
     end
+    return '--private'
   end
 
   def box_desc(name)
@@ -115,6 +120,6 @@ class UploadRunner
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"
 
-    "#{md_data['name'].tr('-', ' ').capitalize} Vagrant box version #{md_data['version']} created with Bento by Chef. Built with: #{tool_versions.join(', ')}"
+    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Chef. Built with: #{tool_versions.join(', ')}"
   end
 end
