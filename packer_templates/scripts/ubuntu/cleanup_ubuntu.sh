@@ -26,11 +26,12 @@ dpkg --list \
     | grep linux-source \
     | xargs apt-get -y purge;
 
+# 23.10 gives dependency errors for systemd-dev package
 echo "remove all development packages"
 dpkg --list \
     | awk '{ print $2 }' \
     | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
-    | xargs apt-get -y purge;
+    | xargs -I % apt-get -y purge % || true;
 
 echo "remove docs packages"
 dpkg --list \
