@@ -87,13 +87,13 @@ class UploadRunner
 
   def public_private_box(name)
     builds_yml['public'].each do |public|
-      if name.include?('arm64')
+      if name.include?('arm64') || name.include?('aarch64')
         return '--no-private' if name.start_with?(public) && public.include?('arm64')
       else
         return '--no-private' if name.start_with?(public) && !public.include?('arm64')
       end
     end
-    return '--private'
+    return '--no-private'
   end
 
   def box_desc(name)

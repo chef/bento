@@ -54,7 +54,13 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 - Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
-## [unreleased] (2024-01-31)
+## [unreleased] (2024-02-01)
+
+## [v3.2.2] (2024-02-01)
+
+- Fix upload private or public flag lookup in builds.yml
+
+## [v3.2.1] (2024-01-31)
 
 - Fix build list generation on aarch64 machines
 - Updated Debian 12 to 12.4
