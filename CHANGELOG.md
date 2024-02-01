@@ -59,6 +59,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ## [v3.2.2] (2024-02-01)
 
 - Fix upload private or public flag lookup in builds.yml
+- Fix yum cleanup script for oracle linux 7 error removing linux-firmware
+- Fix ubuntu user-data post command modifying a file that doesn't exist on 23.10
 
 ## [v3.2.1] (2024-01-31)
 

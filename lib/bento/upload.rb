@@ -93,7 +93,7 @@ class UploadRunner
         return '--no-private' if name.start_with?(public) && !public.include?('arm64')
       end
     end
-    return '--no-private'
+    return '--private'
   end
 
   def box_desc(name)
