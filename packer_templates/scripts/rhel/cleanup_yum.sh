@@ -19,7 +19,7 @@ package-cleanup --oldkernels --count=1 -y
 
 # Avoid ~200 meg firmware package we don't need
 # this cannot be done in the KS file so we do it here
-if [[ $HOSTNAME == oracle* ]]; then
+if [[ "$(uname -a)" == *uek* ]]; then
   echo "Skipping firmware removal for Oracle Linux"
 else
   echo "Removing extra firmware packages"
