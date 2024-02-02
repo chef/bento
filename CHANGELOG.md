@@ -5,41 +5,41 @@
 ***Note:**
 Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
-|                   | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
-|:-----------------:|:---:|:---:|:--------------------:|:---:|:---:|:---:|:---:|:---:|:---:|
-|    almalinux-8    |  | x |                      | x |  | x |  | x |  |
-|    almalinux-9    |  | x |          x           |  |  | x |  | x | x |
-|   amazonlinux-2   |  | na |          na          |  |  |  | na |  | na |
-| amazonlinux-2023  | na | na |          na          | na | na | na | na | na | na |
-|     centos-7      |  | x |                      | x |  | x |  | x |  |
-|  centos-stream-8  |  | x |                      | x |  | x |  | x |  |
-|  centos-stream-9  |  |  |          x           |  |  |  |  |  |  |
-|     debian-11     |  | x |          x           |  |  | x |  | x |  |
-|     debian-12     |  | x |          x           |  |  | x |  | x | x |
-|     fedora-38     |  | x |                      | x |  | x |  | x | x |
-|     fedora-39     |  |  |                      |  |  |  |  |  |  |
-|    freebsd-12     |  |  |                      |  |  | x |  | x |  |
-|    freebsd-13     |  |  |                      |  |  | x |  | x |  |
-| opensuse-leap-15  |  | x |                      | x |  | x |  | x |  |
-|   oraclelinux-7   |  | x |                      | x |  | x |  | x |  |
-|   oraclelinux-8   |  |  |                      | x |  | x |  | x |  |
-|   oraclelinux-9   |  | x |          x           |  |  | x |  | x |  |
-|      rhel-7       | license<br>needed | license<br>needed |  license<br>needed   | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-|      rhel-8       | license<br>needed | license<br>needed |  license<br>needed   | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-|      rhel-9       | license<br>needed | license<br>needed |  license<br>needed   | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-|   rockylinux-8    |  | x |                      | x |  | x |  | x |  |
-|   rockylinux-9    |  | x |                      |  |  | x |  | x | x |
-|      sles-12      | license<br>needed | license<br>needed |          na          | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-|      sles-13      | license<br>needed | license<br>needed |          na          | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-|    solaris-11     | license<br>needed | license<br>needed |          na          | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-|   ubuntu-20.04    |  | x |          x           |  |  | x |  | x | x |
-|   ubuntu-22.04    |  | x |                      | x |  | x |  | x |  |
-|   ubuntu-23.10    |  |  |                      |  |  |  |  |  |  |
-|    windows-10     |  | x |          na          |  | na | x | na |  | na |
-|    windows-11     |  | x |          na          |  | na | x | na |  | na |
-|   windows-2016    |  | x |          na          |  | na | x | na |  | na |
-|   windows-2019    |  | x |          na          |  | na | x | na |  | na |
-|   windows-2022    |  | x |          na          |  | na | x | na |  | na |
+|                  | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64  | vmware<br>aarch64 |
+|:----------------:|:---:|:-------------------:|:--------------------:|:---:|:---:|:--------------------:|:---:|:-----------------:|:-----------------:|
+|   almalinux-8    |  |          x          |                      | x |  |          x           |  |         x         |                   |
+|   almalinux-9    |  |          x          |          x           |  |  |          x           |  |         x         |         x         |
+|  amazonlinux-2   |  |         na          |          na          |  |  |                      | na |                   |        na         |
+| amazonlinux-2023 | na |         na          |          na          | na | na |          na          | na |        na         |        na         |
+|     centos-7     |  |          x          |                      | x |  |          x           |  |         x         |                   |
+| centos-stream-8  |  |          x          |                      | x |  |          x           |  |         x         |                   |
+| centos-stream-9  |  |                     |          x           |  |  |                      |  |                   |                   |
+|    debian-11     |  |          x          |          x           |  |  |          x           |  |         x         |                   |
+|    debian-12     |  |          x          |          x           |  |  |          x           |  |         x         |         x         |
+|    fedora-38     |  |          x          |                      | x |  |          x           |  |         x         |         x         |
+|    fedora-39     |  |                     |                      |  |  |                      |  |                   |                   |
+|    freebsd-13    |  |                     |                      |  |  |          x           |  |         x         |         x         |
+|    freebsd-14    |  |                     |                      |  |  |          x           |  |         x         |                   |
+| opensuse-leap-15 |  |          x          |                      | x |  |          x           |  |         x         |                   |
+|  oraclelinux-7   |  |          x          |                      | x |  |          x           |  |         x         |                   |
+|  oraclelinux-8   |  |                     |                      | x |  |          x           |  |         x         |                   |
+|  oraclelinux-9   |  |          x          |          x           |  |  |          x           |  |         x         |                   |
+|      rhel-7      | license<br>needed |  license<br>needed  |  license<br>needed   | license<br>needed | license<br>needed |  license<br>needed   | license<br>needed | license<br>needed | license<br>needed |
+|      rhel-8      | license<br>needed |  license<br>needed  |  license<br>needed   | license<br>needed | license<br>needed |  license<br>needed   | license<br>needed | license<br>needed | license<br>needed |
+|      rhel-9      | license<br>needed |  license<br>needed  |  license<br>needed   | license<br>needed | license<br>needed |  license<br>needed   | license<br>needed | license<br>needed | license<br>needed |
+|   rockylinux-8   |  |          x          |                      | x |  |          x           |  |         x         |                   |
+|   rockylinux-9   |  |          x          |                      |  |  |          x           |  |         x         |         x         |
+|     sles-12      | license<br>needed |  license<br>needed  |          na          | license<br>needed | na |  license<br>needed   | na | license<br>needed |        na         |
+|     sles-13      | license<br>needed |  license<br>needed  |          na          | license<br>needed | na |  license<br>needed   | na | license<br>needed |        na         |
+|    solaris-11    | license<br>needed |  license<br>needed  |          na          | license<br>needed | na |  license<br>needed   | na | license<br>needed |        na         |
+|   ubuntu-20.04   |  |          x          |          x           |  |  |          x           |  |         x         |         x         |
+|   ubuntu-22.04   |  |          x          |                      | x |  |          x           |  |         x         |                   |
+|   ubuntu-23.10   |  |          x          |          x           |  |  |          x           |  |         x         |         x         |
+|    windows-10    |  |          x          |          na          |  | na |          x           | na |                   |        na         |
+|    windows-11    |  |          x          |          na          |  | na |          x           | na |                   |        na         |
+|   windows-2016   |  |          x          |          na          |  | na |          x           | na |                   |        na         |
+|   windows-2019   |  |          x          |          na          |  | na |          x           | na |                   |        na         |
+|   windows-2022   |  |          x          |          na          |  | na |          x           | na |                   |        na         |
 
 ### Todo
 
@@ -54,7 +54,12 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 - Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
-## [unreleased] (2024-02-01)
+## [unreleased] (2024-02-05)
+
+## [v4.0.0] (2024-02-05)
+
+- Added Vagrant Cloud architecture flags so amd64 and arm64 boxes can live under the same cloud box
+- Setting amd64 as default architecture for uploads, configurable in the builds.yml file
 
 ## [v3.2.2] (2024-02-01)
 
