@@ -43,12 +43,12 @@ jobs:
       - name: hyper-v install
         shell: pwsh
         run: |
+          Get-WindowsFeature
           Install-WindowsFeature -Name Hyper-V -IncludeAllSubFeature -IncludeManagementTools
 #          Restart-Computer -Force
       - name: tests
         shell: pwsh
         run: |
-          Get-WindowsFeature
           packer -v
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
           # Check if Hyper-V is enabled
