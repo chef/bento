@@ -7,7 +7,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, parallels]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -42,7 +42,6 @@ jobs:
         shell: pwsh
         run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
       - name: Install Virtualization Software
-        uses: ubuntu-latest
         run: |
           sudo apt-get update
           sudo apt-get install -y parallels virtualbox qemu-kvm
