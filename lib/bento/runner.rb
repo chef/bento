@@ -55,6 +55,7 @@ class BuildRunner
     template = File.basename(file)
     cmd = nil
     Dir.chdir dir
+    # raise "TEST1 = #{Dir.glob("../../builds/#{template.split('-')[0...-1].join('-')}*.box").inspect}\nTEST2 = #{template.split('-')[-1].inspect}"
     for_packer_run_with(template) do |md_file, _var_file|
       cmd = Mixlib::ShellOut.new(packer_build_cmd(template, md_file.path).join(' '))
       cmd.live_stream = STDOUT
@@ -64,7 +65,7 @@ class BuildRunner
       time = Benchmark.measure do
         cmd.run_command
       end
-      if Dir.glob("../../builds/#{template.split('-')[0...-1].join('-')}*-#{template.split('-')[-1]}.box").empty?
+      if Dir.glob("../../builds/#{template.split('-')[0...-1].join('-')}*-#{template.split('-')[-1]}.*.box").empty?
         banner('Not writing metadata file since no boxes exist')
       else
         write_final_metadata(template, time.real.ceil)

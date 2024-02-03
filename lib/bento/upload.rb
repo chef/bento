@@ -89,7 +89,7 @@ class UploadRunner
   end
 
   def default_arch(architecture)
-    builds_yml['default_arch'].each do |arch|
+    builds_yml['default_architectures'].each do |arch|
       return '--default-architecture' if architecture.eql?(arch)
     end
     '--no-default-architecture'
