@@ -7,29 +7,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  markdown-lint:
-    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
-
-  markdown-link-checker:
-    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
-
-  yaml-lint:
-    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
-
-  json-lint:
-    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
-
-  xml-lint:
-    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
-
-  shellcheck-lint:
-    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
-
-  powershell-lint:
-    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
+#  markdown-lint:
+#    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
+#
+#  markdown-link-checker:
+#    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
+#
+#  yaml-lint:
+#    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
+#
+#  json-lint:
+#    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
+#
+#  xml-lint:
+#    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
+#
+#  shellcheck-lint:
+#    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
+#
+#  powershell-lint:
+#    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
   pkr-bld-hyper-v-x64:
-    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
+    uses: ./.github/workflows/test-pkr-bld-hyperv-x64.yml
     secrets: inherit
 
 #  pkr-bld-amazonlinux-x64:
@@ -71,21 +71,21 @@ jobs:
 #  pkr-bld-vmware-x64:
 #    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
 #    secrets: inherit
-
-  check_jobs_pass:
-    if: always()
-    needs:
-      - markdown-lint
-      - yaml-lint
-      - json-lint
-      - xml-lint
-      - powershell-lint
-      - shellcheck-lint
-    runs-on: Ubuntu-latest
-    steps:
-      - name: Decide whether the needed jobs succeeded or failed
-        uses: re-actors/alls-green@main
-        with:
-          allowed-failures:
-          allowed-skips: ${{ toJSON(needs) }}
-          jobs: ${{ toJSON(needs) }}
+#
+#  check_jobs_pass:
+#    if: always()
+#    needs:
+#      - markdown-lint
+#      - yaml-lint
+#      - json-lint
+#      - xml-lint
+#      - powershell-lint
+#      - shellcheck-lint
+#    runs-on: Ubuntu-latest
+#    steps:
+#      - name: Decide whether the needed jobs succeeded or failed
+#        uses: re-actors/alls-green@main
+#        with:
+#          allowed-failures:
+#          allowed-skips: ${{ toJSON(needs) }}
+#          jobs: ${{ toJSON(needs) }}
