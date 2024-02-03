@@ -7,7 +7,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: windows-latest
+    runs-on: [self-hosted, X64, hyperv]
     strategy:
       fail-fast: false
       matrix:
@@ -40,17 +40,10 @@ jobs:
       - name: iso-availability
         shell: pwsh
         run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
-      - name: tests
-        shell: pwsh
-        run: |
-          packer -v
-          $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
-          # Check if Hyper-V is enabled
-          if($hyperv.State -eq "Enabled") {
-            Write-Host "Hyper-V is enabled."
-          } else {
-            Write-Host "Hyper-V is disabled."
-          }
+#      - name: Setup Packer
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
       - name: Packer Init
         run: packer init -upgrade packer_templates
       - name: Packer FMT
