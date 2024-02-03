@@ -31,6 +31,9 @@ jobs:
   pkr-bld-hyper-v-x64:
     uses: ./.github/workflows/test-pkr-bld-hyperv-x64.yml
     secrets: inherit
+  pkr-bld-parallels-x64:
+    uses: ./.github/workflows/test-pkr-bld-parallels-x64.yml
+    secrets: inherit
 
 #  pkr-bld-amazonlinux-x64:
 #    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml

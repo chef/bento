@@ -48,6 +48,7 @@ jobs:
       - name: tests
         shell: pwsh
         run: |
+          Get-WindowsFeature
           packer -v
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
           # Check if Hyper-V is enabled
