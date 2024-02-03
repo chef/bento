@@ -44,7 +44,7 @@ jobs:
         shell: pwsh
         run: |
           Install-WindowsFeature -Name Hyper-V -IncludeAllSubFeature -IncludeManagementTools
-          Restart-Computer -Force
+#          Restart-Computer -Force
       - name: tests
         shell: pwsh
         run: |
