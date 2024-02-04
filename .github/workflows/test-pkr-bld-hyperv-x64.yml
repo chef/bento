@@ -44,7 +44,7 @@ jobs:
         shell: pwsh
         run: |
           packer -v
-#          DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
+          # DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
           Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
           # Check if Hyper-V is enabled
