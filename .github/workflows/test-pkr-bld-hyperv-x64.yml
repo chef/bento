@@ -40,16 +40,11 @@ jobs:
       - name: iso-availability
         shell: pwsh
         run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
-      - name: hyper-v install
-        shell: pwsh
-        run: |
-          Get-WindowsFeature
-          Install-WindowsFeature -Name Hyper-V -IncludeAllSubFeature -IncludeManagementTools
-#          Restart-Computer -Force
       - name: tests
         shell: pwsh
         run: |
           packer -v
+          DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
           # Check if Hyper-V is enabled
           if($hyperv.State -eq "Enabled") {
