@@ -60,6 +60,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 - Added Vagrant Cloud architecture flags so amd64 and arm64 boxes can live under the same cloud box
 - Setting amd64 as default architecture for uploads, configurable in the builds.yml file
+- Update descriptions mentioning chef to progress chef
+- Update README.md to reflect vagrant version for new architecture support
 
 ## [v3.2.2] (2024-02-01)
 

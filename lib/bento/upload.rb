@@ -96,11 +96,11 @@ class UploadRunner
   end
 
   def box_desc(name)
-    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Chef"
+    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Progress Chef"
   end
 
   def slug_desc(name)
-    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Chef. This box will be updated with the latest releases of #{name.tr('-', ' ').capitalize} as they become available"
+    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Progress Chef. This box will be updated with the latest releases of #{name.tr('-', ' ').capitalize} as they become available"
   end
 
   def ver_desc(md_data)
@@ -119,6 +119,6 @@ class UploadRunner
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"
 
-    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Chef. Built with: #{tool_versions.join(', ')}"
+    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Progress Chef. Built with: #{tool_versions.join(', ')}"
   end
 end
