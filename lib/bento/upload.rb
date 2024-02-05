@@ -46,7 +46,7 @@ class UploadRunner
       if File.exist?(File.join('builds', prov_data['file']))
         puts ''
         banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
-        upload_cmd = "vagrant cloud publish --architecture #{arch} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['box_basename'])}' --short-description '#{box_desc(md_data['box_basename'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
+        upload_cmd = "vagrant cloud publish --architecture #{arch} #{default_arch(arch)} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['box_basename'])}' --short-description '#{box_desc(md_data['box_basename'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
         shellout(upload_cmd)
 
         slug_name = lookup_slug(md_data['name'])
@@ -75,11 +75,7 @@ class UploadRunner
   #
   def lookup_slug(name)
     builds_yml['slugs'].each_pair do |slug, match_string|
-      if name.include?('arm64')
-        return slug if name.start_with?(match_string) && slug.include?('arm64')
-      else
-        return slug if name.start_with?(match_string) && !slug.include?('arm64')
-      end
+      return slug if name.start_with?(match_string)
     end
 
     nil
@@ -87,21 +83,24 @@ class UploadRunner
 
   def public_private_box(name)
     builds_yml['public'].each do |public|
-      if name.include?('arm64') || name.include?('aarch64')
-        return '--no-private' if name.start_with?(public) && public.include?('arm64')
-      else
-        return '--no-private' if name.start_with?(public) && !public.include?('arm64')
-      end
+      return '--no-private' if name.start_with?(public)
     end
-    return '--private'
+    '--private'
+  end
+
+  def default_arch(architecture)
+    builds_yml['default_architectures'].each do |arch|
+      return '--default-architecture' if architecture.eql?(arch)
+    end
+    '--no-default-architecture'
   end
 
   def box_desc(name)
-    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Chef"
+    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Progress Chef"
   end
 
   def slug_desc(name)
-    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Chef. This box will be updated with the latest releases of #{name.tr('-', ' ').capitalize} as they become available"
+    "Vanilla #{name.tr('-', ' ').capitalize} Vagrant box created with Bento by Progress Chef. This box will be updated with the latest releases of #{name.tr('-', ' ').capitalize} as they become available"
   end
 
   def ver_desc(md_data)
@@ -120,6 +119,6 @@ class UploadRunner
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"
 
-    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Chef. Built with: #{tool_versions.join(', ')}"
+    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Progress Chef. Built with: #{tool_versions.join(', ')}"
   end
 end

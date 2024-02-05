@@ -17,7 +17,7 @@ class BuildRunner
     @dry_run = opts.dry_run
     @metadata_only = opts.metadata_only
     @debug = opts.debug
-    @only = opts.only ||= 'parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm'
+    @only = opts.only ||= 'parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm,qemu.vm'
     @except = opts.except
     @mirror = opts.mirror
     @headed = opts.headed ||= false
@@ -64,8 +64,8 @@ class BuildRunner
       time = Benchmark.measure do
         cmd.run_command
       end
-      if Dir.glob("../../builds/*.box").empty?
-        banner("Not writing metadata file since no boxes exist")
+      if Dir.glob("../../builds/#{template.split('-')[0...-1].join('-')}*-#{template.split('-')[-1]}.*.box").empty?
+        banner('Not writing metadata file since no boxes exist')
       else
         write_final_metadata(template, time.real.ceil)
       end

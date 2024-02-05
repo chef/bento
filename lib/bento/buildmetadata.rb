@@ -33,12 +33,7 @@ class BuildMetadata
   attr_reader :template, :build_timestamp, :override_version, :pkr_cmd
 
   def box_basename
-    temp_name = name.gsub('/', '__').split('-')
-    if temp_name.last == 'arm64'
-      temp_name.join('-')
-    else
-      (temp_name.first temp_name.size - 1).join('-')
-    end
+    name.gsub('/', '__').split('-')[0...-1].join('-')
   end
 
   def git_revision
@@ -54,12 +49,7 @@ class BuildMetadata
   end
 
   def name
-    arch = merged_vars.fetch('arch', UNKNOWN).downcase
-    if arch == 'aarch64' || arch == 'arm64'
-      "#{merged_vars.fetch('name', template)}-arm64"
-    else
-      "#{merged_vars.fetch('name', template)}-x86_64"
-    end
+    merged_vars.fetch('name', template)
   end
 
   def arch

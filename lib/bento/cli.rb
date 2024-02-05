@@ -6,6 +6,7 @@ require 'bento/runner'
 require 'bento/normalize'
 require 'bento/test'
 require 'bento/upload'
+require 'bento/version'
 
 class Options
   NAME = File.basename($PROGRAM_NAME).freeze
@@ -33,6 +34,7 @@ class Options
         normalize    :   normalize one or more templates
         test         :   test one or more builds with kitchen
         upload       :   upload and release one or more builds to Vagrant Cloud
+        version      :   prints the version of #{NAME}
       COMMANDS
     end
 
@@ -56,6 +58,13 @@ class Options
         parser: OptionParser.new {},
         argv: proc { |_opts|
           puts global
+          exit(0)
+        },
+      },
+      version: {
+        parser: OptionParser.new {},
+        argv: proc { |_opts|
+          puts Bento::VERSION
           exit(0)
         },
       },

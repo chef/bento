@@ -1,6 +1,10 @@
 ---
 vagrant_cloud_account: 'bento'
 
+default_architectures:
+  - 'x86_64'
+  - 'amd64'
+
 public:
   - 'almalinux-8'
   - 'almalinux-9'
@@ -24,28 +28,6 @@ public:
   - 'ubuntu-20.04'
   - 'ubuntu-22.04'
   - 'ubuntu-23.10'
-  - 'almalinux-8-arm64'
-  - 'almalinux-9-arm64'
-  - 'amazon-2-arm64'
-  - 'amazon-2023-arm64'
-  - 'centos-7-arm64'
-  - 'centos-stream-8-arm64'
-  - 'centos-stream-9-arm64'
-  - 'debian-11-arm64'
-  - 'debian-12-arm64'
-  - 'fedora-38-arm64'
-  - 'fedora-39-arm64'
-  - 'freebsd-13-arm64'
-  - 'freebsd-14-arm64'
-  - 'opensuse-leap-15-arm64'
-  - 'oracle-7-arm64'
-  - 'oracle-8-arm64'
-  - 'oracle-9-arm64'
-  - 'rockylinux-8-arm64'
-  - 'rockylinux-9-arm64'
-  - 'ubuntu-20.04-arm64'
-  - 'ubuntu-22.04-arm64'
-  - 'ubuntu-23.10-arm64'
 
 # slug box name: text string from standard box name to match (generally the same)
 slugs:
@@ -63,17 +45,6 @@ slugs:
   'oracle-9': 'oracle-9'
   'rockylinux-8': 'rockylinux-8'
   'rockylinux-9': 'rockylinux-9'
-  'almalinux-8-arm64': 'almalinux-8'
-  'almalinux-9-arm64': 'almalinux-9'
-  'centos-7-arm64': 'centos-7'
-  'debian-12-arm64': 'debian-12'
-  'debian-11-arm64': 'debian-11'
-  'fedora-latest-arm64': 'fedora-39'
-  'oracle-7-arm64': 'oracle-7'
-  'oracle-8-arm64': 'oracle-8'
-  'oracle-9-arm64': 'oracle-9'
-  'rockylinux-8-arm64': 'rockylinux-8'
-  'rockylinux-9-arm64': 'rockylinux-9'
 
 do_not_build:
   - amazon
