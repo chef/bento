@@ -33,7 +33,7 @@ class BuildMetadata
   attr_reader :template, :build_timestamp, :override_version, :pkr_cmd
 
   def box_basename
-    name.gsub('/', '__').split('-')[0...-1].join('-')
+    name.gsub('/', '__').split('-').join('-')
   end
 
   def git_revision
