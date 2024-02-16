@@ -136,7 +136,7 @@
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Vagrant</FullName>
-                <Organization>Bento by Chef Software, Inc.</Organization>
+                <Organization>Bento by Progress Chef.</Organization>
             </UserData>
             <DynamicUpdate>
                 <Enable>false</Enable>

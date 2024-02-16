@@ -1,0 +1,9 @@
+os_name                 = "windows"
+os_version              = "11"
+os_arch                 = "aarch64"
+is_windows              = true
+iso_url                 = "../../builds/iso/WIN11_PROFESSIONAL_ARM64_EN-US.ISO"
+iso_checksum            = "90d4f9b5377e3c41784696ad0bb021b690e4f981f8e278fad62e07726f86bd77"
+parallels_guest_os_type = "win-11"
+vbox_guest_os_type      = "Windows11_64"
+vmware_guest_os_type    = "windows9srv-64"

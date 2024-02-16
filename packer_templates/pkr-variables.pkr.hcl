@@ -225,6 +225,7 @@ variable "vmware_version" {
 variable "vmware_vmx_data" {
   type = map(string)
   default = {
+    # "firmware"                = "efi"
     "cpuid.coresPerSocket"    = "2"
     "ethernet0.pciSlotNumber" = "32"
     "svga.autodetect"         = true

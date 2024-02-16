@@ -2,10 +2,10 @@ locals {
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? "true" : null
+    var.hyperv_generation == 2 && var.is_windows ? true : false
   ) : var.hyperv_enable_dynamic_memory
   hyperv_enable_secure_boot = var.hyperv_enable_secure_boot == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? false : null
+    var.hyperv_generation == 2 && var.is_windows ? true : false
   ) : var.hyperv_enable_secure_boot
 
   # parallels-iso
@@ -21,11 +21,10 @@ locals {
   ) : var.parallels_tools_mode
   parallels_prlctl = var.parallels_prlctl == null ? (
     var.is_windows ? [
-      ["set", "{{ .Name }}", "--efi-boot", "off"]
-      ] : [
-      ["set", "{{ .Name }}", "--3d-accelerate", "off"],
-      ["set", "{{ .Name }}", "--videosize", "16"]
-    ]
+      ["set", "{{ .Name }}", "--efi-boot", "off"],
+      ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+      ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
+    ] : null
   ) : var.parallels_prlctl
 
   # qemu
@@ -35,7 +34,7 @@ locals {
   ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
-      ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${path.root}/../builds/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
@@ -76,22 +75,26 @@ locals {
     var.is_windows ? (
       var.hyperv_generation == 2 ? [
         "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
-        ] : [
-        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-      ]
+        ] : (
+        var.os_arch == "x86_64" ? [
+          "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+          ] : [
+          "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+        ]
+      )
     ) : null
   ) : var.cd_files
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
   floppy_files = var.floppy_files == null ? (
-    var.is_windows ? [
-      "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-      ] : (
-      var.os_name == "springdalelinux" ? [
-        "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"
-      ] : null
-    )
+    var.is_windows ? (
+      var.os_arch == "x86_64" ? [
+        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+        ] : [
+        "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+      ]
+    ) : null
   ) : var.floppy_files
   http_directory   = var.http_directory == null ? "${path.root}/http" : var.http_directory
   memory           = var.memory == null ? (var.is_windows ? 4096 : 2048) : var.memory
@@ -203,6 +206,7 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
+  #firmware                  = "efi"
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
