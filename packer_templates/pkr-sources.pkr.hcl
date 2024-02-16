@@ -24,7 +24,7 @@ locals {
       ["set", "{{ .Name }}", "--efi-boot", "off"],
       ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
       ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
-      ] : null
+    ] : null
   ) : var.parallels_prlctl
 
   # qemu
