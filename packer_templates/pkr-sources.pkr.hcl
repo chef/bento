@@ -23,13 +23,8 @@ locals {
     var.is_windows ? [
       ["set", "{{ .Name }}", "--efi-boot", "off"],
       ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
-#      ["set", "{{ .Name }}", "--3d-accelerate", "off"],
-#      ["set", "{{ .Name }}", "--videosize", "16"],
-      ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../unattended.iso", "--connect"],
-      ] : [
-#      ["set", "{{ .Name }}", "--3d-accelerate", "off"],
-#      ["set", "{{ .Name }}", "--videosize", "16"]
-    ]
+      ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
+      ] : null
   ) : var.parallels_prlctl
 
   # qemu
@@ -39,7 +34,7 @@ locals {
   ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
-      ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${path.root}/../builds/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
@@ -211,7 +206,7 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  firmware                  = "efi"
+  #firmware                  = "efi"
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
