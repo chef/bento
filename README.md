@@ -27,10 +27,10 @@ end
 ### Installing Bento
 
 1. install ruby environment
-2. clone repo
-3. cd <path/to>/bento
-4. gem build bento.gemspec
-5. gem install bento-*.gem
+1. clone repo
+1. cd <path/to>/bento
+1. gem build bento.gemspec
+1. gem install bento-*.gem
 
 ### Building Boxes
 

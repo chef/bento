@@ -185,7 +185,6 @@ source "qemu" "vm" {
   machine_type      = local.qemu_machine_type
   qemu_binary       = local.qemu_binary
   qemuargs          = local.qemuargs
-  skip_resize_disk  = true
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
