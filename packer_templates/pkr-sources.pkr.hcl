@@ -174,11 +174,18 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator  = var.qemu_accelerator
-  display      = var.headless ? "none" : var.qemu_display
-  machine_type = local.qemu_machine_type
-  qemu_binary  = local.qemu_binary
-  qemuargs     = local.qemuargs
+  accelerator       = var.qemu_accelerator
+  display           = var.headless ? "none" : var.qemu_display
+  disk_image        = var.qemu_disk_image
+  efi_boot          = var.qemu_efi_boot
+  efi_firmware_code = var.qemu_efi_firmware_code
+  efi_firmware_vars = var.qemu_efi_firmware_vars
+  efi_drop_efivars  = var.qemu_efi_drop_efivars
+  format            = var.qemu_format
+  machine_type      = local.qemu_machine_type
+  qemu_binary       = local.qemu_binary
+  qemuargs          = local.qemuargs
+  skip_resize_disk  = true
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait

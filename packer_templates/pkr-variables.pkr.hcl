@@ -119,6 +119,36 @@ variable "qemu_display" {
   type    = string
   default = "none"
 }
+variable "qemu_disk_image" {
+  type        = bool
+  default     = null
+  description = "Whether iso_url is a bootable qcow2 disk image"
+}
+variable "qemu_efi_boot" {
+  type        = bool
+  default     = false
+  description = "Enable EFI boot"
+}
+variable "qemu_efi_firmware_code" {
+  type        = string
+  default     = null
+  description = "EFI firmware code path"
+}
+variable "qemu_efi_firmware_vars" {
+  type        = string
+  default     = null
+  description = "EFI firmware vars file path"
+}
+variable "qemu_efi_drop_efivars" {
+  type        = bool
+  default     = false
+  description = "Drop EFI vars"
+}
+variable "qemu_format" {
+  type        = string
+  default     = "qcow2"
+  description = "Disk format, takes qcow2 or raw"
+}
 variable "qemu_machine_type" {
   type    = string
   default = null
