@@ -54,7 +54,13 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 - Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
-## [unreleased] (2024-02-16)
+## [unreleased] (2024-02-28)
+
+## [v4.0.2] (2024-02-28)
+
+- Update upload message to show architecture
+- fix open-vm-tools install for vmware builds
+- 
 
 ## [v4.0.1] (2024-02-16)
 

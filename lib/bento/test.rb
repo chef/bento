@@ -5,12 +5,13 @@ require 'erb' unless defined?(Erb)
 class TestRunner
   include Common
 
-  attr_reader :shared_folder, :boxname, :provider, :box_url, :no_shared, :provisioner
+  attr_reader :shared_folder, :boxname, :provider, :box_url, :no_shared, :provisioner, :errors
 
   def initialize(opts)
     @debug = opts.debug
     @no_shared = opts.no_shared
     @provisioner = opts.provisioner.nil? ? 'shell' : opts.provisioner
+    @errors = []
   end
 
   def start
@@ -23,6 +24,9 @@ class TestRunner
       end
     end
     banner("Testing finished in #{duration(time.real)}.")
+    unless errors.empty?
+      raise("Failed Tests:\n #{errors.join("\n")}\n exited #{$CHILD_STATUS}")
+    end
   end
 
   private
@@ -45,8 +49,17 @@ class TestRunner
     temp_dir = "#{bento_dir}/builds/test-kitchen"
     Dir.mkdir(temp_dir) unless Dir.exist?(temp_dir)
     md = box_metadata(md_json)
+    arch = case md['arch']
+           when 'x86_64', 'amd64'
+             'amd64'
+           when 'aarch64', 'arm64'
+             'arm64'
+           else
+             raise "Unknown arch #{md_data.inspect}"
+           end
     @boxname = md['name']
     @providers = md['providers']
+    @arch = arch
     @share_disabled = no_shared || /(bsd|opensuse)/.match(boxname) ? true : false
 
     dir = "#{File.expand_path('../../', File.dirname(__FILE__))}/lib/bento/test_templates"
@@ -58,9 +71,14 @@ class TestRunner
 
     Dir.chdir(temp_dir)
     banner("Test kitchen file located in #{temp_dir}")
-    test = Mixlib::ShellOut.new('kitchen test', timeout: 900, live_stream: STDOUT)
-    test.run_command
-    test.error!
+    @providers.each do |k, _v|
+      test = Mixlib::ShellOut.new("kitchen test #{@boxname}-#{@arch}-#{k.tr('_', '-')}", timeout: 900, live_stream: STDOUT)
+      test.run_command
+      if test.error?
+        test.stderr
+        errors << "#{@boxname}-#{@arch}-#{k}"
+      end
+    end
     Dir.chdir(bento_dir)
     FileUtils.rm_rf(temp_dir)
   end
