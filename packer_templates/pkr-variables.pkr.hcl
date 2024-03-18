@@ -38,7 +38,6 @@ variable "no_proxy" {
 variable "sources_enabled" {
   type = list(string)
   default = [
-    "source.hyperv-iso.vm",
     "source.parallels-iso.vm",
     "source.qemu.vm",
     "source.virtualbox-iso.vm",
