@@ -5,5 +5,5 @@ vbox_source_path   = "https://cdn.amazonlinux.com/al2023/os-images/2023.3.202403
 vbox_checksum      = "file:https://cdn.amazonlinux.com/al2023/os-images/2023.3.20240312.0/vmware/SHA256SUMS"
 vbox_guest_os_type = "RedHat_64"
 sources_enabled = [
-  "source.virtualbox-ovf.amazonlinux"
+  "source.virtualbox-ovf.vm"
 ]
