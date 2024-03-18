@@ -245,7 +245,7 @@ source "virtualbox-iso" "vm" {
 source "virtualbox-ovf" "vm" {
   # Virtualbox specific options
   guest_additions_path    = var.vbox_guest_additions_path
-  source_path             = local.vbox_source_path
+  source_path             = var.vbox_source_path
   checksum                = var.vbox_checksum
   vboxmanage              = var.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
