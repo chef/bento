@@ -5,6 +5,7 @@
 *.ovf
 *.vmdk
 *.vdi
+*.qcow2
 *.log
 virtualfloppy.vfd
 packer_cache/
