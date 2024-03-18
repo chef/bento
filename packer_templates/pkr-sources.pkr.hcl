@@ -54,11 +54,6 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
 
-  # virtualbox-ovf
-  vbox_source = var.vbox_source == null ? (
-    var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
-  ) : var.vbox_source
-
   # vmware-iso
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : "linux"
@@ -247,10 +242,11 @@ source "virtualbox-iso" "vm" {
   winrm_username   = var.winrm_username
   vm_name          = local.vm_name
 }
-source "virtualbox-ovf" "amazonlinux" {
+source "virtualbox-ovf" "vm" {
   # Virtualbox specific options
   guest_additions_path    = var.vbox_guest_additions_path
-  source_path             = local.vbox_source
+  source_path             = local.vbox_source_path
+  checksum                = var.vbox_checksum
   vboxmanage              = var.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options

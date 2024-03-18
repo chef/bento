@@ -17,7 +17,7 @@ class BuildRunner
     @dry_run = opts.dry_run
     @metadata_only = opts.metadata_only
     @debug = opts.debug
-    @only = opts.only ||= 'parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm,qemu.vm'
+    @only = opts.only
     @except = opts.except
     @mirror = opts.mirror
     @headed = opts.headed ||= false

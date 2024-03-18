@@ -215,9 +215,15 @@ variable "virtualbox_version_file" {
 }
 
 # virtualbox-ovf
-variable "vbox_source" {
-  type    = string
-  default = null
+variable "vbox_source_path" {
+  type        = string
+  default     = null
+  description = "Path to the OVA/OVF file"
+}
+variable "vbox_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the OVA/OVF file"
 }
 
 # vmware-iso
