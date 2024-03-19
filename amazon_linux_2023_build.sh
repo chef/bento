@@ -8,15 +8,18 @@ cd "$SCRIPT_RELATIVE_DIR" || exit
 AMZDIR="$(pwd)/packer_templates/amz_working_files"
 
 # Get virtualbox vdi file name with latest version number
-IMG="$(wget -q https://cdn.amazonlinux.com/os-images/latest/virtualbox/ -O - | grep ".vdi" | cut -d "\"" -f 2)"
+IMG="$(wget -q https://cdn.amazonlinux.com/al2023/os-images/latest/kvm/ -O - | grep ".qcow2" | cut -d "\"" -f 2)"
 
-# Download vbox vdi
-echo "Downloading Vbox VDI $IMG"
-wget -q -O "$AMZDIR"/amazon.vdi -c https://cdn.amazonlinux.com/os-images/latest/virtualbox/"$IMG"
+# Download image
+echo "Downloading $IMG"
+wget -q -O "$AMZDIR"/amazon22023.qcow2 -c https://cdn.amazonlinux.com/al2023/os-images/latest/kvm/"$IMG"
 
-if [ ! -f "$AMZDIR"/amazon.vdi ]; then
-  echo There must be a file named amazon.vdi in "$AMZDIR"!
-  echo You can download the vdi file at https://cdn.amazonlinux.com/os-images/latest/virtualbox/
+echo "Convert qcow2 to vdi"
+qemu-img convert -f qcow2 "$AMZDIR"/amazon22023.qcow2 -O vdi "$AMZDIR"/amazon22023.vdi
+
+if [ ! -f "$AMZDIR"/amazon22023.vdi ]; then
+  echo There must be a file named amazon22023.vdi in "$AMZDIR"!
+  echo You can download the files at  https://cdn.amazonlinux.com/al2023/os-images/latest/
   exit 1
 fi
 
@@ -34,9 +37,9 @@ sleep 5
 
 echo "Creating the VM"
 # from https://www.perkin.org.uk/posts/create-virtualbox-vm-from-the-command-line.html
-VBoxManage createvm --name $VM --ostype "RedHat_64" --register
+VBoxManage createvm --name $VM --ostype "Fedora_64" --register
 VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$AMZDIR"/amazon.vdi
+VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$AMZDIR"/amazon22023.vdi
 VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 1 --type dvddrive --medium "$AMZDIR"/seed.iso
 VBoxManage modifyvm $VM --memory 2048
 VBoxManage modifyvm $VM --cpus 2
@@ -44,24 +47,24 @@ VBoxManage modifyvm $VM --audio-driver none
 VBoxManage modifyvm $VM --ioapic on
 sleep 5
 
-echo Sleeping for 120 seconds to let the system boot and cloud-init to run
+echo "Sleeping for 120 seconds to let the system boot and cloud-init to run"
 VBoxManage startvm $VM --type headless
 sleep 120
 VBoxManage controlvm $VM poweroff --type headless
 VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 1 --type dvddrive --medium none
 sleep 5
 
-echo Exporting the VM to an OVF file
-vboxmanage export $VM -o "$AMZDIR"/amazon2.ovf
+echo "Exporting the VM to an OVF file""
+vboxmanage export $VM -o "$AMZDIR"/amazon22023.ovf
 sleep 5
 
-echo Deleting the VM
+echo "Deleting the VM""
 vboxmanage unregistervm $VM --delete
 
-echo starting packer build of amazonlinux
-if packer build -timestamp-ui -only=virtualbox-ovf.amazonlinux -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
+echo "starting packer build of amazonlinux"
+if packer build -timestamp-ui -only=virtualbox-ovf.vm -var "vbox_source_path=$AMZDIR/amazon22023.ovf" -var "vbox_checksum=null" -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2023-x86_64-virtualbox.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
   echo "Cleaning up files"
-  rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
+  rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso "$AMZDIR"/*.vdi "$AMZDIR"/*.qcow2
 else
   exit 1
 fi
