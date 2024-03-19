@@ -41,7 +41,7 @@ VBoxManage createvm --name $VM --ostype "Fedora_64" --register
 VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
 VBoxManage storagectl $VM --name "SATA CDROM" --add sata --controller IntelAHCI
 VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$AMZDIR"/amazon2023.vdi
-VBoxManage storageattach $VM --storagectl "SATA CDROM" --port 0 --device 0 --type dvddrive --medium "$AMZDIR"/seed.iso
+VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium "$AMZDIR"/seed.iso
 VBoxManage modifyvm $VM --memory 2048
 VBoxManage modifyvm $VM --cpus 2
 VBoxManage modifyvm $VM --audio-driver none
@@ -52,7 +52,7 @@ echo "Sleeping for 120 seconds to let the system boot and cloud-init to run"
 VBoxManage startvm $VM --type headless
 sleep 120
 VBoxManage controlvm $VM poweroff --type headless
-VBoxManage storageattach $VM --storagectl "SATA CDROM" --port 0 --device 0 --type dvddrive --medium none
+VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium none
 sleep 5
 
 echo "Exporting the VM to an OVF file"
