@@ -1,7 +1,9 @@
 #cloud-config
 #vim:syntax=yaml
-user: vagrant
-password: vagrant
+users:
+  - name: vagrant
+    plain_text_passwd: vagrant
+    sudo:  ALL=(ALL) NOPASSWD:ALL
 
 # install packages for vbox guest additions to complete
 packages:
