@@ -59,8 +59,15 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ## [v4.0.2] (2024-02-28)
 
 - Update upload message to show architecture
-- fix open-vm-tools install for vmware builds
-- 
+- Fix open-vm-tools install for vmware builds
+- Fix amazonlinux 2 build script
+- Added amazonlinux 2023 build scripts
+- Allow failed tests to continue and report at the end each test that failed
+- Added amazonlinux aarch64 packer templates
+- removed unneeded config from amazon user-data script for seed.iso
+- Added additional qemu variables for various qemu source properties
+- Added virtualbox-ovf vbox_source_path and vbox_checksum variables
+- Added recursive flag to rhel cleanup scripts for persistent network files
 
 ## [v4.0.1] (2024-02-16)
 
