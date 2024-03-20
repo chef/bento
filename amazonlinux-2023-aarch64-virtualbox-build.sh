@@ -40,11 +40,12 @@ VBoxManage createvm --name $VM --ostype "Fedora_64" --register
 VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
 VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$AMZDIR"/amazon2023_arm64.vdi
 VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium "$AMZDIR"/seed.iso
+VBoxManage modifyvm $VM --chipset ich9
 VBoxManage modifyvm $VM --firmware efi
 VBoxManage modifyvm $VM --memory 2048
 VBoxManage modifyvm $VM --cpus 2
 VBoxManage modifyvm $VM --nat-localhostreachable1 on
-VBoxManage modifyvm $VM --vram 10
+VBoxManage modifyvm $VM --vram 33
 VBoxManage modifyvm $VM --graphicscontroller vmsvga
 VBoxManage modifyvm $VM --vrde off
 VBoxManage modifyvm $VM --audio-driver none
@@ -66,7 +67,7 @@ echo "Deleting the VM"
 vboxmanage unregistervm $VM --delete
 
 echo "starting packer build of amazonlinux"
-if packer build -timestamp-ui -only=virtualbox-ovf.vm -var "vbox_source_path=$AMZDIR/amazon2023_arm64.ovf" -var "vbox_checksum=null" -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
+if packer build -timestamp-ui  -var "vbox_source_path=$AMZDIR/amazon2023_arm64.ovf" -var "vbox_checksum=null" -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
   echo "Cleaning up files"
   rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso "$AMZDIR"/*.vdi "$AMZDIR"/*.qcow2
 else
