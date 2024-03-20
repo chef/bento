@@ -38,7 +38,6 @@ variable "no_proxy" {
 variable "sources_enabled" {
   type = list(string)
   default = [
-    "source.hyperv-iso.vm",
     "source.parallels-iso.vm",
     "source.qemu.vm",
     "source.virtualbox-iso.vm",
@@ -119,6 +118,36 @@ variable "qemu_display" {
   type    = string
   default = "none"
 }
+variable "qemu_disk_image" {
+  type        = bool
+  default     = null
+  description = "Whether iso_url is a bootable qcow2 disk image"
+}
+variable "qemu_efi_boot" {
+  type        = bool
+  default     = false
+  description = "Enable EFI boot"
+}
+variable "qemu_efi_firmware_code" {
+  type        = string
+  default     = null
+  description = "EFI firmware code path"
+}
+variable "qemu_efi_firmware_vars" {
+  type        = string
+  default     = null
+  description = "EFI firmware vars file path"
+}
+variable "qemu_efi_drop_efivars" {
+  type        = bool
+  default     = false
+  description = "Drop EFI vars"
+}
+variable "qemu_format" {
+  type        = string
+  default     = "qcow2"
+  description = "Disk format, takes qcow2 or raw"
+}
 variable "qemu_machine_type" {
   type    = string
   default = null
@@ -185,9 +214,15 @@ variable "virtualbox_version_file" {
 }
 
 # virtualbox-ovf
-variable "vbox_source" {
-  type    = string
-  default = null
+variable "vbox_source_path" {
+  type        = string
+  default     = null
+  description = "Path to the OVA/OVF file"
+}
+variable "vbox_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the OVA/OVF file"
 }
 
 # vmware-iso
@@ -220,7 +255,7 @@ variable "vmware_tools_upload_path" {
 }
 variable "vmware_version" {
   type    = number
-  default = 20
+  default = 21
 }
 variable "vmware_vmx_data" {
   type = map(string)

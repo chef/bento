@@ -45,14 +45,14 @@ class UploadRunner
     md_data['providers'].each_pair do |prov, prov_data|
       if File.exist?(File.join('builds', prov_data['file']))
         puts ''
-        banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
+        banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{prov} arch:#{arch}...")
         upload_cmd = "vagrant cloud publish --architecture #{arch} #{default_arch(arch)} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{box_desc(md_data['box_basename'])}' --short-description '#{box_desc(md_data['box_basename'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
         shellout(upload_cmd)
 
         slug_name = lookup_slug(md_data['name'])
         if slug_name
           puts ''
-          banner("Uploading slug #{builds_yml['vagrant_cloud_account']}/#{slug_name} from #{md_data['box_basename']} version:#{md_data['version']} provider:#{prov}...")
+          banner("Uploading slug #{builds_yml['vagrant_cloud_account']}/#{slug_name} from #{md_data['box_basename']} version:#{md_data['version']} provider:#{prov} arch:#{arch}...")
           upload_cmd = "vagrant cloud publish --architecture #{arch} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{slug_name} #{md_data['version']} #{prov} builds/#{prov_data['file']} --description '#{slug_desc(slug_name)}' --short-description '#{slug_desc(slug_name)}' --version-description '#{ver_desc(md_data)}' --force --release  #{public_private_box(md_data['box_basename'])}"
           shellout(upload_cmd)
         end

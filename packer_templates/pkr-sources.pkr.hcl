@@ -54,11 +54,6 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
 
-  # virtualbox-ovf
-  vbox_source = var.vbox_source == null ? (
-    var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
-  ) : var.vbox_source
-
   # vmware-iso
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : "linux"
@@ -174,11 +169,17 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator  = var.qemu_accelerator
-  display      = var.headless ? "none" : var.qemu_display
-  machine_type = local.qemu_machine_type
-  qemu_binary  = local.qemu_binary
-  qemuargs     = local.qemuargs
+  accelerator       = var.qemu_accelerator
+  display           = var.headless ? "none" : var.qemu_display
+  disk_image        = var.qemu_disk_image
+  efi_boot          = var.qemu_efi_boot
+  efi_firmware_code = var.qemu_efi_firmware_code
+  efi_firmware_vars = var.qemu_efi_firmware_vars
+  efi_drop_efivars  = var.qemu_efi_drop_efivars
+  format            = var.qemu_format
+  machine_type      = local.qemu_machine_type
+  qemu_binary       = local.qemu_binary
+  qemuargs          = local.qemuargs
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
@@ -241,10 +242,11 @@ source "virtualbox-iso" "vm" {
   winrm_username   = var.winrm_username
   vm_name          = local.vm_name
 }
-source "virtualbox-ovf" "amazonlinux" {
+source "virtualbox-ovf" "vm" {
   # Virtualbox specific options
   guest_additions_path    = var.vbox_guest_additions_path
-  source_path             = local.vbox_source
+  source_path             = var.vbox_source_path
+  checksum                = var.vbox_checksum
   vboxmanage              = var.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options

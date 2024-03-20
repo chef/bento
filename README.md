@@ -4,7 +4,7 @@ Bento is a project that encapsulates [Packer](https://www.packer.io/) templates 
 
 ***NOTE:**
 
-- Vagrant 2.4.0+ is required for new cpu archetecture support
+- Vagrant 2.4.0+ is required for new cpu architecture support
 - Virutalbox 6.x requires disabling nat config that allows vbox 7.x guests to connect to the host. To use comment out lines #161 and #162 in bento/packer_templates/pkr-variables.pkr.hcl or add variable `vboxmanage = []` to os_pkrvars files.
 - When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/(build_name) directory by default. If the output_directory variable isn't overwritten a directory called builds/(build_name) will be created in the current working directory that you are running the command from
 
@@ -23,6 +23,14 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.04"
 end
 ```
+
+### Installing Bento
+
+1. install ruby environment
+1. clone repo
+1. cd <path/to>/bento
+1. gem build bento.gemspec
+1. gem install bento-*.gem
 
 ### Building Boxes
 

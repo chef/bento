@@ -6,6 +6,8 @@ default_architectures:
   - 'amd64'
 
 public:
+  - 'amazonlinux-2'
+  - 'amazonlinux-2023'
   - 'almalinux-8'
   - 'almalinux-9'
   - 'amazon-2'

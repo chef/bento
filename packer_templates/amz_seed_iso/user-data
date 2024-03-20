@@ -1,29 +1,15 @@
 #cloud-config
 #vim:syntax=yaml
-user: vagrant
-password: vagrant
+users:
+  - name: vagrant
+    lock_passwd: false
+    passwd: $6$TbOu26d1hYO4EC/D$MymO7cTo/tID7tkH8TtAGyAdaK9nHwGQfDD9KwQmql3xP1BPPc67YCmoR8UO3Dw5jacOx3GvnBLqvAmHLHC4H0
+    sudo: ALL=(ALL) NOPASSWD:ALL
 
-# install packages for vbox guest additions to complete
-packages:
-  - gcc
-  - kernel-devel
-  - kernel-headers
-  - dkms
-  - make
-  - bzip2
-  - perl
-
-# make sure we don't setup the network on every boot
+# Enable password authentication for SSH
 write_files:
-  - path: /etc/cloud/cloud.cfg.d/80_disable_network_after_firstboot.cfg
-    content: |
-      # Disable network configuration after first boot
-      network:
-        config: disabled
-
   - path: /etc/cloud/cloud.cfg.d/90_enable_ssh_pwauth.cfg
     content: |
       runcmd:
         - sed -i "s/^PasswordAuthentication.*/PasswordAuthentication yes/" /etc/ssh/sshd_config
-        - sed -i "/^HWADDR/d" /etc/sysconfig/network-scripts/ifcfg-eth0
-        - systemctl restart network sshd
+        - systemctl restart sshd

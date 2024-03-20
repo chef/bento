@@ -52,9 +52,21 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Look into making all build uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
-- Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
-## [unreleased] (2024-02-16)
+## [unreleased] (2024-03-20)
+
+## [v4.0.2] (2024-03-20)
+
+- Update upload message to show architecture
+- Fix open-vm-tools install for vmware builds
+- Fix amazonlinux 2 build script
+- Added amazonlinux 2023 build scripts
+- Allow failed tests to continue and report at the end each test that failed
+- Added amazonlinux aarch64 packer templates
+- removed unneeded config from amazon user-data script for seed.iso
+- Added additional qemu variables for various qemu source properties
+- Added virtualbox-ovf vbox_source_path and vbox_checksum variables
+- Added recursive flag to rhel cleanup scripts for persistent network files
 
 ## [v4.0.1] (2024-02-16)
 
@@ -108,6 +120,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated Bento to continue builds even if one fails and report all failures at the end and exit with exit code 1
 - Added qemu clone of libvirt box when metadata file is created for uploading to vagrant qemu provider
 - Made build shell scripts customizable through packer variable
+- Added ability to configure bento upload of private or public boxes in builds.yml, defaults to private
 
 ## [v3.1.1] (2023-07-07)
 
