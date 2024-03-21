@@ -144,13 +144,14 @@ If the build is successful, your box files will be in the `builds` directory at 
 
 ### KVM/qemu support for Windows
 
-You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso). You can do this from the command line: `wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O virtio-win.iso` and place it in the packer_templates/win_answer_files/ directory.
+You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso) and place it in the builds/iso/ directory.
+You can do this from the command line: `mkdir -p builds/iso/; wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O builds/iso/virtio-win.iso`
 
 You can use the following sample command to build a KVM/qemu Windows box:
 
 ```bash
 packer init -upgrade ./packer_templates
-packer build --only=qemu.vm -var-file=os_pkrvars/windwos/windows-2022-x86_64.pkrvars.hcl ./packer_templates
+packer build --only=qemu.vm -var-file=os_pkrvars/windows/windows-2022-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 ### Proprietary Templates
