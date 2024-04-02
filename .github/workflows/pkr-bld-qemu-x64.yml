@@ -7,7 +7,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, qemu]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -35,37 +35,46 @@ jobs:
         provider:
           - qemu
     steps:
+      - name: Install Vagrant and VirtualBox
+        run: |
+          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common vagrant libvirt kvm qemu qemu-kvm qemu-utils
+          VBoxManage --version
+          vagrant --version
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
       - name: Checkout
         uses: actions/checkout@main
-      - name: iso-availability
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
-      - name: Download virtio-win.iso
-        run: curl https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.229-1/virtio-win.iso -o packer_templates/win_answer_files/virtio-win.iso
-#      - name: Setup Packer
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
-      - name: Packer Init
-        run: packer init -upgrade packer_templates
-      - name: Packer FMT
-        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
-      - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-      - name: Packer build
-#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
-#      - name: Bento Test
-#        run: |
-#          eval "$(chef shell-init bash)"
-#          bento test
+      - name: Bento Test
+        run: bento test
+      #      - name: Remove VM in case of canceled job
+      #        if: cancelled()
+      #        run: |
+      #          echo Powering off and deleting any existing VMs named AmazonLinuxBento
+      #          VBoxManage controlvm AmazonLinuxBento poweroff --type headless 2> /dev/null
+      #          sleep 1
+      #          VBoxManage unregistervm AmazonLinuxBento --delete 2> /dev/null
+      #          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-qemu-x86_64"
+          name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
             builds
             !builds/uploaded/*
