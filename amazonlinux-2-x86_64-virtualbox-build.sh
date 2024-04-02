@@ -59,7 +59,7 @@ echo Deleting the VM
 vboxmanage unregistervm $VM --delete
 
 echo starting packer build of amazonlinux
-if packer build -timestamp-ui -var "vbox_source_path=$AMZDIR/amazon2_x86_64.ovf" -var "vbox_checksum=null" -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
+if bento build --vars "vbox_source_path=$AMZDIR/amazon2_x86_64.ovf" --vars "vbox_checksum=null" "$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2-x86_64.pkrvars.hcl; then
   echo "Cleaning up files"
   rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso
 else

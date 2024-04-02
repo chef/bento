@@ -37,9 +37,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: iso-availability
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
 #      - name: Setup Packer
 #        uses: hashicorp/setup-packer@main
 #        with:
@@ -50,7 +47,9 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
       - name: Bento Test
-        run: bento test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |

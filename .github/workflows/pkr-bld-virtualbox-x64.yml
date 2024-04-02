@@ -60,10 +60,13 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
+          eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
       - name: Bento Test
-        run: bento test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
 #      - name: Remove VM in case of canceled job
 #        if: cancelled()
 #        run: |

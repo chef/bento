@@ -40,6 +40,7 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
+          eval "$(chef shell-init bash)"
           ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds
       - name: Bento Test
