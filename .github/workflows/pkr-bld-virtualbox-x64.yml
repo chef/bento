@@ -44,7 +44,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
           VBoxManage --version
-          Vagrant --version
+          vagrant --version
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
