@@ -63,9 +63,9 @@ jobs:
 #    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
 #    secrets: inherit
 
-  pkr-bld-virtualbox-x64:
-    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
-    secrets: inherit
+#  pkr-bld-virtualbox-x64:
+#    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+#    secrets: inherit
 
 #  pkr-bld-vmware-arm64:
 #    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml

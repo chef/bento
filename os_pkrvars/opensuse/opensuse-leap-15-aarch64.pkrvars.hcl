@@ -1,4 +1,4 @@
-os_name                 = "opensuse"
+os_name                 = "opensuse-leap"
 os_version              = "15.5"
 os_arch                 = "aarch64"
 iso_url                 = "http://provo-mirror.opensuse.org/distribution/leap/15.5/iso/openSUSE-Leap-15.5-DVD-aarch64-Media.iso"
