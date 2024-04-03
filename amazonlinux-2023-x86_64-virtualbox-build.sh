@@ -27,7 +27,7 @@ fi
 
 echo "Creating ISO"
 if [ -x "$(command -v genisoimage)" ]; then
-  genisoimage -output "$AMZDIR"/seed.iso -volid cidata -joliet -rock "$AMZDIR"/../amz_seed_iso/user-data "$AMZDIR"/../amz-seed_iso/meta-data
+  genisoimage -output "$AMZDIR"/seed.iso -volid cidata -joliet -rock "$AMZDIR"/../amz_seed_iso/user-data "$AMZDIR"/../amz_seed_iso/meta-data
 elif [ -x "$(command -v hdiutil)" ]; then
   hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
 elif [ -x "$(command -v mkisofs)" ]; then
