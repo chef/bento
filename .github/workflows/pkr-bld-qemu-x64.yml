@@ -73,8 +73,7 @@ jobs:
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
-          eval "$(chef shell-init bash)"
-          sudo bento test
+          sudo eval "$(chef shell-init bash)" && bento test
       #      - name: Remove VM in case of canceled job
       #        if: cancelled()
       #        run: |
