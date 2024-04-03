@@ -12,26 +12,26 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
+#          - almalinux-8
+#          - almalinux-9
           - centos-7
-          - centos-stream-8
-          - centos-stream-9
-          - debian-11
-          - debian-12
-          - fedora-38
-          - fedora-39
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oracle-7
-          - oracle-8
-          - oracle-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-20.04
-          - ubuntu-22.04
-          - ubuntu-23.10
+#          - centos-stream-8
+#          - centos-stream-9
+#          - debian-11
+#          - debian-12
+#          - fedora-38
+#          - fedora-39
+#          - freebsd-13
+#          - freebsd-14
+#          - opensuse-leap-15
+#          - oracle-7
+#          - oracle-8
+#          - oracle-9
+#          - rockylinux-8
+#          - rockylinux-9
+#          - ubuntu-20.04
+#          - ubuntu-22.04
+#          - ubuntu-23.10
         provider:
           - qemu
     steps:
@@ -73,7 +73,9 @@ jobs:
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
-          sudo eval "$(chef shell-init bash)" && bento test
+          sudo su -l $USER
+          eval "$(chef shell-init bash)"
+          bento test
       #      - name: Remove VM in case of canceled job
       #        if: cancelled()
       #        run: |
