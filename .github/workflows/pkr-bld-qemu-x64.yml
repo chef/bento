@@ -49,7 +49,7 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
           sudo usermod -aG kvm $USER
-          sudo usermod -aG libvirt $USER
+          sudo usermod -aG libvirtd $USER
           sudo systemctl start libvirtd
           sudo systemctl status libvirtd
       - name: Install Chef
@@ -74,7 +74,7 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test
+          sudo bento test
       #      - name: Remove VM in case of canceled job
       #        if: cancelled()
       #        run: |
