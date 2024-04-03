@@ -24,7 +24,16 @@ echo "Cleaning up old files"
 rm -f "$AMZDIR"/*.iso "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk
 
 echo "Creating ISO"
-hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
+if [ -x "$(command -v genisoimage)" ]; then
+  genisoimage -output "$AMZDIR"/seed.iso -volid cidata -joliet -rock "$AMZDIR"/../amz_seed_iso/user-data "$AMZDIR"/../amz-seed_iso/meta-data
+elif [ -x "$(command -v hdiutil)" ]; then
+  hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
+elif [ -x "$(command -v mkisofs)" ]; then
+  mkfsiso9660 -o "$AMZDIR"/seed.iso "$AMZDIR"/../amz_seed_iso
+else
+  echo "No tool found to create the seed.iso"
+  exit 1
+fi
 
 VM="AmazonLinuxBento"
 echo Powering off and deleting any existing VMs named $VM
