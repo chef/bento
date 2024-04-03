@@ -42,7 +42,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils qemu-utils libvirt-dev
           vagrant plugin install vagrant-libvirt
-          vagrant plugin install vagrant-qemu
           vagrant --version
       - name: Enable KVM
         run: |
