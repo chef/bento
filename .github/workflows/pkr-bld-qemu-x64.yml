@@ -50,6 +50,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           sudo usermod -aG kvm $USER
           sudo usermod -aG libvirt $USER
+          sudo setfacl -m user:$USER:rw /var/run/libvirt/libvirt-sock
           sudo systemctl start libvirtd
           sudo systemctl status libvirtd
       - name: Install Chef
@@ -73,7 +74,8 @@ jobs:
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
-          sudo su -l $USER
+          ls -alh /var/run/libvirt/libvirt-sock
+          sudo getfacl /var/run/libvirt/libvirt-sock
           eval "$(chef shell-init bash)"
           bento test
       #      - name: Remove VM in case of canceled job
