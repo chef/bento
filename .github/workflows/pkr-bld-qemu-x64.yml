@@ -49,7 +49,8 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
           sudo usermod -aG kvm $USER
-          sudo usermod -aG libvirtd $USER
+          sudo usermod -aG libvirt $USER
+          sudo adduser `id -un` libvirtd
           sudo systemctl start libvirtd
           sudo systemctl status libvirtd
       - name: Install Chef
