@@ -72,6 +72,7 @@ class TestRunner
     Dir.chdir(temp_dir)
     banner("Test kitchen file located in #{temp_dir}")
     @providers.each do |k, _v|
+      banner("Testing #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}")
       test = Mixlib::ShellOut.new("kitchen test #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}", timeout: 900, live_stream: STDOUT)
       test.run_command
       if test.error?

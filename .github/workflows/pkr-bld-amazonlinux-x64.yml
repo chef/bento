@@ -43,6 +43,7 @@ jobs:
           eval "$(chef shell-init bash)"
           ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: bento test
 #      - name: Remove VM in case of canceled job

@@ -67,7 +67,7 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test
+          bento test ${{ matrix.os }}
 #      - name: Remove VM in case of canceled job
 #        if: cancelled()
 #        run: |

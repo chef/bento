@@ -65,9 +65,9 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          export PACKER_LOG=1
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=kvm" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
