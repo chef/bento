@@ -35,7 +35,7 @@ jobs:
         provider:
           - qemu
     steps:
-      - name: Install Vagrant and VirtualBox
+      - name: Install Vagrant and kvm
         run: |
           wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
           echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
@@ -63,6 +63,7 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
+          export PACKER_LOG=1
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds
       - name: Bento Test
