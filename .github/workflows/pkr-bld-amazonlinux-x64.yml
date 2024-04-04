@@ -45,7 +45,9 @@ jobs:
           ls -alh builds
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
-        run: bento test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
