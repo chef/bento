@@ -75,7 +75,7 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test libvirt
+          bento test -p libvirt
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:

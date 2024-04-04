@@ -1,7 +1,10 @@
 .bundle/
 **/builds/
+builds/iso/
+builds/uploaded/
 *.iso
 *.box
+*.ova
 *.ovf
 *.vmdk
 *.vdi
@@ -15,7 +18,6 @@ Gemfile.lock
 bootstrap.sh
 Berksfile.lock
 *.variables.json
-/builds/
 .kitchen
 .kitchen.yml
 kitchen.yml
