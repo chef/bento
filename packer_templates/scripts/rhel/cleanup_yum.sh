@@ -22,7 +22,7 @@ package-cleanup --oldkernels --count=1 -y
 distro="$(rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-')"
 if [ "$distro" != 'oraclelinux' ]; then
   echo "Removing extra firmware packages"
-  dnf -y remove linux-firmware
+  yum -y remove linux-firmware
 fi
 
 echo "clean all package cache information"

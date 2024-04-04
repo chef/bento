@@ -49,6 +49,10 @@ class Options
       end
     }
 
+    test_argv_proc = proc { |opts|
+      opts.regexp = ARGV[0]
+    }
+
     md_json_argv_proc = proc { |opts|
       opts.md_json = ARGV[0]
     }
@@ -165,7 +169,7 @@ class Options
             options.provisioner = opt
           end
         end,
-        argv: proc {},
+        argv: test_argv_proc,
       },
       upload: {
         class: UploadRunner,

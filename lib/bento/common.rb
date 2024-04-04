@@ -76,7 +76,7 @@ module Common
   end
 
   def metadata_files
-    @metadata_files ||= Dir.glob('builds/*.json')
+    @metadata_files ||= Dir.glob('builds/*._metadata.json')
   end
 
   def builds_yml
