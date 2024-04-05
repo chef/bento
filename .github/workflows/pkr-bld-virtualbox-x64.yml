@@ -70,10 +70,10 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
-          rm -rf builds
-          sudo mkdir -p /mnt/builds/iso
-          sudo chmod -R 777 /mnt/builds
-          sudo mount --bind /mnt/builds ./
+          # rm -rf builds
+          # sudo mkdir -p /mnt/builds/iso
+          # sudo chmod -R 777 /mnt/builds
+          # sudo mount --bind /mnt/builds ./
           ls -alh
           # eval "$(chef shell-init bash)"
           df -h
