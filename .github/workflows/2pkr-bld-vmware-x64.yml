@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Install Chef
-              uses: actionshub/chef-install@3.0.0
+        uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
