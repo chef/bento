@@ -7,7 +7,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: [self-hosted, ARM64, virtualbox]
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:

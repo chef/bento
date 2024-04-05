@@ -6,8 +6,8 @@ env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
-  x86_64:
-    runs-on: macos-13
+  aarch64:
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
@@ -33,21 +33,23 @@ jobs:
           - ubuntu-22.04
           - ubuntu-23.10
         provider:
-          - parallels-iso
+          - virtualbox-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
+      - name: Install Vagrant Virtualbox
+        run: |
+          brew tap hashicorp/tap
+          brew install --cask hashicorp/tap/hashicorp-vagrant wget
+          wget https://www.virtualbox.org/download/testcase/VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
+          hdiutil attach VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
+          sudo installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Install Vagrant Parallels
-        run: |
-          brew tap hashicorp/tap
-          brew install --cask hashicorp/tap/hashicorp-vagrant parallels parallels-virtualization-sdk
-          vagrant plugin install vagrant-parallels
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
@@ -56,16 +58,24 @@ jobs:
       - name: Packer build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds/
-      - name: Bento Test
-        run: |
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds
+      - name: |
           eval "$(chef shell-init bash)"
-          bento test
+          bento Test
+        run: bento test
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          VBoxManage controlvm ${{ matrix.os }}*-aarch64 poweroff --type headless 2> /dev/null
+          sleep 1
+          VBoxManage unregistervm ${{ matrix.os }}*-aarch64 --delete 2> /dev/null
+          sleep 2
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@main
         with:
-          name: "${{ matrix.os }}-vmware-x86_64"
+          name: "${{ matrix.os }}-virtualbox-aarch64"
           path: |
             builds
             !builds/uploaded/*
