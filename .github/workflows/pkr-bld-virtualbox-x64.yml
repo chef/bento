@@ -39,8 +39,6 @@ jobs:
         uses: actions/checkout@main
       - name: Install Vagrant and VirtualBox
         run: |
-          pwd
-          df -h
           wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | sudo tee /usr/share/keyrings/oracle-virtualbox-2016.gpg
           echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
@@ -49,7 +47,6 @@ jobs:
           sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
           VBoxManage --version
           vagrant --version
-          df -h
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -57,10 +54,7 @@ jobs:
           bundler-cache: false
       - name: Install Gems
         run: |
-          df -h
-          pwd
-          ls -alh
-          bundle install
+          bundle install --system --clean
           df -h
       # - name: Install Chef
       #   uses: actionshub/chef-install@3.0.0
@@ -73,7 +67,6 @@ jobs:
       #     eval "$(chef shell-init bash)"
       #     gem build bento.gemspec
       #     gem install bento-*.gem
-      #     df -h
       - name: Bento build
         run: |
           # eval "$(chef shell-init bash)"
