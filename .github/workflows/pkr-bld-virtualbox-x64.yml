@@ -48,15 +48,15 @@ jobs:
           VBoxManage --version
           vagrant --version
       - name: Setup Ruby
-        - uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
           with:
             ruby-version: 3.3
             bundler-cache: false
       - name: Install Gems
-         run: |
-            gem install bundler test-kitchen kitchen-vagrant
-            bundle install
-            df -h
+        run: |
+          gem install bundler test-kitchen kitchen-vagrant
+          bundle install
+          df -h
 #      - name: Install Chef
 #        uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
