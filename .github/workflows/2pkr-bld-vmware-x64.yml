@@ -7,7 +7,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: ubuntu-latest
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
@@ -33,51 +33,39 @@ jobs:
           - ubuntu-22.04
           - ubuntu-23.10
         provider:
-          - virtualbox-iso
+          - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant and VirtualBox
-        run: |
-          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | sudo tee /usr/share/keyrings/oracle-virtualbox-2016.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
-          VBoxManage --version
-          vagrant --version
       - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
+              uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
           version: latest
+      - name: Install Vagrant VMware-Fusion
+        run: |
+          brew tap hashicorp/tap
+          brew install --cask hashicorp/tap/hashicorp-vagrant vmware-fusion vagrant-vmware-utility
+          vagrant plugin install vagrant-vmware-desktop
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
           gem build bento.gemspec
           gem install bento-*.gem
-      - name: Bento build
+      - name: Packer build
         run: |
-          rm -rf builds
-          sudo mkdir -p /mnt/builds/iso
-          sudo chmod -R 777 /mnt/builds
-          sudo ln -s /mnt/builds ./
-          ls -alh
           eval "$(chef shell-init bash)"
-          df -h
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
-          cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test ${{ matrix.os }}
+          bento test
       - name: Upload build artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v3
         with:
-          name: "${{ matrix.os }}-virtualbox-x86_64"
+          name: "${{ matrix.os }}-vmware-x86_64"
           path: |
             builds
             !builds/uploaded/*

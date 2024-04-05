@@ -82,7 +82,7 @@ locals {
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
-  disk_size = var.disk_size == null ? (var.is_windows ? 65536 : 20480) : var.disk_size
+  disk_size = var.disk_size == null ? 65536 : var.disk_size
   floppy_files = var.floppy_files == null ? (
     var.is_windows ? (
       var.os_arch == "x86_64" ? [
