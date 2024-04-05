@@ -55,7 +55,7 @@ jobs:
           bundler-cache: false
       - name: Install Gems
         run: |
-        df -h
+          df -h
           pwd
           ls -alh
           bundle install
