@@ -47,25 +47,25 @@ jobs:
           sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
           VBoxManage --version
           vagrant --version
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3
-          bundler-cache: false
+      # - name: Setup Ruby
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: 3.3
+      #     bundler-cache: false
       # - name: Install Gems
       #   run: |
       #     bundle config set path.system true
       #     bundle install
       #     df -h
-      # - name: Install Chef
-      #   uses: actionshub/chef-install@3.0.0
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
           version: latest
       - name: Install Bento
         run: |
-          # eval "$(chef shell-init bash)"
+          eval "$(chef shell-init bash)"
           gem build bento.gemspec
           gem install bento-*.gem
       - name: Bento build
@@ -73,16 +73,16 @@ jobs:
           # rm -rf builds
           # sudo mkdir -p /mnt/builds/iso
           # sudo chmod -R 777 /mnt/builds
-          # sudo mount --bind /mnt/builds ./
+          # sudo ln -s /mnt/builds ./
           ls -alh
-          # eval "$(chef shell-init bash)"
+          eval "$(chef shell-init bash)"
           df -h
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
-          # eval "$(chef shell-init bash)"
+          eval "$(chef shell-init bash)"
           df -h
           bento test ${{ matrix.os }}
       - name: Upload build artifact
