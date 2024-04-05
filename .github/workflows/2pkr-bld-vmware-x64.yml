@@ -33,7 +33,7 @@ jobs:
           - ubuntu-22.04
           - ubuntu-23.10
         provider:
-          - vmware-iso
+          - parallels-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -43,45 +43,11 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Install Vagrant VMware-Fusion
+      - name: Install Vagrant Parallels
         run: |
           brew tap hashicorp/tap
-          brew install --cask hashicorp/tap/hashicorp-vagrant vmware-fusion vagrant-vmware-utility
-          vagrant plugin install vagrant-vmware-desktop
-          sudo cat <<EOF > /Library/Preferences/VMware\ Fusion/networking
-          VERSION=1,0
-          answer VNET_1_DHCP yes
-          answer VNET_1_DHCP_CFG_HASH A19245BD4D3E2BB7FCCC424ED2EE6BFD2BB8680B
-          answer VNET_1_HOSTONLY_NETMASK 255.255.255.0
-          answer VNET_1_HOSTONLY_SUBNET 172.16.252.0
-          answer VNET_1_HOSTONLY_UUID 74A7B7F5-AB8E-41CF-9E0F-595F9C9FA1C5
-          answer VNET_1_VIRTUAL_ADAPTER yes
-          answer VNET_8_DHCP yes
-          answer VNET_8_DHCP_CFG_HASH E82544A2AB284C1FCA0F9692BDA6718FC9AAB685
-          answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
-          answer VNET_8_HOSTONLY_SUBNET 172.16.38.0
-          answer VNET_8_HOSTONLY_UUID 3CBAC6B3-6A71-4182-8BC6-849058A947B8
-          answer VNET_8_NAT yes
-          answer VNET_8_VIRTUAL_ADAPTER yes
-          EOF
-          sudo cat <<EOF > /Library/Preferences/VMware\ Fusion/license-fusion-130-e3-202208
-          # VMware software license
-          StartFields = "Cpt, ProductID, LicenseVersion, LicenseType, LicenseEdition, Option, Epoch"
-          Cpt = "COPYRIGHT (c) VMware, Inc. 1999-2022"
-          ProductID = "VMware Fusion for Mac OS"
-          LicenseVersion = "13.0"
-          LicenseType = "Site"
-          Epoch = "2022-08-01"
-          LicenseEdition = "fusion.pro"
-          Option = "3"
-          Data = "MaxVcpusPerVm=8;mdate=2022-03-21"
-          DataHash = "851dee58-10edb46f-071a17f8-56f0c016-10118fb5"
-          Serial = "4M40J-08HD3-M8CQJ-0U0H6-8D7NN"
-          LastModified = "2023-09-08 @ 19:06:52 UTC"
-          Hash = "b599ced4-e267986f-36ae5a88-fa0da0b2-853d1a67"
-          EOF
-          ls -alh /Library/Preferences/VMware\ Fusion/
-
+          brew install --cask hashicorp/tap/hashicorp-vagrant parallels
+          vagrant plugin install vagrant-parallels
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
