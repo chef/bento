@@ -65,14 +65,15 @@ jobs:
           version: latest
       - name: Install Bento
         run: |
-          eval "$(chef shell-init bash)"
+          # eval "$(chef shell-init bash)"
           gem build bento.gemspec
           gem install bento-*.gem
       - name: Bento build
         run: |
           rm -rf builds
-          mkdir -p /mnt/builds/iso
-          ln -s /mnt/builds ./
+          sudo mkdir -p /mnt/builds/iso
+          sudo chmod -R 777 /mnt/builds
+          sudo ln -s /mnt/builds ./
           # eval "$(chef shell-init bash)"
           df -h
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
