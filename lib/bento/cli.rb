@@ -50,7 +50,7 @@ class Options
     }
 
     test_argv_proc = proc { |opts|
-      opts.regexp = ARGV[0]
+      opts.regx = ARGV[0]
     }
 
     md_json_argv_proc = proc { |opts|

@@ -5,14 +5,14 @@ require 'erb' unless defined?(Erb)
 class TestRunner
   include Common
 
-  attr_reader :shared_folder, :boxname, :provider, :box_url, :no_shared, :provisioner, :errors, :regexp
+  attr_reader :shared_folder, :boxname, :provider, :box_url, :no_shared, :provisioner, :errors, :regx
 
   def initialize(opts)
     @debug = opts.debug
     @no_shared = opts.no_shared
     @provisioner = opts.provisioner.nil? ? 'shell' : opts.provisioner
     @errors = []
-    @regexp = opts.regexp || nil
+    @regexp = opts.regx || nil
   end
 
   def start
@@ -72,8 +72,9 @@ class TestRunner
 
     Dir.chdir(temp_dir)
     banner("Test kitchen file located in #{temp_dir}")
-    if regexp
-      test = Mixlib::ShellOut.new("kitchen test #{regexp}", timeout: 900, live_stream: STDOUT)
+    puts "\nTest1 = #{regx.inspect}"
+    if regx
+      test = Mixlib::ShellOut.new("kitchen test #{regx}", timeout: 900, live_stream: STDOUT)
       test.run_command
       if test.error?
         test.stderr
