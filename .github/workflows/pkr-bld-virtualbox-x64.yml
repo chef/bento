@@ -73,12 +73,12 @@ jobs:
           rm -rf builds
           sudo mkdir -p /mnt/builds/iso
           sudo chmod -R 777 /mnt/builds
-          sudo ln -s /mnt/builds ./
+          sudo mount --bind /mnt/builds ./
           ls -alh
           # eval "$(chef shell-init bash)"
           df -h
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds
+          ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
