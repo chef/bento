@@ -48,7 +48,7 @@ jobs:
           brew tap hashicorp/tap
           brew install --cask hashicorp/tap/hashicorp-vagrant vmware-fusion vagrant-vmware-utility
           vagrant plugin install vagrant-vmware-desktop
-          ls -alh "/Library/Preferences/VMware Fusion/networking"
+          ls -alh /Library/Preferences/VMware\ Fusion/
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
