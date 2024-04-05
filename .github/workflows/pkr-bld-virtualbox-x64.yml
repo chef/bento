@@ -54,7 +54,8 @@ jobs:
           bundler-cache: false
       - name: Install Gems
         run: |
-          bundle install --system --clean
+          bundle config set path.system true
+          bundle install
           df -h
       # - name: Install Chef
       #   uses: actionshub/chef-install@3.0.0
