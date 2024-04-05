@@ -49,9 +49,9 @@ jobs:
           vagrant --version
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-          with:
-            ruby-version: 3.3
-            bundler-cache: false
+        with:
+          ruby-version: 3.3
+          bundler-cache: false
       - name: Install Gems
         run: |
           gem install bundler test-kitchen kitchen-vagrant
