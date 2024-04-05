@@ -55,7 +55,9 @@ jobs:
           bundler-cache: false
       - name: Install Gems
         run: |
-          gem install bundler
+        df -h
+          pwd
+          ls -alh
           bundle install
           df -h
       # - name: Install Chef
