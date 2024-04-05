@@ -35,6 +35,8 @@ jobs:
         provider:
           - virtualbox-iso
     steps:
+      - name: Checkout
+        uses: actions/checkout@main
       - name: Install Vagrant and VirtualBox
         run: |
           pwd
@@ -66,8 +68,6 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Checkout
-        uses: actions/checkout@main
       # - name: Install Bento
       #   run: |
       #     eval "$(chef shell-init bash)"
