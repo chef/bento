@@ -12,7 +12,7 @@ class TestRunner
     @no_shared = opts.no_shared
     @provisioner = opts.provisioner.nil? ? 'shell' : opts.provisioner
     @errors = []
-    @regx = opts.regx
+    @regx = opts.regx || nil
   end
 
   def start
@@ -72,13 +72,12 @@ class TestRunner
 
     Dir.chdir(temp_dir)
     banner("Test kitchen file located in #{temp_dir}")
-    puts "\nTest1 = #{regx.inspect}\nTEST2 = #{@regx.inspect}\n"
-    if @regx
-      test = Mixlib::ShellOut.new("kitchen test #{@regx}", timeout: 900, live_stream: STDOUT)
+    if regx
+      test = Mixlib::ShellOut.new("kitchen test #{regx.tr('.', '').tr('_', '-')}", timeout: 900, live_stream: STDOUT)
       test.run_command
       if test.error?
         test.stderr
-        errors << "#{@regex}"
+        errors << "#{regex}"
       end
     else
       @providers.each do |k, _v|

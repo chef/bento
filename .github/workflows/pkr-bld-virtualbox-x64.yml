@@ -71,7 +71,7 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test ${{ matrix.os }}
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
