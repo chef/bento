@@ -42,6 +42,7 @@ jobs:
           brew install qemu libvirt
           brew tap hashicorp/tap
           brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew services start libvirt
           vagrant plugin install vagrant-libvirt vagrant-qemu
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
@@ -56,10 +57,6 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
-          rm -rf builds
-          sudo mkdir -p /mnt/builds/iso
-          sudo chmod -R 777 /mnt/builds
-          sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/

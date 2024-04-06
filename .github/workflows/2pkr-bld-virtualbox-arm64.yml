@@ -41,7 +41,7 @@ jobs:
         run: |
           brew tap hashicorp/tap
           brew install --cask hashicorp/tap/hashicorp-vagrant
-          wget https://www.virtualbox.org/download/testcase/VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
+          wget -q https://www.virtualbox.org/download/testcase/VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
           hdiutil attach VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
           sudo installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
       - name: Install Chef
