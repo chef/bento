@@ -52,7 +52,7 @@ jobs:
 #    secrets: inherit
 #
   pkr-bld-qemu-arm64:
-    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
+    uses: ./.github/workflows/2pkr-bld-qemu-arm64.yml
     secrets: inherit
 
 #  pkr-bld-qemu-x64:
