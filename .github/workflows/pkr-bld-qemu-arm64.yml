@@ -7,7 +7,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: [self-hosted, ARM64, qemu]
+    runs-on: macos-14
     strategy:
       fail-fast: false
       matrix:
@@ -37,16 +37,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Setup Packer
-#        if: steps.verify-changed-files.outputs.files_changed == 'true'
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
+      - name: Install Vagrant QEMU
+        run: |
+          brew install qemu libvirt
+          brew tap hashicorp/tap
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew services start libvirt
+          vagrant plugin install vagrant-libvirt vagrant-qemu
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds
+          ls -alh builds/
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"

@@ -7,7 +7,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: macos-latest
+    runs-on: macos-14
     strategy:
       fail-fast: false
       matrix:
@@ -37,16 +37,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Setup Packer
-#        if: steps.verify-changed-files.outputs.files_changed == 'true'
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
+      - name: Install Vagrant Virtualbox
+        run: |
+          brew tap hashicorp/tap
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          wget -q https://www.virtualbox.org/download/testcase/VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
+          hdiutil attach VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
+          sudo installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds
+          ls -alh builds/
       - name: |
           eval "$(chef shell-init bash)"
           bento Test

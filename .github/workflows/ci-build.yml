@@ -7,92 +7,89 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-#  markdown-lint:
-#    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
-#
-#  markdown-link-checker:
-#    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
-#
-#  yaml-lint:
-#    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
-#
-#  json-lint:
-#    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
-#
-#  xml-lint:
-#    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
-#
-#  shellcheck-lint:
-#    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
-#
-#  powershell-lint:
-#    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
-#
-#  packer-iso-check:
-#    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
-#
-#  packer-lint:
-#    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
-#    secrets: inherit
-#
-#  pkr-bld-amazonlinux-x64:
-#    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
-#    secrets: inherit
-#
-#  pkr-bld-hyperv-x64:
-#    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
-#    secrets: inherit
-#
-#  pkr-bld-parallels-arm64:
-#    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
-#    secrets: inherit
-#
-#  pkr-bld-parallels-x64:
-#    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
-#    secrets: inherit
-#
+  markdown-lint:
+    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
+
+  markdown-link-checker:
+    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
+
+  yaml-lint:
+    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
+
+  json-lint:
+    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
+
+  xml-lint:
+    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
+
+  shellcheck-lint:
+    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
+
+  powershell-lint:
+    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
+
+  packer-iso-check:
+    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
+
+  packer-lint:
+    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
+    secrets: inherit
+
+  pkr-bld-amazonlinux-x64:
+    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
+    secrets: inherit
+
+  pkr-bld-hyperv-x64:
+    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
+    secrets: inherit
+
+  pkr-bld-parallels-arm64:
+    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
+    secrets: inherit
+
+  pkr-bld-parallels-x64:
+    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
+    secrets: inherit
+
   pkr-bld-qemu-arm64:
     uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
     secrets: inherit
 
-  pkr-bld-qemu-arm64-2:
-    uses: ./.github/workflows/2pkr-bld-qemu-arm64.yml
+  pkr-bld-qemu-x64:
+    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
     secrets: inherit
-
-#  pkr-bld-qemu-x64:
-#    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
-#    secrets: inherit
 
   pkr-bld-virtualbox-arm64:
-    uses: ./.github/workflows/2pkr-bld-virtualbox-arm64.yml
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
     secrets: inherit
 
-#  pkr-bld-virtualbox-x64:
-#    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
-#    secrets: inherit
+  pkr-bld-virtualbox-x64:
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
 
-#  pkr-bld-vmware-arm64:
-#    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
-#    secrets: inherit
+  pkr-bld-vmware-arm64:
+    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
 
-#  pkr-bld-vmware-x64:
-#    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
-#    secrets: inherit
+  pkr-bld-vmware-x64:
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
+    secrets: inherit
 
-#  check_jobs_pass:
-#    if: always()
-#    needs:
-#      - markdown-lint
-#      - yaml-lint
-#      - json-lint
-#      - xml-lint
-#      - powershell-lint
-#      - shellcheck-lint
-#    runs-on: Ubuntu-latest
-#    steps:
-#      - name: Decide whether the needed jobs succeeded or failed
-#        uses: re-actors/alls-green@main
-#        with:
-#          allowed-failures:
-#          allowed-skips: ${{ toJSON(needs) }}
-#          jobs: ${{ toJSON(needs) }}
+  check_jobs_pass:
+    if: always()
+    needs:
+      - markdown-lint
+      - yaml-lint
+      - json-lint
+      - xml-lint
+      - powershell-lint
+      - shellcheck-lint
+      - packer-lint
+    runs-on: Ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@main
+        with:
+          allowed-failures:
+          allowed-skips: ${{ toJSON(needs) }}
+          jobs: ${{ toJSON(needs) }}
