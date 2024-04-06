@@ -12,6 +12,7 @@ class TestRunner
     @no_shared = opts.no_shared
     @provisioner = opts.provisioner.nil? ? 'shell' : opts.provisioner
     @errors = []
+    puts "\nTEST2 = #{opts.regx.inspect}\nTEST3 = #{opts.inspect}\nTEST4 = #{regx}\n"
     @regexp = opts.regx || nil
   end
 
