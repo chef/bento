@@ -72,7 +72,7 @@ class TestRunner
 
     Dir.chdir(temp_dir)
     banner("Test kitchen file located in #{temp_dir}")
-    puts "\nTest1 = #{regx.inspect}"
+    puts "\nTest1 = #{regx.inspect}\n"
     if regx
       test = Mixlib::ShellOut.new("kitchen test #{regx}", timeout: 900, live_stream: STDOUT)
       test.run_command

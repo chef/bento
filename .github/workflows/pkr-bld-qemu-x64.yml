@@ -35,6 +35,8 @@ jobs:
         provider:
           - qemu
     steps:
+      - name: Checkout
+        uses: actions/checkout@main
       - name: Install Vagrant and kvm
         run: |
           wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -59,14 +61,11 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Checkout
-        uses: actions/checkout@main
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
           gem build bento.gemspec
           gem install bento-*.gem
-          df -h
       - name: Bento build
         run: |
           rm -rf builds
@@ -80,7 +79,6 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          df -h
           bento test libvirt
       - name: Upload build artifact
         uses: actions/upload-artifact@main

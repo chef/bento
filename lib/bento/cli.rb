@@ -50,6 +50,7 @@ class Options
     }
 
     test_argv_proc = proc { |opts|
+      puts "\nTEST2 = #{ARGV[0].inspect}\n"
       opts.regx = ARGV[0]
     }
 
