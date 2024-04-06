@@ -69,9 +69,13 @@ jobs:
           df -h
       - name: Bento build
         run: |
+          rm -rf builds
+          sudo mkdir -p /mnt/builds/iso
+          sudo chmod -R 777 /mnt/builds
+          sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=kvm" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds
+          ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |

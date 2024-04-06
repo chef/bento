@@ -42,7 +42,7 @@ jobs:
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
-      - name: Packer build
+      - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"

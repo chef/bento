@@ -41,7 +41,7 @@ jobs:
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
-      - name: Packer build
+      - name: Bento build
         run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
         if: cancelled()

@@ -64,9 +64,7 @@ jobs:
           sudo mkdir -p /mnt/builds/iso
           sudo chmod -R 777 /mnt/builds
           sudo ln -s /mnt/builds ./
-          ls -alh
           eval "$(chef shell-init bash)"
-          df -h
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
