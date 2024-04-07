@@ -53,7 +53,19 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-03-20)
+## [unreleased] (2024-04-08)
+
+## [v4.0.3] (2024-04-08)
+
+- Add back iso check, packer lint, and amazonlinux builds to build pipeline
+- Fix amazonlinux 2 build script
+- Added amazonlinux 2023 build scripts
+- Migrate Virtualbox and Qemu builds to github hosted runners from self-hosted runners
+- Added test-kitchen and kitchen-vagrant dependencies to gemspec
+- Added arg for bento test command to specify a specific build to test
+- Fix vagrant post-processor to specify custom vagrant file for freebsd builds
+- remove gui true from windows custom vagrant file
+- fix test to skip removing linux-firmware on oraclelinux
 
 ## [v4.0.2] (2024-03-20)
 

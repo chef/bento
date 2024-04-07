@@ -82,7 +82,6 @@ locals {
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
-  disk_size = var.disk_size == null ? 65536 : var.disk_size
   floppy_files = var.floppy_files == null ? (
     var.is_windows ? (
       var.os_arch == "x86_64" ? [
@@ -119,7 +118,7 @@ source "hyperv-iso" "vm" {
   cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = local.disk_size
+  disk_size        = var.disk_size
   floppy_files     = var.hyperv_generation == 2 ? null : local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
@@ -150,7 +149,7 @@ source "parallels-iso" "vm" {
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = local.disk_size
+  disk_size        = var.disk_size
   floppy_files     = local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -187,7 +186,7 @@ source "qemu" "vm" {
   cd_files         = local.cd_files
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = local.disk_size
+  disk_size        = var.disk_size
   floppy_files     = local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
@@ -224,7 +223,7 @@ source "virtualbox-iso" "vm" {
   boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = local.disk_size
+  disk_size        = var.disk_size
   floppy_files     = local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
@@ -280,7 +279,7 @@ source "vmware-iso" "vm" {
   boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = local.disk_size
+  disk_size        = var.disk_size
   floppy_files     = local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory

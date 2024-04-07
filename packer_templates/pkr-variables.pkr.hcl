@@ -308,7 +308,7 @@ variable "communicator" {
 }
 variable "disk_size" {
   type    = number
-  default = null
+  default = 65536
 }
 variable "floppy_files" {
   type    = list(string)
