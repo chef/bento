@@ -61,10 +61,6 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test libvirt
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -73,3 +69,7 @@ jobs:
             builds
             !builds/uploaded/*
           retention-days: 10
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test libvirt

@@ -61,18 +61,6 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
-      - name: |
-          eval "$(chef shell-init bash)"
-          bento Test
-        run: bento test
-      - name: Remove VM in case of canceled job
-        if: cancelled()
-        run: |
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
-          VBoxManage controlvm ${{ matrix.os }}*-aarch64 poweroff --type headless 2> /dev/null
-          sleep 1
-          VBoxManage unregistervm ${{ matrix.os }}*-aarch64 --delete 2> /dev/null
-          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
@@ -81,3 +69,7 @@ jobs:
             builds
             !builds/uploaded/*
           retention-days: 10
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test

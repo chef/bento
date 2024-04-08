@@ -47,10 +47,6 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -67,3 +63,7 @@ jobs:
             builds
             !builds/uploaded/*
           retention-days: 10
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
