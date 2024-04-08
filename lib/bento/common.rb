@@ -83,32 +83,6 @@ module Common
     YAML.load(File.read('builds.yml'))
   end
 
-  def build_list
-    arm64 = []
-    x86_64 = []
-    builds_yml['public'].each do |platform, versions|
-      versions.each do |version, archs|
-        archs.each do |arch|
-          folder = case platform
-                   when 'opensuse-leap'
-                     'opensuse'
-                   when 'oracle'
-                     'oraclelinux'
-                   else
-                     platform
-                   end
-          case arch
-          when 'aarch64'
-            arm64 << "#{folder}/#{platform}-#{version}-#{arch}"
-          else
-            x86_64 << "#{folder}/#{platform}-#{version}-#{arch}"
-          end
-        end
-      end
-    end
-    x86_64 + arm64
-  end
-
   def private_box?(boxname)
     proprietary_os_list = %w(macos windows sles solaris rhel)
     proprietary_os_list.any? { |p| boxname.include?(p) }

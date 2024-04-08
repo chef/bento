@@ -93,10 +93,6 @@ class Options
             options.var_files = opt
           end
 
-          opts.on('-c BUILD_YML', '--config BUILD_YML', 'Use a configuration file') do |opt|
-            options.config = opt
-          end
-
           opts.on('-d', '--[no-]debug', 'Run packer with debug output') do |opt|
             options.debug = opt
           end

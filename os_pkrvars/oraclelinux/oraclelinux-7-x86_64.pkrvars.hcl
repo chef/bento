@@ -1,4 +1,4 @@
-os_name                 = "oracle"
+os_name                 = "oraclelinux"
 os_version              = "7.9"
 os_arch                 = "x86_64"
 iso_url                 = "http://mirrors.dotsrc.org/oracle-linux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso"

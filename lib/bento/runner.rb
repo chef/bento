@@ -8,7 +8,7 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :template_files, :config, :dry_run, :debug, :only, :except, :mirror, :headed, :single, :errors,
+  attr_reader :template_files, :dry_run, :debug, :only, :except, :mirror, :headed, :single, :errors,
               :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files, :pkr_cmd
 
   def initialize(opts)
@@ -33,7 +33,7 @@ class BuildRunner
   end
 
   def start
-    templates = config ? build_list : template_files
+    templates = template_files
     banner('Starting build for templates:')
     banner('Installing packer plugins') unless dry_run || metadata_only
     shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
