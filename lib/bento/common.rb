@@ -75,8 +75,14 @@ module Common
     metadata
   end
 
-  def metadata_files
-    @metadata_files ||= Dir.glob('builds/*._metadata.json')
+  def metadata_files(arch_support = false)
+    arch = if RbConfig::CONFIG['host_cpu'] == 'arm64'
+             'aarch64'
+           else
+             RbConfig::CONFIG['host_cpu']
+           end
+    glob = "builds/*#{"-#{arch}" if arch_support}._metadata.json"
+    @metadata_files ||= Dir.glob(glob)
   end
 
   def builds_yml

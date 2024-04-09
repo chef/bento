@@ -206,7 +206,7 @@ class ListRunner
   end
 
   def start
-    templates.each { |template| puts template }
+    puts templates.join("\n")
   end
 end
 

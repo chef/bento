@@ -17,8 +17,10 @@ class TestRunner
 
   def start
     banner('Starting testing...')
+    md_files = metadata_files(true)
+    puts md_files.join("\n")
     time = Benchmark.measure do
-      metadata_files.each do |metadata_file|
+      md_files.each do |metadata_file|
         destroy_all_bento
         test_box(metadata_file)
         destroy_all_bento
