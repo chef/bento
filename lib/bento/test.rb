@@ -28,7 +28,7 @@ class TestRunner
     end
     banner("Testing finished in #{duration(time.real)}.")
     unless errors.empty?
-      raise("Failed Tests:\n #{errors.join("\n")}\n exited #{$CHILD_STATUS}")
+      raise("Failed Tests:\n#{errors.join("\n")}\nexited #{$CHILD_STATUS}")
     end
   end
 

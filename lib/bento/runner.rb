@@ -43,7 +43,7 @@ class BuildRunner
     end
     banner("Build finished in #{duration(time.real)}.")
     unless errors.empty?
-      raise("Failed Builds:\n #{errors.join("\n")}\n exited #{$CHILD_STATUS}")
+      raise("Failed Builds:\n#{errors.join("\n")}\nexited #{$CHILD_STATUS}")
     end
   end
 
