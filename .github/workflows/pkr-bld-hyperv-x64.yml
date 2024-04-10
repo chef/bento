@@ -58,4 +58,5 @@ jobs:
           name: "${{ matrix.os }}-hyperv-x86_64"
           path: |
             builds/*.box
+            builds/*.json
           retention-days: 10

@@ -85,6 +85,10 @@ class Options
             options.metadata_only = opt
           end
 
+          opts.on('--on-error', '[cleanup|abort|ask|run-cleanup-provisioner] If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.') do |opt|
+            options.on_error = opt
+          end
+
           opts.on('--vars VARS', 'Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")') do |opt|
             options.vars = opt
           end

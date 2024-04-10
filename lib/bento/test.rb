@@ -58,7 +58,7 @@ class TestRunner
            when 'aarch64', 'arm64'
              'arm64'
            else
-             raise "Unknown arch #{md_data.inspect}"
+             raise "Unknown arch #{md['arch'].inspect}"
            end
     @boxname = md['name']
     @providers = md['providers']
@@ -78,17 +78,25 @@ class TestRunner
       test = Mixlib::ShellOut.new("kitchen test #{regx.tr('.', '').tr('_', '-')}", timeout: 900, live_stream: STDOUT)
       test.run_command
       if test.error?
-        test.stderr
+        puts test.stderr
         errors << "#{regex}"
       end
     else
-      @providers.each do |k, _v|
+      @providers.each do |k, v|
         banner("Testing #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}")
         test = Mixlib::ShellOut.new("kitchen test #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}", timeout: 900, live_stream: STDOUT)
         test.run_command
-        if test.error?
-          test.stderr
-          errors << "#{@boxname}-#{@arch}-#{k}"
+        next unless test.error?
+        puts test.stderr
+        errors << "#{@boxname}-#{@arch}-#{k}"
+        FileUtils.mv(File.join(bento_dir, 'builds', v['file']), File.join(bento_dir, 'builds', 'failed_testing', v['file']))
+        @providers.delete(k)
+        if @providers.empty?
+          FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
+          File.delete(File.join(bento_dir, md_json)) if File.exist?(File.join(bento_dir, md_json))
+        else
+          File.binwrite(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)), JSON.pretty_generate(md)) unless dir.glob(File.join(bento_dir, 'builds', 'failed_testing', '*.box')).empty?
+          File.binwrite(md_json, JSON.pretty_generate(md))
         end
       end
     end

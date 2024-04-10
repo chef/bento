@@ -41,6 +41,10 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
+          rm -rf builds
+          sudo mkdir -p /mnt/builds/iso
+          sudo chmod -R 777 /mnt/builds
+          sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds
@@ -50,8 +54,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
-            builds
-            !builds/uploaded/*
+            builds/*.box
+            builds/*.json
           retention-days: 10
       - name: Bento Test
         run: |

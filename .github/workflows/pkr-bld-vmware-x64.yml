@@ -61,8 +61,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-vmware-x86_64"
           path: |
-            builds
-            !builds/uploaded/*
+            builds/*.box
+            builds/*.json
           retention-days: 10
       - name: Bento Test
         run: |

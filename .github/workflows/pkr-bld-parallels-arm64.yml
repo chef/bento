@@ -63,8 +63,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
-            builds
-            !builds/uploaded/*
+            builds/*.box
+            builds/*.json
           retention-days: 10
       - name: Bento Test
         run: |
