@@ -71,7 +71,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added --on-error flag to bento build command to pass to packer command
 - Added cpu architecture support to bento build command, so it'll only test builds that work with the current cpu architecture
 - Remove additional Ubuntu user-date last-command that may be locking macaddress
-- 
+- Add to test to move failed test boxes to builds/failed_testing directory
+- Changed ssh_timeout to 15m
 
 ## [v4.0.2] (2024-03-20)
 

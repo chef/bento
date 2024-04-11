@@ -57,6 +57,7 @@ jobs:
             builds/*.box
             builds/*.json
           retention-days: 10
+          compression-level: 0 # no compression
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"

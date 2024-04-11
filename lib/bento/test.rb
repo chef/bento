@@ -89,14 +89,13 @@ class TestRunner
         next unless test.error?
         puts test.stderr
         errors << "#{@boxname}-#{@arch}-#{k}"
+        FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json))) unless File.exists?(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
         FileUtils.mv(File.join(bento_dir, 'builds', v['file']), File.join(bento_dir, 'builds', 'failed_testing', v['file']))
         @providers.delete(k)
         if @providers.empty?
-          FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
           File.delete(File.join(bento_dir, md_json)) if File.exist?(File.join(bento_dir, md_json))
         else
-          File.binwrite(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)), JSON.pretty_generate(md)) unless dir.glob(File.join(bento_dir, 'builds', 'failed_testing', '*.box')).empty?
-          File.binwrite(md_json, JSON.pretty_generate(md))
+          File.binwrite(File.join(bento_dir, md_json), JSON.pretty_generate(md))
         end
       end
     end
