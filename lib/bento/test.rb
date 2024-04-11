@@ -89,7 +89,7 @@ class TestRunner
         next unless test.error?
         puts test.stderr
         errors << "#{@boxname}-#{@arch}-#{k}"
-        FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json))) unless File.exists?(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
+        FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json))) unless File.exist?(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
         FileUtils.mv(File.join(bento_dir, 'builds', v['file']), File.join(bento_dir, 'builds', 'failed_testing', v['file']))
         @providers.delete(k)
         if @providers.empty?
@@ -99,6 +99,8 @@ class TestRunner
         end
       end
     end
+    destroy = Mixlib::ShellOut.new('kitchen destroy', timeout: 900, live_stream: STDOUT)
+    destroy.run_command
     Dir.chdir(bento_dir)
     FileUtils.rm_rf(temp_dir)
   end

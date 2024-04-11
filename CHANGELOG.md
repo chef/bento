@@ -53,9 +53,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-04-10)
+## [unreleased] (2024-04-11)
 
-## [v4.1.0] (2024-04-10)
+## [v4.1.0] (2024-04-11)
 
 - Add back iso check, packer lint, and amazonlinux builds to build pipeline
 - Fix amazonlinux 2 build script
