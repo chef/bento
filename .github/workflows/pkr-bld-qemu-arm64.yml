@@ -4,10 +4,11 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  PACKER_LOG: "1"
 
 jobs:
   aarch64:
-    runs-on: [self-hosted, ARM64, qemu]
+    runs-on: macos-14
     strategy:
       fail-fast: false
       matrix:
@@ -24,9 +25,9 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
-          - oracle-7
-          - oracle-8
-          - oracle-9
+          - oraclelinux-7
+          - oraclelinux-8
+          - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
           - ubuntu-20.04
@@ -37,35 +38,40 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: iso-availability
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
-#      - name: Setup Packer
-#        if: steps.verify-changed-files.outputs.files_changed == 'true'
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
-      - name: Packer Init
-        run: packer init -upgrade packer_templates
-      - name: Packer FMT
-        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
-      - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
-      - name: Packer build
-#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var "qemu_accelerator=hvf" -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl" packer_templates
+      - name: Install Vagrant QEMU
+        run: |
+          brew install qemu libvirt
+          brew tap hashicorp/tap
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew services start libvirt
+          vagrant plugin install vagrant-libvirt vagrant-qemu
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds
-#      - name: Bento Test
-#        run: |
-#          eval "$(chef shell-init bash)"
-#          bento test
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-aarch64._metadata.json
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: "${{ matrix.os }}-qemu-aarch64"
           path: |
-            builds
-            !builds/uploaded/*
+            builds/*.box
+            builds/*.json
           retention-days: 10
+          compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test libvirt

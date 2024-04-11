@@ -93,7 +93,7 @@ class ProviderMetadata
   end
 
   def ver_libvirt
-    cmd = Mixlib::ShellOut.new('/usr/local/opt/libvirt/sbin/libvirtd -V')
+    cmd = Mixlib::ShellOut.new('libvirtd -V')
     cmd.run_command
     cmd.stdout.split(' ').last
   end

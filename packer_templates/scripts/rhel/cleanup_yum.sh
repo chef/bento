@@ -19,9 +19,8 @@ package-cleanup --oldkernels --count=1 -y
 
 # Avoid ~200 meg firmware package we don't need
 # this cannot be done in the KS file so we do it here
-if test "$(uname -r)" == -- *el7uek*; then
-  echo "Skipping firmware removal for Oracle Linux"
-else
+distro="$(rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-')"
+if [ "$distro" != 'oraclelinux' ]; then
   echo "Removing extra firmware packages"
   yum -y remove linux-firmware
 fi

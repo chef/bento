@@ -8,7 +8,7 @@ class BuildRunner
   include Common
   include PackerExec
 
-  attr_reader :template_files, :config, :dry_run, :debug, :only, :except, :mirror, :headed, :single, :errors,
+  attr_reader :template_files, :dry_run, :debug, :only, :except, :mirror, :headed, :single, :errors, :on_error,
               :override_version, :build_timestamp, :cpus, :mem, :metadata_only, :vars, :var_files, :pkr_cmd
 
   def initialize(opts)
@@ -17,6 +17,7 @@ class BuildRunner
     @dry_run = opts.dry_run
     @metadata_only = opts.metadata_only
     @debug = opts.debug
+    @on_error = opts.on_error ||= nil
     @only = opts.only ||= nil
     @except = opts.except
     @mirror = opts.mirror
@@ -33,7 +34,7 @@ class BuildRunner
   end
 
   def start
-    templates = config ? build_list : template_files
+    templates = template_files
     banner('Starting build for templates:')
     banner('Installing packer plugins') unless dry_run || metadata_only
     shellout("packer init -upgrade #{File.dirname(templates.first)}/../../packer_templates") unless dry_run || metadata_only
@@ -43,7 +44,7 @@ class BuildRunner
     end
     banner("Build finished in #{duration(time.real)}.")
     unless errors.empty?
-      raise("Failed Builds:\n #{errors.join("\n")}\n exited #{$CHILD_STATUS}")
+      raise("Failed Builds:\n#{errors.join("\n")}\nexited #{$CHILD_STATUS}")
     end
   end
 
@@ -95,6 +96,7 @@ class BuildRunner
     cmd.insert(4, '-var headless=false') if headed
     cmd.insert(2, '-parallel=false') if single
     cmd.insert(2, '-debug') if debug
+    cmd.insert(2, "-on-error=#{on_error}") if on_error
     cmd.insert(0, 'echo') if dry_run || metadata_only
     cmd
   end
@@ -106,8 +108,8 @@ class BuildRunner
     md[:providers] = ProviderMetadata.new(path, md[:template]).read
     md[:providers].each do |p|
       p[:build_time] = buildtime
-      p[:build_cpus] = cpus unless cpus.nil?
-      p[:build_mem] = mem unless mem.nil?
+      p[:build_cpus] = cpus if cpus
+      p[:build_mem] = mem if mem
     end
 
     if dry_run

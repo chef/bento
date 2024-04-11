@@ -1,4 +1,4 @@
-os_name                 = "oracle"
+os_name                 = "oraclelinux"
 os_version              = "7.9"
 os_arch                 = "aarch64"
 iso_url                 = "https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/aarch64/OracleLinux-R7-U9-Server-aarch64-dvd.iso"

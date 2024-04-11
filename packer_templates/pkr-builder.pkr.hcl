@@ -64,7 +64,7 @@ locals {
           "${path.root}/scripts/freebsd/cleanup_freebsd.sh",
           "${path.root}/scripts/freebsd/minimize_freebsd.sh"
           ] : (
-          var.os_name == "opensuse" ||
+          var.os_name == "opensuse-leap" ||
           var.os_name == "sles" ? [
             "${path.root}/scripts/suse/repositories_suse.sh",
             "${path.root}/scripts/suse/update_suse.sh",
@@ -209,8 +209,10 @@ build {
 
   # Convert machines to vagrant boxes
   post-processor "vagrant" {
-    compression_level    = 9
-    output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
-    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : null
+    compression_level = 9
+    output            = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+    )
   }
 }

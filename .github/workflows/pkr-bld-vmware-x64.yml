@@ -4,6 +4,7 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  PACKER_LOG: "1"
 
 jobs:
   x86_64:
@@ -24,9 +25,9 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
-          - oracle-7
-          - oracle-8
-          - oracle-9
+          - oraclelinux-7
+          - oraclelinux-8
+          - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
           - ubuntu-20.04
@@ -37,29 +38,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: iso-availability
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
 #      - name: Setup Packer
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
-      - name: Packer Init
-        run: packer init -upgrade packer_templates
-      - name: Packer FMT
-        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
-      - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-      - name: Packer build
-#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds
-#      - name: Bento Test
-#        run: |
-#          eval "$(chef shell-init bash)"
-#          bento test
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -73,6 +61,11 @@ jobs:
         with:
           name: "${{ matrix.os }}-vmware-x86_64"
           path: |
-            builds
-            !builds/uploaded/*
+            builds/*.box
+            builds/*.json
           retention-days: 10
+          compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test

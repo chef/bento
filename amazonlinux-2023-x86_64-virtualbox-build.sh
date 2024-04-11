@@ -26,7 +26,16 @@ if [ ! -f "$AMZDIR"/amazon2023_x86_64.vdi ]; then
 fi
 
 echo "Creating ISO"
-hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
+if [ -x "$(command -v genisoimage)" ]; then
+  genisoimage -output "$AMZDIR"/seed.iso -volid cidata -joliet -rock "$AMZDIR"/../amz_seed_iso/user-data "$AMZDIR"/../amz_seed_iso/meta-data
+elif [ -x "$(command -v hdiutil)" ]; then
+  hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
+elif [ -x "$(command -v mkisofs)" ]; then
+  mkfsiso9660 -o "$AMZDIR"/seed.iso "$AMZDIR"/../amz_seed_iso
+else
+  echo "No tool found to create the seed.iso"
+  exit 1
+fi
 
 VM="AmazonLinuxBento"
 echo Powering off and deleting any existing VMs named $VM
@@ -38,8 +47,8 @@ echo "Creating the VM"
 # from https://www.perkin.org.uk/posts/create-virtualbox-vm-from-the-command-line.html
 VBoxManage createvm --name $VM --ostype "Fedora_64" --register
 VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$AMZDIR"/amazon2023_x86_64.vdi
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium "$AMZDIR"/seed.iso
+VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --type hdd --medium "$AMZDIR"/amazon2023_x86_64.vdi
+VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --type dvddrive --medium "$AMZDIR"/seed.iso
 VBoxManage modifyvm $VM --memory 2048
 VBoxManage modifyvm $VM --cpus 2
 VBoxManage modifyvm $VM --nat-localhostreachable1 on
@@ -54,7 +63,7 @@ echo "Sleeping for 120 seconds to let the system boot and cloud-init to run"
 VBoxManage startvm $VM --type headless
 sleep 120
 VBoxManage controlvm $VM poweroff --type headless
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium none
+VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --type dvddrive --medium none
 sleep 5
 
 echo "Exporting the VM to an OVF file"
@@ -65,7 +74,7 @@ echo "Deleting the VM"
 vboxmanage unregistervm $VM --delete
 
 echo "starting packer build of amazonlinux"
-if packer build -timestamp-ui -var "vbox_source_path=$AMZDIR/amazon2023_x86_64.ovf" -var "vbox_checksum=null" -var-file="$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2023-x86_64.pkrvars.hcl "$AMZDIR"/../../packer_templates; then
+if bento build --vars vbox_source_path="$AMZDIR"/amazon2023_x86_64.ovf,vbox_checksum=null "$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2023-x86_64.pkrvars.hcl; then
   echo "Cleaning up files"
   rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso "$AMZDIR"/*.vdi "$AMZDIR"/*.qcow2
 else

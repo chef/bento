@@ -2,6 +2,7 @@
 **/builds/
 *.iso
 *.box
+*.ova
 *.ovf
 *.vmdk
 *.vdi

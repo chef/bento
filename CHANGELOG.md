@@ -9,8 +9,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 |:----------------:|:---:|:-------------------:|:--------------------:|:---:|:---:|:--------------------:|:---:|:-----------------:|:-----------------:|
 |   almalinux-8    |  |          x          |                      | x |  |          x           |  |         x         |                   |
 |   almalinux-9    |  |          x          |          x           |  |  |          x           |  |         x         |         x         |
-|  amazonlinux-2   |  |         na          |          na          |  |  |                      | na |                   |        na         |
-| amazonlinux-2023 | na |         na          |          na          | na | na |          na          | na |        na         |        na         |
+|  amazonlinux-2   |  |                   |                      |  |  |          x           |  |                   |                 |
+| amazonlinux-2023 |  |                   |                      |  |  |          x           |  |                 |                 |
 |     centos-7     |  |          x          |                      | x |  |          x           |  |         x         |                   |
 | centos-stream-8  |  |          x          |                      | x |  |          x           |  |         x         |                   |
 | centos-stream-9  |  |                     |          x           |  |  |                      |  |                   |                   |
@@ -36,7 +36,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 |   ubuntu-22.04   |  |          x          |                      | x |  |          x           |  |         x         |                   |
 |   ubuntu-23.10   |  |          x          |          x           |  |  |          x           |  |         x         |         x         |
 |    windows-10    |  |          x          |          na          |  | na |          x           | na |                   |        na         |
-|    windows-11    |  |          x          |          na          |  | na |          x           | na |                   |        na         |
+|    windows-11    |  |          x          |          x           |  | na |          x           | na |                   |                 |
 |   windows-2016   |  |          x          |          na          |  | na |          x           | na |                   |        na         |
 |   windows-2019   |  |          x          |          na          |  | na |          x           | na |                   |        na         |
 |   windows-2022   |  |          x          |          na          |  | na |          x           | na |                   |        na         |
@@ -53,7 +53,26 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-03-20)
+## [unreleased] (2024-04-11)
+
+## [v4.1.0] (2024-04-11)
+
+- Add back iso check, packer lint, and amazonlinux builds to build pipeline
+- Fix amazonlinux 2 build script
+- Added amazonlinux 2023 build scripts
+- Migrate Virtualbox and Qemu builds to github hosted runners from self-hosted runners
+- Added test-kitchen and kitchen-vagrant dependencies to gemspec
+- Added arg for bento test command to specify a specific build to test - this passes the arg to the kitchen test command
+- Fix vagrant post-processor to specify custom vagrant file for freebsd builds
+- Remove gui true from windows custom vagrant file
+- Fix test to skip removing linux-firmware on oraclelinux
+- Renamed oracle boxes to oraclelinux for consistency and remove edge cases in code
+- Removed unused -c flag for specifying a specific config file for bento build
+- Added --on-error flag to bento build command to pass to packer command
+- Added cpu architecture support to bento build command, so it'll only test builds that work with the current cpu architecture
+- Remove additional Ubuntu user-date last-command that may be locking macaddress
+- Add to test to move failed test boxes to builds/failed_testing directory
+- Changed ssh_timeout to 15m
 
 ## [v4.0.2] (2024-03-20)
 

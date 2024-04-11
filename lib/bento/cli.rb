@@ -49,6 +49,10 @@ class Options
       end
     }
 
+    test_argv_proc = proc { |opts|
+      opts.regx = ARGV[0]
+    }
+
     md_json_argv_proc = proc { |opts|
       opts.md_json = ARGV[0]
     }
@@ -81,16 +85,16 @@ class Options
             options.metadata_only = opt
           end
 
+          opts.on('--on-error', '[cleanup|abort|ask|run-cleanup-provisioner] If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.') do |opt|
+            options.on_error = opt
+          end
+
           opts.on('--vars VARS', 'Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")') do |opt|
             options.vars = opt
           end
 
           opts.on('--var_files VAR_FILES', 'Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)') do |opt|
             options.var_files = opt
-          end
-
-          opts.on('-c BUILD_YML', '--config BUILD_YML', 'Use a configuration file') do |opt|
-            options.config = opt
           end
 
           opts.on('-d', '--[no-]debug', 'Run packer with debug output') do |opt|
@@ -165,7 +169,7 @@ class Options
             options.provisioner = opt
           end
         end,
-        argv: proc {},
+        argv: test_argv_proc,
       },
       upload: {
         class: UploadRunner,
@@ -206,7 +210,7 @@ class ListRunner
   end
 
   def start
-    templates.each { |template| puts template }
+    puts templates.join("\n")
   end
 end
 

@@ -359,7 +359,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "30m"
+  default = "15m"
 }
 variable "ssh_username" {
   type    = string
