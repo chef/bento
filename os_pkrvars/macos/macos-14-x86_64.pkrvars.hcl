@@ -4,77 +4,70 @@ os_arch                 = "x86_64"
 parallels_ipsw_url      = "https://updates.cdn-apple.com/2024WinterFCS/fullrestores/052-77579/4569734E-120C-4F31-AD08-FC1FF825D059/UniversalMac_14.4.1_23E224_Restore.ipsw"
 parallels_ipsw_checksum = "78b39816521a6eeaf29221a4e59e83dae98ef5f9e8e718b846f8faab540a48c1"
 sources_enabled         = ["source.parallels-ipsw.vm"]
-headless                = false
 boot_command = [
   # hello, hola, bonjour, etc.
-  "<wait><spacebar>",
-  # Language: most of the times we have a list of "English"[1], "English (UK)", etc. with
-  # "English" language already selected. If we type "english", it'll cause us to switch
-  # to the "English (UK)", which is not what we want. To solve this, we switch to some other
-  # language first, e.g. "Italiano" and then switch back to "English". We'll then jump to the
-  # first entry in a list of "english"-prefixed items, which will be "English".
-  #
-  # [1]: should be named "English (US)", but oh well 🤷
-  "<wait5s>italiano<wait>english<wait><enter>",
+  "<wait><spacebar><wait5s>",
+  # Select Language English (US)
+  "<enter><wait10s>",
   # Select Your Country and Region
-  "<wait10s>united states<wait><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Written and Spoken Languages
-  "<wait5s><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Accessibility
-  "<wait5s><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Data & Privacy
-  "<wait5s><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Migration Assistant
-  "<wait5s><tab><wait><tab><wait><tab><wait><spacebar>",
+  "<tab><wait><tab><wait><tab><wait><spacebar><wait5s>",
   # Sign In with Your Apple ID
-  "<wait5s><leftShiftOn><tab><leftShiftOff><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><wait><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Are you sure you want to skip signing in with an Apple ID?
-  "<wait5s><tab><wait><spacebar>",
+  "<tab><wait><spacebar><wait5s>",
   # Terms and Conditions
-  "<wait5s><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # I have read and agree to the macOS Software License Agreement
-  "<wait5s><tab><wait><spacebar>",
+  "<tab><wait><spacebar><wait5s>",
   # Create a Computer Account
-  "<wait5s>vagrant<wait><tab><wait><tab><wait>vagrant<wait><tab><wait>vagrant<wait><tab><wait><tab><wait><tab><wait><spacebar>",
+  "vagrant<wait><tab><wait><tab><wait>vagrant<wait><tab><wait>vagrant<wait><tab><wait><tab><wait><tab><wait><spacebar><wait1m>",
   # Enable Location Services
-  "<wait35s><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Are you sure you don't want to use Location Services?
-  "<wait5s><tab><wait><spacebar>",
+  "<tab><wait><spacebar><wait5s>",
   # Select Your Time Zone
-  "<wait5s><tab><wait>UTC<wait><enter><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<tab><wait>UTC<wait><enter><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Analytics
-  "<wait5s><tab><wait><spacebar><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<tab><wait><spacebar><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Screen Time
-  "<wait5s><tab><wait><spacebar>",
+  "<tab><wait><spacebar><wait5s>",
   # Siri
-  "<wait5s><tab><wait><spacebar><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
+  "<tab><wait><spacebar><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Choose Your Look
-  "<wait5s><leftShiftOn><tab><leftShiftOff><wait><spacebar>",
-  # Enable Voice Over for keyboard access to the UI switches
-  "<wait5s><leftSuperOn><f5><leftSuperOff><wait5s>v",
+  "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait30s>",
+  # Enable keyboard navigation
+  "<leftCtrlOn><f7><leftCtrlOff><wait2s>",
   # Open System Settings
-  "<wait5s><leftSuperOn><spacebar><leftSuperOff><wait>system settings<wait><enter>",
+  "<leftSuperOn><spacebar><leftSuperOff><wait>System<spacebar>Settings<wait><enter><wait5s>",
   # Enable Remote Management
-  "<wait5s><up><wait><tab><tab><tab><tab><tab><tab><tab><tab><tab><wait><spacebar>",
-  "<wait5s><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><wait><spacebar>",
+  "<up><wait><tab><tab><tab><tab><tab><tab><tab><tab><tab><wait><spacebar><wait5s>",
+  "<tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><tab><wait><spacebar><wait5s>",
   # Enable Remote Login
-  "<wait5s><tab><tab><wait><spacebar>",
+  "<tab><tab><wait><spacebar><wait5s>",
   # Close System Preferences
-  "<wait5s><leftSuperOn>q<leftSuperOff>",
-  # Disable Voice Over
-  "<wait5s><leftSuperOn><f5><leftSuperOff>",
+  "<leftSuperOn>q<leftSuperOff><wait5s>",
+  # Disable keyboard navigation
+  "<leftCtrlOn><f7><leftCtrlOff><wait2s>",
   # Open Terminal
-  "<wait5s><leftSuperOn><spacebar><leftSuperOff><wait>terminal<wait><enter>",
+  "<leftSuperOn><spacebar><leftSuperOff><wait>terminal<wait><enter><wait5s>",
   # Add vagrant user to sudoers
-  "<wait5s>echo 'vagrant' | sudo -S sh -c 'echo \"vagrant ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/vagrant'<wait><enter>",
+  "echo 'vagrant' | sudo -S sh -c 'echo \"vagrant ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/vagrant'<wait><enter><wait5s>",
   # Set Auto login for vagrant
-  "<wait5s>sudo sysadminctl -autologin set -userName vagrant -password vagrant<wait><enter>",
+  "sudo sysadminctl -autologin set -userName vagrant -password vagrant<wait><enter><wait5s>",
   # Disable screen lock
-  "<wait5s>sudo sysadminctl -screenLock off -password vagrant<wait><enter>",
+  "sudo sysadminctl -screenLock off -password vagrant<wait><enter><wait5s>",
   # Install Parallels Tools
-  "<wait5s>sudo installer -pkg /Volumes/Parallels\\ Tools/Install.app/Contents/Resources/Install.mpkg -target /<wait><enter>",
+  "sudo installer -pkg /Volumes/Parallels\\ Tools/Install.app/Contents/Resources/Install.mpkg -target /<wait><enter><wait5s>",
   # Reboot
-  "<wait5s>sudo shutdown -r +15s<wait><enter>",
-  "<wait5s>exit<enter>",
-  "<wait5s><leftSuperOn>q<leftSuperOff>"
+  "sudo shutdown -r +15s<wait><enter><wait5s>",
+  "exit<enter><wait5s>",
+  "<leftSuperOn>q<leftSuperOff>"
 ]
