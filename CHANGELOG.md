@@ -16,8 +16,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-9 |  | x |  |  |  | x |  | x | x |
 | debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x | x |
-| fedora-38 |  | x | x |  |  | x |  | x | x |
 | fedora-39 |  | x | x |  |  | x |  | x | x |
+| fedora-40 |  |  |  |  |  |  |  |  |  |
 | freebsd-13 |  |  |  |  |  | x |  | x | x |
 | freebsd-14 |  |  |  |  |  |  |  |  |  |
 | macos |  |  | x |  |  |  |  |  |  |
@@ -54,9 +54,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-04-23)
+## [unreleased] (2024-04-24)
 
-## [v4.1.1] (2024-04-23)
+## [v4.1.1] (2024-04-24)
 
 - Require ruby >= 3.0.0
 - Add parallels-ipsw source

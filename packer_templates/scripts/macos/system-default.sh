@@ -30,6 +30,3 @@ sysadminctl -autologin set -userName vagrant -password vagrant
 
 echo 'Disable screen lock'
 sysadminctl -screenLock off -password vagrant
-
-echo 'Disable spotlight...'
-mdutil -a -i off

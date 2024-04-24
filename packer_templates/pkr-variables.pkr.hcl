@@ -101,7 +101,6 @@ variable "http_content" {
   description = "Content to be served by the http server"
 }
 
-
 # parallels-iso
 variable "parallels_boot_wait" {
   type    = string

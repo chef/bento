@@ -19,8 +19,8 @@ OSX_VERS=$(sw_vers -productVersion | awk -F "." '{print $1}')
 
 # Set computer/hostname
 COMPNAME=macos-${OSX_VERS}
-scutil --set ComputerName ${COMPNAME}
-scutil --set HostName ${COMPNAME}.vagrantup.com
+scutil --set ComputerName "${COMPNAME}"
+scutil --set HostName "${COMPNAME}".vagrantup.com
 
 echo "Installing vagrant keys for vagrant user"
 mkdir "/Users/vagrant/.ssh"

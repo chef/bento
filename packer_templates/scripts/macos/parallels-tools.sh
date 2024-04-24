@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -e .PACKER_BUILDER_TYPE ] || [[ "$PACKER_BUILDER_TYPE" == parallels* ]]; then
+if [ -e .PACKER_BUILDER_TYPE ] || echo "$PACKER_BUILDER_TYPE" | grep -q '^parallels'; then
     echo "Installing Parallels Tools..."
     installer -pkg /Volumes/Parallels\ Tools/Install.app/Contents/Resources/Install.mpkg -target /
 

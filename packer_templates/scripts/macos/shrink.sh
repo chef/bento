@@ -14,13 +14,16 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+echo 'Disable spotlight...'
+mdutil -a -i off
+
 echo 'Turn off hibernation and get rid of the sleepimage'
 pmset hibernatemode 0
 rm -f /var/vm/sleepimage
 
 echo 'Stop the pager process and drop swap files. These will be re-created on boot.'
 # Starting with El Cap we can only stop the dynamic pager if SIP is disabled.
-if $(csrutil status | grep -q disabled); then
+if csrutil status | grep -q disabled; then
   launchctl unload /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist
   sleep 5
 fi
