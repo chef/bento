@@ -12,66 +12,81 @@ jobs:
       fail-fast: false
       matrix:
         os:
-#          - almalinux-8
           - almalinux-9
-#          - centos-7
-#          - centos-stream-8
-#          - centos-stream-9
-#          - debian-11
-#          - debian-12
-#          - fedora-38
-#          - fedora-39
-#          - freebsd-13
-#          - freebsd-14
-#          - opensuse-leap-15
-#          - oracle-7
-#          - oracle-8
-#          - oracle-9
-#          - rockylinux-8
-#          - rockylinux-9
-#          - ubuntu-20.04
-#          - ubuntu-22.04
-#          - ubuntu-23.10
         provider:
           - parallels-iso
           - virtualbox-iso
+          - vmware-iso
+          - qemu
     steps:
       - name: Checkout
         uses: actions/checkout@main
       - name: Install Virtualization Software
         run: |
           brew install qemu libvirt
+          brew services start libvirt
           brew install --cask parallels parallels-virtualization-sdk virtualbox vmware-fusion vagrant vagrant-vmware-utility
-#      - name: Packer Init
-#        run: packer init -upgrade packer_templates
-#      - name: Packer FMT
-#        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
-#      - name: Packer Validate
-#        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-#      - name: Packer build
-##        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-#        run: |
-#          eval "$(chef shell-init bash)"
-#          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-#          ls -alh builds
-##      - name: Bento Test
-##        run: |
-##          eval "$(chef shell-init bash)"
-##          bento test
-#      - name: Remove VM in case of canceled job
-#        if: cancelled()
-#        run: |
-#          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-#          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-#          prlctl stop "$VM" --kill 2> /dev/null
-#          sleep 1
-#          prlctl delete "$VM" 2> /dev/null
-#          sleep 2
-#      - name: Upload build artifact
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: "${{ matrix.os }}-parallels-x86_64"
-#          path: |
-#            builds
-#            !builds/uploaded/*
-#          retention-days: 10
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+          df -h
+      - name: Bento build
+        run: |
+#          rm -rf builds
+#          sudo mkdir -p /mnt/builds/iso
+#          sudo chmod -R 777 /mnt/builds
+#          sudo ln -s /mnt/builds ./
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
+
+  aarch64:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - almalinux-9
+        provider:
+          - parallels-iso
+          - vmware-iso
+          - qemu
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Virtualization Software
+        run: |
+          brew install qemu libvirt
+          brew services start libvirt
+          brew install --cask parallels parallels-virtualization-sdk vmware-fusion vagrant vagrant-vmware-utility
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+          df -h
+      - name: Bento build
+        run: |
+#          rm -rf builds
+#          sudo mkdir -p /mnt/builds/iso
+#          sudo chmod -R 777 /mnt/builds
+#          sudo ln -s /mnt/builds ./
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-aarch64._metadata.json

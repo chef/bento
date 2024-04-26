@@ -35,11 +35,8 @@ jobs:
         provider:
           - hyperv-iso
     steps:
-#      - name: Checkout
-#        uses: actions/checkout@main
-#      - name: iso-availability
-#        shell: pwsh
-#        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
+      - name: Checkout
+        uses: actions/checkout@main
       - name: tests
         shell: pwsh
         run: |
@@ -47,33 +44,29 @@ jobs:
           # DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
           Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
-          # Check if Hyper-V is enabled
-          if($hyperv.State -eq "Enabled") {
-            Write-Host "Hyper-V is enabled."
-          } else {
-            Write-Host "Hyper-V is disabled."
-          }
-          Get-WindowsFeature
-#      - name: Packer Init
-#        run: packer init -upgrade packer_templates
-#      - name: Packer FMT
-#        run: packer fmt -check -recursive .
-#      - name: Packer Validate
-#        run: packer validate -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-#      - name: Packer build
-#        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-#      - name: Remove VM in case of canceled job
-#        if: cancelled()
-#        run: |
-#          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-#          Stop-VM -Force ${{ matrix.os }}*-amd64
-#          sleep 1
-#          Remove-VM -Force ${{ matrix.os }}*-amd64
-#          sleep 2
-#      - name: Upload build artifact
-#        uses: actions/upload-artifact@main
-#        with:
-#          name: "${{ matrix.os }}-hyperv-x86_64"
-#          path: |
-#            builds/*.box
-#          retention-days: 10
+          Write-Host "Hyper-V is $($hyperv.State)"
+#          # Check if Hyper-V is enabled
+#          if($hyperv.State -eq "Enabled") {
+#            Write-Host "Hyper-V is enabled."
+#          } else {
+#            Write-Host "Hyper-V is disabled."
+#          }
+      - name: Packer Init
+        run: packer init -upgrade packer_templates
+      - name: Packer build
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+          Stop-VM -Force ${{ matrix.os }}*-amd64
+          sleep 1
+          Remove-VM -Force ${{ matrix.os }}*-amd64
+          sleep 2
+      - name: Upload build artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: "${{ matrix.os }}-hyperv-x86_64"
+          path: |
+            builds/*.box
+          retention-days: 10
