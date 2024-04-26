@@ -42,9 +42,9 @@ jobs:
         run: |
           packer -v
           # DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
-          Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
+          # Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
-          Write-Host "Hyper-V is $($hyperv.State)"
+          Write-Host "Hyper-V is $hyperv.State"
 #          # Check if Hyper-V is enabled
 #          if($hyperv.State -eq "Enabled") {
 #            Write-Host "Hyper-V is enabled."
@@ -54,7 +54,7 @@ jobs:
       - name: Packer Init
         run: packer init -upgrade packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var "sources_enabled=hyperv-iso.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
