@@ -26,9 +26,9 @@ echo "clean all package cache information"
 dnf -y clean all --enablerepo=\*
 
 # Clean up network interface persistence
-rm -f /etc/udev/rules.d/70-persistent-net.rules;
+rm -rf /etc/udev/rules.d/70-persistent-net.rules;
 mkdir -p /etc/udev/rules.d/70-persistent-net.rules;
-rm -f /lib/udev/rules.d/75-persistent-net-generator.rules;
+rm -rf /lib/udev/rules.d/75-persistent-net-generator.rules;
 rm -rf /dev/.udev/;
 
 if test -f /etc/sysconfig/network-scripts/ifcfg-*; then

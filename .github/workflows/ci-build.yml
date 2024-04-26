@@ -27,14 +27,16 @@ jobs:
 #
 #  powershell-lint:
 #    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
-
-  pkr-bld-hyper-v-x64:
-    uses: ./.github/workflows/test-pkr-bld-hyperv-x64.yml
-    secrets: inherit
-  pkr-bld-parallels-x64:
-    uses: ./.github/workflows/test-pkr-bld-parallels-x64.yml
-    secrets: inherit
-
+#
+#  packer-iso-check:
+#    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
+#    with:
+#      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|windows-11-aarch64.*,macos-*'
+#
+#  packer-lint:
+#    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
+#    secrets: inherit
+#
 #  pkr-bld-amazonlinux-x64:
 #    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
 #    secrets: inherit
@@ -84,6 +86,7 @@ jobs:
 #      - xml-lint
 #      - powershell-lint
 #      - shellcheck-lint
+#      - packer-lint
 #    runs-on: Ubuntu-latest
 #    steps:
 #      - name: Decide whether the needed jobs succeeded or failed
@@ -92,3 +95,10 @@ jobs:
 #          allowed-failures:
 #          allowed-skips: ${{ toJSON(needs) }}
 #          jobs: ${{ toJSON(needs) }}
+
+  pkr-bld-hyper-v-x64:
+    uses: ./.github/workflows/test-pkr-bld-hyperv-x64.yml
+    secrets: inherit
+  pkr-bld-parallels-x64:
+    uses: ./.github/workflows/test-pkr-bld-parallels-x64.yml
+    secrets: inherit

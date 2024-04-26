@@ -4,6 +4,7 @@ Bento is a project that encapsulates [Packer](https://www.packer.io/) templates 
 
 ***NOTE:**
 
+- Vagrant 2.4.0+ is required for new cpu architecture support
 - Virutalbox 6.x requires disabling nat config that allows vbox 7.x guests to connect to the host. To use comment out lines #161 and #162 in bento/packer_templates/pkr-variables.pkr.hcl or add variable `vboxmanage = []` to os_pkrvars files.
 - When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/(build_name) directory by default. If the output_directory variable isn't overwritten a directory called builds/(build_name) will be created in the current working directory that you are running the command from
 
@@ -23,22 +24,31 @@ Vagrant.configure("2") do |config|
 end
 ```
 
+### Installing Bento
+
+1. install ruby environment
+1. clone repo
+1. cd <path/to>/bento
+1. gem build bento.gemspec
+1. gem install bento-*.gem
+
 ### Building Boxes
 
 #### Requirements
 
 - [Packer](https://www.packer.io/) >= 1.7.0
-- [Vagrant](https://www.vagrantup.com/)
+- [Vagrant](https://www.vagrantup.com/) >= 2.4.0
 - At least one of the following virtualization providers:
-   - [VirtualBox](https://www.virtualbox.org/)
-   - [VMware Fusion](https://www.vmware.com/products/fusion.html)
-   - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
-   - [Parallels Desktop Pro](https://www.parallels.com/products/desktop/)*2 also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/) for versions < 19.x
-   - [qemu](https://www.qemu.org/) *1
-   - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *1
+   - [VirtualBox](https://www.virtualbox.org/)*2
+   - [VMware Fusion](https://www.vmware.com/products/fusion.html)*2
+   - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)*2
+   - [Parallels Desktop Pro](https://www.parallels.com/products/desktop/) also requires [Parallels Virtualization SDK](https://www.parallels.com/products/desktop/download/) for versions < 19.x
+   - [qemu](https://www.qemu.org/) *1 *2
+   - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *1 *2
 
-*1**NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
-*2**NOTE:** AARCH64 or ARM64 support is only guaranteed through parallels provider.
+*1 **NOTE:** support for these providers is considered experimental and corresponding Vagrant Cloud images may or may not exist.
+
+*2 **NOTE:** AARCH64 or ARM64 support is a work in progress only guaranteed through parallels and vmware provider.
 
 ### Using `bento` executable
 
@@ -134,13 +144,14 @@ If the build is successful, your box files will be in the `builds` directory at 
 
 ### KVM/qemu support for Windows
 
-You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso). You can do this from the command line: `wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O virtio-win.iso` and place it in the packer_templates/win_answer_files/ directory.
+You must download [the iso image with the Windows drivers for paravirtualized KVM/qemu hardware](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso) and place it in the builds/iso/ directory.
+You can do this from the command line: `mkdir -p builds/iso/; wget -nv -nc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso -O builds/iso/virtio-win.iso`
 
 You can use the following sample command to build a KVM/qemu Windows box:
 
 ```bash
 packer init -upgrade ./packer_templates
-packer build --only=qemu.vm -var-file=os_pkrvars/windwos/windows-2022-x86_64.pkrvars.hcl ./packer_templates
+packer build --only=qemu.vm -var-file=os_pkrvars/windows/windows-2022-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 ### Proprietary Templates
@@ -196,7 +207,7 @@ These basebox templates were converted from [veewee](https://github.com/jedi4eve
 - Author: Corey Hemminger ([corey.hemminger@progress.com](mailto:corey.hemminger@progress.com))
 
 ```text
-Copyright 2012-2023, Progress Software, Inc. (<legal@chef.io>)
+Copyright 2012-2024, Progress Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");

@@ -11,9 +11,11 @@ Gem::Specification.new do |s|
   s.email = 'oss@chef.io'
   s.homepage = 'https://github.com/chef/bento/'
 
-  s.required_ruby_version = '>= 2.6'
+  s.required_ruby_version = '>= 3.0'
 
   s.add_dependency 'mixlib-shellout', '>= 2.3.2'
+  s.add_dependency 'test-kitchen'
+  s.add_dependency 'kitchen-vagrant'
 
   s.bindir = 'bin'
   s.executables = %w(bento)

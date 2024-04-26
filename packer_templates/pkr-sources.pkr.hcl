@@ -2,10 +2,10 @@ locals {
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? "true" : null
+    var.hyperv_generation == 2 && var.is_windows ? true : false
   ) : var.hyperv_enable_dynamic_memory
   hyperv_enable_secure_boot = var.hyperv_enable_secure_boot == null ? (
-    var.hyperv_generation == 2 && var.is_windows ? false : null
+    var.hyperv_generation == 2 && var.is_windows ? true : false
   ) : var.hyperv_enable_secure_boot
 
   # parallels-iso
@@ -20,9 +20,15 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.parallels_tools_mode
   parallels_prlctl = var.parallels_prlctl == null ? (
-    var.is_windows ? [
-      ["set", "{{ .Name }}", "--efi-boot", "off"]
-      ] : [
+    var.is_windows ? (
+      var.os_arch == "x86_64" ? [
+        ["set", "{{ .Name }}", "--efi-boot", "off"]
+        ] : [
+        ["set", "{{ .Name }}", "--efi-boot", "off"],
+        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+        ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
+      ]
+      ) : [
       ["set", "{{ .Name }}", "--3d-accelerate", "off"],
       ["set", "{{ .Name }}", "--videosize", "16"]
     ]
@@ -35,8 +41,9 @@ locals {
   ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
-      ["-drive", "file=${path.root}/win_answer_files/virtio-win.iso,media=cdrom,index=3"],
-      ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
+      ["-drive", "file=${path.root}/../builds/iso/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
+      ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
         ["-boot", "strict=off"]
@@ -55,11 +62,6 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
 
-  # virtualbox-ovf
-  vbox_source = var.vbox_source == null ? (
-    var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
-  ) : var.vbox_source
-
   # vmware-iso
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : "linux"
@@ -70,35 +72,45 @@ locals {
 
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
-    var.is_windows ? "60s" : "5s"
+    var.is_windows ? "60s" : (
+      var.os_name == "macos" ? "8m" : "5s"
+    )
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
       var.hyperv_generation == 2 ? [
         "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
-        ] : [
-        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-      ]
+        ] : (
+        var.os_arch == "x86_64" ? [
+          "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+          ] : [
+          "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+        ]
+      )
     ) : null
   ) : var.cd_files
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
   floppy_files = var.floppy_files == null ? (
-    var.is_windows ? [
-      "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-      ] : (
-      var.os_name == "springdalelinux" ? [
-        "${path.root}/http/rhel/${substr(var.os_version, 0, 1)}ks.cfg"
-      ] : null
-    )
+    var.is_windows ? (
+      var.os_arch == "x86_64" ? [
+        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+        ] : [
+        "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+      ]
+    ) : null
   ) : var.floppy_files
-  http_directory   = var.http_directory == null ? "${path.root}/http" : var.http_directory
-  memory           = var.memory == null ? (var.is_windows ? 4096 : 2048) : var.memory
-  output_directory = var.output_directory == null ? "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
+  http_directory = var.http_directory == null ? "${path.root}/http" : var.http_directory
+  memory = var.memory == null ? (
+    var.is_windows || var.os_name == "macos" ? 4096 : 2048
+  ) : var.memory
+  output_directory = var.output_directory == null ? "${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
     var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
-      var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+      var.os_name == "macos" ? "echo 'vagrant' | sudo -S shutdown -h now" : (
+        var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+      )
     )
   ) : var.shutdown_command
   vm_name = var.vm_name == null ? (
@@ -139,6 +151,32 @@ source "hyperv-iso" "vm" {
   winrm_username   = var.winrm_username
   vm_name          = local.vm_name
 }
+source "parallels-ipsw" "vm" {
+  # Parallels specific options
+  host_interfaces     = var.parallels_host_interfaces
+  ipsw_url            = var.parallels_ipsw_url
+  ipsw_checksum       = var.parallels_ipsw_checksum
+  prlctl              = local.parallels_prlctl
+  prlctl_post         = var.parallels_prlctl_post
+  prlctl_version_file = var.parallels_prlctl_version_file
+  # Source block common options
+  boot_command     = var.boot_command
+  boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
+  cpus             = var.cpus
+  communicator     = local.communicator
+  disk_size        = var.disk_size
+  http_directory   = local.http_directory
+  http_content     = var.http_content
+  memory           = local.memory
+  output_directory = "${local.output_directory}-parallels"
+  shutdown_command = local.shutdown_command
+  shutdown_timeout = var.shutdown_timeout
+  ssh_password     = var.ssh_password
+  ssh_port         = var.ssh_port
+  ssh_timeout      = var.ssh_timeout
+  ssh_username     = var.ssh_username
+  vm_name          = local.vm_name
+}
 source "parallels-iso" "vm" {
   # Parallels specific options
   guest_os_type          = var.parallels_guest_os_type
@@ -171,11 +209,17 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator  = var.qemu_accelerator
-  display      = var.headless ? "none" : var.qemu_display
-  machine_type = local.qemu_machine_type
-  qemu_binary  = local.qemu_binary
-  qemuargs     = local.qemuargs
+  accelerator       = var.qemu_accelerator
+  display           = var.headless ? "none" : var.qemu_display
+  disk_image        = var.qemu_disk_image
+  efi_boot          = var.qemu_efi_boot
+  efi_firmware_code = var.qemu_efi_firmware_code
+  efi_firmware_vars = var.qemu_efi_firmware_vars
+  efi_drop_efivars  = var.qemu_efi_drop_efivars
+  format            = var.qemu_format
+  machine_type      = local.qemu_machine_type
+  qemu_binary       = local.qemu_binary
+  qemuargs          = local.qemuargs
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
@@ -203,6 +247,7 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
+  #firmware                  = "efi"
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
@@ -237,10 +282,11 @@ source "virtualbox-iso" "vm" {
   winrm_username   = var.winrm_username
   vm_name          = local.vm_name
 }
-source "virtualbox-ovf" "amazonlinux" {
+source "virtualbox-ovf" "vm" {
   # Virtualbox specific options
   guest_additions_path    = var.vbox_guest_additions_path
-  source_path             = local.vbox_source
+  source_path             = var.vbox_source_path
+  checksum                = var.vbox_checksum
   vboxmanage              = var.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options

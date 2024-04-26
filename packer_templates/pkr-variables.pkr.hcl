@@ -38,7 +38,6 @@ variable "no_proxy" {
 variable "sources_enabled" {
   type = list(string)
   default = [
-    "source.hyperv-iso.vm",
     "source.parallels-iso.vm",
     "source.qemu.vm",
     "source.virtualbox-iso.vm",
@@ -73,6 +72,33 @@ variable "hyperv_guest_additions_mode" {
 variable "hyperv_switch_name" {
   type    = string
   default = "bento"
+}
+
+# parallels-ipsw
+variable "parallels_host_interfaces" {
+  type        = list(string)
+  default     = null
+  description = "Host interfaces to use for the parallels-ipsw builder"
+}
+variable "parallels_ipsw_url" {
+  type        = string
+  default     = null
+  description = "URL to download the IPSW file"
+}
+variable "parallels_ipsw_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the IPSW file"
+}
+variable "parallels_prlctl_post" {
+  type        = list(list(string))
+  default     = null
+  description = "Commands to run after the VM is created"
+}
+variable "http_content" {
+  type        = map(string)
+  default     = null
+  description = "Content to be served by the http server"
 }
 
 # parallels-iso
@@ -118,6 +144,36 @@ variable "qemu_boot_wait" {
 variable "qemu_display" {
   type    = string
   default = "none"
+}
+variable "qemu_disk_image" {
+  type        = bool
+  default     = null
+  description = "Whether iso_url is a bootable qcow2 disk image"
+}
+variable "qemu_efi_boot" {
+  type        = bool
+  default     = false
+  description = "Enable EFI boot"
+}
+variable "qemu_efi_firmware_code" {
+  type        = string
+  default     = null
+  description = "EFI firmware code path"
+}
+variable "qemu_efi_firmware_vars" {
+  type        = string
+  default     = null
+  description = "EFI firmware vars file path"
+}
+variable "qemu_efi_drop_efivars" {
+  type        = bool
+  default     = false
+  description = "Drop EFI vars"
+}
+variable "qemu_format" {
+  type        = string
+  default     = "qcow2"
+  description = "Disk format, takes qcow2 or raw"
 }
 variable "qemu_machine_type" {
   type    = string
@@ -185,9 +241,15 @@ variable "virtualbox_version_file" {
 }
 
 # virtualbox-ovf
-variable "vbox_source" {
-  type    = string
-  default = null
+variable "vbox_source_path" {
+  type        = string
+  default     = null
+  description = "Path to the OVA/OVF file"
+}
+variable "vbox_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the OVA/OVF file"
 }
 
 # vmware-iso
@@ -220,11 +282,12 @@ variable "vmware_tools_upload_path" {
 }
 variable "vmware_version" {
   type    = number
-  default = 20
+  default = 21
 }
 variable "vmware_vmx_data" {
   type = map(string)
   default = {
+    # "firmware"                = "efi"
     "cpuid.coresPerSocket"    = "2"
     "ethernet0.pciSlotNumber" = "32"
     "svga.autodetect"         = true
@@ -323,7 +386,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "30m"
+  default = "15m"
 }
 variable "ssh_username" {
   type    = string
