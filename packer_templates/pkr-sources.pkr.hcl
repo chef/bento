@@ -159,7 +159,6 @@ source "parallels-ipsw" "vm" {
   prlctl              = local.parallels_prlctl
   prlctl_post         = var.parallels_prlctl_post
   prlctl_version_file = var.parallels_prlctl_version_file
-  sound               = false
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait

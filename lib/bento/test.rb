@@ -27,7 +27,9 @@ class TestRunner
       end
     end
     banner("Testing finished in #{duration(time.real)}.")
-    unless errors.empty?
+    if errors.empty?
+      banner('All tests passed.')
+    else
       raise("Failed Tests:\n#{errors.join("\n")}\nexited #{$CHILD_STATUS}")
     end
   end

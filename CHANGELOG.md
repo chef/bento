@@ -35,7 +35,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | ubuntu-20.04 |  |  | x |  |  | x |  | x | x |
 | ubuntu-22.04 |  | x |  |  |  | x |  |  |  |
-| ubuntu-24.04 |  |  |  |  |  |  |  |  |  |
+| ubuntu-24.04 |  | x | x |  |  | x |  | x | x |
 | windows-10 |  |  | na |  | na | x | na |  | na |
 | windows-11 |  | x | x |  |  | x |  | x |  |
 | windows-2016 |  | x | na |  | na | x | na | x | na |
@@ -54,9 +54,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-04-24)
+## [unreleased] (2024-04-26)
 
-## [v4.1.1] (2024-04-24)
+## [v4.1.1] (2024-04-26)
 
 - Require ruby >= 3.0.0
 - Add parallels-ipsw source
@@ -67,6 +67,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added build_files directory for all temp files to be stored in during packer building
 - Opensuse-leap-15.5 updated to 15.6
 - Remove Fedora 38 and add 40 builds
+- Remove Ubuntu 23.10 and add 24.04 builds
 
 ## [v4.1.0] (2024-04-11)
 

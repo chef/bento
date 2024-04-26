@@ -27,7 +27,7 @@ public:
   - rockylinux-9
   - ubuntu-20.04
   - ubuntu-22.04
-  - ubuntu-23.10
+  - ubuntu-24.04
 
 # slug box name: text string from standard box name to match
 slugs:
