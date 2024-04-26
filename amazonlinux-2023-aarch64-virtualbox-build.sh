@@ -5,7 +5,8 @@ SCRIPT_RELATIVE_DIR=$(dirname "${BASH_SOURCE[0]}")
 cd "$SCRIPT_RELATIVE_DIR" || exit
 
 # set tmp dir for files
-AMZDIR="$(pwd)/packer_templates/amz_working_files"
+AMZDIR="$(pwd)/builds/build_files/amazonlinux-2023-aarch64-virtualbox"
+mkdir -p "$AMZDIR"
 
 echo "Cleaning up old files"
 rm -f "$AMZDIR"/*.iso "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.vdi
@@ -26,12 +27,13 @@ if [ ! -f "$AMZDIR"/amazon2023_arm64.vdi ]; then
 fi
 
 echo "Creating ISO"
+SEED_ISO_DIR="$(pwd)/packer_templates/http/amazon"
 if [ -x "$(command -v genisoimage)" ]; then
-  genisoimage -output "$AMZDIR"/seed.iso -volid cidata -joliet -rock "$AMZDIR"/../amz_seed_iso/user-data "$AMZDIR"/../amz_seed_iso/meta-data
+  genisoimage -output "$AMZDIR"/seed.iso -volid cidata -joliet -rock "$SEED_ISO_DIR"/user-data "$SEED_ISO_DIR"/meta-data
 elif [ -x "$(command -v hdiutil)" ]; then
-  hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$AMZDIR"/../amz_seed_iso
+  hdiutil makehybrid -o "$AMZDIR"/seed.iso -hfs -joliet -iso -default-volume-name cidata "$SEED_ISO_DIR"/
 elif [ -x "$(command -v mkisofs)" ]; then
-  mkfsiso9660 -o "$AMZDIR"/seed.iso "$AMZDIR"/../amz_seed_iso
+  mkfsiso9660 -o "$AMZDIR"/seed.iso "$SEED_ISO_DIR"/
 else
   echo "No tool found to create the seed.iso"
   exit 1
@@ -76,9 +78,9 @@ echo "Deleting the VM"
 vboxmanage unregistervm $VM --delete
 
 echo "starting packer build of amazonlinux"
-if bento build --vars vbox_source_path="$AMZDIR"/amazon2023_arm64.ovf,vbox_checksum=null "$AMZDIR"/../../os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl; then
+if bento build --vars vbox_source_path="$AMZDIR"/amazon2023_arm64.ovf,vbox_checksum=null "$(pwd)"/os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl; then
   echo "Cleaning up files"
-  rm -f "$AMZDIR"/*.ovf "$AMZDIR"/*.vmdk "$AMZDIR"/*.iso "$AMZDIR"/*.vdi "$AMZDIR"/*.qcow2
+  rm -f "$AMZDIR"
 else
   exit 1
 fi

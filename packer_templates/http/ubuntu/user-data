@@ -13,8 +13,10 @@ autoinstall:
     install-server: yes
     allow-pw: yes
   late-commands:
-    # - sed -i 's/^#*\(send dhcp-client-identifier\).*$/\1 = hardware;/' /target/etc/dhcp/dhclient.conf
-    - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
+    - |
+      if [ -f /target/etc/netplan/00-installer-config.yaml ]; then
+        'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
+      fi
     - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
     # Enable hyper-v daemons only if using hyper-v virtualization
     - if [ $(virt-what) == "hyperv" ]; then apt-get update && apt-get install -y hyperv-daemons linux-tools-$(uname -r) linux-cloud-tools-$(uname -r) linux-cloud-tools-common cifs-utils && systemctl enable hypervvssd && systemctl enable hypervkvpd && systemctl start hypervvssd && systemctl start hypervkvpd; fi

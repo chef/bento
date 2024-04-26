@@ -20,11 +20,18 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.parallels_tools_mode
   parallels_prlctl = var.parallels_prlctl == null ? (
-    var.is_windows ? [
-      ["set", "{{ .Name }}", "--efi-boot", "off"],
-      ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
-      ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
-    ] : null
+    var.is_windows ? (
+      var.os_arch == "x86_64" ? [
+        ["set", "{{ .Name }}", "--efi-boot", "off"]
+        ] : [
+        ["set", "{{ .Name }}", "--efi-boot", "off"],
+        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+        ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
+      ]
+      ) : [
+      ["set", "{{ .Name }}", "--3d-accelerate", "off"],
+      ["set", "{{ .Name }}", "--videosize", "16"]
+    ]
   ) : var.parallels_prlctl
 
   # qemu
@@ -36,7 +43,7 @@ locals {
     var.is_windows ? [
       ["-drive", "file=${path.root}/../builds/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
-      ["-drive", "file=${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
+      ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
         ["-boot", "strict=off"]
@@ -65,7 +72,9 @@ locals {
 
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
-    var.is_windows ? "60s" : "5s"
+    var.is_windows ? "60s" : (
+      var.os_name == "macos" ? "8m" : "5s"
+    )
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
@@ -92,12 +101,16 @@ locals {
       ]
     ) : null
   ) : var.floppy_files
-  http_directory   = var.http_directory == null ? "${path.root}/http" : var.http_directory
-  memory           = var.memory == null ? (var.is_windows ? 4096 : 2048) : var.memory
-  output_directory = var.output_directory == null ? "${path.root}/../builds/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
+  http_directory = var.http_directory == null ? "${path.root}/http" : var.http_directory
+  memory = var.memory == null ? (
+    var.is_windows || var.os_name == "macos" ? 4096 : 2048
+  ) : var.memory
+  output_directory = var.output_directory == null ? "${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
     var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
-      var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+      var.os_name == "macos" ? "echo 'vagrant' | sudo -S shutdown -h now" : (
+        var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+      )
     )
   ) : var.shutdown_command
   vm_name = var.vm_name == null ? (
@@ -136,6 +149,32 @@ source "hyperv-iso" "vm" {
   winrm_password   = var.winrm_password
   winrm_timeout    = var.winrm_timeout
   winrm_username   = var.winrm_username
+  vm_name          = local.vm_name
+}
+source "parallels-ipsw" "vm" {
+  # Parallels specific options
+  host_interfaces     = var.parallels_host_interfaces
+  ipsw_url            = var.parallels_ipsw_url
+  ipsw_checksum       = var.parallels_ipsw_checksum
+  prlctl              = local.parallels_prlctl
+  prlctl_post         = var.parallels_prlctl_post
+  prlctl_version_file = var.parallels_prlctl_version_file
+  # Source block common options
+  boot_command     = var.boot_command
+  boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
+  cpus             = var.cpus
+  communicator     = local.communicator
+  disk_size        = var.disk_size
+  http_directory   = local.http_directory
+  http_content     = var.http_content
+  memory           = local.memory
+  output_directory = "${local.output_directory}-parallels"
+  shutdown_command = local.shutdown_command
+  shutdown_timeout = var.shutdown_timeout
+  ssh_password     = var.ssh_password
+  ssh_port         = var.ssh_port
+  ssh_timeout      = var.ssh_timeout
+  ssh_username     = var.ssh_username
   vm_name          = local.vm_name
 }
 source "parallels-iso" "vm" {

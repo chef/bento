@@ -31,7 +31,7 @@ jobs:
   packer-iso-check:
     uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
     with:
-      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|windows-11-aarch64.*'
+      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|windows-11-aarch64.*,macos-*'
 
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main

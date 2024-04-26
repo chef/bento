@@ -74,8 +74,8 @@ class UploadRunner
   # @return [String, NilClass] The slug name or nil
   #
   def lookup_slug(name)
-    builds_yml['slugs'].each_pair do |slug, match_string|
-      return slug if name.start_with?(match_string)
+    builds_yml['slugs'].each do |slug|
+      return slug if name.start_with?(slug)
     end
 
     nil

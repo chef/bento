@@ -74,6 +74,33 @@ variable "hyperv_switch_name" {
   default = "bento"
 }
 
+# parallels-ipsw
+variable "parallels_host_interfaces" {
+  type        = list(string)
+  default     = null
+  description = "Host interfaces to use for the parallels-ipsw builder"
+}
+variable "parallels_ipsw_url" {
+  type        = string
+  default     = null
+  description = "URL to download the IPSW file"
+}
+variable "parallels_ipsw_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the IPSW file"
+}
+variable "parallels_prlctl_post" {
+  type        = list(list(string))
+  default     = null
+  description = "Commands to run after the VM is created"
+}
+variable "http_content" {
+  type        = map(string)
+  default     = null
+  description = "Content to be served by the http server"
+}
+
 # parallels-iso
 variable "parallels_boot_wait" {
   type    = string

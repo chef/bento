@@ -85,7 +85,7 @@ class Options
             options.metadata_only = opt
           end
 
-          opts.on('--on-error', '[cleanup|abort|ask|run-cleanup-provisioner] If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.') do |opt|
+          opts.on('--on-error OPT', '[cleanup|abort|ask|run-cleanup-provisioner] If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.') do |opt|
             options.on_error = opt
           end
 
@@ -109,15 +109,15 @@ class Options
             options.except = opt
           end
 
-          opts.on('-m MIRROR', '--mirror MIRROR', 'Look for isos at MIRROR') do |opt|
+          opts.on('-M MIRROR', '--mirror MIRROR', 'Look for isos at MIRROR') do |opt|
             options.mirror = opt
           end
 
-          opts.on('-C cpus', '--cpus CPUS', '# of CPUs per provider') do |opt|
+          opts.on('-c CPUS', '--cpus CPUS', '# of CPUs per provider') do |opt|
             options.cpus = opt
           end
 
-          opts.on('-M MEMORY', '--memory MEMORY', 'Memory (MB) per provider') do |opt|
+          opts.on('-m MEMORY', '--memory MEMORY', 'Memory (MB) per provider') do |opt|
             options.mem = opt
           end
 
@@ -125,7 +125,7 @@ class Options
             options.headed = opt
           end
 
-          opts.on('-S', '--single', 'Disable parallelization of Packer builds') do |opt|
+          opts.on('-s', '--single', 'Disable parallelization of Packer builds') do |opt|
             options.single = opt
           end
 

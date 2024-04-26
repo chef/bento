@@ -1,4 +1,3 @@
-
 os_name                 = "fedora"
 os_version              = "39"
 os_arch                 = "aarch64"
