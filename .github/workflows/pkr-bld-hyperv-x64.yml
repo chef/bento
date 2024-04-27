@@ -20,8 +20,8 @@ jobs:
           - centos-stream-9
           - debian-11
           - debian-12
-          - fedora-38
           - fedora-39
+          - fedora-40
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
@@ -44,20 +44,21 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Create VM Switch for Hyper-V
-        shell: pwsh
-        run: |
-          Get-PsDrive -PsProvider FileSystem
-          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
       - name: Install Bento
         run: |
           chef shell-init powershell
           gem build bento.gemspec
           gem install bento-*.gem
+      - name: Create VM Switch for Hyper-V
+        shell: pwsh
+        run: |
+          Get-PsDrive -PsProvider FileSystem
+          pwd
+          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
       - name: Packer Init
         run: packer init -upgrade packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var 'hyperv_generation=1' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
 #      - name: Remove VM in case of canceled job
 #        if: cancelled()
 #        run: |

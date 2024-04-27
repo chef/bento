@@ -12,8 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-#          - almalinux-8
-          - almalinux-9
+          - almalinux-8
+#          - almalinux-9
 #          - centos-7
 #          - centos-stream-8
 #          - centos-stream-9
@@ -51,6 +51,7 @@ jobs:
           # Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
           Get-PsDrive -PsProvider FileSystem
+          pwd
           Write-Host $hyperv.State
           # Get all Ethernet adapters
           Get-NetAdapter
