@@ -38,10 +38,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Setup Packer
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Create VM Switch for Hyper-V
+        shell: pwsh
+        run: |
+          Get-PsDrive -PsProvider FileSystem
+          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
       - name: Bento build
         run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
