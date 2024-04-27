@@ -80,7 +80,7 @@ jobs:
       - name: Packer Init
         run: packer init -upgrade packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only='${{ matrix.provider }}.vm' -var 'sources_enabled=["hyperv-iso.vm"]' -var 'hyperv_switch_name="Default Switch"' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only='${{ matrix.provider }}.vm' -var 'sources_enabled=["hyperv-iso.vm"]' -var 'hyperv_switch_name=Default Switch' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
 #      - name: Remove VM in case of canceled job
 #        if: cancelled()
 #        run: |
