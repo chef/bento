@@ -53,8 +53,8 @@ jobs:
           Write-Host $hyperv.State
           # Get all Ethernet adapters
           Get-NetAdapter
-          Get-NetIPAddress -AddressFamily IPv4
-          New-VMSwitch -Name "bento" -NetAdapterName "vEthernet (nat)" -AllowManagementOS $true
+          # Get-NetIPAddress -AddressFamily IPv4
+          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
           # Test-Connection -ComputerName "www.google.com" -Traceroute
           $adapters = Get-NetAdapter | Where-Object { $_.InterfaceDescription -like "*Ethernet*" }
           # Find the first Ethernet adapter with internet access
