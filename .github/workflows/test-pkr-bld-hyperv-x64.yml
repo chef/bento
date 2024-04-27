@@ -58,11 +58,12 @@ jobs:
           # Find the first Ethernet adapter with internet access
           $internet_adapter = $null
           foreach ($adapter in $adapters) {
-              if (Test-Connection -ComputerName "www.google.com" -Source $adapter.Name -Quiet -Count 1) {
+              if (Test-Connection -ComputerName "www.google.com" -Source (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias $adapter.Name).IPAddress -Quiet -Count 1) {
                   $internet_adapter = $adapter
                   break
               }
           }
+          $internet_adapter
           # If an adapter with internet access was found, create a new Hyper-V external switch
           if ($internet_adapter -ne $null) {
               New-VMSwitch -Name "bento" -NetAdapterName $internet_adapter.Name -AllowManagementOS $true
