@@ -49,16 +49,23 @@ jobs:
         run: |
           Get-PsDrive -PsProvider FileSystem
           New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
-      - name: Bento build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-      - name: Remove VM in case of canceled job
-        if: cancelled()
+      - name: Install Bento
         run: |
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-          Stop-VM -Force ${{ matrix.os }}*-amd64
-          sleep 1
-          Remove-VM -Force ${{ matrix.os }}*-amd64
-          sleep 2
+          chef shell-init powershell
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Packer Init
+        run: packer init -upgrade packer_templates
+      - name: Packer build
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+#      - name: Remove VM in case of canceled job
+#        if: cancelled()
+#        run: |
+#          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+#          Stop-VM -Force ${{ matrix.os }}*-amd64
+#          sleep 1
+#          Remove-VM -Force ${{ matrix.os }}*-amd64
+#          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
@@ -68,3 +75,7 @@ jobs:
             builds/*.json
           retention-days: 10
           compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          chef shell-init powershell
+          bento test
