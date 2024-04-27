@@ -37,8 +37,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
+#      - name: Install Chef
+#        uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
@@ -57,7 +57,7 @@ jobs:
           # Find the first Ethernet adapter with internet access
           $internet_adapter = $null
           foreach ($adapter in $adapters) {
-              if (Test-Connection -ComputerName "www.google.com" -InterfaceAlias $adapter.Name -Quiet -Count 1) {
+              if (Test-Connection -ComputerName "www.google.com" -Source $adapter.Name -Quiet -Count 1) {
                   $internet_adapter = $adapter
                   break
               }

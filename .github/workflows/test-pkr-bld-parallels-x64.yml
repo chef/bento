@@ -15,7 +15,7 @@ jobs:
           - almalinux-9
         provider:
           - virtualbox-iso
-          - qemu
+#          - qemu
 #          - vmware-iso
 #          - parallels-iso
     steps:
@@ -45,40 +45,40 @@ jobs:
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
 
-  aarch64:
-    runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - almalinux-9
-        provider:
-          - qemu
+#  aarch64:
+#    runs-on: macos-latest
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        os:
+#          - almalinux-9
+#        provider:
+#          - qemu
 #          - vmware-iso
 #          - parallels-iso
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - name: Install Virtualization Software
-        run: |
-          brew install qemu libvirt
-          brew services start libvirt
-          brew install --cask parallels parallels-virtualization-sdk vmware-fusion vagrant vagrant-vmware-utility
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Install Bento
-        run: |
-          eval "$(chef shell-init bash)"
-          gem build bento.gemspec
-          gem install bento-*.gem
-          df -h
-      - name: Bento build
-        run: |
-          eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-aarch64._metadata.json
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@main
+#      - name: Install Virtualization Software
+#        run: |
+#          brew install qemu libvirt
+#          brew services start libvirt
+#          brew install --cask parallels parallels-virtualization-sdk vmware-fusion vagrant vagrant-vmware-utility
+#      - name: Install Chef
+#        uses: actionshub/chef-install@3.0.0
+#      - name: Setup Packer
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
+#      - name: Install Bento
+#        run: |
+#          eval "$(chef shell-init bash)"
+#          gem build bento.gemspec
+#          gem install bento-*.gem
+#          df -h
+#      - name: Bento build
+#        run: |
+#          eval "$(chef shell-init bash)"
+#          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+#          ls -alh builds/
+#          cat builds/${{ matrix.os }}*-aarch64._metadata.json
