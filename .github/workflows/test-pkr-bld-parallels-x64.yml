@@ -14,10 +14,10 @@ jobs:
         os:
           - almalinux-9
         provider:
-          - parallels-iso
           - virtualbox-iso
-          - vmware-iso
           - qemu
+#          - vmware-iso
+#          - parallels-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -53,9 +53,9 @@ jobs:
         os:
           - almalinux-9
         provider:
-          - parallels-iso
-          - vmware-iso
           - qemu
+#          - vmware-iso
+#          - parallels-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main

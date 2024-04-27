@@ -52,6 +52,7 @@ jobs:
           $hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online
           Write-Host $hyperv.State
           # Get all Ethernet adapters
+          Get-NetAdapter
           $adapters = Get-NetAdapter | Where-Object { $_.InterfaceDescription -like "*Ethernet*" }
           # Find the first Ethernet adapter with internet access
           $internet_adapter = $null
