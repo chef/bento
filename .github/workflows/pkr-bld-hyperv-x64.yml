@@ -8,7 +8,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, hyperv]
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
@@ -50,7 +50,7 @@ jobs:
           Get-PsDrive -PsProvider FileSystem
           New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
       - name: Bento build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
