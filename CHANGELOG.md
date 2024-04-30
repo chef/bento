@@ -7,7 +7,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 | os | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 |  | x |  |  |  | x |  | x |  |
+| almalinux-8 |  | x |  | x |  | x |  | x |  |
 | almalinux-9 |  | x |  |  |  | x |  | x | x |
 | amazonlinux-2 |  |  |  |  |  | x |  |  |  |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
@@ -16,26 +16,26 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-9 |  | x |  |  |  | x |  | x | x |
 | debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x | x |
-| fedora-39 |  | x | x |  |  | x |  | x | x |
-| fedora-40 |  |  |  |  |  |  |  |  |  |
+| fedora-39 |  | x | x | x |  | x |  | x | x |
+| fedora-40 |  | x |  | x |  | x |  | x | x |
 | freebsd-13 |  |  |  |  |  | x |  | x | x |
 | freebsd-14 |  |  |  |  |  |  |  |  |  |
 | macos |  |  | x |  |  |  |  |  |  |
-| opensuse-leap-15 |  |  |  |  |  | x |  | x | x |
-| oraclelinux-7 |  | x |  |  |  | x |  | x |  |
+| opensuse-leap-15 |  |  |  | x |  | x |  | x | x |
+| oraclelinux-7 |  | x |  | x |  | x |  | x |  |
 | oraclelinux-8 |  |  |  |  |  | x |  | x |  |
 | oraclelinux-9 |  | x | x |  |  | x |  | x | x |
 | rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-| rockylinux-8 |  | x |  |  |  | x |  | x |  |
+| rockylinux-8 |  | x |  | x |  | x |  | x |  |
 | rockylinux-9 |  | x |  |  |  | x |  | x | x |
 | sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | sles-15 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | ubuntu-20.04 |  |  | x |  |  | x |  | x | x |
 | ubuntu-22.04 |  | x |  |  |  | x |  |  |  |
-| ubuntu-24.04 |  | x | x |  |  | x |  | x | x |
+| ubuntu-24.04 |  | x | x | x |  | x |  | x | x |
 | windows-10 |  |  | na |  | na | x | na |  | na |
 | windows-11 |  | x | x |  |  | x |  | x |  |
 | windows-2016 |  | x | na |  | na | x | na | x | na |
@@ -61,6 +61,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fix for hyper-v build option
 - Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows
 - Updated hyper-v builds to use github actions hosted runners
+- Better handle bento uploads of slugs ending in 'latest'
+- Fix oraclelinux slug names
 
 ## [v4.1.1] (2024-04-26)
 

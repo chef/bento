@@ -76,6 +76,15 @@ class UploadRunner
   def lookup_slug(name)
     builds_yml['slugs'].each do |slug|
       return slug if name.start_with?(slug)
+      if slug.end_with?('latest')
+        box_name = slug.split('-').first
+        box_version = []
+        Dir.glob("os_pkrvars/#{box_name}/**/*.pkrvars.hcl").each do |boxes|
+          box_version << File.basename(boxes).split('-')[1].to_i
+        end
+        latest = box_version.uniq!.max { |a, b| a <=> b }
+        return slug if name.start_with?("#{box_name}-#{latest}")
+      end
     end
 
     nil

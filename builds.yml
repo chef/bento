@@ -40,9 +40,9 @@ slugs:
   - freebsd-13
   - freebsd-14
   - opensuse-leap-15
-  - oracle-7
-  - oracle-8
-  - oracle-9
+  - oraclelinux-7
+  - oraclelinux-8
+  - oraclelinux-9
   - rockylinux-8
   - rockylinux-9
   - macos-14
