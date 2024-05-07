@@ -56,13 +56,16 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2024-05-03)
 
-## [v4.1.2] (2024-05-03)
+## [v4.1.2] (2024-05-08)
 
 - Fix for hyper-v build option
 - Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows
 - Updated hyper-v builds to use github actions hosted runners
 - Better handle bento uploads of slugs ending in 'latest'
 - Fix oraclelinux slug names
+- Update almalinux 9.3 to 9.4
+- Update rhel 9.3 to 94
+- Update oraclelinux 9.3 to 9.4
 
 ## [v4.1.1] (2024-04-26)
 
