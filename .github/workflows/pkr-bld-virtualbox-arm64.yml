@@ -41,10 +41,7 @@ jobs:
       - name: Install Vagrant Virtualbox
         run: |
           brew tap hashicorp/tap
-          brew install --cask hashicorp/tap/hashicorp-vagrant
-          wget -q https://www.virtualbox.org/download/testcase/VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
-          hdiutil attach VirtualBox-7.0.15_BETA4-162549-macOSArm64.dmg
-          sudo installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
+          brew install --cask hashicorp/tap/hashicorp-vagrant virtualbox@beta
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
       - name: Setup Packer

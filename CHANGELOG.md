@@ -8,7 +8,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | os | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | almalinux-8 |  | x |  | x |  | x |  | x |  |
-| almalinux-9 |  | x |  |  |  | x |  | x | x |
+| almalinux-9 |  | x | x |  |  | x |  | x | x |
 | amazonlinux-2 |  |  |  |  |  | x |  |  |  |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
 | centos-7 |  |  |  |  |  | x |  | x |  |
@@ -54,7 +54,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-05-03)
+## [unreleased] (2024-05-08)
 
 ## [v4.1.2] (2024-05-08)
 
