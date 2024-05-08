@@ -67,10 +67,10 @@ jobs:
           sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           id
-          echo "User = $USER and logname = $LOGNAME"
-          export USER=$LOGNAME
-          echo "User = $USER and logname = $LOGNAME"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          echo "User = $USER and Logname = $LOGNAME"
+          export LOGNAME=$USER
+          echo "User = $USER and Logname = $LOGNAME"
+          sudo bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Upload build artifact

@@ -41,7 +41,9 @@ jobs:
       - name: Install Vagrant Virtualbox
         run: |
           brew tap hashicorp/tap
-          brew install --cask hashicorp/tap/hashicorp-vagrant virtualbox@beta
+          brew update
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew install --cask virtualbox@beta
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
