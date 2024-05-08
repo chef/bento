@@ -28,6 +28,8 @@ jobs:
           vagrant --version
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
@@ -45,8 +47,8 @@ jobs:
           sudo mkdir -p /mnt/builds/iso
           sudo chmod -R 777 /mnt/builds
           sudo ln -s /mnt/builds ./
-          eval "$(chef shell-init bash)"
-          ./${{ matrix.os }}-x86_64-virtualbox-build.sh
+          sudo eval "$(chef shell-init bash)"
+          sudo ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Upload build artifact
