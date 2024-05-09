@@ -4,7 +4,7 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  PACKER_LOG: "1"
+  # PACKER_LOG: "1"
 
 jobs:
   x86_64:
