@@ -66,6 +66,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update almalinux 9.3 to 9.4
 - Update rhel 9.3 to 94
 - Update oraclelinux 9.3 to 9.4
+- Update rockylinux 9.3 to 9.4
 
 ## [v4.1.1] (2024-04-26)
 
