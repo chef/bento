@@ -54,9 +54,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-05-08)
+## [unreleased] (2024-05-10)
 
-## [v4.1.2] (2024-05-08)
+## [v4.1.2] (2024-05-10)
 
 - Fix for hyper-v build option
 - Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows
