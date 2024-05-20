@@ -8,7 +8,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, vmware-fusion]
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
@@ -38,10 +38,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Setup Packer
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
+      - name: Install Vagrant and VMware-fusion
+        run: |
+          brew tap hashicorp/tap
+          brew update
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew install --cask virtualbox@beta
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"

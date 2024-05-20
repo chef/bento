@@ -54,13 +54,14 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-05-10)
+## [unreleased] (2024-05-20)
 
-## [v4.1.2] (2024-05-10)
+## [v4.1.2] (2024-05-20)
 
 - Fix for hyper-v build option
 - Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows
 - Updated hyper-v builds to use github actions hosted runners
+- Updated VMware builds to use github actions hosted runners
 - Better handle bento uploads of slugs ending in 'latest'
 - Fix oraclelinux slug names
 - Update almalinux 9.3 to 9.4
