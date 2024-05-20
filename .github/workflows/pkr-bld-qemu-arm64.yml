@@ -40,8 +40,10 @@ jobs:
         uses: actions/checkout@main
       - name: Install Vagrant QEMU
         run: |
-          brew install qemu libvirt
           brew tap hashicorp/tap
+          brew update
+          brew install qemu
+          brew install libvirt
           brew install --cask hashicorp/tap/hashicorp-vagrant
           brew services start libvirt
           vagrant plugin install vagrant-libvirt vagrant-qemu

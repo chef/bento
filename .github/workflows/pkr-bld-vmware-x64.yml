@@ -45,7 +45,7 @@ jobs:
           brew install --cask hashicorp/tap/hashicorp-vagrant
           brew install --cask vmware-fusion
           brew install --cask vagrant-vmware-utility
-          vagrant install vagrant-vmware-desktop
+          vagrant plugin install vagrant-vmware-desktop
           cat <<EOF > /Library/Preferences/VMware\ Fusion/networking
           VERSION=1,0
           answer VNET_1_DHCP yes
