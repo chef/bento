@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-- name: Install Vagrant VMware-fusion
+      - name: Install Vagrant VMware-fusion
         run: |
           brew tap hashicorp/tap
           brew update

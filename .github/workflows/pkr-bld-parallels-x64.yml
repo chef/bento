@@ -8,7 +8,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, parallels]
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
