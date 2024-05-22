@@ -15,8 +15,6 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
-          - centos-7
-          - centos-stream-8
           - centos-stream-9
           - debian-11
           - debian-12
@@ -25,7 +23,6 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
-          - oraclelinux-7
           - oraclelinux-8
           - oraclelinux-9
           - rockylinux-8
@@ -46,7 +43,8 @@ jobs:
           brew install --cask vmware-fusion
           brew install --cask vagrant-vmware-utility
           vagrant plugin install vagrant-vmware-desktop
-          sudo cat <<EOF > /Library/Preferences/VMware\ Fusion/networking
+          NETWORKING_CONFIG="/Library/Preferences/VMware Fusion/networking"
+          NETWORK_CONFIG="
           VERSION=1,0
           answer VNET_1_DHCP yes
           answer VNET_1_DHCP_CFG_HASH 97D56988968565698E051056ADEDEEACF00F5981
@@ -61,7 +59,10 @@ jobs:
           answer VNET_8_HOSTONLY_UUID 3CBAC6B3-6A71-4182-8BC6-849058A947B8
           answer VNET_8_NAT yes
           answer VNET_8_VIRTUAL_ADAPTER yes
-          EOF
+          "
+          # Write the network configuration to the file
+          echo "$NETWORK_CONFIG" | sudo tee "$NETWORKING_CONFIG" > /dev/null
+          echo "VMware Fusion networking configuration updated."
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:
@@ -81,14 +82,6 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
-      - name: Remove VM in case of canceled job
-        if: cancelled()
-        run: |
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-          vmrun -T fusion stop builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx hard 2> /dev/null
-          sleep 1
-          vmrun -T fusion deleteVM builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx 2> /dev/null
-          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:

@@ -44,7 +44,13 @@ locals {
       ["-drive", "file=${path.root}/../builds/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
       ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
+      ] : (
+      var.os_arch == "aarch64" ? [
+        ["-boot", "strict=off"],
+        ["-cpu", "host"],
+        ["-monitor", "stdio"]
       ] : null
+    )
   ) : var.qemuargs
 
   # virtualbox-iso

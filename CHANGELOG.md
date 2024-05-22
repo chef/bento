@@ -11,8 +11,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | almalinux-9 |  | x | x |  |  | x |  | x | x |
 | amazonlinux-2 |  |  |  |  |  | x |  |  |  |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
-| centos-7 |  |  |  |  |  | x |  | x |  |
-| centos-stream-8 |  | x |  |  |  | x |  | x |  |
 | centos-stream-9 |  | x |  |  |  | x |  | x | x |
 | debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x | x |
@@ -22,10 +20,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | freebsd-14 |  |  |  |  |  |  |  |  |  |
 | macos |  |  | x |  |  |  |  |  |  |
 | opensuse-leap-15 |  |  |  | x |  | x |  | x | x |
-| oraclelinux-7 |  | x |  | x |  | x |  | x |  |
 | oraclelinux-8 |  |  |  |  |  | x |  | x |  |
 | oraclelinux-9 |  | x | x |  |  | x |  | x | x |
-| rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rockylinux-8 |  | x |  | x |  | x |  | x |  |
@@ -54,9 +50,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-05-20)
+## [unreleased] (2024-05-24)
 
-## [v4.1.2] (2024-05-20)
+## [v4.1.2] (2024-05-24)
 
 - Fix for hyper-v build option
 - Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows
@@ -68,6 +64,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update rhel 9.3 to 94
 - Update oraclelinux 9.3 to 9.4
 - Update rockylinux 9.3 to 9.4
+- Remove Centos 7, Centos Stream 8, RHEL 7, Oraclelinux 7 builds due to EOL
 
 ## [v4.1.1] (2024-04-26)
 

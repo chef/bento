@@ -152,7 +152,7 @@ variable "qemu_disk_image" {
 }
 variable "qemu_efi_boot" {
   type        = bool
-  default     = false
+  default     = true
   description = "Enable EFI boot"
 }
 variable "qemu_efi_firmware_code" {
