@@ -84,4 +84,5 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
           bento test

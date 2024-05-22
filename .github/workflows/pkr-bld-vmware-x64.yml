@@ -46,7 +46,7 @@ jobs:
           brew install --cask vmware-fusion
           brew install --cask vagrant-vmware-utility
           vagrant plugin install vagrant-vmware-desktop
-          cat <<EOF > /Library/Preferences/VMware\ Fusion/networking
+          sudo cat <<EOF > /Library/Preferences/VMware\ Fusion/networking
           VERSION=1,0
           answer VNET_1_DHCP yes
           answer VNET_1_DHCP_CFG_HASH 97D56988968565698E051056ADEDEEACF00F5981
