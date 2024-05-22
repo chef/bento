@@ -143,7 +143,13 @@ variable "qemu_boot_wait" {
 }
 variable "qemu_display" {
   type    = string
-  default = "none"
+  default = null
+  description = "What QEMU -display option to use. Defaults to gtk, use none to not pass the -display option allowing QEMU to choose the default"
+}
+variable "qemu_use_default_display" {
+  type        = bool
+  default     = null
+  description = "If true, do not pass a -display option to qemu, allowing it to choose the default"
 }
 variable "qemu_disk_image" {
   type        = bool
@@ -152,7 +158,7 @@ variable "qemu_disk_image" {
 }
 variable "qemu_efi_boot" {
   type        = bool
-  default     = true
+  default     = false
   description = "Enable EFI boot"
 }
 variable "qemu_efi_firmware_code" {

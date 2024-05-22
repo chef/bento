@@ -36,6 +36,10 @@ locals {
 
   # qemu
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
+  qemu_display = var.qemu_display == null ? "none": var.qemu_display
+  qemu_use_default_display = var.qemu_use_default_display == null ? (
+    var.os_arch == "aarch64" ? true : false
+  ) : var.qemu_use_default_display
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
@@ -212,7 +216,8 @@ source "parallels-iso" "vm" {
 source "qemu" "vm" {
   # QEMU specific options
   accelerator       = var.qemu_accelerator
-  display           = var.headless ? "none" : var.qemu_display
+  display           = local.qemu_display
+  use_default_display = local.qemu_use_default_display
   disk_image        = var.qemu_disk_image
   efi_boot          = var.qemu_efi_boot
   efi_firmware_code = var.qemu_efi_firmware_code
