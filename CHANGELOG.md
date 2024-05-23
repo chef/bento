@@ -41,15 +41,13 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ### Todo
 
 - Fix failing builds
-- migrate from http directory for hosting files to floppy_files or cd_files in source templates
+- migrate from http directory for hosting files to cd_files in source templates
   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
-  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
-  - Also eliminates any potential networking issues
+  - Eliminates any potential networking issues
 - Update pipelines to only run on updated pkrvars files
-- Look into making all build uefi default builds
+- Look into making all builds uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
-- Fix windows qemu args to match disk format when variable is specified
 
 ## [unreleased] (2024-05-23)
 
@@ -66,6 +64,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update oraclelinux 9.3 to 9.4
 - Update rockylinux 9.3 to 9.4
 - Remove Centos 7, Centos Stream 8, RHEL 7, Oraclelinux 7 builds due to EOL
+- Fix windows qemu args to match disk format when variable is specified
 
 ## [v4.1.1] (2024-04-26)
 
