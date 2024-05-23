@@ -90,7 +90,7 @@ class BuildRunner
     end if var_files
     cmd.insert(4, "-only=#{only}") if only
     cmd.insert(4, "-except=#{except}") if except
-    # Build the command line in the correct order and without spaces as future input for the splat operator.
+    cmd.insert(4, "-var 'sources_enabled=#{only.split(',').inspect}'") if only
     cmd.insert(4, "-var cpus=#{cpus}") if cpus
     cmd.insert(4, "-var memory=#{mem}") if mem
     cmd.insert(4, '-var headless=false') if headed

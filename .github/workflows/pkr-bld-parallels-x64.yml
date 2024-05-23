@@ -4,7 +4,7 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  PACKER_LOG: "1"
+  # PACKER_LOG: "1"
 
 jobs:
   x86_64:
@@ -15,8 +15,6 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
-          - centos-7
-          - centos-stream-8
           - centos-stream-9
           - debian-11
           - debian-12
@@ -25,7 +23,6 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
-          - oraclelinux-7
           - oraclelinux-8
           - oraclelinux-9
           - rockylinux-8

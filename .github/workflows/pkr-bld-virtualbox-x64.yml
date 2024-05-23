@@ -3,8 +3,8 @@ on:
   workflow_call:
 
 env:
-  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  PACKER_LOG: "1"
+  PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # PACKER_LOG: 1
 
 jobs:
   x86_64:
@@ -15,8 +15,6 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
-          - centos-7
-          - centos-stream-8
           - centos-stream-9
           - debian-11
           - debian-12
@@ -25,7 +23,6 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
-          - oraclelinux-7
           - oraclelinux-8
           - oraclelinux-9
           - rockylinux-8
@@ -38,7 +35,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant and VirtualBox
+      - name: Install Vagrant VirtualBox
         run: |
           wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | sudo tee /usr/share/keyrings/oracle-virtualbox-2016.gpg
@@ -46,10 +43,10 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
-          VBoxManage --version
-          vagrant --version
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
@@ -66,6 +63,7 @@ jobs:
           sudo chmod -R 777 /mnt/builds
           sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
@@ -81,4 +79,5 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
           bento test

@@ -14,8 +14,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.0'
 
   s.add_dependency 'mixlib-shellout', '>= 2.3.2'
-  s.add_dependency 'test-kitchen'
-  s.add_dependency 'kitchen-vagrant'
 
   s.bindir = 'bin'
   s.executables = %w(bento)

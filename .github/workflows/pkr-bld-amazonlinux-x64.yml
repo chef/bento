@@ -4,7 +4,7 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  PACKER_LOG: "1"
+  # PACKER_LOG: "1"
 
 jobs:
   x86_64:
@@ -28,6 +28,8 @@ jobs:
           vagrant --version
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
@@ -46,6 +48,7 @@ jobs:
           sudo chmod -R 777 /mnt/builds
           sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
           ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
@@ -61,4 +64,5 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
           bento test

@@ -95,3 +95,7 @@ jobs:
           allowed-failures:
           allowed-skips: ${{ toJSON(needs) }}
           jobs: ${{ toJSON(needs) }}
+
+#  pkr-bld-parallels-test:
+#    uses: ./.github/workflows/test-pkr-bld-parallels.yml
+#    secrets: inherit

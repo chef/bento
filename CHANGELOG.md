@@ -7,35 +7,31 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 | os | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 |  | x |  |  |  | x |  | x |  |
-| almalinux-9 |  | x |  |  |  | x |  | x | x |
+| almalinux-8 |  | x |  | x |  | x |  | x |  |
+| almalinux-9 |  | x | x |  |  | x |  | x | x |
 | amazonlinux-2 |  |  |  |  |  | x |  |  |  |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
-| centos-7 |  |  |  |  |  | x |  | x |  |
-| centos-stream-8 |  | x |  |  |  | x |  | x |  |
 | centos-stream-9 |  | x |  |  |  | x |  | x | x |
 | debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x | x |
-| fedora-39 |  | x | x |  |  | x |  | x | x |
-| fedora-40 |  |  |  |  |  |  |  |  |  |
+| fedora-39 |  | x | x | x |  | x |  | x | x |
+| fedora-40 |  | x |  | x |  | x |  | x | x |
 | freebsd-13 |  |  |  |  |  | x |  | x | x |
 | freebsd-14 |  |  |  |  |  |  |  |  |  |
 | macos |  |  | x |  |  |  |  |  |  |
-| opensuse-leap-15 |  |  |  |  |  | x |  | x | x |
-| oraclelinux-7 |  | x |  |  |  | x |  | x |  |
+| opensuse-leap-15 |  |  |  | x |  | x |  | x | x |
 | oraclelinux-8 |  |  |  |  |  | x |  | x |  |
 | oraclelinux-9 |  | x | x |  |  | x |  | x | x |
-| rhel-7 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-| rockylinux-8 |  | x |  |  |  | x |  | x |  |
+| rockylinux-8 |  | x |  | x |  | x |  | x |  |
 | rockylinux-9 |  | x |  |  |  | x |  | x | x |
 | sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | sles-15 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | ubuntu-20.04 |  |  | x |  |  | x |  | x | x |
 | ubuntu-22.04 |  | x |  |  |  | x |  |  |  |
-| ubuntu-24.04 |  | x | x |  |  | x |  | x | x |
+| ubuntu-24.04 |  | x | x | x |  | x |  | x | x |
 | windows-10 |  |  | na |  | na | x | na |  | na |
 | windows-11 |  | x | x |  |  | x |  | x |  |
 | windows-2016 |  | x | na |  | na | x | na | x | na |
@@ -45,16 +41,30 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 ### Todo
 
 - Fix failing builds
-- migrate from http directory for hosting files to floppy_files or cd_files in source templates
+- migrate from http directory for hosting files to cd_files in source templates
   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
-  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
-  - Also eliminates any potential networking issues
+  - Eliminates any potential networking issues
 - Update pipelines to only run on updated pkrvars files
-- Look into making all build uefi default builds
+- Look into making all builds uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2024-04-26)
+## [unreleased] (2024-05-23)
+
+## [v4.1.2] (2024-05-23)
+
+- Fix for hyper-v build option
+- Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows
+- Updated hyper-v builds to use github actions hosted runners
+- Updated VMware builds to use github actions hosted runners
+- Better handle bento uploads of slugs ending in 'latest'
+- Fix oraclelinux slug names
+- Update almalinux 9.3 to 9.4
+- Update rhel 9.3 to 94
+- Update oraclelinux 9.3 to 9.4
+- Update rockylinux 9.3 to 9.4
+- Remove Centos 7, Centos Stream 8, RHEL 7, Oraclelinux 7 builds due to EOL
+- Fix windows qemu args to match disk format when variable is specified
 
 ## [v4.1.1] (2024-04-26)
 

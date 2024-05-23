@@ -4,28 +4,25 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  PACKER_LOG: "1"
+  # PACKER_LOG: "1"
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, hyperv]
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         os:
           - almalinux-8
           - almalinux-9
-          - centos-7
-          - centos-stream-8
           - centos-stream-9
           - debian-11
           - debian-12
-          - fedora-38
           - fedora-39
+          - fedora-40
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
-          - oraclelinux-7
           - oraclelinux-8
           - oraclelinux-9
           - rockylinux-8
@@ -38,20 +35,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Setup Packer
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
-      - name: Bento build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-      - name: Remove VM in case of canceled job
-        if: cancelled()
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
         run: |
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-          Stop-VM -Force ${{ matrix.os }}*-amd64
-          sleep 1
-          Remove-VM -Force ${{ matrix.os }}*-amd64
-          sleep 2
+          chef shell-init powershell
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Create VM Switch for Hyper-V
+        shell: pwsh
+        run: |
+          Get-PsDrive -PsProvider FileSystem
+          pwd
+          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
+      - name: Packer Init
+        run: packer init -upgrade packer_templates
+      - name: Packer build
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
       - name: Upload build artifact
         uses: actions/upload-artifact@main
         with:
@@ -61,3 +67,7 @@ jobs:
             builds/*.json
           retention-days: 10
           compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          chef shell-init powershell
+          bento test

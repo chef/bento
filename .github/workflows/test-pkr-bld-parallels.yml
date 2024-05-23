@@ -1,0 +1,145 @@
+---
+on:
+  workflow_call:
+
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+jobs:
+  x86_64:
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - almalinux-8
+          - almalinux-9
+          - centos-stream-9
+          - debian-11
+          - debian-12
+          - fedora-39
+          - fedora-40
+          - freebsd-13
+          - freebsd-14
+          - opensuse-leap-15
+          - oraclelinux-8
+          - oraclelinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - ubuntu-24.04
+        provider:
+          - parallels-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Vagrant Parallels
+        run: |
+          brew tap hashicorp/tap
+          brew update
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew install --cask parallels
+          brew install --cask parallels-virtualization-sdk
+          vagrant plugin install vagrant-parallels
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ matrix.os }}-parallels-x86_64"
+          path: |
+            builds/*.box
+            builds/*.json
+          retention-days: 10
+          compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+
+  aarch64:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - almalinux-8
+          - almalinux-9
+          - centos-stream-9
+          - debian-11
+          - debian-12
+          - fedora-39
+          - fedora-40
+          - freebsd-13
+          - freebsd-14
+          - opensuse-leap-15
+          - oraclelinux-8
+          - oraclelinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - ubuntu-24.04
+        provider:
+          - parallels-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Vagrant Parallels
+        run: |
+          brew tap hashicorp/tap
+          brew update
+          brew install --cask hashicorp/tap/hashicorp-vagrant
+          brew install --cask parallels
+          brew install --cask parallels-virtualization-sdk
+          vagrant plugin install vagrant-parallels
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ matrix.os }}-parallels-aarch64"
+          path: |
+            builds/*.box
+            builds/*.json
+          retention-days: 10
+          compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
