@@ -142,8 +142,8 @@ variable "qemu_boot_wait" {
   default = null
 }
 variable "qemu_display" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
   description = "What QEMU -display option to use. Defaults to gtk, use none to not pass the -display option allowing QEMU to choose the default"
 }
 variable "qemu_use_default_display" {
@@ -177,8 +177,12 @@ variable "qemu_efi_drop_efivars" {
   description = "Drop EFI vars"
 }
 variable "qemu_format" {
-  type        = string
-  default     = "qcow2"
+  type    = string
+  default = "qcow2"
+  validation {
+    condition     = var.qemu_format == "qcow2" || var.qemu_format == "raw"
+    error_message = "Disk format, takes qcow2 or raw."
+  }
   description = "Disk format, takes qcow2 or raw"
 }
 variable "qemu_machine_type" {

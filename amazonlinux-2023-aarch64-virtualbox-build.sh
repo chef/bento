@@ -80,7 +80,7 @@ vboxmanage unregistervm $VM --delete
 echo "starting packer build of amazonlinux"
 if bento build --vars vbox_source_path="$AMZDIR"/amazon2023_arm64.ovf,vbox_checksum=null "$(pwd)"/os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl; then
   echo "Cleaning up files"
-  rm -f "$AMZDIR"
+  rm -rf "$AMZDIR"
 else
   exit 1
 fi
