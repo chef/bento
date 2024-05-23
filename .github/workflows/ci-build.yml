@@ -97,5 +97,5 @@ jobs:
           jobs: ${{ toJSON(needs) }}
 
 #  pkr-bld-parallels-test:
-#    uses: ./.github/workflows/test-pkr-bld-parallels-x64.yml
+#    uses: ./.github/workflows/test-pkr-bld-parallels.yml
 #    secrets: inherit

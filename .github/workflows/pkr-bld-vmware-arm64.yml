@@ -44,7 +44,6 @@ jobs:
           brew install --cask vagrant-vmware-utility
           vagrant plugin install vagrant-vmware-desktop
           sudo mkdir -p /Library/Preferences/VMware\ Fusion/vmnet8
-          ls -alh /Library/Preferences/VMware\ Fusion/
           NETWORKING_CONF="/Library/Preferences/VMware Fusion/networking"
           DHCPD_CONF="/Library/Preferences/VMware Fusion/vmnet8/dhcpd.conf"
           NAT_CONF="/Library/Preferences/VMware Fusion/vmnet8/nat.conf"

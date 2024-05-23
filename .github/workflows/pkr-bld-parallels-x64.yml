@@ -8,7 +8,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: macos-13
+    runs-on: [self-hosted, X64, parallels]
     strategy:
       fail-fast: false
       matrix:
@@ -35,33 +35,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant Parallels
-        run: |
-          brew tap hashicorp/tap
-          brew update
-          brew install --cask hashicorp/tap/hashicorp-vagrant
-          brew install --cask parallels
-          brew install --cask parallels-virtualization-sdk
-          vagrant plugin install vagrant-parallels
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
-        with:
-          version: 24.2.1058
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Install Bento
-        run: |
-          eval "$(chef shell-init bash)"
-          gem build bento.gemspec
-          gem install bento-*.gem
+#      - name: Setup Packer
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+          prlctl stop "$VM" --kill 2> /dev/null
+          sleep 1
+          prlctl delete "$VM" 2> /dev/null
+          sleep 2
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:

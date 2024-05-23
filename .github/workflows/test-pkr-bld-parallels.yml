@@ -75,7 +75,6 @@ jobs:
           eval "$(chef shell-init bash)"
           bento test
 
-
   aarch64:
     runs-on: macos-latest
     strategy:
