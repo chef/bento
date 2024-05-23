@@ -51,9 +51,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 - Fix windows qemu args to match disk format when variable is specified
 
-## [unreleased] (2024-05-24)
+## [unreleased] (2024-05-23)
 
-## [v4.1.2] (2024-05-24)
+## [v4.1.2] (2024-05-23)
 
 - Fix for hyper-v build option
 - Remove test-kitchen and kitchen-vagrant dependencies from gemspec to fix gem compile error on windows

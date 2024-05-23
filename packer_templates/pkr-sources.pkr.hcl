@@ -50,9 +50,9 @@ locals {
       ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
-        ["-boot", "strict=off"],
-        ["-cpu", "host"],
-        ["-monitor", "stdio"]
+        ["-boot", "strict=off"]
+        # ["-cpu", "host"],
+        # ["-monitor", "stdio"]
       ] : null
     )
   ) : var.qemuargs
