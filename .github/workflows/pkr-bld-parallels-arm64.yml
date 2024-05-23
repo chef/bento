@@ -35,13 +35,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant VMware-fusion
+      - name: Install Vagrant Parallels
         run: |
           brew tap hashicorp/tap
           brew update
           brew install --cask hashicorp/tap/hashicorp-vagrant
           brew install --cask parallels
           brew install --cask parallels-virtualization-sdk
+          vagrant plugin install vagrant-parallels
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:

@@ -49,6 +49,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Look into making all build uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+- Fix windows qemu args to match disk format when variable is specified
 
 ## [unreleased] (2024-05-24)
 

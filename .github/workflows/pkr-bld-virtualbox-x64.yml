@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant and VirtualBox
+      - name: Install Vagrant VirtualBox
         run: |
           wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | sudo tee /usr/share/keyrings/oracle-virtualbox-2016.gpg
@@ -43,8 +43,6 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
-          VBoxManage --version
-          vagrant --version
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:
