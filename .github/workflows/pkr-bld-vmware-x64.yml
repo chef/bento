@@ -99,7 +99,7 @@ jobs:
           hostIp = 172.16.38.1
           # Controls if (TCP) connections should be reset when the adapter they are bound to goes down
           resetConnectionOnLinkDown = 1
-          # Controls if (TCP) connection should be reset when guest packet's destination is NAT's IP address
+          # Controls if (TCP) connection should be reset when guest packet\'s destination is NAT\'s IP address
           resetConnectionOnDestLocalHost = 1
           # Controls if enable nat ipv6
           natIp6Enable = 0
@@ -121,7 +121,7 @@ jobs:
           [incomingtcp]
           # Use these with care - anyone can enter into your VM through these...
           # The format and example are as follows:
-          #<external port number> = <VM's IP address>:<VM's port number>
+          #<external port number> = <VM\'s IP address>:<VM\'s port number>
           #8080 = 172.16.3.128:80
           [incomingudp]
           # UDP port forwarding example
