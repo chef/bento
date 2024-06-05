@@ -51,6 +51,12 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2024-05-23)
 
+- Update almalinux 8 to 8.10
+- Update rockylinux 8 to 8.10
+- Update oraclelinux 8 to 8.10
+- Update rhel 8 to 8.10
+- Update freebsd 14 to 14.1
+
 ## [v4.1.2] (2024-05-23)
 
 - Fix for hyper-v build option
