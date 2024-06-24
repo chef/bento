@@ -11,6 +11,10 @@ vmware-iso|vmware-vmx)
     if [ "$major_version" -eq 11 ] && [ "$architecture" = "aarch64" ]; then
         echo 'deb http://deb.debian.org/debian bullseye-backports main' >> /etc/apt/sources.list
         apt-get update
+        cat > /etc/modprobe.d/blacklist.conf <<EOF
+blacklist vsock_loopback
+blacklist vmw_vsock_virtio_transport_common
+EOF
     fi
     apt-get install -y open-vm-tools;
     mkdir /mnt/hgfs;
