@@ -15,6 +15,7 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
+          - azurelinux
           - centos-stream-9
           - debian-11
           - debian-12

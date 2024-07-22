@@ -51,11 +51,18 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2024-05-23)
 
+- Add Azure Linux template
 - Update almalinux 8 to 8.10
 - Update rockylinux 8 to 8.10
 - Update oraclelinux 8 to 8.10
 - Update rhel 8 to 8.10
 - Update freebsd 14 to 14.1
+- update debian 11 to 11.10
+- Update debian 12 to 12.6
+- Fix dnf cleanup command for broken pks deps
+- Fix parallel tools install for aarch64 oraclelinux-8
+- Fix shell exec err for ubuntu user-data script
+- Fix FreeBSD 14 builds due to change in home directory location
 
 ## [v4.1.2] (2024-05-23)
 

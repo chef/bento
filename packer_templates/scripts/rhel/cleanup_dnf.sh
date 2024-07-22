@@ -8,7 +8,7 @@ echo "Remove development and kernel source packages"
 dnf -y remove gcc cpp gc kernel-devel kernel-headers glibc-devel elfutils-libelf-devel glibc-headers kernel-devel kernel-headers
 
 echo "remove orphaned packages"
-dnf -y autoremove
+dnf -y autoremove --skip-broken
 
 echo "Remove previous kernels that preserved for rollbacks"
 dnf -y remove "$(dnf repoquery --installonly --latest-limit=-1 -q)"
