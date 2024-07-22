@@ -16,11 +16,11 @@ parallels-iso|parallels-pvm)
     mkdir -p /tmp/parallels;
     if [ "$(uname -m)" = "aarch64" ] ; then
         if [ "$major_version" -eq 8 ]; then
-          dnf -y install *epel-release*
+          dnf -y install -- *epel-release*
           dnf -y install gcc-aarch64-linux-gnu gcc-c++-aarch64-linux-gnu gcc-toolset-12 gcc-toolset-12-runtime gcc-toolset-12-gcc-c++
           mv /usr/bin/gcc /usr/bin/gcc.old
           ln -s /opt/rh/gcc-toolset-12/root/usr/bin/gcc /usr/bin/gcc
-          dnf -y install oracle-epel-release-el8
+          dnf -y remove *epel-release*
         fi
 
         mount -o loop "$HOME_DIR"/prl-tools-lin-arm.iso /tmp/parallels;
