@@ -10,7 +10,7 @@ public:
   - amazonlinux-2023
   - almalinux-8
   - almalinux-9
-  - azurelinux
+  - azurelinux-2
   - centos-stream-9
   - debian-11
   - debian-12
