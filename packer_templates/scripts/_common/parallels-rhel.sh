@@ -9,20 +9,19 @@ parallels-iso|parallels-pvm)
     # make sure we use dnf on EL 8+
     if [ "$major_version" -ge 8 ]; then
       dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
+      if [ "$major_version" -eq 8 ]; then
+          dnf -y install -- *epel-release*
+          dnf -y install gcc-aarch64-linux-gnu gcc-c++-aarch64-linux-gnu gcc-toolset-12 gcc-toolset-12-runtime gcc-toolset-12-gcc-c++
+          mv /usr/bin/gcc /usr/bin/gcc.old
+          ln -s /opt/rh/gcc-toolset-12/root/usr/bin/gcc /usr/bin/gcc
+          dnf -y remove -- *epel-release*
+      fi
     else
       yum -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     fi
 
     mkdir -p /tmp/parallels;
     if [ "$(uname -m)" = "aarch64" ] ; then
-        if [ "$major_version" -eq 8 ]; then
-          dnf -y install -- *epel-release*
-          dnf -y install gcc-aarch64-linux-gnu gcc-c++-aarch64-linux-gnu gcc-toolset-12 gcc-toolset-12-runtime gcc-toolset-12-gcc-c++
-          mv /usr/bin/gcc /usr/bin/gcc.old
-          ln -s /opt/rh/gcc-toolset-12/root/usr/bin/gcc /usr/bin/gcc
-          dnf -y remove -- *epel-release*
-        fi
-
         mount -o loop "$HOME_DIR"/prl-tools-lin-arm.iso /tmp/parallels;
     else
         mount -o loop "$HOME_DIR"/prl-tools-lin.iso /tmp/parallels;

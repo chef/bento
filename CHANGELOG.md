@@ -58,7 +58,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update freebsd 14 to 14.1
 - update debian 11 to 11.10
 - Update debian 12 to 12.6
-- Fix dnf cleanup command for broken pks deps
+- Fix dnf cleanup command for broken pkg deps
 - Fix parallel tools install for aarch64 oraclelinux-8
 - Fix shell exec err for ubuntu user-data script
 - Fix FreeBSD 14 builds due to change in home directory location
