@@ -51,7 +51,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2024-05-23)
 
-- Add Azure Linux template
 - Update almalinux 8 to 8.10
 - Update rockylinux 8 to 8.10
 - Update oraclelinux 8 to 8.10

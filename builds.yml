@@ -10,7 +10,6 @@ public:
   - amazonlinux-2023
   - almalinux-8
   - almalinux-9
-  - azurelinux-2
   - centos-stream-9
   - debian-11
   - debian-12
@@ -52,7 +51,6 @@ do_not_build:
   - rhel
   - windows
 #  - almalinux
-#  - azurelinux
 #  - centos
 #  - debian
 #  - fedora
