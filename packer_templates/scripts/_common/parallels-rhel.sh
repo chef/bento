@@ -11,7 +11,7 @@ parallels-iso|parallels-pvm)
       dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
       if [ "$major_version" -eq 8 ]; then
           dnf -y install -- *epel-release*
-          dnf -y install gcc-aarch64-linux-gnu gcc-c++-aarch64-linux-gnu gcc-toolset-12 gcc-toolset-12-runtime gcc-toolset-12-gcc-c++
+          dnf -y install gcc-toolset-12 gcc-toolset-12-runtime gcc-toolset-12-gcc-c++
           mv /usr/bin/gcc /usr/bin/gcc.old
           ln -s /opt/rh/gcc-toolset-12/root/usr/bin/gcc /usr/bin/gcc
           dnf -y remove -- *epel-release*
