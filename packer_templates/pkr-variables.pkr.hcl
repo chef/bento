@@ -233,17 +233,8 @@ variable "vbox_iso_interface" {
   default = "sata"
 }
 variable "vboxmanage" {
-  type = list(list(string))
-  default = [
-    [
-      "modifyvm",
-      "{{.Name}}",
-      "--audio",
-      "none",
-      "--nat-localhostreachable1",
-      "on",
-    ]
-  ]
+  type    = list(list(string))
+  default = null
 }
 variable "virtualbox_version_file" {
   type    = string
