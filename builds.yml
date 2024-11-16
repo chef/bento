@@ -13,8 +13,8 @@ public:
   - centos-stream-9
   - debian-11
   - debian-12
-  - fedora-39
   - fedora-40
+  - fedora-41
   - freebsd-13
   - freebsd-14
   - opensuse-leap-15
