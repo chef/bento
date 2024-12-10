@@ -10,7 +10,7 @@ packer {
       source  = "github.com/parallels/parallels"
     }
     qemu = {
-      version = ">= 1.0.8"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/qemu"
     }
     vagrant = {

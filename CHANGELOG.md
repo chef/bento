@@ -2,7 +2,7 @@
 
 ## Working Builds
 
-***Note:**
+*__Note:__
 Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 | os | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
@@ -14,8 +14,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-9 |  | x |  |  |  | x |  | x | x |
 | debian-11 |  | x | x |  |  | x |  | x |  |
 | debian-12 |  | x | x |  |  | x |  | x | x |
-| fedora-39 |  | x | x | x |  | x |  | x | x |
 | fedora-40 |  | x |  | x |  | x |  | x | x |
+| fedora-41 |  | x |  | x |  | x |  | x | x |
 | freebsd-13 |  |  |  |  |  | x |  | x | x |
 | freebsd-14 |  |  |  |  |  |  |  |  |  |
 | macos |  |  | x |  |  |  |  |  |  |
@@ -42,8 +42,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 - Fix failing builds
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
-  - Eliminates any potential networking issues
+   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
+   - Eliminates any potential networking issues
+
 - Update pipelines to only run on updated pkrvars files
 - Look into making all builds uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
@@ -226,8 +227,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fix failing builds
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
-  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+
 - Update pipelines to only run on updated pkrvars files
 - Look into making all build uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
@@ -251,14 +253,17 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 - Fix failing builds
 - Add more Virtualization providers to build pipelines
-  - vmware
-    - aarch64 - vmware plugin has issues with fusion 13
-  - virtualbox
-    - aarch64 - Vbox Beta support currently
+   - vmware
+      - aarch64 - vmware plugin has issues with fusion 13
+
+   - virtualbox
+      - aarch64 - Vbox Beta support currently
+
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
-  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+
 - Update pipelines to only run on updated pkrvars files
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
@@ -300,8 +305,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Add more Virtualization providers to build pipelines
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
-  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+
 - Update pipelines to only run on updated pkrvars files
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
@@ -379,8 +385,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Add more Virtualization providers to build pipelines
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-  - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
-  - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
+
 - Update pipelines to only run on updated pkrvars files
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
@@ -641,10 +648,10 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Suppress VMX whitelisting warning by removing interfaces at end of build
 - Use archive.ubuntu.com instead of US specific domain
 - Latest Tooling
-  - VirtualBox 5.1.24
-  - VMware Fusion 8.5.8
-  - Parallels 12.2.1
-  - Packer 1.0.3
+   - VirtualBox 5.1.24
+   - VMware Fusion 8.5.8
+   - Parallels 12.2.1
+   - Packer 1.0.3
 
 ## [2.3.7] (2017-07-03)
 
@@ -1381,4 +1388,4 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[BENTO-2\] Update Ubuntu iso filenames, md5sums. [\#6](https://github.com/chef/bento/pull/6) ([torandu](https://github.com/torandu))
 - \[BENTO-4\] Updated centos 6.2 iso urls to use the vault.centos.org url [\#4](https://github.com/chef/bento/pull/4) ([cburyta](https://github.com/cburyta))
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* _This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)_
