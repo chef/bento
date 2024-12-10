@@ -58,6 +58,22 @@ locals {
   ) : var.qemuargs
 
   # virtualbox-iso
+  vboxmanage = var.vboxmanage == null ? (
+    var.os_arch == "aarch64" ? [
+      ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
+      ["modifyvm", "{{.Name}}", "--vrde", "off"],
+      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+      ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+      ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+      ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+      ["modifyvm", "{{.Name}}", "--usb-ohci", "off"],
+      ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+      ] : [
+      ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
+    ]
+  ) : var.vboxmanage
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
     var.is_windows ? "vboxsvga" : "vmsvga"
   ) : var.vbox_gfx_controller
@@ -254,16 +270,23 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  #firmware                  = "efi"
+  # chipset = var.os_arch == "aarch64" ? "armv8virtual" : "ich9"
+  firmware = var.os_arch == "aarch64" ? "efi" : "bios"
+  rtc_time_base = "UTC"
+  # hard_drive_discard = true
+  # hard_drive_nonrotational = true
+  # sound = "none"
+  # usb      = true
+
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
   guest_additions_mode      = local.vbox_guest_additions_mode
   guest_additions_interface = var.vbox_guest_additions_interface
   guest_os_type             = var.vbox_guest_os_type
-  hard_drive_interface      = var.vbox_hard_drive_interface
-  iso_interface             = var.vbox_iso_interface
-  vboxmanage                = var.vboxmanage
+  hard_drive_interface      = var.os_arch == "aarch64" ? "virtio" : var.vbox_hard_drive_interface
+  iso_interface             = var.os_arch == "aarch64" ? "virtio" : var.vbox_iso_interface
+  vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
   boot_command     = var.boot_command
@@ -294,7 +317,7 @@ source "virtualbox-ovf" "vm" {
   guest_additions_path    = var.vbox_guest_additions_path
   source_path             = var.vbox_source_path
   checksum                = var.vbox_checksum
-  vboxmanage              = var.vboxmanage
+  vboxmanage              = local.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options
   communicator     = local.communicator
