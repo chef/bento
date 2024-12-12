@@ -12,21 +12,26 @@ virtualbox-iso|virtualbox-ovf)
     mkdir -p /tmp/vbox;
     mount -o loop "$HOME_DIR"/"$ISO" /tmp/vbox;
 
-    echo "installing deps necessary to compile kernel modules"
-    # We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
-    if [ -f "/bin/dnf" ]; then
-        dnf install -y --skip-broken perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
-    elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
-        yum install -y --skip-broken perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
-    elif [ -f "/usr/bin/apt-get" ]; then
-        apt-get install -y build-essential dkms bzip2 tar linux-headers-"$(uname -r)"
-    elif [ -f "/usr/bin/zypper" ]; then
-        zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
-    fi
+#    echo "installing deps necessary to compile kernel modules"
+#    # We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
+#    if [ -f "/bin/dnf" ]; then
+#        dnf install -y --skip-broken perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
+#    elif [ -f "/bin/yum" ] || [ -f "/usr/bin/yum" ]; then
+#        yum install -y --skip-broken perl cpp gcc make bzip2 tar kernel-headers kernel-devel kernel-uek-devel || true # not all these packages are on every system
+#    elif [ -f "/usr/bin/apt-get" ]; then
+#        apt-get install -y build-essential dkms bzip2 tar linux-headers-"$(uname -r)"
+#    elif [ -f "/usr/bin/zypper" ]; then
+#        zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
+#    fi
 
     echo "installing the vbox additions"
     # this install script fails with non-zero exit codes for no apparent reason so we need better ways to know if it worked
-    /tmp/vbox/VBoxLinuxAdditions.run --nox11 || true
+    arch="$(uname -m)"
+    if [ "$arch" = "aarch64" ]; then
+      /tmp/vbox/VBoxLinuxAdditions-arm64.run --nox11 || true
+    else
+      /tmp/vbox/VBoxLinuxAdditions.run --nox11 || true
+    fi
 
     if ! modinfo vboxsf >/dev/null 2>&1; then
          echo "Cannot find vbox kernel module. Installation of guest additions unsuccessful!"
