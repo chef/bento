@@ -9,6 +9,13 @@ parallels-iso|parallels-pvm)
     # make sure we use dnf on EL 8+
     if [ "$major_version" -ge 8 ]; then
       dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
+      if [ "$major_version" -eq 8 ]; then
+          dnf -y install -- *epel-release*
+          dnf -y install gcc-toolset-12 gcc-toolset-12-runtime gcc-toolset-12-gcc-c++
+          mv /usr/bin/gcc /usr/bin/gcc.old
+          ln -s /opt/rh/gcc-toolset-12/root/usr/bin/gcc /usr/bin/gcc
+          dnf -y remove -- *epel-release*
+      fi
     else
       yum -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     fi
@@ -32,16 +39,5 @@ parallels-iso|parallels-pvm)
     umount /tmp/parallels;
     rm -rf /tmp/parallels;
     rm -f "$HOME_DIR"/*.iso;
-
-    # Parallels Tools for Linux includes native auto-mount script,
-    # which causes losing some of Vagrant-relative shared folders.
-    # So, we should disable this behavior.
-    # https://github.com/Parallels/vagrant-parallels/issues/325#issuecomment-418727113
-    # TODO: verify this is fixed in latest version of parallels
-    # auto_mount_script='/usr/bin/prlfsmountd'
-    # if [ -f "${auto_mount_script}" ]; then
-    #     printf '#!/bin/sh\n # Shared folders auto-mount is disabled by Vagrant' > "${auto_mount_script}"
-    # fi
-
     ;;
 esac
