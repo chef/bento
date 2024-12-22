@@ -254,7 +254,7 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  #firmware                  = "efi"
+  firmware                  = var.vbox_firmware_option
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path

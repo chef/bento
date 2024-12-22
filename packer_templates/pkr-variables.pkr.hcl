@@ -249,6 +249,10 @@ variable "virtualbox_version_file" {
   type    = string
   default = ".vbox_version"
 }
+variable "vbox_firmware_option" {
+  type    = string
+  default = "bios"
+}
 
 # virtualbox-ovf
 variable "vbox_source_path" {
