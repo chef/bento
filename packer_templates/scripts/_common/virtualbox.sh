@@ -1,5 +1,5 @@
 #!/bin/sh -eux
-if [ "$(uname -m)" != "aarch64" ]; then
+if ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
 
     # set a default HOME_DIR environment variable if not set
     HOME_DIR="${HOME_DIR:-/home/vagrant}";
@@ -55,5 +55,5 @@ if [ "$(uname -m)" != "aarch64" ]; then
         ;;
     esac
 else
-    echo "Skipping Virtualbox guest additions installation on aarch64 architecture"
+    echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
 fi
