@@ -11,6 +11,7 @@ public:
   - almalinux-8
   - almalinux-9
   - centos-stream-9
+  - centos-stream-10
   - debian-11
   - debian-12
   - fedora-40
@@ -22,7 +23,6 @@ public:
   - oraclelinux-9
   - rockylinux-8
   - rockylinux-9
-  - ubuntu-20.04
   - ubuntu-22.04
   - ubuntu-24.04
 
@@ -30,7 +30,6 @@ public:
 slugs:
   - almalinux-8
   - almalinux-9
-  - centos-7
   - debian-12
   - debian-11
   - fedora-latest
@@ -42,6 +41,7 @@ slugs:
   - rockylinux-8
   - rockylinux-9
   - macos-14
+  - macos-15
 
 do_not_build:
   - amazon
