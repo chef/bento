@@ -9,7 +9,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 |:----------------:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |   almalinux-8    |  | x |  | x |  | x |  | x |  |
 |   almalinux-9    |  | x | x |  |  | x |  | x | x |
-|  amazonlinux-2   |  |  |  |  |  | x |  |  |  |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
 | centos-stream-9  |  | x |  |  |  | x |  | x | x |
 | centos-stream-10 | | | | | | | | | |

@@ -45,13 +45,13 @@ jobs:
     uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
     secrets: inherit
 
-  pkr-bld-parallels-arm64:
-    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
-    secrets: inherit
-
-  pkr-bld-parallels-x64:
-    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
-    secrets: inherit
+#   pkr-bld-parallels-arm64:
+#     uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
+#     secrets: inherit
+#
+#   pkr-bld-parallels-x64:
+#     uses: ./.github/workflows/pkr-bld-parallels-x64.yml
+#     secrets: inherit
 
   pkr-bld-qemu-arm64:
     uses: ./.github/workflows/pkr-bld-qemu-arm64.yml

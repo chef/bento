@@ -58,6 +58,9 @@ locals {
   ) : var.qemuargs
 
   # virtualbox-iso
+  vbox_firmware = var.vbox_firmware == null ? (
+    var.os_arch == "aarch64" ? "efi" : "bios"
+  ) : var.vbox_firmware
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
     var.is_windows ? "vboxsvga" : "vmsvga"
   ) : var.vbox_gfx_controller
@@ -67,6 +70,28 @@ locals {
   vbox_guest_additions_mode = var.vbox_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
+  vbox_hard_drive_interface = var.vbox_hard_drive_interface == null ? (
+    var.os_arch == "aarch64" ? "virtio" : "sata"
+  ) : var.vbox_hard_drive_interface
+  vbox_iso_interface = var.vbox_iso_interface == null ? (
+    var.os_arch == "aarch64" ? "virtio" : "sata"
+  ) : var.vbox_iso_interface
+  vboxmanage = var.vboxmanage == null ? (
+    var.os_arch == "aarch64" ? [
+      ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
+      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+      ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+      ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
+      ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+      ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+      ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+      ] : [
+      ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
+      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
+    ]
+  ) : var.vboxmanage
 
   # vmware-iso
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
@@ -75,11 +100,26 @@ locals {
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
   ) : var.vmware_tools_upload_path
+  vmware_vmx_data = var.vmware_vmx_data == null ? (
+    var.os_arch == "aarch64" ? {
+      "firmware"                = "efi"
+      "cpuid.coresPerSocket"    = "2"
+      "ethernet0.pciSlotNumber" = "32"
+      "svga.autodetect"         = true
+      "usb_xhci.present"        = true
+      } : {
+      "firmware"                = "bios"
+      "cpuid.coresPerSocket"    = "2"
+      "ethernet0.pciSlotNumber" = "32"
+      "svga.autodetect"         = true
+      "usb_xhci.present"        = true
+    }
+  ) : var.vmware_vmx_data
 
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
     var.is_windows ? "60s" : (
-      var.os_name == "macos" ? "8m" : "5s"
+      var.os_name == "macos" ? "8m" : "10s"
     )
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
@@ -109,7 +149,7 @@ locals {
   ) : var.floppy_files
   http_directory = var.http_directory == null ? "${path.root}/http" : var.http_directory
   memory = var.memory == null ? (
-    var.is_windows || var.os_name == "macos" ? 4096 : 2048
+    var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072
   ) : var.memory
   output_directory = var.output_directory == null ? "${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
@@ -254,16 +294,17 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  firmware                  = var.vbox_firmware_option
+  firmware                  = local.vbox_firmware
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
   guest_additions_mode      = local.vbox_guest_additions_mode
   guest_additions_interface = var.vbox_guest_additions_interface
   guest_os_type             = var.vbox_guest_os_type
-  hard_drive_interface      = var.vbox_hard_drive_interface
-  iso_interface             = var.vbox_iso_interface
-  vboxmanage                = var.vboxmanage
+  hard_drive_interface      = local.vbox_hard_drive_interface
+  iso_interface             = local.vbox_iso_interface
+  rtc_time_base             = var.vbox_rtc_time_base
+  vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
   boot_command     = var.boot_command
@@ -294,7 +335,7 @@ source "virtualbox-ovf" "vm" {
   guest_additions_path    = var.vbox_guest_additions_path
   source_path             = var.vbox_source_path
   checksum                = var.vbox_checksum
-  vboxmanage              = var.vboxmanage
+  vboxmanage              = local.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options
   communicator     = local.communicator
@@ -319,7 +360,7 @@ source "vmware-iso" "vm" {
   tools_upload_path              = local.vmware_tools_upload_path
   usb                            = var.vmware_enable_usb
   version                        = var.vmware_version
-  vmx_data                       = var.vmware_vmx_data
+  vmx_data                       = local.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   # Source block common options
   boot_command     = var.boot_command
