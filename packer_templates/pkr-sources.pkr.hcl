@@ -85,7 +85,7 @@ locals {
       ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
       ["modifyvm", "{{.Name}}", "--mouse", "usb"],
       ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-      ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+      # ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
       ] : [
       ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
       ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
@@ -95,10 +95,10 @@ locals {
 
   # vmware-iso
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? "windows" : "linux"
+    var.is_windows ? "windows" : null
   ) : var.vmware_tools_upload_flavor
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
-    var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
+    var.is_windows ? "c:\\vmware-tools.iso" : null
   ) : var.vmware_tools_upload_path
   vmware_vmx_data = var.vmware_vmx_data == null ? (
     var.os_arch == "aarch64" ? {
