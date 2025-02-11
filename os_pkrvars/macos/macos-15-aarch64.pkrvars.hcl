@@ -1,9 +1,9 @@
-os_name    = "macos"
-os_version = "15.2"
-os_arch    = "aarch64"
+os_name                 = "macos"
+os_version              = "15.3.1"
+os_arch                 = "aarch64"
 parallels_ipsw_url      = "https://updates.cdn-apple.com/2025WinterFCS/fullrestores/072-70618/42F1A8CC-7E07-4329-958A-757FF600C303/UniversalMac_15.3.1_24D70_Restore.ipsw"
 parallels_ipsw_checksum = "c2b5bca53c6cf475e7a2a0b6d6c0db19477d69eb"
-sources_enabled = ["source.parallels-ipsw.vm"]
+sources_enabled         = ["source.parallels-ipsw.vm"]
 boot_command = [
   # hello, hola, bonjour, etc.
   "<wait><spacebar><wait5s>",

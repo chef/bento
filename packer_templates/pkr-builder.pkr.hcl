@@ -117,7 +117,7 @@ locals {
                   "${path.root}/scripts/_common/sshd.sh",
                   "${path.root}/scripts/_common/virtualbox.sh",
                   "${path.root}/scripts/_common/vmware.sh",
-                  "${path.root}/scripts/_common/parallels-rhel.sh",
+                  "${path.root}/scripts/_common/parallels.sh",
                   "${path.root}/scripts/_common/vagrant.sh",
                   "${path.root}/scripts/fedora/real-tmp_fedora.sh",
                   "${path.root}/scripts/fedora/cleanup_dnf.sh",

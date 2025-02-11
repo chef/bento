@@ -4,6 +4,6 @@ os_arch                 = "aarch64"
 iso_url                 = "https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.4/FreeBSD-13.4-RELEASE-arm64-aarch64-bootonly.iso"
 iso_checksum            = "file:https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/13.4/CHECKSUM.SHA256-FreeBSD-13.4-RELEASE-arm64-aarch64"
 parallels_guest_os_type = "freebsd"
-vbox_guest_os_type      = "FreeBSD_64"
+vbox_guest_os_type      = "FreeBSD_arm64"
 vmware_guest_os_type    = "arm-freebsd13-64"
 boot_command            = ["<wait><esc><wait>boot -s<wait><enter><wait><wait10><wait10>/bin/sh<enter><wait>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.em0.pid -l /tmp/dhclient.lease.em0 em0<enter><wait><wait5>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
