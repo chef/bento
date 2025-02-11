@@ -16,6 +16,7 @@ jobs:
           - almalinux-8
           - almalinux-9
           - centos-stream-9
+          - centos-stream-10
           - debian-11
           - debian-12
           - fedora-40
@@ -27,7 +28,6 @@ jobs:
           - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-24.04
         provider:
@@ -40,7 +40,7 @@ jobs:
           brew tap hashicorp/tap
           brew update
           brew install --cask hashicorp/tap/hashicorp-vagrant
-          brew install --cask virtualbox@beta
+          brew install --cask virtualbox
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:

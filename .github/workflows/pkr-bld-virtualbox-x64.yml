@@ -16,6 +16,7 @@ jobs:
           - almalinux-8
           - almalinux-9
           - centos-stream-9
+          - centos-stream-10
           - debian-11
           - debian-12
           - fedora-40
@@ -27,7 +28,6 @@ jobs:
           - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-24.04
         provider:
@@ -42,7 +42,7 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
           echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
           sudo apt-get update
-          sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
+          sudo apt-get install -y software-properties-common vagrant virtualbox-7.1
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:

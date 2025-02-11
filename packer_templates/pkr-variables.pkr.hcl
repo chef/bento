@@ -199,6 +199,11 @@ variable "vbox_boot_wait" {
   type    = string
   default = null
 }
+variable "vbox_firmware" {
+  type        = string
+  default     = null
+  description = "Firmware type, takes bios or efi"
+}
 variable "vbox_gfx_controller" {
   type    = string
   default = null
@@ -226,32 +231,24 @@ variable "vbox_guest_os_type" {
 }
 variable "vbox_hard_drive_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vbox_iso_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vboxmanage" {
-  type = list(list(string))
-  default = [
-    [
-      "modifyvm",
-      "{{.Name}}",
-      "--audio",
-      "none",
-      "--nat-localhostreachable1",
-      "on",
-    ]
-  ]
+  type    = list(list(string))
+  default = null
 }
 variable "virtualbox_version_file" {
   type    = string
   default = ".vbox_version"
 }
-variable "vbox_firmware_option" {
-  type    = string
-  default = "bios"
+variable "vbox_rtc_time_base" {
+  type        = string
+  default     = "UTC"
+  description = "RTC time base"
 }
 
 # virtualbox-ovf
@@ -299,14 +296,8 @@ variable "vmware_version" {
   default = 21
 }
 variable "vmware_vmx_data" {
-  type = map(string)
-  default = {
-    # "firmware"                = "efi"
-    "cpuid.coresPerSocket"    = "2"
-    "ethernet0.pciSlotNumber" = "32"
-    "svga.autodetect"         = true
-    "usb_xhci.present"        = true
-  }
+  type    = map(string)
+  default = null
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
