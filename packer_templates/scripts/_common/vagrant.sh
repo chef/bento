@@ -5,12 +5,12 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 
 pubkey_url="https://raw.githubusercontent.com/hashicorp/vagrant/main/keys/vagrant.pub";
 mkdir -p "$HOME_DIR"/.ssh;
-if command -v curl >/dev/null 2>&1; then
-    curl --insecure --location "$pubkey_url" > "$HOME_DIR"/.ssh/authorized_keys;
-elif command -v wget >/dev/null 2>&1; then
-    wget --no-check-certificate "$pubkey_url" -O "$HOME_DIR"/.ssh/authorized_keys;
-elif command -v fetch >/dev/null 2>&1; then
-    fetch -am -o "$HOME_DIR"/.ssh/authorized_keys "$pubkey_url";
+if command -v curl --insecure --location "$pubkey_url" > "$HOME_DIR"/.ssh/authorized_keys; then
+  echo "Successfully downloaded vagrant public key with curl";
+elif command -v wget --no-check-certificate "$pubkey_url" -O "$HOME_DIR"/.ssh/authorized_keys; then
+  echo "Successfully downloaded vagrant public key with wget";
+elif command -v fetch -am -o "$HOME_DIR"/.ssh/authorized_keys "$pubkey_url"; then
+  echo "Successfully downloaded vagrant public key with fetch";
 else
     echo "Cannot download vagrant public key";
     exit 1;
