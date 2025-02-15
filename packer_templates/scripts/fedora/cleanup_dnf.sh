@@ -25,7 +25,10 @@ echo "truncate any logs that have built up during the install"
 find /var/log -type f -exec truncate --size=0 {} \;
 
 echo "Remove any non-loopback network configs"
-find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
+if test -d /etc/sysconfig/network-scripts
+then
+  find /etc/sysconfig/network-scripts -name "ifcfg-*" -not -name "ifcfg-lo" -exec rm -f {} \;
+fi
 
 echo "remove the install log"
 rm -f /root/anaconda-ks.cfg /root/original-ks.cfg
