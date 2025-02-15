@@ -1,7 +1,7 @@
 os_name                 = "oraclelinux"
 os_version              = "8.10"
 os_arch                 = "aarch64"
-iso_url                 = "https://yum.oracle.com/ISOS/OracleLinux/OL8/u10/aarch64/OracleLinux-R8-U10-aarch64-boot-uek.iso"
+iso_url                 = "https://yum.oracle.com/ISOS/OracleLinux/OL8/u10/aarch64/OracleLinux-R8-U10-aarch64-dvd.iso"
 iso_checksum            = "file:https://linux.oracle.com/security/gpg/checksum/OracleLinux-R8-U10-Server-aarch64.checksum"
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "Oracle9_arm64"
