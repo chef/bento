@@ -1,7 +1,7 @@
 os_name                 = "freebsd"
 os_version              = "13.4"
 os_arch                 = "x86_64"
-iso_url                 = "https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.4/FreeBSD-13.4-RELEASE-amd64-bootonly.iso"
+iso_url                 = "https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.4/FreeBSD-13.4-RELEASE-amd64-disc1.iso"
 iso_checksum            = "file:https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.4/CHECKSUM.SHA256-FreeBSD-13.4-RELEASE-amd64"
 parallels_guest_os_type = "freebsd"
 vbox_guest_os_type      = "FreeBSD_64"

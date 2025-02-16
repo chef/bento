@@ -64,7 +64,6 @@ VBoxManage modifyvm $VM --ioapic on
 VBoxManage modifyvm $VM --usb-xhci on
 VBoxManage modifyvm $VM --mouse usb
 VBoxManage modifyvm $VM --keyboard usb
-VBoxManage modifyvm $VM --nic-type1 virtio
 VBoxManage modifyvm $VM --boot1 disk
 VBoxManage modifyvm $VM --boot2 dvd
 sleep 5

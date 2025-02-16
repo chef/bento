@@ -81,7 +81,6 @@ locals {
       ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
       ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
       ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
-      ["modifyvm", "{{.Name}}", "--nic-type1", "virtio"],
       ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
       ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
       ["modifyvm", "{{.Name}}", "--mouse", "usb"],
@@ -120,7 +119,7 @@ locals {
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
     var.is_windows ? "60s" : (
-      var.os_name == "macos" ? "8m" : "10s"
+      var.os_name == "macos" ? "8m" : "5s"
     )
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
