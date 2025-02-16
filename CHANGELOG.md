@@ -5,38 +5,40 @@
 *__Note:__
 Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
-|        os        | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
-|:----------------:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|   almalinux-8    |  | x |  | x |  | x |  | x |  |
-|   almalinux-9    |  | x | x |  |  | x |  | x | x |
+
+| os | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| almalinux-8 |  |  |  |  |  | x |  |  |  |
+| almalinux-9 |  | x | x |  |  | x | x | x | x |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
-| centos-stream-9  |  | x |  |  |  | x |  | x | x |
-| centos-stream-10 | | | | | | | | | |
-|    debian-11     |  | x | x |  |  | x |  | x |  |
-|    debian-12     |  | x | x |  |  | x |  | x | x |
-|    fedora-40     |  | x |  | x |  | x |  | x | x |
-|    fedora-41     |  | x |  | x |  | x |  | x | x |
-|    freebsd-13    |  |  |  |  |  | x |  | x | x |
-|    freebsd-14    |  |  |  |  |  |  |  |  |  |
-|     macos-14     |  |  | x |  |  |  |  |  |  |
-|    macos-15     |  |  |  |  |  |  |  |  |  |
-| opensuse-leap-15 |  |  |  | x |  | x |  | x | x |
-|  oraclelinux-8   |  |  |  |  |  | x |  | x |  |
-|  oraclelinux-9   |  | x | x |  |  | x |  | x | x |
-|      rhel-8      | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-|      rhel-9      | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-|   rockylinux-8   |  | x |  | x |  | x |  | x |  |
-|   rockylinux-9   |  | x |  |  |  | x |  | x | x |
-|     sles-12      | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-|     sles-15      | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-|    solaris-11    | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
-|   ubuntu-22.04   |  | x |  |  |  | x |  |  |  |
-|    windows-10    |  |  | na |  | na | x | na |  | na |
-|    windows-11    |  | x | x |  |  | x |  | x |  |
-|   windows-2016   |  | x | na |  | na | x | na | x | na |
-|   windows-2019   |  | x | na |  | na | x | na | x | na |
-|   windows-2022   |  | x | na |  | na | x | na |  | na |
-| windows-2025 | | | | | | | | | |
+| centos-stream-9 |  | x | x |  |  | x | x | x | x |
+| centos-stream-10 |  | x | x |  |  | x | x | x | x |
+| debian-11 |  | x | x |  |  | x |  | x | x |
+| debian-12 |  | x | x |  |  | x |  | x | x |
+| fedora-40 |  | x | x |  |  | x | x | x | x |
+| fedora-41 |  | x |  |  |  | x |  | x | x |
+| freebsd-13 |  |  |  |  |  | x |  |  |  |
+| freebsd-14 |  |  |  |  |  | x |  |  |  |
+| macos-14 |  |  | x |  |  |  |  |  |  |
+| macos-15 |  |  |  |  |  |  |  |  |  |
+| opensuse-leap-15 |  | x | x |  |  | x | x | x | x |
+| oraclelinux-8 |  |  |  |  |  | x |  |  |  |
+| oraclelinux-9 |  | x | x |  |  | x | x | x | x |
+| rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
+| rockylinux-8 |  |  |  |  |  | x |  |  |  |
+| rockylinux-9 |  | x | x |  |  | x | x | x | x |
+| sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| sles-15 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| solaris-11 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
+| ubuntu-22.04 |  | x | x |  |  | x | x | x | x |
+| ubuntu-24.04 |  | x | x |  |  | x | x | x | x |
+| windows-10 |  |  | na |  | na | x | na |  | na |
+| windows-11 |  | x | x |  |  | x |  | x |  |
+| windows-2016 |  | x | na |  | na | x | na | x | na |
+| windows-2019 |  | x | na |  | na | x | na | x | na |
+| windows-2022 |  | x | na |  | na | x | na |  | na |
+| windows-2025 |  |  | na |  | na |  | na |  | na |
 
 ### Todo
 

@@ -111,10 +111,10 @@ locals {
                 var.os_name == "fedora" ? [
                   "${path.root}/scripts/fedora/networking_fedora.sh",
                   "${path.root}/scripts/fedora/update_dnf.sh",
-                  "${path.root}/scripts/fedora/build-tools_fedora.sh",
-                  "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
                   "${path.root}/scripts/_common/motd.sh",
                   "${path.root}/scripts/_common/sshd.sh",
+                  "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
+                  "${path.root}/scripts/fedora/build-tools_fedora.sh",
                   "${path.root}/scripts/_common/virtualbox.sh",
                   "${path.root}/scripts/_common/vmware.sh",
                   "${path.root}/scripts/_common/parallels.sh",
