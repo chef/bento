@@ -64,12 +64,15 @@ VBoxManage modifyvm $VM --ioapic on
 VBoxManage modifyvm $VM --usb-xhci on
 VBoxManage modifyvm $VM --mouse usb
 VBoxManage modifyvm $VM --keyboard usb
+VBoxManage modifyvm $VM --nic-type1 virtio
+VBoxManage modifyvm $VM --boot1 disk
+VBoxManage modifyvm $VM --boot2 dvd
 sleep 5
 
 echo "Starting $VM then sleeping for 120 seconds to let the system boot and cloud-init to run"
 VBoxManage startvm $VM --type headless
 sleep 120
-VBoxManage controlvm $VM poweroff --type headless
+VBoxManage controlvm $VM poweroff
 VBoxManage storageattach $VM --storagectl "VirtioSCSI" --port 1 --type dvddrive --medium none
 sleep 5
 

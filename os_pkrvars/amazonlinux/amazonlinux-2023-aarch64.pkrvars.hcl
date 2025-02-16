@@ -9,3 +9,13 @@ vmware_guest_os_type    = "arm-fedora-64"
 sources_enabled = [
   "source.virtualbox-ovf.vm"
 ]
+vboxmanage = [
+  ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
+  ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+  ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+  ["modifyvm", "{{.Name}}", "--nic-type1", "virtio"],
+  ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+  ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
+  ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+  ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+]
