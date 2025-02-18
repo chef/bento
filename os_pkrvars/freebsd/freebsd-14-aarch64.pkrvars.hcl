@@ -13,7 +13,7 @@ boot_command = [
   "<enter><wait>",                                               # Select keyboard layout
   "freebsd<enter><wait>",                                        # Enter hostname
   "<down><spacebar><enter><wait>",                               # Remove kernel-dbg
-  "<enter><wait2>",                                              # Select Auto ZFS
+  "<enter><wait5>",                                              # Select Auto ZFS
   "<enter><wait>",                                               # Proceed with install
   "<enter><wait5>",                                              # Select stripe
   "<spacebar><wait><enter><wait>",                               # Select disk
@@ -22,7 +22,7 @@ boot_command = [
   "vagrant<enter><wait>",                                        # Confirm root password
   "<enter><wait>",                                               # Select network interface
   "<enter><wait>",                                               # Confirm IPv4
-  "<enter><wait>",                                               # Confirm DHCP
+  "<enter><wait5>",                                               # Confirm DHCP
   "<enter><wait>",                                               # Confirm IPv6
   "<enter><wait10>",                                             # Confirm SLAAC
   "<enter><wait>",                                               # Confirm resolver configuration
