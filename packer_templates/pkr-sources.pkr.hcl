@@ -24,14 +24,19 @@ locals {
       var.os_arch == "x86_64" ? [
         ["set", "{{ .Name }}", "--efi-boot", "off"]
         ] : [
-        ["set", "{{ .Name }}", "--efi-boot", "off"],
+        ["set", "{{ .Name }}", "--efi-boot", "on"],
         ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
         ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
       ]
-      ) : [
-      ["set", "{{ .Name }}", "--3d-accelerate", "off"],
-      ["set", "{{ .Name }}", "--videosize", "16"]
-    ]
+      ) : (var.os_name == "freebsd" ? [
+        ["set", "{{ .Name }}", "--bios-type", "efi64"],
+        ["set", "{{ .Name }}", "--efi-boot", "on"],
+        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+        ] : [
+        ["set", "{{ .Name }}", "--3d-accelerate", "off"],
+        ["set", "{{ .Name }}", "--videosize", "16"]
+      ]
+    )
   ) : var.parallels_prlctl
 
   # qemu
@@ -50,7 +55,7 @@ locals {
       ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
-        ["-boot", "strict=off"]
+        ["-boot", "strict=off"],
         # ["-cpu", "host"],
         # ["-monitor", "stdio"]
       ] : null
