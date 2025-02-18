@@ -1,5 +1,7 @@
 #!/bin/sh -eux
 
+sleep 30s
+
 bento='
 This system is built by the Bento project by Chef Software
 More information can be found at https://github.com/chef/bento

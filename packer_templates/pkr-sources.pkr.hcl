@@ -85,6 +85,7 @@ locals {
       ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
       ["modifyvm", "{{.Name}}", "--mouse", "usb"],
       ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+      ["modifyvm", "{{.Name}}", "--nic-type1", "virtio"],
       ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
       ] : [
       ["modifyvm", "{{.Name}}", "--chipset", "ich9"],

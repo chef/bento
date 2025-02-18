@@ -52,8 +52,8 @@ locals {
       var.os_name == "macos" ? [
         "${path.root}/scripts/macos/system-default.sh",
         "${path.root}/scripts/macos/system-update.sh",
-        "${path.root}/scripts/macos/vagrant.sh",
         "${path.root}/scripts/_common/motd.sh",
+        "${path.root}/scripts/macos/vagrant.sh",
         "${path.root}/scripts/macos/parallels-tools.sh",
         "${path.root}/scripts/macos/vmware-tools.sh",
         "${path.root}/scripts/macos/shrink.sh"
