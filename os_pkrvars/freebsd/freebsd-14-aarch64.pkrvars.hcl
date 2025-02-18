@@ -7,7 +7,7 @@ parallels_guest_os_type = "freebsd"
 vbox_guest_os_type      = "FreeBSD_arm64"
 vmware_guest_os_type    = "arm-freebsd14-64"
 default_boot_wait       = "60s"
-# boot_command            = ["<esc><wait>boot -s<wait><enter><wait><wait10><wait10>/bin/sh<enter><wait>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.em0.pid -l /tmp/dhclient.lease.em0 em0<enter><wait><wait5>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
+# boot_command            = ["<esc><wait>boot -s<wait><enter><wait><wait10><wait10>/bin/sh<enter><wait>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.vtnet0.pid -l /tmp/dhclient.lease.vtnet0 vtnet0<enter><wait><wait5>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
 boot_command = [
   "<wait><enter><wait>",                                         # Start install
   "<enter><wait>",                                               # Select keyboard layout
@@ -17,7 +17,7 @@ boot_command = [
   "<enter><wait>",                                               # Proceed with install
   "<enter><wait5>",                                              # Select stripe
   "<spacebar><wait><enter><wait>",                               # Select disk
-  "<left><enter><wait30>",                                       # Confirm disk
+  "<left><enter><wait60>",                                       # Confirm disk
   "vagrant<enter><wait>",                                        # Enter root password
   "vagrant<enter><wait>",                                        # Confirm root password
   "<enter><wait>",                                               # Select network interface
