@@ -241,6 +241,10 @@ variable "vboxmanage" {
   type    = list(list(string))
   default = null
 }
+variable "vbox_nic_type" {
+  type    = string
+  default = null
+}
 variable "virtualbox_version_file" {
   type    = string
   default = ".vbox_version"
@@ -309,7 +313,7 @@ variable "vmware_enable_usb" {
 }
 variable "vmware_network_adapter_type" {
   type    = string
-  default = "e1000e"
+  default = null
 }
 variable "vmware_network" {
   type    = string

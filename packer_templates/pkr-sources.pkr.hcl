@@ -28,11 +28,16 @@ locals {
         ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
         ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
       ]
-      ) : (var.os_name == "freebsd" ? [
-        ["set", "{{ .Name }}", "--bios-type", "efi64"],
-        ["set", "{{ .Name }}", "--efi-boot", "on"],
-        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
-        ] : [
+      ) : (
+      var.os_name == "freebsd" ? (
+        var.os_arch == "aarch64" ? [
+          ["set", "{{ .Name }}", "--device-set", "net0", "--adapter-type", "virtio"],
+          ] : [
+          ["set", "{{ .Name }}", "--bios-type", "efi64"],
+          ["set", "{{ .Name }}", "--efi-boot", "on"],
+          ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+        ]
+        ) : [
         ["set", "{{ .Name }}", "--3d-accelerate", "off"],
         ["set", "{{ .Name }}", "--videosize", "16"]
       ]
@@ -90,7 +95,6 @@ locals {
       ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
       ["modifyvm", "{{.Name}}", "--mouse", "usb"],
       ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-      ["modifyvm", "{{.Name}}", "--nic-type1", "virtio"],
       ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
       ] : [
       ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
@@ -98,8 +102,14 @@ locals {
       ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
     ]
   ) : var.vboxmanage
+  vbox_nic_type = var.vbox_nic_type == null ? (
+    var.os_arch == "aarch64" ? "virtio" : "82540EM"
+  ) : var.vbox_nic_type
 
   # vmware-iso
+  vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
+    var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
+  ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : null
   ) : var.vmware_tools_upload_flavor
@@ -309,6 +319,7 @@ source "virtualbox-iso" "vm" {
   guest_os_type             = var.vbox_guest_os_type
   hard_drive_interface      = local.vbox_hard_drive_interface
   iso_interface             = local.vbox_iso_interface
+  nic_type                  = local.vbox_nic_type
   rtc_time_base             = var.vbox_rtc_time_base
   vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
@@ -361,7 +372,7 @@ source "vmware-iso" "vm" {
   disk_adapter_type              = var.vmware_disk_adapter_type
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
-  network_adapter_type           = var.vmware_network_adapter_type
+  network_adapter_type           = local.vmware_network_adapter_type
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
   usb                            = var.vmware_enable_usb
