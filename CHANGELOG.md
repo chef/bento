@@ -8,7 +8,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 | os | hyperv<br>x86_64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 |  |  |  |  |  | x |  |  |  |
+| almalinux-8 |  | x |  |  |  | x |  | x |  |
 | almalinux-9 |  | x | x |  |  | x | x | x | x |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
 | centos-stream-9 |  | x | x |  |  | x | x | x | x |
@@ -16,17 +16,17 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | debian-11 |  | x | x |  |  | x |  | x | x |
 | debian-12 |  | x | x |  |  | x |  | x | x |
 | fedora-40 |  | x | x |  |  | x | x | x | x |
-| fedora-41 |  | x |  |  |  | x |  | x | x |
-| freebsd-13 |  |  |  |  |  | x |  |  |  |
-| freebsd-14 |  |  |  |  |  | x |  |  |  |
+| fedora-41 |  | x | x |  |  | x | x | x | x |
+| freebsd-13 |  | x | x |  |  | x | x | x | x |
+| freebsd-14 |  | x | x |  |  | x | x | x | x |
 | macos-14 |  |  | x |  |  |  |  |  |  |
 | macos-15 |  |  |  |  |  |  |  |  |  |
 | opensuse-leap-15 |  | x | x |  |  | x | x | x | x |
-| oraclelinux-8 |  |  |  |  |  | x |  |  |  |
+| oraclelinux-8 |  | x |  |  |  | x |  | x |  |
 | oraclelinux-9 |  | x | x |  |  | x | x | x | x |
 | rhel-8 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
 | rhel-9 | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed | license<br>needed |
-| rockylinux-8 |  |  |  |  |  | x |  |  |  |
+| rockylinux-8 |  | x |  |  |  | x |  | x |  |
 | rockylinux-9 |  | x | x |  |  | x | x | x | x |
 | sles-12 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
 | sles-15 | license<br>needed | license<br>needed | na | license<br>needed | na | license<br>needed | na | license<br>needed | na |
@@ -54,11 +54,36 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2024-05-23)
 
+- Removed amazonlinux 2 builds
+- Removed Ubuntu 20.04 builds
+- Removed OpenSUSE Leap 12 builds
+- Removed SLES 12 builds
+- Removed Ubuntu 24.10 builds
+- Added CentOS Stream 10 builds
+- Added SLES 15 Aarch64 template
+- Added Windows 2025 template
 - Update almalinux 8 to 8.10
 - Update rockylinux 8 to 8.10
 - Update oraclelinux 8 to 8.10
 - Update rhel 8 to 8.10
-- Update freebsd 14 to 14.1
+- Update almalinux 9 to 9.5
+- Update rockylinux 9 to 9.5
+- Update oraclelinux 9 to 9.5
+- Update rhel 9 to 9.5
+- Update freebsd 14 to 14.2
+- Update debian 11 to 11.11
+- Update debian 12 to 12.9
+- Update MacOS 14 to 14.6.1
+- Update OpenSUSE Leap 15 to 15.6
+- Update SLES 15 to 15.6
+- Add MacOS 15 at 15.3.1
+- Remove ask from --on-error flag options(it did nothing)
+- Switched most iso urls to boot images to shrink disk usage space and speed up downloads
+- Removed RHEL 7 ks.cfg file
+- Added RHEL 10 ks.cfg file
+- Fix Vbox 7.1.6+ VBoxManage and hardware config for Aarch64 builds
+- Consolidated and updated few post processing scripts to clean up code
+- Added Packer variable for iso_target_path to default iso downloads to the local builds/iso directory
 
 ## [v4.1.2] (2024-05-23)
 

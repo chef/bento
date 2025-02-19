@@ -160,6 +160,7 @@ locals {
     ) : null
   ) : var.floppy_files
   http_directory = var.http_directory == null ? "${path.root}/http" : var.http_directory
+  iso_target_path = var.iso_target_path == "build_dir_iso" ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}.iso" : var.iso_target_path
   memory = var.memory == null ? (
     var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072
   ) : var.memory
@@ -195,6 +196,7 @@ source "hyperv-iso" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-hyperv"
@@ -251,6 +253,7 @@ source "parallels-iso" "vm" {
   floppy_files     = local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-parallels"
@@ -290,6 +293,7 @@ source "qemu" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-qemu"
@@ -329,6 +333,7 @@ source "virtualbox-iso" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-virtualbox"
@@ -385,6 +390,7 @@ source "vmware-iso" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-vmware"
