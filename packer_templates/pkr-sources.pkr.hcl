@@ -29,15 +29,11 @@ locals {
         ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
       ]
       ) : (
-      var.os_name == "freebsd" ? (
-        var.os_arch == "aarch64" ? [
-          ["set", "{{ .Name }}", "--device-set", "net0", "--adapter-type", "virtio"],
-          ] : [
-          ["set", "{{ .Name }}", "--bios-type", "efi64"],
-          ["set", "{{ .Name }}", "--efi-boot", "on"],
-          ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
-        ]
-        ) : [
+      var.os_name == "freebsd" && var.os_arch == "x86_64" ? [
+        ["set", "{{ .Name }}", "--bios-type", "efi64"],
+        ["set", "{{ .Name }}", "--efi-boot", "on"],
+        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+        ] : [
         ["set", "{{ .Name }}", "--3d-accelerate", "off"],
         ["set", "{{ .Name }}", "--videosize", "16"]
       ]
@@ -103,12 +99,12 @@ locals {
     ]
   ) : var.vboxmanage
   vbox_nic_type = var.vbox_nic_type == null ? (
-    var.os_arch == "aarch64" ? "virtio" : "82540EM"
+    var.os_name == "freebsd" ? "82545EM" : null
   ) : var.vbox_nic_type
 
   # vmware-iso
   vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
-    var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
+    var.os_name == "freebsd" ? "e1000e" : null
   ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : null
