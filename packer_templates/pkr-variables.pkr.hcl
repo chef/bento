@@ -365,8 +365,8 @@ variable "iso_checksum" {
   description = "ISO download checksum"
 }
 variable "iso_target_path" {
-  type = string
-  default = "build_dir_iso"
+  type        = string
+  default     = "build_dir_iso"
   description = "Path to store the ISO file. Null will use packer cache default or build_dir_iso will put it in the local build/iso directory."
 }
 variable "iso_url" {

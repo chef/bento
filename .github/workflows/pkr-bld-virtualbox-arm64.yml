@@ -40,7 +40,7 @@ jobs:
           brew tap hashicorp/tap
           brew update
           brew install --cask hashicorp/tap/hashicorp-vagrant
-          brew install --cask virtualbox
+          brew install --cask virtualbox@beta
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:
@@ -61,12 +61,13 @@ jobs:
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
       - name: Upload build artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-virtualbox-aarch64"
           path: |
             builds/*.box
             builds/*.json
+          overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
       - name: Bento Test

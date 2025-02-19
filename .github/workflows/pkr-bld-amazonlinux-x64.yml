@@ -22,7 +22,7 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
           echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
           sudo apt-get update
-          sudo apt-get install -y software-properties-common vagrant virtualbox-7.0 qemu-utils genisoimage
+          sudo apt-get install -y software-properties-common vagrant virtualbox-7.1 qemu-utils genisoimage
           VBoxManage --version
           vagrant --version
       - name: Install Chef
@@ -52,12 +52,13 @@ jobs:
           ls -alh builds
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Upload build artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
             builds/*.box
             builds/*.json
+          overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
       - name: Bento Test

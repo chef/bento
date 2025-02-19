@@ -131,12 +131,13 @@ jobs:
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
             builds/*.box
             builds/*.json
+          overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
       - name: Bento Test
