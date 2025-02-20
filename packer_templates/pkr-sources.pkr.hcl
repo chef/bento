@@ -131,7 +131,7 @@ locals {
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
     var.is_windows ? "60s" : (
-      var.os_name == "macos" ? "8m" : "5s"
+      var.os_name == "macos" ? "8m" : "10s"
     )
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (

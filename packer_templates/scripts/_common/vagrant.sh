@@ -9,6 +9,9 @@ if command -v ping > /dev/null 2>&1; then
     echo "Ping failed, sleeping for 30 seconds";
     sleep 30;
   fi
+else
+  echo "Cannot ping, sleeping for 30 seconds";
+  sleep 30;
 fi
 
 pubkey_url="https://raw.githubusercontent.com/hashicorp/vagrant/main/keys/vagrant.pub";

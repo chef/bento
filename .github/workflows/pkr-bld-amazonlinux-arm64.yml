@@ -40,10 +40,6 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
-          rm -rf builds
-          sudo mkdir -p /mnt/builds/iso
-          sudo chmod -R 777 /mnt/builds
-          sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           export LOGNAME=$USER
           ./${{ matrix.os }}-aarch64-virtualbox-build.sh
