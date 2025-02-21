@@ -327,7 +327,7 @@ variable "vmware_usb" {
 }
 variable "vmware_network_adapter_type" {
   type    = string
-  default = null
+  default = "e1000e"
 }
 variable "vmware_network" {
   type    = string
