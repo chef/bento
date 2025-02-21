@@ -21,6 +21,7 @@ jobs:
         run: |
           brew tap hashicorp/tap
           brew update
+          brew install qemu
           brew install --cask hashicorp/tap/hashicorp-vagrant
           brew install --cask virtualbox@beta
       - name: Install Chef
