@@ -57,8 +57,6 @@ locals {
       ] : (
       var.os_arch == "aarch64" ? [
         ["-boot", "strict=off"],
-        # ["-cpu", "host"],
-        # ["-monitor", "stdio"]
       ] : null
     )
   ) : var.qemuargs
@@ -103,30 +101,12 @@ locals {
   ) : var.vbox_nic_type
 
   # vmware-iso
-  vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
-    var.os_name == "freebsd" ? "e1000e" : null
-  ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : null
   ) : var.vmware_tools_upload_flavor
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
-    var.is_windows ? "c:\\vmware-tools.iso" : null
+    var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
   ) : var.vmware_tools_upload_path
-  vmware_vmx_data = var.vmware_vmx_data == null ? (
-    var.os_arch == "aarch64" ? {
-      "firmware"                = "efi"
-      "cpuid.coresPerSocket"    = "2"
-      "ethernet0.pciSlotNumber" = "32"
-      "svga.autodetect"         = true
-      "usb_xhci.present"        = true
-      } : {
-      "firmware"                = "bios"
-      "cpuid.coresPerSocket"    = "2"
-      "ethernet0.pciSlotNumber" = "32"
-      "svga.autodetect"         = true
-      "usb_xhci.present"        = true
-    }
-  ) : var.vmware_vmx_data
 
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
@@ -369,28 +349,31 @@ source "virtualbox-ovf" "vm" {
 }
 source "vmware-iso" "vm" {
   # VMware specific options
+  cores                          = var.vmware_cores
   cdrom_adapter_type             = var.vmware_cdrom_adapter_type
   disk_adapter_type              = var.vmware_disk_adapter_type
+  firmware                       = var.vmware_firmware
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
-  network_adapter_type           = local.vmware_network_adapter_type
+  network_adapter_type           = var.vmware_network_adapter_type
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
-  usb                            = var.vmware_enable_usb
+  usb                            = var.vmware_usb
   version                        = var.vmware_version
-  vmx_data                       = local.vmware_vmx_data
+  vmx_data                       = var.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
+  vnc_disable_password           = var.vmware_vnc_disable_password
   # Source block common options
-  boot_command     = var.boot_command
-  boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = var.disk_size
-  floppy_files     = local.floppy_files
-  headless         = var.headless
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
+  boot_command   = var.boot_command
+  boot_wait      = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
+  cpus           = var.cpus
+  communicator   = local.communicator
+  disk_size      = var.disk_size
+  floppy_files   = local.floppy_files
+  headless       = var.headless
+  http_directory = local.http_directory
+  iso_checksum   = var.iso_checksum
+  # iso_target_path  = local.iso_target_path # Currently breaks builds https://github.com/hashicorp/packer-plugin-vmware/issues/276
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-vmware"
