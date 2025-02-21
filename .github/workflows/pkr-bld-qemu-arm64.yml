@@ -16,6 +16,7 @@ jobs:
           - almalinux-8
           - almalinux-9
           - centos-stream-9
+          - centos-stream-10
           - debian-11
           - debian-12
           - fedora-40
@@ -27,7 +28,6 @@ jobs:
           - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-20.04
           - ubuntu-22.04
           - ubuntu-24.04
         provider:
@@ -60,16 +60,17 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-qemu-aarch64"
           path: |
             builds/*.box
             builds/*.json
+          overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
       - name: Bento Test

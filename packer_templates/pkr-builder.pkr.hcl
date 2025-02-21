@@ -2,7 +2,7 @@ packer {
   required_version = ">= 1.7.0"
   required_plugins {
     hyperv = {
-      version = ">= 1.0.0"
+      version = ">= 1.0.3"
       source  = "github.com/hashicorp/hyperv"
     }
     parallels = {
@@ -14,15 +14,15 @@ packer {
       source  = "github.com/hashicorp/qemu"
     }
     vagrant = {
-      version = ">= 1.0.2"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/vagrant"
     }
     virtualbox = {
-      version = ">= 0.0.1"
+      version = ">= 1.0.3"
       source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
-      version = ">= 1.0.9"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/vmware"
     }
     windows-update = {
@@ -52,8 +52,8 @@ locals {
       var.os_name == "macos" ? [
         "${path.root}/scripts/macos/system-default.sh",
         "${path.root}/scripts/macos/system-update.sh",
-        "${path.root}/scripts/macos/vagrant.sh",
         "${path.root}/scripts/_common/motd.sh",
+        "${path.root}/scripts/macos/vagrant.sh",
         "${path.root}/scripts/macos/parallels-tools.sh",
         "${path.root}/scripts/macos/vmware-tools.sh",
         "${path.root}/scripts/macos/shrink.sh"
@@ -82,7 +82,7 @@ locals {
               "${path.root}/scripts/_common/vagrant.sh",
               "${path.root}/scripts/suse/unsupported-modules_suse.sh",
               "${path.root}/scripts/_common/virtualbox.sh",
-              "${path.root}/scripts/_common/vmware_suse.sh",
+              "${path.root}/scripts/_common/vmware.sh",
               "${path.root}/scripts/_common/parallels.sh",
               "${path.root}/scripts/suse/vagrant_group_suse.sh",
               "${path.root}/scripts/suse/sudoers_suse.sh",
@@ -101,7 +101,7 @@ locals {
                 "${path.root}/scripts/_common/vagrant.sh",
                 "${path.root}/scripts/${var.os_name}/systemd_${var.os_name}.sh",
                 "${path.root}/scripts/_common/virtualbox.sh",
-                "${path.root}/scripts/_common/vmware_debian_ubuntu.sh",
+                "${path.root}/scripts/_common/vmware.sh",
                 "${path.root}/scripts/_common/parallels.sh",
                 "${path.root}/scripts/${var.os_name}/hyperv_${var.os_name}.sh",
                 "${path.root}/scripts/${var.os_name}/cleanup_${var.os_name}.sh",
@@ -111,41 +111,28 @@ locals {
                 var.os_name == "fedora" ? [
                   "${path.root}/scripts/fedora/networking_fedora.sh",
                   "${path.root}/scripts/fedora/update_dnf.sh",
-                  "${path.root}/scripts/fedora/build-tools_fedora.sh",
-                  "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
                   "${path.root}/scripts/_common/motd.sh",
                   "${path.root}/scripts/_common/sshd.sh",
+                  "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
+                  "${path.root}/scripts/fedora/build-tools_fedora.sh",
                   "${path.root}/scripts/_common/virtualbox.sh",
-                  "${path.root}/scripts/_common/vmware_fedora.sh",
-                  "${path.root}/scripts/_common/parallels-rhel.sh",
+                  "${path.root}/scripts/_common/vmware.sh",
+                  "${path.root}/scripts/_common/parallels.sh",
                   "${path.root}/scripts/_common/vagrant.sh",
                   "${path.root}/scripts/fedora/real-tmp_fedora.sh",
                   "${path.root}/scripts/fedora/cleanup_dnf.sh",
                   "${path.root}/scripts/_common/minimize.sh"
-                  ] : (
-                  "${var.os_name}-${var.os_version}" == "amazonlinux-2" ? [
-                    "${path.root}/scripts/rhel/update_yum.sh",
-                    "${path.root}/scripts/_common/motd.sh",
-                    "${path.root}/scripts/_common/sshd.sh",
-                    "${path.root}/scripts/rhel/networking_rhel7.sh",
-                    "${path.root}/scripts/_common/vagrant.sh",
-                    "${path.root}/scripts/_common/virtualbox.sh",
-                    "${path.root}/scripts/_common/vmware_rhel.sh",
-                    "${path.root}/scripts/_common/parallels-rhel.sh",
-                    "${path.root}/scripts/rhel/cleanup_yum.sh",
-                    "${path.root}/scripts/_common/minimize.sh"
-                    ] : [
-                    "${path.root}/scripts/rhel/update_dnf.sh",
-                    "${path.root}/scripts/_common/motd.sh",
-                    "${path.root}/scripts/_common/sshd.sh",
-                    "${path.root}/scripts/_common/vagrant.sh",
-                    "${path.root}/scripts/_common/virtualbox.sh",
-                    "${path.root}/scripts/_common/vmware_rhel.sh",
-                    "${path.root}/scripts/_common/parallels-rhel.sh",
-                    "${path.root}/scripts/rhel/cleanup_dnf.sh",
-                    "${path.root}/scripts/_common/minimize.sh"
-                  ]
-                )
+                  ] : [
+                  "${path.root}/scripts/rhel/update_dnf.sh",
+                  "${path.root}/scripts/_common/motd.sh",
+                  "${path.root}/scripts/_common/sshd.sh",
+                  "${path.root}/scripts/_common/vagrant.sh",
+                  "${path.root}/scripts/_common/virtualbox.sh",
+                  "${path.root}/scripts/_common/vmware.sh",
+                  "${path.root}/scripts/_common/parallels.sh",
+                  "${path.root}/scripts/rhel/cleanup_dnf.sh",
+                  "${path.root}/scripts/_common/minimize.sh"
+                ]
               )
             )
           )

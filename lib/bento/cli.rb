@@ -85,7 +85,7 @@ class Options
             options.metadata_only = opt
           end
 
-          opts.on('--on-error OPT', '[cleanup|abort|ask|run-cleanup-provisioner] If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.') do |opt|
+          opts.on('--on-error OPT', '[cleanup|abort|run-cleanup-provisioner] If the build fails do: clean up (default), abort, or run-cleanup-provisioner.') do |opt|
             options.on_error = opt
           end
 

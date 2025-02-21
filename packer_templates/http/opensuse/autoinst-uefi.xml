@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE profile>
+<!-- http://doc.opensuse.org/projects/autoyast/configuration.html -->
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+  <general t="map">
+    <mode t="map">
+      <confirm t="boolean">false</confirm>
+      <forceboot config:type="boolean">true</forceboot>
+      <final_reboot config:type="boolean">false</final_reboot>
+    </mode>
+  </general>
   <report>
     <messages>
       <show config:type="boolean">false</show>
@@ -25,62 +33,10 @@
     <language>en_US</language>
     <languages>en_US</languages>
   </language>
-  <bootloader t="map">
-    <global t="map">
-      <append>splash=silent biosdevname=0 net.ifnames=0 modprobe.blacklist=vmwgfx preempt=full mitigations=auto quiet</append>
-      <secure_boot>false</secure_boot>
-      <terminal>console</terminal>
-      <timeout t="integer">1</timeout>
-      <update_nvram>true</update_nvram>
-    </global>
-    <loader_type>grub2-efi</loader_type>
-  </bootloader>
-  <firewall t="map">
-    <enable_firewall t="boolean">false</enable_firewall>
-    <start_firewall t="boolean">false</start_firewall>
-  </firewall>
-  <general t="map">
-    <mode t="map">
-      <confirm t="boolean">false</confirm>
-      <forceboot config:type="boolean">true</forceboot>
-      <final_reboot config:type="boolean">false</final_reboot>
-    </mode>
-  </general>
-  <groups t="list">
-    <group t="map">
-      <gid>100</gid>
-      <groupname>users</groupname>
-      <userlist/>
-    </group>
-  </groups>
-  <networking t="map">
-    <ipv6 t="boolean">false</ipv6>
-    <keep_install_network t="boolean">true</keep_install_network>
-    <dns t="map">
-      <dhcp_hostname t="boolean">false</dhcp_hostname>
-      <hostname>opensuse15.localdomain</hostname>
-      <domain>localdomain</domain>
-    </dns>
-    <interfaces t="list">
-      <interface t="map">
-        <bootproto>dhcp</bootproto>
-        <name>eth0</name>
-        <startmode>auto</startmode>
-        <zone>public</zone>
-      </interface>
-    </interfaces>
-  </networking>
-  <ntp-client t="map">
-    <ntp_policy>auto</ntp_policy>
-    <ntp_servers t="list">
-      <ntp_server t="map">
-        <address>1.opensuse.pool.ntp.org</address>
-        <iburst t="boolean">true</iburst>
-        <offline t="boolean">false</offline>
-      </ntp_server>
-    </ntp_servers>
-    <ntp_sync>systemd</ntp_sync>
-  </ntp-client>
+  <timezone t="map">
+    <hwclock>UTC</hwclock>
+    <timezone>Etc/UTC</timezone>
+  </timezone>
   <partitioning t="list">
     <drive t="map">
       <device>/dev/sda</device>
@@ -164,14 +120,37 @@
       <use>all</use>
     </drive>
   </partitioning>
-  <services-manager t="map">
-    <default_target>multi-user</default_target>
-    <services t="map">
-      <enable t="list">
-        <service>sshd</service>
-      </enable>
-    </services>
-  </services-manager>
+  <bootloader t="map">
+    <global t="map">
+      <append>splash=silent biosdevname=0 net.ifnames=0 modprobe.blacklist=vmwgfx preempt=full mitigations=auto quiet</append>
+      <secure_boot>false</secure_boot>
+      <terminal>console</terminal>
+      <timeout t="integer">1</timeout>
+      <update_nvram>true</update_nvram>
+    </global>
+    <loader_type>grub2-efi</loader_type>
+  </bootloader>
+  <networking t="map">
+    <ipv6 t="boolean">false</ipv6>
+    <keep_install_network t="boolean">true</keep_install_network>
+    <dns t="map">
+      <dhcp_hostname t="boolean">false</dhcp_hostname>
+      <hostname>opensuse15.localdomain</hostname>
+      <domain>localdomain</domain>
+    </dns>
+    <interfaces t="list">
+      <interface t="map">
+        <bootproto>dhcp</bootproto>
+        <name>eth0</name>
+        <startmode>auto</startmode>
+        <zone>public</zone>
+      </interface>
+    </interfaces>
+  </networking>
+  <firewall t="map">
+    <enable_firewall t="boolean">false</enable_firewall>
+    <start_firewall t="boolean">false</start_firewall>
+  </firewall>
   <software t="map">
     <instsource/>
     <packages t="list">
@@ -216,10 +195,21 @@
       <product>Leap</product>
     </products>
   </software>
-  <timezone t="map">
-    <hwclock>UTC</hwclock>
-    <timezone>Etc/UTC</timezone>
-  </timezone>
+  <services-manager t="map">
+    <default_target>multi-user</default_target>
+    <services t="map">
+      <enable t="list">
+        <service>sshd</service>
+      </enable>
+    </services>
+  </services-manager>
+  <groups t="list">
+    <group t="map">
+      <gid>100</gid>
+      <groupname>users</groupname>
+      <userlist/>
+    </group>
+  </groups>
   <user_defaults t="map">
     <expire/>
     <group>100</group>
@@ -261,13 +251,25 @@
       <script>
         <filename>post.sh</filename>
         <interpreter>shell</interpreter>
-          <source><![CDATA[
+        <source><![CDATA[
 #!/bin/bash
 dmesg | grep -E "Hypervisor detected: Microsoft HyperV|Hypervisor detected: Microsoft Hyper-V"
 if [ $? -eq 0 ]; then systemctl enable hv_kvp_daemon.service ; fi
+eject -v
 ]]>
-          </source>
-        </script>
-      </post-scripts>
-    </scripts>
+        </source>
+      </script>
+    </post-scripts>
+  </scripts>
+  <ntp-client t="map">
+    <ntp_policy>auto</ntp_policy>
+    <ntp_servers t="list">
+      <ntp_server t="map">
+        <address>1.opensuse.pool.ntp.org</address>
+        <iburst t="boolean">true</iburst>
+        <offline t="boolean">false</offline>
+      </ntp_server>
+    </ntp_servers>
+    <ntp_sync>systemd</ntp_sync>
+  </ntp-client>
 </profile>

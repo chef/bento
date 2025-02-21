@@ -13,25 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
-          - centos-stream-9
-          - centos-stream-10
-          - debian-11
-          - debian-12
-          - fedora-40
-          - fedora-41
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oraclelinux-8
-          - oraclelinux-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-22.04
-          - ubuntu-24.04
-        provider:
-          - virtualbox-iso
+          - amazonlinux-2023
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -39,6 +21,7 @@ jobs:
         run: |
           brew tap hashicorp/tap
           brew update
+          brew install qemu
           brew install --cask hashicorp/tap/hashicorp-vagrant
           brew install --cask virtualbox@beta
       - name: Install Chef
@@ -49,6 +32,8 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
+      - name: Checkout
+        uses: actions/checkout@main
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
@@ -57,13 +42,14 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-aarch64._metadata.json
+          export LOGNAME=$USER
+          ./${{ matrix.os }}-aarch64-virtualbox-build.sh
+          ls -alh builds
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.os }}-virtualbox-aarch64"
+          name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
             builds/*.box
             builds/*.json
@@ -73,4 +59,5 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
           bento test

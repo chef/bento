@@ -199,6 +199,11 @@ variable "vbox_boot_wait" {
   type    = string
   default = null
 }
+variable "vbox_firmware" {
+  type        = string
+  default     = null
+  description = "Firmware type, takes bios or efi"
+}
 variable "vbox_gfx_controller" {
   type    = string
   default = null
@@ -226,32 +231,28 @@ variable "vbox_guest_os_type" {
 }
 variable "vbox_hard_drive_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vbox_iso_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vboxmanage" {
-  type = list(list(string))
-  default = [
-    [
-      "modifyvm",
-      "{{.Name}}",
-      "--audio",
-      "none",
-      "--nat-localhostreachable1",
-      "on",
-    ]
-  ]
+  type    = list(list(string))
+  default = null
+}
+variable "vbox_nic_type" {
+  type    = string
+  default = null
 }
 variable "virtualbox_version_file" {
   type    = string
   default = ".vbox_version"
 }
-variable "vbox_firmware_option" {
-  type    = string
-  default = "bios"
+variable "vbox_rtc_time_base" {
+  type        = string
+  default     = "UTC"
+  description = "RTC time base"
 }
 
 # virtualbox-ovf
@@ -276,10 +277,20 @@ variable "vmware_cdrom_adapter_type" {
   default     = "sata"
   description = "CDROM adapter type.  Needs to be SATA (or non-SCSI) for ARM64 builds."
 }
+variable "vmware_cores" {
+  type        = number
+  default     = 2
+  description = "The number of virtual CPU cores per socket for the virtual machine"
+}
 variable "vmware_disk_adapter_type" {
   type        = string
   default     = "sata"
   description = "Disk adapter type.  Needs to be SATA (PVSCSI, or non-SCSI) for ARM64 builds."
+}
+variable "vmware_firmware" {
+  type        = string
+  default     = null
+  description = "The firmware type for the virtual machine. Allowed values are bios, efi, and efi-secure (for secure boot). Defaults to the recommended firmware type for the guest operating system"
 }
 variable "vmware_guest_os_type" {
   type        = string
@@ -301,20 +312,18 @@ variable "vmware_version" {
 variable "vmware_vmx_data" {
   type = map(string)
   default = {
-    # "firmware"                = "efi"
-    "cpuid.coresPerSocket"    = "2"
-    "ethernet0.pciSlotNumber" = "32"
-    "svga.autodetect"         = true
-    "usb_xhci.present"        = true
+    "svga.autodetect"  = true
+    "usb_xhci.present" = true
   }
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
   default = true
 }
-variable "vmware_enable_usb" {
-  type    = bool
-  default = true
+variable "vmware_usb" {
+  type        = bool
+  default     = false
+  description = "Enable the USB 2.0 controllers for the virtual machine"
 }
 variable "vmware_network_adapter_type" {
   type    = string
@@ -323,6 +332,10 @@ variable "vmware_network_adapter_type" {
 variable "vmware_network" {
   type    = string
   default = "nat"
+}
+variable "vmware_vnc_disable_password" {
+  type    = bool
+  default = true
 }
 
 # Source block common variables
@@ -368,6 +381,11 @@ variable "iso_checksum" {
   type        = string
   default     = null
   description = "ISO download checksum"
+}
+variable "iso_target_path" {
+  type        = string
+  default     = "build_dir_iso"
+  description = "Path to store the ISO file. Null will use packer cache default or build_dir_iso will put it in the local build/iso directory."
 }
 variable "iso_url" {
   type        = string

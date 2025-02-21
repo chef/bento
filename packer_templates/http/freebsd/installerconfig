@@ -28,8 +28,13 @@ HOSTNAME=freebsd
 ifdev=$(ifconfig | grep '^[a-z]' | cut -d: -f1 | head -n 1)
 # Enable required services
 cat >> /etc/rc.conf << EOT
+clear_tmp_enable="YES"
+syslogd_flags="-ss"
+sendmail_enable="NONE"
 ifconfig_${ifdev}="dhcp"
 sshd_enable="YES"
+dumpdev="NO"
+zfs_enable="YES"
 EOT
 
 # Tune and boot from zfs
@@ -62,4 +67,5 @@ echo "vagrant" | pw -V /etc usermod root
 mkdir -p ${home_base}/vagrant
 chown 1001:1001 ${home_base}/vagrant
 
+cdcontrol eject
 reboot

@@ -24,14 +24,20 @@ locals {
       var.os_arch == "x86_64" ? [
         ["set", "{{ .Name }}", "--efi-boot", "off"]
         ] : [
-        ["set", "{{ .Name }}", "--efi-boot", "off"],
+        ["set", "{{ .Name }}", "--efi-boot", "on"],
         ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
         ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
       ]
-      ) : [
-      ["set", "{{ .Name }}", "--3d-accelerate", "off"],
-      ["set", "{{ .Name }}", "--videosize", "16"]
-    ]
+      ) : (
+      var.os_name == "freebsd" && var.os_arch == "x86_64" ? [
+        ["set", "{{ .Name }}", "--bios-type", "efi64"],
+        ["set", "{{ .Name }}", "--efi-boot", "on"],
+        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+        ] : [
+        ["set", "{{ .Name }}", "--3d-accelerate", "off"],
+        ["set", "{{ .Name }}", "--videosize", "16"]
+      ]
+    )
   ) : var.parallels_prlctl
 
   # qemu
@@ -50,14 +56,15 @@ locals {
       ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ] : (
       var.os_arch == "aarch64" ? [
-        ["-boot", "strict=off"]
-        # ["-cpu", "host"],
-        # ["-monitor", "stdio"]
+        ["-boot", "strict=off"],
       ] : null
     )
   ) : var.qemuargs
 
   # virtualbox-iso
+  vbox_firmware = var.vbox_firmware == null ? (
+    var.os_arch == "aarch64" ? "efi" : "bios"
+  ) : var.vbox_firmware
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
     var.is_windows ? "vboxsvga" : "vmsvga"
   ) : var.vbox_gfx_controller
@@ -67,10 +74,35 @@ locals {
   vbox_guest_additions_mode = var.vbox_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
+  vbox_hard_drive_interface = var.vbox_hard_drive_interface == null ? (
+    var.os_arch == "aarch64" ? "virtio" : "sata"
+  ) : var.vbox_hard_drive_interface
+  vbox_iso_interface = var.vbox_iso_interface == null ? (
+    var.os_arch == "aarch64" ? "virtio" : "sata"
+  ) : var.vbox_iso_interface
+  vboxmanage = var.vboxmanage == null ? (
+    var.os_arch == "aarch64" ? [
+      ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
+      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+      ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+      ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
+      ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+      ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+      ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+      ] : [
+      ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
+      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
+    ]
+  ) : var.vboxmanage
+  vbox_nic_type = var.vbox_nic_type == null ? (
+    var.os_name == "freebsd" ? "82545EM" : null
+  ) : var.vbox_nic_type
 
   # vmware-iso
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? "windows" : "linux"
+    var.is_windows ? "windows" : null
   ) : var.vmware_tools_upload_flavor
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
@@ -79,7 +111,7 @@ locals {
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
     var.is_windows ? "60s" : (
-      var.os_name == "macos" ? "8m" : "5s"
+      var.os_name == "macos" ? "8m" : "10s"
     )
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
@@ -107,9 +139,10 @@ locals {
       ]
     ) : null
   ) : var.floppy_files
-  http_directory = var.http_directory == null ? "${path.root}/http" : var.http_directory
+  http_directory  = var.http_directory == null ? "${path.root}/http" : var.http_directory
+  iso_target_path = var.iso_target_path == "build_dir_iso" ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}.iso" : var.iso_target_path
   memory = var.memory == null ? (
-    var.is_windows || var.os_name == "macos" ? 4096 : 2048
+    var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072
   ) : var.memory
   output_directory = var.output_directory == null ? "${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
@@ -143,6 +176,7 @@ source "hyperv-iso" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path  = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-hyperv"
@@ -199,6 +233,7 @@ source "parallels-iso" "vm" {
   floppy_files     = local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path  = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-parallels"
@@ -238,6 +273,7 @@ source "qemu" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path  = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-qemu"
@@ -254,16 +290,18 @@ source "qemu" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  firmware                  = var.vbox_firmware_option
+  firmware                  = local.vbox_firmware
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
   guest_additions_mode      = local.vbox_guest_additions_mode
   guest_additions_interface = var.vbox_guest_additions_interface
   guest_os_type             = var.vbox_guest_os_type
-  hard_drive_interface      = var.vbox_hard_drive_interface
-  iso_interface             = var.vbox_iso_interface
-  vboxmanage                = var.vboxmanage
+  hard_drive_interface      = local.vbox_hard_drive_interface
+  iso_interface             = local.vbox_iso_interface
+  nic_type                  = local.vbox_nic_type
+  rtc_time_base             = var.vbox_rtc_time_base
+  vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
   boot_command     = var.boot_command
@@ -275,6 +313,7 @@ source "virtualbox-iso" "vm" {
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
+  iso_target_path  = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-virtualbox"
@@ -294,7 +333,7 @@ source "virtualbox-ovf" "vm" {
   guest_additions_path    = var.vbox_guest_additions_path
   source_path             = var.vbox_source_path
   checksum                = var.vbox_checksum
-  vboxmanage              = var.vboxmanage
+  vboxmanage              = local.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options
   communicator     = local.communicator
@@ -310,27 +349,31 @@ source "virtualbox-ovf" "vm" {
 }
 source "vmware-iso" "vm" {
   # VMware specific options
+  cores                          = var.vmware_cores
   cdrom_adapter_type             = var.vmware_cdrom_adapter_type
   disk_adapter_type              = var.vmware_disk_adapter_type
+  firmware                       = var.vmware_firmware
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
   network_adapter_type           = var.vmware_network_adapter_type
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
-  usb                            = var.vmware_enable_usb
+  usb                            = var.vmware_usb
   version                        = var.vmware_version
   vmx_data                       = var.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
+  vnc_disable_password           = var.vmware_vnc_disable_password
   # Source block common options
-  boot_command     = var.boot_command
-  boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = var.disk_size
-  floppy_files     = local.floppy_files
-  headless         = var.headless
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
+  boot_command   = var.boot_command
+  boot_wait      = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
+  cpus           = var.cpus
+  communicator   = local.communicator
+  disk_size      = var.disk_size
+  floppy_files   = local.floppy_files
+  headless       = var.headless
+  http_directory = local.http_directory
+  iso_checksum   = var.iso_checksum
+  # iso_target_path  = local.iso_target_path # Currently breaks builds https://github.com/hashicorp/packer-plugin-vmware/issues/276
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-vmware"

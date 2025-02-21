@@ -47,27 +47,32 @@ sleep 5
 
 echo "Creating the VM"
 # from https://www.perkin.org.uk/posts/create-virtualbox-vm-from-the-command-line.html
-VBoxManage createvm --name $VM --ostype "Fedora_64" --register
-VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --type hdd --medium "$AMZDIR"/amazon2023_arm64.vdi
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --type dvddrive --medium "$AMZDIR"/seed.iso
-VBoxManage modifyvm $VM --chipset ich9
+VBoxManage createvm --name $VM --ostype "Fedora_arm64" --register
+VBoxManage storagectl $VM --name "VirtioSCSI" --add virtio-scsi --controller VirtIO
+VBoxManage storageattach $VM --storagectl "VirtioSCSI" --port 0 --type hdd --medium "$AMZDIR"/amazon2023_arm64.vdi
+VBoxManage storageattach $VM --storagectl "VirtioSCSI" --port 1 --type dvddrive --medium "$AMZDIR"/seed.iso
+VBoxManage modifyvm $VM --chipset armv8virtual
 VBoxManage modifyvm $VM --firmware efi
-VBoxManage modifyvm $VM --memory 2048
+VBoxManage modifyvm $VM --memory 4096
 VBoxManage modifyvm $VM --cpus 2
 VBoxManage modifyvm $VM --nat-localhostreachable1 on
 VBoxManage modifyvm $VM --vram 33
 VBoxManage modifyvm $VM --graphicscontroller vmsvga
-VBoxManage modifyvm $VM --vrde off
-VBoxManage modifyvm $VM --audio-driver none
+VBoxManage modifyvm $VM --vrde on
+VBoxManage modifyvm $VM --audio-enabled off
 VBoxManage modifyvm $VM --ioapic on
+VBoxManage modifyvm $VM --usb-xhci on
+VBoxManage modifyvm $VM --mouse usb
+VBoxManage modifyvm $VM --keyboard usb
+VBoxManage modifyvm $VM --boot1 disk
+VBoxManage modifyvm $VM --boot2 dvd
 sleep 5
 
-echo "Sleeping for 120 seconds to let the system boot and cloud-init to run"
+echo "Starting $VM then sleeping for 120 seconds to let the system boot and cloud-init to run"
 VBoxManage startvm $VM --type headless
 sleep 120
-VBoxManage controlvm $VM poweroff --type headless
-VBoxManage storageattach $VM --storagectl "SATA Controller" --port 1 --type dvddrive --medium none
+VBoxManage controlvm $VM poweroff
+VBoxManage storageattach $VM --storagectl "VirtioSCSI" --port 1 --type dvddrive --medium none
 sleep 5
 
 echo "Exporting the VM to an OVF file"
@@ -78,7 +83,7 @@ echo "Deleting the VM"
 vboxmanage unregistervm $VM --delete
 
 echo "starting packer build of amazonlinux"
-if bento build --vars vbox_source_path="$AMZDIR"/amazon2023_arm64.ovf,vbox_checksum=null "$(pwd)"/os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl; then
+if bento build --vars 'ssh_timeout=60m' --vars vbox_source_path="$AMZDIR"/amazon2023_arm64.ovf,vbox_checksum=null "$(pwd)"/os_pkrvars/amazonlinux/amazonlinux-2023-aarch64.pkrvars.hcl; then
   echo "Cleaning up files"
   rm -rf "$AMZDIR"
 else
