@@ -96,11 +96,11 @@
   </partitioning>
   <bootloader>
     <loader_type>grub2</loader_type>
-		<global>
-			<activate>true</activate>
-			<timeout config:type="integer">1</timeout>
-			<boot_mbr>true</boot_mbr>
-		</global>
+    <global>
+      <activate>true</activate>
+      <timeout config:type="integer">1</timeout>
+      <boot_mbr>true</boot_mbr>
+    </global>
   </bootloader>
   <networking>
     <ipv6 config:type="boolean">false</ipv6>
@@ -222,14 +222,14 @@
       <script>
         <filename>post.sh</filename>
         <interpreter>shell</interpreter>
-          <source><![CDATA[
+        <source><![CDATA[
 #!/bin/bash
 dmesg | grep -E "Hypervisor detected: Microsoft HyperV|Hypervisor detected: Microsoft Hyper-V"
 if [ $? -eq 0 ]; then systemctl enable hv_kvp_daemon.service ; fi
+eject -v
 ]]>
-          </source>
-        </script>
-      </post-scripts>
-    </scripts>
-
+        </source>
+      </script>
+    </post-scripts>
+  </scripts>
 </profile>

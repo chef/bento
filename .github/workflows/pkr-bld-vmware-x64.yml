@@ -4,79 +4,77 @@ on:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # PACKER_LOG: "1"
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, vmware-fusion]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         os:
           - almalinux-8
           - almalinux-9
-          - centos-7
-          - centos-stream-8
           - centos-stream-9
+          - centos-stream-10
           - debian-11
           - debian-12
-          - fedora-37
-          - fedora-38
-          - freebsd-12
+          - fedora-40
+          - fedora-41
           - freebsd-13
+          - freebsd-14
           - opensuse-leap-15
-          - oracle-7
-          - oracle-8
-          - oracle-9
+          - oraclelinux-8
+          - oraclelinux-9
           - rockylinux-8
           - rockylinux-9
-          - scientificlinux-7
-          - springdalelinux-7
-          - springdalelinux-8
-          - springdalelinux-9
-          - ubuntu-20.04
           - ubuntu-22.04
-          - ubuntu-23.04
+          - ubuntu-24.04
         provider:
           - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: iso-availability
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content os_pkrvars/$('${{ matrix.os }}'.split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl | ConvertFrom-StringData).iso_url.Trim('"')
-#      - name: Setup Packer
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
-      - name: Packer Init
-        run: packer init -upgrade packer_templates
-      - name: Packer FMT
-        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
-      - name: Packer Validate
-        run: packer validate -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
-      - name: Packer build
-#        run: packer build -timestamp-ui -only=${{ matrix.provider }}.vm -var-file=os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Install Vagrant VMware-fusion
+        run: |
+          curl https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.2/24409262/linux/core/VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar -o VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar
+          tar -xvf VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar
+          chmod +x VMware-Workstation-17.6.2-24409262.x86_64.bundle
+          sudo ./VMware-Workstation-17.6.2-24409262.x86_64.bundle --console --required
+          wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update && sudo apt install vagrant
+          vagrant plugin install vagrant-vmware-desktop
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+        with:
+          version: 24.2.1058
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds
-#      - name: Bento Test
-#        run: |
-#          eval "$(chef shell-init bash)"
-#          bento test
-      - name: Remove VM in case of canceled job
-        if: cancelled()
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Bento build
         run: |
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-          vmrun -T fusion stop builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx hard 2> /dev/null
-          sleep 1
-          vmrun -T fusion deleteVM builds/packer-${{ matrix.os }}*-x86_64-vmware/${{ matrix.os }}*-amd64.vmx 2> /dev/null
-          sleep 2
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          ls -alh builds/
+          cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-vmware-x86_64"
           path: |
-            builds
-            !builds/uploaded/*
+            builds/*.box
+            builds/*.json
+          overwrite: true
           retention-days: 10
+          compression-level: 0 # no compression
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test

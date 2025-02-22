@@ -1,9 +1,10 @@
 os_name                 = "freebsd"
-os_version              = "13.2"
+os_version              = "13.4"
 os_arch                 = "x86_64"
-iso_url                 = "https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.2/FreeBSD-13.2-RELEASE-amd64-disc1.iso"
-iso_checksum            = "file:https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.2/CHECKSUM.SHA256-FreeBSD-13.2-RELEASE-amd64"
+iso_url                 = "https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.4/FreeBSD-13.4-RELEASE-amd64-disc1.iso"
+iso_checksum            = "file:https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/13.4/CHECKSUM.SHA256-FreeBSD-13.4-RELEASE-amd64"
 parallels_guest_os_type = "freebsd"
 vbox_guest_os_type      = "FreeBSD_64"
 vmware_guest_os_type    = "freebsd-64"
-boot_command            = ["<wait><esc><wait>boot -s<wait><enter><wait><wait10><wait10>/bin/sh<enter><wait>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.em0.pid -l /tmp/dhclient.lease.em0 em0<enter><wait><wait5>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
+default_boot_wait       = "60s"
+boot_command            = ["<wait>s<wait2>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $1}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $1}') $(ifconfig -l | awk '{print $1}')<enter><wait10>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]

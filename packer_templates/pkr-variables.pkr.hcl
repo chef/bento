@@ -38,7 +38,6 @@ variable "no_proxy" {
 variable "sources_enabled" {
   type = list(string)
   default = [
-    "source.hyperv-iso.vm",
     "source.parallels-iso.vm",
     "source.qemu.vm",
     "source.virtualbox-iso.vm",
@@ -73,6 +72,33 @@ variable "hyperv_guest_additions_mode" {
 variable "hyperv_switch_name" {
   type    = string
   default = "bento"
+}
+
+# parallels-ipsw
+variable "parallels_host_interfaces" {
+  type        = list(string)
+  default     = null
+  description = "Host interfaces to use for the parallels-ipsw builder"
+}
+variable "parallels_ipsw_url" {
+  type        = string
+  default     = null
+  description = "URL to download the IPSW file"
+}
+variable "parallels_ipsw_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the IPSW file"
+}
+variable "parallels_prlctl_post" {
+  type        = list(list(string))
+  default     = null
+  description = "Commands to run after the VM is created"
+}
+variable "http_content" {
+  type        = map(string)
+  default     = null
+  description = "Content to be served by the http server"
 }
 
 # parallels-iso
@@ -116,8 +142,48 @@ variable "qemu_boot_wait" {
   default = null
 }
 variable "qemu_display" {
+  type        = string
+  default     = null
+  description = "What QEMU -display option to use. Defaults to gtk, use none to not pass the -display option allowing QEMU to choose the default"
+}
+variable "qemu_use_default_display" {
+  type        = bool
+  default     = null
+  description = "If true, do not pass a -display option to qemu, allowing it to choose the default"
+}
+variable "qemu_disk_image" {
+  type        = bool
+  default     = null
+  description = "Whether iso_url is a bootable qcow2 disk image"
+}
+variable "qemu_efi_boot" {
+  type        = bool
+  default     = false
+  description = "Enable EFI boot"
+}
+variable "qemu_efi_firmware_code" {
+  type        = string
+  default     = null
+  description = "EFI firmware code path"
+}
+variable "qemu_efi_firmware_vars" {
+  type        = string
+  default     = null
+  description = "EFI firmware vars file path"
+}
+variable "qemu_efi_drop_efivars" {
+  type        = bool
+  default     = false
+  description = "Drop EFI vars"
+}
+variable "qemu_format" {
   type    = string
-  default = "none"
+  default = "qcow2"
+  validation {
+    condition     = var.qemu_format == "qcow2" || var.qemu_format == "raw"
+    error_message = "Disk format, takes qcow2 or raw."
+  }
+  description = "Disk format, takes qcow2 or raw"
 }
 variable "qemu_machine_type" {
   type    = string
@@ -132,6 +198,11 @@ variable "qemuargs" {
 variable "vbox_boot_wait" {
   type    = string
   default = null
+}
+variable "vbox_firmware" {
+  type        = string
+  default     = null
+  description = "Firmware type, takes bios or efi"
 }
 variable "vbox_gfx_controller" {
   type    = string
@@ -160,34 +231,40 @@ variable "vbox_guest_os_type" {
 }
 variable "vbox_hard_drive_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vbox_iso_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vboxmanage" {
-  type = list(list(string))
-  default = [
-    [
-      "modifyvm",
-      "{{.Name}}",
-      "--audio",
-      "none",
-      "--nat-localhostreachable1",
-      "on",
-    ]
-  ]
+  type    = list(list(string))
+  default = null
+}
+variable "vbox_nic_type" {
+  type    = string
+  default = null
 }
 variable "virtualbox_version_file" {
   type    = string
   default = ".vbox_version"
 }
+variable "vbox_rtc_time_base" {
+  type        = string
+  default     = "UTC"
+  description = "RTC time base"
+}
 
 # virtualbox-ovf
-variable "vbox_source" {
-  type    = string
-  default = null
+variable "vbox_source_path" {
+  type        = string
+  default     = null
+  description = "Path to the OVA/OVF file"
+}
+variable "vbox_checksum" {
+  type        = string
+  default     = null
+  description = "Checksum of the OVA/OVF file"
 }
 
 # vmware-iso
@@ -200,10 +277,20 @@ variable "vmware_cdrom_adapter_type" {
   default     = "sata"
   description = "CDROM adapter type.  Needs to be SATA (or non-SCSI) for ARM64 builds."
 }
+variable "vmware_cores" {
+  type        = number
+  default     = 2
+  description = "The number of virtual CPU cores per socket for the virtual machine"
+}
 variable "vmware_disk_adapter_type" {
   type        = string
   default     = "sata"
   description = "Disk adapter type.  Needs to be SATA (PVSCSI, or non-SCSI) for ARM64 builds."
+}
+variable "vmware_firmware" {
+  type        = string
+  default     = null
+  description = "The firmware type for the virtual machine. Allowed values are bios, efi, and efi-secure (for secure boot). Defaults to the recommended firmware type for the guest operating system"
 }
 variable "vmware_guest_os_type" {
   type        = string
@@ -220,24 +307,23 @@ variable "vmware_tools_upload_path" {
 }
 variable "vmware_version" {
   type    = number
-  default = 20
+  default = 21
 }
 variable "vmware_vmx_data" {
   type = map(string)
   default = {
-    "cpuid.coresPerSocket"    = "2"
-    "ethernet0.pciSlotNumber" = "32"
-    "svga.autodetect"         = true
-    "usb_xhci.present"        = true
+    "svga.autodetect"  = true
+    "usb_xhci.present" = true
   }
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
   default = true
 }
-variable "vmware_enable_usb" {
-  type    = bool
-  default = true
+variable "vmware_usb" {
+  type        = bool
+  default     = false
+  description = "Enable the USB 2.0 controllers for the virtual machine"
 }
 variable "vmware_network_adapter_type" {
   type    = string
@@ -246,6 +332,10 @@ variable "vmware_network_adapter_type" {
 variable "vmware_network" {
   type    = string
   default = "nat"
+}
+variable "vmware_vnc_disable_password" {
+  type    = bool
+  default = true
 }
 
 # Source block common variables
@@ -292,6 +382,11 @@ variable "iso_checksum" {
   default     = null
   description = "ISO download checksum"
 }
+variable "iso_target_path" {
+  type        = string
+  default     = "build_dir_iso"
+  description = "Path to store the ISO file. Null will use packer cache default or build_dir_iso will put it in the local build/iso directory."
+}
 variable "iso_url" {
   type        = string
   default     = null
@@ -323,7 +418,7 @@ variable "ssh_port" {
 }
 variable "ssh_timeout" {
   type    = string
-  default = "30m"
+  default = "15m"
 }
 variable "ssh_username" {
   type    = string

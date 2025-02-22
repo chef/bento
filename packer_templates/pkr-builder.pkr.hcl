@@ -2,27 +2,27 @@ packer {
   required_version = ">= 1.7.0"
   required_plugins {
     hyperv = {
-      version = ">= 1.0.0"
+      version = ">= 1.0.3"
       source  = "github.com/hashicorp/hyperv"
     }
     parallels = {
-      version = ">= 1.0.2"
+      version = ">= 1.1.6"
       source  = "github.com/parallels/parallels"
     }
     qemu = {
-      version = ">= 1.0.8"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/qemu"
     }
     vagrant = {
-      version = ">= 1.0.2"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/vagrant"
     }
     virtualbox = {
-      version = ">= 0.0.1"
+      version = ">= 1.0.3"
       source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
-      version = ">= 1.0.9"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/vmware"
     }
     windows-update = {
@@ -49,86 +49,78 @@ locals {
       "${path.root}/scripts/windows/enable-file-sharing.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
       ] : (
-      var.os_name == "solaris" ? [
-        "${path.root}/scripts/solaris/update_solaris.sh",
-        "${path.root}/scripts/_common/vagrant.sh",
-        "${path.root}/scripts/solaris/vmtools_solaris.sh",
-        "${path.root}/scripts/solaris/minimize_solaris.sh"
+      var.os_name == "macos" ? [
+        "${path.root}/scripts/macos/system-default.sh",
+        "${path.root}/scripts/macos/system-update.sh",
+        "${path.root}/scripts/_common/motd.sh",
+        "${path.root}/scripts/macos/vagrant.sh",
+        "${path.root}/scripts/macos/parallels-tools.sh",
+        "${path.root}/scripts/macos/vmware-tools.sh",
+        "${path.root}/scripts/macos/shrink.sh"
         ] : (
-        var.os_name == "freebsd" ? [
-          "${path.root}/scripts/freebsd/update_freebsd.sh",
-          "${path.root}/scripts/freebsd/postinstall_freebsd.sh",
-          "${path.root}/scripts/freebsd/sudoers_freebsd.sh",
+        var.os_name == "solaris" ? [
+          "${path.root}/scripts/solaris/update_solaris.sh",
           "${path.root}/scripts/_common/vagrant.sh",
-          "${path.root}/scripts/freebsd/vmtools_freebsd.sh",
-          "${path.root}/scripts/freebsd/cleanup_freebsd.sh",
-          "${path.root}/scripts/freebsd/minimize_freebsd.sh"
+          "${path.root}/scripts/solaris/vmtools_solaris.sh",
+          "${path.root}/scripts/solaris/minimize_solaris.sh"
           ] : (
-          var.os_name == "opensuse" ||
-          var.os_name == "sles" ? [
-            "${path.root}/scripts/suse/repositories_suse.sh",
-            "${path.root}/scripts/suse/update_suse.sh",
-            "${path.root}/scripts/_common/motd.sh",
-            "${path.root}/scripts/_common/sshd.sh",
+          var.os_name == "freebsd" ? [
+            "${path.root}/scripts/freebsd/update_freebsd.sh",
+            "${path.root}/scripts/freebsd/postinstall_freebsd.sh",
+            "${path.root}/scripts/freebsd/sudoers_freebsd.sh",
             "${path.root}/scripts/_common/vagrant.sh",
-            "${path.root}/scripts/suse/unsupported-modules_suse.sh",
-            "${path.root}/scripts/_common/virtualbox.sh",
-            "${path.root}/scripts/_common/vmware_suse.sh",
-            "${path.root}/scripts/_common/parallels.sh",
-            "${path.root}/scripts/suse/vagrant_group_suse.sh",
-            "${path.root}/scripts/suse/sudoers_suse.sh",
-            "${path.root}/scripts/suse/zypper-locks_suse.sh",
-            "${path.root}/scripts/suse/remove-dvd-source_suse.sh",
-            "${path.root}/scripts/suse/cleanup_suse.sh",
-            "${path.root}/scripts/_common/minimize.sh"
+            "${path.root}/scripts/freebsd/vmtools_freebsd.sh",
+            "${path.root}/scripts/freebsd/cleanup_freebsd.sh",
+            "${path.root}/scripts/freebsd/minimize_freebsd.sh"
             ] : (
-            var.os_name == "ubuntu" ||
-            var.os_name == "debian" ? [
-              "${path.root}/scripts/${var.os_name}/update_${var.os_name}.sh",
+            var.os_name == "opensuse-leap" ||
+            var.os_name == "sles" ? [
+              "${path.root}/scripts/suse/repositories_suse.sh",
+              "${path.root}/scripts/suse/update_suse.sh",
               "${path.root}/scripts/_common/motd.sh",
               "${path.root}/scripts/_common/sshd.sh",
-              "${path.root}/scripts/${var.os_name}/networking_${var.os_name}.sh",
-              "${path.root}/scripts/${var.os_name}/sudoers_${var.os_name}.sh",
               "${path.root}/scripts/_common/vagrant.sh",
-              "${path.root}/scripts/${var.os_name}/systemd_${var.os_name}.sh",
+              "${path.root}/scripts/suse/unsupported-modules_suse.sh",
               "${path.root}/scripts/_common/virtualbox.sh",
-              "${path.root}/scripts/_common/vmware_debian_ubuntu.sh",
+              "${path.root}/scripts/_common/vmware.sh",
               "${path.root}/scripts/_common/parallels.sh",
-              "${path.root}/scripts/${var.os_name}/hyperv_${var.os_name}.sh",
-              "${path.root}/scripts/${var.os_name}/cleanup_${var.os_name}.sh",
-              "${path.root}/scripts/_common/parallels_post_cleanup_debian_ubuntu.sh",
+              "${path.root}/scripts/suse/vagrant_group_suse.sh",
+              "${path.root}/scripts/suse/sudoers_suse.sh",
+              "${path.root}/scripts/suse/zypper-locks_suse.sh",
+              "${path.root}/scripts/suse/remove-dvd-source_suse.sh",
+              "${path.root}/scripts/suse/cleanup_suse.sh",
               "${path.root}/scripts/_common/minimize.sh"
               ] : (
-              var.os_name == "fedora" ? [
-                "${path.root}/scripts/fedora/networking_fedora.sh",
-                "${path.root}/scripts/fedora/update_dnf.sh",
-                "${path.root}/scripts/fedora/build-tools_fedora.sh",
-                "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
+              var.os_name == "ubuntu" ||
+              var.os_name == "debian" ? [
+                "${path.root}/scripts/${var.os_name}/update_${var.os_name}.sh",
                 "${path.root}/scripts/_common/motd.sh",
                 "${path.root}/scripts/_common/sshd.sh",
-                "${path.root}/scripts/_common/virtualbox.sh",
-                "${path.root}/scripts/_common/vmware_fedora.sh",
-                "${path.root}/scripts/_common/parallels-rhel.sh",
+                "${path.root}/scripts/${var.os_name}/networking_${var.os_name}.sh",
+                "${path.root}/scripts/${var.os_name}/sudoers_${var.os_name}.sh",
                 "${path.root}/scripts/_common/vagrant.sh",
-                "${path.root}/scripts/fedora/real-tmp_fedora.sh",
-                "${path.root}/scripts/fedora/cleanup_dnf.sh",
+                "${path.root}/scripts/${var.os_name}/systemd_${var.os_name}.sh",
+                "${path.root}/scripts/_common/virtualbox.sh",
+                "${path.root}/scripts/_common/vmware.sh",
+                "${path.root}/scripts/_common/parallels.sh",
+                "${path.root}/scripts/${var.os_name}/hyperv_${var.os_name}.sh",
+                "${path.root}/scripts/${var.os_name}/cleanup_${var.os_name}.sh",
+                "${path.root}/scripts/_common/parallels_post_cleanup_debian_ubuntu.sh",
                 "${path.root}/scripts/_common/minimize.sh"
                 ] : (
-                "${var.os_name}-${substr(var.os_version, 0, 1)}" == "amazonlinux-2" ||
-                "${var.os_name}-${substr(var.os_version, 0, 1)}" == "centos-7" ||
-                "${var.os_name}-${substr(var.os_version, 0, 1)}" == "oracle-7" ||
-                "${var.os_name}-${substr(var.os_version, 0, 1)}" == "rhel-7" ||
-                "${var.os_name}-${substr(var.os_version, 0, 1)}" == "scientificlinux-7" ||
-                "${var.os_name}-${substr(var.os_version, 0, 1)}" == "springdalelinux-7" ? [
-                  "${path.root}/scripts/rhel/update_yum.sh",
+                var.os_name == "fedora" ? [
+                  "${path.root}/scripts/fedora/networking_fedora.sh",
+                  "${path.root}/scripts/fedora/update_dnf.sh",
                   "${path.root}/scripts/_common/motd.sh",
                   "${path.root}/scripts/_common/sshd.sh",
-                  "${path.root}/scripts/rhel/networking_rhel7.sh",
-                  "${path.root}/scripts/_common/vagrant.sh",
+                  "${path.root}/scripts/fedora/install-supporting-packages_fedora.sh",
+                  "${path.root}/scripts/fedora/build-tools_fedora.sh",
                   "${path.root}/scripts/_common/virtualbox.sh",
-                  "${path.root}/scripts/_common/vmware_rhel.sh",
-                  "${path.root}/scripts/_common/parallels-rhel.sh",
-                  "${path.root}/scripts/rhel/cleanup_yum.sh",
+                  "${path.root}/scripts/_common/vmware.sh",
+                  "${path.root}/scripts/_common/parallels.sh",
+                  "${path.root}/scripts/_common/vagrant.sh",
+                  "${path.root}/scripts/fedora/real-tmp_fedora.sh",
+                  "${path.root}/scripts/fedora/cleanup_dnf.sh",
                   "${path.root}/scripts/_common/minimize.sh"
                   ] : [
                   "${path.root}/scripts/rhel/update_dnf.sh",
@@ -136,8 +128,8 @@ locals {
                   "${path.root}/scripts/_common/sshd.sh",
                   "${path.root}/scripts/_common/vagrant.sh",
                   "${path.root}/scripts/_common/virtualbox.sh",
-                  "${path.root}/scripts/_common/vmware_rhel.sh",
-                  "${path.root}/scripts/_common/parallels-rhel.sh",
+                  "${path.root}/scripts/_common/vmware.sh",
+                  "${path.root}/scripts/_common/parallels.sh",
                   "${path.root}/scripts/rhel/cleanup_dnf.sh",
                   "${path.root}/scripts/_common/minimize.sh"
                 ]
@@ -211,8 +203,10 @@ build {
 
   # Convert machines to vagrant boxes
   post-processor "vagrant" {
-    compression_level    = 9
-    output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
-    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : null
+    compression_level = 9
+    output            = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+    )
   }
 }
