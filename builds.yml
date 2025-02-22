@@ -22,7 +22,7 @@ slugs:
 
 do_not_build:
   - amazon
-  - macos
+#   - macos
   - sles
   - solaris
   - rhel
