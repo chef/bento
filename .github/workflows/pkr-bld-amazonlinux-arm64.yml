@@ -23,7 +23,7 @@ jobs:
           brew update
           brew install qemu
           brew install --cask hashicorp/tap/hashicorp-vagrant
-          brew install --cask virtualbox@beta
+          brew install --cask virtualbox
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:

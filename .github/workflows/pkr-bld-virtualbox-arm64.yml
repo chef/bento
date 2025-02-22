@@ -40,7 +40,7 @@ jobs:
           brew tap hashicorp/tap
           brew update
           brew install --cask hashicorp/tap/hashicorp-vagrant
-          brew install --cask virtualbox@beta
+          brew install --cask virtualbox
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:
@@ -57,7 +57,7 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
       - name: Upload build artifact
