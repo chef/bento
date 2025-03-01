@@ -46,10 +46,10 @@ locals {
   qemu_binary  = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? "none" : var.qemu_display
   qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
-    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-aarch64-code.fd", "/usr/share/OVMF/OVMF_CODE.fd") : null
+    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-aarch64-code.fd", "/usr/local/share/qemu/edk2-x86_64-code.fd", "/usr/share/OVMF/OVMF_CODE.fd") : null
   ) : var.qemu_efi_firmware_code
   qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-arm-vars.fd", "/usr/share/OVMF/OVMF_VARS.fd") : null
+    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-arm-vars.fd", "/usr/local/share/qemu/edk2-i386-vars.fd", "/usr/share/OVMF/OVMF_VARS.fd") : null
   ) : var.qemu_efi_firmware_vars
   qemu_use_default_display = var.qemu_use_default_display == null ? (
     var.os_arch == "aarch64" ? true : false
