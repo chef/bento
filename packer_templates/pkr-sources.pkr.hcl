@@ -45,19 +45,19 @@ locals {
   # qemu
   qemu_binary  = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? "none" : var.qemu_display
-  # qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
-  #   var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-aarch64-code.fd", "/usr/share/OVMF/OVMF_CODE.fd") : null
-  # ) : var.qemu_efi_firmware_code
-  # qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-  #   var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-arm-vars.fd", "/usr/share/OVMF/OVMF_VARS.fd") : null
-  # ) : var.qemu_efi_firmware_vars
+  qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
+    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-aarch64-code.fd", "/usr/share/OVMF/OVMF_CODE.fd") : null
+  ) : var.qemu_efi_firmware_code
+  qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
+    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-arm-vars.fd", "/usr/share/OVMF/OVMF_VARS.fd") : null
+  ) : var.qemu_efi_firmware_vars
   qemu_use_default_display = var.qemu_use_default_display == null ? (
     var.os_arch == "aarch64" ? true : false
   ) : var.qemu_use_default_display
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
-  # build-dir = abspath("${path.root}/../builds/")
+  build-dir = abspath("${path.root}/../builds/")
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
       ["-device", "qemu-xhci"],
@@ -293,8 +293,8 @@ source "qemu" "vm" {
   disk_image          = var.qemu_disk_image
   # disk_interface      = var.qemu_disk_interface
   efi_boot            = var.qemu_efi_boot
-  # efi_firmware_code   = local.qemu_efi_firmware_code
-  # efi_firmware_vars   = local.qemu_efi_firmware_vars
+  efi_firmware_code   = local.qemu_efi_firmware_code
+  efi_firmware_vars   = local.qemu_efi_firmware_vars
   efi_drop_efivars    = var.qemu_efi_drop_efivars
   format              = var.qemu_format
   machine_type        = local.qemu_machine_type
