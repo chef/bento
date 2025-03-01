@@ -45,6 +45,8 @@ locals {
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
       "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
       "${path.root}/scripts/windows/remove-apps.ps1",
+      "${path.root}/scripts/windows/remove-capabilities.ps1",
+      "${path.root}/scripts/windows/remove-features.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/enable-file-sharing.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
@@ -52,10 +54,12 @@ locals {
       var.os_name == "macos" ? [
         "${path.root}/scripts/macos/system-default.sh",
         "${path.root}/scripts/macos/system-update.sh",
+        "${path.root}/scripts/macos/system-update-complete.sh",
         "${path.root}/scripts/_common/motd.sh",
         "${path.root}/scripts/macos/vagrant.sh",
         "${path.root}/scripts/macos/parallels-tools.sh",
         "${path.root}/scripts/macos/vmware-tools.sh",
+        "${path.root}/scripts/macos/disable_auto_update.sh",
         "${path.root}/scripts/macos/shrink.sh"
         ] : (
         var.os_name == "solaris" ? [
@@ -173,8 +177,12 @@ build {
 
   # Windows Updates and scripts
   provisioner "windows-update" {
-    search_criteria = "IsInstalled=0"
-    except          = var.is_windows ? null : local.source_names
+    search_criteria = "IsInstalled=0 and IsHidden = 0"
+    filters = [
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true",
+    ]
+    except = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
     except = var.is_windows ? null : local.source_names

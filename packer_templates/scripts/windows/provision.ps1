@@ -59,48 +59,79 @@ Add-Type -A System.IO.Compression.FileSystem
 # install Guest Additions.
 $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Property Vendor).Vendor
 if ($systemVendor -eq 'QEMU') {
-    # in more recent virtio-win.iso virtio-win-guest-tools.exe has move to E:\
-    $guestToolsPath = dir -Path E:\ -Filter virtio-win-guest-tools.exe -Recurse | %{$_.FullName}
-    if (!$guestToolsPath) {
-        throw "did not find virtio-win-guest-tools.exe on E:\"
-    }
-    $guestToolsLog = "$env:TEMP\$(Split-Path -Leaf $guestToolsPath).log"
     Write-Host 'Installing the guest tools...'
-    &$guestToolsPath /install /norestart /quiet /log $guestToolsLog | Out-String -Stream
+    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
+        $exe = "${letter}:\virtio-win-guest-tools.exe"
+        if( Test-Path -LiteralPath $exe ) {
+            Start-Process -FilePath $exe -ArgumentList '/passive', '/norestart' -Wait
+            break
+        } else {
+            Write-Host 'VirtIO Guest Tools image (virtio-win-*.iso) is not attached to this VM.'
+        }
+    }
     if ($LASTEXITCODE) {
         throw "failed to install guest tools with exit code $LASTEXITCODE"
     }
     Write-Host "Done installing the guest tools."
 } elseif ($systemVendor -eq 'innotek GmbH') {
-    Write-Host 'Importing the Oracle (for VirtualBox) certificate as a Trusted Publisher...'
-    E:\cert\VBoxCertUtil.exe add-trusted-publisher E:\cert\vbox-sha1.cer
-    if ($LASTEXITCODE) {
-        throw "failed to import certificate with exit code $LASTEXITCODE"
-    }
-
     Write-Host 'Installing the VirtualBox Guest Additions...'
-    E:\VBoxWindowsAdditions-amd64.exe /S | Out-String -Stream
-    if ($LASTEXITCODE) {
-        throw "failed to install with exit code $LASTEXITCODE. Check the logs at C:\Program Files\Oracle\VirtualBox Guest Additions\install.log."
+    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
+        $exe = "${letter}:\VBoxWindowsAdditions.exe"
+        if( Test-Path -LiteralPath $exe ) {
+            $certs = "${letter}:\cert"
+            Start-Process -FilePath "${certs}\VBoxCertUtil.exe" -ArgumentList "add-trusted-publisher ${certs}\vbox*.cer", "--root ${certs}\vbox*.cer"  -Wait
+            Start-Process -FilePath $exe -ArgumentList '/with_wddm', '/S' -Wait
+            break
+        } else {
+            Write-Host 'VBoxGuestAdditions.iso is not attached to this VM.'
+        }
     }
+    if ($LASTEXITCODE) {
+        throw "failed to install Guest Additions with exit code $LASTEXITCODE"
+    }
+    Write-Host "Done installing the VirtualBox Guest Additions."
 } elseif ($systemVendor -eq 'Microsoft Corporation') {
     # do nothing. Hyper-V enlightments are already bundled with Windows.
 } elseif ($systemVendor -eq 'VMware, Inc.') {
     Write-Host 'Mounting VMware Tools ISO...'
     Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
     Write-Host 'Installing VMware Tools...'
-    Start-Process -Wait -FilePath E:\setup64.exe -ArgumentList '/S /v "/qn REBOOT=R"'
-    Write-Output 'Installing VMware Tools...'
-    # silent install without rebooting.
-    E:\setup64.exe /S /v '/qn reboot=r'| Out-String -Stream
+    $os_type = (Get-WmiObject -Class Win32_ComputerSystem).SystemType -match ‘(x64)’
+    if ($os_type) {
+        $setup = 'setup64.exe'
+    } else {
+        $setup = 'setup.exe'
+    }
+    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
+        $exe = "${letter}:\${setup}"
+        if( ( Get-Item -LiteralPath $exe -ErrorAction 'SilentlyContinue' | Select-Object -ExpandProperty 'VersionInfo' | Select-Object -ExpandProperty 'ProductName' ) -eq 'VMware Tools' ) {
+            Start-Process -FilePath $exe -ArgumentList '/s /v /qn REBOOT=R' -Wait
+            break
+        } else {
+            Write-Host 'VMware Tools image (windows.iso) is not attached to this VM.'
+        }
+    }
+    if ($LASTEXITCODE) {
+        throw "failed to install with exit code $LASTEXITCODE"
+    }
     Dismount-DiskImage -ImagePath C:\vmware-tools.iso
     Remove-Item C:\vmware-tools.iso
+    Write-Host "Done installing VMware Tools."
 } elseif ($systemVendor -eq 'Parallels Software International Inc.') {
     Write-Host 'Installing the Parallels Tools for Guest VM...'
-    E:\PTAgent.exe /install_silent | Out-String -Stream
-    if ($LASTEXITCODE) {
-        throw "failed to install with exit code $LASTEXITCODE. Check the logs at C:\Program Files\Oracle\VirtualBox Guest Additions\install.log."
+    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
+        $exe = "${letter}:\PTAgent.exe"
+        if( Test-Path -LiteralPath $exe ) {
+            Start-Process -FilePath $exe -ArgumentList '/install_silent' -Wait
+            break
+        } else {
+            Write-Host 'Parallels Tools image (prl-tools-lin.iso) is not attached to this VM.'
+        }
     }
+    if ($LASTEXITCODE) {
+        throw "failed to install Parallels Tools with exit code $LASTEXITCODE"
+    }
+    Write-Host "Done installing the Parallels Tools for Guest VM."
 } else {
     Write-Host "Cannot install Guest Additions: Unsupported system ($systemVendor)."
 }
