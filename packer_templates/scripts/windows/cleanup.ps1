@@ -98,7 +98,7 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
 Write-Host 'Cleaning up the WinSxS folder...'
 dism.exe /Online /Quiet /Cleanup-Image /StartComponentCleanup /ResetBase
 if ($LASTEXITCODE) {
-    throw "Failed with Exit Code $LASTEXITCODE"
+    write-host "Failed with Exit Code $LASTEXITCODE"
 }
 
 # NB even after cleaning up the WinSxS folder the "Backups and Disabled Features"
