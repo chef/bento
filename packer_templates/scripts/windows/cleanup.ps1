@@ -96,8 +96,12 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
 # NB to analyse the used space use: dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
 # see https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/clean-up-the-winsxs-folder
 Write-Host 'Cleaning up the WinSxS folder...'
-dism.exe /Online /Quiet /Cleanup-Image /StartComponentCleanup /ResetBase
-if ($LASTEXITCODE) {
+try
+{
+    dism.exe /Online /Quiet /Cleanup-Image /StartComponentCleanup /ResetBase
+}
+catch
+{
     write-host "Failed with Exit Code $LASTEXITCODE"
 }
 
