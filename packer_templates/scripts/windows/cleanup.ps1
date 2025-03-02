@@ -104,13 +104,23 @@ if ($LASTEXITCODE) {
 # NB even after cleaning up the WinSxS folder the "Backups and Disabled Features"
 #    field of the analysis report will display a non-zero number because the
 #    disabled features packages are still on disk. you can remove them with:
-Get-WindowsOptionalFeature -Online | Where-Object {$_.State -eq 'Disabled'} | ForEach-Object {
-    Write-Host "Removing feature $($_.FeatureName)..."
-    dism.exe /Online /Quiet /Disable-Feature "/FeatureName:$($_.FeatureName)" /Remove
+try {
+    Get-WindowsOptionalFeature -Online | Where-Object {$_.State -eq 'Disabled'} | ForEach-Object {
+        Write-Host "Removing feature $($_.FeatureName)..."
+        dism.exe /Online /Quiet /Disable-Feature "/FeatureName:$($_.FeatureName)" /Remove
+    }
 }
+catch { }
+
 #    NB a removed feature can still be installed from other sources (e.g. windows update).
 Write-Host 'Analyzing the WinSxS folder...'
-dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+try {
+    dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+}
+catch { }
 
 Write-Host 'Remove pagefile, it will get created on boot next time.'
-New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name PagingFiles -Value '' -Force
+try {
+    New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name PagingFiles -Value '' -Force
+}
+catch { }

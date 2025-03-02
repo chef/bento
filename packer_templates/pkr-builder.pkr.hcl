@@ -180,6 +180,7 @@ build {
     search_criteria = "IsInstalled=0 and IsHidden = 0"
     filters = [
       "exclude:$_.Title -like '*Preview*'",
+      "exclude:$_.Title -like '*Cumulative Update*'",
       "include:$true",
     ]
     except = var.is_windows ? null : local.source_names
