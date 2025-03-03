@@ -62,5 +62,3 @@ ForEach ($vol in $volList) {
         [System.Runtime.InteropServices.Marshal]::ReleaseComObject($Eject) | Out-Null
     }
 }
-
-Restart-Computer
