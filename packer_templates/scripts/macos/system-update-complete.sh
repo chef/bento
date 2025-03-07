@@ -1,7 +1,6 @@
 #!/bin/sh
-set -euo pipefail
-IFS=$'\n\t'
-shopt -s nullglob nocaseglob
+set -euo
+IFS="$(printf ' \n\t')"
 
 # wait for the update process to complete
 if (grep "Action.*restart" ~/Library/Logs/packer_softwareupdate.log); then

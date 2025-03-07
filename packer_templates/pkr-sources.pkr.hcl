@@ -256,9 +256,9 @@ source "parallels-iso" "vm" {
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
+  # cd_content       = var.cd_content
+  # cd_files         = local.cd_files
+  # cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
@@ -282,7 +282,7 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator         = var.qemu_accelerator
+  accelerator = var.qemu_accelerator
   # cpu_model           = var.qemu_cpu_model
   display             = local.qemu_display
   use_default_display = local.qemu_use_default_display
@@ -290,17 +290,17 @@ source "qemu" "vm" {
   # disk_compression    = var.qemu_disk_compression
   # disk_detect_zeroes  = var.qemu_disk_detect_zeroes
   # disk_discard        = var.qemu_disk_discard
-  disk_image          = var.qemu_disk_image
+  disk_image = var.qemu_disk_image
   # disk_interface      = var.qemu_disk_interface
-  efi_boot            = var.qemu_efi_boot
-  efi_firmware_code   = local.qemu_efi_firmware_code
-  efi_firmware_vars   = local.qemu_efi_firmware_vars
-  efi_drop_efivars    = var.qemu_efi_drop_efivars
-  format              = var.qemu_format
-  machine_type        = local.qemu_machine_type
+  efi_boot          = var.qemu_efi_boot
+  efi_firmware_code = local.qemu_efi_firmware_code
+  efi_firmware_vars = local.qemu_efi_firmware_vars
+  efi_drop_efivars  = var.qemu_efi_drop_efivars
+  format            = var.qemu_format
+  machine_type      = local.qemu_machine_type
   # net_device          = var.qemu_net_device
-  qemu_binary         = local.qemu_binary
-  qemuargs            = local.qemuargs
+  qemu_binary = local.qemu_binary
+  qemuargs    = local.qemuargs
   # use_pflash          = var.qemu_use_pflash
   # Source block common options
   boot_command     = var.boot_command

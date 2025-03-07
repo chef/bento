@@ -188,7 +188,7 @@ build {
   }
   provisioner "windows-restart" {
     restart_timeout = "30m"
-    except = var.is_windows ? null : local.source_names
+    except          = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {
     elevated_password = "vagrant"
@@ -198,7 +198,7 @@ build {
   }
   provisioner "windows-restart" {
     restart_timeout = "30m"
-    except = var.is_windows ? null : local.source_names
+    except          = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {
     elevated_password = "vagrant"
