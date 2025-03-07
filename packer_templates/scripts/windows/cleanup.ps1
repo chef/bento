@@ -98,11 +98,29 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
 Write-Host 'Cleaning up the WinSxS folder...'
 try
 {
-    dism.exe /Online /Quiet /Cleanup-Image /StartComponentCleanup /ResetBase
+    dism.exe /Online /Cleanup-Image /StartComponentCleanup /ResetBase
 }
 catch
 {
-    write-host "Failed with Exit Code $LASTEXITCODE"
+    try {
+        # fix for error 0x800f0806
+        write-host "Failed with Exit Code $LASTEXITCODE, trying to restart services"
+        net stop wuauserv
+        net stop cryptSvc
+        net stop bits
+        net stop msiserver
+        Remove-Item C:\Windows\SoftwareDistribution
+        Remove-Item C:\Windows\System32\catroot2
+        net start wuauserv
+        net start cryptSvc
+        net start bits
+        net start msiserver
+        dism.exe /Online /Cleanup-Image /StartComponentCleanup /ResetBase
+    }
+    catch {
+        write-host "Failed with Exit Code $LASTEXITCODE, trying scheduled task..."
+        schtasks.exe /Run /TN "\Microsoft\Windows\Servicing\StartComponentCleanup"
+    }
 }
 
 # NB even after cleaning up the WinSxS folder the "Backups and Disabled Features"

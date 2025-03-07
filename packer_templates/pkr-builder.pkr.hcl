@@ -180,15 +180,14 @@ build {
     search_criteria = "IsInstalled=0 and IsHidden = 0"
     filters = [
       "exclude:$_.Title -like '*Preview*'",
-      "exclude:$_.Title -like '*Cumulative Update*'",
+      "exclude:$_.Title -like '*Cumulative Update for Microsoft server*'",
+      "exclude:$_.Title -like '*Cumulative Update for Windows *'",
       "include:$true",
     ]
     except = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
-    except = var.is_windows ? null : local.source_names
-  }
-  provisioner "windows-restart" {
+    restart_timeout = "30m"
     except = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {
@@ -198,9 +197,7 @@ build {
     except            = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
-    except = var.is_windows ? null : local.source_names
-  }
-  provisioner "windows-restart" {
+    restart_timeout = "30m"
     except = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {
@@ -210,9 +207,6 @@ build {
       "${path.root}/scripts/windows/cleanup.ps1",
       "${path.root}/scripts/windows/optimize.ps1"
     ]
-    except = var.is_windows ? null : local.source_names
-  }
-  provisioner "windows-restart" {
     except = var.is_windows ? null : local.source_names
   }
 

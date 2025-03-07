@@ -28,7 +28,7 @@ $removeCommand = {
 }
 
 $type = 'Feature'
-$installed = &amp; $getCommand;
+$installed = & $getCommand;
 
 foreach( $selector in $selectors ) {
     $result = [ordered] @{

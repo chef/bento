@@ -40,102 +40,6 @@ trap {
     Exit 1
 }
 
-# enable TLS 1.2.
-[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol `
-    -bor [Net.SecurityProtocolType]::Tls12
-
-if (![Environment]::Is64BitProcess) {
-    throw 'this must run in a 64-bit PowerShell session'
-}
-
-if (!(New-Object System.Security.Principal.WindowsPrincipal(
-    [Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
-        [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    throw 'this must run with Administrator privileges (e.g. in a elevated shell session)'
-}
-
-Add-Type -A System.IO.Compression.FileSystem
-
-# install Guest Additions.
-$systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Property Vendor).Vendor
-if ($systemVendor -eq 'QEMU') {
-    Write-Host 'Installing the guest tools...'
-    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
-        $exe = "${letter}:\virtio-win-guest-tools.exe"
-        if( Test-Path -LiteralPath $exe ) {
-            Start-Process -FilePath $exe -ArgumentList '/passive', '/norestart' -Wait
-            break
-        } else {
-            Write-Host 'VirtIO Guest Tools image (virtio-win-*.iso) is not attached to this VM.'
-        }
-    }
-    if ($LASTEXITCODE) {
-        throw "failed to install guest tools with exit code $LASTEXITCODE"
-    }
-    Write-Host "Done installing the guest tools."
-} elseif ($systemVendor -eq 'innotek GmbH') {
-    Write-Host 'Installing the VirtualBox Guest Additions...'
-    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
-        $exe = "${letter}:\VBoxWindowsAdditions.exe"
-        if( Test-Path -LiteralPath $exe ) {
-            $certs = "${letter}:\cert"
-            Start-Process -FilePath "${certs}\VBoxCertUtil.exe" -ArgumentList "add-trusted-publisher ${certs}\vbox*.cer", "--root ${certs}\vbox*.cer"  -Wait
-            Start-Process -FilePath $exe -ArgumentList '/with_wddm', '/S' -Wait
-            break
-        } else {
-            Write-Host 'VBoxGuestAdditions.iso is not attached to this VM.'
-        }
-    }
-    if ($LASTEXITCODE) {
-        throw "failed to install Guest Additions with exit code $LASTEXITCODE"
-    }
-    Write-Host "Done installing the VirtualBox Guest Additions."
-} elseif ($systemVendor -eq 'Microsoft Corporation') {
-    # do nothing. Hyper-V enlightments are already bundled with Windows.
-} elseif ($systemVendor -eq 'VMware, Inc.') {
-    Write-Host 'Mounting VMware Tools ISO...'
-    Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
-    Write-Host 'Installing VMware Tools...'
-    $os_type = (Get-WmiObject -Class Win32_ComputerSystem).SystemType -match ‘(x64)’
-    if ($os_type) {
-        $setup = 'setup64.exe'
-    } else {
-        $setup = 'setup.exe'
-    }
-    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
-        $exe = "${letter}:\${setup}"
-        if( ( Get-Item -LiteralPath $exe -ErrorAction 'SilentlyContinue' | Select-Object -ExpandProperty 'VersionInfo' | Select-Object -ExpandProperty 'ProductName' ) -eq 'VMware Tools' ) {
-            Start-Process -FilePath $exe -ArgumentList '/s /v /qn REBOOT=R' -Wait
-            break
-        } else {
-            Write-Host 'VMware Tools image (windows.iso) is not attached to this VM.'
-        }
-    }
-    if ($LASTEXITCODE) {
-        throw "failed to install with exit code $LASTEXITCODE"
-    }
-    Dismount-DiskImage -ImagePath C:\vmware-tools.iso
-    Remove-Item C:\vmware-tools.iso
-    Write-Host "Done installing VMware Tools."
-} elseif ($systemVendor -eq 'Parallels Software International Inc.') {
-    Write-Host 'Installing the Parallels Tools for Guest VM...'
-    foreach( $letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray() ) {
-        $exe = "${letter}:\PTAgent.exe"
-        if( Test-Path -LiteralPath $exe ) {
-            Start-Process -FilePath $exe -ArgumentList '/install_silent' -Wait
-            break
-        } else {
-            Write-Host 'Parallels Tools image (prl-tools-lin.iso) is not attached to this VM.'
-        }
-    }
-    if ($LASTEXITCODE) {
-        throw "failed to install Parallels Tools with exit code $LASTEXITCODE"
-    }
-    Write-Host "Done installing the Parallels Tools for Guest VM."
-} else {
-    Write-Host "Cannot install Guest Additions: Unsupported system ($systemVendor)."
-}
-
 Write-Host 'Setting the vagrant account properties...'
 # see the ADS_USER_FLAG_ENUM enumeration at https://msdn.microsoft.com/en-us/library/aa772300(v=vs.85).aspx
 $AdsScript              = 0x00001
@@ -167,3 +71,154 @@ Write-Host 'Disabling the Windows Boot Manager menu...'
 # NB to have the menu show with a lower timeout, run this instead: bcdedit /timeout 2
 #    NB with a timeout of 2 you can still press F8 to show the boot manager menu.
 bcdedit /set '{bootmgr}' displaybootmenu no
+
+Write-Host "Enable TLS 1.2."
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol `
+    -bor [Net.SecurityProtocolType]::Tls12
+
+if (![Environment]::Is64BitProcess) {
+    throw 'this must run in a 64-bit PowerShell session'
+}
+
+if (!(New-Object System.Security.Principal.WindowsPrincipal(
+    [Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
+        [Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    throw 'this must run with Administrator privileges (e.g. in a elevated shell session)'
+}
+
+Add-Type -A System.IO.Compression.FileSystem
+
+# install Guest Additions.
+Write-Output "Looking for Guest Tools for $env:PACKER_BUILDER_TYPE..."
+$volList = Get-Volume | Where-Object {$_.DriveType -ne 'Fixed' -and $_.DriveLetter}
+switch ($env:PACKER_BUILDER_TYPE) {
+    {$_ -in "virtualbox-iso", "virtualbox-ovf"} {
+        # Actions for VirtualBox ISO builder
+        foreach( $vol in $volList ) {
+            $letter = $vol.DriveLetter
+            $exe = "${letter}:\VBoxWindowsAdditions.exe"
+            $installed = $false
+            if( Test-Path -LiteralPath $exe ) {
+                Write-host "Guest Tools found at $exe"
+                try {
+                    Write-Host 'Installing the VirtualBox Guest Additions...'
+                    $certs = "${letter}:\cert"
+                    Start-Process -FilePath "${certs}\VBoxCertUtil.exe" -ArgumentList "add-trusted-publisher ${certs}\vbox*.cer", "--root ${certs}\vbox*.cer"  -Wait
+                    Start-Process -FilePath $exe -ArgumentList '/with_wddm', '/S' -Wait
+                    $installed = $true
+                    break
+                }
+                catch {
+                    throw "failed to install guest tools with exit code $LASTEXITCODE"
+                }
+            } else {
+                Write-Host "Guest Tools NOT FOUND at $exe"
+            }
+        }
+        if ( $installed ) {
+            Write-Host "Done installing the guest tools."
+        } else {
+            throw "Guest Tools not found."
+        }
+        break
+    }
+    {$_ -in "vmware-iso", "vmware-vmx"} {
+        # Actions for VMware ISO builder
+        Write-Host 'Mounting VMware Tools ISO...'
+        Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
+        $volList = Get-Volume | Where-Object {$_.DriveType -ne 'Fixed' -and $_.DriveLetter}
+        foreach( $vol in $volList ) {
+            $letter = $vol.DriveLetter
+            $exe = "${letter}:\setup.exe"
+            $installed = $false
+            if( Test-Path -LiteralPath $exe ) {
+                Write-host "Guest Tools found at $exe"
+                try {
+                    Write-Host 'Installing VMware Tools...'
+                    Start-Process -FilePath $exe -ArgumentList '/S /v /qn REBOOT=R' -Wait
+                    $installed = $true
+                    break
+                }
+                catch {
+                    throw "failed to install guest tools with exit code $LASTEXITCODE"
+                }
+            } else {
+                Write-Host "Guest Tools NOT FOUND at $exe"
+            }
+        }
+        Dismount-DiskImage -ImagePath C:\vmware-tools.iso
+        Remove-Item C:\vmware-tools.iso
+        if ( $installed ) {
+            Write-Host "Done installing the guest tools."
+        } else {
+            throw "Guest Tools not found. Skipping installation."
+        }
+        break
+    }
+    {$_ -in "parallels-iso", "parallels-pvm"} {
+        # Actions for Parallels ISO builder
+        foreach( $vol in $volList ) {
+            $letter = $vol.DriveLetter
+            $exe = "${letter}:\PTAgent.exe"
+            $installed = $false
+            if( Test-Path -LiteralPath $exe ) {
+                Write-host "Guest Tools found at $exe"
+                try {
+                    Write-Host 'Installing the Parallels Tools for Guest VM...'
+                    Start-Process -FilePath $exe -ArgumentList '/install_silent' -Wait
+                    $installed = $true
+                    break
+                }
+                catch {
+                    throw "failed to install guest tools with exit code $LASTEXITCODE"
+                }
+                Start-Process -FilePath $exe -ArgumentList '/install_silent' -Wait
+                break
+            } else {
+                Write-Host "Guest Tools NOT FOUND at $exe"
+            }
+        }
+        if ( $installed ) {
+            Write-Host "Done installing the guest tools."
+        } else {
+            throw "Guest Tools not found."
+        }
+        break
+    }
+    "qemu" {
+        # Actions for QEMU builder
+        foreach( $vol in $volList ) {
+            $letter = $vol.DriveLetter
+            $exe = "${letter}:\virtio-win-guest-tools.exe"
+            $installed = $false
+            if( Test-Path -LiteralPath $exe ) {
+                Write-host "Guest Tools found at $exe"
+                try {
+                    Write-Host 'Installing the guest tools...'
+                    Start-Process -FilePath $exe -ArgumentList '/passive', '/norestart' -Wait
+                    $installed = $true
+                    break
+                }
+                catch {
+                    throw "failed to install guest tools with exit code $LASTEXITCODE"
+                }
+            } else {
+                Write-Host "Guest Tools NOT FOUND at $exe"
+            }
+        }
+        if ( $installed ) {
+            Write-Host "Done installing the guest tools."
+        } else {
+            throw "Guest Tools not found."
+        }
+        break
+    }
+    "hyperv-iso" {
+        # Actions for Hyper-V ISO builder
+        # do nothing. Hyper-V enlightments are already bundled with Windows.
+        break
+    }
+    default {
+        throw "Unknown PACKER_BUILDER_TYPE: $env:PACKER_BUILDER_TYPE"
+    }
+}
