@@ -135,7 +135,7 @@ switch ($env:PACKER_BUILDER_TYPE) {
                 Write-host "Guest Tools found at $exe"
                 try {
                     Write-Host 'Installing VMware Tools...'
-                    Start-Process -FilePath $exe -ArgumentList '/S /v /qn REBOOT=R' -Wait
+                    Start-Process -FilePath $exe -ArgumentList '/S /v "/qn REBOOT=R"' -Wait
                     $installed = $true
                     break
                 }

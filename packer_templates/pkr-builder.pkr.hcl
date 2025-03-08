@@ -35,7 +35,6 @@ packer {
 locals {
   scripts = var.scripts == null ? (
     var.is_windows ? [
-      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/configure-power.ps1",
       "${path.root}/scripts/windows/disable-windows-uac.ps1",
       "${path.root}/scripts/windows/disable-system-restore.ps1",
@@ -43,10 +42,6 @@ locals {
       "${path.root}/scripts/windows/ui-tweaks.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
-      "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
-      "${path.root}/scripts/windows/remove-apps.ps1",
-      "${path.root}/scripts/windows/remove-capabilities.ps1",
-      "${path.root}/scripts/windows/remove-features.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/enable-file-sharing.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
@@ -176,6 +171,22 @@ build {
   }
 
   # Windows Updates and scripts
+  provisioner "powershell" {
+    elevated_password = "vagrant"
+    elevated_user     = "vagrant"
+    scripts           = [
+      "${path.root}/scripts/windows/provision.ps1",
+      "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
+      "${path.root}/scripts/windows/remove-apps.ps1",
+      "${path.root}/scripts/windows/remove-capabilities.ps1",
+      "${path.root}/scripts/windows/remove-features.ps1",
+    ]
+    except            = var.is_windows ? null : local.source_names
+  }
+  provisioner "windows-restart" {
+    restart_timeout = "30m"
+    except          = var.is_windows ? null : local.source_names
+  }
   provisioner "windows-update" {
     search_criteria = "IsInstalled=0 and IsHidden = 0"
     filters = [
