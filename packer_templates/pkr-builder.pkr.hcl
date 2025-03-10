@@ -174,14 +174,14 @@ build {
   provisioner "powershell" {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
-    scripts           = [
+    scripts = [
       "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
       "${path.root}/scripts/windows/remove-apps.ps1",
       "${path.root}/scripts/windows/remove-capabilities.ps1",
       "${path.root}/scripts/windows/remove-features.ps1",
     ]
-    except            = var.is_windows ? null : local.source_names
+    except = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
     restart_timeout = "30m"

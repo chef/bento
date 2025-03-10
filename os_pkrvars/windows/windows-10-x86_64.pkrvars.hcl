@@ -7,4 +7,4 @@ iso_url                 = "https://software-static.download.prss.microsoft.com/d
 iso_checksum            = "EF7312733A9F5D7D51CFA04AC497671995674CA5E1058D5164D6028F0938D668"
 parallels_guest_os_type = "win-10"
 vbox_guest_os_type      = "Windows10_64"
-vmware_guest_os_type    = "windows9_64Guest"
+vmware_guest_os_type    = "windows9-64"
