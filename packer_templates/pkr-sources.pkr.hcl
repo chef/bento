@@ -282,8 +282,8 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator = var.qemu_accelerator
-  # cpu_model           = var.qemu_cpu_model
+  accelerator         = var.qemu_accelerator
+  cpu_model           = var.qemu_cpu_model
   display             = local.qemu_display
   use_default_display = local.qemu_use_default_display
   # disk_cache          = var.qemu_disk_cache
