@@ -45,11 +45,18 @@ locals {
   # qemu
   qemu_binary  = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? "none" : var.qemu_display
+  qemu_efi_boot = var.qemu_efi_boot == null ? (
+    var.os_arch == "aarch64" ? true : false
+  ) : var.qemu_efi_boot
   qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
-    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-aarch64-code.fd", "/usr/share/OVMF/OVMF_CODE.fd", null) : try("/usr/local/share/qemu/edk2-x86_64-code.fd", null)
+    local.qemu_efi_boot ? (
+      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : null
+    ) : null
   ) : var.qemu_efi_firmware_code
   qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-    var.os_arch == "aarch64" ? try("/opt/homebrew/share/qemu/edk2-arm-vars.fd", "/usr/share/OVMF/OVMF_VARS.fd", null) : try("/usr/local/share/qemu/edk2-i386-vars.fd", null)
+    local.qemu_efi_boot ? (
+      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : null
+    ) : null
   ) : var.qemu_efi_firmware_vars
   qemu_use_default_display = var.qemu_use_default_display == null ? (
     var.os_arch == "aarch64" ? true : false
@@ -118,7 +125,7 @@ locals {
   ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
     var.is_windows ? "windows" : (
-      var.os_name == "macos" ? "darwin" : "linux"
+      var.os_name == "macos" ? "darwin" : null
     )
   ) : var.vmware_tools_upload_flavor
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
@@ -132,7 +139,10 @@ locals {
       "sata1:2.present"    = "TRUE"
       "svga.autodetect"    = "TRUE"
       "usb_xhci.present"   = "TRUE"
-    } : null
+    } : {
+      "svga.autodetect"    = "TRUE"
+      "usb_xhci.present"   = "TRUE"
+    }
   ) : var.vmware_vmx_data
 
   # Source block common
@@ -292,7 +302,7 @@ source "qemu" "vm" {
   # disk_discard        = var.qemu_disk_discard
   disk_image = var.qemu_disk_image
   # disk_interface      = var.qemu_disk_interface
-  efi_boot          = var.qemu_efi_boot
+  efi_boot          = local.qemu_efi_boot
   efi_firmware_code = local.qemu_efi_firmware_code
   efi_firmware_vars = local.qemu_efi_firmware_vars
   efi_drop_efivars  = var.qemu_efi_drop_efivars
