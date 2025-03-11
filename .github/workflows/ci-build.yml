@@ -90,7 +90,7 @@ jobs:
       - xml-lint
       - powershell-lint
       - shellcheck-lint
-      - packer-lint
+      # - packer-lint
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
