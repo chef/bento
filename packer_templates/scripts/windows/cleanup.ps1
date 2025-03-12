@@ -21,13 +21,14 @@ if ($osInfo.ProductType -eq 1) { # cleanmgr isn't on servers
     Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\*' -Name StateFlags0001 -ErrorAction SilentlyContinue | Remove-ItemProperty -Name StateFlags0001 -ErrorAction SilentlyContinue
 
     Write-Host 'Enabling Update Cleanup. This is done automatically in Windows 10 via a scheduled task.'
-    New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup' -Name StateFlags0001 -Value 2 -Type DWord
+    New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup' -Name StateFlags0001 -Value 2 -PropertyType DWord
 
     Write-Host 'Enabling Temporary Files Cleanup.'
-    New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Files' -Name StateFlags0001 -Value 2 -Type DWord
+    New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Files' -Name StateFlags0001 -Value 2 -PropertyType DWord
 
     Write-Host 'Starting CleanMgr.exe...'
     Start-Process -FilePath CleanMgr.exe -ArgumentList '/sagerun:1' -Wait # -WindowStyle Hidden
+
     Write-Host 'Waiting for CleanMgr and DismHost processes. Second wait neccesary as CleanMgr.exe spins off separate processes.'
     Get-Process -Name cleanmgr,dismhost -ErrorAction SilentlyContinue | Wait-Process
 }
@@ -96,21 +97,53 @@ Stop-ServiceForReal BITS               # Background Intelligent Transfer Service
 # NB to analyse the used space use: dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
 # see https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/clean-up-the-winsxs-folder
 Write-Host 'Cleaning up the WinSxS folder...'
-dism.exe /Online /Quiet /Cleanup-Image /StartComponentCleanup /ResetBase
-if ($LASTEXITCODE) {
-    throw "Failed with Exit Code $LASTEXITCODE"
+try
+{
+    dism.exe /Online /Cleanup-Image /StartComponentCleanup /ResetBase
+}
+catch
+{
+    try {
+        # fix for error 0x800f0806
+        write-host "Failed with Exit Code $LASTEXITCODE, trying to restart services"
+        net stop wuauserv
+        net stop cryptSvc
+        net stop bits
+        net stop msiserver
+        Remove-Item C:\Windows\SoftwareDistribution
+        Remove-Item C:\Windows\System32\catroot2
+        net start wuauserv
+        net start cryptSvc
+        net start bits
+        net start msiserver
+        dism.exe /Online /Cleanup-Image /StartComponentCleanup /ResetBase
+    }
+    catch {
+        write-host "Failed with Exit Code $LASTEXITCODE, trying scheduled task..."
+        schtasks.exe /Run /TN "\Microsoft\Windows\Servicing\StartComponentCleanup"
+    }
 }
 
 # NB even after cleaning up the WinSxS folder the "Backups and Disabled Features"
 #    field of the analysis report will display a non-zero number because the
 #    disabled features packages are still on disk. you can remove them with:
-Get-WindowsOptionalFeature -Online | Where-Object {$_.State -eq 'Disabled'} | ForEach-Object {
-    Write-Host "Removing feature $($_.FeatureName)..."
-    dism.exe /Online /Quiet /Disable-Feature "/FeatureName:$($_.FeatureName)" /Remove
+try {
+    Get-WindowsOptionalFeature -Online | Where-Object {$_.State -eq 'Disabled'} | ForEach-Object {
+        Write-Host "Removing feature $($_.FeatureName)..."
+        dism.exe /Online /Quiet /Disable-Feature "/FeatureName:$($_.FeatureName)" /Remove
+    }
 }
+catch { }
+
 #    NB a removed feature can still be installed from other sources (e.g. windows update).
 Write-Host 'Analyzing the WinSxS folder...'
-dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+try {
+    dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+}
+catch { }
 
 Write-Host 'Remove pagefile, it will get created on boot next time.'
-New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name PagingFiles -Value '' -Force
+try {
+    New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' -Name PagingFiles -Value '' -Force
+}
+catch { }

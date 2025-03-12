@@ -62,7 +62,7 @@ variable "hyperv_enable_secure_boot" {
 }
 variable "hyperv_generation" {
   type        = number
-  default     = 2
+  default     = 1
   description = "Hyper-v generation version"
 }
 variable "hyperv_guest_additions_mode" {
@@ -89,6 +89,11 @@ variable "parallels_ipsw_checksum" {
   type        = string
   default     = null
   description = "Checksum of the IPSW file"
+}
+variable "parallels_ipsw_target_path" {
+  type        = string
+  default     = "build_dir_iso"
+  description = "Path to store the IPSW file. Null will use packer cache default or build_dir_iso will put it in the local build/iso directory."
 }
 variable "parallels_prlctl_post" {
   type        = list(list(string))
@@ -141,9 +146,33 @@ variable "qemu_boot_wait" {
   type    = string
   default = null
 }
+variable "qemu_cpu_model" {
+  type    = string
+  default = "host"
+}
+variable "qemu_disk_cache" {
+  type    = string
+  default = "unsafe"
+}
+variable "qemu_disk_compression" {
+  type    = bool
+  default = true
+}
+variable "qemu_disk_detect_zeroes" {
+  type    = string
+  default = "unmap"
+}
+variable "qemu_disk_discard" {
+  type    = string
+  default = "unmap"
+}
+variable "qemu_disk_interface" {
+  type    = string
+  default = "virtio"
+}
 variable "qemu_display" {
   type        = string
-  default     = null
+  default     = "none"
   description = "What QEMU -display option to use. Defaults to gtk, use none to not pass the -display option allowing QEMU to choose the default"
 }
 variable "qemu_use_default_display" {
@@ -153,12 +182,12 @@ variable "qemu_use_default_display" {
 }
 variable "qemu_disk_image" {
   type        = bool
-  default     = null
+  default     = false
   description = "Whether iso_url is a bootable qcow2 disk image"
 }
 variable "qemu_efi_boot" {
   type        = bool
-  default     = false
+  default     = null
   description = "Enable EFI boot"
 }
 variable "qemu_efi_firmware_code" {
@@ -189,9 +218,17 @@ variable "qemu_machine_type" {
   type    = string
   default = null
 }
+variable "qemu_net_device" {
+  type    = string
+  default = "virtio-net"
+}
 variable "qemuargs" {
   type    = list(list(string))
   default = null
+}
+variable "qemu_use_pflash" {
+  type    = bool
+  default = false
 }
 
 # virtualbox-iso
@@ -214,7 +251,7 @@ variable "vbox_gfx_vram_size" {
 }
 variable "vbox_guest_additions_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vbox_guest_additions_mode" {
   type    = string
@@ -310,11 +347,8 @@ variable "vmware_version" {
   default = 21
 }
 variable "vmware_vmx_data" {
-  type = map(string)
-  default = {
-    "svga.autodetect"  = true
-    "usb_xhci.present" = true
-  }
+  type    = map(string)
+  default = null
 }
 variable "vmware_vmx_remove_ethernet_interfaces" {
   type    = bool
@@ -327,7 +361,7 @@ variable "vmware_usb" {
 }
 variable "vmware_network_adapter_type" {
   type    = string
-  default = "e1000e"
+  default = null
 }
 variable "vmware_network" {
   type    = string
@@ -348,9 +382,18 @@ variable "default_boot_wait" {
   type    = string
   default = null
 }
+variable "cd_content" {
+  type        = map(string)
+  default     = null
+  description = "Content to be served by the cdrom"
+}
 variable "cd_files" {
   type    = list(string)
   default = null
+}
+variable "cd_label" {
+  type    = string
+  default = "cidata"
 }
 variable "cpus" {
   type    = number
@@ -362,7 +405,7 @@ variable "communicator" {
 }
 variable "disk_size" {
   type    = number
-  default = 65536
+  default = null
 }
 variable "floppy_files" {
   type    = list(string)
