@@ -139,9 +139,9 @@ locals {
       "sata1:2.present"    = "TRUE"
       "svga.autodetect"    = "TRUE"
       "usb_xhci.present"   = "TRUE"
-    } : {
-      "svga.autodetect"    = "TRUE"
-      "usb_xhci.present"   = "TRUE"
+      } : {
+      "svga.autodetect"  = "TRUE"
+      "usb_xhci.present" = "TRUE"
     }
   ) : var.vmware_vmx_data
 
