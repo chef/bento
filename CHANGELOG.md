@@ -70,6 +70,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update oraclelinux 9 to 9.5
 - Update rhel 9 to 9.5
 - Update freebsd 14 to 14.2
+- Update freebsd 13 to 13.5
 - Update debian 11 to 11.11
 - Update debian 12 to 12.9
 - Update MacOS 14 to 14.6.1
