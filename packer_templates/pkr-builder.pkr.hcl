@@ -121,7 +121,7 @@ locals {
                   "${path.root}/scripts/fedora/real-tmp_fedora.sh",
                   "${path.root}/scripts/fedora/cleanup_dnf.sh",
                   "${path.root}/scripts/_common/minimize.sh"
-                  ] : var.os_name == "fedora" ? [
+                  ] : var.os_name == "alpine" ? [
                     "${path.root}/scripts/alpine/networking_alpine.sh",
                     "${path.root}/scripts/alpine/update_apk.sh",
                     "${path.root}/scripts/_common/motd.sh",

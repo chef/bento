@@ -15,6 +15,7 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
+          - alpine-3.21
           - centos-stream-9
           - centos-stream-10
           - debian-11
