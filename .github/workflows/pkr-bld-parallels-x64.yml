@@ -15,6 +15,7 @@ jobs:
         os:
           - almalinux-8
           - almalinux-9
+          - alpine-3.21
           - centos-stream-9
           - centos-stream-10
           - debian-11
@@ -35,10 +36,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Setup Packer
-#        uses: hashicorp/setup-packer@main
-#        with:
-#          version: latest
+      #      - name: Setup Packer
+      #        uses: hashicorp/setup-packer@main
+      #        with:
+      #          version: latest
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"

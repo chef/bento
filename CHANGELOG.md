@@ -9,6 +9,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | almalinux-8 |  | x | na | x | na | x | na | x | na |
 | almalinux-9 |  | x | x | x |  | x | x | x | x |
+| alpine-3.21 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TDB | TDB |
 | amazonlinux-2023 |  |  |  |  |  | x |  |  |  |
 | centos-stream-9 |  | x | x | x |  | x | x | x | x |
 | centos-stream-10 |  | x | x | x |  | x | x | x | x |
