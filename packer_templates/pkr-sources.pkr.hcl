@@ -8,6 +8,9 @@ locals {
     var.hyperv_generation == 2 && var.is_windows ? true : false
   ) : var.hyperv_enable_secure_boot
 
+  # parallels-ipsw
+  parallels_ipsw_target_path = var.parallels_ipsw_target_path == "build_dir_iso" ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}.ipsw" : var.parallels_ipsw_target_path
+
   # parallels-iso
   parallels_tools_flavor = var.parallels_tools_flavor == null ? (
     var.is_windows ? (
@@ -26,7 +29,6 @@ locals {
         ] : [
         ["set", "{{ .Name }}", "--efi-boot", "on"],
         ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
-        ["set", "{{ .Name }}", "--device-add", "cdrom", "--image", "${path.root}/../builds/iso/unattended.iso", "--connect"],
       ]
       ) : (
       var.os_name == "freebsd" && var.os_arch == "x86_64" ? [
@@ -43,17 +45,34 @@ locals {
   # qemu
   qemu_binary  = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? "none" : var.qemu_display
+  qemu_efi_boot = var.qemu_efi_boot == null ? (
+    var.os_arch == "aarch64" ? true : false
+  ) : var.qemu_efi_boot
+  qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
+    local.qemu_efi_boot ? (
+      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : null
+    ) : null
+  ) : var.qemu_efi_firmware_code
+  qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
+    local.qemu_efi_boot ? (
+      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : null
+    ) : null
+  ) : var.qemu_efi_firmware_vars
   qemu_use_default_display = var.qemu_use_default_display == null ? (
     var.os_arch == "aarch64" ? true : false
   ) : var.qemu_use_default_display
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
+  build-dir = abspath("${path.root}/../builds/")
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
-      ["-drive", "file=${path.root}/../builds/iso/virtio-win.iso,media=cdrom,index=3"],
-      ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
-      ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
+      ["-device", "qemu-xhci"],
+      ["-device", "virtio-tablet"],
+      ["-drive", "file=${local.build-dir}/iso/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
+      ["-drive", "file=${local.build-dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
+      ["-boot", "order=c,order=d"]
       ] : (
       var.os_arch == "aarch64" ? [
         ["-boot", "strict=off"],
@@ -101,42 +120,59 @@ locals {
   ) : var.vbox_nic_type
 
   # vmware-iso
+  vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
+    var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
+  ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? "windows" : null
+    var.is_windows ? "windows" : (
+      var.os_name == "macos" ? "darwin" : null
+    )
   ) : var.vmware_tools_upload_flavor
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
   ) : var.vmware_tools_upload_path
+  vmware_vmx_data = var.vmware_vmx_data == null ? (
+    var.is_windows && var.os_arch == "aarch64" ? {
+      "sata1.present"      = "TRUE"
+      "sata1:2.devicetype" = "cdrom-image"
+      "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
+      "sata1:2.present"    = "TRUE"
+      "svga.autodetect"    = "TRUE"
+      "usb_xhci.present"   = "TRUE"
+      } : {
+      "svga.autodetect"  = "TRUE"
+      "usb_xhci.present" = "TRUE"
+    }
+  ) : var.vmware_vmx_data
 
   # Source block common
   default_boot_wait = var.default_boot_wait == null ? (
-    var.is_windows ? "60s" : (
-      var.os_name == "macos" ? "8m" : "10s"
-    )
+    var.is_windows ? "60s" : "10s"
   ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
-      var.hyperv_generation == 2 ? [
-        "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
-        ] : (
-        var.os_arch == "x86_64" ? [
-          "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
+      var.os_arch == "x86_64" ? (
+        var.hyperv_generation == 2 ? [
+          "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
           ] : [
-          "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+          "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
         ]
-      )
+        ) : [
+        "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+      ]
     ) : null
   ) : var.cd_files
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
+  disk_size = var.disk_size == null ? (
+    var.is_windows ? 131072 : 65536
+  ) : var.disk_size
   floppy_files = var.floppy_files == null ? (
     var.is_windows ? (
       var.os_arch == "x86_64" ? [
         "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-        ] : [
-        "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
-      ]
+      ] : null
     ) : null
   ) : var.floppy_files
   http_directory  = var.http_directory == null ? "${path.root}/http" : var.http_directory
@@ -168,10 +204,12 @@ source "hyperv-iso" "vm" {
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
+  cd_content       = var.cd_content
   cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
+  cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = var.disk_size
+  disk_size        = local.disk_size
   floppy_files     = var.hyperv_generation == 2 ? null : local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
@@ -196,6 +234,7 @@ source "parallels-ipsw" "vm" {
   host_interfaces     = var.parallels_host_interfaces
   ipsw_url            = var.parallels_ipsw_url
   ipsw_checksum       = var.parallels_ipsw_checksum
+  ipsw_target_path    = local.parallels_ipsw_target_path
   prlctl              = local.parallels_prlctl
   prlctl_post         = var.parallels_prlctl_post
   prlctl_version_file = var.parallels_prlctl_version_file
@@ -204,7 +243,7 @@ source "parallels-ipsw" "vm" {
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = var.disk_size
+  disk_size        = local.disk_size
   http_directory   = local.http_directory
   http_content     = var.http_content
   memory           = local.memory
@@ -227,9 +266,12 @@ source "parallels-iso" "vm" {
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
+  cd_content       = var.cd_content
+  cd_files         = local.cd_files
+  cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = var.disk_size
+  disk_size        = local.disk_size
   floppy_files     = local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -251,24 +293,34 @@ source "parallels-iso" "vm" {
 source "qemu" "vm" {
   # QEMU specific options
   accelerator         = var.qemu_accelerator
+  cpu_model           = var.qemu_cpu_model
   display             = local.qemu_display
   use_default_display = local.qemu_use_default_display
-  disk_image          = var.qemu_disk_image
-  efi_boot            = var.qemu_efi_boot
-  efi_firmware_code   = var.qemu_efi_firmware_code
-  efi_firmware_vars   = var.qemu_efi_firmware_vars
-  efi_drop_efivars    = var.qemu_efi_drop_efivars
-  format              = var.qemu_format
-  machine_type        = local.qemu_machine_type
-  qemu_binary         = local.qemu_binary
-  qemuargs            = local.qemuargs
+  # disk_cache          = var.qemu_disk_cache
+  # disk_compression    = var.qemu_disk_compression
+  # disk_detect_zeroes  = var.qemu_disk_detect_zeroes
+  # disk_discard        = var.qemu_disk_discard
+  disk_image = var.qemu_disk_image
+  # disk_interface      = var.qemu_disk_interface
+  efi_boot          = local.qemu_efi_boot
+  efi_firmware_code = local.qemu_efi_firmware_code
+  efi_firmware_vars = local.qemu_efi_firmware_vars
+  efi_drop_efivars  = var.qemu_efi_drop_efivars
+  format            = var.qemu_format
+  machine_type      = local.qemu_machine_type
+  # net_device          = var.qemu_net_device
+  qemu_binary = local.qemu_binary
+  qemuargs    = local.qemuargs
+  # use_pflash          = var.qemu_use_pflash
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
+  cd_content       = var.cd_content
   cd_files         = local.cd_files
+  cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = var.disk_size
+  disk_size        = local.disk_size
   floppy_files     = local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
@@ -306,9 +358,12 @@ source "virtualbox-iso" "vm" {
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
+  cd_content       = var.cd_content
+  cd_files         = local.cd_files
+  cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
-  disk_size        = var.disk_size
+  disk_size        = local.disk_size
   floppy_files     = local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
@@ -355,25 +410,28 @@ source "vmware-iso" "vm" {
   firmware                       = var.vmware_firmware
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
-  network_adapter_type           = var.vmware_network_adapter_type
+  network_adapter_type           = local.vmware_network_adapter_type
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
   usb                            = var.vmware_usb
   version                        = var.vmware_version
-  vmx_data                       = var.vmware_vmx_data
+  vmx_data                       = local.vmware_vmx_data
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   vnc_disable_password           = var.vmware_vnc_disable_password
   # Source block common options
-  boot_command   = var.boot_command
-  boot_wait      = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
-  cpus           = var.cpus
-  communicator   = local.communicator
-  disk_size      = var.disk_size
-  floppy_files   = local.floppy_files
-  headless       = var.headless
-  http_directory = local.http_directory
-  iso_checksum   = var.iso_checksum
-  # iso_target_path  = local.iso_target_path # Currently breaks builds https://github.com/hashicorp/packer-plugin-vmware/issues/276
+  boot_command     = var.boot_command
+  boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
+  cd_content       = var.cd_content
+  cd_files         = local.cd_files # Broken and not creating disks
+  cd_label         = var.cd_label
+  cpus             = var.cpus
+  communicator     = local.communicator
+  disk_size        = local.disk_size
+  floppy_files     = local.floppy_files
+  headless         = var.headless
+  http_directory   = local.http_directory
+  iso_checksum     = var.iso_checksum
+  iso_target_path  = abspath(local.iso_target_path)
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-vmware"

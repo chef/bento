@@ -35,7 +35,6 @@ packer {
 locals {
   scripts = var.scripts == null ? (
     var.is_windows ? [
-      "${path.root}/scripts/windows/provision.ps1",
       "${path.root}/scripts/windows/configure-power.ps1",
       "${path.root}/scripts/windows/disable-windows-uac.ps1",
       "${path.root}/scripts/windows/disable-system-restore.ps1",
@@ -43,8 +42,6 @@ locals {
       "${path.root}/scripts/windows/ui-tweaks.ps1",
       "${path.root}/scripts/windows/disable-windows-updates.ps1",
       "${path.root}/scripts/windows/disable-windows-defender.ps1",
-      "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
-      "${path.root}/scripts/windows/remove-apps.ps1",
       "${path.root}/scripts/windows/enable-remote-desktop.ps1",
       "${path.root}/scripts/windows/enable-file-sharing.ps1",
       "${path.root}/scripts/windows/eject-media.ps1"
@@ -52,10 +49,12 @@ locals {
       var.os_name == "macos" ? [
         "${path.root}/scripts/macos/system-default.sh",
         "${path.root}/scripts/macos/system-update.sh",
+        "${path.root}/scripts/macos/system-update-complete.sh",
         "${path.root}/scripts/_common/motd.sh",
         "${path.root}/scripts/macos/vagrant.sh",
         "${path.root}/scripts/macos/parallels-tools.sh",
         "${path.root}/scripts/macos/vmware-tools.sh",
+        "${path.root}/scripts/macos/disable_auto_update.sh",
         "${path.root}/scripts/macos/shrink.sh"
         ] : (
         var.os_name == "solaris" ? [
@@ -172,12 +171,35 @@ build {
   }
 
   # Windows Updates and scripts
-  provisioner "windows-update" {
-    search_criteria = "IsInstalled=0"
-    except          = var.is_windows ? null : local.source_names
+  provisioner "powershell" {
+    elevated_password = "vagrant"
+    elevated_user     = "vagrant"
+    scripts = [
+      "${path.root}/scripts/windows/provision.ps1",
+      "${path.root}/scripts/windows/remove-one-drive-and-teams.ps1",
+      "${path.root}/scripts/windows/remove-apps.ps1",
+      "${path.root}/scripts/windows/remove-capabilities.ps1",
+      "${path.root}/scripts/windows/remove-features.ps1",
+    ]
+    except = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
+    restart_timeout = "30m"
+    except          = var.is_windows ? null : local.source_names
+  }
+  provisioner "windows-update" {
+    search_criteria = "IsInstalled=0 and IsHidden = 0"
+    filters = [
+      "exclude:$_.Title -like '*Preview*'",
+      "exclude:$_.Title -like '*Cumulative Update for Microsoft server*'",
+      "exclude:$_.Title -like '*Cumulative Update for Windows *'",
+      "include:$true",
+    ]
     except = var.is_windows ? null : local.source_names
+  }
+  provisioner "windows-restart" {
+    restart_timeout = "30m"
+    except          = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {
     elevated_password = "vagrant"
@@ -186,7 +208,8 @@ build {
     except            = var.is_windows ? null : local.source_names
   }
   provisioner "windows-restart" {
-    except = var.is_windows ? null : local.source_names
+    restart_timeout = "30m"
+    except          = var.is_windows ? null : local.source_names
   }
   provisioner "powershell" {
     elevated_password = "vagrant"
@@ -195,9 +218,6 @@ build {
       "${path.root}/scripts/windows/cleanup.ps1",
       "${path.root}/scripts/windows/optimize.ps1"
     ]
-    except = var.is_windows ? null : local.source_names
-  }
-  provisioner "windows-restart" {
     except = var.is_windows ? null : local.source_names
   }
 

@@ -112,17 +112,6 @@ Write-Host 'Running Automatic Maintenance...'
 MSchedExe.exe Start
 Wait-Condition {@(Get-ScheduledTasks | Where-Object {($_.State -ge 4) -and (Test-IsMaintenanceTask $_.XML)}).Count -eq 0} -DebounceSeconds 60
 
-#
-# generate the .net frameworks native images.
-# NB this is normally done in the Automatic Maintenance step, but for
-#    some reason, sometimes its not.
-# see https://docs.microsoft.com/en-us/dotnet/framework/tools/ngen-exe-native-image-generator
-
-Get-ChildItem "$env:windir\Microsoft.NET\*\*\ngen.exe" | ForEach-Object {
-    Write-Host "Generating the .NET Framework native images with $_..."
-    &$_ executeQueuedItems /nologo /silent
-}
-
 Write-Host "Optimizing Drive"
 Optimize-Volume -DriveLetter C
 compact.exe /compactOS:always
