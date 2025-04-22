@@ -1,24 +1,24 @@
 packer {
-  required_version = ">= 1.7.0"
+  required_version = ">= 1.12.0"
   required_plugins {
     hyperv = {
-      version = ">= 1.0.3"
+      version = ">= 1.1.4"
       source  = "github.com/hashicorp/hyperv"
     }
     parallels = {
-      version = ">= 1.1.6"
+      version = ">= 1.2.8"
       source  = "github.com/parallels/parallels"
     }
     qemu = {
-      version = ">= 1.1.0"
+      version = ">= 1.1.1"
       source  = "github.com/hashicorp/qemu"
     }
     vagrant = {
-      version = ">= 1.1.0"
+      version = ">= 1.1.5"
       source  = "github.com/hashicorp/vagrant"
     }
     virtualbox = {
-      version = ">= 1.0.3"
+      version = ">= 1.1.1"
       source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
@@ -26,7 +26,7 @@ packer {
       source  = "github.com/hashicorp/vmware"
     }
     windows-update = {
-      version = ">= 0.14.1"
+      version = ">= 0.16.9"
       source  = "github.com/rgl/windows-update"
     }
   }
