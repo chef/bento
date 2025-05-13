@@ -1,4 +1,6 @@
-#!/bin/bash -eux
+#!/bin/sh
+
+set -eux
 
 # set a default HOME_DIR environment variable if not set
 HOME_DIR="${HOME_DIR:-/home/vagrant}"
@@ -12,7 +14,7 @@ vmware-iso|vmware-vmx)
     systemctl start vmtoolsd
   elif [ -f "/usr/bin/apt-get" ]; then
     # determine the major Debian version we're runninng
-    major_version="$(grep VERSION_ID /etc/os-release | awk -F= '{print $2}' | tr -d '"')"
+    major_version="$(. /etc/os-release | printf '%s' "${VERSION_ID}")"
     architecture="$(uname -m)"
     # open-vm-tools for amd64 are only available in bullseye-backports repo
     echo "install open-vm-tools"
