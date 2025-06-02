@@ -73,7 +73,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update freebsd 14 to 14.2
 - Update freebsd 13 to 13.5
 - Update debian 11 to 11.11
-- Update debian 12 to 12.9
+- Update debian 12 to 12.10
 - Update MacOS 14 to 14.6.1
 - Update OpenSUSE Leap 15 to 15.6
 - Update SLES 15 to 15.6
