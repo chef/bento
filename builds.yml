@@ -1,5 +1,5 @@
 ---
-vagrant_cloud_account: 'bento'
+vagrant_cloud_account: "bento"
 
 default_architectures:
   - x86_64
@@ -9,6 +9,7 @@ public:
   - amazonlinux-2023
   - almalinux-8
   - almalinux-9
+  - alpine-3.21
   - centos-stream-9
   - centos-stream-10
   - debian-11
@@ -30,6 +31,7 @@ public:
 slugs:
   - almalinux-8
   - almalinux-9
+  - alpine-3.21
   - debian-12
   - debian-11
   - fedora-latest
@@ -51,6 +53,7 @@ do_not_build:
   - rhel
   - windows
 #  - almalinux
+#  - alpine-3.21
 #  - centos
 #  - debian
 #  - fedora

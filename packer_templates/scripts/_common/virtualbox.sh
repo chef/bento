@@ -22,6 +22,8 @@ virtualbox-iso|virtualbox-ovf)
       apt-get install -y build-essential dkms bzip2 tar linux-headers-"$(uname -r)"
     elif [ -f "/usr/bin/zypper" ]; then
       zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
+    elif [ -f "/sbin/apk" ]; then
+      apk add perl musl-dev gcc make bzip2 tar linux-headers
     fi
 
     echo "installing the vbox additions for architecture $ARCHITECTURE"
