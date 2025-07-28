@@ -6,4 +6,4 @@ iso_checksum            = "none"
 parallels_guest_os_type = "rhel"
 vbox_guest_os_type      = "Oracle_arm64"
 vmware_guest_os_type    = "arm-rhel9-64"
-boot_command            = ["<wait><up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/9ks.cfg<enter><wait>"]
+boot_command            = ["<wait><up><wait><tab> inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/10ks.cfg<enter><wait>"]

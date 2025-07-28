@@ -94,6 +94,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added Packer variable for iso_target_path to default iso downloads to the local builds/iso directory
 - Updated windows scripts and order for better build performance
 - Fixed Windows 11 aarch64 builds - vbox 7.6.1 currently doesn't support Windows 11 aarch64
+- Enabled firewalld and selinux in rhel kickstart files to mimic more closely a default rhel install
 
 ## [v4.1.2] (2024-05-23)
 
