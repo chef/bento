@@ -1,5 +1,5 @@
 os_name                 = "rhel"
-os_version              = "9.6"
+os_version              = "10.0"
 os_arch                 = "x86_64"
 iso_url                 = "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux"
 iso_checksum            = "none"
