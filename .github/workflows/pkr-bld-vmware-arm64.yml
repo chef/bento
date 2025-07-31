@@ -46,6 +46,9 @@ jobs:
           brew install --cask vmware-fusion
           brew install --cask vagrant-vmware-utility
           vagrant plugin install vagrant-vmware-desktop
+          # vagrant box add fix
+          sed -i.bak 's/architecture: env\[:architecture\]/architecture: env[:box_architecture]/' /opt/vagrant/embedded/gems/gems/vagrant-2.4.7/lib/vagrant/action/builtin/box_add.rb
+          # Set Vmware Fusion networking
           sudo mkdir -p /Library/Preferences/VMware\ Fusion/vmnet8
           NETWORKING_CONF="/Library/Preferences/VMware Fusion/networking"
           DHCPD_CONF="/Library/Preferences/VMware Fusion/vmnet8/dhcpd.conf"

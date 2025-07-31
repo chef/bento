@@ -46,6 +46,8 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant virtualbox-7.1
+          # vagrant box add fix
+          sed -i.bak 's/architecture: env\[:architecture\]/architecture: env[:box_architecture]/' /opt/vagrant/embedded/gems/gems/vagrant-2.4.7/lib/vagrant/action/builtin/box_add.rb
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:

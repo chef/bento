@@ -48,6 +48,8 @@ jobs:
           echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
           sudo apt update && sudo apt install vagrant
           vagrant plugin install vagrant-vmware-desktop
+          # vagrant box add fix
+          sed -i.bak 's/architecture: env\[:architecture\]/architecture: env[:box_architecture]/' /opt/vagrant/embedded/gems/gems/vagrant-2.4.7/lib/vagrant/action/builtin/box_add.rb
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
         with:
