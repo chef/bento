@@ -34,7 +34,7 @@ elif [ "$OS_NAME" = "Darwin" ]; then
   echo 'Remove swap file'
   rm -rf /System/Volumes/VM/swapfile* || echo "rm swapfile exit code $? is suppressed"
 
-  if [ -e .vmfusion_version ] || [[ "$PACKER_BUILDER_TYPE" == vmware* ]]; then
+  if [ -e .vmfusion_version ] || [ "$PACKER_BUILDER_TYPE" == vmware* ]; then
     echo 'VMware Fusion specific items'
     echo 'Shrink the disk'
     /Library/Application\ Support/VMware\ Tools/vmware-tools-cli disk shrink /
