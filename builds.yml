@@ -12,8 +12,8 @@ public:
   - almalinux-10
   - centos-stream-9
   - centos-stream-10
-  - debian-11
   - debian-12
+  - debian-13
   - fedora-41
   - fedora-42
   - freebsd-13
@@ -34,7 +34,7 @@ slugs:
   - almalinux-9
   - almalinux-10
   - debian-12
-  - debian-11
+  - debian-13
   - fedora-latest
   - freebsd-13
   - freebsd-14

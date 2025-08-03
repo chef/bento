@@ -1,11 +1,35 @@
 #!/bin/sh -eux
 
 # set a default HOME_DIR environment variable if not set
-HOME_DIR="${HOME_DIR:-/home/vagrant}";
+HOME_DIR="${HOME_DIR:-/home/vagrant}"
+OS_NAME=$(uname -s)
 
 case "$PACKER_BUILDER_TYPE" in
 virtualbox-iso|virtualbox-ovf)
-  if ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
+  if [ "$OS_NAME" = "FreeBSD" ]; then
+    # There are no vbox-guest additions for freebsd arm64
+    ARCH=$(uname -m)
+    if [ "$ARCH" = "arm64" ]; then
+      return
+    fi
+    # Disable X11 because vagrants are (usually) headless
+    echo 'WITHOUT_X11="YES"' >> /etc/make.conf
+    pkg install -y virtualbox-ose-additions-nox11
+    echo 'vboxdrv_load="YES"' >>/boot/loader.conf
+    echo 'vboxnet_enable="YES"' >>/etc/rc.conf;
+    echo 'vboxguest_enable="YES"' >>/etc/rc.conf;
+    echo 'vboxservice_enable="YES"' >>/etc/rc.conf;
+    echo 'virtio_blk_load="YES"' >>/boot/loader.conf;
+    echo 'virtio_scsi_load="YES"' >>/boot/loader.conf;
+    echo 'virtio_balloon_load="YES"' >>/boot/loader.conf;
+    echo 'if_vtnet_load="YES"' >>/boot/loader.conf;
+    echo 'ifconfig_vtnet0_name="em0"' >>/etc/rc.conf;
+    echo 'ifconfig_vtnet1_name="em1"' >>/etc/rc.conf;
+    echo 'ifconfig_vtnet2_name="em2"' >>/etc/rc.conf;
+    echo 'ifconfig_vtnet3_name="em3"' >>/etc/rc.conf;
+    pw groupadd vboxusers;
+    pw groupmod vboxusers -m vagrant;
+  elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
     ARCHITECTURE="$(uname -m)";
     VER="$(cat "$HOME_DIR"/.vbox_version)";
     ISO="VBoxGuestAdditions_$VER.iso";
@@ -23,7 +47,6 @@ virtualbox-iso|virtualbox-ovf)
     elif [ -f "/usr/bin/zypper" ]; then
       zypper install -y perl cpp gcc make bzip2 tar kernel-default-devel
     fi
-
     echo "installing the vbox additions for architecture $ARCHITECTURE"
     # this install script fails with non-zero exit codes for no apparent reason so we need better ways to know if it worked
     if [ "$ARCHITECTURE" = "aarch64" ]; then
@@ -53,9 +76,10 @@ virtualbox-iso|virtualbox-ovf)
 
     echo "removing leftover logs"
     rm -rf /var/log/vboxadd*
-
+    reboot
+    sleep 60
   else
     echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
-    ;;
+  ;;
 esac

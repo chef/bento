@@ -1,14 +1,14 @@
 #!/bin/sh -eux
 
 # set a default HOME_DIR environment variable if not set
-HOME_DIR="${HOME_DIR:-/home/vagrant}";
+HOME_DIR="${HOME_DIR:-/home/vagrant}"
+OS_NAME=$(uname -s)
 
 case "$PACKER_BUILDER_TYPE" in
 parallels-iso|parallels-pvm)
-  if ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
-    if command -v dnf >/dev/null 2>&1; then
-      dnf -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
-    fi
+  if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg install -y parallels-tools
+  elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
     mkdir -p /tmp/parallels;
     if [ "$(uname -m)" = "aarch64" ] ; then
       mount -o loop "$HOME_DIR"/prl-tools-lin-arm.iso /tmp/parallels;
@@ -30,8 +30,10 @@ parallels-iso|parallels-pvm)
     if command -v dnf >/dev/null 2>&1; then
       dnf remove -y install checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make
     fi
+    reboot
+    sleep 60
   else
     echo "Skipping Parallels Tools installation on aarch64 architecture for opensuse and derivatives"
   fi
-    ;;
+  ;;
 esac

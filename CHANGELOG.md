@@ -58,11 +58,13 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Removed amazonlinux 2 builds
 - Removed Ubuntu 20.04 builds
 - Removed OpenSUSE Leap 12 builds
+- Removed Debian 11 builds
 - Removed SLES 12 builds
 - Removed Ubuntu 24.10 builds
 - Removed Windows 10 builds
 - Removed Fedora 40 builds
 - Added CentOS Stream 10 builds
+- Added Debian 13 builds
 - Added SLES 15 Aarch64 template
 - Added Windows 2025 template
 - Update almalinux 8 to 8.11
@@ -95,6 +97,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated windows scripts and order for better build performance
 - Fixed Windows 11 aarch64 builds - vbox 7.6.1 currently doesn't support Windows 11 aarch64
 - Enabled firewalld and selinux in rhel kickstart files to mimic more closely a default rhel install
+- Consolidated more scripts into common scripts
+- Updated common scripts and rearranged order for more reliable builds
+- add test pass or fail error to metadata for bento tests
 
 ## [v4.1.2] (2024-05-23)
 

@@ -18,8 +18,8 @@ jobs:
           - almalinux-10
           - centos-stream-9
           - centos-stream-10
-          - debian-11
           - debian-12
+          - debian-13
           - fedora-41
           - fedora-42
           - freebsd-13
@@ -69,6 +69,10 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -79,7 +83,3 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test
