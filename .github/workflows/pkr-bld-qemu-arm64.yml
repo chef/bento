@@ -70,12 +70,12 @@ jobs:
           eval "$(chef shell-init bash)"
           bento test libvirt
       - name: Upload build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: "${{ matrix.os }}-qemu-aarch64"
-        path: |
-          builds/*.box
-          builds/*.json
-        overwrite: true
-        retention-days: 10
-        compression-level: 0 # no compression
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-qemu-aarch64"
+          path: |
+            builds/*.box
+            builds/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression
