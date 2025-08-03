@@ -56,7 +56,8 @@ jobs:
         run: |
           Get-PsDrive -PsProvider FileSystem
           pwd
-          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
+          $adapter = (Get-NetAdapter | Where-Object { $_.Status -eq "Up" })[0].Name
+          New-VMSwitch -Name "bento" -NetAdapterName $adapter -AllowManagementOS $true
       - name: Packer Init
         run: packer init -upgrade packer_templates
       - name: Packer build
