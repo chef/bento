@@ -8,7 +8,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: [self-hosted, ARM64]
+    runs-on: [self-hosted, ARM64, vmware]
     strategy:
       fail-fast: false
       matrix:
