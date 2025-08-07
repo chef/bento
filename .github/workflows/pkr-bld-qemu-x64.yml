@@ -45,8 +45,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils qemu-utils libvirt-dev
           vagrant plugin install vagrant-libvirt vagrant-qemu
-          # vagrant box add fix
-          sudo sed -i.bak 's/architecture: env\[:architecture\]/architecture: env[:box_architecture]/' /opt/vagrant/embedded/gems/gems/vagrant-2.4.7/lib/vagrant/action/builtin/box_add.rb
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
