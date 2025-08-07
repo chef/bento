@@ -8,7 +8,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: macos-latest
+    runs-on: [self-hosted, ARM64]
     strategy:
       fail-fast: false
       matrix:
