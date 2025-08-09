@@ -9,7 +9,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 | os | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | hyperv<br>x86_64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 | x |  | x |  | x |  | x |  |  |
+| almalinux-8 | x | na | x | na | x | na | x | na |  |
 | almalinux-9 | x | x | x | x | x | x | x |  |  |
 | almalinux-10 | x | x | x | x | x | x |  |  |  |
 | amazonlinux-2023 | x |  |  |  |  |  |  |  |  |
@@ -17,26 +17,26 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-10 | x | x | x | x |  | x |  |  |  |
 | debian-11 | x |  | x | x | x | x |  |  |  |
 | debian-12 | x | x | x | x | x | x |  |  |  |
-| fedora-41 | x | x | x | x |  | x | x |  |  |
-| fedora-42 | x | x | x | x |  | x | x |  |  |
+| fedora-41 | x | x | x | x | x | x | x |  |  |
+| fedora-42 | x | x | x | x | x | x | x |  |  |
 | freebsd-13 | x | x | x | x | x | x | x |  |  |
 | freebsd-14 | x | x | x | x | x | x | x |  |  |
-| macos-14 |  |  |  |  |  |  |  |  |  |
-| macos-15 |  |  |  |  |  |  |  |  |  |
+| macos-14 | na | na | na | na | na | x | na | na | na |
+| macos-15 | na | na | na | na | na | x | na | na | na |
 | opensuse-leap-15 | x | x | x | x | x | x | x |  |  |
-| oraclelinux-8 | x |  | x |  | x |  | x |  |  |
-| oraclelinux-9 | x | x | x | x | x |  | x |  |  |
+| oraclelinux-8 | x | na | x | na | x | na | x | na |  |
+| oraclelinux-9 | x | x | x | x | x | x | x |  |  |
 | oraclelinux-10 | x |  | x |  | x |  | x |  |  |
-| rockylinux-8 | x |  | x |  | x |  | x |  |  |
+| rockylinux-8 | x | na | x | na | x | na | x | na |  |
 | rockylinux-9 | x | x | x | x | x | x | x |  |  |
 | rockylinux-10 | x | x | x | x | x | x |  |  |  |
 | ubuntu-22.04 | x | x | x | x | x | x |  |  |  |
 | ubuntu-24.04 | x | x | x | x | x | x | x |  |  |
-| windows-11 |  |  |  |  |  |  |  |  |  |
-| windows-2016 |  |  |  |  |  |  |  |  |  |
-| windows-2019 |  |  |  |  |  |  |  |  |  |
-| windows-2022 |  |  |  |  |  |  |  |  |  |
-| windows-2025 |  |  |  |  |  |  |  |  |  |
+| windows-11 | x | na | x | x | x | x |  |  |  |
+| windows-2016 | x | na | x | na | x | na |  | na |  |
+| windows-2019 | x | na | x | na | x | na |  | na |  |
+| windows-2022 | x | na | x | na | x | na |  | na |  |
+| windows-2025 | x | na | x | na | x | na |  | na |  |
 
 ### Todo
 
@@ -50,9 +50,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2025-08-08)
+## [unreleased] (2025-08-10)
 
-## [v4.2.0] (2025-08-08)
+## [v4.2.0] (2025-08-10)
 
 - Removed amazonlinux 2 builds
 - Removed Ubuntu 20.04 builds
@@ -85,7 +85,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update MacOS 14 to 14.6.1
 - Update OpenSUSE Leap 15 to 15.6
 - Update SLES 15 to 15.7
-- Add macOS 15 at 15.5
+- Add macOS 15 at 15.6
 - Remove ask from --on-error flag options(it did nothing)
 - Switched most iso urls to boot images to shrink disk usage space and speed up downloads
 - Removed RHEL 7 ks.cfg file
@@ -100,6 +100,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated common scripts and rearranged order for more reliable builds
 - add test pass or fail error to metadata for bento tests
 - Shorten vagrant cloud upload box short description to meet max 120 characters
+- make iso name have a portion of the hash for url string to make iso downloads unique when updated
 
 ## [v4.1.2] (2024-05-23)
 

@@ -33,6 +33,9 @@ virtualbox-iso|virtualbox-ovf)
     } >> /etc/rc.conf
     pw groupadd vboxusers;
     pw groupmod vboxusers -m vagrant;
+  elif [ "$OS_NAME" = "Darwin" ]; then
+    echo "Nothing to do for $OS_NAME"
+    exit 0
   elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
     ARCHITECTURE="$(uname -m)";
     VER="$(cat "$HOME_DIR"/.vbox_version)";

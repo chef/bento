@@ -5,9 +5,14 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}"
 OS_NAME=$(uname -s)
 
 case "$PACKER_BUILDER_TYPE" in
-parallels-iso|parallels-pvm)
+parallels-iso|parallels-pvm|parallels-ipsw)
+  echo "Installing Parallels Tools..."
   if [ "$OS_NAME" = "FreeBSD" ]; then
     pkg install -y parallels-tools
+  elif [ "$OS_NAME" = "Darwin" ]; then
+    installer -pkg /Volumes/Parallels\ Tools/Install.app/Contents/Resources/Install.mpkg -target /
+    # This usually works but gives a failed to eject error
+    hdiutil detach /Volumes/Parallels\ Tools || echo "exit code $? is suppressed";
   elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
     mkdir -p /tmp/parallels;
     if [ "$(uname -m)" = "aarch64" ] ; then

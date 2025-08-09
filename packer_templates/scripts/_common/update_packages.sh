@@ -82,7 +82,7 @@ elif [ "$OS_NAME" = "FreeBSD" ]; then
   env ASSUME_ALWAYS_YES=true pkg update;
 elif [ "$OS_NAME" = "Darwin" ]; then
   echo "Downloading and installing system updates..."
-  softwareupdate -i -r -R
+  sudo softwareupdate --agree-to-license -i -r -R --stdinpass vagrant
 else
   echo "Unsupported OS: $OS_NAME"
   exit 1

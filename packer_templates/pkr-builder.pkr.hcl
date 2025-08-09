@@ -23,8 +23,6 @@ locals {
       var.os_name == "macos" ? [
         "${path.root}/scripts/macos/system-default.sh",
         "${path.root}/scripts/macos/system-update-complete.sh",
-        "${path.root}/scripts/macos/parallels-tools.sh",
-        "${path.root}/scripts/macos/vmware-tools.sh",
         "${path.root}/scripts/macos/disable_auto_update.sh"
         ] : (
         var.os_name == "solaris" ? [
@@ -104,6 +102,7 @@ build {
     expect_disconnect = true
     pause_before      = "10s"
     scripts           = ["${path.root}/scripts/_common/update_packages.sh", ]
+    valid_exit_codes  = [0, 143]
     except            = var.is_windows ? local.source_names : null
   }
   provisioner "shell" {
