@@ -7,17 +7,17 @@ env:
 
 jobs:
   x86_64:
-    runs-on: macos-13
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         os:
           - almalinux-8
           - almalinux-9
+          - almalinux-10
           - centos-stream-9
           - debian-11
           - debian-12
-          - fedora-40
           - fedora-41
           - fedora-42
           - freebsd-13
@@ -25,9 +25,10 @@ jobs:
           - opensuse-leap-15
           - oraclelinux-8
           - oraclelinux-9
+          - oraclelinux-10
           - rockylinux-8
           - rockylinux-9
-          - ubuntu-20.04
+          - rockylinux-10
           - ubuntu-22.04
           - ubuntu-24.04
         provider:
@@ -131,6 +132,10 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -141,7 +146,3 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test

@@ -2,7 +2,7 @@
 
 if [ -d /sys/firmware/efi ]; then
   # Ensure the system can boot by adding the bootloader at the fallback path
-  grub-install --target=$(dpkg --print-architecture)-efi --efi-directory=/boot/efi --bootloader-id=debian --removable
+  grub-install --target="$(dpkg --print-architecture)"-efi --efi-directory=/boot/efi --bootloader-id=debian --removable
 fi
 
 echo "remove linux-headers"

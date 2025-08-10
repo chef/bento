@@ -1,5 +1,12 @@
 #!/bin/sh -eux
 
+OS_NAME=$(uname -s)
+
+if [ "$OS_NAME" = "Darwin" ]; then
+  echo "Nothing to do for $OS_NAME"
+  exit 0
+fi
+
 bento='
 This system is built by the Bento project by Chef Software
 More information can be found at https://github.com/chef/bento
