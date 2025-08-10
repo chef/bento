@@ -1,7 +1,6 @@
 locals {
   common_scripts = [
     "${path.root}/scripts/_common/motd.sh",
-    "${path.root}/scripts/_common/vagrant.sh",
     "${path.root}/scripts/_common/sshd.sh",
     "${path.root}/scripts/_common/guest_tools_virtualbox.sh",
     "${path.root}/scripts/_common/guest_tools_vmware.sh",
@@ -95,6 +94,15 @@ build {
   sources = var.sources_enabled
 
   # Linux Shell scripts
+  # Install vagrant ssh key
+  provisioner "shell" {
+    environment_vars  = local.nix_environment_vars
+    execute_command   = local.nix_execute_command
+    expect_disconnect = true
+    pause_before      = "10s"
+    scripts           = ["${path.root}/scripts/_common/vagrant.sh", ]
+    except            = var.is_windows ? local.source_names : null
+  }
   # Install updates and reboot
   provisioner "shell" {
     environment_vars  = local.nix_environment_vars
