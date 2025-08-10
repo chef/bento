@@ -14,6 +14,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-10 |  | x | x | x |  | x | x | x | x |
 | debian-11 |  | x | x |  |  | x |  | x | x |
 | debian-12 |  | x | x |  |  | x |  | x | x |
+| debian-13 |  | x | x |  |  | x |  | x | x |
 | fedora-40 |  | x | x | x |  | x | x | x | x |
 | fedora-41 |  | x | x | x |  | x | x | x | x |
 | freebsd-13 |  | x | x | x |  | x | x | x | x |
