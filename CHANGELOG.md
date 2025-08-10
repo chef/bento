@@ -15,8 +15,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | amazonlinux-2023 | x |  |  |  |  |  |  |  |  |
 | centos-stream-9 | x | x | x | x | x | x | x |  |  |
 | centos-stream-10 | x | x | x | x |  | x |  |  |  |
-| debian-11 | x |  | x | x | x | x |  |  |  |
 | debian-12 | x | x | x | x | x | x |  |  |  |
+| debian-13 | x | x | x | x | x | x |  |  |  |
 | fedora-41 | x | x | x | x | x | x | x |  |  |
 | fedora-42 | x | x | x | x | x | x | x |  |  |
 | freebsd-13 | x | x | x | x | x | x | x |  |  |
