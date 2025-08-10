@@ -52,7 +52,7 @@ vmware-iso|vmware-vmx)
     systemctl start vmtoolsd
   fi
   echo "platform specific vmware.sh executed"
-  reboot
+  shutdown -r now
   sleep 60
   ;;
 esac

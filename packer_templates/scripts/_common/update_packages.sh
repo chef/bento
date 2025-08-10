@@ -89,5 +89,5 @@ else
 fi
 
 echo "updates installed rebooting"
-reboot
+shutdown -r now
 sleep 60

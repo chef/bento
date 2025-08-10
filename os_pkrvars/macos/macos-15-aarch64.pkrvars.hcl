@@ -14,7 +14,7 @@ boot_command = [
   # Select Your Country and Region
   "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait10s>",
   # Transfer your data to this Mac
-  "<tab><wait><tab><wait><tab><wait><spacebar><wait><tab><wait><tab><wait><spacebar><wait5s>",
+  "<tab><wait><tab><wait><tab><wait><tab><wait><spacebar><wait><tab><wait><tab><wait><spacebar><wait5s>",
   # Written and Spoken Languages
   "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Accessibility
