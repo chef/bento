@@ -7,28 +7,18 @@ env:
 
 jobs:
   x86_64:
-    runs-on: macos-13
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
-          - centos-stream-9
-          - debian-11
-          - debian-12
-          - fedora-40
-          - fedora-41
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oraclelinux-8
-          - oraclelinux-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-20.04
-          - ubuntu-22.04
-          - ubuntu-24.04
+          - macos-14
+          - macos-15
+          - windows-11
+          - windows-2016
+          - windows-2019
+          - windows-2022
+          - windows-2025
         provider:
           - parallels-iso
     steps:
@@ -127,9 +117,13 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -140,7 +134,3 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test

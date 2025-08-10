@@ -57,7 +57,7 @@ VBoxManage modifyvm $VM --memory 4096
 VBoxManage modifyvm $VM --cpus 2
 VBoxManage modifyvm $VM --nat-localhostreachable1 on
 VBoxManage modifyvm $VM --vram 33
-VBoxManage modifyvm $VM --graphicscontroller vmsvga
+VBoxManage modifyvm $VM --graphicscontroller QemuRamFB
 VBoxManage modifyvm $VM --vrde on
 VBoxManage modifyvm $VM --audio-enabled off
 VBoxManage modifyvm $VM --ioapic on

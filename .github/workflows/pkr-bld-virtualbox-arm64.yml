@@ -8,69 +8,48 @@ env:
 
 jobs:
   aarch64:
-    runs-on: macos-latest
+    runs-on: [self-hosted, ARM64, virtualbox]
     strategy:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
-          - centos-stream-9
-          - centos-stream-10
-          - debian-11
-          - debian-12
-          - fedora-40
-          - fedora-41
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oraclelinux-8
-          - oraclelinux-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-22.04
-          - ubuntu-24.04
+          - windows-11
         provider:
           - virtualbox-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant Virtualbox
-        run: |
-          brew tap hashicorp/tap
-          brew update
-          brew install --cask hashicorp/tap/hashicorp-vagrant
-          brew install --cask virtualbox@beta
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
-        with:
-          version: 24.2.1058
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Install Bento
-        run: |
-          eval "$(chef shell-init bash)"
-          gem build bento.gemspec
-          gem install bento-*.gem
+#      - name: Setup Packer
+#        if: steps.verify-changed-files.outputs.files_changed == 'true'
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          prlctl stop "$VM" --kill 2> /dev/null
+          sleep 1
+          prlctl delete "$VM" 2> /dev/null
+          sleep 2
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.os }}-virtualbox-aarch64"
+          name: "${{ matrix.os }}-parallels-aarch64"
           path: |
             builds/*.box
             builds/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test

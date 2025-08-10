@@ -1,7 +1,6 @@
 #!/bin/sh
 
-echo "Downloading and installing system updates..."
-softwareupdate -i -a -R
+sleep 10
 
 echo 'Disable automatic updates'
 # TOGGLE ALL OFF (auto checking is on to show other prefs are toggled off)

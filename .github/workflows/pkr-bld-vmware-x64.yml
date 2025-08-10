@@ -8,73 +8,52 @@ env:
 
 jobs:
   x86_64:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, X64, vmware]
     strategy:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
-          - centos-stream-9
-          - centos-stream-10
-          - debian-11
-          - debian-12
-          - fedora-40
-          - fedora-41
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oraclelinux-8
-          - oraclelinux-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-22.04
-          - ubuntu-24.04
+          - windows-11
+          - windows-2016
+          - windows-2019
+          - windows-2022
+          - windows-2025
         provider:
           - vmware-iso
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Vagrant VMware-fusion
-        run: |
-          curl https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.6.2/24409262/linux/core/VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar -o VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar
-          tar -xvf VMware-Workstation-17.6.2-24409262.x86_64.bundle.tar
-          chmod +x VMware-Workstation-17.6.2-24409262.x86_64.bundle
-          sudo ./VMware-Workstation-17.6.2-24409262.x86_64.bundle --console --required
-          wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt update && sudo apt install vagrant
-          vagrant plugin install vagrant-vmware-desktop
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
-        with:
-          version: 24.2.1058
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Install Bento
-        run: |
-          eval "$(chef shell-init bash)"
-          gem build bento.gemspec
-          gem install bento-*.gem
+#      - name: Setup Packer
+#        if: steps.verify-changed-files.outputs.files_changed == 'true'
+#        uses: hashicorp/setup-packer@main
+#        with:
+#          version: latest
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-x86_64
+          prlctl stop "$VM" --kill 2> /dev/null
+          sleep 1
+          prlctl delete "$VM" 2> /dev/null
+          sleep 2
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.os }}-vmware-x86_64"
+          name: "${{ matrix.os }}-parallels-x86_64"
           path: |
             builds/*.box
             builds/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test

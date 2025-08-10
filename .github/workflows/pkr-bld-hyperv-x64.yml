@@ -13,23 +13,11 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
-          - centos-stream-9
-          - centos-stream-10
-          - debian-11
-          - debian-12
-          - fedora-40
-          - fedora-41
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oraclelinux-8
-          - oraclelinux-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-22.04
-          - ubuntu-24.04
+          - windows-11
+          - windows-2016
+          - windows-2019
+          - windows-2022
+          - windows-2025
         provider:
           - hyperv-iso
     steps:
@@ -53,11 +41,16 @@ jobs:
         run: |
           Get-PsDrive -PsProvider FileSystem
           pwd
-          New-VMSwitch -Name "bento" -NetAdapterName "Ethernet" -AllowManagementOS $true
+          $adapter = (Get-NetAdapter | Where-Object { $_.Status -eq "Up" })[0].Name
+          New-VMSwitch -Name "bento" -NetAdapterName $adapter -AllowManagementOS $true
       - name: Packer Init
         run: packer init -upgrade packer_templates
       - name: Packer build
-        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+        run: packer build -timestamp-ui -only="${{ matrix.provider }}.vm" -var 'ssh_timeout=30m' -var 'sources_enabled=["hyperv-iso.vm"]' -var-file="os_pkrvars/$("${{ matrix.os }}".Split('-')[0])/${{ matrix.os }}-x86_64.pkrvars.hcl" packer_templates
+      - name: Bento Test
+        run: |
+          chef shell-init powershell
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -68,7 +61,3 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          chef shell-init powershell
-          bento test

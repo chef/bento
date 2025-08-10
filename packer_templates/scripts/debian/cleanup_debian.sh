@@ -1,29 +1,34 @@
 #!/bin/sh -eux
 
+if [ -d /sys/firmware/efi ]; then
+  # Ensure the system can boot by adding the bootloader at the fallback path
+  grub-install --target="$(dpkg --print-architecture)"-efi --efi-directory=/boot/efi --bootloader-id=debian --removable
+fi
+
 echo "remove linux-headers"
 dpkg --list \
   | awk '{ print $2 }' \
-  | grep 'linux-headers' \
-  | xargs apt-get -y purge;
+  | grep 'linux-headers' || true \
+  | xargs -r apt-get -y purge;
 
 echo "remove specific Linux kernels, such as linux-image-4.9.0-13-amd64 but keeps the current kernel and does not touch the virtual packages"
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep 'linux-image-[1-9].*' \
-    | grep -v "$(uname -r)" \
-    | xargs apt-get -y purge;
+    | grep 'linux-image-[1-9].*' || true \
+    | grep -v "$(uname -r)" || true \
+    | xargs -r apt-get -y purge;
 
 echo "remove linux-source package"
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep linux-source \
-    | xargs apt-get -y purge;
+    | grep linux-source || true \
+    | xargs -r apt-get -y purge;
 
 echo "remove all development packages"
 dpkg --list \
     | awk '{ print $2 }' \
-    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
-    | xargs apt-get -y purge;
+    | grep -- '-dev\(:[a-z0-9]\+\)\?$' || true \
+    | xargs -r apt-get -y purge;
 
 echo "remove X11 libraries"
 apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
