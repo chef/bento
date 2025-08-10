@@ -1,7 +1,5 @@
 #!/bin/sh -eux
 
-# set a default HOME_DIR environment variable if not set
-HOME_DIR="${HOME_DIR:-/home/vagrant}"
 OS_NAME=$(uname -s)
 if [ -f /etc/os-release ]; then
   OS_ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
