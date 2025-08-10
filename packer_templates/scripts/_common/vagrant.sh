@@ -3,13 +3,13 @@
 # set a default HOME_DIR environment variable if not set
 OS_NAME=$(uname -s)
 if [ "$OS_NAME" = "Darwin" ]; then
-  HOME_DIR="/Users/vagrant}"
+  HOME_DIR="/Users/vagrant"
 else
   HOME_DIR="${HOME_DIR:-/home/vagrant}"
 fi
 
 if command -v ping > /dev/null 2>&1; then
-  echo "Pinging raw.githubusercontent.com";
+  echo "Pinging raw.githubusercontent.com"
   if ! ping -c 1 raw.githubusercontent.com > /dev/null 2>&1; then
     echo "Ping failed, sleeping for 30 seconds"
     sleep 30;

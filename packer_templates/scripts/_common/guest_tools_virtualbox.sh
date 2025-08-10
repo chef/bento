@@ -1,7 +1,11 @@
 #!/bin/sh -eux
 
 # set a default HOME_DIR environment variable if not set
-HOME_DIR="${HOME_DIR:-/home/vagrant}"
+if [ "$OS_NAME" = "Darwin" ]; then
+  HOME_DIR="/Users/vagrant"
+else
+  HOME_DIR="${HOME_DIR:-/home/vagrant}"
+fi
 OS_NAME=$(uname -s)
 
 case "$PACKER_BUILDER_TYPE" in
@@ -32,7 +36,7 @@ virtualbox-iso|virtualbox-ovf)
       echo 'ifconfig_vtnet3_name="em3"'
     } >> /etc/rc.conf
     pw groupadd vboxusers;
-    pw groupmod vboxusers -m vagrant;
+    pw groupmod vboxusers -m vagrant
   elif [ "$OS_NAME" = "Darwin" ]; then
     echo "Nothing to do for $OS_NAME"
     exit 0
@@ -83,10 +87,10 @@ virtualbox-iso|virtualbox-ovf)
 
     echo "removing leftover logs"
     rm -rf /var/log/vboxadd*
-    reboot
-    sleep 60
   else
     echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
+  shutdown -r now
+  sleep 60
   ;;
 esac

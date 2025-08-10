@@ -40,9 +40,10 @@ virtualbox-iso|virtualbox-ovf)
   ;;
 *)
   echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected."
+  exit 0
   ;;
 esac
 
 echo "build tools installed rebooting"
-reboot
+shutdown -r now
 sleep 60
