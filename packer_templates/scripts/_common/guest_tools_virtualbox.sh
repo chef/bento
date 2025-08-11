@@ -1,12 +1,12 @@
 #!/bin/sh -eux
 
 # set a default HOME_DIR environment variable if not set
+OS_NAME=$(uname -s)
 if [ "$OS_NAME" = "Darwin" ]; then
   HOME_DIR="/Users/vagrant"
 else
   HOME_DIR="${HOME_DIR:-/home/vagrant}"
 fi
-OS_NAME=$(uname -s)
 
 case "$PACKER_BUILDER_TYPE" in
 virtualbox-iso|virtualbox-ovf)
