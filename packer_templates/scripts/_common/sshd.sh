@@ -1,5 +1,12 @@
 #!/bin/sh -eux
 
+OS_NAME=$(uname -s)
+
+if [ "$OS_NAME" = "Darwin" ]; then
+  echo "Nothing to do for $OS_NAME"
+  exit 0
+fi
+
 SSHD_CONFIG="/etc/ssh/sshd_config"
 
 # ensure that there is a trailing newline before attempting to concatenate

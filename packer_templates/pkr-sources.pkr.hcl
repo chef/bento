@@ -9,7 +9,7 @@ locals {
   ) : var.hyperv_enable_secure_boot
 
   # parallels-ipsw
-  parallels_ipsw_target_path = var.parallels_ipsw_target_path == "build_dir_iso" ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}.ipsw" : var.parallels_ipsw_target_path
+  parallels_ipsw_target_path = var.parallels_ipsw_target_path == "build_dir_iso" && var.parallels_ipsw_url != null ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}-${substr(sha256(var.parallels_ipsw_url), 0, 8)}.ipsw" : var.parallels_ipsw_target_path
 
   # parallels-iso
   parallels_tools_flavor = var.parallels_tools_flavor == null ? (
@@ -176,7 +176,7 @@ locals {
     ) : null
   ) : var.floppy_files
   http_directory  = var.http_directory == null ? "${path.root}/http" : var.http_directory
-  iso_target_path = var.iso_target_path == "build_dir_iso" ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}.iso" : var.iso_target_path
+  iso_target_path = var.iso_target_path == "build_dir_iso" && var.iso_url != null ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}-${substr(sha256(var.iso_url), 0, 8)}.iso" : var.iso_target_path
   memory = var.memory == null ? (
     var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072
   ) : var.memory

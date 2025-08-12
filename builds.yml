@@ -9,11 +9,11 @@ public:
   - amazonlinux-2023
   - almalinux-8
   - almalinux-9
+  - almalinux-10
   - centos-stream-9
   - centos-stream-10
-  - debian-11
   - debian-12
-  - fedora-40
+  - debian-13
   - fedora-41
   - fedora-42
   - freebsd-13
@@ -21,8 +21,10 @@ public:
   - opensuse-leap-15
   - oraclelinux-8
   - oraclelinux-9
+  - oraclelinux-10
   - rockylinux-8
   - rockylinux-9
+  - rockylinux-10
   - ubuntu-22.04
   - ubuntu-24.04
 
@@ -30,16 +32,19 @@ public:
 slugs:
   - almalinux-8
   - almalinux-9
+  - almalinux-10
   - debian-12
-  - debian-11
+  - debian-13
   - fedora-latest
   - freebsd-13
   - freebsd-14
   - opensuse-leap-15
   - oraclelinux-8
   - oraclelinux-9
+  - oraclelinux-10
   - rockylinux-8
   - rockylinux-9
+  - rockylinux-10
   - macos-14
   - macos-15
 

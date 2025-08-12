@@ -23,6 +23,7 @@ class BuildMetadata
       box_basename:     box_basename,
       template:         template_vars.fetch('template', UNKNOWN),
       packer:           packer_ver,
+      vagrant:          vagrant_ver,
     }
   end
 
@@ -81,6 +82,12 @@ class BuildMetadata
   def packer_ver
     cmd = Mixlib::ShellOut.new('packer --version')
     cmd.run_command
-    cmd.stdout.split("\n")[0]
+    cmd.stdout.split(' ')[1]
+  end
+
+  def vagrant_ver
+    cmd = Mixlib::ShellOut.new('vagrant --version')
+    cmd.run_command
+    cmd.stdout.split(' ')[1]
   end
 end

@@ -27,8 +27,6 @@ jobs:
           vagrant --version
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
-        with:
-          version: 24.2.1058
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
@@ -51,6 +49,11 @@ jobs:
           ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          export LOGNAME=$USER
+          bento test
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -61,8 +64,3 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          export LOGNAME=$USER
-          bento test
