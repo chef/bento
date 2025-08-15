@@ -2,6 +2,9 @@
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   # PACKER_LOG: "1"
