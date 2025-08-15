@@ -24,4 +24,10 @@ Vagrant.configure(2) do |config|
     domain.memory = 4096
     domain.cpus = 2
   end
+
+  config.vm.provider "utm" do |u|
+      u.cpus = 2
+      u.memory = 4096
+      u.check_guest_additions = false
+  end
 end

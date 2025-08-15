@@ -8,7 +8,7 @@ env:
 
 jobs:
   x86_64:
-    runs-on: [self-hosted, X64, utm]
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
@@ -50,20 +50,32 @@ jobs:
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-x86_64._metadata.json
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
-          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          VM="$(utmctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
           echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-x86_64
-          prlctl stop "$VM" --kill 2> /dev/null
+          utmctl stop "$VM"
           sleep 1
-          prlctl delete "$VM" 2> /dev/null
+          utmctl delete "$VM"
           sleep 2
       - name: Bento Test
         run: |

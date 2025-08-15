@@ -52,6 +52,7 @@ jobs:
         if: cancelled()
         run: |
           VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
           echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
           prlctl stop "$VM" --kill 2> /dev/null
           sleep 1

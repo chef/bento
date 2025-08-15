@@ -5,7 +5,8 @@ locals {
     "${path.root}/scripts/_common/sshd.sh",
     "${path.root}/scripts/_common/guest_tools_virtualbox.sh",
     "${path.root}/scripts/_common/guest_tools_vmware.sh",
-    "${path.root}/scripts/_common/guest_tools_parallels.sh"
+    "${path.root}/scripts/_common/guest_tools_parallels.sh",
+    "${path.root}/scripts/_common/guest_tools_qemu.sh",
   ]
   scripts = var.scripts == null ? (
     var.is_windows ? [
@@ -232,5 +233,15 @@ build {
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
       var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
     )
+    except = ["utm-iso.vm"]
+  }
+  post-processor "utm-vagrant" {
+    compression_level = 9
+    output            = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+    )
+    architecture = "${var.os_arch == "x86_64" ? "amd64" : var.os_arch == "aarch64" ? "arm64" : var.os_arch}"
+    only         = ["utm-iso.vm"]
   }
 }

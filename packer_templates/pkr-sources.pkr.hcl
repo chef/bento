@@ -88,6 +88,13 @@ locals {
   ) : var.qemuargs
 
   # utm-iso
+  utm_display_hardware_type = var.utm_display_hardware_type == null ? (
+    var.os_arch == "aarch64" ? (
+      var.is_windows ? "virtio-ramfb-gl" : "virtio-gpu-pci"
+      ) : (
+      var.is_windows ? "virtio-vga-gl" : "virtio-vga"
+    )
+  ) : var.utm_display_hardware_type
 
   # virtualbox-iso
   vbox_firmware = var.vbox_firmware == null ? (
@@ -351,12 +358,16 @@ source "qemu" "vm" {
 }
 source "utm-iso" "vm" {
   # UTM specific options
-  display_hardware_type     = var.utm_display_hardware_type
+  boot_nopause              = var.utm_boot_nopause
+  display_hardware_type     = local.utm_display_hardware_type
+  display_nopause           = var.utm_display_nopause
+  export_nopause            = var.utm_export_nopause
   guest_additions_mode      = var.utm_guest_additions_mode
   guest_additions_path      = var.utm_guest_additions_path
   guest_additions_interface = var.utm_guest_additions_interface
-  guest_additions_url        = var.utm_guest_additions_url
-  guest_additions_sha256   = var.utm_guest_additions_sha256
+  guest_additions_url       = var.utm_guest_additions_url
+  guest_additions_sha256    = var.utm_guest_additions_sha256
+  hypervisor                = var.utm_hypervisor
   uefi_boot                 = var.utm_uefi_boot
   vm_arch                   = var.os_arch
   vm_backend                = var.utm_vm_backend
@@ -372,10 +383,10 @@ source "utm-iso" "vm" {
   floppy_files     = local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
+  iso_target_path  = null # local.iso_target_path # TODO: remove null after https://github.com/naveenrajm7/packer-plugin-utm/issues/25 is fixed
   iso_url          = var.iso_url
   memory           = local.memory
-  output_directory = "${local.output_directory}-qemu"
+  output_directory = "${local.output_directory}-utm"
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password

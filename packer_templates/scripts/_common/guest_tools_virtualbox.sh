@@ -90,7 +90,12 @@ virtualbox-iso|virtualbox-ovf)
   else
     echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
-  shutdown -r now
-  sleep 60
+  if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r &> /dev/null || ! command -v needs-restarting -s &> /dev/null; then
+    echo "pkgs installed needing reboot"
+    shutdown -r now
+    sleep 60
+  else
+    echo "no pkgs installed needing reboot"
+  fi
   ;;
 esac

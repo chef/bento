@@ -49,12 +49,29 @@ jobs:
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
-          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
-          prlctl stop "$VM" --kill 2> /dev/null
-          sleep 1
-          prlctl delete "$VM" 2> /dev/null
-          sleep 2
+          # Set your VM directory path
+          VM_DIR="$HOME/Documents/Virtual Machines.localized"
+          # VM name to search for (case-sensitive)
+          TARGET_VM_NAME="${{ matrix.os }}"
+          # List all VMs
+          echo "Listing all VMs in $VM_DIR..."
+          VM_PATHS=$(find "$VM_DIR" -name "*.vmx")
+          # Loop through each VM and match by name
+          for VMX in $VM_PATHS; do
+            if grep -q "$TARGET_VM_NAME" <<< "$VMX"; then
+              echo "Found VM: $VMX"
+              # Stop the VM
+              echo "Stopping VM..."
+              vmrun stop "$VMX" soft
+              # Wait a bit to ensure it's stopped
+              sleep 5
+              # Delete the VM directory
+              VM_FOLDER=$(dirname "$VMX")
+              echo "Deleting VM folder: $VM_FOLDER"
+              rm -rf "$VM_FOLDER"
+              echo "VM '$TARGET_VM_NAME' has been stopped and deleted."
+            fi
+          done
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
