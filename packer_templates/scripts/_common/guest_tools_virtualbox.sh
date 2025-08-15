@@ -90,7 +90,7 @@ virtualbox-iso|virtualbox-ovf)
   else
     echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
-  if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r &> /dev/null || ! command -v needs-restarting -s &> /dev/null; then
+  if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r 2>&1 /dev/null || ! command -v needs-restarting -s 2>&1 /dev/null; then
     echo "pkgs installed needing reboot"
     shutdown -r now
     sleep 60
