@@ -40,6 +40,7 @@ variable "sources_enabled" {
   default = [
     "source.parallels-iso.vm",
     "source.qemu.vm",
+    "source.utm-iso.vm",
     "source.virtualbox-iso.vm",
     "source.vmware-iso.vm",
   ]
@@ -229,6 +230,48 @@ variable "qemuargs" {
 variable "qemu_use_pflash" {
   type    = bool
   default = false
+}
+
+# utm-iso
+variable "utm_boot_wait" {
+  type    = string
+  default = null
+}
+variable "utm_display_hardware_type" {
+  type    = string
+  default = null
+}
+variable "utm_guest_additions_mode" {
+  type    = string
+  default = "attach"
+}
+variable "utm_guest_additions_path" {
+  type    = string
+  default = null
+}
+variable "utm_guest_additions_interface" {
+  type    = string
+  default = null
+}
+variable "utm_guest_additions_url" {
+  type    = string
+  default = null
+}
+variable "utm_guest_additions_sha256" {
+  type    = string
+  default = "65b6a69b392ee01dd314c10f3dad9ebbf9c4160be43f5f0dd6bb715944d9095b"
+}
+variable "utm_uefi_boot" {
+  type    = bool
+  default = true
+}
+variable "utm_vm_arch" {
+  type    = string
+  default = null
+}
+variable "utm_vm_backend" {
+  type    = string
+  default = null
 }
 
 # virtualbox-iso

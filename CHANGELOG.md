@@ -52,6 +52,10 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2025-08-10)
 
+- Add ipsw datasource for automatically pulling parallels_ipsw_url for os_version specified
+- Add UTM provier <https://mac.getutm.app/>
+- 
+
 ## [v4.2.0] (2025-08-10)
 
 - Removed amazonlinux 2 builds

@@ -1,3 +1,9 @@
+data "ipsw" "macos" {
+  os      = "macOS"
+  version = var.os_name == "macos" ? var.os_version : ">= 15.0.0"
+  device  = "VirtualMac2,1"
+}
+
 locals {
   # Source block provider specific
   # hyperv-iso
@@ -9,6 +15,7 @@ locals {
   ) : var.hyperv_enable_secure_boot
 
   # parallels-ipsw
+  parallelsipsw_url          = var.parallels_ipsw_url == null ? data.ipsw.macos.url : var.parallels_ipsw_url
   parallels_ipsw_target_path = var.parallels_ipsw_target_path == "build_dir_iso" && var.parallels_ipsw_url != null ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}-${substr(sha256(var.parallels_ipsw_url), 0, 8)}.ipsw" : var.parallels_ipsw_target_path
 
   # parallels-iso
@@ -79,6 +86,8 @@ locals {
       ] : null
     )
   ) : var.qemuargs
+
+  # utm-iso
 
   # virtualbox-iso
   vbox_firmware = var.vbox_firmware == null ? (
@@ -232,7 +241,7 @@ source "hyperv-iso" "vm" {
 source "parallels-ipsw" "vm" {
   # Parallels specific options
   host_interfaces     = var.parallels_host_interfaces
-  ipsw_url            = var.parallels_ipsw_url
+  ipsw_url            = local.parallels_ipsw_url
   ipsw_checksum       = var.parallels_ipsw_checksum
   ipsw_target_path    = local.parallels_ipsw_target_path
   prlctl              = local.parallels_prlctl
@@ -323,6 +332,44 @@ source "qemu" "vm" {
   disk_size        = local.disk_size
   floppy_files     = local.floppy_files
   headless         = var.headless
+  http_directory   = local.http_directory
+  iso_checksum     = var.iso_checksum
+  iso_target_path  = local.iso_target_path
+  iso_url          = var.iso_url
+  memory           = local.memory
+  output_directory = "${local.output_directory}-qemu"
+  shutdown_command = local.shutdown_command
+  shutdown_timeout = var.shutdown_timeout
+  ssh_password     = var.ssh_password
+  ssh_port         = var.ssh_port
+  ssh_timeout      = var.ssh_timeout
+  ssh_username     = var.ssh_username
+  winrm_password   = var.winrm_password
+  winrm_timeout    = var.winrm_timeout
+  winrm_username   = var.winrm_username
+  vm_name          = local.vm_name
+}
+source "utm-iso" "vm" {
+  # UTM specific options
+  display_hardware_type     = var.utm_display_hardware_type
+  guest_additions_mode      = var.utm_guest_additions_mode
+  guest_additions_path      = var.utm_guest_additions_path
+  guest_additions_interface = var.utm_guest_additions_interface
+  guest_additions_url        = var.utm_guest_additions_url
+  guest_additions_sha256   = var.utm_guest_additions_sha256
+  uefi_boot                 = var.utm_uefi_boot
+  vm_arch                   = var.os_arch
+  vm_backend                = var.utm_vm_backend
+  # Source block common options
+  boot_command     = var.boot_command
+  boot_wait        = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
+  cd_content       = var.cd_content
+  cd_files         = local.cd_files
+  cd_label         = var.cd_label
+  cpus             = var.cpus
+  communicator     = local.communicator
+  disk_size        = local.disk_size
+  floppy_files     = local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
   iso_target_path  = local.iso_target_path
