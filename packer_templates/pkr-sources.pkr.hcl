@@ -1,9 +1,3 @@
-data "ipsw" "macos" {
-  os      = "macOS"
-  version = var.os_name == "macos" ? var.os_version : ">= 15.0.0"
-  device  = "VirtualMac2,1"
-}
-
 locals {
   # Source block provider specific
   # hyperv-iso
@@ -15,7 +9,6 @@ locals {
   ) : var.hyperv_enable_secure_boot
 
   # parallels-ipsw
-  parallels_ipsw_url         = var.parallels_ipsw_url == null ? data.ipsw.macos.url : var.parallels_ipsw_url
   parallels_ipsw_target_path = var.parallels_ipsw_target_path == "build_dir_iso" && var.parallels_ipsw_url != null ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}-${substr(sha256(var.parallels_ipsw_url), 0, 8)}.ipsw" : var.parallels_ipsw_target_path
 
   # parallels-iso
@@ -248,7 +241,7 @@ source "hyperv-iso" "vm" {
 source "parallels-ipsw" "vm" {
   # Parallels specific options
   host_interfaces     = var.parallels_host_interfaces
-  ipsw_url            = local.parallels_ipsw_url
+  ipsw_url            = var.parallels_ipsw_url
   ipsw_checksum       = var.parallels_ipsw_checksum
   ipsw_target_path    = local.parallels_ipsw_target_path
   prlctl              = local.parallels_prlctl
