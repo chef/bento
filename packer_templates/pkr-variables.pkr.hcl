@@ -259,7 +259,7 @@ variable "utm_guest_additions_url" {
 }
 variable "utm_guest_additions_sha256" {
   type    = string
-  default = "65b6a69b392ee01dd314c10f3dad9ebbf9c4160be43f5f0dd6bb715944d9095b"
+  default = null
 }
 variable "utm_uefi_boot" {
   type    = bool
