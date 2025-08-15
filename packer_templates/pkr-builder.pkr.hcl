@@ -163,12 +163,6 @@ build {
     scripts           = ["${path.root}/scripts/_common/minimize.sh", ]
     except            = var.is_windows ? local.source_names : null
   }
-  provisioner "cnspec" {
-    score_threshold = 80
-    on_failure      = "continue"
-    sudo { active = true }
-    except = var.is_windows ? local.source_names : null
-  }
 
   # Windows Updates and scripts
   provisioner "powershell" {
@@ -219,11 +213,6 @@ build {
       "${path.root}/scripts/windows/optimize.ps1"
     ]
     except = var.is_windows ? null : local.source_names
-  }
-  provisioner "cnspec" {
-    score_threshold = 80
-    on_failure      = "continue"
-    except          = var.is_windows ? null : local.source_names
   }
 
   # Convert machines to vagrant boxes
