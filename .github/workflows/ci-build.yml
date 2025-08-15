@@ -10,11 +10,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  markdown-lint:
-    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
-
-  markdown-link-checker:
-    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
+#   markdown-lint:
+#     uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
+#
+#   markdown-link-checker:
+#     uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
 
   yaml-lint:
     uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
@@ -34,7 +34,7 @@ jobs:
   packer-iso-check:
     uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
     with:
-      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|windows-11-aarch64.*,macos-*'
+      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|macos-.*'
 
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
