@@ -55,8 +55,12 @@ vmware-iso|vmware-vmx)
     systemctl enable vmtoolsd
     systemctl start vmtoolsd
   fi
-  echo "platform specific vmware.sh executed"
-  shutdown -r now
-  sleep 60
+  if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r 2>&1 /dev/null || ! command -v needs-restarting -s 2>&1 /dev/null; then
+    echo "pkgs installed needing reboot"
+    shutdown -r now
+    sleep 60
+  else
+    echo "no pkgs installed needing reboot"
+  fi
   ;;
 esac

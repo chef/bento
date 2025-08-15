@@ -2,6 +2,9 @@
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   PACKER_LOG: "1"
@@ -43,7 +46,7 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm --vars "qemu_accelerator=hvf" os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
       - name: Bento Test

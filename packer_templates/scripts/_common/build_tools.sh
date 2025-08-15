@@ -1,6 +1,8 @@
 #!/bin/sh -eux
 
 OS_NAME=$(uname -s)
+major_version="$(sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}')"
+distro="$(rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-')"
 
 if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "Darwin" ]; then
   echo "Nothing to do for $OS_NAME"
@@ -17,6 +19,13 @@ parallels-iso|parallels-pvm)
         dnf -y install fuse-libs kernel-headers kernel-devel elfutils-libelf-devel gcc make perl
       else
         dnf install -y --skip-broken checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make kernel-uek-devel
+        if [ "$major_version" -eq 10 ] && [ "$distro" != 'oraclelinux' ] && [ "$(uname -m)" = "aarch64" ]; then
+          dnf -y install -- *epel-release*
+          dnf -y install gcc-toolset-14 gcc-toolset-14-runtime gcc-toolset-14-gcc-c++
+          mv /usr/bin/gcc /usr/bin/gcc.old
+          ln -s /opt/rh/gcc-toolset-14/root/usr/bin/gcc /usr/bin/gcc
+          dnf -y remove -- *epel-release*
+        fi
       fi
     fi
   else
@@ -38,12 +47,22 @@ virtualbox-iso|virtualbox-ovf)
     echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
   ;;
+hyperv-iso)
+  echo "nothing to do for hyperv-iso"
+  ;;
+utm-iso|qemu)
+  echo "nothing to do for utm or qemu"
+  ;;
 *)
   echo "Unknown Packer Builder Type >>$PACKER_BUILDER_TYPE<< selected."
   exit 0
   ;;
 esac
 
-echo "build tools installed rebooting"
-shutdown -r now
-sleep 60
+if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r 2>&1 /dev/null || ! command -v needs-restarting -s 2>&1 /dev/null; then
+  echo "pkgs installed needing reboot"
+  shutdown -r now
+  sleep 60
+else
+  echo "no pkgs installed needing reboot"
+fi
