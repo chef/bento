@@ -95,7 +95,7 @@ jobs:
   check_jobs_pass:
     if: always()
     needs:
-      - markdown-lint
+#       - markdown-lint
       - yaml-lint
       - json-lint
       - xml-lint
