@@ -1,4 +1,11 @@
+data "external-raw" "host_os" {
+  program = ["uname", "-s"]
+}
+
 locals {
+  # helper locals
+  build_dir = abspath("${path.root}/../builds/")
+  host_os   = chomp(data.external-raw.host_os.result)
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
@@ -43,39 +50,63 @@ locals {
   ) : var.parallels_prlctl
 
   # qemu
-  qemu_binary  = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
-  qemu_display = var.qemu_display == null ? "none" : var.qemu_display
-  qemu_efi_boot = var.qemu_efi_boot == null ? (
-    var.os_arch == "aarch64" ? true : false
-  ) : var.qemu_efi_boot
+  qemu_accelerator = var.qemu_accelerator == null ? (
+    local.host_os == "Darwin" ? "hvf" : "kvm"
+  ) : var.qemu_accelerator
+  qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
+  qemu_display = var.qemu_display == null ? (
+    var.is_windows ? (
+      var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
+      ) : (
+      local.host_os == "Darwin" ? (
+        var.os_arch == "aarch64" ? "cocoa" : "virtio-gpu-pci"
+        ) : (
+        var.os_arch == "aarch64" ? "virtio-ramfb" : "virtio-vga"
+      )
+    )
+  ) : var.qemu_display
+  qemu_use_default_display = var.qemu_use_default_display == null ? (
+    true
+  ) : var.qemu_use_local_display
   qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
-    local.qemu_efi_boot ? (
-      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : null
-    ) : null
+    local.host_os == "Darwin" ? "/opt/homebrew/share/qemu/edk2-${var.os_arch}-code.fd" : "/usr/share/edk2/${var.os_arch}/edk2-${var.os_arch}-code.fd"
   ) : var.qemu_efi_firmware_code
   qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-    local.qemu_efi_boot ? (
-      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : null
-    ) : null
+    local.host_os == "Darwin" ? (
+      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/opt/homebrew/share/qemu/edk2-i386-vars.fd"
+      ) : (
+      var.os_arch == "aarch64" ? "/usr/share/edk2/aarch64/edk2-arm-vars.fd" : "/usr/share/edk2/x86_64/edk2-i386-vars.fd"
+    )
   ) : var.qemu_efi_firmware_vars
-  qemu_use_default_display = var.qemu_use_default_display == null ? (
-    var.os_arch == "aarch64" ? true : false
-  ) : var.qemu_use_default_display
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
-  build-dir = abspath("${path.root}/../builds/")
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
       ["-device", "qemu-xhci"],
       ["-device", "virtio-tablet"],
-      ["-drive", "file=${local.build-dir}/iso/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${local.build_dir}/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
-      ["-drive", "file=${local.build-dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
+      ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ["-boot", "order=c,order=d"]
       ] : (
       var.os_arch == "aarch64" ? [
-        ["-boot", "strict=off"],
+        ["-device", "virtio-gpu-pci"],
+        ["-device", "qemu-xhci"],
+        ["-device", "virtio-tablet"],
+        ["-device", "driver=virtio-keyboard-pci"],
+        ["-device", "driver=virtio-mouse-pci"],
+        ["-device", "driver=usb-kbd"],
+        ["-device", "driver=usb-mouse"],
+        ["-device", "virtio-serial"],
+        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
+        # ["-device", "virtio-serial-pci,id=virtio-serial0"],
+        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
+        # ["-device", "virtio-rng-pci"],
+        ["-boot", "strict=on"],
+        # ["-device", "virtio-serial-pci"],
+        # ["-device", "virtserialport,chardev=qga0,name=org.qemu.guest_agent.0"],
+        # ["-chardev", "name=org.qemu.guest_agent.0,id=org.qemu.guest_agent"],
       ] : null
     )
   ) : var.qemuargs
@@ -88,6 +119,9 @@ locals {
       var.is_windows ? "virtio-vga-gl" : "virtio-vga"
     )
   ) : var.utm_display_hardware_type
+  utm_guest_additions_mode = var.utm_guest_additions_mode == null ? (
+    var.is_windows ? "attach" : "disable"
+  ) : var.utm_guest_additions_mode
 
   # virtualbox-iso
   vbox_firmware = var.vbox_firmware == null ? (
@@ -301,26 +335,26 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator         = var.qemu_accelerator
+  accelerator         = local.qemu_accelerator
   cpu_model           = var.qemu_cpu_model
   display             = local.qemu_display
+  disk_cache          = var.qemu_disk_cache
+  disk_compression    = var.qemu_disk_compression
+  disk_detect_zeroes  = var.qemu_disk_detect_zeroes
+  disk_discard        = var.qemu_disk_discard
+  disk_image          = var.qemu_disk_image
+  disk_interface      = var.qemu_disk_interface
+  efi_boot            = var.qemu_efi_boot
+  efi_firmware_code   = local.qemu_efi_firmware_code
+  efi_firmware_vars   = local.qemu_efi_firmware_vars
+  efi_drop_efivars    = var.qemu_efi_drop_efivars
+  format              = var.qemu_format
+  machine_type        = local.qemu_machine_type
+  net_device          = var.qemu_net_device
+  qemu_binary         = local.qemu_binary
+  qemuargs            = local.qemuargs
   use_default_display = local.qemu_use_default_display
-  # disk_cache          = var.qemu_disk_cache
-  # disk_compression    = var.qemu_disk_compression
-  # disk_detect_zeroes  = var.qemu_disk_detect_zeroes
-  # disk_discard        = var.qemu_disk_discard
-  disk_image = var.qemu_disk_image
-  # disk_interface      = var.qemu_disk_interface
-  efi_boot          = local.qemu_efi_boot
-  efi_firmware_code = local.qemu_efi_firmware_code
-  efi_firmware_vars = local.qemu_efi_firmware_vars
-  efi_drop_efivars  = var.qemu_efi_drop_efivars
-  format            = var.qemu_format
-  machine_type      = local.qemu_machine_type
-  # net_device          = var.qemu_net_device
-  qemu_binary = local.qemu_binary
-  qemuargs    = local.qemuargs
-  # use_pflash          = var.qemu_use_pflash
+  use_pflash          = var.qemu_use_pflash
   # Source block common options
   boot_command     = var.boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
@@ -355,7 +389,7 @@ source "utm-iso" "vm" {
   display_hardware_type     = local.utm_display_hardware_type
   display_nopause           = var.utm_display_nopause
   export_nopause            = var.utm_export_nopause
-  guest_additions_mode      = var.utm_guest_additions_mode
+  guest_additions_mode      = local.utm_guest_additions_mode
   guest_additions_path      = var.utm_guest_additions_path
   guest_additions_interface = var.utm_guest_additions_interface
   guest_additions_url       = var.utm_guest_additions_url

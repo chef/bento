@@ -173,13 +173,8 @@ variable "qemu_disk_interface" {
 }
 variable "qemu_display" {
   type        = string
-  default     = "none"
-  description = "What QEMU -display option to use. Defaults to gtk, use none to not pass the -display option allowing QEMU to choose the default"
-}
-variable "qemu_use_default_display" {
-  type        = bool
   default     = null
-  description = "If true, do not pass a -display option to qemu, allowing it to choose the default"
+  description = "What QEMU -display option to use. Defaults to gtk, use none to not pass the -display option allowing QEMU to choose the default"
 }
 variable "qemu_disk_image" {
   type        = bool
@@ -188,7 +183,7 @@ variable "qemu_disk_image" {
 }
 variable "qemu_efi_boot" {
   type        = bool
-  default     = null
+  default     = true
   description = "Enable EFI boot"
 }
 variable "qemu_efi_firmware_code" {
@@ -203,7 +198,7 @@ variable "qemu_efi_firmware_vars" {
 }
 variable "qemu_efi_drop_efivars" {
   type        = bool
-  default     = false
+  default     = null
   description = "Drop EFI vars"
 }
 variable "qemu_format" {
@@ -221,15 +216,19 @@ variable "qemu_machine_type" {
 }
 variable "qemu_net_device" {
   type    = string
-  default = "virtio-net"
+  default = "virtio-net-pci"
 }
 variable "qemuargs" {
   type    = list(list(string))
   default = null
 }
+variable "qemu_use_default_display" {
+  type    = bool
+  default = null
+}
 variable "qemu_use_pflash" {
   type    = bool
-  default = false
+  default = true
 }
 
 # utm-iso
@@ -258,7 +257,7 @@ variable "utm_export_nopause" {
 }
 variable "utm_guest_additions_mode" {
   type    = string
-  default = "attach"
+  default = null
 }
 variable "utm_guest_additions_path" {
   type    = string

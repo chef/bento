@@ -1,17 +1,13 @@
 packer {
   required_version = ">= 1.7.0"
   required_plugins {
-    cnspec = {
-      version = ">= 10.0.0"
-      source  = "github.com/mondoohq/cnspec"
+    external = {
+      version = "> 0.0.2"
+      source  = "github.com/joomcode/external"
     }
     hyperv = {
       version = ">= 1.0.3"
       source  = "github.com/hashicorp/hyperv"
-    }
-    ipsw = {
-      version = ">= 0.1.5"
-      source  = "github.com/torarnv/ipsw"
     }
     parallels = {
       version = ">= 1.1.6"
