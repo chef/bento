@@ -36,7 +36,9 @@ jobs:
         provider:
           - qemu
     steps:
-      - name: Install UTM vagrant`
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install qemu libvirt vagrant`
         run: |
          brew tap hashicorp/tap
          brew update

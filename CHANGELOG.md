@@ -55,6 +55,12 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Add UTM virtualization support <https://mac.getutm.app/>
 - Fix Win11 vbox guest os type for aarch64
 - Update qemu args for aarch64 on macos to properly boot linux vms
+- Fix workflows to remove vms on cancelled jobs
+- Set workflows that have restrictions on automating virtual provider install or arm hosts to use self hosted runners
+- Fix Oracle Linux 10 aarch64 install of gcc after newer kernel updates built on newer gcc version
+- Add check on linux scripts if reboot is needed otherwise move on
+- Added qemu guest tools install script for linux
+- Added utm provider to windows vagrant file template
 
 ## [v4.2.0] (2025-08-10)
 

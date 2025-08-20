@@ -51,7 +51,7 @@ locals {
 
   # qemu
   qemu_accelerator = var.qemu_accelerator == null ? (
-    local.host_os == "Darwin" ? "hvf" : "kvm"
+    local.host_os == "Darwin" ? "hvf" : null
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
@@ -65,9 +65,6 @@ locals {
       )
     )
   ) : var.qemu_display
-  qemu_use_default_display = var.qemu_use_default_display == null ? (
-    true
-  ) : var.qemu_use_local_display
   qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
     local.host_os == "Darwin" ? "/opt/homebrew/share/qemu/edk2-${var.os_arch}-code.fd" : "/usr/share/edk2/${var.os_arch}/edk2-${var.os_arch}-code.fd"
   ) : var.qemu_efi_firmware_code
@@ -100,13 +97,8 @@ locals {
         ["-device", "driver=usb-mouse"],
         ["-device", "virtio-serial"],
         ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
-        # ["-device", "virtio-serial-pci,id=virtio-serial0"],
         ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
-        # ["-device", "virtio-rng-pci"],
-        ["-boot", "strict=on"],
-        # ["-device", "virtio-serial-pci"],
-        # ["-device", "virtserialport,chardev=qga0,name=org.qemu.guest_agent.0"],
-        # ["-chardev", "name=org.qemu.guest_agent.0,id=org.qemu.guest_agent"],
+        ["-boot", "strict=off"],
       ] : null
     )
   ) : var.qemuargs
@@ -353,7 +345,7 @@ source "qemu" "vm" {
   net_device          = var.qemu_net_device
   qemu_binary         = local.qemu_binary
   qemuargs            = local.qemuargs
-  use_default_display = local.qemu_use_default_display
+  use_default_display = var.qemu_use_default_display
   use_pflash          = var.qemu_use_pflash
   # Source block common options
   boot_command     = var.boot_command
