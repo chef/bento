@@ -63,6 +63,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Add check on linux scripts if reboot is needed otherwise move on
 - Added qemu guest tools install script for linux
 - Added utm provider to windows vagrant file template
+- Updated fedora ks file to enable firewall and set selinux to enforcing similar to a default install
+- 
 
 ## [v4.2.0] (2025-08-10)
 

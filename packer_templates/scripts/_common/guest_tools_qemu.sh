@@ -23,15 +23,13 @@ utm-iso)
     systemctl start spice-webdavd || true
   elif [ -f "/usr/bin/apt-get" ]; then
     apt-get update
-    apt-get install -y spice-vdagent qemu-guest-agent spice-webdavd virtio-fs
-    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
+    apt-get install -y spice-vdagent qemu-guest-agent spice-webdavd
     systemctl enable spice-vdagentd
     systemctl start spice-vdagentd
     systemctl enable spice-webdavd || true
     systemctl start spice-webdavd || true
   elif [ -f "/usr/bin/zypper" ]; then
     zypper install -y qemu-guest-agent
-    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga.conf
   fi
   systemctl enable qemu-guest-agent
   systemctl start qemu-guest-agent
@@ -53,8 +51,7 @@ qemu)
     sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
   elif [ -f "/usr/bin/apt-get" ]; then
     apt-get update
-    apt-get install -y qemu-guest-agent virtio-fs
-    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
+    apt-get install -y qemu-guest-agent
   elif [ -f "/usr/bin/zypper" ]; then
     zypper install -y qemu-guest-agent
   fi

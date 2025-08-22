@@ -44,6 +44,7 @@ end
    - [VMware Fusion](https://www.vmware.com/products/fusion.html)
    - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
    - [Parallels Desktop Pro](https://www.parallels.com/products/desktop/)
+   - [UTM](https://mac.getutm.app/)
    - [qemu](https://www.qemu.org/) *1
    - [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) *1
 
@@ -56,25 +57,25 @@ end
 To build a Debian vagrant box using the bento tool with the template available in the `os_pkrvars` dir, we can use the following command:
 
 ```bash
-bento build --cpus 2 os_pkrvars/debian/debian-12-x86_64.pkrvars.hcl
+bento build os_pkrvars/debian/debian-13-x86_64.pkrvars.hcl
 ```
 
 Other available options:
 
-- cpus - Specify the number of CPUs needed in the new build
-- mem - Specify the memory
-- config - Use a configuration file other than default builds.yml
-- on-error - Choose what to do if a build fails
-- vars - Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")
-- var_files - Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)
-- metadata_only - Only generate the metadata json file
-- mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration
-- dry-run - This will not create any build, but will create a metadata file for reference
-- only - Only build some Packer builds (Default: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm
-- except - Build all Packer builds except these (ex: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm)
-- debug - Print the debug logs
-- gui - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
-- single - This can be used to disable the parallel builds
+- --cpus - Specify the number of CPUs needed in the new build
+- --mem - Specify the memory
+- --config - Use a configuration file other than default builds.yml
+- --on-error - Choose what to do if a build fails
+- --vars - Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")
+- --var_files - Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)
+- --metadata-only - Only generate the metadata json file
+- --mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration
+- --dry-run - This will not create any build, but will create a metadata file for reference
+- --only - Only build some Packer builds (Default: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm
+- --except - Build all Packer builds except these (ex: parallels-iso.vm,virtualbox-iso.vm,vmware-iso.vm)
+- --debug - Print the debug logs
+- --gui - Packer will be building VirtualBox virtual machines by launching a GUI that shows the console of the machine being built. This option is false by default
+- --single - This can be used to disable the parallel builds
 
 #### list
 
@@ -113,7 +114,7 @@ To build a Ubuntu 22.04 box for only the VirtualBox provider
 ```bash
 cd <path/to>/bento
 packer init -upgrade ./packer_templates
-packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-22.04-x86_64.pkrvars.hcl ./packer_templates
+packer build -only=virtualbox-iso.vm -var-file=os_pkrvars/ubuntu/ubuntu-24.04-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To build latest Debian 12 boxes for all possible providers (simultaneously)
@@ -121,7 +122,7 @@ To build latest Debian 12 boxes for all possible providers (simultaneously)
 ```bash
 cd <path/to>/bento
 packer init -upgrade ./packer_templates
-packer build -var-file=os_pkrvars/debian/debian-12-x86_64.pkrvars.hcl ./packer_templates
+packer build -var-file=os_pkrvars/debian/debian-13-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To build latest CentOS 7 boxes for all providers except VMware and Parallels
@@ -129,7 +130,7 @@ To build latest CentOS 7 boxes for all providers except VMware and Parallels
 ```bash
 cd <path/to>/bento
 packer init -upgrade ./packer_templates
-packer build -except=parallels-iso.vm,vmware-iso.vm -var-file=os_pkrvars/centos/centos-7-x86_64.pkrvars.hcl ./packer_templates
+packer build -except=parallels-iso.vm,vmware-iso.vm -var-file=os_pkrvars/almalinux/almalinux-10-x86_64.pkrvars.hcl ./packer_templates
 ```
 
 To use an alternate url
@@ -137,7 +138,7 @@ To use an alternate url
 ````bash
 cd <path/to>/bento
 packer init -upgrade ./packer_templates
-packer build -var 'iso_url=https://mirrors.rit.edu/fedora/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso' -var-file=os_pkrvars/fedora/fedora-41-x86_64.pkrvars.hcl ./packer_templates
+packer build -var 'iso_url=https://mirrors.rit.edu/fedora/fedora/linux/releases/42/Server/x86_64/iso/Fedora-Server-dvd-x86_64-42-1.4.iso' -var-file=os_pkrvars/fedora/fedora-42-x86_64.pkrvars.hcl ./packer_templates
 ````
 
 If the build is successful, your box files will be in the `builds` directory at the root of the repository.
@@ -207,7 +208,7 @@ These basebox templates were converted from [veewee](https://github.com/jedi4eve
 - Author: Corey Hemminger ([corey.hemminger@progress.com](mailto:corey.hemminger@progress.com))
 
 ```text
-Copyright 2012-2024, Progress Software, Inc. (<legal@chef.io>)
+Copyright 2012-2025, Progress Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");

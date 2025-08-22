@@ -7,7 +7,7 @@ permissions:
 
 env:
   PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # PACKER_LOG: 1
+  PACKER_LOG: 1
 
 jobs:
   x86_64:
@@ -48,6 +48,7 @@ jobs:
          brew install --cask hashicorp/tap/hashicorp-vagrant
          brew install utm
          vagrant plugin install vagrant_utm
+         qemu-system-aarch64 -accel help
 #      - name: Setup Packer
 #        if: steps.verify-changed-files.outputs.files_changed == 'true'
 #        uses: hashicorp/setup-packer@main
