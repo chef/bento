@@ -52,6 +52,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2025-08-10)
 
+## [v4.3.0] (2025-08-10)
+
 - Add UTM virtualization support <https://mac.getutm.app/>
 - Fix Win11 vbox guest os type for aarch64
 - Update qemu args for aarch64 on macos to properly boot linux vms

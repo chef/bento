@@ -1,0 +1,13 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vagrant.plugins = "vagrant_utm"
+
+  # Disable the base shared folder
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider :utm do |utm|
+    utm.directory_share_mode = "webDAV"
+  end
+end
