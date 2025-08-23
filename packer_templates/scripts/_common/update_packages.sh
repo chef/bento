@@ -77,7 +77,8 @@ elif [ "$OS_NAME" = "FreeBSD" ]; then
     rm -f /etc/pkg/FreeBSD.conf.bak
   fi
 
-  env ASSUME_ALWAYS_YES=true pkg update;
+  env ASSUME_ALWAYS_YES=true pkg update
+  pkg upgrade
 elif [ "$OS_NAME" = "Darwin" ]; then
   echo "Downloading and installing system updates..."
   sudo softwareupdate --agree-to-license -i -r -R --stdinpass vagrant

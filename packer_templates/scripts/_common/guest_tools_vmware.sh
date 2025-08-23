@@ -11,6 +11,7 @@ fi
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
   if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg update
     pkg install -y open-vm-tools-nox11
     # for shared folder
     echo 'fuse_load="YES"' >>/boot/loader.conf

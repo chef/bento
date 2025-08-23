@@ -15,11 +15,12 @@ utm-iso)
   # QEMU Agent (time syncing and scripting are supported by the QEMU agent.)
   # SPICE WebDAV (QEMU directory sharing)
   if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg update
     pkg install -y qemu-guest-agent
     cat >> /etc/rc.conf <<EOT
 qemu_guest_agent_enable="YES"
 EOT
-    exit 0
+    return
   elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken spice-vdagent qemu-guest-agent spice-webdavd
     sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
@@ -50,6 +51,7 @@ EOT
 qemu)
   echo "installing pkgs necessary for QEMU guest support"
   if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg update
     pkg install -y qemu-guest-agent
     cat >> /etc/rc.conf <<EOT
 qemu_guest_agent_enable="YES"

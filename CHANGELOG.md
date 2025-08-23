@@ -65,6 +65,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added utm provider to windows vagrant file template
 - Updated fedora ks file to enable firewall and set selinux to enforcing similar to a default install
 - Added provider specific boot command variables - if null falls back to boot_command variable
+- Consolidate kickstart files
 
 ## [v4.2.0] (2025-08-10)
 
