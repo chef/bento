@@ -23,7 +23,8 @@ EOT
     return
   elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken spice-vdagent qemu-guest-agent spice-webdavd
-    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
+    sed -i 's/^BLACKLIST_RPC=/# BLACKLIST_RPC=/' /etc/sysconfig/qemu-ga # RHEL 8 instances
+    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga # RHEL 9+ instances
     systemctl enable spice-vdagentd
     systemctl start spice-vdagentd
     systemctl enable spice-webdavd || true
@@ -58,7 +59,8 @@ qemu_guest_agent_enable="YES"
 EOT
   elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken qemu-guest-agent
-    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
+    sed -i 's/^BLACKLIST_RPC=/# BLACKLIST_RPC=/' /etc/sysconfig/qemu-ga # RHEL 8 instances
+    sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga # RHEL 9+ instances
   elif [ -f "/usr/bin/apt-get" ]; then
     apt-get update
     apt-get install -y qemu-guest-agent
