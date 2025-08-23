@@ -112,6 +112,9 @@ locals {
       var.is_windows ? "virtio-vga-gl" : "virtio-vga"
     )
   ) : var.utm_display_hardware_type
+  utm_hard_drive_interface = var.utm_hard_drive_interface == null ? (
+    var.is_windows ? "nvme" : "virtio"
+  ) : var.utm_hard_drive_interface
   utm_guest_additions_mode = var.utm_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "disable"
   ) : var.utm_guest_additions_mode
@@ -182,9 +185,6 @@ locals {
   ) : var.vmware_vmx_data
 
   # Source block common
-  default_boot_wait = var.default_boot_wait == null ? (
-    var.is_windows ? "60s" : "10s"
-  ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
       var.os_arch == "x86_64" ? (
@@ -201,6 +201,10 @@ locals {
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
+  default_boot_command = var.boot_command
+  default_boot_wait = var.default_boot_wait == null ? (
+    var.is_windows ? "60s" : "10s"
+  ) : var.default_boot_wait
   disk_size = var.disk_size == null ? (
     var.is_windows ? 131072 : 65536
   ) : var.disk_size
@@ -238,7 +242,7 @@ source "hyperv-iso" "vm" {
   guest_additions_mode  = var.hyperv_guest_additions_mode
   switch_name           = var.hyperv_switch_name
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
   boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
   cd_content       = var.cd_content
   cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
@@ -275,7 +279,7 @@ source "parallels-ipsw" "vm" {
   prlctl_post         = var.parallels_prlctl_post
   prlctl_version_file = var.parallels_prlctl_version_file
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.parallels-ipsw_boot_command == null ? local.default_boot_command : var.parallels_boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
@@ -300,7 +304,7 @@ source "parallels-iso" "vm" {
   prlctl                 = local.parallels_prlctl
   prlctl_version_file    = var.parallels_prlctl_version_file
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.parallels-iso_boot_command == null ? local.default_boot_command : var.parallels_boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -349,7 +353,7 @@ source "qemu" "vm" {
   use_default_display = var.qemu_use_default_display
   use_pflash          = var.qemu_use_pflash
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.qemu_boot_command == null ? local.default_boot_command : var.qemu_boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -387,12 +391,13 @@ source "utm-iso" "vm" {
   guest_additions_interface = var.utm_guest_additions_interface
   guest_additions_url       = var.utm_guest_additions_url
   guest_additions_sha256    = var.utm_guest_additions_sha256
+  hard_drive_interface      = local.utm_hard_drive_interface
   hypervisor                = var.utm_hypervisor
   uefi_boot                 = var.utm_uefi_boot
   vm_arch                   = var.os_arch
   vm_backend                = var.utm_vm_backend
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.utm_boot_command == null ? local.default_boot_command : var.utm_boot_command
   boot_wait        = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -434,7 +439,7 @@ source "virtualbox-iso" "vm" {
   vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.vbox_boot_command == null ? local.default_boot_command : var.vbox_boot_command
   boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -497,7 +502,7 @@ source "vmware-iso" "vm" {
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   vnc_disable_password           = var.vmware_vnc_disable_password
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
   boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files # Broken and not creating disks

@@ -227,7 +227,9 @@ build {
   post-processor "utm-vagrant" {
     compression_level    = 9
     output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
-    vagrantfile_template = "${path.root}/vagrantfile-utm.template"
+    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows-utm.template" : (
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : "${path.root}/vagrantfile-utm.template"
+    )
     architecture         = "${var.os_arch == "x86_64" ? "amd64" : var.os_arch == "aarch64" ? "arm64" : var.os_arch}"
     only                 = ["utm-iso.vm"]
   }

@@ -11,7 +11,7 @@ env:
 
 jobs:
   aarch64:
-    runs-on: macos-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
@@ -38,20 +38,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install qemu libvirt vagrant`
+      - name: Install Vagrant QEMU
         run: |
-         brew tap hashicorp/tap
-         brew update
-         brew install --cask hashicorp/tap/hashicorp-vagrant
-         brew install qemu libvirt
-         vagrant plugin install vagrant-libvirt vagrant-qemu
-         brew services start libvirt
-         qemu-system-aarch64 -accel help
- #     - name: Setup Packer
- #       if: steps.verify-changed-files.outputs.files_changed == 'true'
- #       uses: hashicorp/setup-packer@main
- #       with:
- #         version: latest
+          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common vagrant qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils qemu-utils libvirt-dev
+          vagrant plugin install vagrant-libvirt vagrant-qemu
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          sudo usermod -aG kvm $USER
+          sudo usermod -aG libvirt $USER
+          sudo chmod o+rw /var/run/libvirt/libvirt-sock
+          sudo systemctl start libvirtd
+          sudo systemctl status libvirtd
       - name: Install Chef
         uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
@@ -65,24 +68,18 @@ jobs:
           gem install bento-*.gem
       - name: Bento build
         run: |
+          rm -rf builds
+          sudo mkdir -p /mnt/builds/iso
+          sudo chmod -R 777 /mnt/builds
+          sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
-#       - name: Remove VM in case of canceled job
-#         if: cancelled()
-#         run: |
-#           VM="$(utmctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-#           echo "VM Name: $VM"
-#           echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
-#           utmctl stop "$VM"
-#           sleep 1
-#           utmctl delete "$VM"
-#           sleep 2
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test
+          bento test libvirt
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:

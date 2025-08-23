@@ -1,0 +1,11 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vagrant.plugins = "vagrant_utm"
+  config.ssh.shell = "sh"
+
+  # Disable the base shared folder, Guest Tools supporting this feature are
+  # unavailable for all providers.
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+end

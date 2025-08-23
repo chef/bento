@@ -49,6 +49,11 @@ variable "sources_enabled" {
 
 # Source block provider specific variables
 # hyperv-iso
+variable "hyperv_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "hyperv_boot_wait" {
   type    = string
   default = null
@@ -76,6 +81,11 @@ variable "hyperv_switch_name" {
 }
 
 # parallels-ipsw
+variable "parallels-ipsw_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "parallels_host_interfaces" {
   type        = list(string)
   default     = null
@@ -108,6 +118,11 @@ variable "http_content" {
 }
 
 # parallels-iso
+variable "parallels-iso_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "parallels_boot_wait" {
   type    = string
   default = null
@@ -142,6 +157,11 @@ variable "qemu_accelerator" {
 variable "qemu_binary" {
   type    = string
   default = null
+}
+variable "qemu_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
 }
 variable "qemu_boot_wait" {
   type    = string
@@ -232,6 +252,11 @@ variable "qemu_use_pflash" {
 }
 
 # utm-iso
+variable "utm_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "utm_boot_nopause" {
   type        = bool
   default     = true
@@ -275,6 +300,10 @@ variable "utm_guest_additions_sha256" {
   type    = string
   default = "65b6a69b392ee01dd314c10f3dad9ebbf9c4160be43f5f0dd6bb715944d9095b"
 }
+variable "utm_hard_drive_interface" {
+  type    = string
+  default = null
+}
 variable "utm_hypervisor" {
   type    = bool
   default = true
@@ -293,6 +322,11 @@ variable "utm_vm_backend" {
 }
 
 # virtualbox-iso
+variable "vbox_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "vbox_boot_wait" {
   type    = string
   default = null
@@ -366,6 +400,11 @@ variable "vbox_checksum" {
 }
 
 # vmware-iso
+variable "vmware_boot_command" {
+  type        = list(string)
+  default     = null
+  description = "Commands to pass to gui session to initiate automated install"
+}
 variable "vmware_boot_wait" {
   type    = string
   default = null

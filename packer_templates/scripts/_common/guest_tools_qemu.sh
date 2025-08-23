@@ -14,7 +14,13 @@ utm-iso)
   # We install things like spice-vdagent (clipboard sharing and dynamic display resolution )
   # QEMU Agent (time syncing and scripting are supported by the QEMU agent.)
   # SPICE WebDAV (QEMU directory sharing)
-  if [ -f "/bin/dnf" ]; then
+  if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg install -y qemu-guest-agent
+    cat >> /etc/rc.conf <<EOT
+qemu_guest_agent_enable="YES"
+EOT
+    exit 0
+  elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken spice-vdagent qemu-guest-agent spice-webdavd
     sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
     systemctl enable spice-vdagentd
@@ -43,10 +49,12 @@ utm-iso)
   ;;
 qemu)
   echo "installing pkgs necessary for QEMU guest support"
-  # We install things like spice-vdagent (clipboard sharing and dynamic display resolution )
-  # QEMU Agent (time syncing and scripting are supported by the QEMU agent.)
-  # SPICE WebDAV (QEMU directory sharing)
-  if [ -f "/bin/dnf" ]; then
+  if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg install -y qemu-guest-agent
+    cat >> /etc/rc.conf <<EOT
+qemu_guest_agent_enable="YES"
+EOT
+  elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken qemu-guest-agent
     sed -i 's/^FILTER_RPC_ARGS=/# FILTER_RPC_ARGS=/' /etc/sysconfig/qemu-ga
   elif [ -f "/usr/bin/apt-get" ]; then
