@@ -7,4 +7,4 @@ parallels_guest_os_type = "fedora-core"
 vbox_guest_os_type      = "Fedora_arm64"
 vmware_guest_os_type    = "arm-fedora-64"
 parallels_boot_wait     = "0s"
-boot_command            = ["<up>e<wait><down><down><end> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/fedora/ks.cfg inst.repo=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/aarch64/os/ <F10><wait>"]
+boot_command            = ["<up>e<wait><down><down><end> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/ks.cfg inst.repo=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/aarch64/os/ <F10><wait>"]

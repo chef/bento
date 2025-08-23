@@ -6,4 +6,4 @@ iso_checksum            = "file:https://linux.oracle.com/security/gpg/checksum/O
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "Oracle_arm64"
 vmware_guest_os_type    = "arm-rhel9-64"
-boot_command            = ["<wait><up>e<wait><down><down><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/10ks.cfg inst.repo=https://yum.oracle.com/repo/OracleLinux/OL10/baseos/latest/aarch64/ <leftCtrlOn>x<leftCtrlOff>"]
+boot_command            = ["<wait><up>e<wait><down><down><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/ks.cfg inst.repo=https://yum.oracle.com/repo/OracleLinux/OL10/baseos/latest/aarch64/ <leftCtrlOn>x<leftCtrlOff>"]
