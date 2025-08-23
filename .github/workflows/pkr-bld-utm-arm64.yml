@@ -11,8 +11,7 @@ env:
 
 jobs:
   aarch64:
-#     runs-on: [self-hosted, ARM64, utm]
-    runs-on: macos-latest
+    runs-on: [self-hosted, ARM64, utm]
     strategy:
       fail-fast: false
       matrix:
@@ -39,29 +38,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install UTM vagrant`
-        run: |
-         brew tap hashicorp/tap
-         brew update
-         brew install --cask hashicorp/tap/hashicorp-vagrant
-         brew install utm
-         vagrant plugin install vagrant_utm
+#       - name: Install UTM vagrant`
+#         run: |
+#          brew tap hashicorp/tap
+#          brew update
+#          brew install --cask hashicorp/tap/hashicorp-vagrant
+#          brew install utm
+#          vagrant plugin install vagrant_utm
 #      - name: Setup Packer
 #        if: steps.verify-changed-files.outputs.files_changed == 'true'
 #        uses: hashicorp/setup-packer@main
 #        with:
 #          version: latest
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Install Bento
-        run: |
-          eval "$(chef shell-init bash)"
-          gem build bento.gemspec
-          gem install bento-*.gem
+#       - name: Install Chef
+#         uses: actionshub/chef-install@3.0.0
+#       - name: Setup Packer
+#         uses: hashicorp/setup-packer@main
+#         with:
+#           version: latest
+#       - name: Install Bento
+#         run: |
+#           eval "$(chef shell-init bash)"
+#           gem build bento.gemspec
+#           gem install bento-*.gem
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
