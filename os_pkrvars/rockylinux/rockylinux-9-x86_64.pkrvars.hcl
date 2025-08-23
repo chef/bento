@@ -6,4 +6,5 @@ iso_checksum            = "file:https://download.rockylinux.org/pub/rocky/9/isos
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "Oracle_64"
 vmware_guest_os_type    = "centos-64"
+utm_vm_icon             = "linux"
 boot_command            = ["<wait><up><wait>e<wait><down><wait><down><wait><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/ks.cfg inst.repo=https://download.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/ <wait><leftCtrlOn><wait>x<wait><leftCtrlOff>"]

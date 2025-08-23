@@ -6,4 +6,5 @@ iso_checksum            = "file:https://cdimage.ubuntu.com/releases/jammy/releas
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_arm64"
 vmware_guest_os_type    = "arm-ubuntu-64"
+utm_vm_icon             = "ubuntu"
 boot_command            = ["<wait>e<wait><down><down><down><end><wait> autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/<f10><wait>"]

@@ -11,6 +11,7 @@ env:
 
 jobs:
   aarch64:
+#     runs-on: [self-hosted, ARM64, utm]
     runs-on: macos-latest
     strategy:
       fail-fast: false

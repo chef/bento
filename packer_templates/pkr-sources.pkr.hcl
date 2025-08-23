@@ -100,7 +100,11 @@ locals {
         ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
         ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
         ["-boot", "strict=off"],
-      ] : null
+        ] : [
+        ["-device", "virtio-serial"],
+        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
+        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
+      ]
     )
   ) : var.qemuargs
 
@@ -396,6 +400,7 @@ source "utm-iso" "vm" {
   uefi_boot                 = var.utm_uefi_boot
   vm_arch                   = var.os_arch
   vm_backend                = var.utm_vm_backend
+  vm_icon                   = var.utm_vm_icon
   # Source block common options
   boot_command     = var.utm_boot_command == null ? local.default_boot_command : var.utm_boot_command
   boot_wait        = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait

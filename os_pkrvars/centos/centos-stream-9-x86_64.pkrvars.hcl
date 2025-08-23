@@ -6,4 +6,5 @@ iso_checksum            = "file:https://mirror.stream.centos.org/9-stream/BaseOS
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "RedHat_64"
 vmware_guest_os_type    = "centos-64"
+utm_vm_icon             = "centos"
 boot_command            = ["<wait><up><wait>e<wait><down><wait><down><wait><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/ks.cfg inst.repo=https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/ <wait><leftCtrlOn><wait>x<wait><leftCtrlOff>"]

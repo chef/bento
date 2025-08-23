@@ -8,3 +8,4 @@ iso_checksum            = "3e4fa6d8507b554856fc9ca6079cc402df11a8b79344871669f02
 parallels_guest_os_type = "win-2022"
 vbox_guest_os_type      = "Windows2022_64"
 vmware_guest_os_type    = "windows9srv-64"
+utm_vm_icon             = "windows"

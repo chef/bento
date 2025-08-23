@@ -65,7 +65,7 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm -var 'qemu_accelerator=null' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
 #       - name: Remove VM in case of canceled job

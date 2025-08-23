@@ -11,5 +11,6 @@ parallels_guest_os_type = "win-11"
 vbox_guest_os_type      = "Windows11_arm64"
 vmware_guest_os_type    = "arm-windows11-64"
 vmware_firmware         = "efi-secure"
+utm_vm_icon             = "windows-11"
 parallels_boot_wait     = "180s"
 boot_command            = ["<up><wait><down><down><enter><wait><up>", ]

@@ -320,6 +320,10 @@ variable "utm_vm_backend" {
   type    = string
   default = null
 }
+variable "utm_vm_icon" {
+  type    = string
+  default = null
+}
 
 # virtualbox-iso
 variable "vbox_boot_command" {
