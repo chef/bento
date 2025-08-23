@@ -6,4 +6,4 @@ iso_checksum            = "file:https://repo.almalinux.org/almalinux/10/isos/x86
 parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "RedHat_64"
 vmware_guest_os_type    = "centos-64"
-boot_command            = ["<wait><up><wait>e<wait><down><wait><down><wait><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/10ks.cfg inst.repo=https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/ <leftCtrlOn>x<leftCtrlOff>"]
+boot_command            = ["<wait><up><wait>e<wait><down><wait><down><wait><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/ks.cfg inst.repo=https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/ <leftCtrlOn>x<leftCtrlOff>"]
