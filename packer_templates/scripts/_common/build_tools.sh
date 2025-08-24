@@ -19,7 +19,7 @@ parallels-iso|parallels-pvm)
         dnf -y install fuse-libs kernel-headers kernel-devel elfutils-libelf-devel gcc make perl
       else
         dnf install -y --skip-broken checkpolicy selinux-policy-devel gcc kernel-devel kernel-headers make kernel-uek-devel
-        if [ "$major_version" -eq 10 ] && [ "$distro" != 'oraclelinux' ] && [ "$(uname -m)" = "aarch64" ]; then
+        if [ "$major_version" -eq 10 ] && [ "$distro" = 'oraclelinux' ] && [ "$(uname -m)" = "aarch64" ]; then
           dnf -y install -- *epel-release*
           dnf -y install gcc-toolset-14 gcc-toolset-14-runtime gcc-toolset-14-gcc-c++
           mv /usr/bin/gcc /usr/bin/gcc.old
