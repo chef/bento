@@ -1,7 +1,10 @@
 #!/bin/sh -eux
 
 case "$PACKER_BUILDER_TYPE" in
-  qemu) exit 0 ;;
+utm-iso|qemu)
+  echo "Nothing to do for utm or qemu"
+  exit 0
+  ;;
 esac
 
 OS_NAME=$(uname -s)

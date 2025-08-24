@@ -6,6 +6,7 @@ vbox_checksum           = "file:https://cdn.amazonlinux.com/al2023/os-images/lat
 parallels_guest_os_type = "fedora-core"
 vbox_guest_os_type      = "Fedora_64"
 vmware_guest_os_type    = "fedora-64"
+utm_vm_icon             = "linux"
 sources_enabled = [
   "source.virtualbox-ovf.vm"
 ]

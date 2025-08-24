@@ -12,6 +12,7 @@ case "$PACKER_BUILDER_TYPE" in
 parallels-iso|parallels-pvm|parallels-ipsw)
   echo "Installing Parallels Tools..."
   if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg update
     pkg install -y parallels-tools
   elif [ "$OS_NAME" = "Darwin" ]; then
     installer -pkg /Volumes/Parallels\ Tools/Install.app/Contents/Resources/Install.mpkg -target /
@@ -44,7 +45,13 @@ parallels-iso|parallels-pvm|parallels-ipsw)
   else
     echo "Skipping Parallels Tools installation on aarch64 architecture for opensuse and derivatives"
   fi
-  shutdown -r now
-  sleep 60
+
+  if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r 2>&1 /dev/null || ! command -v needs-restarting -s 2>&1 /dev/null; then
+    echo "pkgs installed needing reboot"
+    shutdown -r now
+    sleep 60
+  else
+    echo "no pkgs installed needing reboot"
+  fi
   ;;
 esac

@@ -77,7 +77,8 @@ elif [ "$OS_NAME" = "FreeBSD" ]; then
     rm -f /etc/pkg/FreeBSD.conf.bak
   fi
 
-  env ASSUME_ALWAYS_YES=true pkg update;
+  env ASSUME_ALWAYS_YES=true pkg update
+  pkg upgrade
 elif [ "$OS_NAME" = "Darwin" ]; then
   echo "Downloading and installing system updates..."
   sudo softwareupdate --agree-to-license -i -r -R --stdinpass vagrant
@@ -86,6 +87,10 @@ else
   exit 1
 fi
 
-echo "updates installed rebooting"
-shutdown -r now
-sleep 60
+if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r 2>&1 /dev/null || ! command -v needs-restarting -s 2>&1 /dev/null; then
+  echo "pkgs installed needing reboot"
+  shutdown -r now
+  sleep 60
+else
+  echo "no pkgs installed needing reboot"
+fi

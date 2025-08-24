@@ -6,5 +6,6 @@ iso_checksum            = "file:https://download.freebsd.org/releases/amd64/amd6
 parallels_guest_os_type = "freebsd"
 vbox_guest_os_type      = "FreeBSD_64"
 vmware_guest_os_type    = "freebsd-64"
+utm_vm_icon             = "freebsd"
 default_boot_wait       = "60s"
-boot_command            = ["<wait>s<wait2>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $1}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $1}') $(ifconfig -l | awk '{print $1}')<enter><wait10>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
+boot_command            = ["<wait>s<wait2>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $1}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $1}') $(ifconfig -l | awk '{print $1}')<enter><wait10>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $2}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $2}') $(ifconfig -l | awk '{print $2}')<enter><wait10>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]

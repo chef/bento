@@ -185,8 +185,8 @@ switch ($env:PACKER_BUILDER_TYPE) {
         }
         break
     }
-    "qemu" {
-        # Actions for QEMU builder
+    {$_ -in "utm-iso", "qemu"} {
+        # Actions for UTM and QEMU builder
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\virtio-win-guest-tools.exe"

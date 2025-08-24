@@ -6,4 +6,5 @@ iso_checksum            = "file:https://cdimage.debian.org/cdimage/archive/lates
 parallels_guest_os_type = "debian"
 vbox_guest_os_type      = "Debian12_64"
 vmware_guest_os_type    = "debian-64"
+utm_vm_icon             = "debian"
 boot_command            = ["<wait><esc><wait>auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian/preseed.cfg netcfg/get_hostname={{ .Name }}<enter>"]

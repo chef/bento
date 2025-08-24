@@ -4,6 +4,7 @@ os_arch    = "aarch64"
 # Download urls cn be foud at https://ipsw.me/VirtualMac2,1
 parallels_ipsw_url      = "https://updates.cdn-apple.com/2024SummerFCS/fullrestores/062-52859/932E0A8F-6644-4759-82DA-F8FA8DEA806A/UniversalMac_14.6.1_23G93_Restore.ipsw"
 parallels_ipsw_checksum = "e387251e63387150ba76cf784bdb97d2016e5d43c6f809c90a115eb067a097b8"
+utm_vm_icon             = "mac"
 sources_enabled         = ["source.parallels-ipsw.vm"]
 default_boot_wait       = "15s"
 boot_command = [

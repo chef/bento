@@ -25,13 +25,21 @@ HOSTNAME=freebsd
 
 #!/bin/sh -x
 
-ifdev=$(ifconfig | grep '^[a-z]' | cut -d: -f1 | head -n 1)
+# Get all network interfaces except loopback
+ifdevs=$(ifconfig | grep '^[a-z]' | cut -d: -f1 | grep -v '^lo')
+
+# Configure each interface for DHCP
+for ifdev in $ifdevs; do
+cat >> /etc/rc.conf << EOT
+ifconfig_${ifdev}="dhcp"
+EOT
+done
+
 # Enable required services
 cat >> /etc/rc.conf << EOT
 clear_tmp_enable="YES"
 syslogd_flags="-ss"
 sendmail_enable="NONE"
-ifconfig_${ifdev}="dhcp"
 sshd_enable="YES"
 dumpdev="NO"
 zfs_enable="YES"

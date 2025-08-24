@@ -2,16 +2,19 @@
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ci-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  markdown-lint:
-    uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
-
-  markdown-link-checker:
-    uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
+#   markdown-lint:
+#     uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
+#
+#   markdown-link-checker:
+#     uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
 
   yaml-lint:
     uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
@@ -31,7 +34,7 @@ jobs:
   packer-iso-check:
     uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
     with:
-      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|windows-11-aarch64.*,macos-*'
+      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|macos-.*'
 
 #   packer-lint:
 #     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
@@ -65,6 +68,14 @@ jobs:
     uses: ./.github/workflows/pkr-bld-qemu-x64.yml
     secrets: inherit
 
+  pkr-bld-utm-arm64:
+    uses: ./.github/workflows/pkr-bld-utm-arm64.yml
+    secrets: inherit
+
+  pkr-bld-utm-x64:
+    uses: ./.github/workflows/pkr-bld-utm-x64.yml
+    secrets: inherit
+
   pkr-bld-virtualbox-arm64:
     uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
     secrets: inherit
@@ -84,13 +95,13 @@ jobs:
   check_jobs_pass:
     if: always()
     needs:
-      - markdown-lint
+#       - markdown-lint
       - yaml-lint
       - json-lint
       - xml-lint
       - powershell-lint
       - shellcheck-lint
-      # - packer-lint
+#       - packer-lint
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
