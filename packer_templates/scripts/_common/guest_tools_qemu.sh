@@ -20,6 +20,7 @@ utm-iso)
     cat >> /etc/rc.conf <<EOT
 qemu_guest_agent_enable="YES"
 EOT
+    service qemu-guest-agent start
     return
   elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken spice-vdagent qemu-guest-agent spice-webdavd
@@ -57,6 +58,8 @@ qemu)
     cat >> /etc/rc.conf <<EOT
 qemu_guest_agent_enable="YES"
 EOT
+    service qemu-guest-agent start
+    return
   elif [ -f "/bin/dnf" ]; then
     dnf install -y --skip-broken qemu-guest-agent
     sed -i 's/^BLACKLIST_RPC=/# BLACKLIST_RPC=/' /etc/sysconfig/qemu-ga # RHEL 8 instances

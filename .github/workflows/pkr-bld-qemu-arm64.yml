@@ -7,11 +7,11 @@ permissions:
 
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  PACKER_LOG: "1"
+  # PACKER_LOG: "1"
 
 jobs:
   aarch64:
-    runs-on: macos-latest
+    runs-on: [self-hosted, ARM64, qemu]
     strategy:
       fail-fast: false
       matrix:
@@ -38,46 +38,46 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install qemu libvirt vagrant`
-        run: |
-         brew tap hashicorp/tap
-         brew update
-         brew install --cask hashicorp/tap/hashicorp-vagrant
-         brew install qemu libvirt
-         vagrant plugin install vagrant-libvirt vagrant-qemu
-         brew services start libvirt
+#       - name: Install qemu libvirt vagrant`
+#         run: |
+#          brew tap hashicorp/tap
+#          brew update
+#          brew install --cask hashicorp/tap/hashicorp-vagrant
+#          brew install qemu libvirt
+#          vagrant plugin install vagrant-libvirt vagrant-qemu
+#          brew services start libvirt
  #     - name: Setup Packer
  #       if: steps.verify-changed-files.outputs.files_changed == 'true'
  #       uses: hashicorp/setup-packer@main
  #       with:
  #         version: latest
-      - name: Install Chef
-        uses: actionshub/chef-install@3.0.0
-      - name: Setup Packer
-        uses: hashicorp/setup-packer@main
-        with:
-          version: latest
-      - name: Install Bento
-        run: |
-          eval "$(chef shell-init bash)"
-          gem build bento.gemspec
-          gem install bento-*.gem
+#       - name: Install Chef
+#         uses: actionshub/chef-install@3.0.0
+#       - name: Setup Packer
+#         uses: hashicorp/setup-packer@main
+#         with:
+#           version: latest
+#       - name: Install Bento
+#         run: |
+#           eval "$(chef shell-init bash)"
+#           gem build bento.gemspec
+#           gem install bento-*.gem
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'qemu_accelerator=null' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
           ls -alh builds/
           cat builds/${{ matrix.os }}*-aarch64._metadata.json
-#       - name: Remove VM in case of canceled job
-#         if: cancelled()
-#         run: |
-#           VM="$(utmctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-#           echo "VM Name: $VM"
-#           echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
-#           utmctl stop "$VM"
-#           sleep 1
-#           utmctl delete "$VM"
-#           sleep 2
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(utmctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          utmctl stop "$VM"
+          sleep 1
+          utmctl delete "$VM"
+          sleep 2
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"

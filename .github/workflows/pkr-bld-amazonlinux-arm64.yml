@@ -27,10 +27,6 @@ jobs:
 #          version: latest
       - name: Bento build
         run: |
-          rm -rf builds
-          sudo mkdir -p /mnt/builds/iso
-          sudo chmod -R 777 /mnt/builds
-          sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           ./${{ matrix.os }}-aarch64-virtualbox-build.sh
           ls -alh builds
