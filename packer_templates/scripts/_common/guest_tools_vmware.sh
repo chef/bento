@@ -1,8 +1,12 @@
 #!/bin/bash -eux
 
 # set a default HOME_DIR environment variable if not set
-HOME_DIR="${HOME_DIR:-/home/vagrant}"
 OS_NAME=$(uname -s)
+if [ "$OS_NAME" = "Darwin" ]; then
+  HOME_DIR="/Users/vagrant"
+else
+  HOME_DIR="${HOME_DIR:-/home/vagrant}"
+fi
 
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
@@ -52,7 +56,7 @@ vmware-iso|vmware-vmx)
     systemctl start vmtoolsd
   fi
   echo "platform specific vmware.sh executed"
-  reboot
+  shutdown -r now
   sleep 60
   ;;
 esac
