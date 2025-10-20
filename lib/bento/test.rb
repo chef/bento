@@ -89,18 +89,19 @@ class TestRunner
         test = Mixlib::ShellOut.new("kitchen test #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}", timeout: 900, live_stream: STDOUT)
         test.run_command
         @providers[k][:testing] = "passed" unless test.error?
-        next unless test.error?
-        puts test.stderr
-        @providers[k][:testing] = "failed: #{test.stderr}"
-        errors << "#{@boxname}-#{@arch}-#{k}"
-        @providers[k][:testing] = "failed: #{test.stderr}"
-        FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json))) unless File.exist?(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
-        FileUtils.mv(File.join(bento_dir, 'builds', v['file']), File.join(bento_dir, 'builds', 'failed_testing', v['file']))
-        @providers.delete(k)
-        if @providers.empty?
-          File.delete(File.join(bento_dir, md_json)) if File.exist?(File.join(bento_dir, md_json))
-        else
-          File.binwrite(File.join(bento_dir, md_json), JSON.pretty_generate(md))
+        if test.error?
+          puts test.stderr
+          @providers[k][:testing] = "failed: #{test.stderr}"
+          errors << "#{@boxname}-#{@arch}-#{k}"
+          @providers[k][:testing] = "failed: #{test.stderr}"
+          FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json))) unless File.exist?(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
+          FileUtils.mv(File.join(bento_dir, 'builds', v['file']), File.join(bento_dir, 'builds', 'failed_testing', v['file']))
+          @providers.delete(k)
+          if @providers.empty?
+            File.delete(File.join(bento_dir, md_json)) if File.exist?(File.join(bento_dir, md_json))
+          else
+            File.binwrite(File.join(bento_dir, md_json), JSON.pretty_generate(md))
+          end
         end
       end
     end

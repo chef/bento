@@ -1,0 +1,10 @@
+os_name                 = "opensuse-leap"
+os_version              = "16.0"
+os_arch                 = "x86_64"
+iso_url                 = "https://download.opensuse.org/distribution/leap/16.0/offline/Leap-16.0-online-installer-x86_64.install.iso"
+iso_checksum            = "file:https://download.opensuse.org/distribution/leap/16.0/offline/Leap-16.0-online-installer-x86_64.install.iso.sha256"
+parallels_guest_os_type = "opensuse"
+vbox_guest_os_type      = "OpenSUSE_Leap_64"
+vmware_guest_os_type    = "opensuse-64"
+utm_vm_icon             = "suse"
+boot_command            = ["<wait5><esc><enter><wait>linux biosdevname=0 net.ifnames=0 netdevice=eth0 netsetup=dhcp lang=en_US textmode=1 autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/autoinst.xml<enter><wait>"]

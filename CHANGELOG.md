@@ -66,6 +66,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated fedora ks file to enable firewall and set selinux to enforcing similar to a default install
 - Added provider specific boot command variables - if null falls back to boot_command variable
 - Consolidate kickstart files
+- Added macOS 26 builds
+- Updated Debian 13 to 13.1
+- Added OpenSUSE Leap 16 builds
 
 ## [v4.2.0] (2025-08-10)
 
