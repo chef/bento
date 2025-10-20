@@ -9,6 +9,10 @@ esac
 
 OS_NAME=$(uname -s)
 
+if [ -f /etc/sudoers.d/_packer_env ]; then
+  rm -f /etc/sudoers.d/_packer_env
+fi
+
 if [ "$OS_NAME" = "FreeBSD" ]; then
   ZROOT="zroot/ROOT/default"
 
