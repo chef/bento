@@ -155,7 +155,8 @@ locals {
       ] : [
       ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
       ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
-      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"]
+      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+      ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
     ]
   ) : var.vboxmanage
   vbox_nic_type = var.vbox_nic_type == null ? (
