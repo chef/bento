@@ -47,8 +47,8 @@ jobs:
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-aarch64._metadata.json
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-aarch64._metadata.json
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -68,8 +68,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds/build_complete/*.box
+            builds/build_complete/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression

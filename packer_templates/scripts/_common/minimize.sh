@@ -73,7 +73,8 @@ else
       swappart="$(readlink -f /dev/disk/by-uuid/"$swapuuid")";
       /sbin/swapoff "$swappart" || true;
       dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed";
-      /sbin/mkswap -U "$swapuuid" "$swappart";
+      chmod 0600 "$swappart" || true;
+      /sbin/mkswap -U "$swapuuid" "$swappart" || echo "mkswap exit code $? is suppressed";
   fi
 
   sync;

@@ -52,7 +52,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2025-08-10)
 
-## [v4.3.0] (2025-08-10)
+## [v5.0.0] (2025-08-10)
 
 - Add UTM virtualization support <https://mac.getutm.app/>
 - Fix Win11 vbox guest os type for aarch64
@@ -69,6 +69,12 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Added macOS 26 builds
 - Updated Debian 13 to 13.1
 - Added OpenSUSE Leap 16 builds
+- Fix Debian libvirt build
+- Added Ubuntu 25.04 and 25.10 builds
+- Misc Ubuntu script fixes
+- update testing to move files to testing_passed and testing_failed directories
+- completed build now go to builds/build_complete directory
+- 
 
 ## [v4.2.0] (2025-08-10)
 

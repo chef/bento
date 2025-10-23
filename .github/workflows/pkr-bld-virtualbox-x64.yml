@@ -64,13 +64,14 @@ jobs:
         run: |
           rm -rf builds
           sudo mkdir -p /mnt/builds/iso
+          sudo mkdir -p /mnt/builds/build_complete
           sudo chmod -R 777 /mnt/builds
           sudo ln -s /mnt/builds ./
           eval "$(chef shell-init bash)"
           export LOGNAME=$USER
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-x86_64._metadata.json
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
@@ -81,8 +82,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-virtualbox-x86_64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds/build_complete/*.box
+            builds/build_complete/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression

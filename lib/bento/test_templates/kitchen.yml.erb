@@ -3,14 +3,14 @@ provisioner:
   name: <%= @provisioner %>
 
 platforms:
-<% @providers.each do |k,v| -%>
-- name: <%= "#{@boxname}-#{@arch}-#{k}" %>
+<% @providers.each do |provider| -%>
+- name: <%= "#{@boxname}-#{@arch}-#{provider['name']}" %>
   driver:
     name: vagrant
-    provider: <%= k %>
+    provider: <%= provider['name'] %>
     vm_hostname: bento-test
     box: bento-<%= @boxname %>
-    box_url: file://<%= Dir.pwd %>/builds/<%= v['file'] %>
+    box_url: file://<%= Dir.pwd %>/builds/build_complete/<%= provider['file'] %>
     box_arch: <%= @arch %>
     synced_folders:
       - [".", "/vagrant", "disabled: true"]

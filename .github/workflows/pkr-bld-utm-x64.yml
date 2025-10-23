@@ -68,8 +68,8 @@ jobs:
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=60m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-x86_64._metadata.json
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -89,8 +89,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-utm-x86_64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds/build_complete/*.box
+            builds/build_complete/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
