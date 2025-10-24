@@ -54,7 +54,20 @@ parallels-iso|parallels-pvm|parallels-ipsw)
     echo "Skipping Parallels Tools installation on aarch64 architecture for opensuse and derivatives"
   fi
 
-  if [ -f /var/run/reboot-required ] || ! command -v needs-restarting -r 2>&1 /dev/null || ! command -v needs-restarting -s 2>&1 /dev/null; then
+  REBOOT_NEEDED=false
+  # Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
+  if [ -f /var/run/reboot-required ]; then
+    REBOOT_NEEDED=true
+  # Check for the needs-restarting command (common on RHEL based systems)
+  elif command -v needs-restarting > /dev/null 2>&1; then
+    # needs-restarting -r: indicates a full reboot is needed (exit code 1)
+    # needs-restarting -s: indicates a service restart is needed (exit code 1)
+    if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
+      REBOOT_NEEDED=true
+    fi
+  fi
+
+  if [ "$REBOOT_NEEDED" = true ]; then
     echo "pkgs installed needing reboot"
     shutdown -r now
     sleep 60

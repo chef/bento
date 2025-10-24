@@ -74,7 +74,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Misc Ubuntu script fixes
 - update testing to move files to testing_passed and testing_failed directories
 - completed build now go to builds/build_complete directory
-- 
+- fix scripts reboot checks
 
 ## [v4.2.0] (2025-08-10)
 
