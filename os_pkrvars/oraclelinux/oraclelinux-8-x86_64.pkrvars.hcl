@@ -7,4 +7,5 @@ parallels_guest_os_type = "centos"
 vbox_guest_os_type      = "Oracle_64"
 vmware_guest_os_type    = "centos-64"
 utm_vm_icon             = "linux"
-boot_command            = ["<wait><up>e<wait><down><down><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/8ks.cfg inst.repo=https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/ <wait><leftCtrlOn><wait>x<wait><leftCtrlOff>"]
+boot_command            = ["<wait><up><tab><wait><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/8ks.cfg inst.repo=https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/ <wait><enter><wait>"]
+utm_boot_command        = ["<wait><up>e<wait><down><down><end><wait> inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rhel/8ks.cfg inst.repo=https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/ <wait><leftCtrlOn><wait>x<wait><leftCtrlOff>"]
