@@ -51,7 +51,7 @@ vmware-iso|vmware-vmx)
     systemctl enable open-vm-tools
     systemctl start open-vm-tools
   elif [ -f "/usr/bin/zypper" ]; then
-    zypper install -y open-vm-tools insserv-compat
+    zypper install -y open-vm-tools
     mkdir /mnt/hgfs
     systemctl enable vmtoolsd
     systemctl start vmtoolsd
