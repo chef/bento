@@ -79,9 +79,11 @@
   },
   "scripts": {
     "post": [
-      "echo 'vagrant ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/vagrant",
-      "chmod 0440 /etc/sudoers.d/vagrant",
-      "systemctl enable sshd"
+      {
+        "name": "vagrant_sudo_ssh",
+        "chroot": true,
+        "content": "#!/bin/bash\necho 'vagrant ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/vagrant\nchmod 0440 /etc/sudoers.d/vagrant\nsystemctl enable sshd"
+      }
     ]
   }
 }

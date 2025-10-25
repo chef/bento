@@ -12,14 +12,14 @@ utm_vm_icon             = "suse"
 # boot_command            = ["<wait><down><wait>e<wait><down><down><down><down><end> agama.ay_check=0 inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/autoinst-uefi.xml<wait><f10><wait>"]
 # boot_command = [
 #   "<wait><down><wait>e<wait><down><down><down><down><end><wait>",
-#   " inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/agama-profile-uefi.jsonnet<wait>",
+#   " inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/agama-profile-uefi.jsonnet<wait>",
 #   "<f10><wait>"
 # ]
 boot_command = [
   "<wait>",
   "<down><wait>e<wait>",
   "<down><down><down><down><end><wait>",
-  "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
-  "inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/agama-profile-uefi.json<wait><wait>",
+  # "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+  " inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/agama-profile-uefi.json<wait>",
   "<f10><wait>"
 ]
