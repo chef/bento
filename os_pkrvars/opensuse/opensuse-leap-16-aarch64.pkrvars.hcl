@@ -21,5 +21,5 @@ boot_command = [
   "<down><down><down><down><end><wait>",
   # "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
   " inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/agama-profile-uefi.json<wait>",
-  "<f10><wait>"
+  "<leftCtrlOn><wait>x<wait><leftCtrlOff>"
 ]

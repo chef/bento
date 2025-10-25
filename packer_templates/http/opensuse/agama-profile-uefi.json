@@ -1,6 +1,6 @@
 {
   "product": {
-    "id": "Leap"
+    "id": "openSUSE_Leap"
   },
   "localization": {
     "language": "en_US.UTF-8",
@@ -12,16 +12,12 @@
       {
         "id": "eth0",
         "interface": "eth0",
-        "method": "auto"
+        "method4": "auto"
       }
     ]
   },
   "storage": {
-    "bootDevice": "/dev/sda",
-    "encryptionPassword": "",
-    "lvm": false,
     "guided": {
-      "device": "/dev/sda",
       "boot": {
         "configure": true,
         "device": "/dev/sda1",
@@ -56,22 +52,14 @@
       "shim"
     ]
   },
-  "users": [
-    {
-      "fullName": "root",
-      "userName": "root",
-      "password": "vagrant",
-      "hashedPassword": false
-    },
-    {
+  "user": {
       "fullName": "Vagrant",
       "userName": "vagrant",
       "password": "vagrant",
       "hashedPassword": false,
       "home": "/home/vagrant",
       "shell": "/bin/bash"
-    }
-  ],
+  },
   "root": {
     "password": "vagrant",
     "hashedPassword": false,
