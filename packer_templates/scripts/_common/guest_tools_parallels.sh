@@ -50,6 +50,7 @@ parallels-iso|parallels-pvm|parallels-ipsw)
       shutdown -r now
       sleep 60
     fi
+  fi
 
   REBOOT_NEEDED=false
   # Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
