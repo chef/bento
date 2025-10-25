@@ -7,4 +7,15 @@ parallels_guest_os_type = "opensuse"
 vbox_guest_os_type      = "OpenSUSE_Leap_64"
 vmware_guest_os_type    = "opensuse-64"
 utm_vm_icon             = "suse"
-boot_command            = ["<wait5><esc><enter><wait> agama.ay_check=0 inst.auto==http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/autoinst.xml<enter><wait>"]
+# boot_command            = ["<wait5><esc><enter><wait> agama.ay_check=0 inst.auto==http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/autoinst.xml<enter><wait>"]
+boot_command = [
+  "<wait>",
+  "<down><wait>e<wait>",
+  "<down><down><down><down><end><wait>",
+  # " net.ifnames=0 biosdevname=0",
+  # " ip=dhcp<wait>",
+  # " systemd.journald.forward_to_console=1<wait>",
+  # " console=tty0<wait>",
+  " inst.auto=http://{{ .HTTPIP }}:{{ .HTTPPort }}/opensuse/agama-profile-uefi.json<wait>",
+  "<leftCtrlOn><wait>x<wait><leftCtrlOff>"
+]

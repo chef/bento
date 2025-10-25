@@ -17,19 +17,25 @@
     ]
   },
   "storage": {
-    "bootDevice": "/dev/sda",
-    "encryptionPassword": "",
-    "lvm": false,
     "guided": {
-      "device": "/dev/sda",
       "boot": {
         "configure": true,
-        "device": "/dev/sda1"
+        "device": "/dev/sda1",
+        "type": "efi"
       }
-    }
+    },
+    "partitions": [
+      {
+        "device": "/dev/sda2",
+        "size": "rest",
+        "filesystem": "ext4",
+        "mountPoint": "/",
+        "label": "root"
+      }
+    ]
   },
   "software": {
-    "patterns": ["base"],
+    "patterns": ["openSUSE-release", "base"],
     "packages": [
       "openssh",
       "sudo",
@@ -37,13 +43,7 @@
       "wget"
     ]
   },
-  "users": [
-    {
-      "fullName": "root",
-      "userName": "root",
-      "password": "vagrant",
-      "hashedPassword": false
-    },
+  "user": [
     {
       "fullName": "Vagrant",
       "userName": "vagrant",
@@ -60,9 +60,11 @@
   },
   "scripts": {
     "post": [
-      "echo 'vagrant ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/vagrant",
-      "chmod 0440 /etc/sudoers.d/vagrant",
-      "systemctl enable sshd"
+      {
+        "name": "vagrant_sudo_ssh",
+        "chroot": true,
+        "content": "#!/bin/bash\necho 'vagrant ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/vagrant\nchmod 0440 /etc/sudoers.d/vagrant\nsystemctl enable sshd"
+      }
     ]
   }
 }

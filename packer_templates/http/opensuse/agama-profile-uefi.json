@@ -42,7 +42,7 @@
     ]
   },
   "software": {
-    "patterns": ["base"],
+    "patterns": ["openSUSE-release", "base"],
     "packages": [
       "openssh",
       "sudo",
