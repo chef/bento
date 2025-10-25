@@ -40,7 +40,7 @@ virtualbox-iso|virtualbox-ovf)
   elif [ "$OS_NAME" = "Darwin" ]; then
     echo "Nothing to do for $OS_NAME"
     exit 0
-  elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
+  else
     ARCHITECTURE="$(uname -m)";
     VER="$(cat "$HOME_DIR"/.vbox_version)";
     ISO="VBoxGuestAdditions_$VER.iso";
@@ -87,8 +87,6 @@ virtualbox-iso|virtualbox-ovf)
 
     echo "removing leftover logs"
     rm -rf /var/log/vboxadd*
-  else
-    echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
 
   REBOOT_NEEDED=false

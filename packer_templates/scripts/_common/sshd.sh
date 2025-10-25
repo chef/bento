@@ -7,7 +7,14 @@ if [ "$OS_NAME" = "Darwin" ]; then
   exit 0
 fi
 
-SSHD_CONFIG="/etc/ssh/sshd_config"
+if [ -f "/etc/ssh/sshd_config" ]; then
+  SSHD_CONFIG="/etc/ssh/sshd_config"
+elif [ -f "/usr/etc/ssh/sshd_config" ]; then
+  SSHD_CONFIG="/usr/etc/ssh/sshd_config"
+else
+  echo "Unable to find sshd_config"
+  exit 1
+fi
 
 # ensure that there is a trailing newline before attempting to concatenate
 # shellcheck disable=SC1003

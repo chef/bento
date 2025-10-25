@@ -68,6 +68,9 @@ vmware-iso|vmware-vmx)
     if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
       REBOOT_NEEDED=true
     fi
+  else
+    echo "Unable to determine if a reboot is needed defaulting to reboot anyway"
+    REBOOT_NEEDED=true
   fi
 
   if [ "$REBOOT_NEEDED" = true ]; then

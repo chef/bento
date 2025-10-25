@@ -18,7 +18,7 @@ parallels-iso|parallels-pvm|parallels-ipsw)
     installer -pkg /Volumes/Parallels\ Tools/Install.app/Contents/Resources/Install.mpkg -target /
     # This usually works but gives a failed to eject error
     hdiutil detach /Volumes/Parallels\ Tools || echo "exit code $? is suppressed"
-  elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
+  else
     # Check kernel version
     KERNEL_VERSION=$(uname -r | cut -d. -f1,2)
     KERNEL_MAJOR=$(echo "$KERNEL_VERSION" | cut -d. -f1)
@@ -50,9 +50,6 @@ parallels-iso|parallels-pvm|parallels-ipsw)
       shutdown -r now
       sleep 60
     fi
-  else
-    echo "Skipping Parallels Tools installation on aarch64 architecture for opensuse and derivatives"
-  fi
 
   REBOOT_NEEDED=false
   # Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
@@ -65,6 +62,9 @@ parallels-iso|parallels-pvm|parallels-ipsw)
     if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
       REBOOT_NEEDED=true
     fi
+  else
+    echo "Unable to determine if a reboot is needed defaulting to reboot anyway"
+    REBOOT_NEEDED=true
   fi
 
   if [ "$REBOOT_NEEDED" = true ]; then

@@ -58,12 +58,20 @@ EOF
 elif [ -f "/usr/bin/zypper" ]; then
   version=$(grep VERSION= /etc/os-release | cut -f2 -d\" | cut -f1 -d\ )
 
-  zypper removerepo "openSUSE-${version}-0"
+  # Compare version to determine repository setup
+  if [ "$(printf '%s\n' "16.0" "$version" | sort -V | head -n1)" = "16.0" ] && [ "$version" != "16.0" ]; then
+    # Version is less than 16.0
+    zypper removerepo "openSUSE-${version}-0"
 
-  zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/oss/ openSUSE-Leap-"${version}"-Oss
-  zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/non-oss/ openSUSE-Leap-"${version}"-Non-Oss
-  zypper ar http://download.opensuse.org/update/leap/"${version}"/oss/ openSUSE-Leap-"${version}"-Update
-  zypper ar http://download.opensuse.org/update/leap/"${version}"/non-oss/ openSUSE-Leap-"${version}"-Update-Non-Oss
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/oss/ openSUSE-Leap-"${version}"-Oss
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/non-oss/ openSUSE-Leap-"${version}"-Non-Oss
+    zypper ar http://download.opensuse.org/update/leap/"${version}"/oss/ openSUSE-Leap-"${version}"-Update
+    zypper ar http://download.opensuse.org/update/leap/"${version}"/non-oss/ openSUSE-Leap-"${version}"-Update-Non-Oss
+  else
+    # Version is 16.0 or greater
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/oss/ openSUSE-Leap-"${version}"-Oss
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/non-oss/ openSUSE-Leap-"${version}"-Non-Oss
+  fi
 
   zypper refresh
   zypper update -y
@@ -102,6 +110,9 @@ elif command -v needs-restarting > /dev/null 2>&1; then
   if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
     REBOOT_NEEDED=true
   fi
+else
+  echo "Unable to determine if a reboot is needed defaulting to reboot anyway"
+  REBOOT_NEEDED=true
 fi
 
 if [ "$REBOOT_NEEDED" = true ]; then
