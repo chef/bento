@@ -18,7 +18,7 @@ class UploadRunner
 
     banner('Starting uploads...')
     time = Benchmark.measure do
-      files = md_json ? [md_json] : metadata_files
+      files = md_json ? [md_json] : metadata_files(false, true)
       files.each do |md_file|
         upload_box(md_file)
       end
@@ -36,7 +36,6 @@ class UploadRunner
     md_data = box_metadata(md_file)
     bento_dir = Dir.pwd
     build_dir = File.join(bento_dir, 'builds')
-    build_complete_dir = File.join(build_dir, 'build_complete')
     test_passed_dir = File.join(build_dir, 'testing_passed', md_data['arch'])
     uploaded_dir = File.join(build_dir, 'uploaded', md_data['arch'])
     arch = case md_data['arch']
@@ -48,7 +47,7 @@ class UploadRunner
              raise "Unknown arch #{md_data.inspect}"
            end
     md_data['providers'].each do |provider|
-      if File.exist?(File.join(build_complete_dir, provider['file']))
+      if File.exist?(File.join(test_passed_dir, provider['file']))
         puts ''
         banner("Uploading #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} version:#{md_data['version']} provider:#{provider['name']} arch:#{arch}...")
         upload_cmd = "vagrant cloud publish --architecture #{arch} #{default_arch(arch)} --no-direct-upload #{builds_yml['vagrant_cloud_account']}/#{md_data['box_basename']} #{md_data['version']} #{provider['name']} #{test_passed_dir}/#{provider['file']} --description '#{box_desc(md_data['box_basename'])}' --short-description '#{box_desc(md_data['box_basename'])}' --version-description '#{ver_desc(md_data)}' --force --release #{public_private_box(md_data['box_basename'])}"
@@ -63,16 +62,18 @@ class UploadRunner
         end
 
         # move the box file to the completed directory
-        FileUtils.mkdir_p(uploaded_dir) unless File(uploaded_dir).exist?
-        FileUtils.mv(File.join(build_complete_dir, provider['file']), File.join(uploaded_dir, provider['file']))
+        FileUtils.mkdir_p(uploaded_dir) unless File.exist?(uploaded_dir)
+        FileUtils.mv(File.join(test_passed_dir, provider['file']), File.join(uploaded_dir, provider['file']))
       else # box in metadata isn't on disk
-        warn "The #{provider['name']} box defined in the metadata file #{md_file} does not exist at #{build_complete_dir}/#{provider['file']}. Skipping!"
+        warn "The #{provider['name']} box defined in the metadata file #{md_file} does not exist at #{test_passed_dir}/#{provider['file']}. Skipping!"
       end
     end
 
-    # move the metadata file to the completed directory
-    FileUtils.mkdir_p(uploaded_dir) unless File(uploaded_dir).exist?
-    FileUtils.mv(md_file, File.join(uploaded_dir, File.basename(md_file)))
+    if Dir.glob("#{test_passed_dir}/#{@boxname}-#{md_data['arch']}.*.box").empty?
+      # move the metadata file to the completed directory
+      FileUtils.mkdir_p(uploaded_dir) unless File.exist?(uploaded_dir)
+      FileUtils.mv(md_file, File.join(uploaded_dir, File.basename(md_file)))
+    end
   end
 
   #
@@ -123,17 +124,17 @@ class UploadRunner
     md_data['providers'].each do |provider|
       tool_versions << if provider['name'] == 'vmware_desktop'
                          if macos?
-                           "vmware-fusion: #{md_data['providers'][provider]['version']}"
+                           "vmware-fusion: #{provider['version']}"
                          else
-                           "vmware-workstation: #{md_data['providers'][provider]['version']}"
+                           "vmware-workstation: #{provider['version']}"
                          end
                        else
-                         "#{provider['name']}: #{md_data['providers'][provider]['version']}"
+                         "#{provider['name']}: #{provider['version']}"
                        end
     end
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"
 
-    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Progress Chef. Built with: #{tool_versions.join(', ')}"
+    "#{md_data['box_basename'].capitalize.tr('-', ' ')} Vagrant box version #{md_data['version']} created with Bento by Progress Chef. Built with: #{tool_versions.join(', ')} and tested with vagrant: #{md_data['vagrant']}"
   end
 end

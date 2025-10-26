@@ -108,7 +108,7 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "echo 'After reboot'"
+      "echo 'Waiting after reboot'"
     ]
     pause_after = "10s"
     except      = var.is_windows ? local.source_names : null
@@ -124,7 +124,7 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "echo 'After reboot'"
+      "echo 'Waiting after reboot'"
     ]
     pause_after = "10s"
     except      = var.is_windows ? local.source_names : null
@@ -140,7 +140,7 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "echo 'After reboot'"
+      "echo 'Waiting after reboot'"
     ]
     pause_after = "10s"
     except      = var.is_windows ? local.source_names : null

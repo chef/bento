@@ -60,13 +60,17 @@ module Common
     JSON.parse(File.read(metadata_file))
   end
 
-  def metadata_files(arch_support = false)
+  def metadata_files(arch_support = false, upload = false)
     arch = if RbConfig::CONFIG['host_cpu'] == 'arm64'
              'aarch64'
            else
              RbConfig::CONFIG['host_cpu']
            end
-    glob = "builds/build_complete/*#{"-#{arch}" if arch_support}._metadata.json"
+    glob = if upload
+             "builds/testing_passed/**/*#{"-#{arch}" if arch_support}._metadata.json"
+           else
+             "builds/build_complete/*#{"-#{arch}" if arch_support}._metadata.json"
+           end
     @metadata_files ||= Dir.glob(glob)
   end
 
