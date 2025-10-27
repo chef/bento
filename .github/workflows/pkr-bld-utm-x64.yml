@@ -92,8 +92,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-utm-x86_64"
           path: |
-            builds/build_complete/*.box
-            builds/build_complete/*.json
+            builds/testing_passed/x86_64/*.box
+            builds/testing_passed/x86_64/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression

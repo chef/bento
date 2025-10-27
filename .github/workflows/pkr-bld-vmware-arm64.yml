@@ -87,8 +87,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
-            builds/build_complete/*.box
-            builds/build_complete/*.json
+            builds/testing_passed/aarch64/*.box
+            builds/testing_passed/aarch64/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
