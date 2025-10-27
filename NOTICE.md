@@ -2,8 +2,7 @@
 
 Chef Bento
 Copyright 2019-2023, Progress Software Corporation
-Copyright 2012-2019, Chef Software, Inc.
-
+Copyright (c) 2012-2025 Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
 The baseboxes in the "definitions" directory is from Tim Dysinger's
 "basebox" project.
 
