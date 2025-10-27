@@ -2,6 +2,9 @@
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   # PACKER_LOG: "1"
@@ -24,12 +27,15 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
+          - opensuse-leap-16
           - oraclelinux-9
           - oraclelinux-10
           - rockylinux-9
           - rockylinux-10
           - ubuntu-22.04
           - ubuntu-24.04
+          - ubuntu-25.04
+          - ubuntu-25.10
         provider:
           - parallels-iso
     steps:
@@ -43,13 +49,14 @@ jobs:
       - name: Bento build
         run: |
           eval "$(chef shell-init bash)"
-          bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-aarch64._metadata.json
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-aarch64._metadata.json
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
           VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
           echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
           prlctl stop "$VM" --kill 2> /dev/null
           sleep 1
@@ -64,8 +71,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds/build_complete/*.box
+            builds/build_complete/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression

@@ -1,6 +1,10 @@
 packer {
   required_version = ">= 1.7.0"
   required_plugins {
+    external = {
+      version = "> 0.0.2"
+      source  = "github.com/joomcode/external"
+    }
     hyperv = {
       version = ">= 1.0.3"
       source  = "github.com/hashicorp/hyperv"
@@ -12,6 +16,10 @@ packer {
     qemu = {
       version = ">= 1.1.0"
       source  = "github.com/hashicorp/qemu"
+    }
+    utm = {
+      version = ">= 0.3.3"
+      source  = "github.com/naveenrajm7/utm"
     }
     vagrant = {
       version = ">= 1.1.0"

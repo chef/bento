@@ -2,8 +2,12 @@
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 env:
   PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # PACKER_LOG: "1"
 
 jobs:
   x86_64:
@@ -23,6 +27,7 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
+          - opensuse-leap-16
           - oraclelinux-8
           - oraclelinux-9
           - oraclelinux-10
@@ -59,15 +64,15 @@ jobs:
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-x86_64._metadata.json
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: "${{ matrix.os }}-parallels-x86_64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds/build_complete/*.box
+            builds/build_complete/*.json
           retention-days: 10
           compression-level: 0 # no compression
       - name: Bento Test
@@ -128,8 +133,8 @@ jobs:
         run: |
           eval "$(chef shell-init bash)"
           bento build -o ${{ matrix.provider }}.vm --vars 'ssh_timeout=30m' os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
-          ls -alh builds/
-          cat builds/${{ matrix.os }}*-aarch64._metadata.json
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-aarch64._metadata.json
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
@@ -139,8 +144,8 @@ jobs:
         with:
           name: "${{ matrix.os }}-parallels-aarch64"
           path: |
-            builds/*.box
-            builds/*.json
+            builds/build_complete/*.box
+            builds/build_complete/*.json
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression

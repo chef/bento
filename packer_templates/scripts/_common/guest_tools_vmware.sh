@@ -11,6 +11,7 @@ fi
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso|vmware-vmx)
   if [ "$OS_NAME" = "FreeBSD" ]; then
+    pkg update
     pkg install -y open-vm-tools-nox11
     # for shared folder
     echo 'fuse_load="YES"' >>/boot/loader.conf
@@ -50,13 +51,34 @@ vmware-iso|vmware-vmx)
     systemctl enable open-vm-tools
     systemctl start open-vm-tools
   elif [ -f "/usr/bin/zypper" ]; then
-    zypper install -y open-vm-tools insserv-compat
+    zypper install -y open-vm-tools
     mkdir /mnt/hgfs
     systemctl enable vmtoolsd
     systemctl start vmtoolsd
   fi
-  echo "platform specific vmware.sh executed"
-  shutdown -r now
-  sleep 60
+
+  REBOOT_NEEDED=false
+  # Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
+  if [ -f /var/run/reboot-required ]; then
+    REBOOT_NEEDED=true
+  # Check for the needs-restarting command (common on RHEL based systems)
+  elif command -v needs-restarting > /dev/null 2>&1; then
+    # needs-restarting -r: indicates a full reboot is needed (exit code 1)
+    # needs-restarting -s: indicates a service restart is needed (exit code 1)
+    if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
+      REBOOT_NEEDED=true
+    fi
+  else
+    echo "Unable to determine if a reboot is needed defaulting to reboot anyway"
+    REBOOT_NEEDED=true
+  fi
+
+  if [ "$REBOOT_NEEDED" = true ]; then
+    echo "pkgs installed needing reboot"
+    shutdown -r now
+    sleep 60
+  else
+    echo "no pkgs installed needing reboot"
+  fi
   ;;
 esac

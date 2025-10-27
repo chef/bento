@@ -1,4 +1,11 @@
+data "external-raw" "host_os" {
+  program = ["uname", "-s"]
+}
+
 locals {
+  # helper locals
+  build_dir = abspath("${path.root}/../builds/")
+  host_os   = chomp(data.external-raw.host_os.result)
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
@@ -43,42 +50,78 @@ locals {
   ) : var.parallels_prlctl
 
   # qemu
-  qemu_binary  = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
-  qemu_display = var.qemu_display == null ? "none" : var.qemu_display
+  qemu_accelerator = var.qemu_accelerator == null ? (
+    local.host_os == "Darwin" ? "hvf" : null
+  ) : var.qemu_accelerator
+  qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
+  qemu_display = var.qemu_display == null ? (
+    var.is_windows ? (
+      var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
+      ) : (
+      local.host_os == "Darwin" ? (
+        var.os_arch == "aarch64" ? "cocoa" : "virtio-gpu-pci"
+        ) : (
+        var.os_arch == "aarch64" ? "virtio-ramfb" : "virtio-vga"
+      )
+    )
+  ) : var.qemu_display
   qemu_efi_boot = var.qemu_efi_boot == null ? (
     var.os_arch == "aarch64" ? true : false
   ) : var.qemu_efi_boot
   qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
-    local.qemu_efi_boot ? (
-      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : null
-    ) : null
+    local.host_os == "Darwin" ? "/opt/homebrew/share/qemu/edk2-${var.os_arch}-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
   ) : var.qemu_efi_firmware_code
   qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-    local.qemu_efi_boot ? (
-      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : null
+    local.host_os == "Darwin" ? (
+      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
     ) : null
   ) : var.qemu_efi_firmware_vars
-  qemu_use_default_display = var.qemu_use_default_display == null ? (
-    var.os_arch == "aarch64" ? true : false
-  ) : var.qemu_use_default_display
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
-  build-dir = abspath("${path.root}/../builds/")
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
       ["-device", "qemu-xhci"],
       ["-device", "virtio-tablet"],
-      ["-drive", "file=${local.build-dir}/iso/virtio-win.iso,media=cdrom,index=3"],
+      ["-drive", "file=${local.build_dir}/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
-      ["-drive", "file=${local.build-dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
+      ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ["-boot", "order=c,order=d"]
       ] : (
       var.os_arch == "aarch64" ? [
+        ["-device", "virtio-gpu-pci"],
+        ["-device", "qemu-xhci"],
+        ["-device", "virtio-tablet"],
+        ["-device", "driver=virtio-keyboard-pci"],
+        ["-device", "driver=virtio-mouse-pci"],
+        ["-device", "driver=usb-kbd"],
+        ["-device", "driver=usb-mouse"],
+        ["-device", "virtio-serial"],
+        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
+        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
         ["-boot", "strict=off"],
-      ] : null
+        ] : [
+        ["-device", "virtio-serial"],
+        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
+        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
+      ]
     )
   ) : var.qemuargs
+
+  # utm-iso
+  utm_display_hardware_type = var.utm_display_hardware_type == null ? (
+    var.os_arch == "aarch64" ? (
+      var.is_windows ? "virtio-ramfb-gl" : "virtio-gpu-pci"
+      ) : (
+      var.is_windows ? "virtio-vga-gl" : "virtio-vga"
+    )
+  ) : var.utm_display_hardware_type
+  utm_hard_drive_interface = var.utm_hard_drive_interface == null ? (
+    var.is_windows ? "nvme" : "virtio"
+  ) : var.utm_hard_drive_interface
+  utm_guest_additions_mode = var.utm_guest_additions_mode == null ? (
+    var.is_windows ? "attach" : "disable"
+  ) : var.utm_guest_additions_mode
 
   # virtualbox-iso
   vbox_firmware = var.vbox_firmware == null ? (
@@ -104,6 +147,7 @@ locals {
       ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
       ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
       ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+      ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
       ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
       ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
       ["modifyvm", "{{.Name}}", "--mouse", "usb"],
@@ -147,9 +191,6 @@ locals {
   ) : var.vmware_vmx_data
 
   # Source block common
-  default_boot_wait = var.default_boot_wait == null ? (
-    var.is_windows ? "60s" : "10s"
-  ) : var.default_boot_wait
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
       var.os_arch == "x86_64" ? (
@@ -166,6 +207,10 @@ locals {
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
+  default_boot_command = var.boot_command
+  default_boot_wait = var.default_boot_wait == null ? (
+    var.is_windows ? "60s" : "10s"
+  ) : var.default_boot_wait
   disk_size = var.disk_size == null ? (
     var.is_windows ? 131072 : 65536
   ) : var.disk_size
@@ -203,7 +248,7 @@ source "hyperv-iso" "vm" {
   guest_additions_mode  = var.hyperv_guest_additions_mode
   switch_name           = var.hyperv_switch_name
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
   boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
   cd_content       = var.cd_content
   cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
@@ -240,7 +285,7 @@ source "parallels-ipsw" "vm" {
   prlctl_post         = var.parallels_prlctl_post
   prlctl_version_file = var.parallels_prlctl_version_file
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.parallels-ipsw_boot_command == null ? local.default_boot_command : var.parallels_boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cpus             = var.cpus
   communicator     = local.communicator
@@ -265,7 +310,7 @@ source "parallels-iso" "vm" {
   prlctl                 = local.parallels_prlctl
   prlctl_version_file    = var.parallels_prlctl_version_file
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.parallels-iso_boot_command == null ? local.default_boot_command : var.parallels_boot_command
   boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -293,28 +338,28 @@ source "parallels-iso" "vm" {
 }
 source "qemu" "vm" {
   # QEMU specific options
-  accelerator         = var.qemu_accelerator
+  accelerator         = local.qemu_accelerator
   cpu_model           = var.qemu_cpu_model
   display             = local.qemu_display
-  use_default_display = local.qemu_use_default_display
-  # disk_cache          = var.qemu_disk_cache
-  # disk_compression    = var.qemu_disk_compression
-  # disk_detect_zeroes  = var.qemu_disk_detect_zeroes
-  # disk_discard        = var.qemu_disk_discard
-  disk_image = var.qemu_disk_image
-  # disk_interface      = var.qemu_disk_interface
-  efi_boot          = local.qemu_efi_boot
-  efi_firmware_code = local.qemu_efi_firmware_code
-  efi_firmware_vars = local.qemu_efi_firmware_vars
-  efi_drop_efivars  = var.qemu_efi_drop_efivars
-  format            = var.qemu_format
-  machine_type      = local.qemu_machine_type
-  # net_device          = var.qemu_net_device
-  qemu_binary = local.qemu_binary
-  qemuargs    = local.qemuargs
-  # use_pflash          = var.qemu_use_pflash
+  disk_cache          = var.qemu_disk_cache
+  disk_compression    = var.qemu_disk_compression
+  disk_detect_zeroes  = var.qemu_disk_detect_zeroes
+  disk_discard        = var.qemu_disk_discard
+  disk_image          = var.qemu_disk_image
+  disk_interface      = var.qemu_disk_interface
+  efi_boot            = local.qemu_efi_boot
+  efi_firmware_code   = local.qemu_efi_firmware_code
+  efi_firmware_vars   = local.qemu_efi_firmware_vars
+  efi_drop_efivars    = var.qemu_efi_drop_efivars
+  format              = var.qemu_format
+  machine_type        = local.qemu_machine_type
+  net_device          = var.qemu_net_device
+  qemu_binary         = local.qemu_binary
+  qemuargs            = local.qemuargs
+  use_default_display = var.qemu_use_default_display
+  use_pflash          = var.qemu_use_pflash
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.qemu_boot_command == null ? local.default_boot_command : var.qemu_boot_command
   boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -330,6 +375,50 @@ source "qemu" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-qemu"
+  shutdown_command = local.shutdown_command
+  shutdown_timeout = var.shutdown_timeout
+  ssh_password     = var.ssh_password
+  ssh_port         = var.ssh_port
+  ssh_timeout      = var.ssh_timeout
+  ssh_username     = var.ssh_username
+  winrm_password   = var.winrm_password
+  winrm_timeout    = var.winrm_timeout
+  winrm_username   = var.winrm_username
+  vm_name          = local.vm_name
+}
+source "utm-iso" "vm" {
+  # UTM specific options
+  boot_nopause              = var.utm_boot_nopause
+  display_hardware_type     = local.utm_display_hardware_type
+  display_nopause           = var.utm_display_nopause
+  export_nopause            = var.utm_export_nopause
+  guest_additions_mode      = local.utm_guest_additions_mode
+  guest_additions_path      = var.utm_guest_additions_path
+  guest_additions_interface = var.utm_guest_additions_interface
+  guest_additions_url       = var.utm_guest_additions_url
+  guest_additions_sha256    = var.utm_guest_additions_sha256
+  hard_drive_interface      = local.utm_hard_drive_interface
+  hypervisor                = var.utm_hypervisor
+  uefi_boot                 = var.utm_uefi_boot
+  vm_arch                   = var.os_arch
+  vm_backend                = var.utm_vm_backend
+  vm_icon                   = var.utm_vm_icon
+  # Source block common options
+  boot_command     = var.utm_boot_command == null ? local.default_boot_command : var.utm_boot_command
+  boot_wait        = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
+  cd_content       = var.cd_content
+  cd_files         = local.cd_files
+  cd_label         = var.cd_label
+  cpus             = var.cpus
+  communicator     = local.communicator
+  disk_size        = local.disk_size
+  floppy_files     = local.floppy_files
+  http_directory   = local.http_directory
+  iso_checksum     = var.iso_checksum
+  iso_target_path  = null # local.iso_target_path # TODO: remove null after https://github.com/naveenrajm7/packer-plugin-utm/issues/25 is fixed
+  iso_url          = var.iso_url
+  memory           = local.memory
+  output_directory = "${local.output_directory}-utm"
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
@@ -357,7 +446,7 @@ source "virtualbox-iso" "vm" {
   vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.vbox_boot_command == null ? local.default_boot_command : var.vbox_boot_command
   boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -420,7 +509,7 @@ source "vmware-iso" "vm" {
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   vnc_disable_password           = var.vmware_vnc_disable_password
   # Source block common options
-  boot_command     = var.boot_command
+  boot_command     = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
   boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files # Broken and not creating disks

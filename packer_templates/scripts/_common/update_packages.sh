@@ -58,12 +58,20 @@ EOF
 elif [ -f "/usr/bin/zypper" ]; then
   version=$(grep VERSION= /etc/os-release | cut -f2 -d\" | cut -f1 -d\ )
 
-  zypper removerepo "openSUSE-${version}-0"
+  # Compare version to determine repository setup
+  if [ "$(printf '%s\n' "16.0" "$version" | sort -V | head -n1)" = "16.0" ] && [ "$version" != "16.0" ]; then
+    # Version is less than 16.0
+    zypper removerepo "openSUSE-${version}-0"
 
-  zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/oss/ openSUSE-Leap-"${version}"-Oss
-  zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/non-oss/ openSUSE-Leap-"${version}"-Non-Oss
-  zypper ar http://download.opensuse.org/update/leap/"${version}"/oss/ openSUSE-Leap-"${version}"-Update
-  zypper ar http://download.opensuse.org/update/leap/"${version}"/non-oss/ openSUSE-Leap-"${version}"-Update-Non-Oss
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/oss/ openSUSE-Leap-"${version}"-Oss
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/non-oss/ openSUSE-Leap-"${version}"-Non-Oss
+    zypper ar http://download.opensuse.org/update/leap/"${version}"/oss/ openSUSE-Leap-"${version}"-Update
+    zypper ar http://download.opensuse.org/update/leap/"${version}"/non-oss/ openSUSE-Leap-"${version}"-Update-Non-Oss
+  else
+    # Version is 16.0 or greater
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/oss/ openSUSE-Leap-"${version}"-Oss
+    zypper ar http://download.opensuse.org/distribution/leap/"${version}"/repo/non-oss/ openSUSE-Leap-"${version}"-Non-Oss
+  fi
 
   zypper refresh
   zypper update -y
@@ -81,7 +89,8 @@ elif [ "$OS_NAME" = "FreeBSD" ]; then
     rm -f /etc/pkg/FreeBSD.conf.bak
   fi
 
-  env ASSUME_ALWAYS_YES=true pkg update;
+  env ASSUME_ALWAYS_YES=true pkg update
+  pkg upgrade
 elif [ "$OS_NAME" = "Darwin" ]; then
   echo "Downloading and installing system updates..."
   sudo softwareupdate --agree-to-license -i -r -R --stdinpass vagrant
@@ -90,6 +99,26 @@ else
   exit 1
 fi
 
-echo "updates installed rebooting"
-shutdown -r now
-sleep 60
+REBOOT_NEEDED=false
+# Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
+if [ -f /var/run/reboot-required ]; then
+  REBOOT_NEEDED=true
+# Check for the needs-restarting command (common on RHEL based systems)
+elif command -v needs-restarting > /dev/null 2>&1; then
+  # needs-restarting -r: indicates a full reboot is needed (exit code 1)
+  # needs-restarting -s: indicates a service restart is needed (exit code 1)
+  if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
+    REBOOT_NEEDED=true
+  fi
+else
+  echo "Unable to determine if a reboot is needed defaulting to reboot anyway"
+  REBOOT_NEEDED=true
+fi
+
+if [ "$REBOOT_NEEDED" = true ]; then
+  echo "pkgs installed needing reboot"
+  shutdown -r now
+  sleep 60
+else
+  echo "no pkgs installed needing reboot"
+fi

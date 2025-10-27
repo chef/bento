@@ -61,6 +61,8 @@ class ProviderMetadata
       ver_qemu
     when /hyperv/
       ver_hyperv
+    when /utm/
+      ver_utm
     end
   end
 
@@ -80,7 +82,6 @@ class ProviderMetadata
 
   def ver_parallels
     raise 'Platform is not macOS, exiting...' unless macos?
-
     cmd = Mixlib::ShellOut.new('prlctl --version')
     cmd.run_command
     cmd.stdout.split(' ')[2]
@@ -108,5 +109,12 @@ class ProviderMetadata
     cmd = Mixlib::ShellOut.new('(Get-VMHostSupportedVersion -Default | Select-Object -Property Version | Format-Table -HideTableHeaders | Out-String).trim()')
     cmd.run_command
     cmd.stdout + 'Gen 2'
+  end
+
+  def ver_utm
+    raise 'Platform is not macOS, exiting...' unless macos?
+    cmd = Mixlib::ShellOut.new('utmctl version')
+    cmd.run_command
+    cmd.stdout.chomp
   end
 end

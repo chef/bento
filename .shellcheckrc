@@ -1,0 +1,3 @@
+# ~/.shellcheckrc
+# disable=SC2059,SC2034 # Disable individual error codes
+# disable=SC1090-SC1100 # Disable a range of error codes

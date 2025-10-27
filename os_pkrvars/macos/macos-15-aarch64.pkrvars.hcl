@@ -1,9 +1,10 @@
 os_name    = "macos"
-os_version = "15.6"
+os_version = "15.6.1"
 os_arch    = "aarch64"
 # Download urls cn be foud at https://ipsw.me/VirtualMac2,1
-parallels_ipsw_url      = "https://updates.cdn-apple.com/2025SummerFCS/fullrestores/082-08674/51294E4D-A273-44BE-A280-A69FC347FB87/UniversalMac_15.6_24G84_Restore.ipsw"
-parallels_ipsw_checksum = "8fbeaca047b66bcbc8ea557f2b3f95bcb84cd0f60cbfdadb52fc23ecfe671317"
+parallels_ipsw_url      = "https://updates.cdn-apple.com/2025SummerFCS/fullrestores/093-10809/CFD6DD38-DAF0-40DA-854F-31AAD1294C6F/UniversalMac_15.6.1_24G90_Restore.ipsw"
+parallels_ipsw_checksum = "3d87686b691ac765eb6a6b3082b2334e2af9710096a00432dd519af89ff2ea78"
+utm_vm_icon             = "mac"
 sources_enabled         = ["source.parallels-ipsw.vm"]
 default_boot_wait       = "15s"
 boot_command = [

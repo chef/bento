@@ -6,4 +6,5 @@ iso_checksum            = "file:https://releases.ubuntu.com/jammy/SHA256SUMS"
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_64"
 vmware_guest_os_type    = "ubuntu-64"
+utm_vm_icon             = "ubuntu"
 boot_command            = ["<wait>c<wait>set gfxpayload=keep<enter><wait>linux /casper/vmlinuz quiet autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/ ---<enter><wait>initrd /casper/initrd<wait><enter><wait>boot<enter><wait>"]

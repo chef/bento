@@ -1,7 +1,10 @@
 #!/bin/sh -eux
 
 case "$PACKER_BUILDER_TYPE" in
-  qemu) exit 0 ;;
+utm-iso|qemu)
+  echo "Nothing to do for utm or qemu"
+  exit 0
+  ;;
 esac
 
 OS_NAME=$(uname -s)
@@ -70,7 +73,8 @@ else
       swappart="$(readlink -f /dev/disk/by-uuid/"$swapuuid")";
       /sbin/swapoff "$swappart" || true;
       dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed";
-      /sbin/mkswap -U "$swapuuid" "$swappart";
+      chmod 0600 "$swappart" || true;
+      /sbin/mkswap -U "$swapuuid" "$swappart" || echo "mkswap exit code $? is suppressed";
   fi
 
   sync;

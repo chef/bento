@@ -7,36 +7,39 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## Builds for version 202508.03.0
 
-| os | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 | parallels<br>x86_64 | parallels<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | hyperv<br>x86_64 |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 | x | na | x | na | x | na | x | na |  |
-| almalinux-9 | x | x | x | x | x | x | x |  |  |
-| almalinux-10 | x | x | x | x | x | x |  |  |  |
-| amazonlinux-2023 | x |  |  |  |  |  |  |  |  |
-| centos-stream-9 | x | x | x | x | x | x | x |  |  |
-| centos-stream-10 | x | x | x | x |  | x |  |  |  |
-| debian-12 | x | x | x | x | x | x |  |  |  |
-| debian-13 | x | x | x | x | x | x |  |  |  |
-| fedora-41 | x | x | x | x | x | x | x |  |  |
-| fedora-42 | x | x | x | x | x | x | x |  |  |
-| freebsd-13 | x | x | x | x | x | x | x |  |  |
-| freebsd-14 | x | x | x | x | x | x | x |  |  |
-| macos-14 | na | na | na | na | na | x | na | na | na |
-| macos-15 | na | na | na | na | na | x | na | na | na |
-| opensuse-leap-15 | x | x | x | x | x | x | x |  |  |
-| oraclelinux-8 | x | na | x | na | x | na | x | na |  |
-| oraclelinux-9 | x | x | x | x | x | x | x |  |  |
-| oraclelinux-10 | x |  | x |  | x |  | x |  |  |
-| rockylinux-8 | x | na | x | na | x | na | x | na |  |
-| rockylinux-9 | x | x | x | x | x | x | x |  |  |
-| rockylinux-10 | x | x | x | x | x | x |  |  |  |
-| ubuntu-22.04 | x | x | x | x | x | x |  |  |  |
-| ubuntu-24.04 | x | x | x | x | x | x | x |  |  |
-| windows-11 | x | na | x | x | x | x |  |  |  |
-| windows-2016 | x | na | x | na | x | na |  | na |  |
-| windows-2019 | x | na | x | na | x | na |  | na |  |
-| windows-2022 | x | na | x | na | x | na |  | na |  |
-| windows-2025 | x | na | x | na | x | na |  | na |  |
+| os | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 | parallels<br>x86_64 | parallels<br>aarch64 | utm<br>x86_64 | utm<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | hyperv<br>x86_64 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| almalinux-8 | x | na | x | na | x | na | x | na |  | na |  |
+| almalinux-9 | x | x | x | x | x | x | x | x |  |  |  |
+| almalinux-10 | x | x | x | x | x | x | x | x |  |  |  |
+| amazonlinux-2023 | x |  |  |  |  |  |  |  |  |  |  |
+| centos-stream-9 | x | x | x | x | x | x |  |  |  |  |  |
+| centos-stream-10 | x | x | x | x |  | x | x | x |  |  |  |
+| debian-12 | x | x | x | x | x | x |  |  |  |  |  |
+| debian-13 | x | x | x | x | x | x |  |  |  |  |  |
+| fedora-41 | x | x | x | x | x | x | x | x |  |  |  |
+| fedora-42 | x | x | x | x | x | x | x | x |  |  |  |
+| freebsd-13 | x | x | x | x | x | x | x |  |  |  |  |
+| freebsd-14 | x | x | x | x | x | x | x | x |  |  |  |
+| macos-14 | na | na | na | na | na | x |  |  | na | na | na |
+| macos-15 | na | na | na | na | na | x |  |  | na | na | na |
+| opensuse-leap-15 | x | x | x | x | x | x |  |  |  |  |  |
+| opensuse-leap-16 | x | x | x | x | x | x |  | x |  |  |  |
+| oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
+| oraclelinux-9 | x | x | x | x | x | x | x | x |  |  |  |
+| oraclelinux-10 | x |  | x |  | x |  | x |  |  |  |  |
+| rockylinux-8 | x | na | x | na | x | na | x | na |  | na |  |
+| rockylinux-9 | x | x | x | x | x | x | x | x |  |  |  |
+| rockylinux-10 | x | x | x | x | x | x | x | x |  |  |  |
+| ubuntu-22.04 | x | x | x | x | x | x | x | x |  |  |  |
+| ubuntu-24.04 | x | x | x | x | x | x | x | x | x |  |  |
+| ubuntu-25.04 | x | x | x | x | x | x | x | x | x |  |  |
+| ubuntu-25.10 |  |  |  |  |  |  |  |  |  |  |  |
+| windows-11 | x | na | x | x | x | x |  |  |  |  |  |
+| windows-2016 | x | na | x | na | x | na |  | na |  | na |  |
+| windows-2019 | x | na | x | na | x | na |  | na |  | na |  |
+| windows-2022 | x | na | x | na | x | na |  | na |  | na |  |
+| windows-2025 | x | na | x | na | x | na |  | na |  | na |  |
 
 ### Todo
 
@@ -50,7 +53,31 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2025-08-10)
+## [unreleased] (2025-10-27)
+
+## [v5.0.0] (2025-08-27)
+
+- Add UTM virtualization support <https://mac.getutm.app/>
+- Fix Win11 vbox guest os type for aarch64
+- Update qemu args for aarch64 on macos to properly boot linux vms
+- Fix workflows to remove vms on cancelled jobs
+- Set workflows that have restrictions on automating virtual provider install or arm hosts to use self hosted runners
+- Fix Oracle Linux 10 aarch64 install of gcc after newer kernel updates built on newer gcc version
+- Add check on linux scripts if reboot is needed otherwise move on
+- Added qemu guest tools install script for linux
+- Added utm provider to windows vagrant file template
+- Updated fedora ks file to enable firewall and set selinux to enforcing similar to a default install
+- Added provider specific boot command variables - if null falls back to boot_command variable
+- Consolidate kickstart files
+- Added macOS 26 builds
+- Updated Debian 13 to 13.1
+- Added OpenSUSE Leap 16 builds
+- Fix Debian libvirt build
+- Added Ubuntu 25.04 and 25.10 builds
+- Misc Ubuntu script fixes
+- update testing to move files to testing_passed and testing_failed directories
+- completed build now go to builds/build_complete directory
+- fix scripts reboot checks
 
 ## [v4.2.0] (2025-08-10)
 

@@ -40,7 +40,7 @@ virtualbox-iso|virtualbox-ovf)
   elif [ "$OS_NAME" = "Darwin" ]; then
     echo "Nothing to do for $OS_NAME"
     exit 0
-  elif ! ([ "$(uname -m)" = "aarch64" ] && [ -f /etc/os-release ] && (grep -qi 'opensuse' /etc/os-release || grep -qi 'sles' /etc/os-release)); then
+  else
     ARCHITECTURE="$(uname -m)";
     VER="$(cat "$HOME_DIR"/.vbox_version)";
     ISO="VBoxGuestAdditions_$VER.iso";
@@ -87,10 +87,27 @@ virtualbox-iso|virtualbox-ovf)
 
     echo "removing leftover logs"
     rm -rf /var/log/vboxadd*
-  else
-    echo "Skipping Virtualbox guest additions installation on aarch64 architecture for opensuse and derivatives"
   fi
-  shutdown -r now
-  sleep 60
+
+  REBOOT_NEEDED=false
+  # Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
+  if [ -f /var/run/reboot-required ]; then
+    REBOOT_NEEDED=true
+  # Check for the needs-restarting command (common on RHEL based systems)
+  elif command -v needs-restarting > /dev/null 2>&1; then
+    # needs-restarting -r: indicates a full reboot is needed (exit code 1)
+    # needs-restarting -s: indicates a service restart is needed (exit code 1)
+    if needs-restarting -r > /dev/null 2>&1 || needs-restarting -s > /dev/null 2>&1; then
+      REBOOT_NEEDED=true
+    fi
+  fi
+
+  if [ "$REBOOT_NEEDED" = true ]; then
+    echo "pkgs installed needing reboot"
+    shutdown -r now
+    sleep 60
+  else
+    echo "no pkgs installed needing reboot"
+  fi
   ;;
 esac

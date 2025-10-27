@@ -65,7 +65,7 @@ class BuildRunner
       time = Benchmark.measure do
         cmd.run_command
       end
-      if Dir.glob("../../builds/#{template.split('-')[0...-1].join('-')}*-#{template.split('-')[-1]}.*.box").empty?
+      if Dir.glob("../../builds/build_complete/#{template.split('-')[0...-1].join('-')}*-#{template.split('-')[-1]}.*.box").empty?
         banner('Not writing metadata file since no boxes exist')
       else
         write_final_metadata(template, time.real.ceil)
@@ -103,7 +103,7 @@ class BuildRunner
 
   def write_final_metadata(template, buildtime)
     md = BuildMetadata.new(template, build_timestamp, override_version, pkr_cmd).read
-    path = File.join('../../builds')
+    path = File.join('../../builds/build_complete')
     filename = File.join(path, "#{md[:template]}._metadata.json")
     md[:providers] = ProviderMetadata.new(path, md[:template]).read
     md[:providers].each do |p|

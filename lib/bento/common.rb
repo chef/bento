@@ -57,31 +57,20 @@ module Common
   end
 
   def box_metadata(metadata_file)
-    metadata = {}
-    file = File.read(metadata_file)
-    json = JSON.parse(file)
-
-    # metadata needed for upload: boxname, version, provider, box filename
-    metadata['name'] = json['name']
-    metadata['version'] = json['version']
-    metadata['arch'] = json['arch']
-    metadata['box_basename'] = json['box_basename']
-    metadata['packer'] = json['packer']
-    metadata['vagrant'] = json['vagrant']
-    metadata['providers'] = {}
-    json['providers'].each do |provider|
-      metadata['providers'][provider['name']] = provider.reject { |k, _| k == 'name' }
-    end
-    metadata
+    JSON.parse(File.read(metadata_file))
   end
 
-  def metadata_files(arch_support = false)
+  def metadata_files(arch_support = false, upload = false)
     arch = if RbConfig::CONFIG['host_cpu'] == 'arm64'
              'aarch64'
            else
              RbConfig::CONFIG['host_cpu']
            end
-    glob = "builds/*#{"-#{arch}" if arch_support}._metadata.json"
+    glob = if upload
+             "builds/testing_passed/**/*#{"-#{arch}" if arch_support}._metadata.json"
+           else
+             "builds/build_complete/*#{"-#{arch}" if arch_support}._metadata.json"
+           end
     @metadata_files ||= Dir.glob(glob)
   end
 

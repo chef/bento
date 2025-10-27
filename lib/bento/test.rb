@@ -50,10 +50,14 @@ class TestRunner
   end
 
   def test_box(md_json)
-    bento_dir = Dir.pwd
-    temp_dir = "#{bento_dir}/builds/test-kitchen"
-    Dir.mkdir(temp_dir) unless Dir.exist?(temp_dir)
     md = box_metadata(md_json)
+    bento_dir = Dir.pwd
+    build_dir = File.join(bento_dir, 'builds')
+    build_complete_dir = File.join(build_dir, 'build_complete')
+    kitchen_dir = File.join(build_dir, 'test-kitchen')
+    test_passed_dir = File.join(build_dir, 'testing_passed', md['arch'])
+    test_failed_dir = File.join(build_dir, 'testing_failed', md['arch'])
+    md_json_file = File.basename(md_json)
     arch = case md['arch']
            when 'x86_64', 'amd64'
              'amd64'
@@ -67,46 +71,60 @@ class TestRunner
     @arch = arch
     @share_disabled = no_shared || /(bsd|opensuse)/.match(boxname) ? true : false
 
-    dir = "#{File.expand_path('../../', File.dirname(__FILE__))}/lib/bento/test_templates"
+    Dir.mkdir(kitchen_dir) unless Dir.exist?(kitchen_dir)
+    template_dir = "#{File.expand_path('../../', File.dirname(__FILE__))}/lib/bento/test_templates"
     %w(kitchen.yml bootstrap.sh).each do |file|
       t = file =~ /kitchen/ ? 'kitchen.yml.erb' : "#{file}.erb"
-      erb = ERB.new(File.read(dir + "/#{t}"), trim_mode: '-').result(binding)
-      File.open("#{temp_dir}/#{file}", 'w') { |f| f.puts erb }
+      erb = ERB.new(File.read(template_dir + "/#{t}"), trim_mode: '-').result(binding)
+      File.open("#{kitchen_dir}/#{file}", 'w') { |f| f.puts erb }
     end
+    banner("Test kitchen file created at #{kitchen_dir}/kitchen.yml")
 
-    Dir.chdir(temp_dir)
-    banner("Test kitchen file located in #{temp_dir}")
+    Dir.chdir(kitchen_dir)
+
     if regx
-      test = Mixlib::ShellOut.new("kitchen test #{regx.tr('.', '').tr('_', '-')}", timeout: 900, live_stream: STDOUT)
+      box_name = regx.tr('.', '').tr('_', '-')
+      test = Mixlib::ShellOut.new("kitchen test #{box_name}", timeout: 900, live_stream: STDOUT)
       test.run_command
       if test.error?
-        puts test.stderr
-        errors << "#{regex}"
+        errors << box_name
       end
     else
-      @providers.each do |k, v|
-        banner("Testing #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}")
-        test = Mixlib::ShellOut.new("kitchen test #{@boxname.tr('.', '')}-#{@arch}-#{k.tr('_', '-')}", timeout: 900, live_stream: STDOUT)
+      passed_providers = []
+      failed_providers = []
+      new_md = md.dup
+      new_md['providers'].each do |provider|
+        box_name = "#{@boxname.tr('.', '')}-#{@arch}-#{provider['name'].tr('_', '-')}"
+        banner("Testing #{box_name}")
+        test = Mixlib::ShellOut.new("kitchen test #{box_name}", timeout: 900, live_stream: STDOUT)
         test.run_command
-        @providers[k][:testing] = "passed" unless test.error?
-        next unless test.error?
-        puts test.stderr
-        @providers[k][:testing] = "failed: #{test.stderr}"
-        errors << "#{@boxname}-#{@arch}-#{k}"
-        @providers[k][:testing] = "failed: #{test.stderr}"
-        FileUtils.cp(File.join(bento_dir, md_json), File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json))) unless File.exist?(File.join(bento_dir, 'builds', 'failed_testing', File.basename(md_json)))
-        FileUtils.mv(File.join(bento_dir, 'builds', v['file']), File.join(bento_dir, 'builds', 'failed_testing', v['file']))
-        @providers.delete(k)
-        if @providers.empty?
-          File.delete(File.join(bento_dir, md_json)) if File.exist?(File.join(bento_dir, md_json))
+        if test.error?
+          banner("Testing failed for #{provider['file']}")
+          provider['testing'] = "failed: #{test.stderr}"
+          failed_providers << provider
+          errors << provider['file']
+          new_md['providers'] = failed_providers
+          FileUtils.mkdir_p(test_failed_dir) unless Dir.exist?(test_failed_dir)
+          File.binwrite(File.join(test_failed_dir, md_json_file), JSON.pretty_generate(new_md))
+          FileUtils.mv(File.join(build_complete_dir, provider['file']), File.join(test_failed_dir, provider['file']))
         else
-          File.binwrite(File.join(bento_dir, md_json), JSON.pretty_generate(md))
+          banner("Testing passed for #{provider['file']}")
+          provider['testing'] = 'passed'
+          passed_providers << provider
+          new_md['providers'] = passed_providers
+          FileUtils.mkdir_p(test_passed_dir) unless Dir.exist?(test_passed_dir)
+          File.binwrite(File.join(test_passed_dir, md_json_file), JSON.pretty_generate(new_md))
+          FileUtils.mv(File.join(build_complete_dir, provider['file']), File.join(test_passed_dir, provider['file']))
         end
       end
     end
+    banner("Cleaning up test files for #{@boxname}")
     destroy = Mixlib::ShellOut.new('kitchen destroy', timeout: 900, live_stream: STDOUT)
     destroy.run_command
+    if Dir.glob("#{build_complete_dir}/#{@boxname}-#{md['arch']}.*.box").empty?
+      File.delete(File.join(bento_dir, md_json))
+    end
     Dir.chdir(bento_dir)
-    FileUtils.rm_rf(temp_dir)
+    FileUtils.rm_rf(kitchen_dir)
   end
 end
