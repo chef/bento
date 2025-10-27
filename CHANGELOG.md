@@ -5,7 +5,7 @@
 *__Note:__
 Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
-## Builds for version 202508.03.0
+## Builds for version 202510.26.0
 
 | os | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 | parallels<br>x86_64 | parallels<br>aarch64 | utm<br>x86_64 | utm<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | hyperv<br>x86_64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -13,7 +13,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | almalinux-9 | x | x | x | x | x | x | x | x |  |  |  |
 | almalinux-10 | x | x | x | x | x | x | x | x |  |  |  |
 | amazonlinux-2023 | x |  |  |  |  |  |  |  |  |  |  |
-| centos-stream-9 | x | x | x | x | x | x |  |  |  |  |  |
+| centos-stream-9 | x | x | x | x | x | x | x | x |  |  |  |
 | centos-stream-10 | x | x | x | x |  | x | x | x |  |  |  |
 | debian-12 | x | x | x | x | x | x |  |  |  |  |  |
 | debian-13 | x | x | x | x | x | x |  |  |  |  |  |
@@ -24,7 +24,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | macos-14 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-15 | na | na | na | na | na | x |  |  | na | na | na |
 | opensuse-leap-15 | x | x | x | x | x | x |  |  |  |  |  |
-| opensuse-leap-16 | x | x | x | x | x | x |  | x |  |  |  |
+| opensuse-leap-16 | x | x | x | x | x | x | x | x |  |  |  |
 | oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
 | oraclelinux-9 | x | x | x | x | x | x | x | x |  |  |  |
 | oraclelinux-10 | x |  | x |  | x |  | x |  |  |  |  |
