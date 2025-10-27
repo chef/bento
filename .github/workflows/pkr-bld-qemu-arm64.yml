@@ -59,7 +59,7 @@ jobs:
         uses: actionshub/chef-install@3.0.0
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
-#         with:
+        with:
           version: latest
       - name: Install Bento
         run: |

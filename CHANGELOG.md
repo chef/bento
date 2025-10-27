@@ -9,29 +9,32 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 | os | virtualbox<br>x86_64 | virtualbox<br>aarch64 | vmware<br>x86_64 | vmware<br>aarch64 | parallels<br>x86_64 | parallels<br>aarch64 | utm<br>x86_64 | utm<br>aarch64 | qemu<br>x86_64 | qemu<br>aarch64 | hyperv<br>x86_64 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| almalinux-8 | x | na | x | na | x | na | x | na | x | na |  |
-| almalinux-9 | x | x | x | x | x | x | x | x | x |  |  |
+| almalinux-8 | x | na | x | na | x | na | x | na |  | na |  |
+| almalinux-9 | x | x | x | x | x | x | x | x |  |  |  |
 | almalinux-10 | x | x | x | x | x | x | x | x |  |  |  |
 | amazonlinux-2023 | x |  |  |  |  |  |  |  |  |  |  |
-| centos-stream-9 | x | x | x | x | x | x |  |  | x |  |  |
+| centos-stream-9 | x | x | x | x | x | x |  |  |  |  |  |
 | centos-stream-10 | x | x | x | x |  | x | x | x |  |  |  |
 | debian-12 | x | x | x | x | x | x |  |  |  |  |  |
 | debian-13 | x | x | x | x | x | x |  |  |  |  |  |
-| fedora-41 | x | x | x | x | x | x | x | x | x |  |  |
-| fedora-42 | x | x | x | x | x | x | x | x | x |  |  |
-| freebsd-13 | x | x | x | x | x | x | x |  | x |  |  |
-| freebsd-14 | x | x | x | x | x | x | x | x | x |  |  |
+| fedora-41 | x | x | x | x | x | x | x | x |  |  |  |
+| fedora-42 | x | x | x | x | x | x | x | x |  |  |  |
+| freebsd-13 | x | x | x | x | x | x | x |  |  |  |  |
+| freebsd-14 | x | x | x | x | x | x | x | x |  |  |  |
 | macos-14 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-15 | na | na | na | na | na | x |  |  | na | na | na |
-| opensuse-leap-15 | x | x | x | x | x | x |  |  | x |  |  |
-| oraclelinux-8 | x | na | x | na | x | na | x | na | x | na |  |
-| oraclelinux-9 | x | x | x | x | x | x | x | x | x |  |  |
-| oraclelinux-10 | x |  | x |  | x |  | x |  | x |  |  |
-| rockylinux-8 | x | na | x | na | x | na | x | na | x | na |  |
-| rockylinux-9 | x | x | x | x | x | x | x | x | x |  |  |
+| opensuse-leap-15 | x | x | x | x | x | x |  |  |  |  |  |
+| opensuse-leap-16 | x | x | x | x | x | x |  | x |  |  |  |
+| oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
+| oraclelinux-9 | x | x | x | x | x | x | x | x |  |  |  |
+| oraclelinux-10 | x |  | x |  | x |  | x |  |  |  |  |
+| rockylinux-8 | x | na | x | na | x | na | x | na |  | na |  |
+| rockylinux-9 | x | x | x | x | x | x | x | x |  |  |  |
 | rockylinux-10 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-22.04 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-24.04 | x | x | x | x | x | x | x | x | x |  |  |
+| ubuntu-25.04 | x | x | x | x | x | x | x | x | x |  |  |
+| ubuntu-25.10 |  |  |  |  |  |  |  |  |  |  |  |
 | windows-11 | x | na | x | x | x | x |  |  |  |  |  |
 | windows-2016 | x | na | x | na | x | na |  | na |  | na |  |
 | windows-2019 | x | na | x | na | x | na |  | na |  | na |  |

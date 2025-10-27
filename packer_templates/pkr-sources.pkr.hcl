@@ -149,7 +149,7 @@ locals {
       ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
       ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
       ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
-      # ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
+      ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
       ["modifyvm", "{{.Name}}", "--mouse", "usb"],
       ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
       ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
