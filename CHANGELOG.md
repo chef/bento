@@ -53,9 +53,9 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2025-08-10)
+## [unreleased] (2025-10-27)
 
-## [v5.0.0] (2025-08-10)
+## [v5.0.0] (2025-08-27)
 
 - Add UTM virtualization support <https://mac.getutm.app/>
 - Fix Win11 vbox guest os type for aarch64
