@@ -27,12 +27,15 @@ jobs:
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
+          - opensuse-leap-16
           - oraclelinux-9
           - oraclelinux-10
           - rockylinux-9
           - rockylinux-10
           - ubuntu-22.04
           - ubuntu-24.04
+          - ubuntu-25.04
+          - ubuntu-25.10
         provider:
           - utm-iso
     steps:

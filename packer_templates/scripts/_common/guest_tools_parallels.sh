@@ -23,7 +23,7 @@ parallels-iso|parallels-pvm|parallels-ipsw)
     KERNEL_VERSION=$(uname -r | cut -d. -f1,2)
     KERNEL_MAJOR=$(echo "$KERNEL_VERSION" | cut -d. -f1)
     KERNEL_MINOR=$(echo "$KERNEL_VERSION" | cut -d. -f2)
-    if [ "$KERNEL_MAJOR" -lt 5 ] || ([ "$KERNEL_MAJOR" -eq 5 ] && [ "$KERNEL_MINOR" -lt 10 ]); then
+    if [ "$KERNEL_MAJOR" -lt 5 ] || { [ "$KERNEL_MAJOR" -eq 5 ] && [ "$KERNEL_MINOR" -lt 10 ]; }; then
       echo "Skipping Parallels Tools installation: kernel version $KERNEL_VERSION is below 5.10"
     else
       mkdir -p /tmp/parallels;
