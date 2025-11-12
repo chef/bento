@@ -205,19 +205,21 @@ locals {
   vmware_vmx_data = var.vmware_vmx_data == null ? (
     var.is_windows ? (
       var.os_arch == "aarch64" ? {
-        "sata1.present"      = "TRUE"
-        "sata1:2.devicetype" = "cdrom-image"
-        "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
-        "sata1:2.present"    = "TRUE"
-        "svga.autodetect"    = "TRUE"
-        "usb_xhci.present"   = "TRUE"
+        "sata1.present"          = "TRUE"
+        "sata1:2.devicetype"     = "cdrom-image"
+        "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
+        "sata1:2.present"        = "TRUE"
+        "sata1:2.startconnected" = "TRUE"
+        "svga.autodetect"        = "TRUE"
+        "usb_xhci.present"       = "TRUE"
         } : {
-        "sata1.present"      = "TRUE"
-        "sata1:2.devicetype" = "cdrom-image"
-        "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
-        "sata1:2.present"    = "TRUE"
-        "svga.autodetect"    = "TRUE"
-        "usb_xhci.present"   = "TRUE"
+        "sata1.present"          = "TRUE"
+        "sata1:2.devicetype"     = "cdrom-image"
+        "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+        "sata1:2.present"        = "TRUE"
+        "sata1:2.startconnected" = "TRUE"
+        "svga.autodetect"        = "TRUE"
+        "usb_xhci.present"       = "TRUE"
       }
       ) : {
       "svga.autodetect"  = "TRUE"
@@ -550,12 +552,12 @@ source "vmware-iso" "vm" {
   boot_command     = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
   boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cd_content       = var.cd_content
-  cd_files         = local.cd_files # Broken and not creating disks
+  cd_files         = local.cd_files
   cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = null # local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
