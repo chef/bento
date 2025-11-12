@@ -203,23 +203,28 @@ locals {
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
   ) : var.vmware_tools_upload_path
   vmware_vmx_data = var.vmware_vmx_data == null ? (
-    var.is_windows ? (
-      var.os_arch == "aarch64" ? {
-        "sata1.present"          = "TRUE"
-        "sata1:2.devicetype"     = "cdrom-image"
-        "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
-        "sata1:2.present"        = "TRUE"
-        "sata1:2.startconnected" = "TRUE"
-        "svga.autodetect"        = "TRUE"
-        "usb_xhci.present"       = "TRUE"
-        } : {
-        "sata1.present"          = "TRUE"
-        "sata1:2.devicetype"     = "cdrom-image"
-        "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
-        "sata1:2.present"        = "TRUE"
-        "sata1:2.startconnected" = "TRUE"
-        "svga.autodetect"        = "TRUE"
-        "usb_xhci.present"       = "TRUE"
+    local.host_os == "Darwin" ? (
+      var.is_windows ? (
+        var.os_arch == "aarch64" ? {
+          "sata1.present"          = "TRUE"
+          "sata1:2.devicetype"     = "cdrom-image"
+          "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
+          "sata1:2.present"        = "TRUE"
+          "sata1:2.startconnected" = "TRUE"
+          "svga.autodetect"        = "TRUE"
+          "usb_xhci.present"       = "TRUE"
+          } : {
+          "sata1.present"          = "TRUE"
+          "sata1:2.devicetype"     = "cdrom-image"
+          "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+          "sata1:2.present"        = "TRUE"
+          "sata1:2.startconnected" = "TRUE"
+          "svga.autodetect"        = "TRUE"
+          "usb_xhci.present"       = "TRUE"
+        }
+        ) : {
+        "svga.autodetect"  = "TRUE"
+        "usb_xhci.present" = "TRUE"
       }
       ) : {
       "svga.autodetect"  = "TRUE"
