@@ -24,6 +24,7 @@ jobs:
           - debian-13
           - fedora-41
           - fedora-42
+          - fedora-43
           - freebsd-13
           - freebsd-14
           - opensuse-leap-15
