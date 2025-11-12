@@ -18,7 +18,7 @@ packer {
       source  = "github.com/hashicorp/qemu"
     }
     utm = {
-      version = ">= 0.3.3"
+      version = ">= 0.3.4"
       source  = "github.com/naveenrajm7/utm"
     }
     vagrant = {

@@ -124,9 +124,7 @@ switch ($env:PACKER_BUILDER_TYPE) {
     }
     {$_ -in "vmware-iso", "vmware-vmx"} {
         # Actions for VMware ISO builder
-        Write-Host 'Mounting VMware Tools ISO...'
-        Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
-        $volList = Get-Volume | Where-Object {$_.DriveType -ne 'Fixed' -and $_.DriveLetter}
+        $volList = Get-Volume | Where-Object {$_.FileSystemLabel -eq 'VMware Tools' -and $_.DriveLetter}
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\setup.exe"
@@ -146,8 +144,6 @@ switch ($env:PACKER_BUILDER_TYPE) {
                 Write-Host "Guest Tools NOT FOUND at $exe"
             }
         }
-        Dismount-DiskImage -ImagePath C:\vmware-tools.iso
-        Remove-Item C:\vmware-tools.iso
         if ( $installed ) {
             Write-Host "Done installing the guest tools."
         } else {

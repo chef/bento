@@ -55,6 +55,10 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2025-10-27)
 
+- Updated bento to use absolute paths for packer templates
+- Added Fedora 43 builds
+- Removed EOL Fedora 41 templates
+
 ## [v5.0.0] (2025-08-27)
 
 - Add UTM virtualization support <https://mac.getutm.app/>

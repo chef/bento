@@ -1,9 +1,9 @@
 os_name    = "macos"
-os_version = "26.0.1"
+os_version = "26.1"
 os_arch    = "aarch64"
 # Download urls cn be foud at https://ipsw.me/VirtualMac2,1
-parallels_ipsw_url      = "https://updates.cdn-apple.com/2025FallFCS/fullrestores/093-50898/60AE7E97-3E60-441B-9B34-E603C694C5C1/UniversalMac_26.0.1_25A362_Restore.ipsw"
-parallels_ipsw_checksum = "018b76e84e31026eb70a270e12bf4f3adfd722b611489af6553b035343e5ec05"
+parallels_ipsw_url      = "https://updates.cdn-apple.com/2025FallFCS/fullrestores/089-04148/791B6F00-A30B-4EB0-B2E3-257167F7715B/UniversalMac_26.1_25B78_Restore.ipsw"
+parallels_ipsw_checksum = "e0217b3cd0f2edb9ab3294480bef5af2a0be43e86d84a15fab6bca31d3802ee8"
 utm_vm_icon             = "mac"
 sources_enabled         = ["source.parallels-ipsw.vm"]
 default_boot_wait       = "15s"

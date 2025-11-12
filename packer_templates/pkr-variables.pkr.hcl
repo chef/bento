@@ -266,6 +266,10 @@ variable "utm_boot_wait" {
   type    = string
   default = null
 }
+variable "utm_disable_vnc" {
+  type    = bool
+  default = null
+}
 variable "utm_display_hardware_type" {
   type    = string
   default = null
@@ -298,7 +302,12 @@ variable "utm_guest_additions_url" {
 }
 variable "utm_guest_additions_sha256" {
   type    = string
-  default = "65b6a69b392ee01dd314c10f3dad9ebbf9c4160be43f5f0dd6bb715944d9095b"
+  default = null
+}
+variable "utm_guest_additions_target_path" {
+  type        = string
+  default     = null
+  description = "Target path for guest additions iso to be downloaded to"
 }
 variable "utm_hard_drive_interface" {
   type    = string
@@ -307,6 +316,10 @@ variable "utm_hard_drive_interface" {
 variable "utm_hypervisor" {
   type    = bool
   default = true
+}
+variable "utm_iso_interface" {
+  type    = string
+  default = "usb"
 }
 variable "utm_uefi_boot" {
   type    = bool
