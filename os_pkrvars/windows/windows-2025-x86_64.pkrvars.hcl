@@ -7,5 +7,5 @@ iso_url                 = "https://software-static.download.prss.microsoft.com/d
 iso_checksum            = "d0ef4502e350e3c6c53c15b1b3020d38a5ded011bf04998e950720ac8579b23d"
 parallels_guest_os_type = "win-2022"
 vbox_guest_os_type      = "Windows2022_64"
-vmware_guest_os_type    = "windows9srv-64"
+vmware_guest_os_type    = "windows2022srvNext-64"
 utm_vm_icon             = "windows"

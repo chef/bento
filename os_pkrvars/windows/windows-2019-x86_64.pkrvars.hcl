@@ -7,5 +7,5 @@ iso_url                 = "https://software-static.download.prss.microsoft.com/d
 iso_checksum            = "6dae072e7f78f4ccab74a45341de0d6e2d45c39be25f1f5920a2ab4f51d7bcbb"
 parallels_guest_os_type = "win-2019"
 vbox_guest_os_type      = "Windows2019_64"
-vmware_guest_os_type    = "windows9srv-64"
+vmware_guest_os_type    = "windows2019srv-64"
 utm_vm_icon             = "windows"
