@@ -219,7 +219,6 @@ locals {
           "sata1:2.devicetype"     = "cdrom-image"
           "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
           "sata1:2.present"        = "TRUE"
-          "sata1:2.startconnected" = "TRUE"
           "svga.autodetect"        = "TRUE"
           "usb_xhci.present"       = "TRUE"
           } : {
@@ -227,7 +226,6 @@ locals {
           "sata1:2.devicetype"     = "cdrom-image"
           "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
           "sata1:2.present"        = "TRUE"
-          "sata1:2.startconnected" = "TRUE"
           "svga.autodetect"        = "TRUE"
           "usb_xhci.present"       = "TRUE"
         }
