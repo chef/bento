@@ -69,19 +69,22 @@ locals {
     )
   ) : var.qemu_display
   qemu_efi_boot = var.qemu_efi_boot == null ? (
-    var.os_arch == "aarch64" ? true : false
+    var.os_arch == "aarch64" ? true : true
   ) : var.qemu_efi_boot
   qemu_efi_firmware_code = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_code == null ? (
-      local.host_os == "Darwin" ? "/opt/homebrew/share/qemu/edk2-${var.os_arch}-code.fd" :
-      "/usr/local/share/qemu/edk2-x86_64-code.fd"
-    ) : nullthat
-  ) : var.qemu_efi_firmware_code
-  qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-    local.host_os == "Darwin" ? (
-      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
-    ) : null
-  ) : var.qemu_efi_firmware_vars
+      local.host_os == "Darwin" ? "/opt/homebrew/share/qemu/edk2-${var.os_arch}-code.fd" : "/usr/local/share/qemu/edk2-${var.os_arch}-code.fd"
+    ) : var.qemu_efi_firmware_code
+  ) : null
+  qemu_efi_firmware_vars = local.qemu_efi_boot ? (
+    var.qemu_efi_firmware_vars == null ? (
+      local.host_os == "Darwin" ? (
+        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/opt/homebrew/share/qemu/edk2-i386-vars.fd"
+        ) : (
+        var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
+      )
+    ) : var.qemu_efi_firmware_vars
+  ) : null
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
