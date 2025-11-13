@@ -438,8 +438,8 @@ variable "vmware_cores" {
 }
 variable "vmware_disk_adapter_type" {
   type        = string
-  default     = "sata"
-  description = "Disk adapter type.  Needs to be SATA (PVSCSI, or non-SCSI) for ARM64 builds."
+  default     = "nvme"
+  description = "The adapter type for additional virtual disk(s). Available options are ide, sata, nvme, or scsi."
 }
 variable "vmware_firmware" {
   type        = string
