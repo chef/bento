@@ -6,38 +6,38 @@
                  This makes the VirtIO drivers available to Windows, assuming that
                  the VirtIO driver disk at https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
                  (see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads)
-                 is available as drive E:
+                 is available as drive F:
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>E:\viostor\w11\amd64</Path>
+                    <Path>F:\viostor\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>E:\NetKVM\w11\amd64</Path>
+                    <Path>F:\NetKVM\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>E:\Balloon\w11\amd64</Path>
+                    <Path>F:\Balloon\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>E:\pvpanic\w11\amd64</Path>
+                    <Path>F:\pvpanic\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>E:\qemupciserial\w11\amd64</Path>
+                    <Path>F:\qemupciserial\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>E:\qxldod\w11\amd64</Path>
+                    <Path>F:\qxldod\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>E:\vioinput\w11\amd64</Path>
+                    <Path>F:\vioinput\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>E:\viorng\w11\amd64</Path>
+                    <Path>F:\viorng\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>E:\vioscsi\w11\amd64</Path>
+                    <Path>F:\vioscsi\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>E:\vioserial\w11\amd64</Path>
+                    <Path>F:\vioserial\w11\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
