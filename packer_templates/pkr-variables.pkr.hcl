@@ -350,7 +350,7 @@ variable "vbox_boot_wait" {
 }
 variable "vbox_firmware" {
   type        = string
-  default     = null
+  default     = "efi"
   description = "Firmware type, takes bios or efi"
 }
 variable "vbox_gfx_controller" {
@@ -443,7 +443,7 @@ variable "vmware_disk_adapter_type" {
 }
 variable "vmware_firmware" {
   type        = string
-  default     = null
+  default     = "efi"
   description = "The firmware type for the virtual machine. Allowed values are bios, efi, and efi-secure (for secure boot). Defaults to the recommended firmware type for the guest operating system"
 }
 variable "vmware_guest_os_type" {

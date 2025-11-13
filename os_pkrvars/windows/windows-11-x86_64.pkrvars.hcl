@@ -7,5 +7,6 @@ iso_url                 = "https://software-static.download.prss.microsoft.com/d
 iso_checksum            = "a61adeab895ef5a4db436e0a7011c92a2ff17bb0357f58b13bbc4062e535e7b9"
 parallels_guest_os_type = "win-11"
 vbox_guest_os_type      = "Windows11_64"
-vmware_guest_os_type    = "windows9srv-64"
+vmware_guest_os_type    = "windows11-64"
+vmware_firmware         = "efi"
 utm_vm_icon             = "windows-11"

@@ -23,6 +23,9 @@ locals {
     var.is_windows ? (
       var.os_arch == "x86_64" ? "win" : "win-arm"
       ) : (
+      var.os_name == "macos" ? (
+        var.os_arch == "x86_64" ? "mac" : "mac-arm"
+      ) :
       var.os_arch == "x86_64" ? "lin" : "lin-arm"
     )
   ) : var.parallels_tools_flavor
@@ -125,6 +128,9 @@ locals {
   utm_disable_vnc = var.utm_disable_vnc == null ? (
     var.is_windows ? true : false
   ) : var.utm_disable_vnc
+  utm_uefi_boot = var.utm_uefi_boot == null ? (
+    var.is_windows ? true : null
+  ) : var.utm_uefi_boot
   utm_hard_drive_interface = var.utm_hard_drive_interface == null ? (
     var.is_windows ? "nvme" : "virtio"
   ) : var.utm_hard_drive_interface
@@ -293,12 +299,12 @@ source "hyperv-iso" "vm" {
   boot_command     = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
   boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
   cd_content       = var.cd_content
-  cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
+  cd_files         = local.cd_files
   cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = var.hyperv_generation == 2 ? null : local.floppy_files
+  floppy_files     = null # local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -360,7 +366,7 @@ source "parallels-iso" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = null # local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
   iso_target_path  = local.iso_target_path
@@ -409,7 +415,7 @@ source "qemu" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = null # local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -457,7 +463,7 @@ source "utm-iso" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = null # local.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
   iso_target_path  = local.iso_target_path
@@ -499,7 +505,7 @@ source "virtualbox-iso" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = null # local.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum

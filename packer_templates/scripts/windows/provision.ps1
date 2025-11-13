@@ -94,10 +94,10 @@ $volList = Get-Volume | Where-Object {$_.DriveType -ne 'Fixed' -and $_.DriveLett
 switch ($env:PACKER_BUILDER_TYPE) {
     {$_ -in "virtualbox-iso", "virtualbox-ovf"} {
         # Actions for VirtualBox ISO builder
+        $installed = $false
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\VBoxWindowsAdditions.exe"
-            $installed = $false
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {
@@ -125,13 +125,11 @@ switch ($env:PACKER_BUILDER_TYPE) {
     {$_ -in "vmware-iso", "vmware-vmx"} {
         # Actions for VMware ISO builder
         $installed = $false
-
         # Check if vmware-tools.iso exists and mount it
         if (Test-Path -LiteralPath "C:\vmware-tools.iso") {
             Write-Host "Found C:\vmware-tools.iso, mounting it..."
             Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
         }
-
         $volList = Get-Volume | Where-Object {$_.FileSystemLabel -eq 'VMware Tools' -and $_.DriveLetter}
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
@@ -160,10 +158,10 @@ switch ($env:PACKER_BUILDER_TYPE) {
     }
     {$_ -in "parallels-iso", "parallels-pvm"} {
         # Actions for Parallels ISO builder
+        $installed = $false
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\PTAgent.exe"
-            $installed = $false
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {
@@ -190,10 +188,11 @@ switch ($env:PACKER_BUILDER_TYPE) {
     }
     {$_ -in "utm-iso", "qemu"} {
         # Actions for UTM and QEMU builder
+        $installed = $false
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\virtio-win-guest-tools.exe"
-            $installed = $false
+
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {

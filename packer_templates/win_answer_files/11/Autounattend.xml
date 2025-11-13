@@ -61,41 +61,23 @@
                     <Order>2</Order>
                     <Path>%windir%\System32\reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
+                <RunSynchronousCommand wcm:action="add">
+                    <Order>3</Order>
+                    <Path>%windir%\System32\reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
+                </RunSynchronousCommand>
+                <RunSynchronousCommand wcm:action="add">
+                    <Order>4</Order>
+                    <Path>cmd.exe /c ">>"X:\diskpart.txt" (echo:SELECT DISK=0&echo:CLEAN&echo:CONVERT GPT&echo:CREATE PARTITION EFI SIZE=300&echo:FORMAT QUICK FS=FAT32 LABEL=^"System^"&echo:ASSIGN LETTER=S&echo:CREATE PARTITION MSR SIZE=16&echo:CREATE PARTITION PRIMARY)"</Path>
+                </RunSynchronousCommand>
+                <RunSynchronousCommand wcm:action="add">
+                    <Order>5</Order>
+                    <Path>cmd.exe /c ">>"X:\diskpart.txt" (echo:FORMAT QUICK FS=NTFS LABEL=^"Windows^"&echo:ASSIGN LETTER=W)"</Path>
+                </RunSynchronousCommand>
+                <RunSynchronousCommand wcm:action="add">
+                    <Order>6</Order>
+                    <Path>cmd.exe /c "diskpart.exe /s "X:\diskpart.txt" >>"X:\diskpart.log" || ( type "X:\diskpart.log" & echo diskpart encountered an error. & pause & exit /b 1 )"</Path>
+                </RunSynchronousCommand>
             </RunSynchronous>
-            <DiskConfiguration>
-                <Disk wcm:action="add">
-                    <CreatePartitions>
-                        <CreatePartition wcm:action="add">
-                            <Type>Primary</Type>
-                            <Order>1</Order>
-                            <Size>100</Size>
-                        </CreatePartition>
-                        <CreatePartition wcm:action="add">
-                            <Order>2</Order>
-                            <Type>Primary</Type>
-                            <Extend>true</Extend>
-                        </CreatePartition>
-                    </CreatePartitions>
-                    <ModifyPartitions>
-                        <ModifyPartition wcm:action="add">
-                            <Active>true</Active>
-                            <Format>NTFS</Format>
-                            <Label>boot</Label>
-                            <Order>1</Order>
-                            <PartitionID>1</PartitionID>
-                        </ModifyPartition>
-                        <ModifyPartition wcm:action="add">
-                            <Format>NTFS</Format>
-                            <Label>Windows</Label>
-                            <Letter>C</Letter>
-                            <Order>2</Order>
-                            <PartitionID>2</PartitionID>
-                        </ModifyPartition>
-                    </ModifyPartitions>
-                    <DiskID>0</DiskID>
-                    <WillWipeDisk>true</WillWipeDisk>
-                </Disk>
-            </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
                     <InstallFrom>
@@ -106,7 +88,7 @@
                     </InstallFrom>
                     <InstallTo>
                         <DiskID>0</DiskID>
-                        <PartitionID>2</PartitionID>
+                        <PartitionID>3</PartitionID>
                     </InstallTo>
                 </OSImage>
             </ImageInstall>
