@@ -206,7 +206,11 @@ locals {
     var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
   ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.os_name == "macos" ? "darwin" : null
+    var.is_windows ? (
+      var.os_arch == "x86_64" ? "windows" : null
+      ) : (
+      var.os_name == "macos" ? "darwin" : null
+    )
   ) : var.vmware_tools_upload_flavor
   vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
@@ -215,19 +219,19 @@ locals {
     local.host_os == "Darwin" ? (
       var.is_windows ? (
         var.os_arch == "aarch64" ? {
-          "sata1.present"          = "TRUE"
-          "sata1:2.devicetype"     = "cdrom-image"
-          "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
-          "sata1:2.present"        = "TRUE"
-          "svga.autodetect"        = "TRUE"
-          "usb_xhci.present"       = "TRUE"
+          "sata1.present"      = "TRUE"
+          "sata1:2.devicetype" = "cdrom-image"
+          "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
+          "sata1:2.present"    = "TRUE"
+          "svga.autodetect"    = "TRUE"
+          "usb_xhci.present"   = "TRUE"
           } : {
-          "sata1.present"          = "TRUE"
-          "sata1:2.devicetype"     = "cdrom-image"
-          "sata1:2.filename"       = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
-          "sata1:2.present"        = "TRUE"
-          "svga.autodetect"        = "TRUE"
-          "usb_xhci.present"       = "TRUE"
+          "sata1.present"      = "TRUE"
+          "sata1:2.devicetype" = "cdrom-image"
+          "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+          "sata1:2.present"    = "TRUE"
+          "svga.autodetect"    = "TRUE"
+          "usb_xhci.present"   = "TRUE"
         }
         ) : {
         "svga.autodetect"  = "TRUE"

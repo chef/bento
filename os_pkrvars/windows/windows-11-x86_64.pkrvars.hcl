@@ -8,5 +8,6 @@ iso_checksum            = "a61adeab895ef5a4db436e0a7011c92a2ff17bb0357f58b13bbc4
 parallels_guest_os_type = "win-11"
 vbox_guest_os_type      = "Windows11_64"
 vmware_guest_os_type    = "windows11-64"
-vmware_firmware         = "efi"
 utm_vm_icon             = "windows-11"
+vbox_boot_wait          = "12s"
+vmware_boot_wait        = "1s"
