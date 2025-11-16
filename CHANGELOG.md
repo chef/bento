@@ -46,10 +46,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fix failing builds
 - migrate from http directory for hosting files to cd_files in source templates
    - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
-   - Eliminates any potential networking issues
-
+   - Eliminates any potential networking issues with host firewalls
 - Update pipelines to only run on updated pkrvars files
-- Look into making all builds uefi default builds
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
@@ -58,6 +56,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated bento to use absolute paths for packer templates
 - Added Fedora 43 builds
 - Removed EOL Fedora 41 templates
+- Defaulting all sources to use uefi where possible
+- Defaulting all sources to use nvme primary disk where possible
 
 ## [v5.0.0] (2025-08-27)
 

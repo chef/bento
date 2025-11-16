@@ -187,6 +187,8 @@ build {
       "exclude:$_.Title -like '*Preview*'",
       "exclude:$_.Title -like '*Cumulative Update for Microsoft server*'",
       "exclude:$_.Title -like '*Cumulative Update for Windows *'",
+      "exclude:$_.Title -like '*-* Security Update*'", # New naming scheme for cumulative updates
+      "exclude:$_.InstallationBehavior.CanRequestUserInput",
       "include:$true",
     ]
     except = var.is_windows ? null : local.source_names
