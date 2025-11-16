@@ -8,38 +8,38 @@
                  This makes the VirtIO drivers available to Windows, assuming that
                  the VirtIO driver disk at https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
                  (see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads)
-                 is available as drive E:
+                 is available as drive F:
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>E:\viostor\w11\ARM64</Path>
+                    <Path>F:\viostor\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>E:\NetKVM\w11\ARM64</Path>
+                    <Path>F:\NetKVM\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>E:\Balloon\w11\ARM64</Path>
+                    <Path>F:\Balloon\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>E:\pvpanic\w11\ARM64</Path>
+                    <Path>F:\pvpanic\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>E:\qemupciserial\w11\ARM64</Path>
+                    <Path>F:\qemupciserial\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>E:\qxldod\w11\ARM64</Path>
+                    <Path>F:\qxldod\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>E:\vioinput\w11\ARM64</Path>
+                    <Path>F:\vioinput\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>E:\viorng\w11\ARM64</Path>
+                    <Path>F:\viorng\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>E:\vioscsi\w11\ARM64</Path>
+                    <Path>F:\vioscsi\w11\ARM64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>E:\vioserial\w11\ARM64</Path>
+                    <Path>F:\vioserial\w11\ARM64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -53,7 +53,49 @@
 			<UserLocale>en-US</UserLocale>
 		</component>
 		<component name="Microsoft-Windows-Setup" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-			<ImageInstall>
+            <DiskConfiguration>
+                <Disk wcm:action="add">
+                    <DiskID>0</DiskID>
+                    <CreatePartitions>
+                        <!-- 1. EFI System Partition -->
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Size>500</Size>
+                            <Type>EFI</Type>
+                        </CreatePartition>
+                        <!-- 2. Microsoft Reserved Partition (MSR) -->
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Size>128</Size>
+                            <Type>MSR</Type>
+                        </CreatePartition>
+                        <!-- 3. Windows Primary Partition (rest of the space) -->
+                        <CreatePartition wcm:action="add">
+                            <Order>3</Order>
+                            <Extend>true</Extend>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                    </CreatePartitions>
+                    <ModifyPartitions>
+                        <!-- Format the Windows partition -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>3</Order>
+                            <Label>Windows_Server</Label>
+                            <Format>NTFS</Format>
+                            <Letter>C</Letter>
+                        </ModifyPartition>
+                        <!-- Format the EFI partition (optional, usually done automatically) -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>1</Order>
+                            <Label>System</Label>
+                            <Format>FAT32</Format>
+                        </ModifyPartition>
+                    </ModifyPartitions>
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                </Disk>
+            </DiskConfiguration>
+            <ImageInstall>
 				<OSImage>
 					<InstallTo>
 						<DiskID>0</DiskID>
@@ -63,6 +105,7 @@
 			</ImageInstall>
 			<UserData>
 				<ProductKey>
+                    <!-- Public Trial license key -->
 					<Key>XGVPP-NMH47-7TTHJ-W3FW7-8HV2C</Key>
 					<WillShowUI>OnError</WillShowUI>
 				</ProductKey>
@@ -72,26 +115,14 @@
 			<RunSynchronous>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>1</Order>
-					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" (echo SELECT DISK=0&amp;echo CLEAN&amp;echo CONVERT GPT&amp;echo CREATE PARTITION EFI SIZE=100&amp;echo FORMAT QUICK FS=FAT32 LABEL="System"&amp;echo CREATE PARTITION MSR SIZE=16)"</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand wcm:action="add">
-					<Order>2</Order>
-					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" (echo CREATE PARTITION PRIMARY&amp;echo FORMAT QUICK FS=NTFS LABEL="Windows")"</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand wcm:action="add">
-					<Order>3</Order>
-					<Path>cmd.exe /c "diskpart.exe /s "X:\diskpart.txt" &gt;&gt;"X:\diskpart.log" || ( type "X:\diskpart.log" &amp; echo diskpart encountered an error. &amp; pause &amp; exit /b 1 )"</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand wcm:action="add">
-					<Order>4</Order>
 					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
-					<Order>5</Order>
+					<Order>2</Order>
 					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
-					<Order>6</Order>
+					<Order>3</Order>
 					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
 				</RunSynchronousCommand>
 			</RunSynchronous>

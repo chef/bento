@@ -52,6 +52,48 @@
             <UserLocale>en-US</UserLocale>
         </component>
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+            <DiskConfiguration>
+                <Disk wcm:action="add">
+                    <DiskID>0</DiskID>
+                    <CreatePartitions>
+                        <!-- 1. EFI System Partition -->
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Size>500</Size>
+                            <Type>EFI</Type>
+                        </CreatePartition>
+                        <!-- 2. Microsoft Reserved Partition (MSR) -->
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Size>128</Size>
+                            <Type>MSR</Type>
+                        </CreatePartition>
+                        <!-- 3. Windows Primary Partition (rest of the space) -->
+                        <CreatePartition wcm:action="add">
+                            <Order>3</Order>
+                            <Extend>true</Extend>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                    </CreatePartitions>
+                    <ModifyPartitions>
+                        <!-- Format the Windows partition -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>3</Order>
+                            <Label>Windows_Server</Label>
+                            <Format>NTFS</Format>
+                            <Letter>C</Letter>
+                        </ModifyPartition>
+                        <!-- Format the EFI partition (optional, usually done automatically) -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>1</Order>
+                            <Label>System</Label>
+                            <Format>FAT32</Format>
+                        </ModifyPartition>
+                    </ModifyPartitions>
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                </Disk>
+            </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
                     <InstallTo>
@@ -62,6 +104,7 @@
             </ImageInstall>
             <UserData>
                 <ProductKey>
+                    <!-- Public Trial license key -->
                     <Key>XGVPP-NMH47-7TTHJ-W3FW7-8HV2C</Key>
                     <WillShowUI>OnError</WillShowUI>
                 </ProductKey>
