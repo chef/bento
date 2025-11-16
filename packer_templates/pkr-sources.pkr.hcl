@@ -83,7 +83,7 @@ locals {
   qemu_efi_firmware_vars = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_vars == null ? (
       local.host_os == "Darwin" ? (
-        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/opt/homebrew/share/qemu/edk2-i386-vars.fd"
+        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
         ) : (
         var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
       )
