@@ -76,18 +76,20 @@
                         </CreatePartition>
                     </CreatePartitions>
                     <ModifyPartitions>
+                        <!-- Format the EFI partition -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>1</Order>
+                            <PartitionID>1</PartitionID>
+                            <Label>System</Label>
+                            <Format>FAT32</Format>
+                        </ModifyPartition>
                         <!-- Format the Windows partition -->
                         <ModifyPartition wcm:action="add">
-                            <Order>3</Order>
+                            <Order>2</Order>
+                            <PartitionID>3</PartitionID>
                             <Label>Windows_Server</Label>
                             <Format>NTFS</Format>
                             <Letter>C</Letter>
-                        </ModifyPartition>
-                        <!-- Format the EFI partition (optional, usually done automatically) -->
-                        <ModifyPartition wcm:action="add">
-                            <Order>1</Order>
-                            <Label>System</Label>
-                            <Format>FAT32</Format>
                         </ModifyPartition>
                     </ModifyPartitions>
                     <DiskID>0</DiskID>
