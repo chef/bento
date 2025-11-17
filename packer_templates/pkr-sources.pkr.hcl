@@ -175,7 +175,6 @@ locals {
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
         ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
         ] : [
-        ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
         ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
         ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
@@ -466,6 +465,7 @@ source "utm-iso" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
+  chipset                   = var.vbox_chipset
   firmware                  = var.vbox_firmware
   gfx_accelerate_3d         = var.vbox_gfx_accelerate_3d
   gfx_controller            = local.vbox_gfx_controller
