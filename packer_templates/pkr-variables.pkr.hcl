@@ -384,11 +384,11 @@ variable "vbox_guest_os_type" {
 }
 variable "vbox_hard_drive_interface" {
   type    = string
-  default = null
+  default = "pcie"
 }
 variable "vbox_iso_interface" {
   type    = string
-  default = null
+  default = "sata"
 }
 variable "vboxmanage" {
   type    = list(list(string))
