@@ -116,8 +116,6 @@
             </ImageInstall>
             <UserData>
                 <ProductKey>
-                    <!-- Public Trial license key -->
-                    <Key>VDYBN-27WPP-V4HQT-9VMD4-VMK7H</Key>
                     <WillShowUI>OnError</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
