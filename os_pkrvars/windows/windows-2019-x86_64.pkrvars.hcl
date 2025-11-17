@@ -10,4 +10,4 @@ vbox_guest_os_type      = "Windows2019_64"
 vmware_guest_os_type    = "windows2019srv-64"
 utm_vm_icon             = "windows"
 default_boot_wait       = "1s"
-boot_command            = ["<enter><wait><up>"]
+boot_command            = ["<esc><wait><up>"]

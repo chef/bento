@@ -11,4 +11,4 @@ vbox_guest_os_type      = "Windows11_arm64"
 vmware_guest_os_type    = "arm-windows11-64"
 utm_vm_icon             = "windows-11"
 default_boot_wait       = "1s"
-boot_command            = ["<enter><wait><up>"]
+boot_command            = ["<esc><wait><up>"]
