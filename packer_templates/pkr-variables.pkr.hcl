@@ -294,7 +294,7 @@ variable "utm_guest_additions_path" {
 }
 variable "utm_guest_additions_interface" {
   type    = string
-  default = null
+  default = "usb"
 }
 variable "utm_guest_additions_url" {
   type    = string
@@ -311,7 +311,7 @@ variable "utm_guest_additions_target_path" {
 }
 variable "utm_hard_drive_interface" {
   type    = string
-  default = null
+  default = "nvme"
 }
 variable "utm_hypervisor" {
   type    = bool
@@ -353,6 +353,10 @@ variable "vbox_firmware" {
   default     = "efi"
   description = "Firmware type, takes bios or efi"
 }
+variable "vbox_gfx_accelerate_3d" {
+  type    = bool
+  default = null
+}
 variable "vbox_gfx_controller" {
   type    = string
   default = null
@@ -388,6 +392,10 @@ variable "vbox_iso_interface" {
 }
 variable "vboxmanage" {
   type    = list(list(string))
+  default = null
+}
+variable "vbox_nested_virt" {
+  type    = bool
   default = null
 }
 variable "vbox_nic_type" {
@@ -590,7 +598,7 @@ variable "winrm_password" {
 }
 variable "winrm_timeout" {
   type    = string
-  default = "60m"
+  default = "30m"
 }
 variable "winrm_username" {
   type    = string

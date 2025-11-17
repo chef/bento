@@ -83,11 +83,16 @@
                             <Label>System</Label>
                             <Format>FAT32</Format>
                         </ModifyPartition>
-                        <!-- Format the Windows partition -->
+                        <!-- MSR partition - no format but needs entry -->
                         <ModifyPartition wcm:action="add">
                             <Order>2</Order>
+                            <PartitionID>2</PartitionID>
+                        </ModifyPartition>
+                        <!-- Format the Windows partition -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>3</Order>
                             <PartitionID>3</PartitionID>
-                            <Label>Windows_Server</Label>
+                            <Label>Windows</Label>
                             <Format>NTFS</Format>
                             <Letter>C</Letter>
                         </ModifyPartition>
