@@ -388,7 +388,7 @@ variable "vbox_guest_os_type" {
 }
 variable "vbox_hard_drive_interface" {
   type    = string
-  default = "pcie"
+  default = "sata"
 }
 variable "vbox_iso_interface" {
   type    = string
