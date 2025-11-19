@@ -180,7 +180,9 @@ locals {
     )
   ) : var.vboxmanage
   vbox_nic_type = var.vbox_nic_type == null ? (
-    var.os_name == "freebsd" ? "82545EM" : null
+    var.os_name == "freebsd" ? "82545EM" : (
+      var.is_windows && var.os_arch == "x86_64" ? "82545EM" : null
+    )
   ) : var.vbox_nic_type
 
   # vmware-iso
