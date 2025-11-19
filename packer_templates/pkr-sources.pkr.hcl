@@ -1,11 +1,9 @@
-data "external-raw" "host_os" {
-  program = ["uname", "-s"]
-}
+data "host-info" "this" {}
 
 locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
-  host_os   = chomp(data.external-raw.host_os.result)
+  host_os   = data.host-info.this.os_type
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
@@ -50,14 +48,14 @@ locals {
 
   # qemu
   qemu_accelerator = var.qemu_accelerator == null ? (
-    local.host_os == "Darwin" ? "hvf" : null
+    local.host_os == "darwin" ? "hvf" : null
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
     var.is_windows ? (
       var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
       ) : (
-      local.host_os == "Darwin" ? (
+      local.host_os == "darwin" ? (
         var.os_arch == "aarch64" ? "cocoa" : "virtio-gpu-pci"
         ) : (
         var.os_arch == "aarch64" ? "virtio-ramfb" : "virtio-vga"
@@ -69,7 +67,7 @@ locals {
   ) : var.qemu_efi_boot
   qemu_efi_firmware_code = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_code == null ? (
-      local.host_os == "Darwin" ? (
+      local.host_os == "darwin" ? (
         var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
         ) : (
         var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
@@ -78,7 +76,7 @@ locals {
   ) : null
   qemu_efi_firmware_vars = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_vars == null ? (
-      local.host_os == "Darwin" ? (
+      local.host_os == "darwin" ? (
         var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
         ) : (
         var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
@@ -200,7 +198,7 @@ locals {
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
   ) : var.vmware_tools_upload_path
   vmware_vmx_data = var.vmware_vmx_data == null ? (
-    local.host_os == "Darwin" ? (
+    local.host_os == "darwin" ? (
       var.is_windows ? (
         var.os_arch == "aarch64" ? {
           "sata1.present"      = "TRUE"

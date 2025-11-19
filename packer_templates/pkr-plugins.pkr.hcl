@@ -1,9 +1,9 @@
 packer {
   required_version = ">= 1.7.0"
   required_plugins {
-    external = {
-      version = "> 0.0.2"
-      source  = "github.com/joomcode/external"
+    host-info = {
+      version = ">= 1.0.0"
+      source  = "github.com/stromweld/host-info"
     }
     hyperv = {
       version = ">= 1.0.3"
