@@ -152,16 +152,26 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
   vboxmanage = var.vboxmanage == null ? (
-    var.is_windows ? [
-      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
-      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
-      ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
-      ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
-      ["modifyvm", "{{.Name}}", "--mouse", "usb"],
-      ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-      ["modifyvm", "{{.Name}}", "--nic-type1", "usbnet"],
-      ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
-      ] : (
+    var.is_windows ? (
+      var.os_arch == "aarch64" ? [
+        ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+        ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+        ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["modifyvm", "{{.Name}}", "--nic-type1", "usbnet"],
+        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ] : [
+        ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+        ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+        ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+      ]
+      ) : (
       var.os_arch == "aarch64" ? [
         ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
@@ -180,9 +190,7 @@ locals {
     )
   ) : var.vboxmanage
   vbox_nic_type = var.vbox_nic_type == null ? (
-    var.os_name == "freebsd" ? "82545EM" : (
-      var.is_windows && var.os_arch == "x86_64" ? "82545EM" : null
-    )
+    var.os_name == "freebsd" ? "82545EM" : null
   ) : var.vbox_nic_type
 
   # vmware-iso
