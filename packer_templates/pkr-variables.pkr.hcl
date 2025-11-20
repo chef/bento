@@ -350,7 +350,7 @@ variable "vbox_boot_wait" {
 }
 variable "vbox_chipset" {
   type    = string
-  default = "ich9"
+  default = null
 }
 variable "vbox_firmware" {
   type        = string

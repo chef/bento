@@ -142,6 +142,7 @@ locals {
   utm_guest_additions_target_path = var.utm_guest_additions_target_path == null && local.utm_guest_additions_mode != "disable" ? "${path.root}/../builds/iso/${split(".", basename(local.utm_guest_additions_url))[0]}-${substr(sha256(local.utm_guest_additions_url), 0, 8)}.iso" : var.utm_guest_additions_target_path
 
   # virtualbox-iso
+  vbox_chipset = var.vbox_chipset == null ? "ich9" : var.vbox_chipset
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
     var.is_windows ? "vboxsvga" : "vmsvga"
   ) : var.vbox_gfx_controller
@@ -154,6 +155,7 @@ locals {
   vboxmanage = var.vboxmanage == null ? (
     var.is_windows ? (
       var.os_arch == "aarch64" ? [
+        ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
         ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
         ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
@@ -473,7 +475,7 @@ source "utm-iso" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  chipset                   = var.vbox_chipset
+  chipset                   = local.vbox_chipset
   firmware                  = var.vbox_firmware
   gfx_accelerate_3d         = var.vbox_gfx_accelerate_3d
   gfx_controller            = local.vbox_gfx_controller
