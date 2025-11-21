@@ -35,11 +35,11 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | ubuntu-24.04 | x | x | x | x | x | x | x | x | x |  |  |
 | ubuntu-25.04 | x | x | x | x | x | x | x | x | x |  |  |
 | ubuntu-25.10 |  |  |  |  |  |  |  |  |  |  |  |
-| windows-11 | x | na | x | x | x | x |  |  |  |  |  |
-| windows-2016 | x | na | x | na | x | na |  | na |  | na |  |
-| windows-2019 | x | na | x | na | x | na |  | na |  | na |  |
-| windows-2022 | x | na | x | na | x | na |  | na |  | na |  |
-| windows-2025 | x | na | x | na | x | na |  | na |  | na |  |
+| windows-11 | x | na | x |  | x | x | x | x |  |  |  |
+| windows-2016 | x | na | x | na | x | na | x | na |  | na |  |
+| windows-2019 | x | na | x | na | x | na | x | na |  | na |  |
+| windows-2022 | x | na | x | na | x | na | x | na |  | na |  |
+| windows-2025 | x | na | x | na | x | na | x | na |  | na |  |
 
 ### Todo
 
@@ -51,13 +51,16 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2025-10-27)
+## [unreleased] (2025-11-21)
+
+## [v5.0.1] (2025-11-21)
 
 - Updated bento to use absolute paths for packer templates
 - Added Fedora 43 builds
 - Removed EOL Fedora 41 templates
 - Defaulting all sources to use uefi where possible
 - Defaulting all sources to use nvme primary disk where possible
+- Switched to new host-info packer plugin for host info detection
 
 ## [v5.0.0] (2025-08-27)
 
