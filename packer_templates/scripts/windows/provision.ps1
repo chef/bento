@@ -94,10 +94,10 @@ $volList = Get-Volume | Where-Object {$_.DriveType -ne 'Fixed' -and $_.DriveLett
 switch ($env:PACKER_BUILDER_TYPE) {
     {$_ -in "virtualbox-iso", "virtualbox-ovf"} {
         # Actions for VirtualBox ISO builder
+        $installed = $false
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\VBoxWindowsAdditions.exe"
-            $installed = $false
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {
@@ -124,13 +124,17 @@ switch ($env:PACKER_BUILDER_TYPE) {
     }
     {$_ -in "vmware-iso", "vmware-vmx"} {
         # Actions for VMware ISO builder
-        Write-Host 'Mounting VMware Tools ISO...'
-        Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
-        $volList = Get-Volume | Where-Object {$_.DriveType -ne 'Fixed' -and $_.DriveLetter}
+        $installed = $false
+        # Check if vmware-tools.iso exists and mount it
+        $iso_exists = Test-Path -LiteralPath "C:\vmware-tools.iso"
+        if ( $iso_exists ) {
+            Write-Host "Found C:\vmware-tools.iso, mounting it..."
+            Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
+        }
+        $volList = Get-Volume | Where-Object {$_.FileSystemLabel -eq 'VMware Tools' -and $_.DriveLetter}
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\setup.exe"
-            $installed = $false
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {
@@ -146,8 +150,10 @@ switch ($env:PACKER_BUILDER_TYPE) {
                 Write-Host "Guest Tools NOT FOUND at $exe"
             }
         }
-        Dismount-DiskImage -ImagePath C:\vmware-tools.iso
-        Remove-Item C:\vmware-tools.iso
+        if ( $iso_exists ) {
+            Dismount-DiskImage -ImagePath C:\vmware-tools.iso
+            Remove-Item C:\vmware-tools.iso
+        }
         if ( $installed ) {
             Write-Host "Done installing the guest tools."
         } else {
@@ -157,10 +163,10 @@ switch ($env:PACKER_BUILDER_TYPE) {
     }
     {$_ -in "parallels-iso", "parallels-pvm"} {
         # Actions for Parallels ISO builder
+        $installed = $false
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\PTAgent.exe"
-            $installed = $false
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {
@@ -187,10 +193,11 @@ switch ($env:PACKER_BUILDER_TYPE) {
     }
     {$_ -in "utm-iso", "qemu"} {
         # Actions for UTM and QEMU builder
+        $installed = $false
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\virtio-win-guest-tools.exe"
-            $installed = $false
+
             if( Test-Path -LiteralPath $exe ) {
                 Write-host "Guest Tools found at $exe"
                 try {

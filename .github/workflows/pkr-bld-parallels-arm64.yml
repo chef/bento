@@ -22,7 +22,6 @@ jobs:
           - centos-stream-10
           - debian-12
           - debian-13
-          - fedora-41
           - fedora-42
           - fedora-43
           - freebsd-13

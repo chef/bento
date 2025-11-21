@@ -3,6 +3,46 @@
 	<!--https://schneegans.de/windows/unattend-generator/?LanguageMode=Unattended&UILanguage=en-US&Locale=en-US&Keyboard=00000409&GeoLocation=244&ProcessorArchitecture=amd64&ProcessorArchitecture=arm64&BypassRequirementsCheck=true&ComputerNameMode=Custom&ComputerName=bento&CompactOsMode=Default&TimeZoneMode=Explicit&TimeZone=UTC&PartitionMode=Unattended&PartitionLayout=GPT&EspSize=100&RecoveryMode=None&WindowsEditionMode=Generic&WindowsEdition=enterprise&UserAccountMode=Unattended&AccountName0=vagrant&AccountDisplayName0=&AccountPassword0=vagrant&AccountGroup0=Administrators&AccountName1=&AccountName2=&AccountName3=&AccountName4=&AutoLogonMode=Own&PasswordExpirationMode=Unlimited&LockoutMode=Disabled&HideFiles=HiddenSystem&ShowFileExtensions=true&TaskbarSearch=Box&TaskbarIconsMode=Default&DisableWidgets=true&StartTilesMode=Default&StartPinsMode=Default&DisableUac=true&DisableSac=true&DisableSmartScreen=true&DisableFastStartup=true&DisableSystemRestore=true&EnableRemoteDesktop=true&AllowPowerShellScripts=true&DisableAppSuggestions=true&PreventDeviceEncryption=true&HideEdgeFre=true&DeleteWindowsOld=true&EffectsMode=Performance&DesktopIconsMode=Default&VBoxGuestAdditions=true&VMwareTools=true&VirtIoGuestTools=true&WifiMode=Skip&ExpressSettings=DisableAll&KeysMode=Skip&ColorMode=Default&WallpaperMode=Default&Remove3DViewer=true&RemoveBingSearch=true&RemoveCalculator=true&RemoveCamera=true&RemoveClipchamp=true&RemoveClock=true&RemoveCopilot=true&RemoveCortana=true&RemoveDevHome=true&RemoveFamily=true&RemoveFeedbackHub=true&RemoveGetHelp=true&RemoveHandwriting=true&RemoveInternetExplorer=true&RemoveMailCalendar=true&RemoveMaps=true&RemoveMathInputPanel=true&RemoveMediaFeatures=true&RemoveMixedReality=true&RemoveZuneVideo=true&RemoveNews=true&RemoveOffice365=true&RemoveOneDrive=true&RemoveOneNote=true&RemoveOneSync=true&RemoveOutlook=true&RemovePaint=true&RemovePaint3D=true&RemovePeople=true&RemovePhotos=true&RemovePowerAutomate=true&RemovePowerShell2=true&RemoveQuickAssist=true&RemoveRecall=true&RemoveSkype=true&RemoveSnippingTool=true&RemoveSolitaire=true&RemoveSpeech=true&RemoveStepsRecorder=true&RemoveStickyNotes=true&RemoveTeams=true&RemoveGetStarted=true&RemoveToDo=true&RemoveVoiceRecorder=true&RemoveWallet=true&RemoveWeather=true&RemoveFaxAndScan=true&RemoveWindowsHello=true&RemoveWindowsMediaPlayer=true&RemoveZuneMusic=true&RemoveXboxApps=true&RemoveYourPhone=true&SystemScript0=%26+%7B%0D%0A++foreach%28+%24letter+in+%27DEFGHIJKLMNOPQRSTUVWXYZ%27.ToCharArray%28%29+%29+%7B%0D%0A++++%24exe+%3D+%22%24%7Bletter%7D%3A%5CPTAgent.exe%22%3B%0D%0A++++if%28+Test-Path+-LiteralPath+%24exe+%29+%7B%0D%0A++++++Start-Process+-FilePath+%24exe+-ArgumentList+%27%2Finstall_silent%27%2C+%27%2Fnorestart%27+-Wait%3B%0D%0A++++++return%3B%0D%0A++++%7D%0D%0A++%7D%0D%0A++%27Parallels+Tools+image+%28windows.iso%29+is+not+attached+to+this+VM.%27%3B%0D%0A%7D+*%3E%261+%3E%3E+%27C%3A%5CWindows%5CSetup%5CScripts%5CParallelsTools.log%27%3B&SystemScriptType0=Ps1&FirstLogonScript0=Get-NetConnectionProfile+%7C+Set-NetConnectionProfile+-NetworkCategory+%22Private%22%3B%0D%0ASet-NetFirewallRule+-Name+%22WINRM-HTTP-In-TCP%22+-RemoteAddress+Any%3B%0D%0Areg.exe+ADD+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CWinlogon%22+%2Fv+AutoAdminLogon+%2Ft+REG_SZ+%2Fd+1+%2Ff%3B%0D%0Areg.exe+ADD+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CWinlogon%22+%2Fv+DefaultUserName+%2Ft+REG_SZ+%2Fd+%22vagrant%22+%2Ff%3B%0D%0Areg.exe+ADD+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CWinlogon%22+%2Fv+DefaultPassword+%2Ft+REG_SZ+%2Fd+%22vagrant%22+%2Ff%3B%0D%0Acmd.exe+%2Fc+winrm+quickconfig+-q%3B%0D%0Acmd.exe+%2Fc+winrm+quickconfig+-transport%3Ahttp%3B%0D%0Acmd.exe+%2Fc+winrm+set+winrm%2Fconfig+%40%7BMaxTimeoutms%3D%221800000%22%7D%3B%0D%0Acmd.exe+%2Fc+winrm+set+winrm%2Fconfig%2Fwinrs+%40%7BMaxMemoryPerShellMB%3D%222048%22%7D%3B%0D%0Acmd.exe+%2Fc+winrm+set+winrm%2Fconfig%2Fservice+%40%7BAllowUnencrypted%3D%22true%22%7D%3B%0D%0Acmd.exe+%2Fc+winrm+set+winrm%2Fconfig%2Fservice%2Fauth+%40%7BBasic%3D%22true%22%7D%3B%0D%0Acmd.exe+%2Fc+winrm+set+winrm%2Fconfig%2Fclient%2Fauth+%40%7BBasic%3D%22true%22%7D%3B%0D%0Acmd.exe+%2Fc+winrm+set+winrm%2Fconfig%2Flistener%3FAddress%3D*%2BTransport%3DHTTP+%40%7BPort%3D%225985%22%7D%3B%0D%0Acmd.exe+%2Fc+netsh+firewall+add+portopening+TCP+5985+%22Port+5985%22%3B%0D%0Acmd.exe+%2Fc+net+stop+winrm%3B%0D%0Acmd.exe+%2Fc+sc+config+winrm+start%3D+auto%3B%0D%0Acmd.exe+%2Fc+net+start+winrm%3B%0D%0Acmd.exe+%2Fc+wmic+useraccount+where+%22name%3D%27vagrant%27%22+set+PasswordExpires%3DFALSE%3B&FirstLogonScriptType0=Ps1&WdacMode=Skip-->
 	<settings pass="offlineServicing"></settings>
 	<settings pass="windowsPE">
+        <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="arm64">
+            <!--
+                 This makes the VirtIO drivers available to Windows, assuming that
+                 the VirtIO driver disk at https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+                 (see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads)
+                 is available as drive F:
+            -->
+            <DriverPaths>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
+                    <Path>F:\viostor\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="3">
+                    <Path>F:\NetKVM\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="4">
+                    <Path>F:\Balloon\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="5">
+                    <Path>F:\pvpanic\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="6">
+                    <Path>F:\qemupciserial\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="7">
+                    <Path>F:\qxldod\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="8">
+                    <Path>F:\vioinput\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="9">
+                    <Path>F:\viorng\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="10">
+                    <Path>F:\vioscsi\w11\ARM64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="11">
+                    <Path>F:\vioserial\w11\ARM64</Path>
+                </PathAndCredentials>
+            </DriverPaths>
+        </component>
 		<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
 			<SetupUILanguage>
 				<UILanguage>en-US</UILanguage>
@@ -13,7 +53,55 @@
 			<UserLocale>en-US</UserLocale>
 		</component>
 		<component name="Microsoft-Windows-Setup" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-			<ImageInstall>
+            <DiskConfiguration>
+                <Disk wcm:action="add">
+                    <CreatePartitions>
+                        <!-- 1. EFI System Partition -->
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Size>500</Size>
+                            <Type>EFI</Type>
+                        </CreatePartition>
+                        <!-- 2. Microsoft Reserved Partition (MSR) -->
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Size>128</Size>
+                            <Type>MSR</Type>
+                        </CreatePartition>
+                        <!-- 3. Windows Primary Partition (rest of the space) -->
+                        <CreatePartition wcm:action="add">
+                            <Order>3</Order>
+                            <Extend>true</Extend>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                    </CreatePartitions>
+                    <ModifyPartitions>
+                        <!-- Format the EFI partition -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>1</Order>
+                            <PartitionID>1</PartitionID>
+                            <Label>System</Label>
+                            <Format>FAT32</Format>
+                        </ModifyPartition>
+                        <!-- MSR partition - no format but needs entry -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>2</Order>
+                            <PartitionID>2</PartitionID>
+                        </ModifyPartition>
+                        <!-- Format the Windows partition -->
+                        <ModifyPartition wcm:action="add">
+                            <Order>3</Order>
+                            <PartitionID>3</PartitionID>
+                            <Label>Windows</Label>
+                            <Format>NTFS</Format>
+                            <Letter>C</Letter>
+                        </ModifyPartition>
+                    </ModifyPartitions>
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                </Disk>
+            </DiskConfiguration>
+            <ImageInstall>
 				<OSImage>
 					<InstallTo>
 						<DiskID>0</DiskID>
@@ -23,6 +111,7 @@
 			</ImageInstall>
 			<UserData>
 				<ProductKey>
+                    <!-- Public Trial license key -->
 					<Key>XGVPP-NMH47-7TTHJ-W3FW7-8HV2C</Key>
 					<WillShowUI>OnError</WillShowUI>
 				</ProductKey>
@@ -32,26 +121,14 @@
 			<RunSynchronous>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>1</Order>
-					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" (echo SELECT DISK=0&amp;echo CLEAN&amp;echo CONVERT GPT&amp;echo CREATE PARTITION EFI SIZE=100&amp;echo FORMAT QUICK FS=FAT32 LABEL="System"&amp;echo CREATE PARTITION MSR SIZE=16)"</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand wcm:action="add">
-					<Order>2</Order>
-					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" (echo CREATE PARTITION PRIMARY&amp;echo FORMAT QUICK FS=NTFS LABEL="Windows")"</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand wcm:action="add">
-					<Order>3</Order>
-					<Path>cmd.exe /c "diskpart.exe /s "X:\diskpart.txt" &gt;&gt;"X:\diskpart.log" || ( type "X:\diskpart.log" &amp; echo diskpart encountered an error. &amp; pause &amp; exit /b 1 )"</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand wcm:action="add">
-					<Order>4</Order>
 					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
-					<Order>5</Order>
+					<Order>2</Order>
 					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
-					<Order>6</Order>
+					<Order>3</Order>
 					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
 				</RunSynchronousCommand>
 			</RunSynchronous>

@@ -9,3 +9,6 @@ parallels_guest_os_type = "win-2016"
 vbox_guest_os_type      = "Windows2016_64"
 vmware_guest_os_type    = "windows9srv-64"
 utm_vm_icon             = "windows"
+default_boot_wait       = "1s"
+vbox_boot_wait          = "10s"
+boot_command            = ["<up><wait><up>"]

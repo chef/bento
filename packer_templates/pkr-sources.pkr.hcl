@@ -1,11 +1,9 @@
-data "external-raw" "host_os" {
-  program = ["uname", "-s"]
-}
+data "host-info" "this" {}
 
 locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
-  host_os   = chomp(data.external-raw.host_os.result)
+  host_os   = data.host-info.this.os_type
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
@@ -23,6 +21,9 @@ locals {
     var.is_windows ? (
       var.os_arch == "x86_64" ? "win" : "win-arm"
       ) : (
+      var.os_name == "macos" ? (
+        var.os_arch == "x86_64" ? "mac" : "mac-arm"
+      ) :
       var.os_arch == "x86_64" ? "lin" : "lin-arm"
     )
   ) : var.parallels_tools_flavor
@@ -30,14 +31,10 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.parallels_tools_mode
   parallels_prlctl = var.parallels_prlctl == null ? (
-    var.is_windows ? (
-      var.os_arch == "x86_64" ? [
-        ["set", "{{ .Name }}", "--efi-boot", "off"]
-        ] : [
-        ["set", "{{ .Name }}", "--efi-boot", "on"],
-        ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
-      ]
-      ) : (
+    var.is_windows ? [
+      ["set", "{{ .Name }}", "--efi-boot", "on"],
+      ["set", "{{ .Name }}", "--efi-secure-boot", "off"],
+      ] : (
       var.os_name == "freebsd" && var.os_arch == "x86_64" ? [
         ["set", "{{ .Name }}", "--bios-type", "efi64"],
         ["set", "{{ .Name }}", "--efi-boot", "on"],
@@ -51,31 +48,39 @@ locals {
 
   # qemu
   qemu_accelerator = var.qemu_accelerator == null ? (
-    local.host_os == "Darwin" ? "hvf" : null
+    local.host_os == "darwin" ? "hvf" : null
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
     var.is_windows ? (
       var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
       ) : (
-      local.host_os == "Darwin" ? (
+      local.host_os == "darwin" ? (
         var.os_arch == "aarch64" ? "cocoa" : "virtio-gpu-pci"
         ) : (
         var.os_arch == "aarch64" ? "virtio-ramfb" : "virtio-vga"
       )
     )
   ) : var.qemu_display
-  qemu_efi_boot = var.qemu_efi_boot == null ? (
-    var.os_arch == "aarch64" ? true : false
-  ) : var.qemu_efi_boot
-  qemu_efi_firmware_code = var.qemu_efi_firmware_code == null ? (
-    local.host_os == "Darwin" ? "/opt/homebrew/share/qemu/edk2-${var.os_arch}-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
-  ) : var.qemu_efi_firmware_code
-  qemu_efi_firmware_vars = var.qemu_efi_firmware_vars == null ? (
-    local.host_os == "Darwin" ? (
-      var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
-    ) : null
-  ) : var.qemu_efi_firmware_vars
+  qemu_efi_boot = var.qemu_efi_boot == null ? true : var.qemu_efi_boot
+  qemu_efi_firmware_code = local.qemu_efi_boot ? (
+    var.qemu_efi_firmware_code == null ? (
+      local.host_os == "darwin" ? (
+        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
+        ) : (
+        var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
+      )
+    ) : var.qemu_efi_firmware_code
+  ) : null
+  qemu_efi_firmware_vars = local.qemu_efi_boot ? (
+    var.qemu_efi_firmware_vars == null ? (
+      local.host_os == "darwin" ? (
+        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
+        ) : (
+        var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
+      )
+    ) : var.qemu_efi_firmware_vars
+  ) : null
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
@@ -109,6 +114,9 @@ locals {
   ) : var.qemuargs
 
   # utm-iso
+  utm_boot_command = var.utm_boot_command == null ? (
+    local.utm_disable_vnc ? null : local.default_boot_command
+  ) : var.utm_boot_command
   utm_display_hardware_type = var.utm_display_hardware_type == null ? (
     var.os_arch == "aarch64" ? (
       var.is_windows ? "virtio-ramfb-gl" : "virtio-gpu-pci"
@@ -116,17 +124,20 @@ locals {
       var.is_windows ? "virtio-vga-gl" : "virtio-vga"
     )
   ) : var.utm_display_hardware_type
-  utm_hard_drive_interface = var.utm_hard_drive_interface == null ? (
-    var.is_windows ? "nvme" : "virtio"
-  ) : var.utm_hard_drive_interface
+  utm_disable_vnc = var.utm_disable_vnc == null ? (
+    var.is_windows ? true : false
+  ) : var.utm_disable_vnc
   utm_guest_additions_mode = var.utm_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "disable"
   ) : var.utm_guest_additions_mode
+  utm_guest_additions_url = var.utm_guest_additions_url == null ? (
+    var.is_windows ? "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win.iso" : null
+  ) : var.utm_guest_additions_url
+  utm_guest_additions_sha256      = var.utm_guest_additions_sha256 == null ? "none" : var.utm_guest_additions_sha256
+  utm_guest_additions_target_path = var.utm_guest_additions_target_path == null && local.utm_guest_additions_url != null ? "${path.root}/../builds/iso/${split(".", basename(local.utm_guest_additions_url))[0]}-${substr(sha256(local.utm_guest_additions_url), 0, 8)}.iso" : var.utm_guest_additions_target_path
 
   # virtualbox-iso
-  vbox_firmware = var.vbox_firmware == null ? (
-    var.os_arch == "aarch64" ? "efi" : "bios"
-  ) : var.vbox_firmware
+  vbox_chipset = var.vbox_chipset == null ? "ich9" : var.vbox_chipset
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
     var.is_windows ? "vboxsvga" : "vmsvga"
   ) : var.vbox_gfx_controller
@@ -136,29 +147,44 @@ locals {
   vbox_guest_additions_mode = var.vbox_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
-  vbox_hard_drive_interface = var.vbox_hard_drive_interface == null ? (
-    var.os_arch == "aarch64" ? "virtio" : "sata"
-  ) : var.vbox_hard_drive_interface
-  vbox_iso_interface = var.vbox_iso_interface == null ? (
-    var.os_arch == "aarch64" ? "virtio" : "sata"
-  ) : var.vbox_iso_interface
   vboxmanage = var.vboxmanage == null ? (
-    var.os_arch == "aarch64" ? [
-      ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
-      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
-      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
-      ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
-      ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
-      ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
-      ["modifyvm", "{{.Name}}", "--mouse", "usb"],
-      ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-      ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
-      ] : [
-      ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
-      ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
-      ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
-      ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
-    ]
+    var.is_windows ? (
+      var.os_arch == "aarch64" ? [
+        ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
+        ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+        ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+        ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["modifyvm", "{{.Name}}", "--nic-type1", "usbnet"],
+        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ] : [
+        ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+        ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+        ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+      ]
+      ) : (
+      var.os_arch == "aarch64" ? [
+        ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],
+        ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+        ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+        ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+        ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ] : [
+        ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
+        ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
+        ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+      ]
+    )
   ) : var.vboxmanage
   vbox_nic_type = var.vbox_nic_type == null ? (
     var.os_name == "freebsd" ? "82545EM" : null
@@ -169,7 +195,9 @@ locals {
     var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
   ) : var.vmware_network_adapter_type
   vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? "windows" : (
+    var.is_windows ? (
+      var.os_arch == "x86_64" ? "windows" : null
+      ) : (
       var.os_name == "macos" ? "darwin" : null
     )
   ) : var.vmware_tools_upload_flavor
@@ -177,14 +205,28 @@ locals {
     var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
   ) : var.vmware_tools_upload_path
   vmware_vmx_data = var.vmware_vmx_data == null ? (
-    var.is_windows && var.os_arch == "aarch64" ? {
-      "sata1.present"      = "TRUE"
-      "sata1:2.devicetype" = "cdrom-image"
-      "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
-      "sata1:2.present"    = "TRUE"
-      "svga.autodetect"    = "TRUE"
-      "usb_xhci.present"   = "TRUE"
-      } : {
+    local.host_os == "darwin" ? (
+      var.is_windows ? (
+        var.os_arch == "aarch64" ? {
+          "sata1.present"      = "TRUE"
+          "sata1:2.devicetype" = "cdrom-image"
+          "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
+          "sata1:2.present"    = "TRUE"
+          "svga.autodetect"    = "TRUE"
+          "usb_xhci.present"   = "TRUE"
+          } : {
+          "sata1.present"      = "TRUE"
+          "sata1:2.devicetype" = "cdrom-image"
+          "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+          "sata1:2.present"    = "TRUE"
+          "svga.autodetect"    = "TRUE"
+          "usb_xhci.present"   = "TRUE"
+        }
+        ) : {
+        "svga.autodetect"  = "TRUE"
+        "usb_xhci.present" = "TRUE"
+      }
+      ) : {
       "svga.autodetect"  = "TRUE"
       "usb_xhci.present" = "TRUE"
     }
@@ -214,13 +256,6 @@ locals {
   disk_size = var.disk_size == null ? (
     var.is_windows ? 131072 : 65536
   ) : var.disk_size
-  floppy_files = var.floppy_files == null ? (
-    var.is_windows ? (
-      var.os_arch == "x86_64" ? [
-        "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-      ] : null
-    ) : null
-  ) : var.floppy_files
   http_directory  = var.http_directory == null ? "${path.root}/http" : var.http_directory
   iso_target_path = var.iso_target_path == "build_dir_iso" && var.iso_url != null ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}-${substr(sha256(var.iso_url), 0, 8)}.iso" : var.iso_target_path
   memory = var.memory == null ? (
@@ -251,12 +286,12 @@ source "hyperv-iso" "vm" {
   boot_command     = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
   boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
   cd_content       = var.cd_content
-  cd_files         = var.hyperv_generation == 2 ? local.cd_files : null
+  cd_files         = local.cd_files
   cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = var.hyperv_generation == 2 ? null : local.floppy_files
+  floppy_files     = var.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -318,7 +353,7 @@ source "parallels-iso" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = var.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
   iso_target_path  = local.iso_target_path
@@ -367,7 +402,7 @@ source "qemu" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = var.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -388,23 +423,26 @@ source "qemu" "vm" {
 }
 source "utm-iso" "vm" {
   # UTM specific options
-  boot_nopause              = var.utm_boot_nopause
-  display_hardware_type     = local.utm_display_hardware_type
-  display_nopause           = var.utm_display_nopause
-  export_nopause            = var.utm_export_nopause
-  guest_additions_mode      = local.utm_guest_additions_mode
-  guest_additions_path      = var.utm_guest_additions_path
-  guest_additions_interface = var.utm_guest_additions_interface
-  guest_additions_url       = var.utm_guest_additions_url
-  guest_additions_sha256    = var.utm_guest_additions_sha256
-  hard_drive_interface      = local.utm_hard_drive_interface
-  hypervisor                = var.utm_hypervisor
-  uefi_boot                 = var.utm_uefi_boot
-  vm_arch                   = var.os_arch
-  vm_backend                = var.utm_vm_backend
-  vm_icon                   = var.utm_vm_icon
+  boot_nopause                = var.utm_boot_nopause
+  disable_vnc                 = local.utm_disable_vnc
+  display_hardware_type       = local.utm_display_hardware_type
+  display_nopause             = var.utm_display_nopause
+  export_nopause              = var.utm_export_nopause
+  guest_additions_mode        = local.utm_guest_additions_mode
+  guest_additions_path        = var.utm_guest_additions_path
+  guest_additions_interface   = var.utm_guest_additions_interface
+  guest_additions_url         = local.utm_guest_additions_url
+  guest_additions_sha256      = local.utm_guest_additions_sha256
+  guest_additions_target_path = local.utm_guest_additions_target_path
+  hard_drive_interface        = var.utm_hard_drive_interface
+  hypervisor                  = var.utm_hypervisor
+  iso_interface               = var.utm_iso_interface
+  uefi_boot                   = var.utm_uefi_boot
+  vm_arch                     = var.os_arch
+  vm_backend                  = var.utm_vm_backend
+  vm_icon                     = var.utm_vm_icon
   # Source block common options
-  boot_command     = var.utm_boot_command == null ? local.default_boot_command : var.utm_boot_command
+  boot_command     = local.utm_boot_command
   boot_wait        = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
   cd_content       = var.cd_content
   cd_files         = local.cd_files
@@ -412,10 +450,10 @@ source "utm-iso" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = var.floppy_files
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
-  iso_target_path  = null # local.iso_target_path # TODO: remove null after https://github.com/naveenrajm7/packer-plugin-utm/issues/25 is fixed
+  iso_target_path  = local.iso_target_path
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-utm"
@@ -432,17 +470,21 @@ source "utm-iso" "vm" {
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
-  firmware                  = local.vbox_firmware
+  chipset                   = local.vbox_chipset
+  firmware                  = var.vbox_firmware
+  gfx_accelerate_3d         = var.vbox_gfx_accelerate_3d
   gfx_controller            = local.vbox_gfx_controller
   gfx_vram_size             = local.vbox_gfx_vram_size
   guest_additions_path      = var.vbox_guest_additions_path
   guest_additions_mode      = local.vbox_guest_additions_mode
   guest_additions_interface = var.vbox_guest_additions_interface
   guest_os_type             = var.vbox_guest_os_type
-  hard_drive_interface      = local.vbox_hard_drive_interface
-  iso_interface             = local.vbox_iso_interface
+  hard_drive_interface      = var.vbox_hard_drive_interface
+  iso_interface             = var.vbox_iso_interface
+  nested_virt               = var.vbox_nested_virt
   nic_type                  = local.vbox_nic_type
   rtc_time_base             = var.vbox_rtc_time_base
+  usb                       = var.vbox_usb
   vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
@@ -454,7 +496,7 @@ source "virtualbox-iso" "vm" {
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = var.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum
@@ -512,12 +554,12 @@ source "vmware-iso" "vm" {
   boot_command     = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
   boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
   cd_content       = var.cd_content
-  cd_files         = local.cd_files # Broken and not creating disks
+  cd_files         = local.cd_files
   cd_label         = var.cd_label
   cpus             = var.cpus
   communicator     = local.communicator
   disk_size        = local.disk_size
-  floppy_files     = local.floppy_files
+  floppy_files     = var.floppy_files
   headless         = var.headless
   http_directory   = local.http_directory
   iso_checksum     = var.iso_checksum

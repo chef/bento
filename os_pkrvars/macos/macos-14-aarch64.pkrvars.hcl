@@ -1,5 +1,5 @@
 os_name    = "macos"
-os_version = "14.7.7"
+os_version = "14.8.2"
 os_arch    = "aarch64"
 # Download urls cn be foud at https://ipsw.me/VirtualMac2,1
 parallels_ipsw_url      = "https://updates.cdn-apple.com/2024SummerFCS/fullrestores/062-52859/932E0A8F-6644-4759-82DA-F8FA8DEA806A/UniversalMac_14.6.1_23G93_Restore.ipsw"
