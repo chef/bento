@@ -415,6 +415,10 @@ variable "vbox_rtc_time_base" {
   default     = "UTC"
   description = "RTC time base"
 }
+variable "vbox_usb" {
+  type    = bool
+  default = true
+}
 
 # virtualbox-ovf
 variable "vbox_source_path" {

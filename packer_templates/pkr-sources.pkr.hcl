@@ -489,6 +489,7 @@ source "virtualbox-iso" "vm" {
   nested_virt               = var.vbox_nested_virt
   nic_type                  = local.vbox_nic_type
   rtc_time_base             = var.vbox_rtc_time_base
+  usb                       = var.vbox_usb
   vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
