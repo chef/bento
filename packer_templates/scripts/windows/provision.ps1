@@ -126,7 +126,8 @@ switch ($env:PACKER_BUILDER_TYPE) {
         # Actions for VMware ISO builder
         $installed = $false
         # Check if vmware-tools.iso exists and mount it
-        if (Test-Path -LiteralPath "C:\vmware-tools.iso") {
+        $iso_exists = Test-Path -LiteralPath "C:\vmware-tools.iso"
+        if ( $iso_exists ) {
             Write-Host "Found C:\vmware-tools.iso, mounting it..."
             Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
         }
@@ -148,6 +149,10 @@ switch ($env:PACKER_BUILDER_TYPE) {
             } else {
                 Write-Host "Guest Tools NOT FOUND at $exe"
             }
+        }
+        if ( $iso_exists ) {
+            Dismount-DiskImage -ImagePath C:\vmware-tools.iso
+            Remove-Item C:\vmware-tools.iso
         }
         if ( $installed ) {
             Write-Host "Done installing the guest tools."

@@ -62,9 +62,7 @@ locals {
       )
     )
   ) : var.qemu_display
-  qemu_efi_boot = var.qemu_efi_boot == null ? (
-    var.os_arch == "aarch64" ? true : true
-  ) : var.qemu_efi_boot
+  qemu_efi_boot = var.qemu_efi_boot == null ? true : var.qemu_efi_boot
   qemu_efi_firmware_code = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_code == null ? (
       local.host_os == "darwin" ? (
@@ -129,9 +127,6 @@ locals {
   utm_disable_vnc = var.utm_disable_vnc == null ? (
     var.is_windows ? true : false
   ) : var.utm_disable_vnc
-  utm_uefi_boot = var.utm_uefi_boot == null ? (
-    var.is_windows ? true : null
-  ) : var.utm_uefi_boot
   utm_guest_additions_mode = var.utm_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "disable"
   ) : var.utm_guest_additions_mode
@@ -139,7 +134,7 @@ locals {
     var.is_windows ? "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win.iso" : null
   ) : var.utm_guest_additions_url
   utm_guest_additions_sha256      = var.utm_guest_additions_sha256 == null ? "none" : var.utm_guest_additions_sha256
-  utm_guest_additions_target_path = var.utm_guest_additions_target_path == null && local.utm_guest_additions_mode != "disable" ? "${path.root}/../builds/iso/${split(".", basename(local.utm_guest_additions_url))[0]}-${substr(sha256(local.utm_guest_additions_url), 0, 8)}.iso" : var.utm_guest_additions_target_path
+  utm_guest_additions_target_path = var.utm_guest_additions_target_path == null && local.utm_guest_additions_url != null ? "${path.root}/../builds/iso/${split(".", basename(local.utm_guest_additions_url))[0]}-${substr(sha256(local.utm_guest_additions_url), 0, 8)}.iso" : var.utm_guest_additions_target_path
 
   # virtualbox-iso
   vbox_chipset = var.vbox_chipset == null ? "ich9" : var.vbox_chipset
