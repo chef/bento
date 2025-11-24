@@ -46,6 +46,17 @@ boot_command = [
   "<tab><wait><spacebar><wait><leftShiftOn><tab><leftShiftOff><wait><spacebar><wait5s>",
   # Choose Your Look
   "<leftShiftOn><tab><leftShiftOff><wait><spacebar><wait30s>",
+  # Open Terminal
+  "<spacebar><wait><leftSuperOn><spacebar><leftSuperOff><wait>terminal<wait><enter><wait5s>",
+  # Add vagrant user to sudoers
+  "echo 'vagrant' | sudo -S sh -c 'echo \"vagrant ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/vagrant'<wait><enter><wait5s>",
+  # Set Auto login for vagrant
+  "sudo sysadminctl -autologin set -userName vagrant -password vagrant<wait><enter><wait5s>",
+  # Disable screen lock
+  "sudo sysadminctl -screenLock off -password vagrant<wait><enter><wait5s>",
+  # Close terminal
+  "exit<enter><wait5s>",
+  "<leftSuperOn>q<leftSuperOff>",
   # Enable keyboard navigation
   "<leftCtrlOn><f7><leftCtrlOff><wait2s>",
   # Open System Settings
@@ -59,15 +70,4 @@ boot_command = [
   "<leftSuperOn>q<leftSuperOff><wait5s>",
   # Disable keyboard navigation
   "<leftCtrlOn><f7><leftCtrlOff><wait2s>",
-  # Open Terminal
-  "<leftSuperOn><spacebar><leftSuperOff><wait>terminal<wait><enter><wait5s>",
-  # Add vagrant user to sudoers
-  "echo 'vagrant' | sudo -S sh -c 'echo \"vagrant ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/vagrant'<wait><enter><wait5s>",
-  # Set Auto login for vagrant
-  "sudo sysadminctl -autologin set -userName vagrant -password vagrant<wait><enter><wait5s>",
-  # Disable screen lock
-  "sudo sysadminctl -screenLock off -password vagrant<wait><enter><wait5s>",
-  # Close terminal
-  "exit<enter><wait5s>",
-  "<leftSuperOn>q<leftSuperOff>"
 ]

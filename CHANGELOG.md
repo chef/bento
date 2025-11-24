@@ -23,6 +23,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | freebsd-14 | x | x | x | x | x | x | x | x |  |  |  |
 | macos-14 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-15 | na | na | na | na | na | x |  |  | na | na | na |
+| macos-26 | na | na | na | na | na | x |  |  | na | na | na |
 | opensuse-leap-15 | x | x | x | x | x | x |  |  |  |  |  |
 | opensuse-leap-16 | x | x | x | x | x | x | x | x |  |  |  |
 | oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
@@ -52,6 +53,12 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
 ## [unreleased] (2025-11-21)
+
+- Updated macos boot commands to enable remote login as last step
+- Updated Almalinux 9 to 9.7
+- Updated Debian 13 to 13.2
+- Updated RHEL 9 to 9.7
+- Updated RHEL 10 to 10.1
 
 ## [v5.0.1] (2025-11-21)
 
