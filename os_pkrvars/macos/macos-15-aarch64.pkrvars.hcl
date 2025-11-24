@@ -60,7 +60,7 @@ boot_command = [
   "exit<enter><wait5s>",
   "<leftSuperOn>q<leftSuperOff>",
   # Enable keyboard navigation
-  "<wait><leftCtrlOn><f7><leftCtrlOff><wait2s>",
+  "<leftCtrlOn><f7><leftCtrlOff><wait2s>",
   # Open System Settings
   "<leftSuperOn><spacebar><leftSuperOff><wait>System<spacebar>Settings<wait><enter><wait5s>",
   # Enable Remote Management
