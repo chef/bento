@@ -139,7 +139,7 @@ locals {
   # virtualbox-iso
   vbox_chipset = var.vbox_chipset == null ? "ich9" : var.vbox_chipset
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
-    var.is_windows ? "vboxsvga" : "vmsvga"
+    var.is_windows ? "vboxsvga" : "vboxsvga"
   ) : var.vbox_gfx_controller
   vbox_gfx_vram_size = var.vbox_gfx_controller == null ? (
     var.is_windows ? 128 : 33
@@ -147,6 +147,12 @@ locals {
   vbox_guest_additions_mode = var.vbox_guest_additions_mode == null ? (
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
+  vbox_hard_drive_interface = var.vbox_hard_drive_interface == null ? (
+    var.is_windows ? "sata" : "virtio"
+  ) : var.vbox_hard_drive_interface
+  vbox_iso_interface = var.vbox_iso_interface == null ? (
+    var.is_windows ? "sata" : "virtio"
+  ) : var.vbox_iso_interface
   vboxmanage = var.vboxmanage == null ? (
     var.is_windows ? (
       var.os_arch == "aarch64" ? [
@@ -183,6 +189,10 @@ locals {
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
         ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
         ["modifyvm", "{{.Name}}", "--cableconnected1", "on"],
+        ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usb"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
       ]
     )
   ) : var.vboxmanage
@@ -479,8 +489,8 @@ source "virtualbox-iso" "vm" {
   guest_additions_mode      = local.vbox_guest_additions_mode
   guest_additions_interface = var.vbox_guest_additions_interface
   guest_os_type             = var.vbox_guest_os_type
-  hard_drive_interface      = var.vbox_hard_drive_interface
-  iso_interface             = var.vbox_iso_interface
+  hard_drive_interface      = local.vbox_hard_drive_interface
+  iso_interface             = local.vbox_iso_interface
   nested_virt               = var.vbox_nested_virt
   nic_type                  = local.vbox_nic_type
   rtc_time_base             = var.vbox_rtc_time_base

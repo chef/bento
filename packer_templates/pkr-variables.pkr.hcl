@@ -388,11 +388,11 @@ variable "vbox_guest_os_type" {
 }
 variable "vbox_hard_drive_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vbox_iso_interface" {
   type    = string
-  default = "sata"
+  default = null
 }
 variable "vboxmanage" {
   type    = list(list(string))
@@ -417,7 +417,7 @@ variable "vbox_rtc_time_base" {
 }
 variable "vbox_usb" {
   type    = bool
-  default = true
+  default = false
 }
 
 # virtualbox-ovf
