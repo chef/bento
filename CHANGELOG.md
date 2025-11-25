@@ -56,6 +56,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 - Updated macos boot commands to enable remote login as last step
 - Updated Almalinux 9 to 9.7
+- Updated Almalinux 10 to 10.1
 - Updated Debian 13 to 13.2
 - Updated RHEL 9 to 9.7
 - Updated RHEL 10 to 10.1
