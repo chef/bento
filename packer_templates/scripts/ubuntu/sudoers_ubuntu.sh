@@ -1,6 +1,7 @@
 #!/bin/sh -eux
 
-if ! sudo --version &>/dev/stdout | grep -q sudo-rs; then
+# shellcheck disable=SC2024,SC2260
+if ! sudo --version > /dev/stdout 2>&1 | grep -q sudo-rs; then
   sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=sudo' /etc/sudoers;
 fi
 
