@@ -1,0 +1,12 @@
+os_name                 = "freebsd"
+os_version              = "15.0"
+os_arch                 = "aarch64"
+iso_url                 = "https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-arm64-aarch64-disc1.iso"
+iso_checksum            = "file:https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/CHECKSUM.SHA256-FreeBSD-15.0-RELEASE-arm64-aarch64"
+parallels_guest_os_type = "freebsd"
+vbox_guest_os_type      = "FreeBSD_arm64"
+vmware_guest_os_type    = "arm-freebsd15-64"
+utm_vm_icon             = "freebsd"
+default_boot_wait       = "60s"
+boot_command            = ["<wait>s<wait2>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $1}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $1}') $(ifconfig -l | awk '{print $1}')<enter><wait10>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
+utm_boot_command        = ["<wait>s<wait2>mdmfs -s 100m md1 /tmp<enter><wait>mdmfs -s 100m md2 /mnt<enter><wait>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $1}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $1}') $(ifconfig -l | awk '{print $1}')<enter><wait10>dhclient -p /tmp/dhclient.$(ifconfig -l | awk '{print $2}').pid -l /tmp/dhclient.lease.$(ifconfig -l | awk '{print $2}') $(ifconfig -l | awk '{print $2}')<enter><wait10>fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/freebsd/installerconfig && bsdinstall script /tmp/installerconfig<enter><wait>"]
