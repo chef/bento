@@ -26,6 +26,7 @@ jobs:
           - fedora-43
           - freebsd-13
           - freebsd-14
+          - freebsd-15
           - opensuse-leap-15
           - opensuse-leap-16
           - oraclelinux-8
@@ -95,6 +96,7 @@ jobs:
           - fedora-41
           - freebsd-13
           - freebsd-14
+          - freebsd-15
           - opensuse-leap-15
           - oraclelinux-8
           - oraclelinux-9
