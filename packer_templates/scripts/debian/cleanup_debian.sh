@@ -2,6 +2,7 @@
 
 if [ -d /sys/firmware/efi ]; then
   # Ensure the system can boot by adding the bootloader at the fallback path
+  ln -s -r /usr/lib/grub/x86_64-efi /usr/lib/grub/amd64-efi
   grub-install --target="$(dpkg --print-architecture)"-efi --efi-directory=/boot/efi --bootloader-id=debian --removable
 fi
 
