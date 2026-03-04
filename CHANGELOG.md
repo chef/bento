@@ -273,7 +273,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [v3.1.0] (2023-05-17)
 
-- Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatability
+- Updated VMware disk and cdrom adaptor type to sata for aarch64 build compatibility
 - Added "arm-" to aarch64 pkrvars files vmware_guest_os_type
 - Fixed readme example for bento debian build
 - Added pkrvars file for amazon 2023, more work needed to build vagrant box if/when amazon releases images for providers
@@ -307,7 +307,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Fix failing builds
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
    - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 
 - Update pipelines to only run on updated pkrvars files
@@ -341,7 +341,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
    - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 
 - Update pipelines to only run on updated pkrvars files
@@ -385,7 +385,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Add more Virtualization providers to build pipelines
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
    - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 
 - Update pipelines to only run on updated pkrvars files
@@ -465,7 +465,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Add more Virtualization providers to build pipelines
 - Finish removal of deprecated chef-solo provider to powershell provider for windows
 - migrate from http directory for hosting files to cd_files in source templates
-   - This makes all builds compatable with hyper-v gen 2 which removes floppy disk capability
+   - This makes all builds compatible with hyper-v gen 2 which removes floppy disk capability
    - This also makes things universal for Virtualbox 6.1 to 7.x due to latter requiring extra config for guests on NAT to be able to connect to host
 
 - Update pipelines to only run on updated pkrvars files
@@ -1045,7 +1045,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - RHEL 6.7 image has wrong guest [\#501](https://github.com/chef/bento/issues/501)
 - Fedora 23 x86\_64 and virtualbox: no vboxsf [\#500](https://github.com/chef/bento/issues/500)
 - Broken url on description [\#493](https://github.com/chef/bento/issues/493)
-- Porposal Fedora 23 [\#491](https://github.com/chef/bento/issues/491)
+- Proposal Fedora 23 [\#491](https://github.com/chef/bento/issues/491)
 - Ubuntu 15.10 [\#482](https://github.com/chef/bento/issues/482)
 - /dev/sr0 is readonly [\#480](https://github.com/chef/bento/issues/480)
 - Ubuntu 14.04 Fails to build with bento/packer [\#477](https://github.com/chef/bento/issues/477)
@@ -1276,7 +1276,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[macosx-\*\] Add support for {http,https,no}\_proxy environment variables. [\#391](https://github.com/chef/bento/pull/391) ([fnichol](https://github.com/fnichol))
 - Remove files that are no longer referenced by any templates. [\#390](https://github.com/chef/bento/pull/390) ([fnichol](https://github.com/fnichol))
 - \[macosx-\*\] Improve DRYness & correctness of Mac templates. [\#389](https://github.com/chef/bento/pull/389) ([fnichol](https://github.com/fnichol))
-- Add provider metadata to metdata files on build. [\#387](https://github.com/chef/bento/pull/387) ([fnichol](https://github.com/fnichol))
+- Add provider metadata to metadata files on build. [\#387](https://github.com/chef/bento/pull/387) ([fnichol](https://github.com/fnichol))
 - updated debian's download redirector address [\#386](https://github.com/chef/bento/pull/386) ([rmoriz](https://github.com/rmoriz))
 - preliminary debian 8.1 templates [\#385](https://github.com/chef/bento/pull/385) ([rmoriz](https://github.com/rmoriz))
 - Add Mac OS X 10.10 template. [\#384](https://github.com/chef/bento/pull/384) ([fnichol](https://github.com/fnichol))
@@ -1291,7 +1291,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[ubuntu-12.04-\*\] Update URL paths to use 12.04.5. [\#359](https://github.com/chef/bento/pull/359) ([fnichol](https://github.com/fnichol))
 - Remove VeeWee definitions from project [\#358](https://github.com/chef/bento/pull/358) ([fnichol](https://github.com/fnichol))
 - Add packer/bin/bento for building templates. [\#357](https://github.com/chef/bento/pull/357) ([fnichol](https://github.com/fnichol))
-- update README to point to Boxcutter intead of basebox [\#354](https://github.com/chef/bento/pull/354) ([OBrienCommaJosh](https://github.com/OBrienCommaJosh))
+- update README to point to Boxcutter instead of basebox [\#354](https://github.com/chef/bento/pull/354) ([OBrienCommaJosh](https://github.com/OBrienCommaJosh))
 - Add MAINTAINERS.md file. [\#347](https://github.com/chef/bento/pull/347) ([fnichol](https://github.com/fnichol))
 - Add RHEL 7.1 JSON file. [\#342](https://github.com/chef/bento/pull/342) ([lopaka](https://github.com/lopaka))
 - Solaris 10u11 - zfs base box [\#341](https://github.com/chef/bento/pull/341) ([scotthain](https://github.com/scotthain))
