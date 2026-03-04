@@ -246,7 +246,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Updated windows vagrant template to default to 4GB of memory
 - Default hyperv to generation 2
 - Removed EOL OS builds Windows2012r2, Ubuntu 18.04, Ubuntu 22.10, Debian 10
-- Remove use of deprecated chef-solo provisioner and cookbooks for widnows builds
+- Remove use of deprecated chef-solo provisioner and cookbooks for windows builds
 - Add boot_wait variables for each provider
 - Adjusted default_boot_wait for linux to 5s
 - Added --vars and --var_files flags
@@ -1219,7 +1219,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - Guest Additions are installed without dkms support [\#332](https://github.com/chef/bento/issues/332)
 - need to get the correct cacert.pem for AWS on CentOS boxes [\#325](https://github.com/chef/bento/issues/325)
 - Use the SATA HDD controller for faster disk IO speeds [\#324](https://github.com/chef/bento/issues/324)
-- Better package miror for Debian [\#322](https://github.com/chef/bento/issues/322)
+- Better package mirror for Debian [\#322](https://github.com/chef/bento/issues/322)
 - Error building debian7.8-amd-64 [\#319](https://github.com/chef/bento/issues/319)
 - Fedora kickstart script downloads CA cert bundle over HTTP [\#318](https://github.com/chef/bento/issues/318)
 - CentOS and Fedora boxes packed without docs? [\#317](https://github.com/chef/bento/issues/317)

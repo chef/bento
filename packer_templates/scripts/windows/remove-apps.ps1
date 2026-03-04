@@ -49,7 +49,7 @@ if (($PSVersionTable.PSEdition -ne 'Desktop') -and ($build -lt 22000)) {
 }
 
 # remove all the provisioned appx packages.
-# NB some packages fail to be removed and thats OK.
+# NB some packages fail to be removed and that's OK.
 Get-AppXProvisionedPackage -Online | ForEach-Object {
     Write-Host "Removing the $($_.PackageName) provisioned appx package..."
     try {
@@ -60,7 +60,7 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
 }
 
 # remove appx packages.
-# NB some packages fail to be removed and thats OK.
+# NB some packages fail to be removed and that's OK.
 # see https://docs.microsoft.com/en-us/windows/application-management/apps-in-windows-10
 @(
     'Clipchamp.Clipchamp'
