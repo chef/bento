@@ -13,7 +13,7 @@ trap {
     Exit 1
 }
 
-Write-Host 'Run Cleanmgr only if on workstation. Server edition doesnt have cleanmgr.'
+Write-Host 'Run Cleanmgr only if on workstation. Server edition doesn''t have cleanmgr.'
 $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
 if ($osInfo.ProductType -eq 1) { # cleanmgr isn't on servers
     # registry key locations pulled from https://github.com/spjeff/spadmin/blob/master/Cleanmgr.ps1
