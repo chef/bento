@@ -471,6 +471,10 @@ variable "vmware_tools_upload_flavor" {
   type    = string
   default = null
 }
+variable "vmware_tools_mode" {
+  type    = string
+  default = null
+}
 variable "vmware_tools_upload_path" {
   type    = string
   default = null
