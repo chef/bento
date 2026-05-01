@@ -36,7 +36,7 @@ function Takeown-Registry($key) {
         }
     }
 
-    # get administraor group
+    # get administrator group
     $admins = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
     $admins = $admins.Translate([System.Security.Principal.NTAccount])
 
@@ -57,7 +57,7 @@ function Takeown-File($path) {
     takeown.exe /A /F $path
     $acl = Get-Acl $path
 
-    # get administraor group
+    # get administrator group
     $admins = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
     $admins = $admins.Translate([System.Security.Principal.NTAccount])
 
@@ -178,7 +178,7 @@ Write-Host "Stopping Teams Process" -ForegroundColor Yellow
 try{
     Get-Process -ProcessName Teams | Stop-Process -Force
     Start-Sleep -Seconds 3
-    Write-Host "Teams Process Sucessfully Stopped" -ForegroundColor Green
+    Write-Host "Teams Process Successfully Stopped" -ForegroundColor Green
 }catch{
     Write-Host $_
 }
@@ -202,7 +202,7 @@ Write-Host "Stopping IE Process" -ForegroundColor Yellow
 try{
     Get-Process -ProcessName MicrosoftEdge | Stop-Process -Force
     Get-Process -ProcessName IExplore | Stop-Process -Force
-    Write-Host "Internet Explorer and Edge Processes Sucessfully Stopped" -ForegroundColor Green
+    Write-Host "Internet Explorer and Edge Processes Successfully Stopped" -ForegroundColor Green
 }catch{
     Write-Host $_
 }
