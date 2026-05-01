@@ -54,6 +54,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 
 ## [unreleased] (2025-11-21)
 
+- Update freebsd 14 to 14.4
 - Updated macos boot commands to enable remote login as last step
 - Updated Almalinux 9 to 9.7
 - Updated Almalinux 10 to 10.1
