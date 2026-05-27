@@ -23,11 +23,10 @@ jobs:
           - centos-stream-10
           - debian-12
           - debian-13
-          - fedora-42
-          - freebsd-13
+          - fedora-43
+          - fedora-44
           - freebsd-14
           - freebsd-15
-          - opensuse-leap-15
           - opensuse-leap-16
           - oraclelinux-8
           - oraclelinux-9
@@ -37,8 +36,6 @@ jobs:
           - rockylinux-10
           - ubuntu-22.04
           - ubuntu-24.04
-          - ubuntu-25.04
-          - ubuntu-25.10
           - ubuntu-26.04
         provider:
           - utm-iso

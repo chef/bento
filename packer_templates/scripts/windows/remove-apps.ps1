@@ -78,6 +78,7 @@ Get-AppXProvisionedPackage -Online | ForEach-Object {
     'Microsoft.MSPaint'
     'Microsoft.Office.OneNote'
     'Microsoft.OneDriveSync'
+    'Microsoft.Outlook'
     'Microsoft.Paint'
     'Microsoft.People'
     'Microsoft.PowerAutomateDesktop'

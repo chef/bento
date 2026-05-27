@@ -17,14 +17,13 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-10 | x | x | x | x |  | x | x | x |  |  |  |
 | debian-12 | x | x | x | x | x | x |  |  |  |  |  |
 | debian-13 | x | x | x | x | x | x |  |  |  |  |  |
-| fedora-41 | x | x | x | x | x | x | x | x |  |  |  |
-| fedora-42 | x | x | x | x | x | x | x | x |  |  |  |
-| freebsd-13 | x | x | x | x | x | x | x |  |  |  |  |
+| fedora-43 | x | x | x | x | x | x | x | x |  |  |  |
+| fedora-44 | x | x | x | x | x | x | x | x |  |  |  |
 | freebsd-14 | x | x | x | x | x | x | x | x |  |  |  |
+| freebsd-15 | x | x | x | x | x | x | x | x |  |  |  |
 | macos-14 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-15 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-26 | na | na | na | na | na | x |  |  | na | na | na |
-| opensuse-leap-15 | x | x | x | x | x | x |  |  |  |  |  |
 | opensuse-leap-16 | x | x | x | x | x | x | x | x |  |  |  |
 | oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
 | oraclelinux-9 | x | x | x | x | x | x | x | x |  |  |  |
@@ -34,8 +33,8 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | rockylinux-10 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-22.04 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-24.04 | x | x | x | x | x | x | x | x | x |  |  |
-| ubuntu-25.04 | x | x | x | x | x | x | x | x | x |  |  |
-| ubuntu-25.10 |  |  |  |  |  |  |  |  |  |  |  |
+| ubuntu-25.10 | x | x | x | x | x | x | x | x | x |  |  |
+| ubuntu-26.04 | x | x | x | x | x | x | x | x | x |  |  |
 | windows-11 | x | na | x |  | x | x | x | x |  |  |  |
 | windows-2016 | x | na | x | na | x | na | x | na |  | na |  |
 | windows-2019 | x | na | x | na | x | na | x | na |  | na |  |
@@ -51,6 +50,35 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Update pipelines to only run on updated pkrvars files
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
+
+## [unreleased] (2026-05-27)
+
+### Lifecycle Updates - EOL Removals and New Versions
+
+**Removed (EOL):**
+- Removed Ubuntu 25.04 (Plucky Puffin) - EOL January 2026
+- Removed Fedora 42 - EOL May 13, 2026
+- Removed FreeBSD 13 - EOL April 30, 2026
+- Removed openSUSE Leap 15 - EOL April 30, 2026
+
+**Added (New Major Versions):**
+- Added Fedora 44 support (x86_64 and aarch64)
+
+**Updated (Latest Point Releases):**
+- Updated Ubuntu 24.04 to 24.04.4 LTS
+- Updated builds.yml to reflect current supported OS versions
+- Added AGENTS.md file with repository instructions for GitHub Copilot CLI
+
+### Supported OS Versions (as of May 2026)
+- Ubuntu: 22.04.5 LTS, 24.04.4 LTS, 25.10, 26.04 LTS
+- Fedora: 43, 44
+- Debian: 12 (Bookworm), 13 (Trixie)
+- AlmaLinux: 8.10, 9.7, 10.1
+- Rocky Linux: 8.10, 9.7, 10.1
+- CentOS Stream: 9, 10
+- Oracle Linux: 8.10, 9.6, 10.0
+- openSUSE Leap: 16.0
+- FreeBSD: 14.4, 15.0
 
 ## [unreleased] (2025-11-21)
 
