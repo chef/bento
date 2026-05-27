@@ -204,19 +204,50 @@ locals {
   vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
     var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
   ) : var.vmware_network_adapter_type
-  vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
+  
+  # VMware Tools configuration
+  # tools_source_path and tools_upload_flavor are mutually exclusive
+  # - If tools_source_path is provided by user, use it
+  # - Otherwise, if tools_mode is "attach", auto-detect the ISO path on host
+  # - If tools_mode is "upload" and no tools_source_path, use tools_upload_flavor instead
+  
+  # Default source path based on host OS and guest type (for attach mode)
+  vmware_tools_source_path_default = local.host_os == "darwin" ? (
+    # macOS (VMware Fusion paths)
     var.is_windows ? (
-      var.os_arch == "x86_64" ? "windows" : null
-      ) : (
-      var.os_name == "macos" ? "darwin" : null
+      var.os_arch == "aarch64" ? "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso" : "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+    ) : (
+      var.os_name == "macos" ? "/Applications/VMware Fusion.app/Contents/Library/isoimages/darwin.iso" : "/Applications/VMware Fusion.app/Contents/Library/isoimages/linux.iso"
     )
-  ) : var.vmware_tools_upload_flavor
-  vmware_tools_mode = var.vmware_tools_mode == null ? (
-    local.vmware_tools_upload_flavor == null ? "disable" : "upload"
-  ) : var.vmware_tools_mode
-  vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
-    var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
-  ) : var.vmware_tools_upload_path
+  ) : (
+    # Linux (VMware Workstation paths)
+    var.is_windows ? "/usr/lib/vmware/isoimages/windows.iso" : (
+      var.os_name == "macos" ? "/usr/lib/vmware/isoimages/darwin.iso" : "/usr/lib/vmware/isoimages/linux.iso"
+    )
+  )
+  
+  # Set tools_source_path if user provided one, or if tools_mode is "attach" (auto-detect), otherwise null
+  vmware_tools_source_path = var.vmware_tools_source_path != null ? var.vmware_tools_source_path : (
+    var.vmware_tools_mode == "attach" ? local.vmware_tools_source_path_default : null
+  )
+  
+  # Only set tools_upload_flavor when tools_mode is "upload" AND tools_source_path is not being used
+  vmware_tools_upload_flavor = var.vmware_tools_mode == "upload" && var.vmware_tools_source_path == null ? (
+    var.vmware_tools_upload_flavor == null ? (
+      var.is_windows ? (
+        var.os_arch == "x86_64" ? "windows" : null
+      ) : (
+        var.os_name == "macos" ? "darwin" : null
+      )
+    ) : var.vmware_tools_upload_flavor
+  ) : null
+  
+  # Only set tools_upload_path when tools_mode is "upload"
+  vmware_tools_upload_path = var.vmware_tools_mode == "upload" ? (
+    var.vmware_tools_upload_path == null ? (
+      var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
+    ) : var.vmware_tools_upload_path
+  ) : null
   vmware_vmx_data = var.vmware_vmx_data == null ? (
     local.host_os == "darwin" ? (
       var.is_windows ? (
@@ -556,7 +587,8 @@ source "vmware-iso" "vm" {
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
   network_adapter_type           = local.vmware_network_adapter_type
-  tools_mode                     = local.vmware_tools_mode
+  tools_mode                     = var.vmware_tools_mode
+  tools_source_path              = local.vmware_tools_source_path
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
   usb                            = var.vmware_usb
