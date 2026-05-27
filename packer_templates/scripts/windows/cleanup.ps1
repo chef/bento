@@ -13,7 +13,7 @@ trap {
     Exit 1
 }
 
-Write-Host 'Run Cleanmgr only if on workstation. Server edition doesnt have cleanmgr.'
+Write-Host 'Run Cleanmgr only if on workstation. Server edition doesn''t have cleanmgr.'
 $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
 if ($osInfo.ProductType -eq 1) { # cleanmgr isn't on servers
     # registry key locations pulled from https://github.com/spjeff/spadmin/blob/master/Cleanmgr.ps1
@@ -29,7 +29,7 @@ if ($osInfo.ProductType -eq 1) { # cleanmgr isn't on servers
     Write-Host 'Starting CleanMgr.exe...'
     Start-Process -FilePath CleanMgr.exe -ArgumentList '/sagerun:1' -Wait # -WindowStyle Hidden
 
-    Write-Host 'Waiting for CleanMgr and DismHost processes. Second wait neccesary as CleanMgr.exe spins off separate processes.'
+    Write-Host 'Waiting for CleanMgr and DismHost processes. Second wait necessary as CleanMgr.exe spins off separate processes.'
     Get-Process -Name cleanmgr,dismhost -ErrorAction SilentlyContinue | Wait-Process
 }
 
