@@ -208,7 +208,6 @@ These basebox templates were converted from [veewee](https://github.com/jedi4eve
 - Author: Corey Hemminger ([corey.hemminger@progress.com](mailto:corey.hemminger@progress.com))
 
 ```text
-Copyright 2012-2025, Progress Software, Inc. (<legal@chef.io>)
 Copyright 2011-2012, Tim Dysinger (<tim@dysinger.net>)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -223,3 +222,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+# Copyright
+See [COPYRIGHT.md](./COPYRIGHT.md).
