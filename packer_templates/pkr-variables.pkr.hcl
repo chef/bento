@@ -475,16 +475,16 @@ variable "vmware_tools_mode" {
 variable "vmware_tools_source_path" {
   type        = string
   default     = null
-  description = "Path to the VMware Tools ISO. Only used when tools_mode is 'attach'. If null, Packer uses the default VMware installation path."
+  description = "Path to the VMware Tools ISO on the host. Can be used with 'attach' or 'upload' modes. When null and tools_mode is 'attach', auto-detects VMware installation path. Cannot be used with tools_upload_flavor"
 }
 variable "vmware_tools_upload_flavor" {
-  type    = string
-  default = null
-  description = "The flavor of VMware Tools to upload. Only used when tools_mode is 'upload'"
+  type        = string
+  default     = null
+  description = "The flavor of VMware Tools to upload (darwin, linux, windows). Only used when tools_mode is 'upload' and tools_source_path is null. Cannot be used with tools_source_path"
 }
 variable "vmware_tools_upload_path" {
-  type    = string
-  default = null
+  type        = string
+  default     = null
   description = "The path where VMware Tools will be uploaded in the guest. Only used when tools_mode is 'upload'"
 }
 variable "vmware_version" {
