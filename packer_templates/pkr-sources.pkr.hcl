@@ -204,39 +204,23 @@ locals {
   vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
     var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
   ) : var.vmware_network_adapter_type
-  vmware_tools_upload_flavor = var.vmware_tools_upload_flavor == null ? (
-    var.is_windows ? (
-      var.os_arch == "x86_64" ? "windows" : null
-      ) : (
-      var.os_name == "macos" ? "darwin" : null
-    )
-  ) : var.vmware_tools_upload_flavor
-  vmware_tools_upload_path = var.vmware_tools_upload_path == null ? (
-    var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
-  ) : var.vmware_tools_upload_path
+  vmware_tools_upload_flavor = var.vmware_tools_mode == "upload" && var.vmware_tools_source_path == null ? (
+    var.vmware_tools_upload_flavor == null ? (
+      var.is_windows ? "windows" : (
+        var.os_name == "macos" ? "darwin" : "linux"
+      )
+    ) : var.vmware_tools_upload_flavor
+  ) : null
+  vmware_tools_upload_path = var.vmware_tools_mode == "upload" ? (
+    var.vmware_tools_upload_path == null ? (
+      var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
+    ) : var.vmware_tools_upload_path
+  ) : null
+  vmware_tools_source_path = var.vmware_tools_mode == "disable" ? null : (
+    var.vmware_tools_source_path == null ? null : var.vmware_tools_source_path
+  )
   vmware_vmx_data = var.vmware_vmx_data == null ? (
-    local.host_os == "darwin" ? (
-      var.is_windows ? (
-        var.os_arch == "aarch64" ? {
-          "sata1.present"      = "TRUE"
-          "sata1:2.devicetype" = "cdrom-image"
-          "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso"
-          "sata1:2.present"    = "TRUE"
-          "svga.autodetect"    = "TRUE"
-          "usb_xhci.present"   = "TRUE"
-          } : {
-          "sata1.present"      = "TRUE"
-          "sata1:2.devicetype" = "cdrom-image"
-          "sata1:2.filename"   = "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
-          "sata1:2.present"    = "TRUE"
-          "svga.autodetect"    = "TRUE"
-          "usb_xhci.present"   = "TRUE"
-        }
-        ) : {
-        "svga.autodetect"  = "TRUE"
-        "usb_xhci.present" = "TRUE"
-      }
-      ) : {
+    {
       "svga.autodetect"  = "TRUE"
       "usb_xhci.present" = "TRUE"
     }
@@ -553,6 +537,8 @@ source "vmware-iso" "vm" {
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
   network_adapter_type           = local.vmware_network_adapter_type
+  tools_mode                     = var.vmware_tools_mode
+  tools_source_path              = local.vmware_tools_source_path
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
   usb                            = var.vmware_usb

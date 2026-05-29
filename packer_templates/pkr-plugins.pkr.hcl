@@ -30,7 +30,7 @@ packer {
       source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
-      version = ">= 1.1.0"
+      version = ">= 2.1.3"
       source  = "github.com/hashicorp/vmware"
     }
     windows-update = {
