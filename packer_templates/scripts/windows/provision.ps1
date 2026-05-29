@@ -125,13 +125,33 @@ switch ($env:PACKER_BUILDER_TYPE) {
     {$_ -in "vmware-iso", "vmware-vmx"} {
         # Actions for VMware ISO builder
         $installed = $false
-        # Check if vmware-tools.iso exists and mount it
-        $iso_exists = Test-Path -LiteralPath "C:\vmware-tools.iso"
-        if ( $iso_exists ) {
-            Write-Host "Found C:\vmware-tools.iso, mounting it..."
-            Mount-DiskImage -ImagePath C:\vmware-tools.iso -PassThru | Get-Volume
-        }
+        $iso_mounted = $false
+
+        # First, scan for the VMware Tools volume on an attached CD-ROM (attach mode, the default).
+        # Searching by label handles multiple CD-ROMs (e.g. an autounattend disc) without ambiguity.
         $volList = Get-Volume | Where-Object {$_.FileSystemLabel -eq 'VMware Tools' -and $_.DriveLetter}
+
+        # If the volume wasn't found via label, fall back to mounting an uploaded ISO (upload mode).
+        # Check paths in priority order:
+        #   1. C:\vmware-tools.iso  — our template's explicit default (tools_upload_path)
+        #   2. C:\windows.iso       — Packer plugin default when tools_upload_flavor="windows"
+        #                             and tools_upload_path is not set (resolves to {{.Flavor}}.iso)
+        if (-not $volList) {
+            $iso_path = $null
+            if (Test-Path -LiteralPath "C:\vmware-tools.iso") {
+                $iso_path = "C:\vmware-tools.iso"
+            } elseif (Test-Path -LiteralPath "C:\windows.iso") {
+                $iso_path = "C:\windows.iso"
+            }
+            if ($iso_path) {
+                Write-Host "VMware Tools not on an attached CD-ROM; mounting uploaded ISO at $iso_path..."
+                Mount-DiskImage -ImagePath $iso_path -PassThru | Get-Volume
+                $iso_mounted = $true
+                # Refresh list after mounting
+                $volList = Get-Volume | Where-Object {$_.FileSystemLabel -eq 'VMware Tools' -and $_.DriveLetter}
+            }
+        }
+
         foreach( $vol in $volList ) {
             $letter = $vol.DriveLetter
             $exe = "${letter}:\setup.exe"
@@ -150,14 +170,17 @@ switch ($env:PACKER_BUILDER_TYPE) {
                 Write-Host "Guest Tools NOT FOUND at $exe"
             }
         }
-        if ( $iso_exists ) {
-            Dismount-DiskImage -ImagePath C:\vmware-tools.iso
-            Remove-Item C:\vmware-tools.iso
+
+        # Only dismount and remove if we mounted the ISO ourselves (upload mode)
+        if ($iso_mounted) {
+            Dismount-DiskImage -ImagePath $iso_path
+            Remove-Item $iso_path
         }
+
         if ( $installed ) {
             Write-Host "Done installing the guest tools."
         } else {
-            throw "Guest Tools not found. Skipping installation."
+            throw "Guest Tools not found."
         }
         break
     }
