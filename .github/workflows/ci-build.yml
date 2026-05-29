@@ -15,30 +15,37 @@ jobs:
     secrets: inherit
 
   pkr-bld-amazonlinux:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-amazonlinux.yml
     secrets: inherit
 
   pkr-bld-hyperv:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-hyperv.yml
     secrets: inherit
 
   pkr-bld-parallels:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-parallels.yml
     secrets: inherit
 
   pkr-bld-qemu:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-qemu.yml
     secrets: inherit
 
   pkr-bld-utm:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-utm.yml
     secrets: inherit
 
   pkr-bld-virtualbox:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-virtualbox.yml
     secrets: inherit
 
   pkr-bld-vmware:
+    needs: ci-lint
     uses: ./.github/workflows/pkr-bld-vmware.yml
     secrets: inherit
 

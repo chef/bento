@@ -1,1 +1,2 @@
 rules "~MD007", "~MD013", "~MD024", "~MD033"
+exclude_files ["AGENTS.md"]
