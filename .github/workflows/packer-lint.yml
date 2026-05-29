@@ -1,0 +1,51 @@
+---
+on:
+  workflow_call:
+
+jobs:
+  packer-fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Packer FMT
+        run: if packer fmt -check -recursive .; then exit 0; else echo "Some packer files need to be formatted, run 'packer fmt -recursive .' to fix"; exit 1; fi
+
+  enumerate_pkrvars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Enumerate pkrvars validation
+        shell: bash
+        run: |
+          mapfile -t < <(find os_pkrvars -name "*.pkrvars.hcl")
+          echo "matrix=$(jq -cRn '[inputs]' < <( (( ${#MAPFILE[@]} )) && printf '%s\n' "${MAPFILE[@]}"))" >> "$GITHUB_OUTPUT"
+        id: enumerate_pkrvars
+    outputs:
+      matrix: ${{ steps.enumerate_pkrvars.outputs.matrix }}
+
+  packer-validate:
+    needs: enumerate_pkrvars
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkrvars: ${{ fromJson(needs.enumerate_pkrvars.outputs.matrix) }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Packer Init
+        env:
+          PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: packer init -upgrade packer_templates
+      - name: Packer Validate
+        run: packer validate -var-file="${{ matrix.pkrvars }}" packer_templates
