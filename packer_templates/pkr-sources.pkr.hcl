@@ -217,7 +217,7 @@ locals {
     ) : var.vmware_tools_upload_path
   ) : null
   vmware_tools_source_path = var.vmware_tools_mode == "disable" ? null : (
-    vmware_tools_source_path == null ? null : var.vmaware_tools_source_path
+    var.vmware_tools_source_path == null ? null : var.vmware_tools_source_path
   )
   vmware_vmx_data = var.vmware_vmx_data == null ? (
     {
