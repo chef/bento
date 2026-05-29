@@ -47,4 +47,4 @@ jobs:
     secrets: inherit
 
   packer-iso-check:
-    uses: ./.github/workflows/packer-iso-check.yml
+    uses: ./.github/workflows/packer-iso-url-checker.yml
