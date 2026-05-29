@@ -1,0 +1,114 @@
+---
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # PACKER_LOG: "1"
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      x64_oses: ${{ steps.set-matrix.outputs.x64_oses }}
+      arm64_oses: ${{ steps.set-matrix.outputs.arm64_oses }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          # arm64 exclusions: no aarch64 pkrvars exist for these OS versions
+          X64=$(ruby -r yaml -r json -e "puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') }.to_json")
+          ARM64=$(ruby -r yaml -r json -e "excl=%w[almalinux-8 oraclelinux-8 rockylinux-8]; puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') || excl.include?(o) }.to_json")
+          echo "x64_oses=${X64}" >> "$GITHUB_OUTPUT"
+          echo "arm64_oses=${ARM64}" >> "$GITHUB_OUTPUT"
+
+  x86_64:
+    needs: generate-matrix
+    runs-on: [self-hosted, X64, parallels]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.generate-matrix.outputs.x64_oses) }}
+        provider:
+          - parallels-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-x86_64
+          prlctl stop "$VM" --kill 2> /dev/null
+          sleep 1
+          prlctl delete "$VM" 2> /dev/null
+          sleep 2
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-parallels-x86_64"
+          path: |
+            builds/testing_passed/x86_64/*.box
+            builds/testing_passed/x86_64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression
+
+  aarch64:
+    needs: generate-matrix
+    runs-on: [self-hosted, ARM64, parallels]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.generate-matrix.outputs.arm64_oses) }}
+        provider:
+          - parallels-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          prlctl stop "$VM" --kill 2> /dev/null
+          sleep 1
+          prlctl delete "$VM" 2> /dev/null
+          sleep 2
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-parallels-aarch64"
+          path: |
+            builds/testing_passed/aarch64/*.box
+            builds/testing_passed/aarch64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression

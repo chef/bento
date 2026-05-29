@@ -1,0 +1,109 @@
+---
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # PACKER_LOG: "1"
+
+jobs:
+  x86_64:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - amazonlinux-2023
+    steps:
+      - name: Install Vagrant and VirtualBox
+        run: |
+          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | sudo tee /usr/share/keyrings/oracle-virtualbox-2016.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          echo "deb [signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common vagrant virtualbox-7.1 qemu-utils genisoimage
+          VBoxManage --version
+          vagrant --version
+      - name: Install Chef
+        uses: actionshub/chef-install@3.0.0
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          version: latest
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Bento
+        run: |
+          eval "$(chef shell-init bash)"
+          gem build bento.gemspec
+          gem install bento-*.gem
+      - name: Bento build
+        run: |
+          rm -rf builds
+          sudo mkdir -p /mnt/builds/iso
+          sudo mkdir -p /mnt/builds/build_complete
+          sudo chmod -R 777 /mnt/builds
+          sudo ln -s /mnt/builds ./
+          eval "$(chef shell-init bash)"
+          ./${{ matrix.os }}-x86_64-virtualbox-build.sh
+          ls -alh builds/build_complete
+          cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-virtualbox-x86_64"
+          path: |
+            builds/testing_passed/x86_64/*.box
+            builds/testing_passed/x86_64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression
+
+  aarch64:
+    runs-on: [self-hosted, ARM64, virtualbox]
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - amazonlinux-2023
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          ./${{ matrix.os }}-aarch64-virtualbox-build.sh
+          ls -alh builds/build_complete
+          cat builds/build_complete/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(VBoxManage list vms | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          VBoxManage controlvm $VM poweroff
+          sleep 1
+          vboxmanage unregistervm $VM --delete
+          sleep 2
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-virtualbox-aarch64"
+          path: |
+            builds/testing_passed/aarch64/*.box
+            builds/testing_passed/aarch64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression

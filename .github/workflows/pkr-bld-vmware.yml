@@ -1,0 +1,146 @@
+---
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # PACKER_LOG: "1"
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      x64_oses: ${{ steps.set-matrix.outputs.x64_oses }}
+      arm64_oses: ${{ steps.set-matrix.outputs.arm64_oses }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          # arm64 exclusions: no aarch64 pkrvars exist for these OS versions
+          X64=$(ruby -r yaml -r json -e "puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') }.to_json")
+          ARM64=$(ruby -r yaml -r json -e "excl=%w[almalinux-8 oraclelinux-8 rockylinux-8]; puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') || excl.include?(o) }.to_json")
+          echo "x64_oses=${X64}" >> "$GITHUB_OUTPUT"
+          echo "arm64_oses=${ARM64}" >> "$GITHUB_OUTPUT"
+
+  x86_64:
+    needs: generate-matrix
+    runs-on: [self-hosted, X64, vmware]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.generate-matrix.outputs.x64_oses) }}
+        provider:
+          - vmware-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          # Set your VM directory path
+          VM_DIR="$HOME/Documents/Virtual Machines.localized"
+          # VM name to search for (case-sensitive)
+          TARGET_VM_NAME="${{ matrix.os }}"
+          # List all VMs
+          echo "Listing all VMs in $VM_DIR..."
+          VM_PATHS=$(find "$VM_DIR" -name "*.vmx")
+          # Loop through each VM and match by name
+          for VMX in $VM_PATHS; do
+            if grep -q "$TARGET_VM_NAME" <<< "$VMX"; then
+              echo "Found VM: $VMX"
+              # Stop the VM
+              echo "Stopping VM..."
+              vmrun stop "$VMX" soft
+              # Wait a bit to ensure it's stopped
+              sleep 5
+              # Delete the VM directory
+              VM_FOLDER=$(dirname "$VMX")
+              echo "Deleting VM folder: $VM_FOLDER"
+              rm -rf "$VM_FOLDER"
+              echo "VM '$TARGET_VM_NAME' has been stopped and deleted."
+            fi
+          done
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-vmware-x86_64"
+          path: |
+            builds/testing_passed/x86_64/*.box
+            builds/testing_passed/x86_64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression
+
+  aarch64:
+    needs: generate-matrix
+    runs-on: [self-hosted, ARM64, vmware]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(needs.generate-matrix.outputs.arm64_oses) }}
+        provider:
+          - vmware-iso
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Bento build
+        run: |
+          eval "$(chef shell-init bash)"
+          bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-aarch64.pkrvars.hcl"
+          ls -alh builds/build_complete/
+          cat builds/build_complete/${{ matrix.os }}*-aarch64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          # Set your VM directory path
+          VM_DIR="$HOME/Documents/Virtual Machines.localized"
+          # VM name to search for (case-sensitive)
+          TARGET_VM_NAME="${{ matrix.os }}"
+          # List all VMs
+          echo "Listing all VMs in $VM_DIR..."
+          VM_PATHS=$(find "$VM_DIR" -name "*.vmx")
+          # Loop through each VM and match by name
+          for VMX in $VM_PATHS; do
+            if grep -q "$TARGET_VM_NAME" <<< "$VMX"; then
+              echo "Found VM: $VMX"
+              # Stop the VM
+              echo "Stopping VM..."
+              vmrun stop "$VMX" soft
+              # Wait a bit to ensure it's stopped
+              sleep 5
+              # Delete the VM directory
+              VM_FOLDER=$(dirname "$VMX")
+              echo "Deleting VM folder: $VM_FOLDER"
+              rm -rf "$VM_FOLDER"
+              echo "VM '$TARGET_VM_NAME' has been stopped and deleted."
+            fi
+          done
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-vmware-aarch64"
+          path: |
+            builds/testing_passed/aarch64/*.box
+            builds/testing_passed/aarch64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression
