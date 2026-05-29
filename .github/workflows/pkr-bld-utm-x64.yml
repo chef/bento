@@ -39,6 +39,7 @@ jobs:
           - ubuntu-24.04
           - ubuntu-25.04
           - ubuntu-25.10
+          - ubuntu-26.04
         provider:
           - utm-iso
     steps:

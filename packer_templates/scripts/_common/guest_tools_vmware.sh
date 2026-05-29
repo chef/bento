@@ -17,26 +17,57 @@ vmware-iso|vmware-vmx)
     echo 'fuse_load="YES"' >>/boot/loader.conf
     echo 'ifconfig_vmx0="dhcp"' >>/etc/rc.conf
   elif [ "$OS_NAME" = "Darwin" ]; then
-    # Globbing here: VMware Fusion >= 8.5.4 includes a second
-    # 'darwinPre15.iso' for any OS X guests pre-10.11
-    TOOLS_PATH=$(find "/Users/vagrant/" -name '*darwin*.iso' -print)
-    if [ ! -e "$TOOLS_PATH" ]; then
-        echo "Couldn't locate uploaded tools iso at $TOOLS_PATH!"
+    INSTALLER_PKG=""
+    TMPMOUNT=""
+    TOOLS_ISO=""
+
+    # First, check for already-mounted VMware Tools volume (attach mode).
+    # VMware attaches the tools ISO as a CD-ROM which macOS auto-mounts under /Volumes/.
+    for vol_dir in /Volumes/*/; do
+      candidate="${vol_dir}Install VMware Tools.app/Contents/Resources/VMware Tools.pkg"
+      if [ -e "$candidate" ]; then
+        INSTALLER_PKG="$candidate"
+        break
+      fi
+    done
+
+    # If not found in mounted volumes, look for an uploaded ISO (upload mode).
+    # Check the default upload path (/tmp/vmware-tools.iso) first, then the legacy
+    # HOME_DIR location. VMware Fusion >= 8.5.4 may include 'darwinPre15.iso' for
+    # OS X guests pre-10.11, so glob for any *darwin*.iso as a fallback.
+    if [ -z "$INSTALLER_PKG" ]; then
+      if [ -f "/tmp/vmware-tools.iso" ]; then
+        TOOLS_ISO="/tmp/vmware-tools.iso"
+      else
+        TOOLS_ISO=$(find "$HOME_DIR" -name '*darwin*.iso' -print 2>/dev/null | head -1)
+      fi
+
+      if [ -z "$TOOLS_ISO" ] || [ ! -e "$TOOLS_ISO" ]; then
+        echo "Couldn't locate VMware Tools ISO in mounted volumes or at known upload paths!"
         exit 1
+      fi
+
+      TMPMOUNT=$(/usr/bin/mktemp -d /tmp/vmware-tools.XXXX)
+      hdiutil attach "$TOOLS_ISO" -mountpoint "$TMPMOUNT"
+      INSTALLER_PKG="$TMPMOUNT/Install VMware Tools.app/Contents/Resources/VMware Tools.pkg"
     fi
-    TMPMOUNT=$(/usr/bin/mktemp -d /tmp/vmware-tools.XXXX)
-    hdiutil attach "$TOOLS_PATH" -mountpoint "$TMPMOUNT"
-    INSTALLER_PKG="$TMPMOUNT/Install VMware Tools.app/Contents/Resources/VMware Tools.pkg"
+
     if [ ! -e "$INSTALLER_PKG" ]; then
-        echo "Couldn't locate VMware installer pkg at $INSTALLER_PKG!"
-        exit 1
+      echo "Couldn't locate VMware installer pkg at $INSTALLER_PKG!"
+      exit 1
     fi
+
     echo "Installing VMware tools.."
-    installer -pkg "$TMPMOUNT/Install VMware Tools.app/Contents/Resources/VMware Tools.pkg" -target /
-    # This usually fails
-    hdiutil detach "$TMPMOUNT" || echo "exit code $? is suppressed";
-    rm -rf "$TMPMOUNT"
-    rm -f "$TOOLS_PATH"
+    installer -pkg "$INSTALLER_PKG" -target /
+
+    # Clean up only if we mounted the ISO ourselves (upload mode).
+    if [ -n "$TMPMOUNT" ]; then
+      # This detach usually fails on macOS guests; suppress the error
+      hdiutil detach "$TMPMOUNT" || echo "exit code $? is suppressed"
+      rm -rf "$TMPMOUNT"
+      rm -f "$TOOLS_ISO"
+    fi
+
     # Point Linux shared folder root to that used by OS X guests,
     # useful for the Hashicorp vmware_fusion Vagrant provider plugin
     mkdir /mnt

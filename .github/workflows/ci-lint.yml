@@ -34,3 +34,13 @@ jobs:
   packer-lint:
     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
     secrets: inherit
+
+  # Codespell configuration is within .codespellrc
+  codespell:
+    name: Check for spelling errors
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Codespell
+        uses: codespell-project/actions-codespell@v2

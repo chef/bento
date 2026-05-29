@@ -66,8 +66,8 @@ Other available options:
 - --mem - Specify the memory
 - --config - Use a configuration file other than default builds.yml
 - --on-error - Choose what to do if a build fails
-- --vars - Comma seperated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")
-- --var_files - Comma seperated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)
+- --vars - Comma separated list of variable names equal values (ex: boot_wait="2s",ssh_timeout="5s")
+- --var_files - Comma separated list of pkrvar.hcl files to include in the builds (ex: /path/to/var_file.pkrvars.hcl,/path/to/next/var_file2.pkrvars.hcl)
 - --metadata-only - Only generate the metadata json file
 - --mirror - The template will have a default mirror link, if you wish to use an alternative one, you can utilise this configuration
 - --dry-run - This will not create any build, but will create a metadata file for reference
@@ -168,7 +168,7 @@ Most of the providers expect unrestricted access to networking in order to build
 ```powershell
 $VS = "Standardswitch"
 $IF_ALIAS = (Get-NetAdapter -Name "vEthernet ($VS)").ifAlias
-New-NetFirewallRule -Displayname "Allow incomming from $VS" -Direction Inbound -InterfaceAlias $IF_ALIAS -Action Allow
+New-NetFirewallRule -Displayname "Allow incoming from $VS" -Direction Inbound -InterfaceAlias $IF_ALIAS -Action Allow
 ```
 
 #### Hyper-V Generation 2 VM's

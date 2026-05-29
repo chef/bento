@@ -1,7 +1,7 @@
 os_name                 = "freebsd"
 os_version              = "15.0"
 os_arch                 = "aarch64"
-iso_url                 = "https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-arm64-aarch64-disc1.iso"
+iso_url                 = "https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-arm64-aarch64-dvd1.iso"
 iso_checksum            = "file:https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/CHECKSUM.SHA256-FreeBSD-15.0-RELEASE-arm64-aarch64"
 parallels_guest_os_type = "freebsd"
 vbox_guest_os_type      = "FreeBSD_arm64"
