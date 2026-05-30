@@ -52,6 +52,14 @@ jobs:
           ./${{ matrix.os }}-x86_64-virtualbox-build.sh
           ls -alh builds/build_complete
           cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(VBoxManage list vms | grep '${{ matrix.os }}' | awk -F'"' '{print $2}')"
+          echo "VM Name: $VM"
+          VBoxManage controlvm "$VM" poweroff 2>/dev/null || true
+          sleep 2
+          VBoxManage unregistervm "$VM" --delete 2>/dev/null || true
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
@@ -86,13 +94,11 @@ jobs:
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
-          VM="$(VBoxManage list vms | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          VM="$(VBoxManage list vms | grep '${{ matrix.os }}' | awk -F'"' '{print $2}')"
           echo "VM Name: $VM"
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
-          VBoxManage controlvm $VM poweroff
-          sleep 1
-          vboxmanage unregistervm $VM --delete
+          VBoxManage controlvm "$VM" poweroff 2>/dev/null || true
           sleep 2
+          VBoxManage unregistervm "$VM" --delete 2>/dev/null || true
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"

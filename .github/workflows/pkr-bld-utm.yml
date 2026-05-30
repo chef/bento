@@ -48,13 +48,11 @@ jobs:
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
-          VM="$(utmctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-          echo "VM Name: $VM"
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-x86_64
-          utmctl stop "$VM"
-          sleep 1
-          utmctl delete "$VM"
+          VM="$(utmctl list | grep '${{ matrix.os }}' | awk '{print $1}')"
+          echo "VM UUID: $VM"
+          utmctl stop "$VM" 2>/dev/null || true
           sleep 2
+          utmctl delete "$VM" 2>/dev/null || true
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
@@ -91,13 +89,11 @@ jobs:
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
-          VM="$(utmctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-          echo "VM Name: $VM"
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
-          utmctl stop "$VM"
-          sleep 1
-          utmctl delete "$VM"
+          VM="$(utmctl list | grep '${{ matrix.os }}' | awk '{print $1}')"
+          echo "VM UUID: $VM"
+          utmctl stop "$VM" 2>/dev/null || true
           sleep 2
+          utmctl delete "$VM" 2>/dev/null || true
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
