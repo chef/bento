@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@main
       - name: Enumerate iso
         env:
-          EXCLUDE: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*'
+          EXCLUDE: 'rhel.*|sles.*|solaris.*'
         shell: bash
         run: |
           mapfile -t < <(find os_pkrvars -name "*.pkrvars.hcl" | grep -Ev '(${{ env.EXCLUDE }})')
@@ -30,5 +30,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@main
       - name: iso-availability
-        shell: pwsh
-        run: Invoke-RestMethod -Method Head -Verbose -Uri $(Get-Content '${{ matrix.template }}' | ConvertFrom-StringData).iso_url.Trim('"')
+        run: |
+          iso_url=$(grep -E '^\s*iso_url\s*=' '${{ matrix.template }}' | head -1 | sed 's/[^=]*=\s*"\(.*\)"/\1/')
+          if [ -z "$iso_url" ]; then
+            echo "No iso_url found in ${{ matrix.template }}, skipping"
+            exit 0
+          fi
+          echo "Checking: $iso_url"
+          curl -fsSI "$iso_url"

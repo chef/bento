@@ -3,7 +3,7 @@ data "host-info" "this" {}
 locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
-  host_os   = data.host-info.this.os_type
+  host_os   = try(data.host-info.this.os_type, "unknown")
 
   # Source block provider specific
   # hyperv-iso

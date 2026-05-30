@@ -1320,7 +1320,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[ubuntu-12.04-\*\] Update URL paths to use 12.04.5. [\#359](https://github.com/chef/bento/pull/359) ([fnichol](https://github.com/fnichol))
 - Remove VeeWee definitions from project [\#358](https://github.com/chef/bento/pull/358) ([fnichol](https://github.com/fnichol))
 - Add packer/bin/bento for building templates. [\#357](https://github.com/chef/bento/pull/357) ([fnichol](https://github.com/fnichol))
-- update README to point to Boxcutter instead of basebox [\#354](https://github.com/chef/bento/pull/354) ([OBrienCommaJosh](https://github.com/OBrienCommaJosh))
+- update README to point to Boxcutter instead of basebox [\#354](https://github.com/chef/bento/pull/354) (OBrienCommaJosh)
 - Add MAINTAINERS.md file. [\#347](https://github.com/chef/bento/pull/347) ([fnichol](https://github.com/fnichol))
 - Add RHEL 7.1 JSON file. [\#342](https://github.com/chef/bento/pull/342) ([lopaka](https://github.com/lopaka))
 - Solaris 10u11 - zfs base box [\#341](https://github.com/chef/bento/pull/341) ([scotthain](https://github.com/scotthain))
