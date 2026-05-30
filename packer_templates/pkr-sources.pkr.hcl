@@ -4,6 +4,7 @@ locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
   host_os   = data.host-info.this.os_type
+
   # Source block provider specific
   # hyperv-iso
   hyperv_enable_dynamic_memory = var.hyperv_enable_dynamic_memory == null ? (
@@ -48,7 +49,9 @@ locals {
 
   # qemu
   qemu_accelerator = var.qemu_accelerator == null ? (
-    local.host_os == "darwin" ? "hvf" : null
+    local.host_os == "darwin" ? "hvf" : (
+      local.host_os == "windows" ? "whpx" : "kvm"
+    )
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
@@ -204,20 +207,39 @@ locals {
   vmware_network_adapter_type = var.vmware_network_adapter_type == null ? (
     var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
   ) : var.vmware_network_adapter_type
-  vmware_tools_upload_flavor = var.vmware_tools_mode == "upload" && var.vmware_tools_source_path == null ? (
+  vmware_tools_mode = var.vmware_tools_mode == null ? (
+    var.is_windows ? "attach" : "disable"
+  ) : var.vmware_tools_mode
+  vmware_tools_upload_flavor = local.vmware_tools_mode == "upload" && var.vmware_tools_source_path == null ? (
     var.vmware_tools_upload_flavor == null ? (
       var.is_windows ? "windows" : (
         var.os_name == "macos" ? "darwin" : "linux"
       )
     ) : var.vmware_tools_upload_flavor
   ) : null
-  vmware_tools_upload_path = var.vmware_tools_mode == "upload" ? (
+  vmware_tools_upload_path = local.vmware_tools_mode == "upload" ? (
     var.vmware_tools_upload_path == null ? (
       var.is_windows ? "c:\\vmware-tools.iso" : "/tmp/vmware-tools.iso"
     ) : var.vmware_tools_upload_path
   ) : null
-  vmware_tools_source_path = var.vmware_tools_mode == "disable" ? null : (
-    var.vmware_tools_source_path == null ? null : var.vmware_tools_source_path
+  vmware_tools_source_path = local.vmware_tools_mode == "disable" ? null : (
+    var.vmware_tools_source_path == null ? (
+      local.vmware_tools_mode == "attach" || local.vmware_tools_mode == "upload" ? (
+        local.host_os == "darwin" ? (
+          var.is_windows ? (
+            var.os_arch == "aarch64" ? "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso" : "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+          ) : null
+          ) : (
+          local.host_os == "windows" ? (
+            var.is_windows ? "C:\\Program Files (x86)\\VMware\\VMware Workstation\\windows.iso" :
+            "C:\\Program Files (x86)\\VMware\\VMware Workstation\\linux.iso"
+            ) : (
+            var.is_windows ? "/usr/lib/vmware/isoimages/windows.iso" :
+            "/usr/lib/vmware/isoimages/linux.iso"
+          )
+        )
+      ) : null # upload mode without source_path: let tools_upload_flavor handle it
+    ) : var.vmware_tools_source_path
   )
   vmware_vmx_data = var.vmware_vmx_data == null ? (
     {
@@ -537,7 +559,7 @@ source "vmware-iso" "vm" {
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
   network_adapter_type           = local.vmware_network_adapter_type
-  tools_mode                     = var.vmware_tools_mode
+  tools_mode                     = local.vmware_tools_mode
   tools_source_path              = local.vmware_tools_source_path
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path

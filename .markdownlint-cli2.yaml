@@ -1,7 +1,6 @@
 ---
 config:
   line-length: false  # MD013
-  # rules "~MD007", "~MD024", "~MD033"
 ignores:
   - .github/copilot-instructions.md
   - AGENTS.md

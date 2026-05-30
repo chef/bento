@@ -469,8 +469,8 @@ variable "vmware_guest_os_type" {
 }
 variable "vmware_tools_mode" {
   type        = string
-  default     = "attach"
-  description = "How to handle VMware Tools. Options: 'attach' (default, best performance), 'upload', or 'disable'"
+  default     = null
+  description = "How to handle VMware Tools. Options: 'attach', 'upload', or 'disable'"
 }
 variable "vmware_tools_source_path" {
   type        = string
