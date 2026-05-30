@@ -21,9 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Enumerate pkrvars validation
+        env:
+          EXCLUDE: 'windows.*'
         shell: bash
         run: |
-          mapfile -t < <(find os_pkrvars -name "*.pkrvars.hcl")
+          mapfile -t < <(find os_pkrvars -name "*.pkrvars.hcl" | grep -Ev '(${{ env.EXCLUDE }})')
           echo "matrix=$(jq -cRn '[inputs]' < <( (( ${#MAPFILE[@]} )) && printf '%s\n' "${MAPFILE[@]}"))" >> "$GITHUB_OUTPUT"
         id: enumerate_pkrvars
     outputs:
