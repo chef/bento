@@ -14,6 +14,11 @@ platforms:
     box_arch: <%= @arch %>
     synced_folders:
       - [".", "/vagrant", "disabled: true"]
+<% if provider['name'] == 'libvirt' -%>
+    provider_raw_config_args:
+      - "inputs = [{type: 'mouse', bus: 'usb'}, {type: 'keyboard', bus: 'usb'}]"
+      - "usb_controller model: 'qemu-xhci'"
+<% end -%>
 <% end -%>
 suites:
 - name: default
