@@ -19,12 +19,12 @@ module PackerExec
     md = BuildMetadata.new(template, build_timestamp, override_version, pkr_cmd).read
 
     io.write(JSON.pretty_generate({
-      box_basename:     md[:box_basename],
-      build_timestamp:  md[:build_timestamp],
-      git_revision:     md[:git_revision],
-      metadata:         md_file.path,
-      version:          md[:version],
-    }))
+                                    box_basename: md[:box_basename],
+                                    build_timestamp: md[:build_timestamp],
+                                    git_revision: md[:git_revision],
+                                    metadata: md_file.path,
+                                    version: md[:version],
+                                  }))
     io.close
   end
 end

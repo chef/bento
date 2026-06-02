@@ -71,14 +71,28 @@ bundle exec rake validate
 
 **For Ruby Code Changes**:
 ```bash
-# Install test dependencies first
+# Install all dependencies (includes test-kitchen, kitchen-vagrant, and rspec)
 bundle install
-gem install test-kitchen kitchen-vagrant
+
+# Run the RSpec unit test suite
+bundle exec rspec
+# or equivalently:
+bundle exec rake spec
+# (bundle exec rake also runs spec by default)
 
 # Run the bento CLI commands to verify functionality
 bento list
 bento build --dry-run os_pkrvars/<test-template>.pkrvars.hcl
 ```
+
+**RSpec test suite** is located in `spec/` and covers all library modules:
+- `spec/bento/common_spec.rb` — Common module helpers
+- `spec/bento/buildmetadata_spec.rb` — BuildMetadata
+- `spec/bento/providermetadata_spec.rb` — ProviderMetadata
+- `spec/bento/packerexec_spec.rb` — PackerExec
+- `spec/bento/runner_spec.rb` — BuildRunner
+- `spec/bento/test_spec.rb` — TestRunner
+- `spec/bento/upload_spec.rb` — UploadRunner
 
 **For Packer Template Changes**:
 ```bash
@@ -132,10 +146,12 @@ bento test
 - `lib/bento/cli.rb` - Command-line interface definitions
 - `lib/bento/runner.rb` - Build orchestration logic
 - `lib/bento/packerexec.rb` - Packer command execution
-- `lib/bento/test.rb` - Test kitchen integration
+- `lib/bento/test.rb` - Test kitchen integration (uses Kitchen Ruby API directly via `require 'kitchen'`; no shell-out)
 - `lib/bento/upload.rb` - Vagrant Cloud upload logic
 - `lib/bento/buildmetadata.rb` - Metadata generation
-- `bento.gemspec` - Gem specification and dependencies
+- `bento.gemspec` - Gem specification and dependencies (`test-kitchen` and `kitchen-vagrant` are runtime deps)
+- `spec/` - RSpec unit tests for all library modules
+- `.rspec` - RSpec configuration (documentation format, color output)
 
 ### Packer Templates
 - `packer_templates/pkr-variables.pkr.hcl` - Variable definitions
@@ -221,11 +237,12 @@ Fixed argument handling in packerexec.rb.
 
 ### Modifying the Ruby CLI
 1. Edit files in `lib/bento/`
-2. Run: `bundle exec cookstyle -a .`
-3. Test: `gem build bento.gemspec && gem install bento-*.gem`
-4. Verify: `bento list`, `bento build --dry-run <template>`
-5. Update `README.md` if CLI usage changes
-6. Update `CHANGELOG.md` with the feature or fix
+2. Run unit tests: `bundle exec rspec`
+3. Run linter: `bundle exec cookstyle -a .`
+4. Test: `gem build bento.gemspec && gem install bento-*.gem`
+5. Verify: `bento list`, `bento build --dry-run <template>`
+6. Update `README.md` if CLI usage changes
+7. Update `CHANGELOG.md` with the feature or fix
 
 ### Updating Packer Templates
 1. Edit `packer_templates/*.pkr.hcl`

@@ -58,9 +58,7 @@ locals {
     var.is_windows ? (
       var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
       ) : (
-      local.host_os == "darwin" ? (
-        var.os_arch == "aarch64" ? "cocoa" : "virtio-gpu-pci"
-        ) : (
+      local.host_os == "darwin" ? "cocoa" : (
         var.os_arch == "aarch64" ? "virtio-ramfb" : "virtio-vga"
       )
     )
@@ -95,8 +93,7 @@ locals {
       ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
       ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ["-boot", "order=c,order=d"]
-      ] : (
-      var.os_arch == "aarch64" ? [
+      ] : [
         ["-device", "virtio-gpu-pci"],
         ["-device", "qemu-xhci"],
         ["-device", "virtio-tablet"],
@@ -108,12 +105,7 @@ locals {
         ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
         ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
         ["-boot", "strict=off"],
-        ] : [
-        ["-device", "virtio-serial"],
-        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
-        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
-      ]
-    )
+        ]
   ) : var.qemuargs
 
   # utm-iso
@@ -315,10 +307,12 @@ source "hyperv-iso" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-hyperv"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   winrm_password   = var.winrm_password
@@ -345,10 +339,12 @@ source "parallels-ipsw" "vm" {
   http_content     = var.http_content
   memory           = local.memory
   output_directory = "${local.output_directory}-parallels"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   vm_name          = local.vm_name
@@ -376,10 +372,12 @@ source "parallels-iso" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-parallels"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   winrm_password   = var.winrm_password
@@ -426,10 +424,12 @@ source "qemu" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-qemu"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   winrm_password   = var.winrm_password
@@ -473,10 +473,12 @@ source "utm-iso" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-utm"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   winrm_password   = var.winrm_password
@@ -520,10 +522,12 @@ source "virtualbox-iso" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-virtualbox"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   winrm_password   = var.winrm_password
@@ -542,10 +546,12 @@ source "virtualbox-ovf" "vm" {
   communicator     = local.communicator
   headless         = var.headless
   output_directory = "${local.output_directory}-virtualbox-ovf"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   vm_name          = local.vm_name
@@ -585,10 +591,12 @@ source "vmware-iso" "vm" {
   iso_url          = var.iso_url
   memory           = local.memory
   output_directory = "${local.output_directory}-vmware"
+  pause_before_connecting = var.pause_before_connecting
   shutdown_command = local.shutdown_command
   shutdown_timeout = var.shutdown_timeout
   ssh_password     = var.ssh_password
   ssh_port         = var.ssh_port
+  ssh_read_write_timeout = var.ssh_read_write_timeout
   ssh_timeout      = var.ssh_timeout
   ssh_username     = var.ssh_username
   winrm_password   = var.winrm_password

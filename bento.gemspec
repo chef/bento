@@ -13,11 +13,15 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.0'
 
-  s.add_dependency 'mixlib-shellout', '>= 2.3.2'
-
   s.bindir = 'bin'
   s.executables = %w(bento)
 
   s.require_path = 'lib'
   s.files = %w(LICENSE Gemfile) + Dir.glob('*.gemspec') + Dir.glob('lib/**/*')
+
+  s.add_dependency 'mixlib-shellout', '>= 2.3.2'
+  s.add_dependency 'test-kitchen', '>= 4.0.0'
+  s.add_dependency 'kitchen-vagrant', '>= 2.2.1'
+
+  s.add_development_dependency 'rspec', '~> 3.13'
 end

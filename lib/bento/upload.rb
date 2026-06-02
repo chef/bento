@@ -86,11 +86,10 @@ class UploadRunner
       return slug if name.start_with?(slug)
       next unless slug.end_with?('latest')
       box_name = slug.split('-').first
-      box_version = []
-      Dir.glob("os_pkrvars/#{box_name}/**/*.pkrvars.hcl").each do |boxes|
-        box_version << File.basename(boxes).split('-')[1].to_i
+      box_version = Dir.glob("os_pkrvars/#{box_name}/**/*.pkrvars.hcl").map do |boxes|
+        File.basename(boxes).split('-')[1].to_i
       end
-      latest = box_version.uniq!.max { |a, b| a <=> b }
+      latest = box_version.uniq.max { |a, b| a <=> b }
       return slug if name.start_with?("#{box_name}-#{latest}")
     end
 
@@ -120,17 +119,16 @@ class UploadRunner
   end
 
   def ver_desc(md_data)
-    tool_versions = []
-    md_data['providers'].each do |provider|
-      tool_versions << if provider['name'] == 'vmware_desktop'
-                         if macos?
-                           "vmware-fusion: #{provider['version']}"
-                         else
-                           "vmware-workstation: #{provider['version']}"
-                         end
-                       else
-                         "#{provider['name']}: #{provider['version']}"
-                       end
+    tool_versions = md_data['providers'].map do |provider|
+      if provider['name'] == 'vmware_desktop'
+        if macos?
+          "vmware-fusion: #{provider['version']}"
+        else
+          "vmware-workstation: #{provider['version']}"
+        end
+      else
+        "#{provider['name']}: #{provider['version']}"
+      end
     end
     tool_versions.sort!
     tool_versions << "packer: #{md_data['packer']}"

@@ -4,7 +4,7 @@ provisioner:
 
 platforms:
 <% @providers.each do |provider| -%>
-- name: <%= "#{@boxname}-#{@arch}-#{provider['name']}" %>
+- name: <%= "#{@boxname.tr('.', '')}-#{@arch}-#{provider['name'].tr('_', '-')}" %>
   driver:
     name: vagrant
     provider: <%= provider['name'] %>
@@ -15,9 +15,8 @@ platforms:
     synced_folders:
       - [".", "/vagrant", "disabled: true"]
 <% if provider['name'] == 'libvirt' -%>
-    provider_raw_config_args:
-      - "inputs = [{type: 'mouse', bus: 'usb'}, {type: 'keyboard', bus: 'usb'}]"
-      - "usb_controller model: 'qemu-xhci'"
+    customize:
+      inputs: []
 <% end -%>
 <% end -%>
 suites:

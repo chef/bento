@@ -13,17 +13,17 @@ class BuildMetadata
 
   def read
     {
-      name:             name,
-      version:          version,
-      arch:             arch,
-      build_timestamp:  build_timestamp,
-      packer_command:   pkr_cmd,
-      git_revision:     git_revision,
-      git_status:       git_clean? ? 'clean' : 'dirty',
-      box_basename:     box_basename,
-      template:         template_vars.fetch('template', UNKNOWN),
-      packer:           packer_ver,
-      vagrant:          vagrant_ver,
+      name: name,
+      version: version,
+      arch: arch,
+      build_timestamp: build_timestamp,
+      packer_command: pkr_cmd,
+      git_revision: git_revision,
+      git_status: git_clean? ? 'clean' : 'dirty',
+      box_basename: box_basename,
+      template: template_vars.fetch('template', UNKNOWN),
+      packer: packer_ver,
+      vagrant: vagrant_ver,
     }
   end
 
@@ -63,10 +63,10 @@ class BuildMetadata
                          File.open("#{template}.pkrvars.hcl", 'r') do |file|
                            file.each_line do |line|
                              line_data = line.split('=')
-                             if line_data[0].strip.gsub(/"|os_/, '') == 'version'
+                             if line_data.first.strip.gsub(/"|os_/, '') == 'version'
                                file_data['name'] = "#{file_data['name']}-#{line_data[1]&.strip&.tr('"', '')}"
                              else
-                               file_data[line_data[0]&.strip&.gsub(/"|os_/, '')] = line_data[1]&.strip&.tr('"', '')
+                               file_data[line_data.first&.strip&.gsub(/"|os_/, '')] = line_data[1]&.strip&.tr('"', '')
                              end
                            end
                            file_data['template'] = "#{file_data['name']}-#{file_data['arch']}"
@@ -86,8 +86,10 @@ class BuildMetadata
   end
 
   def vagrant_ver
-    cmd = Mixlib::ShellOut.new('vagrant --version')
-    cmd.run_command
-    cmd.stdout.split(' ')[1]
+    Bundler.with_unbundled_env do
+      cmd = Mixlib::ShellOut.new('vagrant --version')
+      cmd.run_command
+      cmd.error? ? nil : cmd.stdout.split(' ')[1]
+    end
   end
 end

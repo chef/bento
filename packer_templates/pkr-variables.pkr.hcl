@@ -548,6 +548,10 @@ variable "communicator" {
   type    = string
   default = null
 }
+variable "pause_before_connecting" {
+  type = string
+  default = null
+}
 variable "disk_size" {
   type    = number
   default = null
@@ -603,6 +607,10 @@ variable "ssh_password" {
 variable "ssh_port" {
   type    = number
   default = 22
+}
+variable "ssh_read_write_timeout" {
+  type = string
+  default = "30s"
 }
 variable "ssh_timeout" {
   type    = string
