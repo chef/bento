@@ -47,8 +47,6 @@ class TestRunner
     File.binwrite(path, JSON.pretty_generate(existing))
   end
 
-
-
   # Remove the vagrant box that was added during testing.
   # First tries with --provider; if that fails (e.g. qemu boxes register as
   # libvirt internally) falls back to removing all versions of the box name.

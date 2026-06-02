@@ -141,7 +141,7 @@ build {
     environment_vars  = local.nix_environment_vars
     execute_command   = local.nix_execute_command
     expect_disconnect = true
-    pause_before       = "10s"
+    pause_before      = "10s"
     pause_after       = "10s"
     scripts           = ["${path.root}/scripts/_common/minimize.sh", ]
     except            = var.is_windows ? local.source_names : null

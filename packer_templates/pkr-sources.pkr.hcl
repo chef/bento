@@ -94,18 +94,18 @@ locals {
       ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
       ["-boot", "order=c,order=d"]
       ] : [
-        ["-device", "virtio-gpu-pci"],
-        ["-device", "qemu-xhci"],
-        ["-device", "virtio-tablet"],
-        ["-device", "driver=virtio-keyboard-pci"],
-        ["-device", "driver=virtio-mouse-pci"],
-        ["-device", "driver=usb-kbd"],
-        ["-device", "driver=usb-mouse"],
-        ["-device", "virtio-serial"],
-        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
-        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
-        ["-boot", "strict=off"],
-        ]
+      ["-device", "virtio-gpu-pci"],
+      ["-device", "qemu-xhci"],
+      ["-device", "virtio-tablet"],
+      ["-device", "driver=virtio-keyboard-pci"],
+      ["-device", "driver=virtio-mouse-pci"],
+      ["-device", "driver=usb-kbd"],
+      ["-device", "driver=usb-mouse"],
+      ["-device", "virtio-serial"],
+      ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
+      ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
+      ["-boot", "strict=off"],
+    ]
   ) : var.qemuargs
 
   # utm-iso
@@ -291,34 +291,34 @@ source "hyperv-iso" "vm" {
   guest_additions_mode  = var.hyperv_guest_additions_mode
   switch_name           = var.hyperv_switch_name
   # Source block common options
-  boot_command     = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
-  boot_wait        = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  floppy_files     = var.floppy_files
-  headless         = var.headless
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
-  iso_url          = var.iso_url
-  memory           = local.memory
-  output_directory = "${local.output_directory}-hyperv"
+  boot_command            = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
+  boot_wait               = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
+  cd_content              = var.cd_content
+  cd_files                = local.cd_files
+  cd_label                = var.cd_label
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  floppy_files            = var.floppy_files
+  headless                = var.headless
+  http_directory          = local.http_directory
+  iso_checksum            = var.iso_checksum
+  iso_target_path         = local.iso_target_path
+  iso_url                 = var.iso_url
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-hyperv"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  winrm_password   = var.winrm_password
-  winrm_timeout    = var.winrm_timeout
-  winrm_username   = var.winrm_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  winrm_password          = var.winrm_password
+  winrm_timeout           = var.winrm_timeout
+  winrm_username          = var.winrm_username
+  vm_name                 = local.vm_name
 }
 source "parallels-ipsw" "vm" {
   # Parallels specific options
@@ -330,24 +330,24 @@ source "parallels-ipsw" "vm" {
   prlctl_post         = var.parallels_prlctl_post
   prlctl_version_file = var.parallels_prlctl_version_file
   # Source block common options
-  boot_command     = var.parallels-ipsw_boot_command == null ? local.default_boot_command : var.parallels_boot_command
-  boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  http_directory   = local.http_directory
-  http_content     = var.http_content
-  memory           = local.memory
-  output_directory = "${local.output_directory}-parallels"
+  boot_command            = var.parallels-ipsw_boot_command == null ? local.default_boot_command : var.parallels_boot_command
+  boot_wait               = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  http_directory          = local.http_directory
+  http_content            = var.http_content
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-parallels"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  vm_name                 = local.vm_name
 }
 source "parallels-iso" "vm" {
   # Parallels specific options
@@ -357,33 +357,33 @@ source "parallels-iso" "vm" {
   prlctl                 = local.parallels_prlctl
   prlctl_version_file    = var.parallels_prlctl_version_file
   # Source block common options
-  boot_command     = var.parallels-iso_boot_command == null ? local.default_boot_command : var.parallels_boot_command
-  boot_wait        = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  floppy_files     = var.floppy_files
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
-  iso_url          = var.iso_url
-  memory           = local.memory
-  output_directory = "${local.output_directory}-parallels"
+  boot_command            = var.parallels-iso_boot_command == null ? local.default_boot_command : var.parallels_boot_command
+  boot_wait               = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
+  cd_content              = var.cd_content
+  cd_files                = local.cd_files
+  cd_label                = var.cd_label
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  floppy_files            = var.floppy_files
+  http_directory          = local.http_directory
+  iso_checksum            = var.iso_checksum
+  iso_target_path         = local.iso_target_path
+  iso_url                 = var.iso_url
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-parallels"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  winrm_password   = var.winrm_password
-  winrm_timeout    = var.winrm_timeout
-  winrm_username   = var.winrm_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  winrm_password          = var.winrm_password
+  winrm_timeout           = var.winrm_timeout
+  winrm_username          = var.winrm_username
+  vm_name                 = local.vm_name
 }
 source "qemu" "vm" {
   # QEMU specific options
@@ -408,34 +408,34 @@ source "qemu" "vm" {
   use_default_display = var.qemu_use_default_display
   use_pflash          = var.qemu_use_pflash
   # Source block common options
-  boot_command     = var.qemu_boot_command == null ? local.default_boot_command : var.qemu_boot_command
-  boot_wait        = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  floppy_files     = var.floppy_files
-  headless         = var.headless
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
-  iso_url          = var.iso_url
-  memory           = local.memory
-  output_directory = "${local.output_directory}-qemu"
+  boot_command            = var.qemu_boot_command == null ? local.default_boot_command : var.qemu_boot_command
+  boot_wait               = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
+  cd_content              = var.cd_content
+  cd_files                = local.cd_files
+  cd_label                = var.cd_label
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  floppy_files            = var.floppy_files
+  headless                = var.headless
+  http_directory          = local.http_directory
+  iso_checksum            = var.iso_checksum
+  iso_target_path         = local.iso_target_path
+  iso_url                 = var.iso_url
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-qemu"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  winrm_password   = var.winrm_password
-  winrm_timeout    = var.winrm_timeout
-  winrm_username   = var.winrm_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  winrm_password          = var.winrm_password
+  winrm_timeout           = var.winrm_timeout
+  winrm_username          = var.winrm_username
+  vm_name                 = local.vm_name
 }
 source "utm-iso" "vm" {
   # UTM specific options
@@ -458,33 +458,33 @@ source "utm-iso" "vm" {
   vm_backend                  = var.utm_vm_backend
   vm_icon                     = var.utm_vm_icon
   # Source block common options
-  boot_command     = local.utm_boot_command
-  boot_wait        = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  floppy_files     = var.floppy_files
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
-  iso_url          = var.iso_url
-  memory           = local.memory
-  output_directory = "${local.output_directory}-utm"
+  boot_command            = local.utm_boot_command
+  boot_wait               = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
+  cd_content              = var.cd_content
+  cd_files                = local.cd_files
+  cd_label                = var.cd_label
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  floppy_files            = var.floppy_files
+  http_directory          = local.http_directory
+  iso_checksum            = var.iso_checksum
+  iso_target_path         = local.iso_target_path
+  iso_url                 = var.iso_url
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-utm"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  winrm_password   = var.winrm_password
-  winrm_timeout    = var.winrm_timeout
-  winrm_username   = var.winrm_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  winrm_password          = var.winrm_password
+  winrm_timeout           = var.winrm_timeout
+  winrm_username          = var.winrm_username
+  vm_name                 = local.vm_name
 }
 source "virtualbox-iso" "vm" {
   # Virtualbox specific options
@@ -506,34 +506,34 @@ source "virtualbox-iso" "vm" {
   vboxmanage                = local.vboxmanage
   virtualbox_version_file   = var.virtualbox_version_file
   # Source block common options
-  boot_command     = var.vbox_boot_command == null ? local.default_boot_command : var.vbox_boot_command
-  boot_wait        = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  floppy_files     = var.floppy_files
-  headless         = var.headless
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = local.iso_target_path
-  iso_url          = var.iso_url
-  memory           = local.memory
-  output_directory = "${local.output_directory}-virtualbox"
+  boot_command            = var.vbox_boot_command == null ? local.default_boot_command : var.vbox_boot_command
+  boot_wait               = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
+  cd_content              = var.cd_content
+  cd_files                = local.cd_files
+  cd_label                = var.cd_label
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  floppy_files            = var.floppy_files
+  headless                = var.headless
+  http_directory          = local.http_directory
+  iso_checksum            = var.iso_checksum
+  iso_target_path         = local.iso_target_path
+  iso_url                 = var.iso_url
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-virtualbox"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  winrm_password   = var.winrm_password
-  winrm_timeout    = var.winrm_timeout
-  winrm_username   = var.winrm_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  winrm_password          = var.winrm_password
+  winrm_timeout           = var.winrm_timeout
+  winrm_username          = var.winrm_username
+  vm_name                 = local.vm_name
 }
 source "virtualbox-ovf" "vm" {
   # Virtualbox specific options
@@ -543,18 +543,18 @@ source "virtualbox-ovf" "vm" {
   vboxmanage              = local.vboxmanage
   virtualbox_version_file = var.virtualbox_version_file
   # Source block common options
-  communicator     = local.communicator
-  headless         = var.headless
-  output_directory = "${local.output_directory}-virtualbox-ovf"
+  communicator            = local.communicator
+  headless                = var.headless
+  output_directory        = "${local.output_directory}-virtualbox-ovf"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  vm_name                 = local.vm_name
 }
 source "vmware-iso" "vm" {
   # VMware specific options
@@ -575,32 +575,32 @@ source "vmware-iso" "vm" {
   vmx_remove_ethernet_interfaces = var.vmware_vmx_remove_ethernet_interfaces
   vnc_disable_password           = var.vmware_vnc_disable_password
   # Source block common options
-  boot_command     = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
-  boot_wait        = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
-  cd_content       = var.cd_content
-  cd_files         = local.cd_files
-  cd_label         = var.cd_label
-  cpus             = var.cpus
-  communicator     = local.communicator
-  disk_size        = local.disk_size
-  floppy_files     = var.floppy_files
-  headless         = var.headless
-  http_directory   = local.http_directory
-  iso_checksum     = var.iso_checksum
-  iso_target_path  = abspath(local.iso_target_path)
-  iso_url          = var.iso_url
-  memory           = local.memory
-  output_directory = "${local.output_directory}-vmware"
+  boot_command            = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
+  boot_wait               = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
+  cd_content              = var.cd_content
+  cd_files                = local.cd_files
+  cd_label                = var.cd_label
+  cpus                    = var.cpus
+  communicator            = local.communicator
+  disk_size               = local.disk_size
+  floppy_files            = var.floppy_files
+  headless                = var.headless
+  http_directory          = local.http_directory
+  iso_checksum            = var.iso_checksum
+  iso_target_path         = abspath(local.iso_target_path)
+  iso_url                 = var.iso_url
+  memory                  = local.memory
+  output_directory        = "${local.output_directory}-vmware"
   pause_before_connecting = var.pause_before_connecting
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = var.shutdown_timeout
-  ssh_password     = var.ssh_password
-  ssh_port         = var.ssh_port
-  ssh_read_write_timeout = var.ssh_read_write_timeout
-  ssh_timeout      = var.ssh_timeout
-  ssh_username     = var.ssh_username
-  winrm_password   = var.winrm_password
-  winrm_timeout    = var.winrm_timeout
-  winrm_username   = var.winrm_username
-  vm_name          = local.vm_name
+  shutdown_command        = local.shutdown_command
+  shutdown_timeout        = var.shutdown_timeout
+  ssh_password            = var.ssh_password
+  ssh_port                = var.ssh_port
+  ssh_read_write_timeout  = var.ssh_read_write_timeout
+  ssh_timeout             = var.ssh_timeout
+  ssh_username            = var.ssh_username
+  winrm_password          = var.winrm_password
+  winrm_timeout           = var.winrm_timeout
+  winrm_username          = var.winrm_username
+  vm_name                 = local.vm_name
 }
