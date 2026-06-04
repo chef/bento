@@ -1,6 +1,10 @@
 ---
 on:
   workflow_call:
+    inputs:
+      os_matrix:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,28 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - almalinux-8
-          - almalinux-9
-          - almalinux-10
-          - centos-stream-9
-          - centos-stream-10
-          - debian-12
-          - debian-13
-          - fedora-43
-          - fedora-44
-          - freebsd-14
-          - freebsd-15
-          - opensuse-leap-16
-          - oraclelinux-8
-          - oraclelinux-9
-          - oraclelinux-10
-          - rockylinux-8
-          - rockylinux-9
-          - rockylinux-10
-          - ubuntu-22.04
-          - ubuntu-24.04
-          - ubuntu-26.04
+        os: ${{ fromJson(inputs.os_matrix) }}
         provider:
           - hyperv-iso
     steps:
@@ -78,3 +61,14 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        shell: pwsh
+        run: |
+          $vm = Get-VM | Where-Object { $_.Name -like "*${{ matrix.os }}*" } | Select-Object -First 1
+          if ($vm) {
+            Write-Host "Stopping and removing VM: $($vm.Name)"
+            Stop-VM -Name $vm.Name -Force -TurnOff -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 2
+            Remove-VM -Name $vm.Name -Force -ErrorAction SilentlyContinue
+          }

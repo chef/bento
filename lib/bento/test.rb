@@ -192,6 +192,8 @@ class TestRunner
     Dir.chdir(bento_dir)
     if box_errors.empty?
       FileUtils.rm_rf(kitchen_dir)
+      prune = Mixlib::ShellOut.new('vagrant global-status --prune')
+      prune.run_command
     else
       banner("Keeping #{kitchen_dir} for troubleshooting (#{box_errors.length} failed provider(s))")
     end

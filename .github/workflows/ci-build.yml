@@ -10,42 +10,124 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      x64_oses: ${{ steps.set-matrix.outputs.x64_oses }}
+      arm64_oses: ${{ steps.set-matrix.outputs.arm64_oses }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          # arm64 exclusions: no aarch64 pkrvars exist for these OS versions
+          X64=$(ruby -r yaml -r json -e "puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') }.to_json")
+          ARM64=$(ruby -r yaml -r json -e "excl=%w[almalinux-8 oraclelinux-8 rockylinux-8]; puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') || excl.include?(o) }.to_json")
+          echo "x64_oses=${X64}" >> "$GITHUB_OUTPUT"
+          echo "arm64_oses=${ARM64}" >> "$GITHUB_OUTPUT"
   ci-lint:
     uses: ./.github/workflows/ci-lint.yml
     secrets: inherit
 
-  pkr-bld-amazonlinux:
-    uses: ./.github/workflows/pkr-bld-amazonlinux.yml
+  packer-lint:
+    uses: ./.github/workflows/packer-lint.yml
     secrets: inherit
 
-  pkr-bld-hyperv:
-    uses: ./.github/workflows/pkr-bld-hyperv.yml
+  packer-iso-check:
+    uses: ./.github/workflows/packer-iso-url-checker.yml
+
+  pkr-bld-amazonlinux-x64:
+    uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
 
-  pkr-bld-parallels:
-    uses: ./.github/workflows/pkr-bld-parallels.yml
+  pkr-bld-amazonlinux-arm64:
+    uses: ./.github/workflows/pkr-bld-amazonlinux-arm64.yml
     secrets: inherit
 
-  pkr-bld-qemu:
-    uses: ./.github/workflows/pkr-bld-qemu.yml
+  pkr-bld-hyperv-x64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
-  pkr-bld-utm:
-    uses: ./.github/workflows/pkr-bld-utm.yml
+  pkr-bld-parallels-x64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-parallels-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
-  pkr-bld-virtualbox:
-    uses: ./.github/workflows/pkr-bld-virtualbox.yml
+  pkr-bld-parallels-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
-  pkr-bld-vmware:
-    uses: ./.github/workflows/pkr-bld-vmware.yml
+  pkr-bld-qemu-x64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-qemu-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
+
+  pkr-bld-qemu-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
+
+  pkr-bld-utm-x64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-utm-x64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
+
+  pkr-bld-utm-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-utm-arm64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
+
+  pkr-bld-virtualbox-x64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
+
+  pkr-bld-virtualbox-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
+
+  pkr-bld-vmware-x64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-vmware-x64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
+
+  pkr-bld-vmware-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
   check_jobs_pass:
     if: always()
     needs:
       - ci-lint
+      - packer-lint
+      - packer-iso-check
 
     runs-on: Ubuntu-latest
     steps:

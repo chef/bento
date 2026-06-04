@@ -1,6 +1,8 @@
 ---
 on:
   workflow_call:
+  schedule:
+    - cron: '0 0 1 * *'
 
 jobs:
   enumerate_pkrvars:

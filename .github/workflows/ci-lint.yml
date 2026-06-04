@@ -1,8 +1,6 @@
 ---
 on:
   workflow_call:
-  schedule:
-    - cron: '0 0 * * 0'
 
 permissions:
   contents: read
@@ -41,10 +39,3 @@ jobs:
         uses: actions/checkout@main
       - name: Codespell
         uses: codespell-project/actions-codespell@v2
-
-  packer-lint:
-    uses: ./.github/workflows/packer-lint.yml
-    secrets: inherit
-
-  packer-iso-check:
-    uses: ./.github/workflows/packer-iso-url-checker.yml

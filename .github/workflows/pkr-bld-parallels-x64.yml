@@ -1,6 +1,10 @@
 ---
 on:
   workflow_call:
+    inputs:
+      os_matrix:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,28 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - almalinux-8
-          - almalinux-9
-          - almalinux-10
-          - centos-stream-9
-          - centos-stream-10
-          - debian-12
-          - debian-13
-          - fedora-43
-          - fedora-44
-          - freebsd-14
-          - freebsd-15
-          - opensuse-leap-16
-          - oraclelinux-8
-          - oraclelinux-9
-          - oraclelinux-10
-          - rockylinux-8
-          - rockylinux-9
-          - rockylinux-10
-          - ubuntu-22.04
-          - ubuntu-24.04
-          - ubuntu-26.04
+        os: ${{ fromJson(inputs.os_matrix) }}
         provider:
           - parallels-iso
     steps:
@@ -52,16 +35,6 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/build_complete/
           cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
-      - name: Remove VM in case of canceled job
-        if: cancelled()
-        run: |
-          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
-          echo "VM Name: $VM"
-          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
-          prlctl stop "$VM" --kill 2> /dev/null
-          sleep 1
-          prlctl delete "$VM" 2> /dev/null
-          sleep 2
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
@@ -76,3 +49,13 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(prlctl list -a | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-amd64
+          prlctl stop "$VM" --kill 2> /dev/null
+          sleep 1
+          prlctl delete "$VM" 2> /dev/null
+          sleep 2
