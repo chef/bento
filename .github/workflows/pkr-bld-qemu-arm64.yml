@@ -62,7 +62,7 @@ jobs:
       - name: Bento Test
         run: |
           eval "$(chef shell-init bash)"
-          bento test libvirt
+          bento test qemu
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
