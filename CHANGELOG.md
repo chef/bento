@@ -33,7 +33,6 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | rockylinux-10 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-22.04 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-24.04 | x | x | x | x | x | x | x | x | x |  |  |
-| ubuntu-25.10 | x | x | x | x | x | x | x | x | x |  |  |
 | ubuntu-26.04 | x | x | x | x | x | x | x | x | x |  |  |
 | windows-11 | x | na | x |  | x | x | x | x |  |  |  |
 | windows-2016 | x | na | x | na | x | na | x | na |  | na |  |
@@ -51,44 +50,36 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2026-05-27)
+## [unreleased] (2026-06-04)
 
-### Lifecycle Updates - EOL Removals and New Versions
+## [5.1.0] (2026-06-04)
 
-**Removed (EOL):**
-- Removed Ubuntu 25.04 (Plucky Puffin) - EOL January 2026
-- Removed Fedora 42 - EOL May 13, 2026
-- Removed FreeBSD 13 - EOL April 30, 2026
-- Removed openSUSE Leap 15 - EOL April 30, 2026
-
-**Added (New Major Versions):**
+- Removed Ubuntu 25.04
+- Removed Ubuntu 25.10
+- Removed Fedora 42
+- Removed FreeBSD 13
+- Removed openSUSE Leap 15
+- Removed Rocky, Alma, and RHEL 8 aarch64 builds
 - Added Fedora 44 support (x86_64 and aarch64)
-
-**Updated (Latest Point Releases):**
 - Updated Ubuntu 24.04 to 24.04.4 LTS
 - Updated builds.yml to reflect current supported OS versions
 - Added AGENTS.md file with repository instructions for GitHub Copilot CLI
-
-### Supported OS Versions (as of May 2026)
-- Ubuntu: 22.04.5 LTS, 24.04.4 LTS, 25.10, 26.04 LTS
-- Fedora: 43, 44
-- Debian: 12 (Bookworm), 13 (Trixie)
-- AlmaLinux: 8.10, 9.7, 10.1
-- Rocky Linux: 8.10, 9.7, 10.1
-- CentOS Stream: 9, 10
-- Oracle Linux: 8.10, 9.6, 10.0
-- openSUSE Leap: 16.0
-- FreeBSD: 14.4, 15.0
-
-## [unreleased] (2025-11-21)
-
+- Added new variables pause_before_connecting, ssh_read_write_timeout
+- Fixed Vmware plugin changes in templates
+- Added Test-Kitchen dependency for tests
+- Refactored bento test command to run call TK directory vs shelling out
 - Update freebsd 14 to 14.4
 - Updated macos boot commands to enable remote login as last step
-- Updated Almalinux 9 to 9.7
-- Updated Almalinux 10 to 10.1
+- Updated Almalinux 9 to 9.8
+- Updated Almalinux 10 to 10.2
+- Updated Rockylinux 9 to 9.8
+- Updated Rockylinux 10 to 10.2
+- Updated Debian 12 to 12.14
 - Updated Debian 13 to 13.3
-- Updated RHEL 9 to 9.7
+- Updated RHEL 9 to 9.8
 - Updated RHEL 10 to 10.1
+- Updated Ubuntu 24 to 24.04.4
+- Added Ubuntu 26.04
 
 ## [v5.0.1] (2025-11-21)
 
