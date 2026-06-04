@@ -47,6 +47,19 @@ class TestRunner
     File.binwrite(path, JSON.pretty_generate(existing))
   end
 
+  # Wrap block in Bundler.with_unbundled_env when Bundler is loaded (i.e. when
+  # invoked via `bundle exec`), so that BUNDLE_GEMFILE and RUBYOPT are cleared
+  # before vagrant subprocesses are spawned.  When bento is installed and run
+  # as a plain gem (no bundler in scope) those env-vars are absent anyway, so
+  # we simply yield the block.
+  def with_unbundled_env(&block)
+    if defined?(Bundler)
+      Bundler.with_unbundled_env(&block)
+    else
+      block.call
+    end
+  end
+
   # Remove the vagrant box that was added during testing.
   # First tries with --provider; if that fails (e.g. qemu boxes register as
   # libvirt internally) falls back to removing all versions of the box name.
@@ -123,7 +136,7 @@ class TestRunner
     # `bundle exec` are cleared before vagrant subprocesses are spawned.
     # Vagrant ships its own embedded Ruby and will fail if it inherits the
     # project's BUNDLE_GEMFILE.
-    Bundler.with_unbundled_env do
+    with_unbundled_env do
       kitchen_config = Kitchen::Config.new(
         kitchen_root: kitchen_dir,
         log_level: @debug ? :debug : :info

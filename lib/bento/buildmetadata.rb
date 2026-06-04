@@ -82,14 +82,16 @@ class BuildMetadata
   def packer_ver
     cmd = Mixlib::ShellOut.new('packer --version')
     cmd.run_command
-    cmd.stdout.split(' ')[1]
+    cmd.error? ? nil : cmd.stdout.split(' ')[1]
   end
 
   def vagrant_ver
-    Bundler.with_unbundled_env do
-      cmd = Mixlib::ShellOut.new('vagrant --version')
+    cmd = Mixlib::ShellOut.new('vagrant --version')
+    if defined?(Bundler)
+      Bundler.with_unbundled_env { cmd.run_command }
+    else
       cmd.run_command
-      cmd.error? ? nil : cmd.stdout.split(' ')[1]
     end
+    cmd.error? ? nil : cmd.stdout.split(' ')[1]
   end
 end
