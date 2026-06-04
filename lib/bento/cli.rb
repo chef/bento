@@ -17,7 +17,7 @@ class Options
            else
              RbConfig::CONFIG['host_cpu']
            end
-    not_buildable = YAML.load(File.read('builds.yml'))['do_not_build']
+    not_buildable = YAML.load_file('builds.yml')['do_not_build']
     options = OpenStruct.new
     options.template_files = calculate_templates("os_pkrvars/**/*-#{arch}.pkrvars.hcl")
     not_buildable.each do |os|
@@ -50,11 +50,11 @@ class Options
     }
 
     test_argv_proc = proc { |opts|
-      opts.regx = ARGV[0]
+      opts.regx = ARGV.first
     }
 
     md_json_argv_proc = proc { |opts|
-      opts.md_json = ARGV[0]
+      opts.md_json = ARGV.first
     }
 
     subcommand = {

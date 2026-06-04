@@ -65,7 +65,7 @@ class BuildRunner
       time = Benchmark.measure do
         cmd.run_command
       end
-      if Dir.glob("../../builds/build_complete/#{template.split('-')[0...-1].join('-')}*-#{template.split('-')[-1]}.*.box").empty?
+      if Dir.glob("../../builds/build_complete/#{template.split('-')[0...-1].join('-')}*-#{template.split('-').last}.*.box").empty?
         banner('Not writing metadata file since no boxes exist')
       else
         write_final_metadata(template, time.real.ceil)
@@ -81,7 +81,7 @@ class BuildRunner
 
   def packer_build_cmd(template, _var_file)
     pkrvars = "#{template}.pkrvars.hcl"
-    cmd = %W(packer build -timestamp-ui -force -var-file=#{File.absolute_path(pkrvars)} #{File.absolute_path("../../packer_templates")})
+    cmd = %W(packer build -timestamp-ui -force -var-file=#{File.absolute_path(pkrvars)} #{File.absolute_path('../../packer_templates')})
     vars.each do |var|
       cmd.insert(4, "-var #{var}")
     end if vars

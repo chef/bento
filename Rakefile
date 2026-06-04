@@ -1,5 +1,10 @@
 require 'yaml'
 require 'fileutils'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec)
+
+task default: :spec
 
 desc 'Validate all templates using Packer'
 task :validate do
@@ -57,7 +62,7 @@ def a_to_s(*args)
 end
 
 def config
-  YAML.load(File.read('builds.yml'))
+  YAML.load_file('builds.yml')
 end
 
 def clean_array(*args)
@@ -65,7 +70,7 @@ def clean_array(*args)
 end
 
 def box_name(template)
-  bn = template.split('/')[1].gsub!(/\.pkrvars\.hcl/, '')
+  bn = template.split('/')[1].gsub!('.pkrvars.hcl', '')
   bn.match(/-x86_64|-aarch64/) ? bn.gsub(/-x86_64|-aarch64/, '') : bn
 end
 

@@ -17,14 +17,13 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | centos-stream-10 | x | x | x | x |  | x | x | x |  |  |  |
 | debian-12 | x | x | x | x | x | x |  |  |  |  |  |
 | debian-13 | x | x | x | x | x | x |  |  |  |  |  |
-| fedora-41 | x | x | x | x | x | x | x | x |  |  |  |
-| fedora-42 | x | x | x | x | x | x | x | x |  |  |  |
-| freebsd-13 | x | x | x | x | x | x | x |  |  |  |  |
+| fedora-43 | x | x | x | x | x | x | x | x |  |  |  |
+| fedora-44 | x | x | x | x | x | x | x | x |  |  |  |
 | freebsd-14 | x | x | x | x | x | x | x | x |  |  |  |
+| freebsd-15 | x | x | x | x | x | x | x | x |  |  |  |
 | macos-14 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-15 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-26 | na | na | na | na | na | x |  |  | na | na | na |
-| opensuse-leap-15 | x | x | x | x | x | x |  |  |  |  |  |
 | opensuse-leap-16 | x | x | x | x | x | x | x | x |  |  |  |
 | oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
 | oraclelinux-9 | x | x | x | x | x | x | x | x |  |  |  |
@@ -34,8 +33,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | rockylinux-10 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-22.04 | x | x | x | x | x | x | x | x |  |  |  |
 | ubuntu-24.04 | x | x | x | x | x | x | x | x | x |  |  |
-| ubuntu-25.04 | x | x | x | x | x | x | x | x | x |  |  |
-| ubuntu-25.10 |  |  |  |  |  |  |  |  |  |  |  |
+| ubuntu-26.04 | x | x | x | x | x | x | x | x | x |  |  |
 | windows-11 | x | na | x |  | x | x | x | x |  |  |  |
 | windows-2016 | x | na | x | na | x | na | x | na |  | na |  |
 | windows-2019 | x | na | x | na | x | na | x | na |  | na |  |
@@ -52,15 +50,36 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 - Create CD pipeline to upload vagrant boxes after PR is merged
 - Create CD pipeline to build and upload new versions of vagrant boxes once every 3 months with the latest patches
 
-## [unreleased] (2025-11-21)
+## [unreleased] (2026-06-04)
 
+## [5.1.0] (2026-06-04)
+
+- Removed Ubuntu 25.04
+- Removed Ubuntu 25.10
+- Removed Fedora 42
+- Removed FreeBSD 13
+- Removed openSUSE Leap 15
+- Removed Rocky, Alma, and RHEL 8 aarch64 builds
+- Added Fedora 44 support (x86_64 and aarch64)
+- Updated Ubuntu 24.04 to 24.04.4 LTS
+- Updated builds.yml to reflect current supported OS versions
+- Added AGENTS.md file with repository instructions for GitHub Copilot CLI
+- Added new variables pause_before_connecting, ssh_read_write_timeout
+- Fixed Vmware plugin changes in templates
+- Added Test-Kitchen dependency for tests
+- Refactored bento test command to run call TK directory vs shelling out
 - Update freebsd 14 to 14.4
 - Updated macos boot commands to enable remote login as last step
-- Updated Almalinux 9 to 9.7
-- Updated Almalinux 10 to 10.1
+- Updated Almalinux 9 to 9.8
+- Updated Almalinux 10 to 10.2
+- Updated Rockylinux 9 to 9.8
+- Updated Rockylinux 10 to 10.2
+- Updated Debian 12 to 12.14
 - Updated Debian 13 to 13.3
-- Updated RHEL 9 to 9.7
+- Updated RHEL 9 to 9.8
 - Updated RHEL 10 to 10.1
+- Updated Ubuntu 24 to 24.04.4
+- Added Ubuntu 26.04
 
 ## [v5.0.1] (2025-11-21)
 
@@ -1292,7 +1311,7 @@ Please ensure that Virtualbox is at least 5.1.6 and Vagrant at least 1.8.6 befor
 - \[ubuntu-12.04-\*\] Update URL paths to use 12.04.5. [\#359](https://github.com/chef/bento/pull/359) ([fnichol](https://github.com/fnichol))
 - Remove VeeWee definitions from project [\#358](https://github.com/chef/bento/pull/358) ([fnichol](https://github.com/fnichol))
 - Add packer/bin/bento for building templates. [\#357](https://github.com/chef/bento/pull/357) ([fnichol](https://github.com/fnichol))
-- update README to point to Boxcutter instead of basebox [\#354](https://github.com/chef/bento/pull/354) ([OBrienCommaJosh](https://github.com/OBrienCommaJosh))
+- update README to point to Boxcutter instead of basebox [\#354](https://github.com/chef/bento/pull/354) (OBrienCommaJosh)
 - Add MAINTAINERS.md file. [\#347](https://github.com/chef/bento/pull/347) ([fnichol](https://github.com/fnichol))
 - Add RHEL 7.1 JSON file. [\#342](https://github.com/chef/bento/pull/342) ([lopaka](https://github.com/lopaka))
 - Solaris 10u11 - zfs base box [\#341](https://github.com/chef/bento/pull/341) ([scotthain](https://github.com/scotthain))

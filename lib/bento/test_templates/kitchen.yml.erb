@@ -4,7 +4,7 @@ provisioner:
 
 platforms:
 <% @providers.each do |provider| -%>
-- name: <%= "#{@boxname}-#{@arch}-#{provider['name']}" %>
+- name: <%= "#{@boxname.tr('.', '')}-#{@arch}-#{provider['name'].tr('_', '-')}" %>
   driver:
     name: vagrant
     provider: <%= provider['name'] %>
@@ -14,6 +14,10 @@ platforms:
     box_arch: <%= @arch %>
     synced_folders:
       - [".", "/vagrant", "disabled: true"]
+<% if provider['name'] == 'libvirt' -%>
+    customize:
+      inputs: []
+<% end -%>
 <% end -%>
 suites:
 - name: default

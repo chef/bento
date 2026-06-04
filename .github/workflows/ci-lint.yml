@@ -1,10 +1,13 @@
 ---
 on:
-  schedule:
-    - cron: '0 0 * * 0'
+  workflow_call:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ci-lint-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   markdown-lint:
@@ -28,19 +31,11 @@ jobs:
   powershell-lint:
     uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
 
-  packer-iso-check:
-    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
-
-  packer-lint:
-    uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
-    secrets: inherit
-
-  # Codespell configuration is within .codespellrc
   codespell:
     name: Check for spelling errors
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
       - name: Codespell
         uses: codespell-project/actions-codespell@v2

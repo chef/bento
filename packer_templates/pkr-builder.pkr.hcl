@@ -102,16 +102,10 @@ build {
     execute_command   = local.nix_execute_command
     expect_disconnect = true
     pause_before      = "10s"
+    pause_after       = "30s"
     scripts           = ["${path.root}/scripts/_common/update_packages.sh", ]
     valid_exit_codes  = [0, 143]
     except            = var.is_windows ? local.source_names : null
-  }
-  provisioner "shell" {
-    inline = [
-      "echo 'Waiting after reboot'"
-    ]
-    pause_after = "10s"
-    except      = var.is_windows ? local.source_names : null
   }
   # Install build tools and reboot
   provisioner "shell" {
@@ -119,15 +113,9 @@ build {
     execute_command   = local.nix_execute_command
     expect_disconnect = true
     pause_before      = "10s"
+    pause_after       = "30s"
     scripts           = ["${path.root}/scripts/_common/build_tools.sh", ]
     except            = var.is_windows ? local.source_names : null
-  }
-  provisioner "shell" {
-    inline = [
-      "echo 'Waiting after reboot'"
-    ]
-    pause_after = "10s"
-    except      = var.is_windows ? local.source_names : null
   }
   # Run common scripts and guest tools installation
   provisioner "shell" {
@@ -135,15 +123,9 @@ build {
     execute_command   = local.nix_execute_command
     expect_disconnect = true
     pause_before      = "10s"
+    pause_after       = "30s"
     scripts           = local.common_scripts
     except            = var.is_windows ? local.source_names : null
-  }
-  provisioner "shell" {
-    inline = [
-      "echo 'Waiting after reboot'"
-    ]
-    pause_after = "10s"
-    except      = var.is_windows ? local.source_names : null
   }
   # Run OS specific scripts
   provisioner "shell" {
@@ -159,6 +141,7 @@ build {
     environment_vars  = local.nix_environment_vars
     execute_command   = local.nix_execute_command
     expect_disconnect = true
+    pause_before      = "10s"
     pause_after       = "10s"
     scripts           = ["${path.root}/scripts/_common/minimize.sh", ]
     except            = var.is_windows ? local.source_names : null

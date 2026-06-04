@@ -10,98 +10,125 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-#   markdown-lint:
-#     uses: chef/github-workflows/.github/workflows/markdown-lint.yml@main
-#
-#   markdown-link-checker:
-#     uses: chef/github-workflows/.github/workflows/markdown-link-checker.yml@main
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      x64_oses: ${{ steps.set-matrix.outputs.x64_oses }}
+      arm64_oses: ${{ steps.set-matrix.outputs.arm64_oses }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          # arm64 exclusions: no aarch64 pkrvars exist for these OS versions
+          X64=$(ruby -r yaml -r json -e "puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') }.to_json")
+          ARM64=$(ruby -r yaml -r json -e "excl=%w[almalinux-8 oraclelinux-8 rockylinux-8]; puts YAML.load_file('builds.yml')['public'].reject { |o| o.start_with?('amazonlinux') || excl.include?(o) }.to_json")
+          echo "x64_oses=${X64}" >> "$GITHUB_OUTPUT"
+          echo "arm64_oses=${ARM64}" >> "$GITHUB_OUTPUT"
+  ci-lint:
+    uses: ./.github/workflows/ci-lint.yml
+    secrets: inherit
 
-  yaml-lint:
-    uses: chef/github-workflows/.github/workflows/yaml-lint.yml@main
-
-  json-lint:
-    uses: chef/github-workflows/.github/workflows/json-lint.yml@main
-
-  xml-lint:
-    uses: chef/github-workflows/.github/workflows/xml-lint.yml@main
-
-  shellcheck-lint:
-    uses: chef/github-workflows/.github/workflows/shellcheck-lint.yml@main
-
-  powershell-lint:
-    uses: chef/github-workflows/.github/workflows/powershell-lint.yml@main
+  packer-lint:
+    uses: ./.github/workflows/packer-lint.yml
+    secrets: inherit
 
   packer-iso-check:
-    uses: chef/github-workflows/.github/workflows/packer-iso-url-checker.yml@main
-    with:
-      EXCLUDE_REGEX: 'amazonlinux-2.*|rhel.*|sles.*|solaris.*|macos-.*'
-
-#   packer-lint:
-#     uses: chef/github-workflows/.github/workflows/packer-lint.yml@main
-#     secrets: inherit
-
-  pkr-bld-amazonlinux-arm64:
-    uses: ./.github/workflows/pkr-bld-amazonlinux-arm64.yml
-    secrets: inherit
+    uses: ./.github/workflows/packer-iso-url-checker.yml
 
   pkr-bld-amazonlinux-x64:
     uses: ./.github/workflows/pkr-bld-amazonlinux-x64.yml
     secrets: inherit
 
+  pkr-bld-amazonlinux-arm64:
+    uses: ./.github/workflows/pkr-bld-amazonlinux-arm64.yml
+    secrets: inherit
+
   pkr-bld-hyperv-x64:
+    needs: generate-matrix
     uses: ./.github/workflows/pkr-bld-hyperv-x64.yml
     secrets: inherit
-
-  pkr-bld-parallels-arm64:
-    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
-    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
   pkr-bld-parallels-x64:
+    needs: generate-matrix
     uses: ./.github/workflows/pkr-bld-parallels-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
-  pkr-bld-qemu-arm64:
-    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
+  pkr-bld-parallels-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-parallels-arm64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
   pkr-bld-qemu-x64:
+    needs: generate-matrix
     uses: ./.github/workflows/pkr-bld-qemu-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
-  pkr-bld-utm-arm64:
-    uses: ./.github/workflows/pkr-bld-utm-arm64.yml
+  pkr-bld-qemu-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-qemu-arm64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
   pkr-bld-utm-x64:
+    needs: generate-matrix
     uses: ./.github/workflows/pkr-bld-utm-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
-  pkr-bld-virtualbox-arm64:
-    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
+  pkr-bld-utm-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-utm-arm64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
   pkr-bld-virtualbox-x64:
+    needs: generate-matrix
     uses: ./.github/workflows/pkr-bld-virtualbox-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
 
-  pkr-bld-vmware-arm64:
-    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+  pkr-bld-virtualbox-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-virtualbox-arm64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
   pkr-bld-vmware-x64:
+    needs: generate-matrix
     uses: ./.github/workflows/pkr-bld-vmware-x64.yml
     secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.x64_oses }}
+
+  pkr-bld-vmware-arm64:
+    needs: generate-matrix
+    uses: ./.github/workflows/pkr-bld-vmware-arm64.yml
+    secrets: inherit
+    with:
+      os_matrix: ${{ needs.generate-matrix.outputs.arm64_oses }}
 
   check_jobs_pass:
     if: always()
     needs:
-#       - markdown-lint
-      - yaml-lint
-      - json-lint
-      - xml-lint
-      - powershell-lint
-      - shellcheck-lint
-#       - packer-lint
+      - ci-lint
+      - packer-lint
+      - packer-iso-check
+
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
@@ -110,7 +137,3 @@ jobs:
           allowed-failures:
           allowed-skips: ${{ toJSON(needs) }}
           jobs: ${{ toJSON(needs) }}
-
-#  pkr-bld-parallels-test:
-#    uses: ./.github/workflows/test-pkr-bld-parallels.yml
-#    secrets: inherit

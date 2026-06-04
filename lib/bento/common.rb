@@ -75,7 +75,7 @@ module Common
   end
 
   def builds_yml
-    YAML.load(File.read('builds.yml'))
+    YAML.load_file('builds.yml')
   end
 
   def private_box?(boxname)

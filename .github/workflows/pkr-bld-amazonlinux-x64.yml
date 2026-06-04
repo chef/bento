@@ -66,3 +66,13 @@ jobs:
           overwrite: true
           retention-days: 10
           compression-level: 0 # no compression
+      - name: Remove VM in case of canceled job
+        if: cancelled()
+        run: |
+          VM="$(VBoxManage list vms | grep ${{ matrix.os }} | cut -d " " -f 1)"
+          echo "VM Name: $VM"
+          echo Powering off and deleting any existing VMs named ${{ matrix.os }}*-aarch64
+          VBoxManage controlvm $VM poweroff
+          sleep 1
+          vboxmanage unregistervm $VM --delete
+          sleep 2

@@ -1,6 +1,10 @@
 ---
 on:
   workflow_call:
+    inputs:
+      os_matrix:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,32 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - almalinux-8
-          - almalinux-9
-          - almalinux-10
-          - centos-stream-9
-          - centos-stream-10
-          - debian-12
-          - debian-13
-          - fedora-42
-          - fedora-43
-          - freebsd-13
-          - freebsd-14
-          - freebsd-15
-          - opensuse-leap-15
-          - opensuse-leap-16
-          - oraclelinux-8
-          - oraclelinux-9
-          - oraclelinux-10
-          - rockylinux-8
-          - rockylinux-9
-          - rockylinux-10
-          - ubuntu-22.04
-          - ubuntu-24.04
-          - ubuntu-25.04
-          - ubuntu-25.10
-          - ubuntu-26.04
+        os: ${{ fromJson(inputs.os_matrix) }}
         provider:
           - vmware-iso
     steps:
@@ -57,6 +36,20 @@ jobs:
           bento build -o ${{ matrix.provider }}.vm os_pkrvars/$(echo ${{ matrix.os }} | cut -d "-" -f 1)/"${{ matrix.os }}-x86_64.pkrvars.hcl"
           ls -alh builds/build_complete/
           cat builds/build_complete/${{ matrix.os }}*-x86_64._metadata.json
+      - name: Bento Test
+        run: |
+          eval "$(chef shell-init bash)"
+          bento test
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-parallels-x86_64"
+          path: |
+            builds/testing_passed/x86_64/*.box
+            builds/testing_passed/x86_64/*.json
+          overwrite: true
+          retention-days: 10
+          compression-level: 0 # no compression
       - name: Remove VM in case of canceled job
         if: cancelled()
         run: |
@@ -83,17 +76,3 @@ jobs:
               echo "VM '$TARGET_VM_NAME' has been stopped and deleted."
             fi
           done
-      - name: Bento Test
-        run: |
-          eval "$(chef shell-init bash)"
-          bento test
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: "${{ matrix.os }}-parallels-x86_64"
-          path: |
-            builds/testing_passed/x86_64/*.box
-            builds/testing_passed/x86_64/*.json
-          overwrite: true
-          retention-days: 10
-          compression-level: 0 # no compression

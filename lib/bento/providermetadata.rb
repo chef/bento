@@ -16,7 +16,7 @@ class ProviderMetadata
       {
         name: provider_from_file(file),
         version: version(provider_from_file(file)),
-        file: "#{File.basename(file)}",
+        file: File.basename(file).to_s,
         checksum_type: 'sha256',
         checksum: shasum(file),
         size: "#{size_in_mb(file)} MB",

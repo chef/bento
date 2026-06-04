@@ -1,6 +1,6 @@
 require 'bento/common'
-require 'mixlib/shellout' unless defined?(Mixlib::ShellOut)
 require 'erb' unless defined?(Erb)
+require 'kitchen'
 
 class TestRunner
   include Common
@@ -23,36 +23,83 @@ class TestRunner
     end
     time = Benchmark.measure do
       md_files.each do |metadata_file|
-        destroy_all_bento
         test_box(metadata_file)
-        destroy_all_bento
       end
     end
     banner("Testing finished in #{duration(time.real)}.")
     if errors.empty?
       banner('All tests passed.')
     else
-      raise("Failed Tests:\n#{errors.join("\n")}\nexited #{$CHILD_STATUS}")
+      raise("Failed Tests:\n#{errors.join("\n")}")
     end
   end
 
   private
 
-  def destroy_all_bento
-    cmd = Mixlib::ShellOut.new("vagrant box list | grep 'bento-'")
-    cmd.run_command
-    boxes = cmd.stdout.split("\n")
+  # Merge a single provider entry into an existing metadata JSON file,
+  # appending or replacing by provider name. When creating a new file the
+  # base metadata fields are copied but the providers list starts empty so
+  # only the current provider is written on the first call.
+  def update_metadata_file(path, base_md, provider)
+    existing = File.exist?(path) ? JSON.parse(File.read(path)) : base_md.merge('providers' => [])
+    existing['providers'].reject! { |p| p['name'] == provider['name'] }
+    existing['providers'] << provider
+    File.binwrite(path, JSON.pretty_generate(existing))
+  end
 
-    boxes.each do |box|
-      b = box.split(' ')
-      rm_cmd = Mixlib::ShellOut.new("vagrant box remove --force #{b[0]} --provider #{b[1].to_s.gsub(/(,|\()/, '')}")
-      banner("Removing #{b[0]} for provider #{b[1].to_s.gsub(/(,|\()/, '')}")
-      rm_cmd.run_command
+  # Wrap block in Bundler.with_unbundled_env when Bundler is loaded (i.e. when
+  # invoked via `bundle exec`), so that BUNDLE_GEMFILE and RUBYOPT are cleared
+  # before vagrant subprocesses are spawned.  When bento is installed and run
+  # as a plain gem (no bundler in scope) those env-vars are absent anyway, so
+  # we simply yield the block.
+  def with_unbundled_env(&block)
+    if defined?(Bundler)
+      Bundler.with_unbundled_env(&block)
+    else
+      block.call
+    end
+  end
+
+  # Remove the vagrant box that was added during testing.
+  # First tries with --provider; if that fails (e.g. qemu boxes register as
+  # libvirt internally) falls back to removing all versions of the box name.
+  def remove_vagrant_box(box_name, provider_name)
+    vagrant_name = "bento-#{box_name}"
+    cmd = Mixlib::ShellOut.new("vagrant box remove #{vagrant_name} --provider #{provider_name} --force")
+    cmd.run_command
+    unless cmd.error?
+      banner("Removed vagrant box #{vagrant_name} (#{provider_name})")
+      return
+    end
+
+    # Fall back to removing all registered providers/versions for this box name
+    fallback = Mixlib::ShellOut.new("vagrant box remove #{vagrant_name} --all --force")
+    fallback.run_command
+    if fallback.error?
+      warn("Failed to remove vagrant box #{vagrant_name}: #{fallback.stderr.strip}")
+    else
+      banner("Removed vagrant box #{vagrant_name} (all providers)")
+    end
+  end
+
+  # Remove a provider entry from the build_complete metadata file.
+  # Deletes the metadata file when the last provider has been removed.
+  def remove_from_build_complete(build_complete_dir, md_json_file, provider_name)
+    bc_md_path = File.join(build_complete_dir, md_json_file)
+    return unless File.exist?(bc_md_path)
+
+    bc_md = JSON.parse(File.read(bc_md_path))
+    bc_md['providers'].reject! { |p| p['name'] == provider_name }
+    if bc_md['providers'].empty?
+      File.delete(bc_md_path)
+    else
+      File.binwrite(bc_md_path, JSON.pretty_generate(bc_md))
     end
   end
 
   def test_box(md_json)
     md = box_metadata(md_json)
+    box_errors = []
     bento_dir = Dir.pwd
     build_dir = File.join(bento_dir, 'builds')
     build_complete_dir = File.join(build_dir, 'build_complete')
@@ -84,49 +131,84 @@ class TestRunner
 
     Dir.chdir(kitchen_dir)
 
-    if regx
-      box_name = regx.tr('.', '').tr('_', '-')
-      test = Mixlib::ShellOut.new("kitchen test #{box_name}", timeout: 900, live_stream: STDOUT)
-      test.run_command
-      if test.error?
-        errors << box_name
-      end
-    else
-      passed_providers = []
-      failed_providers = []
-      new_md = md.dup
-      new_md['providers'].each do |provider|
+    # Wrap all kitchen/vagrant operations in with_unbundled_env so that
+    # bundler environment variables (BUNDLE_GEMFILE, RUBYOPT, etc.) set by
+    # `bundle exec` are cleared before vagrant subprocesses are spawned.
+    # Vagrant ships its own embedded Ruby and will fail if it inherits the
+    # project's BUNDLE_GEMFILE.
+    with_unbundled_env do
+      kitchen_config = Kitchen::Config.new(
+        kitchen_root: kitchen_dir,
+        log_level: @debug ? :debug : :info
+      )
+
+      providers_to_test = if regx
+                            box_name = regx.tr('.', '').tr('_', '-')
+                            md['providers'].select { |p| "#{@boxname.tr('.', '')}-#{@arch}-#{p['name'].tr('_', '-')}" =~ /#{box_name}/i }
+                          else
+                            md['providers']
+                          end
+
+      providers_to_test.each do |provider|
         box_name = "#{@boxname.tr('.', '')}-#{@arch}-#{provider['name'].tr('_', '-')}"
         banner("Testing #{box_name}")
-        test = Mixlib::ShellOut.new("kitchen test #{box_name}", timeout: 900, live_stream: STDOUT)
-        test.run_command
-        if test.error?
-          banner("Testing failed for #{provider['file']}")
-          provider['testing'] = "failed: #{test.stderr}"
-          failed_providers << provider
-          errors << provider['file']
-          new_md['providers'] = failed_providers
-          FileUtils.mkdir_p(test_failed_dir) unless Dir.exist?(test_failed_dir)
-          File.binwrite(File.join(test_failed_dir, md_json_file), JSON.pretty_generate(new_md))
-          FileUtils.mv(File.join(build_complete_dir, provider['file']), File.join(test_failed_dir, provider['file']))
-        else
+
+        instance = kitchen_config.instances.get("default-#{box_name}")
+        if instance.nil?
+          banner("No kitchen instance found for #{box_name}, skipping")
+          next
+        end
+
+        begin
+          instance.test(:always)
           banner("Testing passed for #{provider['file']}")
           provider['testing'] = 'passed'
-          passed_providers << provider
-          new_md['providers'] = passed_providers
           FileUtils.mkdir_p(test_passed_dir) unless Dir.exist?(test_passed_dir)
-          File.binwrite(File.join(test_passed_dir, md_json_file), JSON.pretty_generate(new_md))
-          FileUtils.mv(File.join(build_complete_dir, provider['file']), File.join(test_passed_dir, provider['file']))
+          update_metadata_file(File.join(test_passed_dir, md_json_file), md, provider)
+          FileUtils.mv(File.join(build_complete_dir, provider['file']), File.join(test_passed_dir, provider['file']), force: true)
+          remove_from_build_complete(build_complete_dir, md_json_file, provider['name'])
+          remove_vagrant_box(@boxname, provider['name'])
+          # Remove from failed metadata if it was previously recorded there
+          failed_md_path = File.join(test_failed_dir, md_json_file)
+          if File.exist?(failed_md_path)
+            failed_md = JSON.parse(File.read(failed_md_path))
+            failed_md['providers'].reject! { |p| p['name'] == provider['name'] }
+            if failed_md['providers'].empty?
+              File.delete(failed_md_path)
+            else
+              File.binwrite(failed_md_path, JSON.pretty_generate(failed_md))
+            end
+          end
+        rescue Kitchen::ActionFailed, Kitchen::InstanceFailure => e
+          banner("Testing failed for #{provider['file']}")
+          provider['testing'] = "failed: #{e.message}"
+          errors << provider['file']
+          box_errors << provider['file']
+          FileUtils.mkdir_p(test_failed_dir) unless Dir.exist?(test_failed_dir)
+          update_metadata_file(File.join(test_failed_dir, md_json_file), md, provider)
+          box_src = File.join(build_complete_dir, provider['file'])
+          FileUtils.mv(box_src, File.join(test_failed_dir, provider['file']), force: true) if File.exist?(box_src)
+          remove_from_build_complete(build_complete_dir, md_json_file, provider['name'])
+          remove_vagrant_box(@boxname, provider['name'])
+        end
+      end
+
+      banner("Cleaning up test files for #{@boxname}")
+      kitchen_config.instances.each do |inst|
+        begin
+          inst.destroy
+        rescue Kitchen::ActionFailed, Kitchen::InstanceFailure => e
+          warn("Failed to destroy instance #{inst.name}: #{e.message}")
         end
       end
     end
-    banner("Cleaning up test files for #{@boxname}")
-    destroy = Mixlib::ShellOut.new('kitchen destroy', timeout: 900, live_stream: STDOUT)
-    destroy.run_command
-    if Dir.glob("#{build_complete_dir}/#{@boxname}-#{md['arch']}.*.box").empty?
-      File.delete(File.join(bento_dir, md_json))
-    end
     Dir.chdir(bento_dir)
-    FileUtils.rm_rf(kitchen_dir)
+    if box_errors.empty?
+      FileUtils.rm_rf(kitchen_dir)
+      prune = Mixlib::ShellOut.new('vagrant global-status --prune')
+      prune.run_command
+    else
+      banner("Keeping #{kitchen_dir} for troubleshooting (#{box_errors.length} failed provider(s))")
+    end
   end
 end
