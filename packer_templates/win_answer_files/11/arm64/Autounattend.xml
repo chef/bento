@@ -191,7 +191,6 @@
 			<AutoLogon>
 				<Username>vagrant</Username>
 				<Enabled>true</Enabled>
-				<LogonCount>1</LogonCount>
 				<Password>
 					<Value>vagrant</Value>
 					<PlainText>true</PlainText>
@@ -480,9 +479,6 @@ $scripts = @(
 		</File>
 		<File path="C:\Windows\Setup\Scripts\FirstLogon.ps1">
 $scripts = @(
-	{
-		Set-ItemProperty -LiteralPath 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'AutoLogonCount' -Type 'DWord' -Force -Value 0;
-	};
 	{
 		Disable-ComputerRestore -Drive 'C:\';
 	};
