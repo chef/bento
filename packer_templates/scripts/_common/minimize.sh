@@ -48,22 +48,24 @@ elif [ "$OS_NAME" = "Darwin" ]; then
   fi
 else
   # Whiteout root
-  count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
+  sync
+  count=$(df -kP / | tail -n1  | awk -F ' ' '{print $4}')
   count=$((count - 1))
   dd if=/dev/zero of=/tmp/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
   rm /tmp/whitespace
 
   # Whiteout /boot
-  count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
+  sync
+  count=$(df -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
   count=$((count - 1))
   dd if=/dev/zero of=/boot/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
   rm /boot/whitespace
 
   set +e
-  swapuuid="$(/sbin/blkid -o value -l -s UUID -t TYPE=swap)";
-  case "$?" in
-      2|0) ;;
-      *) exit 1 ;;
+swapuuid="$(/sbin/blkid -o value -l -s UUID -t TYPE=swap 2>/dev/null)" || true;
+case "$?" in
+    2|0) ;;
+    *) echo "blkid returned $?, skipping swap wipe"; swapuuid="" ;;
   esac
   set -e
 

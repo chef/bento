@@ -94,6 +94,10 @@ elif [ "$OS_NAME" = "FreeBSD" ]; then
 elif [ "$OS_NAME" = "Darwin" ]; then
   echo "Downloading and installing system updates..."
   sudo softwareupdate --agree-to-license -i -r -R --stdinpass vagrant
+elif [ "$OS_ID" = "alpine" ]; then
+  apk update
+  apk upgrade
+  apk add --no-cache curl
 else
   echo "Unsupported OS: $OS_NAME"
   exit 1
@@ -117,7 +121,11 @@ fi
 
 if [ "$REBOOT_NEEDED" = true ]; then
   echo "pkgs installed needing reboot"
-  shutdown -r now
+  if command -v shutdown > /dev/null 2>&1; then
+    shutdown -r now
+  else
+    reboot
+  fi
   sleep 60
 else
   echo "no pkgs installed needing reboot"

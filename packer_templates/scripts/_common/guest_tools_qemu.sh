@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/sh -eux
 
 # set a default HOME_DIR environment variable if not set
 OS_NAME=$(uname -s)
@@ -14,7 +14,15 @@ utm-iso)
   # We install things like spice-vdagent (clipboard sharing and dynamic display resolution )
   # QEMU Agent (time syncing and scripting are supported by the QEMU agent.)
   # SPICE WebDAV (QEMU directory sharing)
-  if [ "$OS_NAME" = "FreeBSD" ]; then
+  OS_ID="unknown"
+if [ -f /etc/os-release ]; then
+  OS_ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+fi
+
+if [ "$OS_ID" = "alpine" ]; then
+  apk add qemu-guest-agent
+  rc-update add qemu-guest-agent default
+elif [ "$OS_NAME" = "FreeBSD" ]; then
     pkg update
     pkg install -y qemu-guest-agent
     cat >> /etc/rc.conf <<EOT
@@ -40,8 +48,10 @@ EOT
   elif [ -f "/usr/bin/zypper" ]; then
     zypper install -y qemu-guest-agent
   fi
-  systemctl enable qemu-guest-agent
-  systemctl start qemu-guest-agent
+  if command -v systemctl >/dev/null 2>&1; then
+    systemctl enable qemu-guest-agent
+    systemctl start qemu-guest-agent
+  fi
   REBOOT_NEEDED=false
   if [ -f /var/run/reboot-required ]; then
     REBOOT_NEEDED=true
@@ -56,7 +66,11 @@ EOT
 
   if [ "$REBOOT_NEEDED" = true ]; then
     echo "pkgs installed needing reboot"
-    shutdown -r now
+    if command -v shutdown > /dev/null 2>&1; then
+      shutdown -r now
+    else
+      reboot
+    fi
     sleep 60
   else
     echo "no pkgs installed needing reboot"
@@ -64,7 +78,15 @@ EOT
   ;;
 qemu)
   echo "installing pkgs necessary for QEMU guest support"
-  if [ "$OS_NAME" = "FreeBSD" ]; then
+  OS_ID="unknown"
+if [ -f /etc/os-release ]; then
+  OS_ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+fi
+
+if [ "$OS_ID" = "alpine" ]; then
+  apk add qemu-guest-agent
+  rc-update add qemu-guest-agent default
+elif [ "$OS_NAME" = "FreeBSD" ]; then
     pkg update
     pkg install -y qemu-guest-agent
     cat >> /etc/rc.conf <<EOT
@@ -82,8 +104,10 @@ EOT
   elif [ -f "/usr/bin/zypper" ]; then
     zypper install -y qemu-guest-agent
   fi
-  systemctl enable qemu-guest-agent
-  systemctl start qemu-guest-agent
+  if command -v systemctl >/dev/null 2>&1; then
+    systemctl enable qemu-guest-agent
+    systemctl start qemu-guest-agent
+  fi
 
   REBOOT_NEEDED=false
   # Check for the /var/run/reboot-required file (common on Debian/Ubuntu)
@@ -103,7 +127,11 @@ EOT
 
   if [ "$REBOOT_NEEDED" = true ]; then
     echo "pkgs installed needing reboot"
-    shutdown -r now
+    if command -v shutdown > /dev/null 2>&1; then
+      shutdown -r now
+    else
+      reboot
+    fi
     sleep 60
   else
     echo "no pkgs installed needing reboot"

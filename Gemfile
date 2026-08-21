@@ -9,3 +9,5 @@ group :development do
   gem 'rake', '>= 12'
   gem 'rspec', '~> 3.13'
 end
+gem 'ostruct'
+gem 'benchmark'

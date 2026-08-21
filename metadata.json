@@ -1,0 +1,1 @@
+{"architecture":"arm64","disks":[{"format":"qcow2","path":"box_0.img"}],"provider":"libvirt"}

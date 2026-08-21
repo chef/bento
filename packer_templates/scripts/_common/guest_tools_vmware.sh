@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/sh -eux
 
 # set a default HOME_DIR environment variable if not set
 OS_NAME=$(uname -s)

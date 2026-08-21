@@ -1,0 +1,57 @@
+# Example answer file for setup-alpine script
+# If you don't want to use a certain option, then comment it out
+
+# Use US layout with US variant
+KEYMAPOPTS="us us"
+
+# Set hostname to 'alpine'
+HOSTNAMEOPTS=alpine
+
+# Set device manager to mdev
+DEVDOPTS=mdev
+
+# Contents of /etc/network/interfaces
+INTERFACESOPTS="auto lo
+    iface lo inet loopback
+
+auto eth0
+    iface eth0 inet dhcp
+    hostname alpine
+"
+
+# Search domain of example.com, Google public nameserver
+DNSOPTS="-d example.com 8.8.8.8"
+
+# Set timezone to UTC
+TIMEZONEOPTS=UTC
+
+# set http/ftp proxy
+#PROXYOPTS="http://webproxy:8080"
+PROXYOPTS=none
+
+# Add first mirror (CDN)
+APKREPOSOPTS="-1"
+
+# Create admin user
+#USEROPTS=none
+USEROPTS="-a -u -g audio,input,video,netdev vagrant"
+#USERSSHKEY="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key"
+#USERSSHKEY="https://raw.githubusercontent.com/hashicorp/vagrant/main/keys/vagrant.pub"
+
+# Install Openssh
+SSHDOPTS=openssh
+
+# Use openntpd
+# NTPOPTS="openntpd"
+NTPOPTS=busybox
+
+# Use /dev/sda as a sys disk
+DISKOPTS="-m sys /dev/sda"
+
+# Setup storage with label APKOVL for config storage
+#LBUOPTS="LABEL=APKOVL"
+LBUOPTS=none
+
+#APKCACHEOPTS="/media/LABEL=APKOVL/cache"
+#APKCACHEOPTS=none
+APKREPOSOPTS=-1
