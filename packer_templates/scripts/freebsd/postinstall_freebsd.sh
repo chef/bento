@@ -3,8 +3,8 @@
 # Set the time correctly
 #ntpdate -v -b 0.pool.ntp.org
 
-# Install curl and ca_root_nss
-pkg install -y curl ca_root_nss dmidecode;
+# Install curl and ca_root_nss and rsync
+pkg install -y curl ca_root_nss dmidecode rsync;
 
 # Emulate the ETCSYMLINK behavior of ca_root_nss; this is for FreeBSD 10,
 # where fetch(1) was massively refactored and doesn't come with
