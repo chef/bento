@@ -97,6 +97,8 @@ class ProviderMetadata
     cmd = Mixlib::ShellOut.new('libvirtd -V')
     cmd.run_command
     cmd.stdout.split(' ').last
+  rescue Errno::ENOENT
+    'unknown'
   end
 
   def ver_qemu
