@@ -159,7 +159,7 @@ locals {
         ["modifyvm", "{{.Name}}", "--mouse", "usb"],
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
         ["modifyvm", "{{.Name}}", "--nic-type1", "usbnet"],
-        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ["storagectl", "{{.Name}}", "--name", "IDE", "--remove"],
         ] : [
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
         ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
@@ -167,7 +167,7 @@ locals {
         ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
         ["modifyvm", "{{.Name}}", "--mouse", "usb"],
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ["storagectl", "{{.Name}}", "--name", "IDE", "--remove"],
       ]
       ) : (
       var.os_arch == "aarch64" ? [
@@ -179,7 +179,7 @@ locals {
         ["modifyvm", "{{.Name}}", "--graphicscontroller", "qemuramfb"],
         ["modifyvm", "{{.Name}}", "--mouse", "usb"],
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ["storagectl", "{{.Name}}", "--name", "IDE", "--remove"],
         ] : [
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
         ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
@@ -187,7 +187,7 @@ locals {
         ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
         ["modifyvm", "{{.Name}}", "--mouse", "usb"],
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ["storagectl", "{{.Name}}", "--name", "IDE", "--remove"],
       ]
     )
   ) : var.vboxmanage
