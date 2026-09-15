@@ -94,6 +94,9 @@ elif [ "$OS_NAME" = "FreeBSD" ]; then
 elif [ "$OS_NAME" = "Darwin" ]; then
   echo "Downloading and installing system updates..."
   sudo softwareupdate --agree-to-license -i -r -R --stdinpass vagrant
+elif [ "$OS_NAME" = "SunOS" ]; then
+  echo "Package updates for SunOS/illumos are handled by OS-specific provisioners"
+  exit 0
 else
   echo "Unsupported OS: $OS_NAME"
   exit 1

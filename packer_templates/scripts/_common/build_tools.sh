@@ -4,7 +4,7 @@ OS_NAME=$(uname -s)
 major_version="$(sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release | awk -F. '{print $1}')"
 distro="$(rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-')"
 
-if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "Darwin" ]; then
+if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "Darwin" ] || [ "$OS_NAME" = "SunOS" ]; then
   echo "Nothing to do for $OS_NAME"
   exit 0
 fi

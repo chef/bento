@@ -37,7 +37,7 @@ virtualbox-iso|virtualbox-ovf)
     } >> /etc/rc.conf
     pw groupadd vboxusers;
     pw groupmod vboxusers -m vagrant
-  elif [ "$OS_NAME" = "Darwin" ]; then
+  elif [ "$OS_NAME" = "Darwin" ] || [ "$OS_NAME" = "SunOS" ]; then
     echo "Nothing to do for $OS_NAME"
     exit 0
   else

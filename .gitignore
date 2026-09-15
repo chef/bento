@@ -1,4 +1,5 @@
 .bundle/
+vendor/
 **/builds/
 *.iso
 *.box

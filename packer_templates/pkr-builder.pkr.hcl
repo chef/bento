@@ -31,6 +31,12 @@ locals {
           "${path.root}/scripts/solaris/vmtools_solaris.sh",
           "${path.root}/scripts/solaris/minimize_solaris.sh"
           ] : (
+          var.os_name == "omnios" ? [
+            "${path.root}/scripts/omnios/update_omnios.sh",
+            "${path.root}/scripts/omnios/vagrant_omnios.sh",
+            "${path.root}/scripts/omnios/vmtools_omnios.sh",
+            "${path.root}/scripts/omnios/minimize_omnios.sh"
+            ] : (
           var.os_name == "freebsd" ? [
             "${path.root}/scripts/freebsd/postinstall_freebsd.sh",
             "${path.root}/scripts/freebsd/sudoers_freebsd.sh",
@@ -68,6 +74,7 @@ locals {
         )
       )
     )
+  )
   ) : var.scripts
   nix_environment_vars = var.os_name == "freebsd" ? [
     "HOME_DIR=/home/vagrant",
@@ -76,7 +83,12 @@ locals {
     "no_proxy=${var.no_proxy}",
     "pkg_branch=quarterly"
     ] : (
-    var.os_name == "solaris" ? [] : [
+    var.os_name == "solaris" || var.os_name == "omnios" ? [
+      "HOME_DIR=/export/home/vagrant",
+      "http_proxy=${var.http_proxy}",
+      "https_proxy=${var.https_proxy}",
+      "no_proxy=${var.no_proxy}"
+    ] : [
       "HOME_DIR=/home/vagrant",
       "http_proxy=${var.http_proxy}",
       "https_proxy=${var.https_proxy}",
@@ -84,7 +96,9 @@ locals {
     ]
   )
   nix_execute_command = var.os_name == "freebsd" ? "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'" : (
-    var.os_name == "solaris" ? "echo 'vagrant'|sudo -S bash {{.Path}}" : "echo 'vagrant' | sudo -S {{ .Vars }} sh -eux '{{ .Path }}'"
+    var.os_name == "omnios" ? "echo 'vagrant' | sudo -S {{ .Vars }} sh -eux '{{ .Path }}'" : (
+      var.os_name == "solaris" ? "echo 'vagrant'|sudo -S bash {{.Path}}" : "echo 'vagrant' | sudo -S {{ .Vars }} sh -eux '{{ .Path }}'"
+    )
   )
   elevated_user     = "vagrant"
   elevated_password = "vagrant"
@@ -205,7 +219,9 @@ build {
     compression_level = 9
     output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
-      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : (
+        var.os_name == "omnios" || var.os_name == "solaris" ? "${path.root}/vagrantfile-omnios.template" : null
+      )
     )
     except = ["utm-iso.vm"]
   }
@@ -213,7 +229,9 @@ build {
     compression_level = 9
     output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows-utm.template" : (
-      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : "${path.root}/vagrantfile-utm.template"
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : (
+        var.os_name == "omnios" || var.os_name == "solaris" ? "${path.root}/vagrantfile-omnios-utm.template" : "${path.root}/vagrantfile-utm.template"
+      )
     )
     architecture = "${var.os_arch == "x86_64" ? "amd64" : var.os_arch == "aarch64" ? "arm64" : var.os_arch}"
     only         = ["utm-iso.vm"]
