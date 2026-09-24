@@ -1,61 +1,31 @@
-$selectors = @(
-    'Print.Fax.Scan'
-    'Language.Handwriting'
-    'Browser.InternetExplorer'
-    'MathRecognizer'
-    'OneCoreUAP.OneSync'
-    'Microsoft.Windows.MSPaint'
-    'App.Support.QuickAssist'
-    'Microsoft.Windows.SnippingTool'
-    'Language.Speech'
-    'Language.TextToSpeech'
-    'App.StepsRecorder'
-    'Hello.Face.18967'
-    'Hello.Face.Migration.18967'
-    'Hello.Face.20134'
-    'Media.WindowsMediaPlayer'
+$patterns = @(
+    'Print.Fax.Scan*'
+    'Print.Management.Console*'
+    'Language.Handwriting*'
+    'Language.Speech*'
+    'Language.TextToSpeech*'
+    'Language.OCR*'
+    'Browser.InternetExplorer*'
+    'MathRecognizer*'
+    'OneCoreUAP.OneSync*'
+    'Microsoft.Windows.MSPaint*'
+    'App.Support.QuickAssist*'
+    'Microsoft.Windows.SnippingTool*'
+    'App.StepsRecorder*'
+    'Hello.Face*'
+    'Media.WindowsMediaPlayer*'
+    'Microsoft.Windows.WordPad*'
 )
 
-$getCommand = {
-    Get-WindowsCapability -Online | Where-Object -Property 'State' -NotIn -Value @(
-        'NotPresent'
-        'Removed'
-    )
-}
-
-$filterCommand = {
-    ($_.Name -split '~')[0] -eq $selector
-}
-
-$removeCommand = {
-    [CmdletBinding()]
-    param(
-        [Parameter( Mandatory, ValueFromPipeline )]
-        $InputObject
-    )
-    process {
-        $InputObject | Remove-WindowsCapability -Online -ErrorAction 'Continue'
+Write-Host "Removing unneeded Windows Capabilities..."
+Get-WindowsCapability -Online | Where-Object {
+    $cap = $_
+    if ($cap.State -in @('NotPresent', 'Removed')) { return $false }
+    foreach ($p in $patterns) {
+        if ($cap.Name -like $p) { return $true }
     }
-}
-
-$type = 'Capability';
-$installed = & $getCommand;
-
-foreach( $selector in $selectors ) {
-    $result = [ordered] @{
-        Selector = $selector
-    }
-    $found = $installed | Where-Object -FilterScript $filterCommand
-    if( $found ) {
-        $result.Output = $found | & $removeCommand
-        if( $? ) {
-            $result.Message = "$type removed."
-        } else {
-            $result.Message = "$type not removed."
-            $result.Error = $Error[0]
-        }
-    } else {
-        $result.Message = "$type not installed."
-    }
-    $result | ConvertTo-Json -Depth 3 -Compress
+    return $false
+} | ForEach-Object {
+    Write-Host "Removing capability: $($_.Name)..."
+    $_ | Remove-WindowsCapability -Online -ErrorAction SilentlyContinue
 }

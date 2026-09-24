@@ -1,15 +1,37 @@
-# Detect text files automatically
-* text=auto
+# Set default behavior to automatically normalize line endings and enforce LF in repository
+* text=auto eol=lf
 
-# Force LF line ending on these files
+# Force LF line endings on these files
+*.erb eol=lf
+*.gemspec eol=lf
+*.hcl eol=lf
+*.json eol=lf
+*.md eol=lf
+*.ps1 eol=lf
+*.py eol=lf
+*.rb eol=lf
 *.sh eol=lf
-
+*.template eol=lf
+*.yaml eol=lf
+*.yml eol=lf
 ks.cfg eol=lf
 preseed.cfg eol=lf
 
-# Force CRLF line ending on these files
+# Force CRLF line endings on Windows command, batch scripts, and answer files
 *.bat eol=crlf
+*.cmd eol=crlf
 Autounattend.xml eol=crlf
 
 # Force binary on these files
+*.box binary
 *.cer binary
+*.gif binary
+*.gz binary
+*.ico binary
+*.inf binary
+*.iso binary
+*.jpeg binary
+*.jpg binary
+*.png binary
+*.tar binary
+*.zip binary

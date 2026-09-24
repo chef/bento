@@ -1,9 +1,19 @@
-data "host-info" "this" {}
-
 locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
-  host_os   = try(data.host-info.this.os_type, "unknown")
+  host_os   = var.host_os != null && var.host_os != "" ? var.host_os : (
+    fileexists("/System/Library/CoreServices/SystemVersion.plist") ? "darwin" : (
+      fileexists("/etc/os-release") ? "linux" : "windows"
+    )
+  )
+  host_arch_raw = var.host_arch != null && var.host_arch != "" ? var.host_arch : (
+    fileexists("/opt/homebrew/bin/brew") || fileexists("/lib/ld-linux-aarch64.so.1") || fileexists("/usr/lib/aarch64-linux-gnu") ? "arm64" : (
+      fileexists("/usr/local/bin/brew") || fileexists("/lib64/ld-linux-x86-64.so.2") || fileexists("/usr/lib/x86_64-linux-gnu") ? "amd64" : (
+        var.os_arch == "aarch64" ? "arm64" : "amd64"
+      )
+    )
+  )
+  host_arch = local.host_arch_raw == "arm64" ? "aarch64" : (local.host_arch_raw == "amd64" ? "x86_64" : local.host_arch_raw)
 
   # Source block provider specific
   # hyperv-iso
@@ -55,45 +65,190 @@ locals {
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
-    var.is_windows ? (
-      var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
-      ) : (
-      local.host_os == "darwin" ? "cocoa" : (
-        var.os_arch == "aarch64" ? "virtio-ramfb" : "virtio-vga"
-      )
+    var.headless || local.host_os == "linux" ? "none" : (
+      local.host_os == "darwin" ? "cocoa" : "none"
     )
   ) : var.qemu_display
   qemu_efi_boot = var.qemu_efi_boot == null ? true : var.qemu_efi_boot
   qemu_efi_firmware_code = local.qemu_efi_boot ? (
-    var.qemu_efi_firmware_code == null ? (
-      local.host_os == "darwin" ? (
-        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
-        ) : (
-        var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
+    var.qemu_efi_firmware_code != null && var.qemu_efi_firmware_code != "" ? var.qemu_efi_firmware_code : (
+      var.os_arch == "aarch64" ? (
+        fileexists("/opt/homebrew/share/qemu/edk2-aarch64-code.fd") ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : (
+          fileexists("/usr/share/AAVMF/AAVMF_CODE.fd") ? "/usr/share/AAVMF/AAVMF_CODE.fd" : (
+            fileexists("/usr/share/AAVMF/AAVMF32_CODE.fd") ? "/usr/share/AAVMF/AAVMF32_CODE.fd" : (
+              fileexists("/usr/share/qemu/edk2-aarch64-code.fd") ? "/usr/share/qemu/edk2-aarch64-code.fd" : (
+                fileexists("/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw") ? "/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw" : (
+                  fileexists("/usr/share/edk2/aarch64/QEMU_EFI.fd") ? "/usr/share/edk2/aarch64/QEMU_EFI.fd" : (
+                    fileexists("/usr/share/edk2-armvirt/aarch64/QEMU_EFI.fd") ? "/usr/share/edk2-armvirt/aarch64/QEMU_EFI.fd" : (
+                      fileexists("/usr/local/share/qemu/edk2-aarch64-code.fd") ? "/usr/local/share/qemu/edk2-aarch64-code.fd" : (
+                        fileexists("/opt/local/share/qemu/edk2-aarch64-code.fd") ? "/opt/local/share/qemu/edk2-aarch64-code.fd" : (
+                          fileexists("C:/Program Files/qemu/share/edk2-aarch64-code.fd") ? "C:/Program Files/qemu/share/edk2-aarch64-code.fd" : (
+                            local.host_os == "darwin" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : (
+                              local.host_os == "windows" ? "C:/Program Files/qemu/share/edk2-aarch64-code.fd" : "/usr/share/AAVMF/AAVMF_CODE.fd"
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ) : (
+        fileexists("/usr/share/OVMF/OVMF_CODE.fd") ? "/usr/share/OVMF/OVMF_CODE.fd" : (
+          fileexists("/usr/share/OVMF/OVMF_CODE_4M.fd") ? "/usr/share/OVMF/OVMF_CODE_4M.fd" : (
+            fileexists("/usr/share/ovmf/OVMF.fd") ? "/usr/share/ovmf/OVMF.fd" : (
+              fileexists("/usr/share/edk2/ovmf/OVMF_CODE.fd") ? "/usr/share/edk2/ovmf/OVMF_CODE.fd" : (
+                fileexists("/usr/share/edk2-ovmf/x64/OVMF_CODE.fd") ? "/usr/share/edk2-ovmf/x64/OVMF_CODE.fd" : (
+                  fileexists("/opt/homebrew/share/qemu/edk2-x86_64-code.fd") ? "/opt/homebrew/share/qemu/edk2-x86_64-code.fd" : (
+                    fileexists("/usr/local/share/qemu/edk2-x86_64-code.fd") ? "/usr/local/share/qemu/edk2-x86_64-code.fd" : (
+                      fileexists("/opt/local/share/qemu/edk2-x86_64-code.fd") ? "/opt/local/share/qemu/edk2-x86_64-code.fd" : (
+                        fileexists("/usr/share/qemu/edk2-x86_64-code.fd") ? "/usr/share/qemu/edk2-x86_64-code.fd" : (
+                          fileexists("C:/Program Files/qemu/share/edk2-x86_64-code.fd") ? "C:/Program Files/qemu/share/edk2-x86_64-code.fd" : (
+                            local.host_os == "darwin" ? "/opt/homebrew/share/qemu/edk2-x86_64-code.fd" : (
+                              local.host_os == "windows" ? "C:/Program Files/qemu/share/edk2-x86_64-code.fd" : "/usr/share/OVMF/OVMF_CODE.fd"
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
       )
-    ) : var.qemu_efi_firmware_code
+    )
   ) : null
   qemu_efi_firmware_vars = local.qemu_efi_boot ? (
-    var.qemu_efi_firmware_vars == null ? (
-      local.host_os == "darwin" ? (
-        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
-        ) : (
-        var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
+    var.qemu_efi_firmware_vars != null && var.qemu_efi_firmware_vars != "" ? var.qemu_efi_firmware_vars : (
+      var.os_arch == "aarch64" ? (
+        fileexists("/opt/homebrew/share/qemu/edk2-arm-vars.fd") ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : (
+          fileexists("/usr/share/AAVMF/AAVMF_VARS.fd") ? "/usr/share/AAVMF/AAVMF_VARS.fd" : (
+            fileexists("/usr/share/qemu/edk2-arm-vars.fd") ? "/usr/share/qemu/edk2-arm-vars.fd" : (
+              fileexists("/usr/share/edk2/aarch64/vars-template-pflash.raw") ? "/usr/share/edk2/aarch64/vars-template-pflash.raw" : (
+                fileexists("/usr/share/edk2-armvirt/aarch64/QEMU_VARS.fd") ? "/usr/share/edk2-armvirt/aarch64/QEMU_VARS.fd" : (
+                  fileexists("/usr/local/share/qemu/edk2-arm-vars.fd") ? "/usr/local/share/qemu/edk2-arm-vars.fd" : (
+                    fileexists("/opt/local/share/qemu/edk2-arm-vars.fd") ? "/opt/local/share/qemu/edk2-arm-vars.fd" : (
+                      fileexists("C:/Program Files/qemu/share/edk2-arm-vars.fd") ? "C:/Program Files/qemu/share/edk2-arm-vars.fd" : (
+                        local.host_os == "darwin" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : (
+                          local.host_os == "windows" ? "C:/Program Files/qemu/share/edk2-arm-vars.fd" : "/usr/share/AAVMF/AAVMF_VARS.fd"
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ) : (
+        fileexists("/usr/share/OVMF/OVMF_VARS.fd") ? "/usr/share/OVMF/OVMF_VARS.fd" : (
+          fileexists("/usr/share/OVMF/OVMF_VARS_4M.fd") ? "/usr/share/OVMF/OVMF_VARS_4M.fd" : (
+            fileexists("/usr/share/ovmf/OVMF_VARS.fd") ? "/usr/share/ovmf/OVMF_VARS.fd" : (
+              fileexists("/usr/share/edk2/ovmf/OVMF_VARS.fd") ? "/usr/share/edk2/ovmf/OVMF_VARS.fd" : (
+                fileexists("/usr/share/edk2-ovmf/x64/OVMF_VARS.fd") ? "/usr/share/edk2-ovmf/x64/OVMF_VARS.fd" : (
+                  fileexists("/opt/homebrew/share/qemu/edk2-i386-vars.fd") ? "/opt/homebrew/share/qemu/edk2-i386-vars.fd" : (
+                    fileexists("/usr/local/share/qemu/edk2-i386-vars.fd") ? "/usr/local/share/qemu/edk2-i386-vars.fd" : (
+                      fileexists("/opt/local/share/qemu/edk2-i386-vars.fd") ? "/opt/local/share/qemu/edk2-i386-vars.fd" : (
+                        fileexists("/usr/share/qemu/edk2-i386-vars.fd") ? "/usr/share/qemu/edk2-i386-vars.fd" : (
+                          fileexists("C:/Program Files/qemu/share/edk2-i386-vars.fd") ? "C:/Program Files/qemu/share/edk2-i386-vars.fd" : (
+                            local.host_os == "darwin" ? "/opt/homebrew/share/qemu/edk2-i386-vars.fd" : (
+                              local.host_os == "windows" ? "C:/Program Files/qemu/share/edk2-i386-vars.fd" : "/usr/share/OVMF/OVMF_VARS.fd"
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
       )
-    ) : var.qemu_efi_firmware_vars
+    )
   ) : null
   qemu_machine_type = var.qemu_machine_type == null ? (
     var.os_arch == "aarch64" ? "virt" : "q35"
   ) : var.qemu_machine_type
+  win11_media_raw = var.win11_media_raw != null && var.win11_media_raw != "" ? var.win11_media_raw : (
+    fileexists("${local.build_dir}/iso/win11_media.raw") ? "${local.build_dir}/iso/win11_media.raw" : (
+      fileexists("${path.root}/../builds/iso/win11_media.raw") ? "${path.root}/../builds/iso/win11_media.raw" : ""
+    )
+  )
+  win11_oem_iso_path = var.win11_oem_iso != null && var.win11_oem_iso != "" ? var.win11_oem_iso : (
+    fileexists("${local.build_dir}/iso/bento_win11_arm64_unattend.iso") ? "${local.build_dir}/iso/bento_win11_arm64_unattend.iso" : (
+      fileexists("${path.root}/../builds/iso/bento_win11_arm64_unattend.iso") ? "${path.root}/../builds/iso/bento_win11_arm64_unattend.iso" : ""
+    )
+  )
+  qemu_win11_oem_args = local.win11_oem_iso_path != "" ? [
+    ["-blockdev", "driver=file,node-name=oem_iso_f,filename=${local.win11_oem_iso_path},read-only=on"],
+    ["-blockdev", "driver=raw,node-name=oem_iso_d,file=oem_iso_f,read-only=on"],
+    ["-device", "usb-storage,bus=usb_xhci.0,drive=oem_iso_d,removable=on"]
+  ] : []
+  build_complete_dir = var.bento_build_complete_dir != null && var.bento_build_complete_dir != "" ? var.bento_build_complete_dir : "${local.build_dir}/build_complete"
+  build_files_dir = var.bento_build_files_dir != null && var.bento_build_files_dir != "" ? var.bento_build_files_dir : "${local.build_dir}/build_files"
+
   qemuargs = var.qemuargs == null ? (
-    var.is_windows ? [
-      ["-device", "qemu-xhci"],
-      ["-device", "virtio-tablet"],
-      ["-drive", "file=${local.build_dir}/iso/virtio-win.iso,media=cdrom,index=3"],
-      ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
-      ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
-      ["-boot", "order=c,order=d"]
-      ] : [
+    var.is_windows ? (
+      var.os_arch == "aarch64" && local.win11_media_raw != "" ? [
+        ["-blockdev", "driver=file,node-name=win11media_f,filename=${local.win11_media_raw},read-only=on"],
+        ["-blockdev", "driver=raw,node-name=win11media_d,file=win11media_f,read-only=on"],
+        ["-device", "virtio-blk-pci,drive=win11media_d"],
+        ["-device", "qemu-xhci"],
+        ["-device", "usb-kbd"],
+        ["-device", "usb-tablet"],
+        ["-device", "ramfb"],
+        ["-boot", "strict=off"],
+        ["-serial", "file:${path.root}/../serial.log"],
+      ] : (
+        var.os_arch == "aarch64" ? (
+          local.host_os == "windows" ? [
+            ["-device", "qemu-xhci"],
+            ["-device", "usb-kbd"],
+            ["-device", "usb-tablet"],
+            ["-device", "ramfb"],
+            ["-boot", "strict=off"],
+            ["-serial", "file:${path.root}/../serial.log"],
+          ] : concat([
+            ["-device", "pcie-root-port,id=pcie.1,chassis=1,slot=1"],
+            ["-device", "nvme,serial=nvme0,drive=drive0,bus=pcie.1"],
+            ["-device", "qemu-xhci,id=usb_xhci"],
+          ], local.qemu_win11_oem_args, [
+            ["-blockdev", "driver=file,node-name=win11_iso_f,filename=${replace(var.iso_url, "file://", "")},read-only=on"],
+            ["-blockdev", "driver=raw,node-name=win11_iso_d,file=win11_iso_f,read-only=on"],
+            ["-device", "usb-storage,bus=usb_xhci.0,drive=win11_iso_d,removable=on,logical_block_size=2048,physical_block_size=2048"],
+            ["-device", "usb-kbd"],
+            ["-device", "usb-tablet"],
+            ["-device", "ramfb"],
+            ["-boot", "strict=off"],
+            ["-chardev", "socket,id=ser0,path=/tmp/windows-11-serial.sock,server=on,wait=off"],
+            ["-serial", "chardev:ser0"],
+          ])
+        ) : (
+          local.host_os == "windows" ? [
+            ["-device", "qemu-xhci"],
+            ["-device", "usb-kbd"],
+            ["-device", "usb-tablet"],
+            ["-vga", "std"],
+            ["-boot", "strict=off"],
+            ["-serial", "file:${path.root}/../serial.log"],
+          ] : [
+            ["-device", "qemu-xhci"],
+            ["-device", "usb-kbd"],
+            ["-device", "usb-tablet"],
+            ["-vga", "std"],
+            ["-boot", "strict=off"],
+            ["-chardev", "socket,id=ser0,path=/tmp/windows-11-serial.sock,server=on,wait=off"],
+            ["-serial", "chardev:ser0"],
+          ]
+        )
+      )
+    ) : [
       ["-device", "virtio-gpu-pci"],
       ["-device", "qemu-xhci"],
       ["-device", "virtio-tablet"],
@@ -159,7 +314,6 @@ locals {
         ["modifyvm", "{{.Name}}", "--mouse", "usb"],
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
         ["modifyvm", "{{.Name}}", "--nic-type1", "usbnet"],
-        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
         ] : [
         ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
         ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
@@ -167,7 +321,8 @@ locals {
         ["modifyvm", "{{.Name}}", "--usb-xhci", "on"],
         ["modifyvm", "{{.Name}}", "--mouse", "usb"],
         ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
-        ["storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove"],
+        ["modifyvm", "{{.Name}}", "--uart1", "0x3f8", "4"],
+        ["modifyvm", "{{.Name}}", "--uartmode1", local.host_os == "windows" ? "file" : "server", local.host_os == "windows" ? "${path.root}/../serial.log" : "/tmp/windows-11-serial.sock"],
       ]
       ) : (
       var.os_arch == "aarch64" ? [
@@ -200,7 +355,9 @@ locals {
     var.is_windows && var.os_arch == "aarch64" ? "vmxnet3" : "e1000e"
   ) : var.vmware_network_adapter_type
   vmware_tools_mode = var.vmware_tools_mode == null ? (
-    var.is_windows ? "attach" : "disable"
+    var.is_windows ? (
+      local.host_os == "darwin" && !fileexists("/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso") ? "disable" : "attach"
+    ) : "disable"
   ) : var.vmware_tools_mode
   vmware_tools_upload_flavor = local.vmware_tools_mode == "upload" && var.vmware_tools_source_path == null ? (
     var.vmware_tools_upload_flavor == null ? (
@@ -219,7 +376,11 @@ locals {
       local.vmware_tools_mode == "attach" || local.vmware_tools_mode == "upload" ? (
         local.host_os == "darwin" ? (
           var.is_windows ? (
-            var.os_arch == "aarch64" ? "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso" : "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_64/windows.iso"
+            var.os_arch == "aarch64" ? (
+              fileexists("/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso") ? "/Applications/VMware Fusion.app/Contents/Library/isoimages/arm64/windows.iso" : null
+            ) : (
+              fileexists("/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_x64/windows.iso") ? "/Applications/VMware Fusion.app/Contents/Library/isoimages/x86_x64/windows.iso" : null
+            )
           ) : null
           ) : (
           local.host_os == "windows" ? (
@@ -243,17 +404,38 @@ locals {
   # Source block common
   cd_files = var.cd_files == null ? (
     var.is_windows ? (
-      var.os_arch == "x86_64" ? (
-        var.hyperv_generation == 2 ? [
-          "${path.root}/win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml",
-          ] : [
-          "${path.root}/win_answer_files/${var.os_version}/Autounattend.xml",
-        ]
-        ) : [
-        "${path.root}/win_answer_files/${var.os_version}/arm64/Autounattend.xml",
-      ]
+      fileexists("${path.root}/cidata/virtio-win-guest-tools.exe") ? [
+        "${path.root}/cidata/Balloon",
+        "${path.root}/cidata/NetKVM",
+        "${path.root}/cidata/pvpanic",
+        "${path.root}/cidata/viofs",
+        "${path.root}/cidata/viogpudo",
+        "${path.root}/cidata/vioinput",
+        "${path.root}/cidata/viomem",
+        "${path.root}/cidata/viorng",
+        "${path.root}/cidata/vioscsi",
+        "${path.root}/cidata/vioserial",
+        "${path.root}/cidata/viostor",
+        "${path.root}/cidata/virtio-win-guest-tools.exe",
+      ] : null
     ) : null
   ) : var.cd_files
+  cd_label = var.cd_label == null ? (
+    var.is_windows ? "OEMDRV" : "cidata"
+  ) : var.cd_label
+  cd_content = var.cd_content == null ? (
+    var.is_windows ? {
+      "Autounattend.xml" = templatefile(
+        var.os_arch == "x86_64" ? (
+          var.hyperv_generation == 2 ? "win_answer_files/${var.os_version}/hyperv-gen2/Autounattend.xml" : "win_answer_files/${var.os_version}/Autounattend.xml"
+        ) : "win_answer_files/${var.os_version}/arm64/Autounattend.xml",
+        { windows_product_key = var.windows_product_key }
+      ),
+      "SetupComplete.cmd" = file(
+        var.os_arch == "x86_64" ? "win_answer_files/${var.os_version}/SetupComplete.cmd" : "win_answer_files/${var.os_version}/arm64/SetupComplete.cmd"
+      )
+    } : null
+  ) : var.cd_content
   communicator = var.communicator == null ? (
     var.is_windows ? "winrm" : "ssh"
   ) : var.communicator
@@ -269,7 +451,7 @@ locals {
   memory = var.memory == null ? (
     var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072
   ) : var.memory
-  output_directory = var.output_directory == null ? "${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
+  output_directory = var.output_directory == null ? "${local.build_files_dir}/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
     var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
       var.os_name == "macos" ? "echo 'vagrant' | sudo -S shutdown -h now" : (
@@ -293,9 +475,9 @@ source "hyperv-iso" "vm" {
   # Source block common options
   boot_command            = var.hyperv_boot_command == null ? local.default_boot_command : var.hyperv_boot_command
   boot_wait               = var.hyperv_boot_wait == null ? local.default_boot_wait : var.hyperv_boot_wait
-  cd_content              = var.cd_content
+  cd_content              = local.cd_content
   cd_files                = local.cd_files
-  cd_label                = var.cd_label
+  cd_label                = local.cd_label
   cpus                    = var.cpus
   communicator            = local.communicator
   disk_size               = local.disk_size
@@ -318,6 +500,9 @@ source "hyperv-iso" "vm" {
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
+  winrm_use_ntlm          = var.winrm_use_ntlm
+  winrm_insecure          = var.winrm_insecure
+  winrm_use_ssl           = var.winrm_use_ssl
   vm_name                 = local.vm_name
 }
 source "parallels-ipsw" "vm" {
@@ -359,9 +544,9 @@ source "parallels-iso" "vm" {
   # Source block common options
   boot_command            = var.parallels-iso_boot_command == null ? local.default_boot_command : var.parallels_boot_command
   boot_wait               = var.parallels_boot_wait == null ? local.default_boot_wait : var.parallels_boot_wait
-  cd_content              = var.cd_content
+  cd_content              = local.cd_content
   cd_files                = local.cd_files
-  cd_label                = var.cd_label
+  cd_label                = local.cd_label
   cpus                    = var.cpus
   communicator            = local.communicator
   disk_size               = local.disk_size
@@ -383,6 +568,9 @@ source "parallels-iso" "vm" {
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
+  winrm_use_ntlm          = var.winrm_use_ntlm
+  winrm_insecure          = var.winrm_insecure
+  winrm_use_ssl           = var.winrm_use_ssl
   vm_name                 = local.vm_name
 }
 source "qemu" "vm" {
@@ -407,12 +595,16 @@ source "qemu" "vm" {
   qemuargs            = local.qemuargs
   use_default_display = var.qemu_use_default_display
   use_pflash          = var.qemu_use_pflash
+  vnc_bind_address    = var.qemu_vnc_bind_address
+  vnc_port_min        = var.qemu_vnc_port_min
+  vnc_port_max        = var.qemu_vnc_port_max
+  vnc_password        = ""
   # Source block common options
   boot_command            = var.qemu_boot_command == null ? local.default_boot_command : var.qemu_boot_command
   boot_wait               = var.qemu_boot_wait == null ? local.default_boot_wait : var.qemu_boot_wait
-  cd_content              = var.cd_content
+  cd_content              = local.cd_content
   cd_files                = local.cd_files
-  cd_label                = var.cd_label
+  cd_label                = local.cd_label
   cpus                    = var.cpus
   communicator            = local.communicator
   disk_size               = local.disk_size
@@ -435,6 +627,9 @@ source "qemu" "vm" {
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
+  winrm_use_ntlm          = var.winrm_use_ntlm
+  winrm_insecure          = var.winrm_insecure
+  winrm_use_ssl           = var.winrm_use_ssl
   vm_name                 = local.vm_name
 }
 source "utm-iso" "vm" {
@@ -460,9 +655,9 @@ source "utm-iso" "vm" {
   # Source block common options
   boot_command            = local.utm_boot_command
   boot_wait               = var.utm_boot_wait == null ? local.default_boot_wait : var.utm_boot_wait
-  cd_content              = var.cd_content
+  cd_content              = local.cd_content
   cd_files                = local.cd_files
-  cd_label                = var.cd_label
+  cd_label                = local.cd_label
   cpus                    = var.cpus
   communicator            = local.communicator
   disk_size               = local.disk_size
@@ -484,6 +679,9 @@ source "utm-iso" "vm" {
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
+  winrm_use_ntlm          = var.winrm_use_ntlm
+  winrm_insecure          = var.winrm_insecure
+  winrm_use_ssl           = var.winrm_use_ssl
   vm_name                 = local.vm_name
 }
 source "virtualbox-iso" "vm" {
@@ -508,9 +706,9 @@ source "virtualbox-iso" "vm" {
   # Source block common options
   boot_command            = var.vbox_boot_command == null ? local.default_boot_command : var.vbox_boot_command
   boot_wait               = var.vbox_boot_wait == null ? local.default_boot_wait : var.vbox_boot_wait
-  cd_content              = var.cd_content
+  cd_content              = local.cd_content
   cd_files                = local.cd_files
-  cd_label                = var.cd_label
+  cd_label                = local.cd_label
   cpus                    = var.cpus
   communicator            = local.communicator
   disk_size               = local.disk_size
@@ -533,6 +731,9 @@ source "virtualbox-iso" "vm" {
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
+  winrm_use_ntlm          = var.winrm_use_ntlm
+  winrm_insecure          = var.winrm_insecure
+  winrm_use_ssl           = var.winrm_use_ssl
   vm_name                 = local.vm_name
 }
 source "virtualbox-ovf" "vm" {
@@ -565,8 +766,8 @@ source "vmware-iso" "vm" {
   guest_os_type                  = var.vmware_guest_os_type
   network                        = var.vmware_network
   network_adapter_type           = local.vmware_network_adapter_type
-  tools_mode                     = local.vmware_tools_mode
-  tools_source_path              = local.vmware_tools_source_path
+  tools_mode                     = var.vmware_tools_mode != null ? var.vmware_tools_mode : "disable"
+  tools_source_path              = var.vmware_tools_source_path
   tools_upload_flavor            = local.vmware_tools_upload_flavor
   tools_upload_path              = local.vmware_tools_upload_path
   usb                            = var.vmware_usb
@@ -577,9 +778,9 @@ source "vmware-iso" "vm" {
   # Source block common options
   boot_command            = var.vmware_boot_command == null ? local.default_boot_command : var.vmware_boot_command
   boot_wait               = var.vmware_boot_wait == null ? local.default_boot_wait : var.vmware_boot_wait
-  cd_content              = var.cd_content
+  cd_content              = local.cd_content
   cd_files                = local.cd_files
-  cd_label                = var.cd_label
+  cd_label                = local.cd_label
   cpus                    = var.cpus
   communicator            = local.communicator
   disk_size               = local.disk_size
@@ -602,5 +803,8 @@ source "vmware-iso" "vm" {
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
+  winrm_use_ntlm          = var.winrm_use_ntlm
+  winrm_insecure          = var.winrm_insecure
+  winrm_use_ssl           = var.winrm_use_ssl
   vm_name                 = local.vm_name
 }

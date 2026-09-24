@@ -116,6 +116,7 @@
             </ImageInstall>
             <UserData>
                 <ProductKey>
+                    %{ if windows_product_key != "" }<Key>${windows_product_key}</Key>%{ endif }
                     <WillShowUI>OnError</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>

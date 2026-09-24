@@ -1,0 +1,21 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: end-of-file-fixer
+        exclude: '(?i)(\.(cmd|bat)$|Autounattend\.xml$)'
+      - id: trailing-whitespace
+        exclude: '(?i)(\.(cmd|bat)$|Autounattend\.xml$)'
+      - id: mixed-line-ending
+        name: mixed-line-ending (enforce LF)
+        description: Enforce LF line endings on all text files
+        args: ['--fix=lf']
+        exclude: '(?i)(\.(cmd|bat)$|Autounattend\.xml$)'
+      - id: mixed-line-ending
+        name: mixed-line-ending (enforce CRLF on .cmd, .bat, and answer files)
+        description: Enforce CRLF line endings on Windows batch and cmd scripts and answer files
+        args: ['--fix=crlf']
+        files: '(?i)(\.(cmd|bat)$|Autounattend\.xml$)'
