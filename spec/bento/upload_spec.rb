@@ -148,4 +148,22 @@ RSpec.describe UploadRunner do
       r.start
     end
   end
+
+  describe '#upload_box' do
+    let(:macos_md) do
+      {
+        'box_basename' => 'macos-14-aarch64',
+        'name' => 'macos-14',
+        'version' => '202609.27.0',
+        'arch' => 'aarch64',
+        'providers' => [{ 'name' => 'utm', 'file' => 'macos-14-aarch64.utm.box' }],
+      }
+    end
+
+    it 'refuses to upload proprietary macOS boxes and issues a warning' do
+      allow(runner).to receive(:box_metadata).with('macos._metadata.json').and_return(macos_md)
+      expect(runner).not_to receive(:shellout)
+      expect { runner.upload_box('macos._metadata.json') }.to output(/Refusing to upload proprietary \/ restricted OS box 'macos-14-aarch64'/).to_stdout
+    end
+  end
 end

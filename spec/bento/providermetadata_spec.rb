@@ -96,4 +96,27 @@ RSpec.describe ProviderMetadata do
       expect(result.first[:name]).to eq('parallels')
     end
   end
+
+  describe '#ver_utm' do
+    it 'raises if not on macOS' do
+      allow(provider_meta).to receive(:macos?).and_return(false)
+      expect { provider_meta.send(:ver_utm) }.to raise_error(/Platform is not macOS/)
+    end
+
+    it 'reads version from Info.plist if available on macOS' do
+      allow(provider_meta).to receive(:macos?).and_return(true)
+      allow(File).to receive(:exist?).with('/Applications/UTM.app/Contents/Info.plist').and_return(true)
+      sout = instance_double(Mixlib::ShellOut, run_command: true, error?: false, stdout: "4.6.5\n")
+      allow(Mixlib::ShellOut).to receive(:new).with('defaults read /Applications/UTM.app/Contents/Info.plist CFBundleShortVersionString').and_return(sout)
+      expect(provider_meta.send(:ver_utm)).to eq('4.6.5')
+    end
+
+    it 'falls back to utmctl when Info.plist is absent' do
+      allow(provider_meta).to receive(:macos?).and_return(true)
+      allow(File).to receive(:exist?).with('/Applications/UTM.app/Contents/Info.plist').and_return(false)
+      sout = instance_double(Mixlib::ShellOut, run_command: true, error?: false, stdout: "4.6.0\n")
+      allow(Mixlib::ShellOut).to receive(:new).with('utmctl --version').and_return(sout)
+      expect(provider_meta.send(:ver_utm)).to eq('4.6.0')
+    end
+  end
 end

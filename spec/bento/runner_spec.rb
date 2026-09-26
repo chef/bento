@@ -108,5 +108,19 @@ RSpec.describe BuildRunner do
       allow(runner).to receive(:build)
       expect { runner.start }.not_to raise_error
     end
+
+    it 'verifies macOS build host when template target contains macos' do
+      macos_runner = described_class.new(build_opts(template_files: ['os_pkrvars/macos/macos-14-aarch64']))
+      allow(macos_runner).to receive(:shellout)
+      allow(macos_runner).to receive(:build)
+      expect(macos_runner).to receive(:verify_macos_build_host!).and_return(true)
+      expect { macos_runner.start }.not_to raise_error
+    end
+
+    it 'aborts macOS build when host verification fails' do
+      macos_runner = described_class.new(build_opts(template_files: ['os_pkrvars/macos/macos-14-aarch64']))
+      allow(macos_runner).to receive(:verify_macos_build_host!).and_raise(RuntimeError, 'macOS virtualization builds legally require Apple hardware')
+      expect { macos_runner.start }.to raise_error(RuntimeError, /legally require Apple hardware/)
+    end
   end
 end
