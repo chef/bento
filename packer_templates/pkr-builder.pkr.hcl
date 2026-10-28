@@ -76,12 +76,19 @@ locals {
     "no_proxy=${var.no_proxy}",
     "pkg_branch=quarterly"
     ] : (
-    var.os_name == "solaris" ? [] : [
-      "HOME_DIR=/home/vagrant",
+    var.os_name == "macos" ? [
+      "HOME_DIR=/Users/vagrant",
       "http_proxy=${var.http_proxy}",
       "https_proxy=${var.https_proxy}",
       "no_proxy=${var.no_proxy}"
-    ]
+      ] : (
+      var.os_name == "solaris" ? [] : [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy=${var.http_proxy}",
+        "https_proxy=${var.https_proxy}",
+        "no_proxy=${var.no_proxy}"
+      ]
+    )
   )
   nix_execute_command = var.os_name == "freebsd" ? "echo 'vagrant' | {{.Vars}} su -m root -c 'sh -eux {{.Path}}'" : (
     var.os_name == "solaris" ? "echo 'vagrant'|sudo -S bash {{.Path}}" : "echo 'vagrant' | sudo -S {{ .Vars }} sh -eux '{{ .Path }}'"
@@ -205,7 +212,9 @@ build {
     compression_level = 9
     output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
-      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : (
+        var.os_name == "macos" ? "${path.root}/vagrantfile-macos.template" : null
+      )
     )
     except = ["utm-iso.vm"]
   }
@@ -213,7 +222,9 @@ build {
     compression_level = 9
     output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows-utm.template" : (
-      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : "${path.root}/vagrantfile-utm.template"
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : (
+        var.os_name == "macos" ? "${path.root}/vagrantfile-macos-utm.template" : "${path.root}/vagrantfile-utm.template"
+      )
     )
     architecture = "${var.os_arch == "x86_64" ? "amd64" : var.os_arch == "aarch64" ? "arm64" : var.os_arch}"
     only         = ["utm-iso.vm"]

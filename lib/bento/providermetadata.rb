@@ -113,8 +113,19 @@ class ProviderMetadata
 
   def ver_utm
     raise 'Platform is not macOS, exiting...' unless macos?
+
+    if File.exist?('/Applications/UTM.app/Contents/Info.plist')
+      cmd = Mixlib::ShellOut.new('defaults read /Applications/UTM.app/Contents/Info.plist CFBundleShortVersionString')
+      cmd.run_command
+      return cmd.stdout.strip unless cmd.error? || cmd.stdout.strip.empty?
+    end
+
+    cmd = Mixlib::ShellOut.new('utmctl --version')
+    cmd.run_command
+    return cmd.stdout.strip unless cmd.error? || cmd.stdout.strip.empty?
+
     cmd = Mixlib::ShellOut.new('utmctl version')
     cmd.run_command
-    cmd.stdout.chomp
+    cmd.stdout.strip
   end
 end
