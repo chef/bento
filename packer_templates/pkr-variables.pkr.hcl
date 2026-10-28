@@ -1,4 +1,14 @@
 # General variables
+variable "host_os" {
+  type        = string
+  default     = null
+  description = "Host operating system (e.g. darwin, linux, windows)"
+}
+variable "host_arch" {
+  type        = string
+  default     = null
+  description = "Host architecture (e.g. aarch64, x86_64)"
+}
 variable "os_name" {
   type        = string
   description = "OS Brand Name"
@@ -208,12 +218,12 @@ variable "qemu_efi_boot" {
 }
 variable "qemu_efi_firmware_code" {
   type        = string
-  default     = null
+  default     = env("QEMU_EDK2_CODE")
   description = "EFI firmware code path"
 }
 variable "qemu_efi_firmware_vars" {
   type        = string
-  default     = null
+  default     = env("QEMU_EDK2_VARS")
   description = "EFI firmware vars file path"
 }
 variable "qemu_efi_drop_efivars" {
@@ -538,7 +548,7 @@ variable "cd_files" {
 }
 variable "cd_label" {
   type    = string
-  default = "cidata"
+  default = null
 }
 variable "cpus" {
   type    = number
@@ -632,6 +642,18 @@ variable "winrm_username" {
   type    = string
   default = "vagrant"
 }
+variable "winrm_use_ntlm" {
+  type    = bool
+  default = true
+}
+variable "winrm_insecure" {
+  type    = bool
+  default = true
+}
+variable "winrm_use_ssl" {
+  type    = bool
+  default = false
+}
 variable "vm_name" {
   type    = string
   default = null
@@ -641,4 +663,53 @@ variable "vm_name" {
 variable "scripts" {
   type    = list(string)
   default = null
+}
+
+variable "windows_product_key" {
+  type        = string
+  default     = env("WINDOWS_PRODUCT_KEY") != "" ? env("WINDOWS_PRODUCT_KEY") : env("WIN11_PRODUCT_KEY")
+  description = "The valid product key for Windows Server or Windows 11, typically loaded from .env"
+}
+
+variable "qemu_vnc_bind_address" {
+  type    = string
+  default = "127.0.0.1"
+}
+variable "qemu_vnc_port_min" {
+  type    = number
+  default = 5900
+}
+variable "qemu_vnc_port_max" {
+  type    = number
+  default = 6000
+}
+
+variable "win11_media_raw" {
+  type        = string
+  default     = env("WIN11_MEDIA_RAW")
+  description = "Path to the raw Windows 11 installation media disk"
+}
+
+variable "win11_oem_iso" {
+  type        = string
+  default     = env("WIN11_OEM_ISO")
+  description = "Path to the OEM installation ISO for Windows 11 ARM64"
+}
+
+variable "bento_build_complete_dir" {
+  type        = string
+  default     = env("BENTO_BUILD_COMPLETE_DIR")
+  description = "Custom directory for completed box outputs"
+}
+
+variable "bento_build_files_dir" {
+  type        = string
+  default     = env("BENTO_BUILD_FILES_DIR")
+  description = "Custom directory for interim build files"
+}
+
+variable "install_windows_updates" {
+  type        = bool
+  default     = false
+  description = "Whether to execute the windows-update provisioner during build"
 }

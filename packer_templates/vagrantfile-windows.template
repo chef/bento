@@ -4,24 +4,125 @@
 Vagrant.configure(2) do |config|
   config.vm.guest = :windows
   config.vm.communicator = "winrm"
-  config.vm.boot_timeout = 300
+  config.vm.boot_timeout = 600
+
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+  config.ssh.username = "vagrant"
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = File.expand_path("~/.vagrant.d/insecure_private_key")
+  config.ssh.shell = "powershell"
+
+  config.vm.network :forwarded_port, guest: 22, host: 2222, id: 'ssh', auto_correct: true
   config.vm.network :forwarded_port, guest: 3389, host: 3389, id: 'rdp', auto_correct: true
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
 
+  # Synced folder: rsync works without host privileges or password prompts
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
   config.vm.provider "virtualbox" do |vb|
-    vb.cpus = 2
+    vb.cpus = 4
     vb.memory = 4096
   end
 
   config.vm.provider 'hyperv' do |hv|
     hv.ip_address_timeout = 240
     hv.memory = 4096
-    hv.cpus = 2
+    hv.cpus = 4
     hv.enable_virtualization_extensions = true
   end
 
   config.vm.provider :libvirt do |domain|
     domain.memory = 4096
-    domain.cpus = 2
+    domain.cpus = 4
+    domain.channel :type => 'unix', :target_type => 'virtio', :target_name => 'org.qemu.guest_agent.0'
+  end
+
+  is_darwin = /darwin/ =~ RUBY_PLATFORM
+  is_windows = /mswin|mingw|cygwin/ =~ RUBY_PLATFORM
+  accel = is_darwin ? "hvf" : (is_windows ? "whpx" : "kvm")
+
+  host_cpu = (RbConfig::CONFIG["host_cpu"] || RUBY_PLATFORM).downcase
+  is_arm = host_cpu =~ /aarch64|arm64/
+
+  config.vm.provider :qemu do |qe|
+    if is_arm
+      qe.arch = "aarch64"
+      qe.machine = "virt,highmem=on,accel=#{accel}"
+      qe.cpu = "host"
+      qe.smp = "4"
+      qe.memory = "4096M"
+      qe.firmware_format = nil
+      qe.drive_interface = "none"
+      qe.net_device = "virtio-net-pci"
+      qe.ssh_auto_correct = true
+
+      bios_candidates = [
+        ENV["QEMU_EDK2_CODE"],
+        ENV["QEMU_EDK2_PATH"],
+        ENV["QEMU_BIOS"],
+        "/opt/homebrew/share/qemu/edk2-aarch64-code.fd",
+        "/usr/share/AAVMF/AAVMF_CODE.fd",
+        "/usr/share/AAVMF/AAVMF32_CODE.fd",
+        "/usr/share/qemu/edk2-aarch64-code.fd",
+        "/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw",
+        "/usr/share/edk2/aarch64/QEMU_EFI.fd",
+        "/usr/share/edk2-armvirt/aarch64/QEMU_EFI.fd",
+        "/usr/local/share/qemu/edk2-aarch64-code.fd",
+        "/opt/local/share/qemu/edk2-aarch64-code.fd",
+        "C:/Program Files/qemu/share/edk2-aarch64-code.fd",
+        "C:/msys64/mingw64/share/qemu/edk2-aarch64-code.fd"
+      ].compact
+      bios_path = bios_candidates.find { |path| File.exist?(path) }
+
+      extra_args = []
+      extra_args.push("-bios", bios_path) if bios_path
+      extra_args.push(
+        "-device", "pcie-root-port,id=pcie.1,chassis=1,slot=1",
+        "-device", "nvme,serial=nvme0,drive=disk0,bus=pcie.1",
+        "-device", "ramfb",
+        "-device", "qemu-xhci",
+        "-device", "usb-kbd",
+        "-device", "usb-tablet"
+      )
+      qe.extra_qemu_args = extra_args
+    else
+      qe.arch = "x86_64"
+      qe.machine = "q35,accel=#{accel}"
+      qe.cpu = "host"
+      qe.smp = "4"
+      qe.memory = "4096M"
+      qe.drive_interface = "ide"
+      qe.net_device = "virtio-net-pci"
+      qe.ssh_auto_correct = true
+
+      ovmf_candidates = [
+        ENV["QEMU_EDK2_CODE"],
+        ENV["QEMU_EDK2_PATH"],
+        ENV["QEMU_BIOS"],
+        "/usr/share/OVMF/OVMF_CODE.fd",
+        "/usr/share/OVMF/OVMF_CODE_4M.fd",
+        "/usr/share/ovmf/OVMF.fd",
+        "/usr/share/edk2/ovmf/OVMF_CODE.fd",
+        "/usr/share/edk2-ovmf/x64/OVMF_CODE.fd",
+        "/opt/homebrew/share/qemu/edk2-x86_64-code.fd",
+        "/usr/local/share/qemu/edk2-x86_64-code.fd",
+        "/opt/local/share/qemu/edk2-x86_64-code.fd",
+        "/usr/share/qemu/edk2-x86_64-code.fd",
+        "C:/Program Files/qemu/share/edk2-x86_64-code.fd",
+        "C:/msys64/mingw64/share/qemu/edk2-x86_64-code.fd"
+      ].compact
+      ovmf_path = ovmf_candidates.find { |path| File.exist?(path) }
+
+      extra_args = []
+      extra_args.push("-bios", ovmf_path) if ovmf_path
+      extra_args.push(
+        "-device", "qemu-xhci",
+        "-device", "usb-kbd",
+        "-device", "usb-tablet",
+        "-vga", "std"
+      )
+      qe.extra_qemu_args = extra_args
+    end
   end
 end

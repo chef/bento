@@ -190,7 +190,7 @@
                         </Password>
                         <Description>Vagrant User</Description>
                         <DisplayName>vagrant</DisplayName>
-                        <Group>administrators</Group>
+                        <Group>Administrators</Group>
                         <Name>vagrant</Name>
                     </LocalAccount>
                 </LocalAccounts>

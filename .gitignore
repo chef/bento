@@ -22,3 +22,31 @@ Berksfile.lock
 kitchen.yml
 *.metadata.json
 bento-*.gem
+.env
+.env.*
+!.env.template
+!.env.example
+
+# Temporary build & debugging artifacts
+screen_*.png
+*.ppm
+*.fd
+*.sock
+*.tmp
+__pycache__/
+*.pyc
+metadata.json
+
+# Local test environments & ad-hoc debug scripts
+test-vagrant-*/
+test_*.sh
+test_*.pkr.hcl
+debug_*.sh
+fix_*.sh
+run_*.sh
+inspect_*.py
+vnc_*.py
+serial_*.py
+TODO_PLAN_*.md
+packer_templates/cidata
+windows-11-arm64-packer/

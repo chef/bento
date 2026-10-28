@@ -1,8 +1,13 @@
 $selectors = @(
     'MediaPlayback'
     'MicrosoftWindowsPowerShellV2Root'
+    'MicrosoftWindowsPowerShellV2'
     'Recall'
     'Microsoft-SnippingTool'
+    'WorkFolders-Client'
+    'Printing-Foundation-Features'
+    'SmbDirect'
+    'MSRDC-Infrastructure'
 )
 
 $getCommand = {
