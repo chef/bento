@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# @file vagrantfile-omnios.template
+# @brief Vagrant configuration template for OmniOS CE base boxes
+# @description
+#   Provides default hypervisor and guest configurations for OmniOS Vagrant
+#   boxes, setting the guest capability identifier to :solaris, enabling rsync
+#   synced folders, configuring SSH port forwarding, and applying hypervisor-specific
+#   NIC and RTC optimizations for VirtualBox, VMware, Parallels, and QEMU/libvirt.
+#
+
+Vagrant.configure(2) do |config|
+  config.vm.guest = :solaris
+  config.ssh.shell = "sh"
+
+  # Default to rsync synced folders as native guest filesystem drivers are not bundled
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
+  # Forwarded port fallback
+  config.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh", auto_correct: true
+
+  # VirtualBox provider customizations
+  config.vm.provider :virtualbox do |vb, override|
+    vb.customize ["modifyvm", :id, "--nictype1", "82540EM"]
+    vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
+  end
+
+  # VMware provider customizations
+  config.vm.provider :vmware_desktop do |vmw, override|
+    vmw.vmx["ethernet0.virtualDev"] = "e1000e"
+  end
+
+  # Parallels provider customizations
+  config.vm.provider :parallels do |prl, override|
+    prl.check_guest_tools = false
+    prl.functional_psf    = false
+  end
+
+  # QEMU / Libvirt provider customizations
+  config.vm.provider :libvirt do |libvirt, override|
+    libvirt.driver = "kvm"
+    libvirt.nic_model_type = "virtio"
+  end
+end

@@ -4,6 +4,8 @@ Signal.trap('INT') { exit 1 }
 $stdout.sync = true
 $stderr.sync = true
 
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+
 require_relative '../lib/bento/cli'
 
 begin
