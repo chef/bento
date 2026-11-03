@@ -71,10 +71,12 @@ Bento provides the automated `macos-utm-builder.sh` script to manage IPSW acquis
 ./macos-utm-builder.sh --version 14
 ```
 
-### Building macOS 15 Sequoia
+### Building macOS 15 Sequoia, macOS 26 Tahoe, or macOS 27
 
 ```bash
 ./macos-utm-builder.sh --version 15 --cpus 4 --memory 8192
+./macos-utm-builder.sh --version 26 --cpus 4 --memory 8192
+./macos-utm-builder.sh --version 27 --cpus 4 --memory 8192
 ```
 
 ### Available Command-Line Options
@@ -83,12 +85,12 @@ Bento provides the automated `macos-utm-builder.sh` script to manage IPSW acquis
 Usage: ./macos-utm-builder.sh [OPTIONS]
 
 Options:
-  --version <14|15>    Target macOS version (default: 14)
-  --cpus <count>       Number of vCPUs to allocate (default: 4)
-  --memory <MB>        Memory in MB to allocate (default: 4096)
-  --disk-size <GB>     Disk image size in GB (default: 64)
-  --dry-run            Simulate operations without downloading or running
-  -h, --help           Display usage information
+  --version <14|15|26|27> Target macOS version (default: 14)
+  --cpus <count>          Number of vCPUs to allocate (default: 4)
+  --memory <MB>           Memory in MB to allocate (default: 4096)
+  --disk-size <GB>        Disk image size in GB (default: 64)
+  --dry-run               Simulate operations without downloading or running
+  -h, --help              Display usage information
 ```
 
 The completed Vagrant box will be written to:

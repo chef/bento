@@ -8,13 +8,13 @@
 #   ./macos-utm-builder.sh [OPTIONS]
 #
 # Options:
-#   --version <14|15>    Target macOS version (default: 14)
-#   --cpus <count>       Number of vCPUs to allocate (default: 4)
-#   --memory <MB>        Memory in MB to allocate (default: 4096)
-#   --disk-size <GB>     Disk image size in GB (default: 64)
-#   --package-box        Package the UTM box and register in Vagrant inventory
-#   --dry-run            Simulate operations without downloading or running
-#   -h, --help           Display this help message
+#   --version <14|15|26|27> Target macOS version (default: 14)
+#   --cpus <count>          Number of vCPUs to allocate (default: 4)
+#   --memory <MB>           Memory in MB to allocate (default: 4096)
+#   --disk-size <GB>        Disk image size in GB (default: 64)
+#   --package-box           Package the UTM box and register in Vagrant inventory
+#   --dry-run               Simulate operations without downloading or running
+#   -h, --help              Display this help message
 #
 # Prerequisites:
 #   - Apple Silicon Mac (M1/M2/M3/M4) running macOS 14+ (Sonoma/Sequoia)
@@ -54,13 +54,13 @@ usage() {
 Usage: ./macos-utm-builder.sh [OPTIONS]
 
 Options:
-  --version <14|15>    Target macOS version (default: 14)
-  --cpus <count>       Number of vCPUs to allocate (default: 4)
-  --memory <MB>        Memory in MB to allocate (default: 4096)
-  --disk-size <GB>     Disk image size in GB (default: 64)
-  --package-box        Package the UTM box and register in Vagrant inventory
-  --dry-run            Simulate operations without executing
-  -h, --help           Display this help message
+  --version <14|15|26|27> Target macOS version (default: 14)
+  --cpus <count>          Number of vCPUs to allocate (default: 4)
+  --memory <MB>           Memory in MB to allocate (default: 4096)
+  --disk-size <GB>        Disk image size in GB (default: 64)
+  --package-box           Package the UTM box and register in Vagrant inventory
+  --dry-run               Simulate operations without executing
+  -h, --help              Display this help message
 EOF
 }
 
