@@ -24,4 +24,8 @@ Vagrant.configure(2) do |config|
     domain.memory = 4096
     domain.cpus = 2
   end
+  config.vm.provider :qemu do |qe|
+    qe.memory = "4096"
+    qe.cpus = "2"
+  end
 end

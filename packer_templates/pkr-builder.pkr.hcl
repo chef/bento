@@ -207,7 +207,16 @@ build {
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
       var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
     )
-    except = ["utm-iso.vm"]
+    except = ["utm-iso.vm", "qemu.vm"]
+  }
+  post-processor "vagrant" {
+    compression_level = 9
+    output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
+      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+    )
+    provider_override = "libvirt"
+    only = ["qemu.vm"]
   }
   post-processor "utm-vagrant" {
     compression_level = 9

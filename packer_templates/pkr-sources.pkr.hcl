@@ -4,6 +4,8 @@ locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
   host_os   = try(data.host-info.this.os_type, "unknown")
+  host_arch_raw = try(data.host-info.this.architecture, "unknown")
+  host_arch = local.host_arch_raw == "arm64" ? "aarch64" : (local.host_arch_raw == "amd64" ? "x86_64" : local.host_arch_raw)
 
   # Source block provider specific
   # hyperv-iso
@@ -48,12 +50,15 @@ locals {
   ) : var.parallels_prlctl
 
   # qemu
-  qemu_accelerator = var.qemu_accelerator == null ? (
-    local.host_os == "darwin" ? "hvf" : (
-      local.host_os == "windows" ? "whpx" : "kvm"
-    )
+qemu_accelerator = var.qemu_accelerator == null ? (
+    local.host_arch == var.os_arch ? (
+      local.host_os == "darwin" ? "hvf" : (
+        local.host_os == "windows" ? "whpx" : "kvm"
+      )
+    ) : "tcg"
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
+qemu_cpu_model = var.qemu_cpu_model == "host" && local.qemu_accelerator == "tcg" ? "max" : var.qemu_cpu_model
   qemu_display = var.qemu_display == null ? (
     var.is_windows ? (
       var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
@@ -64,11 +69,15 @@ locals {
     )
   ) : var.qemu_display
   qemu_efi_boot = var.qemu_efi_boot == null ? true : var.qemu_efi_boot
-  qemu_efi_firmware_code = local.qemu_efi_boot ? (
+qemu_efi_firmware_code = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_code == null ? (
       local.host_os == "darwin" ? (
-        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
+        var.os_arch == "aarch64" ? (
+          fileexists("/opt/homebrew/share/qemu/edk2-aarch64-code.fd") ? "/opt/homebrew/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-aarch64-code.fd"
         ) : (
+          fileexists("/opt/homebrew/share/qemu/edk2-x86_64-code.fd") ? "/opt/homebrew/share/qemu/edk2-x86_64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
+        )
+      ) : (
         var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-aarch64-code.fd" : "/usr/local/share/qemu/edk2-x86_64-code.fd"
       )
     ) : var.qemu_efi_firmware_code
@@ -76,8 +85,12 @@ locals {
   qemu_efi_firmware_vars = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_vars == null ? (
       local.host_os == "darwin" ? (
-        var.os_arch == "aarch64" ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
+        var.os_arch == "aarch64" ? (
+          fileexists("/opt/homebrew/share/qemu/edk2-arm-vars.fd") ? "/opt/homebrew/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
         ) : (
+          fileexists("/opt/homebrew/share/qemu/edk2-i386-vars.fd") ? "/opt/homebrew/share/qemu/edk2-i386-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
+        )
+      ) : (
         var.os_arch == "aarch64" ? "/usr/local/share/qemu/edk2-arm-vars.fd" : "/usr/local/share/qemu/edk2-i386-vars.fd"
       )
     ) : var.qemu_efi_firmware_vars
@@ -273,7 +286,9 @@ locals {
   shutdown_command = var.shutdown_command == null ? (
     var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
       var.os_name == "macos" ? "echo 'vagrant' | sudo -S shutdown -h now" : (
+        var.os_name == "alpine" ? "echo 'vagrant' | sudo -S /sbin/poweroff" : (
         var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"
+        )
       )
     )
   ) : var.shutdown_command
@@ -314,7 +329,7 @@ source "hyperv-iso" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
@@ -346,7 +361,7 @@ source "parallels-ipsw" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   vm_name                 = local.vm_name
 }
 source "parallels-iso" "vm" {
@@ -379,7 +394,7 @@ source "parallels-iso" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
@@ -388,7 +403,7 @@ source "parallels-iso" "vm" {
 source "qemu" "vm" {
   # QEMU specific options
   accelerator         = local.qemu_accelerator
-  cpu_model           = var.qemu_cpu_model
+  cpu_model           = local.qemu_cpu_model
   display             = local.qemu_display
   disk_cache          = var.qemu_disk_cache
   disk_compression    = var.qemu_disk_compression
@@ -431,7 +446,7 @@ source "qemu" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
@@ -480,7 +495,7 @@ source "utm-iso" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
@@ -529,7 +544,7 @@ source "virtualbox-iso" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
@@ -553,7 +568,7 @@ source "virtualbox-ovf" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   vm_name                 = local.vm_name
 }
 source "vmware-iso" "vm" {
@@ -598,7 +613,7 @@ source "vmware-iso" "vm" {
   ssh_port                = var.ssh_port
   ssh_read_write_timeout  = var.ssh_read_write_timeout
   ssh_timeout             = var.ssh_timeout
-  ssh_username            = var.ssh_username
+  ssh_username            = var.os_name == "alpine" ? "root" : var.ssh_username
   winrm_password          = var.winrm_password
   winrm_timeout           = var.winrm_timeout
   winrm_username          = var.winrm_username
