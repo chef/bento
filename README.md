@@ -5,7 +5,7 @@ Bento is a project that encapsulates [Packer](https://www.packer.io/) templates 
 ***NOTE:**
 
 - Vagrant 2.4.0+ is required for new cpu architecture support
-- Virutalbox 7.1.6+ required for arm64 support
+- Virtualbox 7.1.6+ required for arm64 support
 - When running packer build command the output directory is relative to the working directory the command is currently running in. Suggest running packer build commands from bento root directory for build working files to be placed in bento/builds/build_complete/(build_name) directory by default. If the output_directory variable isn't overwritten a directory called builds/build_complete/(build_name) will be created in the current working directory that you are running the command from
 
 ## Using Public Boxes
