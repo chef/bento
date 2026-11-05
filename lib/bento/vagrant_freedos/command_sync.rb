@@ -1,0 +1,105 @@
+# frozen_string_literal: true
+
+#
+# @file command_sync.rb
+# @brief Vagrant CLI command `vagrant freedos-sync` for bidirectional FreeDOS folder synchronization
+# @description
+#   Provides the `vagrant freedos-sync` command supporting `--to-guest`,
+#   `--to-host`, and `--watch` options to synchronize files between the host
+#   workspace and the FreeDOS `D:` synced drive on demand.
+#
+
+module Bento
+  module VagrantFreedos
+    #
+    # @class CommandSync
+    # @description
+    #   CLI handler for `vagrant freedos-sync` to push host files to FreeDOS (`--to-guest`),
+    #   pull guest build/test artifacts back to the host (`--to-host`), or run a watch cycle.
+    #
+    class CommandSync
+      # @return [Array<String>] Command-line arguments passed to `vagrant freedos-sync`.
+      attr_reader :argv
+
+      # @return [Object] The Vagrant environment context.
+      attr_reader :env
+
+      #
+      # Initializes a new `CommandSync` CLI handler.
+      #
+      # @param [Array<String>] argv Command-line argument list.
+      # @param [Object] env Vagrant environment instance.
+      # @return [CommandSync] New command instance.
+      #
+      def initialize(argv, env = nil)
+        @argv = argv
+        @env  = env
+      end
+
+      #
+      # Executes the synchronization operation against `machine`.
+      #
+      # @param [Object] machine The target Vagrant machine instance.
+      # @param [String] host_dir Host workspace directory to sync (default `Dir.pwd`).
+      # @param [IO] stdout Output stream for status messages (default `$stdout`).
+      # @return [Integer] Exit status (`0` on success).
+      #
+      def execute_for_machine(machine, host_dir: Dir.pwd, stdout: $stdout)
+        opts = parse_argv(@argv)
+        syncer = SyncedFolder.new
+        sync_opts = {
+          drive: 'D:',
+          live_push: opts[:live],
+          live_pull: opts[:live],
+          crlf_convert: opts[:crlf]
+        }
+
+        iterations = opts[:watch] ? opts[:iterations] : 1
+        iterations.times do |idx|
+          if %i[bidirectional to_guest].include?(opts[:direction])
+            pushed = syncer.sync_to_guest(machine, host_dir, sync_opts)
+            stdout.puts("Synced #{pushed.size} file(s) to FreeDOS guest.")
+          end
+          if %i[bidirectional to_host].include?(opts[:direction])
+            pulled = syncer.sync_to_host(machine, host_dir, sync_opts)
+            stdout.puts("Synced #{pulled.size} file(s) from FreeDOS guest to host.")
+          end
+          sleep(opts[:interval]) if opts[:watch] && idx + 1 < iterations
+        end
+        0
+      end
+
+      #
+      # Parses CLI flags for `vagrant freedos-sync`.
+      #
+      # @param [Array<String>] args Raw CLI arguments.
+      # @return [Hash<Symbol, Object>] Parsed options (`:direction`, `:watch`, `:live`, `:crlf`, `:iterations`, `:interval`).
+      #
+      def parse_argv(args)
+        options = {
+          direction: :bidirectional,
+          watch: false,
+          live: false,
+          crlf: false,
+          iterations: 1,
+          interval: 0.05
+        }
+        args.each do |arg|
+          case arg
+          when '--to-guest'
+            options[:direction] = :to_guest
+          when '--to-host'
+            options[:direction] = :to_host
+          when '--watch'
+            options[:watch] = true
+          when '--live'
+            options[:live] = true
+          when '--crlf'
+            options[:crlf] = true
+          end
+        end
+        options
+      end
+    end
+  end
+end

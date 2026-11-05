@@ -105,7 +105,7 @@ build {
     pause_after       = "30s"
     scripts           = ["${path.root}/scripts/_common/update_packages.sh", ]
     valid_exit_codes  = [0, 143]
-    except            = var.is_windows ? local.source_names : null
+    except            = var.is_windows || local.is_freedos ? local.source_names : null
   }
   # Install build tools and reboot
   provisioner "shell" {
@@ -115,7 +115,7 @@ build {
     pause_before      = "10s"
     pause_after       = "30s"
     scripts           = ["${path.root}/scripts/_common/build_tools.sh", ]
-    except            = var.is_windows ? local.source_names : null
+    except            = var.is_windows || local.is_freedos ? local.source_names : null
   }
   # Run common scripts and guest tools installation
   provisioner "shell" {
@@ -125,7 +125,7 @@ build {
     pause_before      = "10s"
     pause_after       = "30s"
     scripts           = local.common_scripts
-    except            = var.is_windows ? local.source_names : null
+    except            = var.is_windows || local.is_freedos ? local.source_names : null
   }
   # Run OS specific scripts
   provisioner "shell" {
@@ -134,7 +134,7 @@ build {
     expect_disconnect = true
     pause_before      = "10s"
     scripts           = local.scripts
-    except            = var.is_windows ? local.source_names : null
+    except            = var.is_windows || local.is_freedos ? local.source_names : null
   }
   # Run minimize script
   provisioner "shell" {
@@ -144,7 +144,21 @@ build {
     pause_before      = "10s"
     pause_after       = "10s"
     scripts           = ["${path.root}/scripts/_common/minimize.sh", ]
-    except            = var.is_windows ? local.source_names : null
+    except            = var.is_windows || local.is_freedos ? local.source_names : null
+  }
+
+  # FreeDOS Serial/Telnet Provisioner
+  provisioner "shell-local" {
+    environment_vars = [
+      "FREEDOS_SERIAL_PORT=${var.freedos_serial_port}",
+      "FREEDOS_SERIAL_SOCKET=${var.freedos_serial_socket}",
+      "OS_VERSION=${var.os_version}",
+      "OS_ARCH=${var.os_arch}",
+    ]
+    scripts = [
+      "${path.root}/scripts/freedos/provision_freedos.sh",
+    ]
+    except = local.is_freedos ? null : local.source_names
   }
 
   # Windows Updates and scripts
@@ -205,7 +219,9 @@ build {
     compression_level = 9
     output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows.template" : (
-      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+      local.is_freedos ? "${path.root}/vagrantfile-freedos.template" : (
+        var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd.template" : null
+      )
     )
     except = ["utm-iso.vm"]
   }
@@ -213,7 +229,9 @@ build {
     compression_level = 9
     output            = "${path.root}/../builds/build_complete/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrantfile-windows-utm.template" : (
-      var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : "${path.root}/vagrantfile-utm.template"
+      local.is_freedos ? "${path.root}/vagrantfile-freedos-utm.template" : (
+        var.os_name == "freebsd" ? "${path.root}/vagrantfile-freebsd-utm.template" : "${path.root}/vagrantfile-utm.template"
+      )
     )
     architecture = "${var.os_arch == "x86_64" ? "amd64" : var.os_arch == "aarch64" ? "arm64" : var.os_arch}"
     only         = ["utm-iso.vm"]

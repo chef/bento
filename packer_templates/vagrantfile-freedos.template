@@ -1,0 +1,64 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Auto-load the Bento FreeDOS Vagrant plugin suite (communicator, ssh polyfill, synced_folder)
+begin
+  require "bento/vagrant_freedos"
+rescue LoadError
+  bento_lib = File.expand_path("lib", __dir__)
+  $LOAD_PATH.unshift(bento_lib) if File.directory?(bento_lib) && !$LOAD_PATH.include?(bento_lib)
+  begin
+    require "bento/vagrant_freedos"
+  rescue LoadError
+    # Plugin can also be loaded from the workspace or installed gem
+  end
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.guest = :freedos
+  config.vm.communicator = :freedos
+  config.ssh.insert_key = false
+
+  if config.respond_to?(:freedos)
+    config.freedos.host = "127.0.0.1"
+    config.freedos.port = (ENV["FREEDOS_SERIAL_PORT"] || 2323).to_i
+    config.freedos.sync_drive = "D:"
+    config.freedos.work_dir = "D:"
+  end
+
+  config.vm.synced_folder ".", "/vagrant",
+    type: :freedos_sync,
+    drive: "D:",
+    sync_direction: :bidirectional,
+    exclude: [".git/", ".vagrant/", "builds/"]
+
+  config.vm.provider :qemu do |qe|
+    host_cpu = RbConfig::CONFIG["host_cpu"].to_s.downcase
+    is_arm = host_cpu.include?("arm") || host_cpu.include?("aarch64")
+    accel = is_arm ? "tcg" : (RUBY_PLATFORM.include?("darwin") ? "hvf:tcg" : "kvm:tcg")
+    serial_port = (ENV["FREEDOS_SERIAL_PORT"] || 2323).to_i
+
+    qe.arch = "i386"
+    qe.machine = "pc,accel=#{accel}"
+    qe.cpu = is_arm ? "max" : "pentium2"
+    qe.smp = "1"
+    qe.memory = "64M"
+    qe.net_device = "pcnet"
+    qe.drive_interface = "ide"
+    qe.firmware_format = nil
+    qe.extra_qemu_args = [
+      "-vga", "std",
+      "-rtc", "base=localtime",
+      "-serial", "telnet:127.0.0.1:#{serial_port},server,nowait"
+    ]
+  end
+
+  config.vm.provider :virtualbox do |vb|
+    serial_port = (ENV["FREEDOS_SERIAL_PORT"] || 2323).to_i
+    vb.memory = 64
+    vb.cpus = 1
+    vb.check_guest_additions = false
+    vb.customize ["modifyvm", :id, "--uart1", "0x3f8", "4"]
+    vb.customize ["modifyvm", :id, "--uartmode1", "tcpserver", serial_port.to_s]
+  end
+end
