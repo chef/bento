@@ -2,9 +2,13 @@ data "host-info" "this" {}
 
 locals {
   # helper locals
-  build_dir  = abspath("${path.root}/../builds/")
-  host_os    = fileexists("/System/Library/CoreServices/SystemVersion.plist") ? "darwin" : try(data.host-info.this.os_type, "linux")
-  is_freedos = var.is_freedos || var.os_name == "freedos"
+  build_dir        = abspath("${path.root}/../builds/")
+  host_os          = fileexists("/System/Library/CoreServices/SystemVersion.plist") ? "darwin" : try(data.host-info.this.os_type, "linux")
+  is_freedos       = var.is_freedos || var.os_name == "freedos"
+  is_msdos         = var.is_msdos || var.os_name == "msdos"
+  is_dos           = local.is_freedos || local.is_msdos
+  dos_serial_port  = local.is_msdos ? var.msdos_serial_port : var.freedos_serial_port
+  dos_monitor_sock = local.is_msdos ? "/tmp/msdos-monitor.sock" : "/tmp/freedos-monitor.sock"
 
   # Source block provider specific
   # hyperv-iso
@@ -50,7 +54,7 @@ locals {
 
   # qemu
   qemu_accelerator = var.qemu_accelerator == null ? (
-    local.is_freedos ? (
+    local.is_dos ? (
       var.os_arch == "aarch64" ? "tcg" : (
         local.host_os == "darwin" ? "hvf" : (
           local.host_os == "windows" ? "whpx" : (
@@ -67,10 +71,10 @@ locals {
     )
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? (
-    local.is_freedos ? "qemu-system-i386" : "qemu-system-${var.os_arch}"
+    local.is_dos ? "qemu-system-i386" : "qemu-system-${var.os_arch}"
   ) : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
-    local.is_freedos ? (
+    local.is_dos ? (
       local.host_os == "darwin" ? "cocoa" : "none"
     ) : (
       var.is_windows ? (
@@ -82,7 +86,7 @@ locals {
       )
     )
   ) : var.qemu_display
-  qemu_efi_boot = var.qemu_efi_boot == null ? (local.is_freedos ? false : true) : var.qemu_efi_boot
+  qemu_efi_boot = var.qemu_efi_boot == null ? (local.is_dos ? false : true) : var.qemu_efi_boot
   qemu_efi_firmware_code = local.qemu_efi_boot ? (
     var.qemu_efi_firmware_code == null ? (
       local.host_os == "darwin" ? (
@@ -102,14 +106,14 @@ locals {
     ) : var.qemu_efi_firmware_vars
   ) : null
   qemu_machine_type = var.qemu_machine_type == null ? (
-    local.is_freedos ? "pc" : (var.os_arch == "aarch64" ? "virt" : "q35")
+    local.is_dos ? "pc" : (var.os_arch == "aarch64" ? "virt" : "q35")
   ) : var.qemu_machine_type
   qemuargs = var.qemuargs == null ? (
-    local.is_freedos ? [
+    local.is_dos ? [
       ["-vga", "std"],
       ["-rtc", "base=localtime"],
-      ["-serial", "telnet:127.0.0.1:${var.freedos_serial_port},server,nowait"],
-      ["-monitor", "unix:/tmp/freedos-monitor.sock,server,nowait"],
+      ["-serial", "telnet:127.0.0.1:${local.dos_serial_port},server,nowait"],
+      ["-monitor", "unix:${local.dos_monitor_sock},server,nowait"],
       ["-boot", "order=c,once=d"],
     ] : (
       var.is_windows ? [
@@ -140,7 +144,7 @@ locals {
     local.utm_disable_vnc ? null : local.default_boot_command
   ) : var.utm_boot_command
   utm_display_hardware_type = var.utm_display_hardware_type == null ? (
-    local.is_freedos ? "vga" : (
+    local.is_dos ? "vga" : (
       var.os_arch == "aarch64" ? (
         var.is_windows ? "virtio-ramfb-gl" : "virtio-gpu-pci"
         ) : (
@@ -160,13 +164,13 @@ locals {
   utm_guest_additions_sha256      = var.utm_guest_additions_sha256 == null ? "none" : var.utm_guest_additions_sha256
   utm_guest_additions_target_path = var.utm_guest_additions_target_path == null && local.utm_guest_additions_url != null ? "${path.root}/../builds/iso/${split(".", basename(local.utm_guest_additions_url))[0]}-${substr(sha256(local.utm_guest_additions_url), 0, 8)}.iso" : var.utm_guest_additions_target_path
   utm_vm_arch = var.utm_vm_arch == null ? (
-    local.is_freedos ? "x86_64" : var.os_arch
+    local.is_dos ? "x86_64" : var.os_arch
   ) : var.utm_vm_arch
   utm_version_file = local.communicator == "none" ? "" : null
   virtualbox_version_file = local.communicator == "none" ? "" : var.virtualbox_version_file
 
   # virtualbox-iso
-  vbox_chipset = var.vbox_chipset == null ? (local.is_freedos ? "piix3" : "ich9") : var.vbox_chipset
+  vbox_chipset = var.vbox_chipset == null ? (local.is_dos ? "piix3" : "ich9") : var.vbox_chipset
   vbox_gfx_controller = var.vbox_gfx_controller == null ? (
     var.is_windows ? "vboxsvga" : "vboxsvga"
   ) : var.vbox_gfx_controller
@@ -174,19 +178,19 @@ locals {
     var.is_windows ? 128 : 33
   ) : var.vbox_gfx_vram_size
   vbox_guest_additions_mode = var.vbox_guest_additions_mode == null ? (
-    local.is_freedos ? "disable" : (var.is_windows ? "attach" : "upload")
+    local.is_dos ? "disable" : (var.is_windows ? "attach" : "upload")
   ) : var.vbox_guest_additions_mode
   vbox_hard_drive_interface = var.vbox_hard_drive_interface == null ? (
-    local.is_freedos ? "ide" : (var.is_windows ? "sata" : "virtio")
+    local.is_dos ? "ide" : (var.is_windows ? "sata" : "virtio")
   ) : var.vbox_hard_drive_interface
   vbox_iso_interface = var.vbox_iso_interface == null ? (
-    local.is_freedos ? "ide" : (var.is_windows ? "sata" : "virtio")
+    local.is_dos ? "ide" : (var.is_windows ? "sata" : "virtio")
   ) : var.vbox_iso_interface
   vboxmanage = var.vboxmanage == null ? (
-    local.is_freedos ? [
+    local.is_dos ? [
       ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
       ["modifyvm", "{{.Name}}", "--uart1", "0x3f8", "4"],
-      ["modifyvm", "{{.Name}}", "--uartmode1", "tcpserver", "${var.freedos_serial_port}"],
+      ["modifyvm", "{{.Name}}", "--uartmode1", "tcpserver", "${local.dos_serial_port}"],
     ] : (
       var.is_windows ? (
         var.os_arch == "aarch64" ? [
@@ -295,23 +299,23 @@ locals {
     ) : null
   ) : var.cd_files
   communicator = var.communicator == null ? (
-    local.is_freedos ? "none" : (var.is_windows ? "winrm" : "ssh")
+    local.is_dos ? "none" : (var.is_windows ? "winrm" : "ssh")
   ) : var.communicator
   default_boot_command = var.boot_command
   default_boot_wait = var.default_boot_wait == null ? (
     var.is_windows ? "60s" : "10s"
   ) : var.default_boot_wait
   disk_size = var.disk_size == null ? (
-    local.is_freedos ? 512 : (var.is_windows ? 131072 : 65536)
+    local.is_dos ? 512 : (var.is_windows ? 131072 : 65536)
   ) : var.disk_size
   http_directory  = var.http_directory == null ? "${path.root}/http" : var.http_directory
   iso_target_path = var.iso_target_path == "build_dir_iso" && var.iso_url != null ? "${path.root}/../builds/iso/${var.os_name}-${var.os_version}-${var.os_arch}-${substr(sha256(var.iso_url), 0, 8)}.iso" : var.iso_target_path
   memory = var.memory == null ? (
-    local.is_freedos ? 64 : (var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072)
+    local.is_dos ? 64 : (var.is_windows || var.os_name == "macos" || var.os_arch == "aarch64" ? 4096 : 3072)
   ) : var.memory
   output_directory = var.output_directory == null ? "${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}" : var.output_directory
   shutdown_command = var.shutdown_command == null ? (
-    local.is_freedos ? null : (
+    local.is_dos ? null : (
       var.is_windows ? "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"" : (
         var.os_name == "macos" ? "echo 'vagrant' | sudo -S shutdown -h now" : (
           var.os_name == "freebsd" ? "echo 'vagrant' | su -m root -c 'shutdown -p now'" : "echo 'vagrant' | sudo -S /sbin/halt -h -p"

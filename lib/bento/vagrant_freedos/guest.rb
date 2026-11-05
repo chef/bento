@@ -37,15 +37,16 @@ module Bento
 
       #
       # Cleanly powers off the FreeDOS virtual machine using `FDAPM POWEROFF`
-      # with a fallback to `SHUTDOWN`.
+      # with a fallback to `C:\BENTO\SHUTDOWN.COM`.
       #
       # @param [Object] machine The Vagrant machine instance to halt.
       # @return [Integer] The DOS exit code of the poweroff command.
       #
       def self.halt(machine)
         fdapm = "C:#{BS}FDOS#{BS}BIN#{BS}FDAPM.COM"
+        shutdown_com = "C:#{BS}BENTO#{BS}SHUTDOWN.COM"
         machine.communicate.execute(
-          "IF EXIST #{fdapm} #{fdapm} POWEROFF",
+          "IF EXIST #{fdapm} #{fdapm} POWEROFF && IF EXIST #{shutdown_com} #{shutdown_com}",
           error_check: false
         )
       end

@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+begin
+  require "bento/vagrant_msdos"
+rescue LoadError
+  bento_lib = File.expand_path("lib", __dir__)
+  $LOAD_PATH.unshift(bento_lib) if File.directory?(bento_lib) && !$LOAD_PATH.include?(bento_lib)
+  begin
+    require "bento/vagrant_msdos"
+  rescue LoadError
+    # Plugin can also be loaded from the workspace or installed gem
+  end
+end
+
+Vagrant.configure("2") do |config|
+  config.vagrant.plugins = "vagrant_utm"
+  config.vm.guest = :msdos
+  config.vm.communicator = :msdos
+  config.ssh.insert_key = false
+
+  if config.respond_to?(:msdos)
+    config.msdos.host = "127.0.0.1"
+    config.msdos.port = (ENV["MSDOS_SERIAL_PORT"] || 2324).to_i
+    config.msdos.sync_drive = "D:"
+    config.msdos.work_dir = "D:"
+  end
+
+  config.vm.synced_folder ".", "/vagrant",
+    type: :msdos_sync,
+    drive: "D:",
+    sync_direction: :bidirectional,
+    crlf_convert: true,
+    exclude: [".git/", ".vagrant/", "builds/"]
+
+  config.vm.provider "utm" do |utm|
+    utm.check_guest_additions = false
+  end
+end
