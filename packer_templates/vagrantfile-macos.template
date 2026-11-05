@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  # Guest OS identification
+  config.vm.guest = :darwin
+  config.vm.communicator = "ssh"
+
+  # Default SSH credentials
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+  config.ssh.insert_key = false
+
+  # Use rsync for folder synchronization on Apple Virtualization guests
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
+  # Parallels provider configuration
+  config.vm.provider "parallels" do |prl|
+    prl.cpus = 4
+    prl.memory = 4096
+  end
+end

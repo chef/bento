@@ -35,6 +35,10 @@ class BuildRunner
 
   def start
     templates = template_files
+    if templates.any? { |t| t.include?('macos') }
+      verify_macos_build_host!
+    end
+
     banner('Starting build for templates:')
     banner('Installing packer plugins') unless dry_run || metadata_only
     shellout("packer init -upgrade #{File.absolute_path("#{File.dirname(templates.first)}/../../packer_templates")}") unless dry_run || metadata_only

@@ -90,6 +90,29 @@ RSpec.describe BuildMetadata do
         expect(result[:version]).to include(build_timestamp)
       end
     end
+
+    context 'with the real macos-27-aarch64.pkrvars.hcl file' do
+      subject(:macos_27_metadata) do
+        described_class.new('os_pkrvars/macos/macos-27-aarch64', build_timestamp, override_version, pkr_cmd)
+      end
+
+      before do
+        allow(macos_27_metadata).to receive_messages(
+          git_revision: 'abc123',
+          git_clean?: true,
+          packer_ver: '1.9.0',
+          vagrant_ver: '2.4.1'
+        )
+      end
+
+      it 'parses macOS 27.2 metadata accurately' do
+        result = macos_27_metadata.read
+        expect(result[:name]).to eq('macos-27.2')
+        expect(result[:arch]).to eq('aarch64')
+        expect(result[:template]).to eq('macos-27.2-aarch64')
+        expect(result[:box_basename]).to eq('macos-27.2')
+      end
+    end
   end
 
   describe 'box_basename' do

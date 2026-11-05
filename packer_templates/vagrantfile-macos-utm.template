@@ -1,0 +1,46 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Hook into vagrant_utm for native snapshot support on Apple Virtualization backend
+begin
+  require 'bento/vagrant_utm_macos_snapshot'
+  Bento::VagrantUtmMacosSnapshot.install!
+rescue LoadError
+  # Bento extension will be utilized when bento is in LOAD_PATH
+end
+
+Vagrant.configure(2) do |config|
+  config.vagrant.plugins = "vagrant_utm"
+
+  # Guest OS identification
+  config.vm.guest = :darwin
+  config.vm.communicator = "ssh"
+
+  # Default SSH credentials
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+  config.ssh.insert_key = false
+
+  # Initial rsync synchronization ensures files are present immediately upon boot
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
+  # VirtioFS Bidirectional Synced Folder:
+  # Apple Virtualization Framework automounts host directories shared via VirtioFS (virtFS)
+  # under '/Volumes/My Shared Files' or '/Volumes/vagrant'. Link /vagrant directly
+  # to the VirtioFS volume when available for bidirectional synchronization.
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+    if [ -d "/Volumes/My Shared Files" ]; then
+      ln -sfn "/Volumes/My Shared Files" /vagrant
+    elif [ -d "/Volumes/vagrant" ]; then
+      ln -sfn "/Volumes/vagrant" /vagrant
+    fi
+  SHELL
+
+  # UTM provider configuration
+  config.vm.provider "utm" do |utm|
+    utm.cpus = 4
+    utm.memory = 4096
+    utm.check_guest_additions = false
+    utm.directory_share_mode = "virtFS"
+  end
+end

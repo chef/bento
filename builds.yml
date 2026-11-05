@@ -49,6 +49,7 @@ slugs:
   - macos-14
   - macos-15
   - macos-26
+  - macos-27
 
 do_not_build:
   - amazon

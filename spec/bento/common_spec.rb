@@ -92,4 +92,37 @@ RSpec.describe Common do
       end
     end
   end
+
+  describe '#apple_silicon?' do
+    it 'returns true when host_cpu is arm64 or aarch64' do
+      stub_const('RbConfig::CONFIG', RbConfig::CONFIG.merge('host_cpu' => 'arm64'))
+      expect(host.apple_silicon?).to be true
+      stub_const('RbConfig::CONFIG', RbConfig::CONFIG.merge('host_cpu' => 'aarch64'))
+      expect(host.apple_silicon?).to be true
+    end
+
+    it 'returns false when host_cpu is x86_64' do
+      stub_const('RbConfig::CONFIG', RbConfig::CONFIG.merge('host_cpu' => 'x86_64'))
+      expect(host.apple_silicon?).to be false
+    end
+  end
+
+  describe '#verify_macos_build_host!' do
+    it 'returns true when running on macOS with Apple Silicon' do
+      allow(host).to receive(:macos?).and_return(true)
+      allow(host).to receive(:apple_silicon?).and_return(true)
+      expect(host.verify_macos_build_host!).to be true
+    end
+
+    it 'raises RuntimeError if not running on macOS' do
+      allow(host).to receive(:macos?).and_return(false)
+      expect { host.verify_macos_build_host! }.to raise_error(/genuine Apple-branded hardware running macOS/)
+    end
+
+    it 'raises RuntimeError if running on macOS with non-ARM architecture' do
+      allow(host).to receive(:macos?).and_return(true)
+      allow(host).to receive(:apple_silicon?).and_return(false)
+      expect { host.verify_macos_build_host! }.to raise_error(/requires Apple Silicon/)
+    end
+  end
 end

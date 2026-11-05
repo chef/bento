@@ -87,6 +87,23 @@ module Common
     !!(RUBY_PLATFORM =~ /darwin/)
   end
 
+  def apple_silicon?
+    host_cpu = RbConfig::CONFIG['host_cpu']
+    host_cpu == 'arm64' || host_cpu == 'aarch64'
+  end
+
+  def verify_macos_build_host!
+    unless macos?
+      raise 'macOS virtualization builds legally and technically require genuine Apple-branded hardware running macOS.'
+    end
+
+    unless apple_silicon?
+      raise 'Modern macOS virtualization in Bento requires Apple Silicon (aarch64 / arm64) hardware.'
+    end
+
+    true
+  end
+
   def unix?
     !windows?
   end

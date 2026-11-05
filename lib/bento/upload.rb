@@ -34,6 +34,11 @@ class UploadRunner
   #
   def upload_box(md_file)
     md_data = box_metadata(md_file)
+    if private_box?(md_data['box_basename'])
+      warn("Refusing to upload proprietary / restricted OS box '#{md_data['box_basename']}' (matches proprietary list: macOS, Windows, SLES, Solaris, RHEL). Skipping!")
+      return
+    end
+
     bento_dir = Dir.pwd
     build_dir = File.join(bento_dir, 'builds')
     test_passed_dir = File.join(build_dir, 'testing_passed', md_data['arch'])

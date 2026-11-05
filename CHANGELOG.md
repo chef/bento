@@ -24,6 +24,7 @@ Markdown table generated at <https://www.tablesgenerator.com/markdown_tables#>
 | macos-14 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-15 | na | na | na | na | na | x |  |  | na | na | na |
 | macos-26 | na | na | na | na | na | x |  |  | na | na | na |
+| macos-27 | na | na | na | na | na | x |  |  | na | na | na |
 | opensuse-leap-16 | x | x | x | x | x | x | x | x |  |  |  |
 | oraclelinux-8 | x | na | x | na | x | na | x | na |  | na |  |
 | oraclelinux-9 | x | x | x | x | x | x | x | x |  |  |  |
