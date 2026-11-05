@@ -46,6 +46,9 @@ elif [ "$OS_NAME" = "Darwin" ]; then
     echo 'Shrink the disk'
     /Library/Application\ Support/VMware\ Tools/vmware-tools-cli disk shrink /
   fi
+elif [ "$OS_NAME" = "SunOS" ]; then
+  echo "Minimization for SunOS/illumos is handled by OS-specific provisioners"
+  exit 0
 else
   # Whiteout root
   count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')

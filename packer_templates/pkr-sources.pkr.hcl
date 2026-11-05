@@ -4,6 +4,9 @@ locals {
   # helper locals
   build_dir = abspath("${path.root}/../builds/")
   host_os   = try(data.host-info.this.os_type, "unknown")
+  host_arch = try(data.host-info.this.kernel_arch == "arm64" ? "aarch64" : (
+    data.host-info.this.kernel_arch == "amd64" ? "x86_64" : data.host-info.this.kernel_arch
+  ), "unknown")
 
   # Source block provider specific
   # hyperv-iso
@@ -49,9 +52,11 @@ locals {
 
   # qemu
   qemu_accelerator = var.qemu_accelerator == null ? (
-    local.host_os == "darwin" ? "hvf" : (
-      local.host_os == "windows" ? "whpx" : "kvm"
-    )
+    local.host_arch == var.os_arch ? (
+      local.host_os == "darwin" ? "hvf" : (
+        local.host_os == "windows" ? "whpx" : "kvm"
+      )
+    ) : "tcg"
   ) : var.qemu_accelerator
   qemu_binary = var.qemu_binary == null ? "qemu-system-${var.os_arch}" : var.qemu_binary
   qemu_display = var.qemu_display == null ? (
@@ -143,10 +148,10 @@ locals {
     var.is_windows ? "attach" : "upload"
   ) : var.vbox_guest_additions_mode
   vbox_hard_drive_interface = var.vbox_hard_drive_interface == null ? (
-    var.is_windows ? "sata" : "virtio"
+    var.is_windows || var.os_name == "solaris" || var.os_name == "omnios" ? "sata" : "virtio"
   ) : var.vbox_hard_drive_interface
   vbox_iso_interface = var.vbox_iso_interface == null ? (
-    var.is_windows ? "sata" : "virtio"
+    var.is_windows || var.os_name == "solaris" || var.os_name == "omnios" ? "sata" : "virtio"
   ) : var.vbox_iso_interface
   vboxmanage = var.vboxmanage == null ? (
     var.is_windows ? (
@@ -192,7 +197,7 @@ locals {
     )
   ) : var.vboxmanage
   vbox_nic_type = var.vbox_nic_type == null ? (
-    var.os_name == "freebsd" ? "82545EM" : null
+    var.os_name == "freebsd" || var.os_name == "omnios" || var.os_name == "solaris" ? "82540EM" : null
   ) : var.vbox_nic_type
 
   # vmware-iso

@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# @file vagrantfile-omnios-utm.template
+# @brief Vagrant UTM configuration template for OmniOS CE base boxes
+# @description
+#   Configures the UTM Vagrant provider for OmniOS, setting guest to :solaris,
+#   using rsync for folder synchronization, and disabling guest additions checks.
+#
+
+Vagrant.configure(2) do |config|
+  config.vagrant.plugins = "vagrant_utm"
+  config.vm.guest = :solaris
+  config.ssh.shell = "sh"
+
+  # Default to rsync synced folders as native guest filesystem drivers are not bundled
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
+  config.vm.provider "utm" do |utm|
+    utm.check_guest_additions = false
+  end
+end

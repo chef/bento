@@ -16,6 +16,9 @@ vmware-iso|vmware-vmx)
     # for shared folder
     echo 'fuse_load="YES"' >>/boot/loader.conf
     echo 'ifconfig_vmx0="dhcp"' >>/etc/rc.conf
+  elif [ "$OS_NAME" = "SunOS" ]; then
+    echo "Nothing to do for $OS_NAME"
+    exit 0
   elif [ "$OS_NAME" = "Darwin" ]; then
     INSTALLER_PKG=""
     TMPMOUNT=""
