@@ -14,6 +14,9 @@
 
 set -eu
 
+COPYFILE_DISABLE=1
+export COPYFILE_DISABLE
+
 FREEDOS_VERSION="${FREEDOS_VERSION:-1.3}"
 HOST_ARCH_RAW=$(uname -m)
 if [ "$HOST_ARCH_RAW" = "arm64" ] || [ "$HOST_ARCH_RAW" = "aarch64" ]; then
@@ -140,7 +143,7 @@ fetch_freedos_image() {
     banner "Using cached FreeDOS archive: ${_zip_path}"
   fi
 
-  if [ ! -f "$RAW_DISK" ]; then
+  if [ ! -f "$RAW_DISK" ] || [ "${FREEDOS_FORCE_EXTRACT:-0}" = "1" ]; then
     banner "Extracting bootable FreeDOS disk image to ${RAW_DISK}..."
     _extract_dir=$(mktemp -d "${TMPDIR:-/tmp}/freedos-extract.XXXXXX")
     unzip -q -o "$_zip_path" -d "$_extract_dir"
@@ -162,8 +165,8 @@ fetch_freedos_image() {
 # @description
 #   Mounts the raw FreeDOS FAT16 disk image (via hdiutil on macOS or mtools if
 #   available) and injects FDCONFIG.SYS, FDAUTO.BAT, VAGAGENT.BAT, RUNCMD.BAT,
-#   B64DEC.COM, and B64ENC.COM with DOS CRLF line endings so the image boots
-#   directly into the Bento COM1 Serial/Telnet Agent.
+#   SERINIT.COM, B64DEC.COM, and B64ENC.COM with DOS CRLF line endings so the
+#   image boots directly into the Bento COM1 Serial/Telnet Agent.
 # @param [String] raw_img Path to the raw FreeDOS disk image.
 # @return [Integer] Returns 0 on success.
 #
@@ -176,21 +179,24 @@ inject_bento_agent_into_image() {
     banner "Mounting ${_img} via hdiutil to provision Bento Serial/Telnet Agent..."
     _mnt=$(mktemp -d "${TMPDIR:-/tmp}/freedos-mnt.XXXXXX")
     if hdiutil attach -imagekey diskimage-class=CRawDiskImage -mountpoint "$_mnt" "$_img" >/dev/null 2>&1; then
-      mkdir -p "${_mnt}/BENTO" "${_mnt}/TEMP" "${_mnt}/FDOS/BIN"
+      rm -rf "${_mnt}/._"* "${_mnt}/BENTO/._"* "${_mnt}/FDOS" 2>/dev/null || true
+      mkdir -p "${_mnt}/BENTO" "${_mnt}/TEMP"
       awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/freedos/FDCONFIG.SYS" > "${_mnt}/FDCONFIG.SYS"
       awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/freedos/FDAUTO.BAT" > "${_mnt}/FDAUTO.BAT"
       awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/freedos/VAGAGENT.BAT" > "${_mnt}/BENTO/VAGAGENT.BAT"
       awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/freedos/RUNCMD.BAT" > "${_mnt}/BENTO/RUNCMD.BAT"
+      cp -f "${SCRIPT_DIR}/packer_templates/scripts/freedos/SERINIT.COM" "${_mnt}/BENTO/SERINIT.COM"
       cp -f "${SCRIPT_DIR}/packer_templates/scripts/freedos/B64DEC.COM" "${_mnt}/BENTO/B64DEC.COM"
       cp -f "${SCRIPT_DIR}/packer_templates/scripts/freedos/B64ENC.COM" "${_mnt}/BENTO/B64ENC.COM"
       if [ -d "${BUILDS_DIR}/freedos_watcom_stage/BENTO" ]; then
         cp -Rf "${BUILDS_DIR}/freedos_watcom_stage/BENTO/"* "${_mnt}/BENTO/" 2>/dev/null || true
       fi
-      # Also place AUTOEXEC.BAT symlink/copy for FreeCOM compatibility
+      # Also place AUTOEXEC.BAT copy for FreeCOM compatibility
       cp -f "${_mnt}/FDAUTO.BAT" "${_mnt}/AUTOEXEC.BAT"
+      rm -rf "${_mnt}/._"* "${_mnt}/BENTO/._"* 2>/dev/null || true
       sync
       hdiutil detach "$_mnt" >/dev/null 2>&1 || hdiutil detach -force "$_mnt" >/dev/null 2>&1 || true
-      banner "Provisioned Bento FreeDOS Agent onto C: (FDCONFIG.SYS, FDAUTO.BAT, VAGAGENT.BAT)."
+      banner "Provisioned Bento FreeDOS Agent onto C: (FDCONFIG.SYS, FDAUTO.BAT, VAGAGENT.BAT, SERINIT.COM)."
     else
       banner "Note: hdiutil could not mount partition directly; keeping raw FreeDOS image."
     fi
@@ -400,7 +406,23 @@ cmd_run() {
     return 0
   fi
 
+  cmd_clean >/dev/null 2>&1 || true
+
   "$_qemu" -machine "pc,accel=${_accel}" -m 64M -smp 1 -vga std -rtc base=localtime -drive "file=${RAW_DISK},format=raw,if=ide,index=0,media=disk" -drive "file=${SYNC_DISK},format=raw,if=ide,index=1,media=disk,cache=writethrough" -serial "telnet:${SERIAL_HOST}:${SERIAL_PORT},server,nowait" -monitor "unix:${MONITOR_SOCKET},server,nowait" -display none -daemonize
+
+  if command -v ruby >/dev/null 2>&1; then
+    ruby -I "${SCRIPT_DIR}/lib" -rbento/vagrant_freedos -e '
+      cfg = Bento::VagrantFreedos::Config.new
+      cfg.host = ENV["FREEDOS_SERIAL_HOST"] || "127.0.0.1"
+      cfg.port = (ENV["FREEDOS_SERIAL_PORT"] || "2323").to_i
+      cfg.finalize!
+      vm = Struct.new(:communicator, :guest).new(:freedos, :freedos)
+      conf = Struct.new(:vm, :freedos).new(vm, cfg)
+      mach = Struct.new(:config, :data_dir).new(conf, nil)
+      comm = Bento::VagrantFreedos::Communicator.new(mach)
+      comm.wait_for_ready(20)
+    ' >/dev/null 2>&1 || true
+  fi
 }
 
 #
@@ -426,15 +448,42 @@ cmd_ssh() {
     if [ "${BENTO_DRY_RUN:-0}" = "1" ]; then
       return 0
     fi
-    printf '%s\015\012' "$_one_shot" | nc -w 3 "$SERIAL_HOST" "$SERIAL_PORT"
-    return 0
+    FREEDOS_SERIAL_HOST="$SERIAL_HOST" FREEDOS_SERIAL_PORT="$SERIAL_PORT" \
+      ruby -I "${SCRIPT_DIR}/lib" -rbento/vagrant_freedos -e '
+        cmd = ARGV[0]
+        cfg = Bento::VagrantFreedos::Config.new
+        cfg.host = ENV["FREEDOS_SERIAL_HOST"] || "127.0.0.1"
+        cfg.port = (ENV["FREEDOS_SERIAL_PORT"] || "2323").to_i
+        cfg.finalize!
+        vm = Struct.new(:communicator, :guest).new(:freedos, :freedos)
+        conf = Struct.new(:vm, :freedos).new(vm, cfg)
+        mach = Struct.new(:config, :data_dir).new(conf, nil)
+        comm = Bento::VagrantFreedos::Communicator.new(mach)
+        code = comm.execute(cmd, error_check: false) do |_type, data|
+          STDOUT.print(data)
+          STDOUT.flush
+        end
+        exit(code.to_i)
+      ' "$_one_shot"
+    return $?
   fi
 
   banner "Connecting interactively to FreeDOS COM1 on ${SERIAL_HOST}:${SERIAL_PORT}..."
   if [ "${BENTO_DRY_RUN:-0}" = "1" ]; then
     return 0
   fi
-  nc "$SERIAL_HOST" "$SERIAL_PORT"
+  FREEDOS_SERIAL_HOST="$SERIAL_HOST" FREEDOS_SERIAL_PORT="$SERIAL_PORT" \
+    ruby -I "${SCRIPT_DIR}/lib" -rbento/vagrant_freedos -e '
+      cfg = Bento::VagrantFreedos::Config.new
+      cfg.host = ENV["FREEDOS_SERIAL_HOST"] || "127.0.0.1"
+      cfg.port = (ENV["FREEDOS_SERIAL_PORT"] || "2323").to_i
+      cfg.finalize!
+      vm = Struct.new(:communicator, :guest).new(:freedos, :freedos)
+      conf = Struct.new(:vm, :freedos).new(vm, cfg)
+      mach = Struct.new(:config, :data_dir).new(conf, nil)
+      handler = Bento::VagrantFreedos::CommandSsh.new([])
+      exit(handler.run_interactive_session(mach))
+    '
 }
 
 #
@@ -508,6 +557,10 @@ cmd_status() {
 #
 cmd_clean() {
   banner "Cleaning temporary FreeDOS sockets..."
+  if [ "${BENTO_DRY_RUN:-0}" != "1" ]; then
+    pkill -f "$RAW_DISK" 2>/dev/null || true
+    pkill -f "$MONITOR_SOCKET" 2>/dev/null || true
+  fi
   rm -f "$SERIAL_SOCKET" "$MONITOR_SOCKET"
   return 0
 }

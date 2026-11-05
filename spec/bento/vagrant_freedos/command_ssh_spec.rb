@@ -105,8 +105,10 @@ RSpec.describe Bento::VagrantFreedos::CommandSsh do
       expect(handler.send(:pump_interactive_streams, c2, r2, out)).to be_nil
 
       # Test when IO.select returns nil or raises IOError
+      allow(r2).to receive(:tty?).and_return(true)
       allow(IO).to receive(:select).and_return(nil)
       expect(handler.send(:pump_interactive_streams, c2, r2, out)).to be_nil
+      allow(r2).to receive(:tty?).and_return(false)
       allow(IO).to receive(:select).and_raise(IOError)
       expect(handler.send(:pump_interactive_streams, c2, r2, out)).to be_nil
     ensure

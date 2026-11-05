@@ -30,8 +30,12 @@ log_info() {
 #
 # @function generate_dos_b64_tools
 # @description
-#   Generates tiny 16-bit 8086 real-mode .COM utilities (B64DEC.COM and
-#   B64ENC.COM) in the FreeDOS scripts directory if not already present.
+#   Generates tiny 16-bit 8086 real-mode .COM utilities (B64DEC.COM, B64ENC.COM,
+#   and SERINIT.COM) in the FreeDOS scripts directory. SERINIT.COM programs the
+#   16550A COM1 UART (0x3F8) to 115200 8N1, sets the BIOS Data Area COM1 port
+#   and timeout, and hot-patches the FreeDOS 1.3 kernel (0070:03c3 ComNdRead
+#   jump target and 0070:03ce ComOutStat DSR check) in conventional memory so
+#   CTTY COM1 serial input does not deadlock in ConNdRead (INT 16h).
 # @param [String] out_dir Target directory for generated .COM binaries.
 # @return [Integer] Returns 0 on success.
 #
@@ -46,6 +50,13 @@ generate_dos_b64_tools() {
   if [ ! -f "${_out_dir}/B64ENC.COM" ]; then
     printf '\270\000\114\315\041' > "${_out_dir}/B64ENC.COM"
   fi
+
+  # 16-bit 8086 real-mode SERINIT.COM (125 bytes):
+  # - Sets BDA [0040:0000]=0x03F8 and [0040:007C]=0x01
+  # - Initializes COM1 (0x03F8) 16550A UART to 115200,N,8,1 with FIFO & DTR/RTS/OUT2
+  # - Patches FreeDOS 1.3 kernel segment 0070h ComNdRead (88 07 e9 b5 fd -> 88 07 e9 db fd)
+  #   and ComOutStat (a8 20 74 f6 -> a8 20 90 90)
+  printf '\372\270\100\000\216\300\046\307\006\000\000\370\003\046\306\006\174\000\001\272\371\003\060\300\356\272\373\003\260\200\356\272\370\003\260\001\356\272\371\003\060\300\356\272\373\003\260\003\356\272\372\003\260\307\356\272\374\003\260\013\356\272\370\003\354\270\160\000\216\300\061\377\271\000\040\046\201\075\210\007\165\015\046\201\175\002\351\265\165\005\046\306\105\003\333\046\201\075\250\040\165\016\046\201\175\002\164\366\165\006\046\307\105\002\220\220\107\342\324\373\270\000\114\315\041' > "${_out_dir}/SERINIT.COM"
 }
 
 #

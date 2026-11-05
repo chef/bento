@@ -206,15 +206,18 @@ module Bento
       # @return [void]
       #
       def pump_interactive_streams(sock, stdin, stdout)
+        iac_filter = Communicator.new(nil)
+        select_timeout = stdin.respond_to?(:tty?) && stdin.tty? ? nil : 5.0
         loop do
-          ready_ios, = IO.select([sock, stdin], nil, nil, 0.2)
+          ready_ios, = IO.select([sock, stdin], nil, nil, select_timeout)
           break unless ready_ios
 
           if ready_ios.include?(sock)
             break if sock.eof?
 
             data = sock.readpartial(1024)
-            stdout.print(data)
+            clean = iac_filter.strip_telnet_iac(data, sock)
+            stdout.print(clean)
             stdout.flush
           end
 
