@@ -62,7 +62,7 @@ locals {
           )
         )
       )
-    ) : (
+      ) : (
       local.host_os == "darwin" ? "hvf" : (
         local.host_os == "windows" ? "whpx" : (
           local.host_os == "linux" ? "kvm" : "tcg"
@@ -76,7 +76,7 @@ locals {
   qemu_display = var.qemu_display == null ? (
     local.is_dos ? (
       local.host_os == "darwin" ? "cocoa" : "none"
-    ) : (
+      ) : (
       var.is_windows ? (
         var.os_arch == "aarch64" ? "virtio-ramfb-gl" : "virtio-vga-gl"
         ) : (
@@ -115,7 +115,7 @@ locals {
       ["-serial", "telnet:127.0.0.1:${local.dos_serial_port},server,nowait"],
       ["-monitor", "unix:${local.dos_monitor_sock},server,nowait"],
       ["-boot", "order=c,once=d"],
-    ] : (
+      ] : (
       var.is_windows ? [
         ["-device", "qemu-xhci"],
         ["-device", "virtio-tablet"],
@@ -166,7 +166,7 @@ locals {
   utm_vm_arch = var.utm_vm_arch == null ? (
     local.is_dos ? "x86_64" : var.os_arch
   ) : var.utm_vm_arch
-  utm_version_file = local.communicator == "none" ? "" : null
+  utm_version_file        = local.communicator == "none" ? "" : null
   virtualbox_version_file = local.communicator == "none" ? "" : var.virtualbox_version_file
 
   # virtualbox-iso
@@ -191,7 +191,7 @@ locals {
       ["modifyvm", "{{.Name}}", "--audio-enabled", "off"],
       ["modifyvm", "{{.Name}}", "--uart1", "0x3f8", "4"],
       ["modifyvm", "{{.Name}}", "--uartmode1", "tcpserver", "${local.dos_serial_port}"],
-    ] : (
+      ] : (
       var.is_windows ? (
         var.os_arch == "aarch64" ? [
           ["modifyvm", "{{.Name}}", "--chipset", "armv8virtual"],

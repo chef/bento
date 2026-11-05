@@ -225,12 +225,12 @@ RSpec.describe Bento::VagrantMsdos::Communicator do
   end
 
   describe '#strip_telnet_iac' do
-    it 'strips IAC DO/WILL/WONT triplets with and without socket, replies WONT/DONT, and unescapes double IAC' do
+    it 'strips IAC DO_OPT/WILL/NEG_REFUSE triplets with and without socket, replies NEG_REFUSE/NEG_DENY, and unescapes double IAC' do
       reply_io = StringIO.new
       raw = [
         described_class::IAC, described_class::DO_OPT, 1,
         described_class::IAC, described_class::WILL, 3,
-        described_class::IAC, described_class::WONT, 5,
+        described_class::IAC, described_class::NEG_REFUSE, 5,
         described_class::IAC, described_class::IAC
       ].pack('C*') + 'HELLO' + [described_class::IAC].pack('C*')
 
@@ -238,8 +238,8 @@ RSpec.describe Bento::VagrantMsdos::Communicator do
       expect(cleaned.bytes).to include(255)
       expect(cleaned).to end_with('HELLO')
       expect(reply_io.string.bytes).to eq([
-        described_class::IAC, described_class::WONT, 1,
-        described_class::IAC, described_class::DONT, 3
+        described_class::IAC, described_class::NEG_REFUSE, 1,
+        described_class::IAC, described_class::NEG_DENY, 3
       ])
 
       cleaned_no_sock = communicator.strip_telnet_iac(raw, nil)

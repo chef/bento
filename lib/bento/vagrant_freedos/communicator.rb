@@ -36,12 +36,12 @@ module Bento
       IAC = 255
       # @return [Integer] Telnet WILL negotiation byte (251).
       WILL = 251
-      # @return [Integer] Telnet WONT negotiation byte (252).
-      WONT = 252
-      # @return [Integer] Telnet DO negotiation byte (253).
+      # @return [Integer] Telnet refuse option negotiation byte (252).
+      NEG_REFUSE = 252
+      # @return [Integer] Telnet DO_OPT negotiation byte (253).
       DO_OPT = 253
-      # @return [Integer] Telnet DONT negotiation byte (254).
-      DONT = 254
+      # @return [Integer] Telnet deny option negotiation byte (254).
+      NEG_DENY = 254
       # @return [String] Backslash character.
       BS = 92.chr
       # @return [String] Carriage return character.
@@ -229,10 +229,10 @@ module Bento
       end
 
       #
-      # Strips Telnet IAC (0xFF) negotiation sequences from a raw byte buffer and replies WONT/DONT.
+      # Strips Telnet IAC (0xFF) negotiation sequences from a raw byte buffer and replies NEG_REFUSE/NEG_DENY.
       #
       # @param [String] data Raw byte string received from socket.
-      # @param [IO, nil] sock Optional socket to write WONT/DONT replies to.
+      # @param [IO, nil] sock Optional socket to write NEG_REFUSE/NEG_DENY replies to.
       # @return [String] Clean ASCII/CP437 text with Telnet IAC triplets removed.
       #
       def strip_telnet_iac(data, sock = nil)
@@ -249,9 +249,9 @@ module Bento
               opt = bytes[i + 2]
               if sock
                 if cmd == DO_OPT
-                  sock.write([IAC, WONT, opt].pack('C*'))
+                  sock.write([IAC, NEG_REFUSE, opt].pack('C*'))
                 elsif cmd == WILL
-                  sock.write([IAC, DONT, opt].pack('C*'))
+                  sock.write([IAC, NEG_DENY, opt].pack('C*'))
                 end
               end
               i += 3
