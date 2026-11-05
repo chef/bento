@@ -49,6 +49,11 @@ virtualbox-iso|virtualbox-ovf)
     mkdir -p /tmp/vbox;
     mount -o loop "$HOME_DIR"/"$ISO" /tmp/vbox;
 
+    if [ -f "/sbin/apk" ]; then
+      echo "Alpine Linux: Skipping VirtualBox Guest Additions installation"
+      return 0 2>/dev/null || exit 0
+    fi
+
     echo "installing deps necessary to compile kernel modules"
     # We install things like kernel-headers here vs. kickstart files so we make sure we install them for the updated kernel not the stock kernel
     if [ -f "/bin/dnf" ]; then

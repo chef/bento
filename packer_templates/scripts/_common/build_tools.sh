@@ -69,7 +69,11 @@ fi
 
 if [ "$REBOOT_NEEDED" = true ]; then
   echo "pkgs installed needing reboot"
-  shutdown -r now
+  if command -v shutdown > /dev/null 2>&1; then
+    shutdown -r now
+  else
+    reboot
+  fi
   sleep 60
 else
   echo "no pkgs installed needing reboot"

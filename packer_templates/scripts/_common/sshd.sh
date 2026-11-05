@@ -33,3 +33,21 @@ if grep -q -E "^[[:space:]]*GSSAPIAuthentication" "$SSHD_CONFIG"; then
 else
   echo "$GSSAPI" >>"$SSHD_CONFIG"
 fi
+
+if command -v sshd >/dev/null 2>&1; then
+  if sshd -T 2>/dev/null | grep -q -i "pubkeyacceptedalgorithms"; then
+    RSA_ALGO="PubkeyAcceptedAlgorithms +ssh-rsa"
+    if grep -q -E "^[[:space:]]*PubkeyAcceptedAlgorithms" "$SSHD_CONFIG"; then
+      sed -i "s/^\s*PubkeyAcceptedAlgorithms.*/${RSA_ALGO}/" "$SSHD_CONFIG"
+    else
+      echo "$RSA_ALGO" >>"$SSHD_CONFIG"
+    fi
+  elif sshd -T 2>/dev/null | grep -q -i "pubkeyacceptedkeytypes"; then
+    RSA_ALGO="PubkeyAcceptedKeyTypes +ssh-rsa"
+    if grep -q -E "^[[:space:]]*PubkeyAcceptedKeyTypes" "$SSHD_CONFIG"; then
+      sed -i "s/^\s*PubkeyAcceptedKeyTypes.*/${RSA_ALGO}/" "$SSHD_CONFIG"
+    else
+      echo "$RSA_ALGO" >>"$SSHD_CONFIG"
+    fi
+  fi
+fi
