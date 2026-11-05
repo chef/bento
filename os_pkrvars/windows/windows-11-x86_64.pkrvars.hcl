@@ -10,5 +10,5 @@ vbox_guest_os_type      = "Windows11_64"
 vmware_guest_os_type    = "windows11-64"
 utm_vm_icon             = "windows-11"
 default_boot_wait       = "1s"
-vbox_boot_wait          = "10s"
+vbox_boot_command       = ["<ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl>"]
 boot_command            = ["<up><wait><up>"]
