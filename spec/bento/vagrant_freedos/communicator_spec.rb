@@ -34,6 +34,12 @@ RSpec.describe Bento::VagrantFreedos::Communicator do
     end
   end
 
+  describe '.match?' do
+    it 'returns true when the machine matches the DOS guest/communicator' do
+      expect(described_class.match?(nil)).to be(false)
+    end
+  end
+
   describe '#execute and #sudo' do
     it 'frames commands, strips prompts, yields stdout, and returns %ERRORLEVEL%' do
       allow(mock_socket).to receive(:write)

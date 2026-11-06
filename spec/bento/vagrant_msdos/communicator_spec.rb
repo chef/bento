@@ -34,6 +34,12 @@ RSpec.describe Bento::VagrantMsdos::Communicator do
     end
   end
 
+  describe '.match?' do
+    it 'returns true when the machine matches the DOS guest/communicator' do
+      expect(described_class.match?(nil)).to be(false)
+    end
+  end
+
   describe '#execute and #sudo' do
     it 'frames commands, strips C:\> and C> prompts, yields stdout, and returns %ERRORLEVEL%' do
       allow(mock_socket).to receive(:write)
@@ -255,6 +261,52 @@ RSpec.describe Bento::VagrantMsdos::Communicator do
       ]
       allow(mock_socket).to receive(:readpartial) { chunks.shift || raise(EOFError) }
       expect(communicator.execute('VER')).to eq(0)
+    end
+
+    it 'verifies 16-bit 8086 B64ENC.COM, B64DEC.COM, SERINIT.COM, and SHUTDOWN.COM machine code and round-trip binary SHA-256' do
+      scripts_dir = File.expand_path('../../../packer_templates/scripts/msdos', __dir__)
+      b64enc = File.binread(File.join(scripts_dir, 'B64ENC.COM'))
+      b64dec = File.binread(File.join(scripts_dir, 'B64DEC.COM'))
+      serinit = File.binread(File.join(scripts_dir, 'SERINIT.COM'))
+      shutdown = File.binread(File.join(scripts_dir, 'SHUTDOWN.COM'))
+
+      expect(b64enc.bytesize).to eq(460)
+      expect(b64enc).to include('===B64_START===')
+      expect(b64enc).to include('===B64_END===')
+      expect(b64enc.getbyte(0x37)).to eq(0xEB)
+      expect(b64enc[0x8D, 2]).to eq("\x8A\x1C".b)
+
+      expect(b64dec.bytesize).to eq(459)
+      expect(b64dec[0xA4, 2]).to eq("\xEB\x22".b)
+      expect(b64dec[0xB2, 2]).to eq("\xEB\x14".b)
+      expect(serinit.bytesize).to eq(224)
+      expect(shutdown.bytesize).to eq(54)
+
+      Dir.mktmpdir do |tmpdir|
+        src_com = File.join(tmpdir, 'TEST.COM')
+        dst_com = File.join(tmpdir, 'DL.COM')
+        File.binwrite(src_com, shutdown)
+        orig_sha = Digest::SHA256.file(src_com).hexdigest
+
+        guest_b64_lines = []
+        allow(communicator).to receive(:execute) do |cmd, _opts, &blk|
+          if cmd.start_with?('ECHO ') && cmd.include?('>>')
+            guest_b64_lines << cmd.sub(/\AECHO /, '').sub(/>>.*\z/, '')
+          elsif cmd.include?('B64ENC.COM') && blk
+            blk.call(:stdout, "===B64_START===\r\n#{guest_b64_lines.join("\r\n")}\r\n===B64_END===\r\n")
+          elsif cmd.end_with?('TEST.COM') && blk
+            blk.call(:stdout, "MS-DOS Version 4.00\r\n")
+          end
+          0
+        end
+
+        expect(communicator.upload(src_com, "C:#{bs}TEMP#{bs}TEST.COM")).to be(true)
+        exec_out = +''
+        expect(communicator.execute("C:#{bs}TEMP#{bs}TEST.COM") { |_, d| exec_out << d }).to eq(0)
+        expect(exec_out).to include('MS-DOS Version 4.00')
+        expect(communicator.download("C:#{bs}TEMP#{bs}TEST.COM", dst_com)).to be(true)
+        expect(Digest::SHA256.file(dst_com).hexdigest).to eq(orig_sha)
+      end
     end
   end
 end

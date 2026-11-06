@@ -31,30 +31,35 @@ RSpec.describe Bento::VagrantFreedos::Guest do
     end
   end
 
-  describe '.halt' do
+  describe '.halt and GuestCapHalt' do
     it 'executes FDAPM.COM POWEROFF over the communicator' do
       expect(communicator).to receive(:execute).with(
         include('FDAPM.COM POWEROFF'),
         error_check: false
-      ).and_return(0)
+      ).twice.and_return(0)
       expect(described_class.halt(machine)).to eq(0)
+      expect(Bento::VagrantFreedos::GuestCapHalt.halt(machine)).to eq(0)
     end
   end
 
-  describe '.change_host_name' do
+  describe '.change_host_name and GuestCapChangeHostName' do
     it 'sanitizes the hostname to 15 chars and writes C:\BENTO\HOST.BAT' do
       expect(communicator).to receive(:execute).with(
         include('SET HOSTNAME=dos-test-box-12'),
         error_check: false
-      ).and_return(0)
+      ).twice.and_return(0)
       expect(described_class.change_host_name(machine, 'dos-test-box-123456!')).to eq(0)
+      expect(Bento::VagrantFreedos::GuestCapChangeHostName.change_host_name(machine, 'dos-test-box-123456!')).to eq(0)
     end
   end
 
-  describe '.mount_shared_folder' do
+  describe '.mount_shared_folder and GuestCapMountSharedFolder' do
     it 'tests that the target DOS drive responds to DIR' do
-      expect(communicator).to receive(:test).with(include('DIR D:')).and_return(true)
+      expect(communicator).to receive(:test).with(include('DIR D:')).twice.and_return(true)
+      expect(communicator).to receive(:test).with(include('DIR E:')).and_return(true)
       expect(described_class.mount_shared_folder(machine, 'D:')).to be(true)
+      expect(Bento::VagrantFreedos::GuestCapMountSharedFolder.mount_shared_folder(machine, '/vagrant')).to be(true)
+      expect(Bento::VagrantFreedos::GuestCapMountSharedFolder.mount_shared_folder(machine, 'E:')).to be(true)
     end
   end
 end

@@ -6,8 +6,8 @@ require 'bento/vagrant_msdos'
 RSpec.describe Bento::VagrantMsdos::Config do
   subject(:config) { described_class.new }
 
-  describe '#initialize' do
-    it 'sets all attributes to UNSET_VALUE initially' do
+  describe '#initialize, #merge, #_finalize!, and #set_options' do
+    it 'sets all attributes to UNSET_VALUE initially and supports merge, _finalize!, and set_options' do
       expect(config.host).to eq(described_class::UNSET_VALUE)
       expect(config.port).to eq(described_class::UNSET_VALUE)
       expect(config.serial_socket).to eq(described_class::UNSET_VALUE)
@@ -19,6 +19,16 @@ RSpec.describe Bento::VagrantMsdos::Config do
       expect(config.sync_drive).to eq(described_class::UNSET_VALUE)
       expect(config.work_dir).to eq(described_class::UNSET_VALUE)
       expect(config.dos_version).to eq(described_class::UNSET_VALUE)
+
+      config.set_options(host: '127.0.0.2', port: 2325, unknown_opt: 'ignored')
+      expect(config._finalize!).to be(true)
+
+      other = described_class.new
+      other.port = 2326
+      merged = config.merge(other)
+      expect(merged.host).to eq('127.0.0.2')
+      expect(merged.port).to eq(2326)
+      expect(merged.dos_version).to eq(described_class::UNSET_VALUE)
     end
   end
 
@@ -145,10 +155,12 @@ RSpec.describe Bento::VagrantMsdos::Plugin do
       comps = described_class.registered_components
       expect(comps[:configs][:msdos]).to eq(Bento::VagrantMsdos::Config)
       expect(comps[:guests][:msdos]).to eq(Bento::VagrantMsdos::Guest)
+      expect(comps[:guest_capabilities][:halt]).to eq(Bento::VagrantMsdos::GuestCapHalt)
       expect(comps[:communicators][:msdos]).to eq(Bento::VagrantMsdos::Communicator)
       expect(comps[:communicators][:msdos_serial]).to eq(Bento::VagrantMsdos::Communicator)
       expect(comps[:communicators][:msdos_telnet]).to eq(Bento::VagrantMsdos::Communicator)
       expect(comps[:synced_folders][:msdos_sync]).to eq(Bento::VagrantMsdos::SyncedFolder)
+      expect(comps[:commands]['ssh']).to eq(Bento::VagrantMsdos::CommandSsh)
       expect(comps[:commands]['msdos-ssh']).to eq(Bento::VagrantMsdos::CommandSsh)
       expect(comps[:commands]['msdos-sync']).to eq(Bento::VagrantMsdos::CommandSync)
     end
@@ -160,30 +172,71 @@ RSpec.describe Bento::VagrantMsdos::Plugin do
       expect(described_class.register_with_vagrant!(Module.new)).to be(false)
     end
 
-    it 'registers all hooks when a Vagrant-compatible module is provided' do
-      recorded = { configs: {}, guests: {}, communicators: {}, synced_folders: {}, commands: {} }
+    it 'registers all hooks when a Vagrant-compatible module is provided (with and without capabilities/action_hook)' do
+      recorded = { configs: {}, guests: {}, caps: {}, communicators: {}, synced_folders: {}, commands: {}, hooks: [] }
+      fake_hook = double('hook')
+      allow(fake_hook).to receive(:before) { |target, mw| recorded[:hooks] << [target, mw] }
+
       fake_base = Class.new do
         define_singleton_method(:name) { |*_args| nil }
         define_singleton_method(:description) { |*_args| nil }
         define_singleton_method(:config) { |k, &blk| recorded[:configs][k] = blk.call }
         define_singleton_method(:guest) { |k, &blk| recorded[:guests][k] = blk.call }
+        define_singleton_method(:guest_capability) { |g, c, &blk| recorded[:caps][[g, c]] = blk.call }
         define_singleton_method(:communicator) { |k, &blk| recorded[:communicators][k] = blk.call }
         define_singleton_method(:synced_folder) { |k, _p, &blk| recorded[:synced_folders][k] = blk.call }
         define_singleton_method(:command) { |k, &blk| recorded[:commands][k] = blk.call }
+        define_singleton_method(:action_hook) { |_n, _a, &blk| blk.call(fake_hook) }
+      end
+
+      fake_builtin = Module.new do
+        const_set(:SSHRun, :ssh_run_const)
+        const_set(:SSHExec, :ssh_exec_const)
+      end
+      fake_action = Module.new do
+        const_set(:Builtin, fake_builtin)
       end
       fake_vagrant = Module.new do
+        const_set(:Action, fake_action)
         define_singleton_method(:plugin) { |_ver| fake_base }
       end
 
       expect(described_class.register_with_vagrant!(fake_vagrant)).to be(true)
       expect(recorded[:configs][:msdos]).to eq(Bento::VagrantMsdos::Config)
       expect(recorded[:guests][:msdos]).to eq(Bento::VagrantMsdos::Guest)
+      expect(recorded[:caps][[:msdos, :halt]]).to eq(Bento::VagrantMsdos::GuestCapHalt)
+      expect(recorded[:caps][[:msdos, :change_host_name]]).to eq(Bento::VagrantMsdos::GuestCapChangeHostName)
+      expect(recorded[:caps][[:msdos, :mount_shared_folder]]).to eq(Bento::VagrantMsdos::GuestCapMountSharedFolder)
       expect(recorded[:communicators][:msdos]).to eq(Bento::VagrantMsdos::Communicator)
-      expect(recorded[:communicators][:msdos_serial]).to eq(Bento::VagrantMsdos::Communicator)
-      expect(recorded[:communicators][:msdos_telnet]).to eq(Bento::VagrantMsdos::Communicator)
       expect(recorded[:synced_folders][:msdos_sync]).to eq(Bento::VagrantMsdos::SyncedFolder)
+      expect(recorded[:commands]['ssh']).to eq(Bento::VagrantMsdos::CommandSsh)
       expect(recorded[:commands]['msdos-ssh']).to eq(Bento::VagrantMsdos::CommandSsh)
       expect(recorded[:commands]['msdos-sync']).to eq(Bento::VagrantMsdos::CommandSync)
+      expect(recorded[:hooks]).to include([:ssh_run_const, Bento::VagrantMsdos::CommandSsh])
+      expect(recorded[:hooks]).to include([:ssh_exec_const, Bento::VagrantMsdos::CommandSsh])
+
+      # Also test minimal base class without guest_capability / action_hook
+      minimal_base = Class.new do
+        define_singleton_method(:name) { |*_args| nil }
+        define_singleton_method(:description) { |*_args| nil }
+        define_singleton_method(:config) { |*_args| nil }
+        define_singleton_method(:guest) { |*_args| nil }
+        define_singleton_method(:communicator) { |*_args| nil }
+        define_singleton_method(:synced_folder) { |*_args| nil }
+        define_singleton_method(:command) { |*_args| nil }
+      end
+      minimal_vagrant = Module.new do
+        define_singleton_method(:plugin) { |_ver| minimal_base }
+      end
+      expect(described_class.register_with_vagrant!(minimal_vagrant)).to be(true)
+
+      # Test top-level load when Vagrant constant is defined
+      Object.const_set(:Vagrant, minimal_vagrant)
+      begin
+        load File.expand_path('../../../../lib/bento/vagrant_msdos.rb', __FILE__)
+      ensure
+        Object.send(:remove_const, :Vagrant)
+      end
     end
   end
 end

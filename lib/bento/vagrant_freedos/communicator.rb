@@ -55,6 +55,16 @@ module Bento
       attr_reader :machine
 
       #
+      # Determines whether this communicator matches the given Vagrant machine.
+      #
+      # @param [Object] machine The Vagrant machine instance.
+      # @return [Boolean] True when the machine uses this DOS communicator or guest.
+      #
+      def self.match?(machine)
+        CommandSsh.freedos_machine?(machine)
+      end
+
+      #
       # Initializes a new FreeDOS Communicator for the given Vagrant machine.
       #
       # @param [Object] machine The Vagrant machine instance.

@@ -40,8 +40,6 @@ MONITOR_SOCKET="${MSDOS_MONITOR_SOCKET:-/tmp/msdos-monitor.sock}"
 SYNC_DIR="${MSDOS_SYNC_DIR:-}"
 
 MSDOS_REPO_URL="${MSDOS_REPO_URL:-https://github.com/microsoft/MS-DOS/archive/refs/heads/main.tar.gz}"
-LITEUSB_URL="${FREEDOS_LITEUSB_URL:-https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.3/official/FD13-LiteUSB.zip}"
-LITEUSB_ZIP_NAME="FD13-LiteUSB.zip"
 
 SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 BUILDS_DIR="${SCRIPT_DIR}/builds"
@@ -152,85 +150,228 @@ cmd_fetch() {
 #
 # @function prepare_base_boot_disk
 # @description
-#   Ensures a bootable FAT16 base disk image exists at RAW_DISK so MS-DOS
-#   binaries, sources, and the Bento COM1 agent can be injected onto C:.
+#   Constructs a clean, pure Microsoft MS-DOS partitioned MBR + FAT16 bootable
+#   hard disk image at `target_img` using the compiled MS-DOS `FDBOOT.BIN` MBR,
+#   `MSBOOT.BIN` volume boot record, and placing `IO.SYS`, `MSDOS.SYS`, and
+#   `COMMAND.COM` for the selected `MSDOS_VERSION` as the first three contiguous
+#   root directory entries.
 # @param [String] target_img Path to the raw disk image to create.
 # @return [Integer] Returns 0 on success.
 #
 prepare_base_boot_disk() {
   _target_img="$1"
   mkdir -p "$ISO_DIR" "$BUILDS_DIR"
-  _zip_path="${ISO_DIR}/${LITEUSB_ZIP_NAME}"
+  BENTO_DRY_RUN=1 "${SCRIPT_DIR}/packer_templates/scripts/msdos/provision_msdos.sh"
+  cmd_fetch
 
-  if [ ! -f "$_zip_path" ]; then
-    banner "Downloading DOS bootstrap image archive from ${LITEUSB_URL}..."
-    curl -fL --retry 3 -o "${_zip_path}.part" "$LITEUSB_URL"
-    mv "${_zip_path}.part" "$_zip_path"
+  _stage_dir="${BUILDS_DIR}/msdos_stage_${MSDOS_VERSION}"
+  _comp40="${BUILDS_DIR}/msdos4_compiled"
+
+  banner "Constructing pure Microsoft MS-DOS ${MSDOS_VERSION} bootable hard disk at ${_target_img}..."
+  ruby -rfileutils -e '
+    img_path   = ARGV[0]
+    stage_dir  = ARGV[1]
+    comp40_dir = ARGV[2]
+
+    total_sectors = 65536
+    part_lba      = 63
+    part_sectors  = total_sectors - part_lba
+    spc           = 4
+    res_sectors   = 1
+    fats          = 2
+    root_entries  = 512
+    spf           = 64
+
+    mbr = ("\x00" * 512).b
+    fdboot_path = File.join(comp40_dir, "FDBOOT.BIN")
+    if File.exist?(fdboot_path) && File.size(fdboot_path) >= 0x600 + 446
+      mbr[0, 446] = File.binread(fdboot_path, 446, 0x600)
+    end
+    mbr[446, 16] = [0x80, 1, 1, 0, 0x04, 15, 63, 63, part_lba, part_sectors].pack("CCCCCCCCVV")
+    mbr[510, 2]  = "\x55\xAA".b
+
+    msboot_path = File.join(comp40_dir, "MSBOOT.BIN")
+    vbr = if File.exist?(msboot_path) && File.size(msboot_path) >= 0x7C00 + 512
+            File.binread(msboot_path, 512, 0x7C00)
+          else
+            ("\x00" * 512).b
+          end
+    vbr[11, 25] = [512, spc, res_sectors, fats, root_entries, part_sectors, 0xF8, spf, 63, 16, part_lba, 0].pack("vCvCvvCvvvVV")
+    vbr[36]     = 0x80.chr
+    vbr[510, 2] = "\x55\xAA".b
+
+    io_bytes    = File.binread(File.join(stage_dir, "IO.SYS"))
+    msdos_bytes = File.binread(File.join(stage_dir, "MSDOS.SYS"))
+    cmd_bytes   = File.binread(File.join(stage_dir, "COMMAND.COM"))
+
+    File.open(img_path, "wb") do |f|
+      f.truncate(total_sectors * 512)
+      f.seek(0)
+      f.write(mbr)
+      f.seek(part_lba * 512)
+      f.write(vbr)
+
+      fat = Array.new(spf * 256, 0)
+      fat[0] = 0xFFF8
+      fat[1] = 0xFFFF
+      next_cluster = 2
+      cluster_size = spc * 512
+      data_offset  = (part_lba + res_sectors + (fats * spf) + 32) * 512
+
+      alloc_chain = lambda do |bytes|
+        start_c = next_cluster
+        chunks = bytes.bytes.each_slice(cluster_size).map { |s| s.pack("C*") }
+        chunks.each_with_index do |chunk, idx|
+          c = next_cluster
+          next_cluster += 1
+          fat[c] = (idx == chunks.length - 1) ? 0xFFFF : next_cluster
+          f.seek(data_offset + ((c - 2) * cluster_size))
+          f.write(chunk.ljust(cluster_size, "\x00"))
+        end
+        start_c
+      end
+
+      c_io  = alloc_chain.call(io_bytes)
+      c_dos = alloc_chain.call(msdos_bytes)
+      c_cmd = alloc_chain.call(cmd_bytes)
+
+      fat_bin = fat.pack("v*")
+      f.seek((part_lba + 1) * 512)
+      f.write(fat_bin)
+      f.seek((part_lba + 1 + spf) * 512)
+      f.write(fat_bin)
+
+      root = ("\x00" * (32 * 512)).b
+      root[0, 32]  = ["IO      ", "SYS", 0x27, "\x00" * 14, c_io, io_bytes.bytesize].pack("A8A3Ca14vV")
+      root[32, 32] = ["MSDOS   ", "SYS", 0x27, "\x00" * 14, c_dos, msdos_bytes.bytesize].pack("A8A3Ca14vV")
+      root[64, 32] = ["COMMAND ", "COM", 0x20, "\x00" * 14, c_cmd, cmd_bytes.bytesize].pack("A8A3Ca14vV")
+      f.seek((part_lba + 1 + (2 * spf)) * 512)
+      f.write(root)
+    end
+  ' "$_target_img" "$_stage_dir" "$_comp40"
+  return 0
+}
+
+#
+# @function write_version_config_and_autoexec
+# @description
+#   Generates version-specific CONFIG.SYS and AUTOEXEC.BAT files on the mounted
+#   MS-DOS volume (`_mnt`) tailored to MS-DOS 1.25 (flat root, no CONFIG.SYS),
+#   MS-DOS 2.0 (FILES=20, BUFFERS=15, ECHO OFF, VAGAGENT), or MS-DOS 4.00
+#   (SHELL=C:\COMMAND.COM C:\ /E:512 /P), with zero FreeDOS artifacts.
+# @param [String] mnt_dir Mounted FAT root directory.
+# @param [String] ver Target MS-DOS version ("1.25", "2.0", or "4.0").
+# @return [Integer] Returns 0 on success.
+#
+write_version_config_and_autoexec() {
+  _mnt_dir="$1"
+  _ver="$2"
+
+  rm -f "${_mnt_dir}/KERNEL.SYS" "${_mnt_dir}/FDCONFIG.SYS" "${_mnt_dir}/FDAUTO.BAT" 2>/dev/null || true
+
+  if [ "$_ver" = "1.25" ]; then
+    rm -f "${_mnt_dir}/CONFIG.SYS"
+    awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' <<'AUTO125_EOF' > "${_mnt_dir}/AUTOEXEC.BAT"
+SERINIT.COM
+ECHO ===BENTO_MSDOS_READY===
+AUTO125_EOF
+    return 0
   fi
 
-  if [ ! -f "$_target_img" ] || [ "${MSDOS_FORCE_EXTRACT:-0}" = "1" ]; then
-    banner "Preparing bootable FAT16 disk image at ${_target_img}..."
-    _extract_dir=$(mktemp -d "${TMPDIR:-/tmp}/msdos-extract.XXXXXX")
-    unzip -q -o "$_zip_path" -d "$_extract_dir"
-    _found_img=$(find "$_extract_dir" -iname "*.img" | head -n 1)
-    if [ -n "$_found_img" ] && [ -f "$_found_img" ]; then
-      cp -f "$_found_img" "$_target_img"
-    else
-      log_error "Could not find base .img inside ${_zip_path}"
-      rm -rf "$_extract_dir"
-      exit 1
-    fi
-    rm -rf "$_extract_dir"
+  if [ "$_ver" = "2.0" ]; then
+    awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' <<'CFG20_EOF' > "${_mnt_dir}/CONFIG.SYS"
+FILES=20
+BUFFERS=15
+CFG20_EOF
+    awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' <<'AUTO20_EOF' > "${_mnt_dir}/AUTOEXEC.BAT"
+ECHO OFF
+PROMPT $P$G
+PATH C:\DOS;C:\BENTO;C:\
+SET TEMP=C:\TEMP
+SET TMP=C:\TEMP
+VAGAGENT
+AUTO20_EOF
+    return 0
   fi
+
+  awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/CONFIG.SYS" > "${_mnt_dir}/CONFIG.SYS"
+  awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/AUTOEXEC.BAT" > "${_mnt_dir}/AUTOEXEC.BAT"
   return 0
 }
 
 #
 # @function inject_msdos_into_image
 # @description
-#   Mounts the raw FAT16 disk image (via hdiutil on macOS or mtools) and
-#   injects the staged MS-DOS (1.25, 2.0, or 4.0) binaries, sources, and
-#   Bento Serial/Telnet Agent (CONFIG.SYS, AUTOEXEC.BAT, VAGAGENT.BAT,
-#   RUNCMD.BAT, SERINIT.COM, SHUTDOWN.COM, B64DEC.COM, B64ENC.COM).
+#   Mounts the raw FAT16 disk image via hdiutil and populates the version-specific
+#   MS-DOS (1.25, 2.0, or 4.0) userland binaries, 16-bit toolchain (`C:\TOOLS\BIN`),
+#   and Bento Serial/Telnet Agent (`CONFIG.SYS`, `AUTOEXEC.BAT`, `VAGAGENT.BAT`,
+#   `RUNCMD.BAT`, `SERINIT.COM`, `SHUTDOWN.COM`, `B64DEC.COM`, `B64ENC.COM`)
+#   while preserving `IO.SYS` and `MSDOS.SYS` as the first two root entries.
 # @param [String] raw_img Path to the raw MS-DOS disk image.
 # @return [Integer] Returns 0 on success.
 #
 inject_msdos_into_image() {
   _img="$1"
   _stage_dir="${BUILDS_DIR}/msdos_stage_${MSDOS_VERSION}"
-  BENTO_DRY_RUN=1 "${SCRIPT_DIR}/packer_templates/scripts/msdos/provision_msdos.sh"
-  cmd_fetch
 
   if [ "$(uname -s)" = "Darwin" ] && command -v hdiutil >/dev/null 2>&1; then
     banner "Mounting ${_img} via hdiutil to provision MS-DOS ${MSDOS_VERSION} & Bento Serial Agent..."
     _mnt=$(mktemp -d "${TMPDIR:-/tmp}/msdos-mnt.XXXXXX")
-    if hdiutil attach -imagekey diskimage-class=CRawDiskImage -mountpoint "$_mnt" "$_img" >/dev/null 2>&1; then
-      rm -rf "${_mnt}/._"* "${_mnt}/BENTO/._"* "${_mnt}/FDOS" 2>/dev/null || true
-      mkdir -p "${_mnt}/BENTO" "${_mnt}/DOS" "${_mnt}/TEMP"
+    if hdiutil attach -nobrowse -imagekey diskimage-class=CRawDiskImage -mountpoint "$_mnt" "$_img" >/dev/null 2>&1; then
+      rm -rf "${_mnt}/._"* "${_mnt}/FDOS" "${_mnt}/KERNEL.SYS" "${_mnt}/FDCONFIG.SYS" "${_mnt}/FDAUTO.BAT" 2>/dev/null || true
 
-      if [ -d "$_stage_dir" ]; then
-        cp -Rf "${_stage_dir}/"* "$_mnt/" 2>/dev/null || true
+      if [ "$MSDOS_VERSION" = "1.25" ]; then
+        for _f125 in "${_stage_dir}/"*.COM "${_stage_dir}/"*.EXE "${_stage_dir}/"*.BAS; do
+          if [ -f "$_f125" ]; then
+            _b125=$(basename "$_f125")
+            if [ "$_b125" != "COMMAND.COM" ]; then
+              cp -f "$_f125" "${_mnt}/${_b125}"
+            fi
+          fi
+        done
+        for _com in SERINIT.COM SHUTDOWN.COM B64DEC.COM B64ENC.COM; do
+          cp -f "${SCRIPT_DIR}/packer_templates/scripts/msdos/${_com}" "${_mnt}/${_com}"
+        done
+        write_version_config_and_autoexec "$_mnt" "1.25"
+      else
+        mkdir -p "${_mnt}/DOS" "${_mnt}/BENTO" "${_mnt}/TEMP"
+        if [ -d "${_stage_dir}/DOS" ]; then
+          for _fdos in "${_stage_dir}/DOS/"*.COM "${_stage_dir}/DOS/"*.EXE "${_stage_dir}/DOS/"*.SYS; do
+            if [ -f "$_fdos" ]; then
+              _bdos=$(basename "$_fdos")
+              if [ "$_bdos" != "IO.SYS" ] && [ "$_bdos" != "MSDOS.SYS" ]; then
+                cp -f "$_fdos" "${_mnt}/DOS/${_bdos}"
+              fi
+            fi
+          done
+        fi
+
+        if [ "$MSDOS_VERSION" = "4.0" ] && [ -d "${_stage_dir}/TOOLS" ]; then
+          mkdir -p "${_mnt}/TOOLS/BIN"
+          for _tool in MASM.EXE CL.EXE C1.EXE C1L.EXE C2.EXE C3.EXE LINK.EXE NMAKE.EXE LIB.EXE EXE2BIN.EXE EXEFIX.EXE BUILDMSG.EXE BUILDIDX.EXE NOSRVBLD.EXE CONVERT.EXE CL.ERR C1.ERR C23.ERR TOOLS.INI; do
+            if [ -f "${_stage_dir}/TOOLS/${_tool}" ]; then
+              cp -f "${_stage_dir}/TOOLS/${_tool}" "${_mnt}/TOOLS/BIN/${_tool}"
+            fi
+          done
+        fi
+
+        write_version_config_and_autoexec "$_mnt" "$MSDOS_VERSION"
+
+        awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/VAGAGENT.BAT" > "${_mnt}/BENTO/VAGAGENT.BAT"
+        awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/RUNCMD.BAT" > "${_mnt}/BENTO/RUNCMD.BAT"
+        cp -f "${_mnt}/BENTO/VAGAGENT.BAT" "${_mnt}/VAGAGENT.BAT"
+        cp -f "${_mnt}/BENTO/RUNCMD.BAT" "${_mnt}/RUNCMD.BAT"
+
+        for _com in SERINIT.COM SHUTDOWN.COM B64DEC.COM B64ENC.COM; do
+          cp -f "${SCRIPT_DIR}/packer_templates/scripts/msdos/${_com}" "${_mnt}/BENTO/${_com}"
+          cp -f "${SCRIPT_DIR}/packer_templates/scripts/msdos/${_com}" "${_mnt}/${_com}"
+        done
       fi
 
-      awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/CONFIG.SYS" > "${_mnt}/CONFIG.SYS"
-      awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/AUTOEXEC.BAT" > "${_mnt}/AUTOEXEC.BAT"
-      cp -f "${_mnt}/CONFIG.SYS" "${_mnt}/FDCONFIG.SYS"
-      cp -f "${_mnt}/AUTOEXEC.BAT" "${_mnt}/FDAUTO.BAT"
-
-      awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/VAGAGENT.BAT" > "${_mnt}/BENTO/VAGAGENT.BAT"
-      awk '{ sub(/\015$/, ""); printf "%s\015\012", $0 }' "${SCRIPT_DIR}/packer_templates/scripts/msdos/RUNCMD.BAT" > "${_mnt}/BENTO/RUNCMD.BAT"
-      cp -f "${_mnt}/BENTO/VAGAGENT.BAT" "${_mnt}/VAGAGENT.BAT"
-      cp -f "${_mnt}/BENTO/RUNCMD.BAT" "${_mnt}/RUNCMD.BAT"
-
-      for _com in SERINIT.COM SHUTDOWN.COM B64DEC.COM B64ENC.COM; do
-        cp -f "${SCRIPT_DIR}/packer_templates/scripts/msdos/${_com}" "${_mnt}/BENTO/${_com}"
-        cp -f "${SCRIPT_DIR}/packer_templates/scripts/msdos/${_com}" "${_mnt}/${_com}"
-      done
-
-      rm -rf "${_mnt}/._"* "${_mnt}/BENTO/._"* "${_mnt}/DOS/._"* 2>/dev/null || true
+      rm -rf "${_mnt}/._"* "${_mnt}/BENTO/._"* "${_mnt}/DOS/._"* "${_mnt}/TOOLS/._"* "${_mnt}/TOOLS/BIN/._"* 2>/dev/null || true
       sync
       hdiutil detach "$_mnt" >/dev/null 2>&1 || hdiutil detach -force "$_mnt" >/dev/null 2>&1 || true
-      banner "Provisioned MS-DOS ${MSDOS_VERSION} & Bento Agent onto C:."
+      banner "Provisioned pure MS-DOS ${MSDOS_VERSION} & Bento Agent onto C:."
     else
       banner "Note: hdiutil could not mount partition directly; keeping raw MS-DOS image."
     fi
@@ -425,6 +566,27 @@ cmd_all() {
 }
 
 #
+# @function ensure_partitioned_sync_disk
+# @description
+#   Ensures SYNC_DISK (`msdos_sync_d.raw`) is formatted as a partitioned MBR + FAT16
+#   fixed disk image so MS-DOS `IO.SYS` mounts it as drive `D:`.
+# @noargs
+# @return [Integer] Returns 0 on success.
+#
+ensure_partitioned_sync_disk() {
+  mkdir -p "$BUILDS_DIR"
+  if command -v ruby >/dev/null 2>&1; then
+    ruby -I "${SCRIPT_DIR}/lib" -rbento/vagrant_msdos -e '
+      sf = Bento::VagrantMsdos::SyncedFolder.new
+      sf.format_fat16_image(ARGV[0]) unless sf.valid_mbr_fat16_image?(ARGV[0])
+    ' "$SYNC_DISK"
+  elif [ ! -f "$SYNC_DISK" ]; then
+    dd if=/dev/zero of="$SYNC_DISK" bs=1048576 count=16 >/dev/null 2>&1
+  fi
+  return 0
+}
+
+#
 # @function cmd_run
 # @description Boots the standalone MS-DOS VM via QEMU with Telnet serial and D: sync disk.
 # @noargs
@@ -436,9 +598,7 @@ cmd_run() {
   if [ ! -f "$RAW_DISK" ]; then
     cmd_build
   fi
-  if [ ! -f "$SYNC_DISK" ]; then
-    dd if=/dev/zero of="$SYNC_DISK" bs=1048576 count=16 >/dev/null 2>&1
-  fi
+  ensure_partitioned_sync_disk
 
   banner "Starting MS-DOS ${MSDOS_VERSION} (${OS_ARCH} host, ${_qemu}, accel=${_accel}, serial=${SERIAL_HOST}:${SERIAL_PORT})..."
   if [ "${BENTO_DRY_RUN:-0}" = "1" ]; then
@@ -547,12 +707,27 @@ cmd_sync() {
   done
 
   banner "Synchronizing (${_direction}) between host '${_host_dir}' and MS-DOS D: disk '${SYNC_DISK}'..."
-  mkdir -p "$BUILDS_DIR"
-  if [ ! -f "$SYNC_DISK" ]; then
-    dd if=/dev/zero of="$SYNC_DISK" bs=1048576 count=16 >/dev/null 2>&1
-    if command -v mformat >/dev/null 2>&1; then
-      mformat -i "$SYNC_DISK" -F :: >/dev/null 2>&1 || true
-    fi
+  ensure_partitioned_sync_disk
+  if [ "${BENTO_DRY_RUN:-0}" = "1" ]; then
+    return 0
+  fi
+
+  if command -v ruby >/dev/null 2>&1; then
+    ruby -I "${SCRIPT_DIR}/lib" -rbento/vagrant_msdos -e '
+      dir_mode, host_dir, builds_dir = ARGV[0], ARGV[1], ARGV[2]
+      cfg = Bento::VagrantMsdos::Config.new
+      cfg.finalize!
+      vm = Struct.new(:communicator, :guest).new(:msdos, :msdos)
+      conf = Struct.new(:vm, :msdos).new(vm, cfg)
+      mach = Struct.new(:config, :data_dir).new(conf, builds_dir)
+      sf = Bento::VagrantMsdos::SyncedFolder.new
+      if dir_mode == "to_guest" || dir_mode == "bidirectional"
+        sf.sync_to_guest(mach, host_dir, crlf_convert: true)
+      end
+      if dir_mode == "to_host" || dir_mode == "bidirectional"
+        sf.sync_to_host(mach, host_dir)
+      end
+    ' "$_direction" "$_host_dir" "$BUILDS_DIR"
   fi
   return 0
 }

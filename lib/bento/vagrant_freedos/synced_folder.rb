@@ -48,6 +48,34 @@ module Bento
       # @param [Boolean] _raise_error Whether to raise an exception if unusable.
       # @return [Boolean] True when the machine is configured as a FreeDOS guest.
       #
+      #
+      # Initializes internal Vagrant 2 synced folder plugin state.
+      #
+      # @param [Object] *_args Ignored initialization arguments.
+      # @return [void]
+      #
+      def _initialize(*_args); end
+
+      #
+      # Queries whether a specific synced folder capability is implemented.
+      #
+      # @param [Symbol, String] _cap_name Capability name.
+      # @return [Boolean] Always false for DOS synced folders.
+      #
+      def capability?(_cap_name)
+        false
+      end
+
+      #
+      # Disables synced folders before removal or teardown.
+      #
+      # @param [Object] _machine The Vagrant machine instance.
+      # @param [Hash] _folders Synced folder map.
+      # @param [Hash, nil] _opts Additional options.
+      # @return [void]
+      #
+      def disable(_machine, _folders, _opts = nil); end
+
       def usable?(machine, _raise_error = false)
         CommandSsh.freedos_machine?(machine)
       end

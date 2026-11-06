@@ -2,16 +2,21 @@
 
 #
 # @file command_ssh.rb
-# @brief Vagrant `ssh` command & action polyfill for Microsoft MS-DOS (`vagrant ssh` & `vagrant ssh -c "<CMD>"`)
+# @brief `vagrant ssh` and `vagrant ssh -c` polyfill for Microsoft MS-DOS guests
 # @description
-#   Intercepts `vagrant ssh` and `vagrant ssh -c "<CMD>"` (as well as Vagrant
+#   Intercepts `vagrant ssh` and `vagrant msdos-ssh` (as well as Vagrant's
 #   built-in `SSHExec` and `SSHRun` actions) when the target machine uses the
-#   `:msdos` communicator or guest type. Routes single-command invocations
-#   through the Telnet/Serial communicator (returning the exact DOS exit code
-#   and syncing Guest -> Host artifacts) and routes interactive sessions to a
-#   bidirectional raw-TTY console connected to MS-DOS (1.25, 2.0, 4.0) `COM1`.
+#   `:msdos` communicator or `:msdos` guest OS.
+#   - For `vagrant ssh -c "<DOS_CMD>"`: executes `<DOS_CMD>` via the MS-DOS
+#     communicator, streams stdout/stderr, triggers Guest-to-Host folder sync
+#     (so newly compiled `.COM`/`.EXE`/`.OBJ`/`.TXT` files appear on the host),
+#     and exits with the DOS `%ERRORLEVEL%`.
+#   - For interactive `vagrant ssh`: attaches the user's terminal (`$stdin`/`$stdout`)
+#     directly to the MS-DOS `COM1` Telnet/Serial console in raw mode until
+#     the user presses `Ctrl+]` (`0x1D`) or types `EXIT`.
 #
 
+require 'io/console'
 require 'socket'
 
 module Bento
@@ -19,12 +24,13 @@ module Bento
     #
     # @class CommandSsh
     # @description
-    #   Provides both a CLI command handler and a Vagrant Action middleware for
-    #   polyfilling `vagrant ssh` over the MS-DOS Telnet/Serial bridge.
+    #   Implements both the Vagrant CLI command plugin interface and the
+    #   Vagrant Action middleware interface (`#call(env)`) to transparently
+    #   polyfill `vagrant ssh` and `vagrant ssh -c` for MS-DOS (1.25, 2.0, 4.0) VMs.
     #
     class CommandSsh
-      # @return [Integer] ASCII byte for Ctrl+] (0x1D) disconnect hotkey.
-      CTRL_RIGHT_BRACKET = 29
+      # @return [Integer] ASCII code for `Ctrl+]` (0x1D) escape key to exit interactive console.
+      CTRL_RIGHT_BRACKET = 0x1D
       # @return [String] Carriage return character.
       CR = 13.chr
       # @return [String] Line feed character.
@@ -35,50 +41,128 @@ module Bento
       # @return [Array<String>] Command-line arguments passed to `vagrant ssh`.
       attr_reader :argv
 
-      # @return [Object] The Vagrant environment or machine context.
+      # @return [Object] The Vagrant environment or next middleware app in the action chain.
       attr_reader :env
 
       #
-      # Initializes the `vagrant ssh` polyfill command or middleware.
+      # Returns the short CLI synopsis displayed by `vagrant list-commands`.
       #
-      # @param [Array<String>, Object] argv_or_app Either CLI `argv` array or the next middleware `app`.
-      # @param [Object] env The Vagrant environment or action `env` hash.
-      # @return [CommandSsh] New instance.
+      # @return [String] Command synopsis.
       #
-      def initialize(argv_or_app, env = nil)
-        if argv_or_app.is_a?(Array)
-          @argv = argv_or_app
-          @env  = env
-          @app  = nil
-        else
-          @app  = argv_or_app
-          @env  = env
-          @argv = []
-        end
+      def self.synopsis
+        'connects to MS-DOS machine via serial/telnet communicator'
       end
 
       #
-      # Checks whether a given Vagrant machine uses the MS-DOS communicator or guest plugin.
+      # Initializes a new `CommandSsh` instance (either as a CLI command or Action middleware).
       #
-      # @param [Object] machine The Vagrant machine instance to inspect.
-      # @return [Boolean] True if the machine is configured for MS-DOS.
+      # @param [Array<String>, Object] argv_or_app CLI argument array or next middleware callable.
+      # @param [Object] env Vagrant environment instance.
+      # @return [CommandSsh] New instance.
+      #
+      def initialize(argv_or_app = [], env = nil)
+        if argv_or_app.is_a?(Array)
+          @argv = argv_or_app
+          @app  = nil
+        else
+          @argv = []
+          @app  = argv_or_app
+        end
+        @env = env
+      end
+
+      #
+      # Determines whether a given Vagrant machine is configured as an MS-DOS guest.
+      #
+      # @param [Object] machine The Vagrant machine instance.
+      # @return [Boolean] True if the machine uses the `:msdos` communicator or `:msdos` guest.
       #
       def self.msdos_machine?(machine)
         return false unless machine.respond_to?(:config) && machine.config.respond_to?(:vm)
 
-        vm = machine.config.vm
-        comm = vm.respond_to?(:communicator) ? vm.communicator : nil
-        guest = vm.respond_to?(:guest) ? vm.guest : nil
+        vm_cfg = machine.config.vm
+        comm = vm_cfg.respond_to?(:communicator) ? vm_cfg.communicator : nil
+        guest = vm_cfg.respond_to?(:guest) ? vm_cfg.guest : nil
         %i[msdos msdos_serial msdos_telnet].include?(comm) || guest == :msdos
       end
 
       #
-      # Executes the `vagrant ssh` CLI command for a target MS-DOS machine.
+      # Executes the CLI command when invoked directly by `Vagrant::CLI#execute`.
+      # Resolves the target machine from `@env` (or builds a standalone fallback machine)
+      # and delegates to `#execute_for_machine`.
       #
-      # @param [Object] machine The target Vagrant machine instance.
-      # @param [IO] stdout Output stream for command output (default `$stdout`).
-      # @param [IO] stdin Input stream for interactive console (default `$stdin`).
-      # @return [Integer] Process exit code (DOS `%ERRORLEVEL%` or `0`).
+      # @param [IO] stdout Output stream (default `$stdout`).
+      # @param [IO] stdin Input stream (default `$stdin`).
+      # @return [Integer] Exit status code.
+      #
+      def execute(stdout: $stdout, stdin: $stdin)
+        parsed = parse_argv(@argv)
+        machine = resolve_target_machine(parsed[:target])
+        execute_for_machine(machine, stdout: stdout, stdin: stdin)
+      end
+
+      #
+      # Parses CLI arguments for `vagrant ssh` / `vagrant msdos-ssh`, extracting
+      # `-c <command>` / `--command <command>`, `-p` / `--plain`, and target machine name.
+      #
+      # @param [Array<String>] args Raw CLI argument strings.
+      # @return [Hash<Symbol, Object>] Parsed options hash (`:command`, `:plain`, `:extra_args`, `:target`).
+      #
+      def parse_argv(args)
+        options = { command: nil, plain: false, extra_args: [], target: nil }
+        idx = 0
+        while idx < args.length
+          arg = args[idx]
+          case arg
+          when '-c', '--command'
+            options[:command] = args[idx + 1]
+            idx += 2
+          when '-p', '--plain'
+            options[:plain] = true
+            idx += 1
+          else
+            options[:target] ||= arg unless arg.start_with?('-')
+            options[:extra_args] << arg
+            idx += 1
+          end
+        end
+        options
+      end
+
+      #
+      # Vagrant Action middleware entry point (`SSHRun` and `SSHExec` interception).
+      # If the target machine is an MS-DOS guest, intercepts the SSH action and routes
+      # it over the MS-DOS serial/telnet communicator instead of OpenSSH.
+      #
+      # @param [Hash] action_env Vagrant action environment hash.
+      # @return [Integer, Object] Exit status or result of next middleware.
+      #
+      def call(action_env)
+        machine = action_env[:machine]
+        unless self.class.msdos_machine?(machine)
+          return @app ? @app.call(action_env) : 0
+        end
+
+        cmd = action_env[:ssh_run_command]
+        out_io = action_env[:ssh_Polyfill_stdout] || $stdout
+        in_io  = action_env[:ssh_Polyfill_stdin] || $stdin
+
+        if cmd
+          status = run_single_command(machine, cmd, stdout: out_io)
+          action_env[:ssh_run_exit_status] = status
+          status
+        else
+          run_interactive_session(machine, stdout: out_io, stdin: in_io)
+        end
+      end
+
+      #
+      # Executes the CLI command against a specific Vagrant `machine` instance.
+      #
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [IO] stdout Output stream (default `$stdout`).
+      # @param [IO] stdin Input stream (default `$stdin`).
+      # @return [Integer] Exit code (`0` for interactive session, or DOS `%ERRORLEVEL%` for `-c`).
       #
       def execute_for_machine(machine, stdout: $stdout, stdin: $stdin)
         parsed = parse_argv(@argv)
@@ -90,98 +174,80 @@ module Bento
       end
 
       #
-      # Middleware `call` hook compatible with `Vagrant::Action::Builder` stacks
-      # (`SSHRun` and `SSHExec` interception).
-      #
-      # @param [Hash] action_env The Vagrant action environment hash.
-      # @return [Object] Result of the middleware chain or MS-DOS polyfill execution.
-      #
-      def call(action_env)
-        machine = action_env[:machine]
-        if machine && self.class.msdos_machine?(machine)
-          cmd = action_env[:ssh_run_command]
-          out_io = action_env[:ssh_Polyfill_stdout] || $stdout
-          in_io  = action_env[:ssh_polyfill_stdin] || $stdin
-          if cmd
-            action_env[:ssh_run_exit_status] = run_single_command(machine, cmd, stdout: out_io)
-          else
-            action_env[:ssh_run_exit_status] = run_interactive_session(machine, stdout: out_io, stdin: in_io)
-          end
-          return action_env[:ssh_run_exit_status]
-        end
-
-        @app ? @app.call(action_env) : 0
-      end
-
-      #
-      # Executes a single DOS command via `vagrant ssh -c "<CMD>"` and streams output.
-      # Triggers post-command Guest-to-Host folder synchronization if configured.
+      # Runs a single DOS command (`vagrant ssh -c "<CMD>"`), streams output to `stdout`,
+      # triggers post-command Guest-to-Host folder synchronization, and returns the DOS exit code.
       #
       # @param [Object] machine The Vagrant machine instance.
-      # @param [String] command The DOS command to run.
-      # @param [IO] stdout Output stream to write guest stdout/stderr to.
-      # @return [Integer] The integer DOS exit code returned by the command.
+      # @param [String] command The DOS command to execute.
+      # @param [IO] stdout Output stream to write command stdout/stderr to.
+      # @return [Integer] The DOS `%ERRORLEVEL%` exit status.
       #
       def run_single_command(machine, command, stdout: $stdout)
-        exit_code = machine.communicate.execute(command, error_check: false) do |_type, data|
+        comm = machine.communicate
+        exit_code = comm.execute(command, error_check: false) do |_type, data|
           stdout.print(data)
           stdout.flush
         end
-        if machine.respond_to?(:data_dir) && machine.data_dir
-          SyncedFolder.sync_after_command(machine)
-        end
+        SyncedFolder.sync_after_command(machine)
         exit_code
+      ensure
+        comm.send(:close_socket) if comm.respond_to?(:close_socket, true)
       end
 
       #
-      # Runs an interactive raw-TTY terminal session bridged to MS-DOS `COM1` (`C:\>` or `C>`).
-      # Disconnects cleanly when the user presses `Ctrl+]` (`0x1D`) or when the socket closes.
+      # Opens an interactive terminal bridge between `stdin`/`stdout` and the MS-DOS
+      # COM1 Telnet/Unix socket until `Ctrl+]` (`0x1D`) or EOF is received.
       #
       # @param [Object] machine The Vagrant machine instance.
-      # @param [IO] stdout Host output stream.
-      # @param [IO] stdin Host input stream.
-      # @param [IO, nil] socket Optional pre-connected socket (for testing or custom transport).
-      # @return [Integer] Returns `0` on clean session disconnect.
+      # @param [IO] stdout Output stream for guest console characters.
+      # @param [IO] stdin Input stream for user keystrokes.
+      # @param [IO, nil] socket Optional pre-connected socket (used for testing).
+      # @return [Integer] Exit code `0`.
       #
       def run_interactive_session(machine, stdout: $stdout, stdin: $stdin, socket: nil)
         sock = socket || open_interactive_socket(machine)
         stdout.puts("Connected to MS-DOS (COM1 Serial/Telnet Polyfill). Press Ctrl+] or type 'EXIT' to disconnect.")
         sock.write(CRLF)
+        sock.flush
 
         pump_interactive_streams(sock, stdin, stdout)
+        SyncedFolder.sync_after_command(machine)
         0
       ensure
         sock.close if socket.nil? && sock && !sock.closed?
       end
 
-      #
-      # Parses CLI arguments passed to `vagrant ssh` (`-c` / `--command`).
-      #
-      # @param [Array<String>] args Raw argument list.
-      # @return [Hash<Symbol, Object>] Parsed options hash (`:command`, `:plain`).
-      #
-      def parse_argv(args)
-        result = { command: nil, plain: false }
-        idx = 0
-        while idx < args.length
-          arg = args[idx]
-          if ['-c', '--command'].include?(arg)
-            result[:command] = args[idx + 1]
-            idx += 2
-          elsif arg == '-p' || arg == '--plain'
-            result[:plain] = true
-            idx += 1
-          else
-            idx += 1
-          end
-        end
-        result
-      end
-
       private
 
       #
-      # Opens a new TCP Telnet or Unix domain socket to the MS-DOS serial port.
+      # Resolves the target Vagrant machine from `@env` or constructs a standalone fallback machine.
+      #
+      # @param [String, nil] target_name Optional target machine name from CLI args.
+      # @return [Object] Vagrant machine or standalone compatible machine struct.
+      #
+      def resolve_target_machine(target_name)
+        if @env && @env.respond_to?(:machine) && @env.respond_to?(:active_machines)
+          active_list = @env.active_machines
+          target_sym = target_name&.to_sym
+          chosen = (target_sym && active_list.find { |n, _p| n == target_sym }) || active_list.first
+          return @env.machine(chosen[0], chosen[1]) if chosen
+        end
+
+        cfg = Config.new
+        cfg.host = ENV['MSDOS_SERIAL_HOST'] if ENV['MSDOS_SERIAL_HOST'] && !ENV['MSDOS_SERIAL_HOST'].empty?
+        cfg.port = ENV['MSDOS_SERIAL_PORT'].to_i if ENV['MSDOS_SERIAL_PORT'] && !ENV['MSDOS_SERIAL_PORT'].empty?
+        cfg.finalize!
+
+        vm_s   = Struct.new(:communicator, :guest).new(:msdos, :msdos)
+        conf_s = Struct.new(:vm, :msdos).new(vm_s, cfg)
+        mach_s = Struct.new(:config, :data_dir, :name).new(conf_s, nil, (target_name || 'default').to_sym)
+        comm   = Communicator.new(mach_s)
+        mach_s.define_singleton_method(:communicate) { comm }
+        mach_s
+      end
+
+      #
+      # Opens a raw TCP or Unix socket to the MS-DOS guest's serial port for interactive use.
       #
       # @param [Object] machine The Vagrant machine instance.
       # @return [IO] Connected socket.
@@ -197,12 +263,11 @@ module Bento
       end
 
       #
-      # Relays bytes bidirectionally between `stdin`/`stdout` and the MS-DOS serial socket
-      # until `Ctrl+]` (`0x1D`) is pressed or EOF is reached on either stream.
+      # Bidirectional byte pump between `stdin`, `sock`, and `stdout`.
       #
-      # @param [IO] sock Connected serial/telnet socket.
-      # @param [IO] stdin Host standard input stream.
-      # @param [IO] stdout Host standard output stream.
+      # @param [IO] sock Connected guest serial/telnet socket.
+      # @param [IO] stdin User input stream.
+      # @param [IO] stdout User output stream.
       # @return [void]
       #
       def pump_interactive_streams(sock, stdin, stdout)

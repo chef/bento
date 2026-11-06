@@ -50,6 +50,34 @@ module Bento
       # @param [Boolean] _raise_error Whether to raise an exception if unusable.
       # @return [Boolean] True when the machine is configured as an MS-DOS guest.
       #
+      #
+      # Initializes internal Vagrant 2 synced folder plugin state.
+      #
+      # @param [Object] *_args Ignored initialization arguments.
+      # @return [void]
+      #
+      def _initialize(*_args); end
+
+      #
+      # Queries whether a specific synced folder capability is implemented.
+      #
+      # @param [Symbol, String] _cap_name Capability name.
+      # @return [Boolean] Always false for DOS synced folders.
+      #
+      def capability?(_cap_name)
+        false
+      end
+
+      #
+      # Disables synced folders before removal or teardown.
+      #
+      # @param [Object] _machine The Vagrant machine instance.
+      # @param [Hash] _folders Synced folder map.
+      # @param [Hash, nil] _opts Additional options.
+      # @return [void]
+      #
+      def disable(_machine, _folders, _opts = nil); end
+
       def usable?(machine, _raise_error = false)
         CommandSsh.msdos_machine?(machine)
       end
@@ -166,6 +194,7 @@ module Bento
           synced_rel_paths << rel_path
         end
 
+        write_directory_to_fat16(ensure_sync_disk(machine), stage_dir)
         save_manifest(machine, manifest)
         synced_rel_paths
       end
@@ -192,6 +221,8 @@ module Bento
         end
 
         stage_dir = guest_stage_dir(machine)
+        disk_path = sync_disk_path(machine)
+        extract_fat16_to_directory(disk_path, stage_dir) if File.exist?(disk_path)
         return [] unless File.directory?(stage_dir)
 
         manifest = load_manifest(machine)
@@ -261,7 +292,8 @@ module Bento
       end
 
       #
-      # Creates the sparse/raw sync disk file if it does not yet exist.
+      # Creates and formats a partitioned MBR + FAT16 sync disk image (`msdos_sync_d.raw`)
+      # if it does not yet exist or lacks a valid MBR signature.
       #
       # @param [Object] machine The Vagrant machine instance.
       # @param [Integer] size_mb Size of the disk image in megabytes (default `16`).
@@ -270,13 +302,219 @@ module Bento
       def ensure_sync_disk(machine, size_mb: 16)
         path = sync_disk_path(machine)
         FileUtils.mkdir_p(File.dirname(path))
-        unless File.exist?(path)
-          File.open(path, 'wb') do |f|
-            f.seek((size_mb * 1024 * 1024) - 1)
-            f.write("\0")
-          end
+        format_fat16_image(path, size_mb: size_mb) unless valid_mbr_fat16_image?(path)
+        path
+      end
+
+      #
+      # Checks whether `path` exists and starts with a valid MBR signature (`0x55AA`)
+      # and a formatted FAT16 partition at LBA 63.
+      #
+      # @param [String] path Path to the raw disk image.
+      # @return [Boolean] True if the disk image has a valid MBR and FAT16 boot sector.
+      #
+      def valid_mbr_fat16_image?(path)
+        return false unless File.exist?(path) && File.size(path) >= (64 * 512)
+
+        File.open(path, 'rb') do |f|
+          mbr = f.read(512)
+          f.seek(63 * 512)
+          vbr = f.read(512)
+          mbr && mbr.bytesize == 512 && mbr.byteslice(510, 2) == "\x55\xAA".b &&
+            vbr && vbr.bytesize == 512 && vbr.byteslice(510, 2) == "\x55\xAA".b
+        end
+      end
+
+      #
+      # Initializes `path` as a partitioned MBR hard disk image with a single active
+      # primary FAT16 partition (`type 0x04`) starting at LBA 63.
+      #
+      # @param [String] path Destination file path for the raw disk image.
+      # @param [Integer] size_mb Total disk image size in MiB (default `16`).
+      # @return [String] Path to the formatted image.
+      #
+      def format_fat16_image(path, size_mb: 16)
+        total_sectors = (size_mb * 1024 * 1024) / 512
+        part_lba = 63
+        part_sectors = total_sectors - part_lba
+        FileUtils.mkdir_p(File.dirname(path))
+
+        File.open(path, 'wb') do |f|
+          f.truncate(total_sectors * 512)
+          # Build MBR with 1 active primary FAT16 (<32MB, 0x04) partition at LBA 63
+          mbr = ("\x00" * 512).b
+          entry = [
+            0x80,       # status: active
+            1, 1, 0,    # start CHS (head 1, sector 1, cyl 0)
+            0x04,       # type: FAT16 <32MB
+            15, 63, 31, # end CHS
+            part_lba,   # LBA start
+            part_sectors
+          ].pack('CCCCCCC CVV')
+          mbr[446, 16] = entry
+          mbr[510, 2] = "\x55\xAA".b
+          f.seek(0)
+          f.write(mbr)
+
+          # Build FAT16 Volume Boot Record at LBA 63
+          vbr = ("\x00" * 512).b
+          vbr[0, 3]   = "\xEB\x3C\x90".b
+          vbr[3, 8]   = 'MSDOS4.0'.b
+          vbr[11, 25] = [
+            512,          # bytes per sector
+            4,            # sectors per cluster (2KB clusters)
+            1,            # reserved sectors
+            2,            # number of FATs
+            512,          # max root directory entries (32 sectors)
+            part_sectors, # total 16-bit sectors
+            0xF8,         # media descriptor (fixed disk)
+            32,           # sectors per FAT
+            63,           # sectors per track
+            16,           # heads
+            part_lba,     # hidden sectors
+            0             # total 32-bit sectors
+          ].pack('vCvCvvCvvvVV')
+          vbr[36, 26] = [0x80, 0, 0x29, 0x1988_0400, 'BENTO_SYNC ', 'FAT16   '].pack('CCCVA11A8')
+          vbr[510, 2] = "\x55\xAA".b
+          f.seek(part_lba * 512)
+          f.write(vbr)
+
+          # Initialize FAT #1 and FAT #2 media descriptor entries (F8 FF FF FF)
+          fat_head = "\xF8\xFF\xFF\xFF".b + ("\x00" * ((32 * 512) - 4)).b
+          f.seek((part_lba + 1) * 512)
+          f.write(fat_head)
+          f.seek((part_lba + 1 + 32) * 512)
+          f.write(fat_head)
+
+          # Zero out 32-sector root directory
+          f.seek((part_lba + 1 + 64) * 512)
+          f.write(("\x00" * (32 * 512)).b)
         end
         path
+      end
+
+      #
+      # Writes all files from `source_dir` into the FAT16 partition inside `disk_path`.
+      #
+      # @param [String] disk_path Path to the MBR+FAT16 raw disk image.
+      # @param [String] source_dir Directory containing files to write into the FAT16 root/subdirectories.
+      # @return [Integer] Number of files written into the FAT16 partition.
+      #
+      def write_directory_to_fat16(disk_path, source_dir)
+        return 0 unless File.directory?(source_dir)
+
+        format_fat16_image(disk_path)
+        files = collect_host_files(source_dir, [])
+        part_lba = 63
+        fat1_offset = (part_lba + 1) * 512
+        fat2_offset = (part_lba + 1 + 32) * 512
+        root_offset = (part_lba + 1 + 64) * 512
+        data_offset = (part_lba + 1 + 64 + 32) * 512
+        cluster_size = 4 * 512
+
+        File.open(disk_path, 'r+b') do |f|
+          fat = Array.new(32 * 256, 0)
+          fat[0] = 0xFFF8
+          fat[1] = 0xFFFF
+          next_cluster = 2
+          root_entries = []
+
+          files.first(512).each do |rel_path|
+            full_path = File.join(source_dir, rel_path)
+            data = File.binread(full_path)
+            flat_name = normalize_8_3_segment(rel_path.tr('/', '_'))
+            stem, ext = flat_name.split('.', 2)
+            name8 = (stem || '').ljust(8, ' ')[0, 8]
+            ext3  = (ext || '').ljust(3, ' ')[0, 3]
+
+            if data.empty?
+              first_cluster = 0
+            else
+              first_cluster = next_cluster
+              chunks = data.bytes.each_slice(cluster_size).map { |s| s.pack('C*') }
+              chunks.each_with_index do |chunk, idx|
+                cur = next_cluster
+                next_cluster += 1
+                fat[cur] = (idx == chunks.length - 1) ? 0xFFFF : next_cluster
+                f.seek(data_offset + ((cur - 2) * cluster_size))
+                f.write(chunk.ljust(cluster_size, "\x00"))
+              end
+            end
+
+            entry = [
+              name8, ext3, 0x20, "\x00" * 14, first_cluster, data.bytesize
+            ].pack('A8A3Ca14vV')
+            root_entries << entry
+          end
+
+          fat_bytes = fat.pack('v*')
+          f.seek(fat1_offset)
+          f.write(fat_bytes)
+          f.seek(fat2_offset)
+          f.write(fat_bytes)
+
+          f.seek(root_offset)
+          f.write(root_entries.join.ljust(32 * 512, "\x00"))
+        end
+        files.length
+      end
+
+      #
+      # Extracts files from the FAT16 root directory inside `disk_path` into `dest_dir`.
+      #
+      # @param [String] disk_path Path to the MBR+FAT16 raw disk image.
+      # @param [String] dest_dir Destination directory on the host.
+      # @return [Array<String>] List of extracted filenames.
+      #
+      def extract_fat16_to_directory(disk_path, dest_dir)
+        return [] unless valid_mbr_fat16_image?(disk_path)
+
+        FileUtils.mkdir_p(dest_dir)
+        part_lba = 63
+        fat1_offset = (part_lba + 1) * 512
+        root_offset = (part_lba + 1 + 64) * 512
+        data_offset = (part_lba + 1 + 64 + 32) * 512
+        cluster_size = 4 * 512
+        extracted = []
+
+        File.open(disk_path, 'rb') do |f|
+          f.seek(fat1_offset)
+          fat = f.read(32 * 512).unpack('v*')
+          f.seek(root_offset)
+          root_raw = f.read(32 * 512)
+
+          (0...512).each do |idx|
+            entry = root_raw.byteslice(idx * 32, 32)
+            first_byte = entry.getbyte(0)
+            break if first_byte == 0x00
+            next if first_byte == 0xE5
+
+            attr = entry.getbyte(11)
+            next if (attr & 0x08) != 0 || (attr & 0x10) != 0
+
+            stem = entry.byteslice(0, 8).strip
+            ext  = entry.byteslice(8, 3).strip
+            fname = ext.empty? ? stem : "#{stem}.#{ext}"
+            next if fname.empty?
+
+            first_cluster = entry.byteslice(26, 2).unpack1('v')
+            file_size     = entry.byteslice(28, 4).unpack1('V')
+
+            content = +''.b
+            cur = first_cluster
+            while cur >= 2 && cur < 0xFFF0 && content.bytesize < file_size
+              f.seek(data_offset + ((cur - 2) * cluster_size))
+              content << f.read(cluster_size).to_s
+              cur = fat[cur] || 0xFFFF
+            end
+            content = content.byteslice(0, file_size) || ''.b
+
+            out_path = File.join(dest_dir, fname)
+            File.binwrite(out_path, content)
+            extracted << fname
+          end
+        end
+        extracted
       end
 
       #

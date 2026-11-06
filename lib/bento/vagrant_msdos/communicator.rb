@@ -59,6 +59,16 @@ module Bento
       attr_reader :machine
 
       #
+      # Determines whether this communicator matches the given Vagrant machine.
+      #
+      # @param [Object] machine The Vagrant machine instance.
+      # @return [Boolean] True when the machine uses this DOS communicator or guest.
+      #
+      def self.match?(machine)
+        CommandSsh.msdos_machine?(machine)
+      end
+
+      #
       # Initializes a new MS-DOS Communicator for the given Vagrant machine.
       #
       # @param [Object] machine The Vagrant machine instance.

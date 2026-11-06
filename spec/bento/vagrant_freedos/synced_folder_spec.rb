@@ -20,6 +20,9 @@ RSpec.describe Bento::VagrantFreedos::SyncedFolder do
 
       other = double('other', config: double('cfg', vm: double('vm', communicator: :ssh, guest: :linux)))
       expect(synced_folder.usable?(other)).to be(false)
+      expect(synced_folder._initialize).to be_nil
+      expect(synced_folder.capability?(:any)).to be(false)
+      expect(synced_folder.disable(machine, {})).to be_nil
     end
   end
 
@@ -149,6 +152,15 @@ RSpec.describe Bento::VagrantFreedos::CommandSync do
 
       cmd_host = described_class.new(['--to-host'])
       expect(cmd_host.execute_for_machine(machine, host_dir: host_dir, stdout: out)).to eq(0)
+
+      expect(described_class.synopsis).to include('synchronizes files')
+      env_with_mach = double('env', active_machines: [[:default, :qemu]])
+      allow(env_with_mach).to receive(:machine).with(:default, :qemu).and_return(machine)
+      expect(described_class.new(['--to-host', 'default'], env_with_mach).execute(host_dir: host_dir, stdout: out)).to eq(0)
+      env_empty = double('env_empty', active_machines: [])
+      allow(env_empty).to receive(:machine)
+      expect(described_class.new(['--to-host'], env_empty).execute(host_dir: host_dir, stdout: out)).to eq(0)
+      expect(described_class.new(['--to-host'], nil).execute(host_dir: host_dir, stdout: out)).to eq(0)
 
       cmd_watch = described_class.new(['--watch', '--live', '--other'])
       parsed = cmd_watch.parse_argv(cmd_watch.argv)

@@ -25,6 +25,15 @@ module Bento
       attr_reader :env
 
       #
+      # Returns the short CLI synopsis displayed by `vagrant list-commands`.
+      #
+      # @return [String] Command synopsis.
+      #
+      def self.synopsis
+        'synchronizes files between host and MS-DOS guest drive'
+      end
+
+      #
       # Initializes a new `CommandSync` CLI handler.
       #
       # @param [Array<String>] argv Command-line argument list.
@@ -34,6 +43,19 @@ module Bento
       def initialize(argv, env = nil)
         @argv = argv
         @env  = env
+      end
+
+      #
+      # Executes the CLI command when invoked directly by `Vagrant::CLI#execute`.
+      #
+      # @param [String] host_dir Host workspace directory to sync (default `Dir.pwd`).
+      # @param [IO] stdout Output stream for status messages (default `$stdout`).
+      # @return [Integer] Exit status (`0` on success).
+      #
+      def execute(host_dir: Dir.pwd, stdout: $stdout)
+        opts = parse_argv(@argv)
+        machine = resolve_target_machine(opts[:target])
+        execute_for_machine(machine, host_dir: host_dir, stdout: stdout)
       end
 
       #
@@ -73,7 +95,7 @@ module Bento
       # Parses CLI flags for `vagrant msdos-sync`.
       #
       # @param [Array<String>] args Raw CLI arguments.
-      # @return [Hash<Symbol, Object>] Parsed options (`:direction`, `:watch`, `:live`, `:crlf`, `:iterations`, `:interval`).
+      # @return [Hash<Symbol, Object>] Parsed options (`:direction`, `:watch`, `:live`, `:crlf`, `:iterations`, `:interval`, `:target`).
       #
       def parse_argv(args)
         options = {
@@ -82,7 +104,8 @@ module Bento
           live: false,
           crlf: false,
           iterations: 1,
-          interval: 0.05
+          interval: 0.05,
+          target: nil
         }
         args.each do |arg|
           case arg
@@ -96,9 +119,30 @@ module Bento
             options[:live] = true
           when '--crlf'
             options[:crlf] = true
+          else
+            options[:target] ||= arg unless arg.start_with?('-')
           end
         end
         options
+      end
+
+      private
+
+      #
+      # Resolves the target Vagrant machine from `@env` or constructs a standalone fallback machine.
+      #
+      # @param [String, nil] target_name Optional target machine name from CLI args.
+      # @return [Object] Vagrant machine or standalone compatible machine struct.
+      #
+      def resolve_target_machine(target_name)
+        if @env && @env.respond_to?(:machine) && @env.respond_to?(:active_machines)
+          active_list = @env.active_machines
+          target_sym = target_name&.to_sym
+          chosen = (target_sym && active_list.find { |n, _p| n == target_sym }) || active_list.first
+          return @env.machine(chosen[0], chosen[1]) if chosen
+        end
+
+        Struct.new(:data_dir).new(nil)
       end
     end
   end

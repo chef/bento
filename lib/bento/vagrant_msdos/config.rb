@@ -2,10 +2,10 @@
 
 #
 # @file config.rb
-# @brief Configuration class for the Bento MS-DOS Vagrant plugin (`config.msdos`)
+# @brief Configuration class for the Bento Microsoft MS-DOS Vagrant plugin (`config.msdos`)
 # @description
 #   Defines all tunable settings for communicating with and synchronizing files
-#   to/from a standalone Microsoft MS-DOS (1.25, 2.0, or 4.0) virtual machine
+#   to/from a standalone Microsoft MS-DOS (v1.25, v2.0, or v4.0) virtual machine
 #   over Telnet or Unix domain serial sockets.
 #
 
@@ -22,8 +22,8 @@ module Bento
       UNSET_VALUE = :__unset__
       # @return [String] Backslash character.
       BS = 92.chr
-      # @return [Array<String>] Supported Microsoft MS-DOS versions.
-      SUPPORTED_VERSIONS = %w[1.25 2.0 4.0 4.00].freeze
+      # @return [Array<String>] Supported Microsoft MS-DOS release versions.
+      SUPPORTED_VERSIONS = %w[1.25 2.0 4.0].freeze
 
       # @return [String, Symbol] Hostname or IP address of the Telnet serial bridge.
       attr_accessor :host
@@ -55,7 +55,7 @@ module Bento
       # @return [String, Symbol] Default working directory inside MS-DOS.
       attr_accessor :work_dir
 
-      # @return [String, Symbol] Target MS-DOS version (`"1.25"`, `"2.0"`, or `"4.0"`).
+      # @return [String, Symbol] Target MS-DOS version (`'1.25'`, `'2.0'`, or `'4.0'`).
       attr_accessor :dos_version
 
       #
@@ -78,6 +78,46 @@ module Bento
       end
 
       #
+      # Merges this configuration object with `other`, preferring non-UNSET values from `other`.
+      #
+      # @param [Config] other Configuration instance to merge on top of `self`.
+      # @return [Config] New merged configuration instance.
+      #
+      def merge(other)
+        result = self.class.new
+        [self, other].each do |obj|
+          obj.instance_variables.each do |key|
+            next if key.to_s.start_with?('@__')
+
+            val = obj.instance_variable_get(key)
+            result.instance_variable_set(key, val) if val != UNSET_VALUE
+          end
+        end
+        result
+      end
+
+      #
+      # Marks internal Vagrant 2 configuration finalization state.
+      #
+      # @return [Boolean] True once finalized.
+      #
+      def _finalize!
+        @__finalized = true
+      end
+
+      #
+      # Sets multiple configuration attributes from an options hash.
+      #
+      # @param [Hash<Symbol, Object>] options Key-value map of configuration attributes.
+      # @return [void]
+      #
+      def set_options(options)
+        options.each do |key, value|
+          send("#{key}=", value) if respond_to?("#{key}=")
+        end
+      end
+
+      #
       # Resolves unset attributes to their default values.
       #
       # @return [void]
@@ -90,7 +130,9 @@ module Bento
         @baud_rate       = 115_200 if @baud_rate == UNSET_VALUE
         @boot_timeout    = 60 if @boot_timeout == UNSET_VALUE
         @command_timeout = 300 if @command_timeout == UNSET_VALUE
-        @prompt_regex    = Regexp.new('[A-Z]:?[^>]*>', Regexp::IGNORECASE) if @prompt_regex == UNSET_VALUE
+        if @prompt_regex == UNSET_VALUE
+          @prompt_regex = Regexp.new("[A-Z](?::#{Regexp.escape(BS)}[^>]*|:?)>", Regexp::IGNORECASE)
+        end
         @sync_drive      = 'D:' if @sync_drive == UNSET_VALUE
         @work_dir        = "D:#{BS}" if @work_dir == UNSET_VALUE
         @dos_version     = '4.0' if @dos_version == UNSET_VALUE
@@ -98,11 +140,10 @@ module Bento
       end
 
       #
-      # Returns whether the configured MS-DOS version supports hierarchical subdirectories.
-      # MS-DOS 1.25 uses a flat FAT12 directory structure (`false`), whereas MS-DOS 2.0 and 4.0
-      # support `MKDIR` / `CHDIR` hierarchical paths (`true`).
+      # Indicates whether the configured MS-DOS version supports hierarchical
+      # subdirectories (introduced in MS-DOS 2.0; absent in MS-DOS 1.25).
       #
-      # @return [Boolean] True if subdirectories are supported, false on MS-DOS 1.25.
+      # @return [Boolean] True for MS-DOS 2.0 and 4.0; false for MS-DOS 1.25.
       #
       def supports_subdirectories?
         finalize! if @dos_version == UNSET_VALUE

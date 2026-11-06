@@ -78,5 +78,46 @@ module Bento
         machine.communicate.test("DIR #{drive}#{BS} > NUL")
       end
     end
+
+    #
+    # @module GuestCapHalt
+    # @description Vagrant 2 `:halt` guest capability module for `:freedos`.
+    #
+    module GuestCapHalt
+      # @param [Object] machine The Vagrant machine instance.
+      # @return [Integer] DOS exit code.
+      def self.halt(machine)
+        Guest.halt(machine)
+      end
+    end
+
+    #
+    # @module GuestCapChangeHostName
+    # @description Vagrant 2 `:change_host_name` guest capability module for `:freedos`.
+    #
+    module GuestCapChangeHostName
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [String] name Desired hostname.
+      # @return [Integer] DOS exit code.
+      def self.change_host_name(machine, name)
+        Guest.change_host_name(machine, name)
+      end
+    end
+
+    #
+    # @module GuestCapMountSharedFolder
+    # @description Vagrant 2 `:mount_shared_folder` guest capability module for `:freedos`.
+    #
+    module GuestCapMountSharedFolder
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [String] name Shared folder name or drive.
+      # @param [String, nil] _guestpath Guest mount path.
+      # @param [Hash, nil] _options Mount options.
+      # @return [Boolean] True if the shared drive responds.
+      def self.mount_shared_folder(machine, name = 'D:', _guestpath = nil, _options = nil)
+        drive = name.to_s.match?(/^[A-Za-z]:$/) ? name.to_s : 'D:'
+        Guest.mount_shared_folder(machine, drive)
+      end
+    end
   end
 end

@@ -4,10 +4,10 @@
 # @file guest.rb
 # @brief Vagrant guest OS plugin and capabilities for Microsoft MS-DOS (`config.vm.guest = :msdos`)
 # @description
-#   Implements MS-DOS (1.25, 2.0, and 4.0) guest detection (`VER` output
-#   inspection), version parsing (`detect_version`), and guest capabilities
-#   including clean APM/ACPI poweroff (`SHUTDOWN.COM` / `FDAPM.COM`), hostname
-#   assignment (`SET HOSTNAME=...`), and shared drive verification.
+#   Implements Microsoft MS-DOS (1.25, 2.0, 4.0) guest detection (`VER` output
+#   inspection) and guest capabilities including clean APM/ACPI poweroff
+#   (`SHUTDOWN.COM` / `FDAPM POWEROFF`), hostname assignment (`SET HOSTNAME=...`),
+#   and shared drive verification.
 #
 
 module Bento
@@ -15,8 +15,8 @@ module Bento
     #
     # @class Guest
     # @description
-    #   Detects MS-DOS (1.25, 2.0, 4.0) guests over the active communicator and
-    #   exposes DOS-compatible guest lifecycle capabilities to Vagrant.
+    #   Detects Microsoft MS-DOS (1.25, 2.0, 4.0) guests over the active communicator
+    #   and exposes DOS-compatible guest lifecycle capabilities to Vagrant.
     #
     class Guest
       # @return [String] Backslash character.
@@ -33,62 +33,56 @@ module Bento
         status = machine.communicate.execute('VER', error_check: false) do |type, data|
           output << data.to_s if type == :stdout
         end
-        status == 0 && output.match?(/MS-DOS|Microsoft|FreeDOS|DOS/i)
+        status == 0 && output.match?(/MS-DOS|Microsoft|DOS/i)
       end
 
       #
-      # Detects the running MS-DOS version (`"1.25"`, `"2.0"`, or `"4.0"`) from `VER` output.
+      # Detects the specific Microsoft MS-DOS version string (`'1.25'`, `'2.0'`, or `'4.0'`)
+      # reported by the guest `VER` command.
       #
       # @param [Object] machine The Vagrant machine instance to inspect.
-      # @return [String] Detected version string (`"1.25"`, `"2.0"`, or `"4.0"`).
+      # @return [String] Detected version (`'1.25'`, `'2.0'`, or `'4.0'`).
       #
       def detect_version(machine)
         output = +''
         machine.communicate.execute('VER', error_check: false) do |type, data|
           output << data.to_s if type == :stdout
         end
-        if output.include?('1.25')
-          '1.25'
-        elsif output.match?(/2\.00|2\.0\b/)
-          '2.0'
-        else
-          '4.0'
-        end
+        return '1.25' if output.include?('1.25') || output.include?('1.')
+        return '2.0' if output.include?('2.0') || output.include?('2.')
+
+        '4.0'
       end
 
       #
       # Cleanly powers off the MS-DOS virtual machine using `C:\BENTO\SHUTDOWN.COM`
-      # (with fallback to `C:\SHUTDOWN.COM` on MS-DOS 1.25 and `C:\FDOS\BIN\FDAPM.COM POWEROFF`).
+      # (or `C:\SHUTDOWN.COM` on MS-DOS 1.25) with a fallback to `FDAPM.COM POWEROFF`.
       #
       # @param [Object] machine The Vagrant machine instance to halt.
       # @return [Integer] The DOS exit code of the poweroff command.
       #
       def self.halt(machine)
-        bento_shutdown = "C:#{BS}BENTO#{BS}SHUTDOWN.COM"
-        root_shutdown  = "C:#{BS}SHUTDOWN.COM"
-        fdapm          = "C:#{BS}FDOS#{BS}BIN#{BS}FDAPM.COM"
-        machine.communicate.execute(
-          "IF EXIST #{bento_shutdown} #{bento_shutdown} && IF EXIST #{root_shutdown} #{root_shutdown} && IF EXIST #{fdapm} #{fdapm} POWEROFF",
-          error_check: false
-        )
+        shutdown_bento = "C:#{BS}BENTO#{BS}SHUTDOWN.COM"
+        shutdown_root  = "C:#{BS}SHUTDOWN.COM"
+        fdapm          = "C:#{BS}DOS#{BS}FDAPM.COM"
+        machine.communicate.execute("IF EXIST #{shutdown_bento} #{shutdown_bento}", error_check: false)
+        machine.communicate.execute("IF EXIST #{shutdown_root} #{shutdown_root}", error_check: false)
+        machine.communicate.execute("IF EXIST #{fdapm} #{fdapm} POWEROFF", error_check: false)
       end
 
       #
-      # Sets the `HOSTNAME` environment variable in MS-DOS and persists it to `C:\BENTO\HOST.BAT`
-      # (or `C:\HOST.BAT` when running MS-DOS 1.25 flat root layout).
+      # Sets the `HOSTNAME` environment variable in MS-DOS and persists it to `HOST.BAT`.
       #
       # @param [Object] machine The Vagrant machine instance.
       # @param [String] name Desired hostname string.
-      # @param [Boolean] flat_root Whether to write to `C:\HOST.BAT` directly (for MS-DOS 1.25).
+      # @param [Boolean] flat_root Whether to write to `C:\HOST.BAT` (MS-DOS 1.25) instead of `C:\BENTO\HOST.BAT`.
       # @return [Integer] The DOS exit code of the command.
       #
       def self.change_host_name(machine, name, flat_root: false)
         safe_name = name.to_s.gsub(/[^A-Za-z0-9_-]/, '')[0, 15]
         host_bat = flat_root ? "C:#{BS}HOST.BAT" : "C:#{BS}BENTO#{BS}HOST.BAT"
-        machine.communicate.execute(
-          "SET HOSTNAME=#{safe_name} && ECHO SET HOSTNAME=#{safe_name}> #{host_bat}",
-          error_check: false
-        )
+        machine.communicate.execute("SET HOSTNAME=#{safe_name}", error_check: false)
+        machine.communicate.execute("ECHO SET HOSTNAME=#{safe_name}> #{host_bat}", error_check: false)
       end
 
       #
@@ -100,6 +94,47 @@ module Bento
       #
       def self.mount_shared_folder(machine, drive = 'D:')
         machine.communicate.test("DIR #{drive}#{BS} > NUL")
+      end
+    end
+
+    #
+    # @module GuestCapHalt
+    # @description Vagrant 2 `:halt` guest capability module for `:msdos`.
+    #
+    module GuestCapHalt
+      # @param [Object] machine The Vagrant machine instance.
+      # @return [Integer] DOS exit code.
+      def self.halt(machine)
+        Guest.halt(machine)
+      end
+    end
+
+    #
+    # @module GuestCapChangeHostName
+    # @description Vagrant 2 `:change_host_name` guest capability module for `:msdos`.
+    #
+    module GuestCapChangeHostName
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [String] name Desired hostname.
+      # @return [Integer] DOS exit code.
+      def self.change_host_name(machine, name)
+        Guest.change_host_name(machine, name)
+      end
+    end
+
+    #
+    # @module GuestCapMountSharedFolder
+    # @description Vagrant 2 `:mount_shared_folder` guest capability module for `:msdos`.
+    #
+    module GuestCapMountSharedFolder
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [String] name Shared folder name or drive.
+      # @param [String, nil] _guestpath Guest mount path.
+      # @param [Hash, nil] _options Mount options.
+      # @return [Boolean] True if the shared drive responds.
+      def self.mount_shared_folder(machine, name = 'D:', _guestpath = nil, _options = nil)
+        drive = name.to_s.match?(/^[A-Za-z]:$/) ? name.to_s : 'D:'
+        Guest.mount_shared_folder(machine, drive)
       end
     end
   end

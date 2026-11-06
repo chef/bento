@@ -31,6 +31,31 @@ RSpec.describe Bento::VagrantFreedos::CommandSsh do
     end
   end
 
+  describe '.synopsis and #execute' do
+    it 'returns synopsis and resolves target machine from env or fallback struct' do
+      expect(described_class.synopsis).to include('communicator')
+      out = StringIO.new
+      allow(communicator).to receive(:execute).with('VER', error_check: false).and_return(0)
+
+      env_with_mach = double('env', active_machines: [[:default, :qemu]])
+      allow(env_with_mach).to receive(:machine).with(:default, :qemu).and_return(machine)
+      cmd1 = described_class.new(['-c', 'VER', '--unknown-flag', 'default'], env_with_mach)
+      expect(cmd1.execute(stdout: out)).to eq(0)
+
+      env_empty = double('env_empty', active_machines: [])
+      allow(env_empty).to receive(:machine)
+      ENV['FREEDOS_SERIAL_HOST'] = '127.0.0.1'
+      ENV['FREEDOS_SERIAL_PORT'] = '2324'
+      cmd2 = described_class.new(['-c', 'VER'], env_empty)
+      fallback_mach = cmd2.send(:resolve_target_machine, nil)
+      expect(fallback_mach.communicate).to be_a(Object)
+      ENV.delete('FREEDOS_SERIAL_HOST')
+      ENV.delete('FREEDOS_SERIAL_PORT')
+      cmd3 = described_class.new(['-c', 'VER'], nil)
+      expect(cmd3.send(:resolve_target_machine, 'custom').name).to eq(:custom)
+    end
+  end
+
   describe '#parse_argv' do
     it 'parses -c / --command and -p / --plain flags' do
       cmd = described_class.new(['-p', '-c', 'D:\HELLO16.EXE', 'default'])
@@ -51,6 +76,7 @@ RSpec.describe Bento::VagrantFreedos::CommandSsh do
           0
         end
 
+        allow(communicator).to receive(:close_socket)
         handler = described_class.new(['-c', 'VER'])
         expect(handler.execute_for_machine(mach, stdout: out)).to eq(0)
         expect(out.string).to eq("FreeDOS 1.3

@@ -72,6 +72,46 @@ module Bento
       end
 
       #
+      # Merges this configuration object with `other`, preferring non-UNSET values from `other`.
+      #
+      # @param [Config] other Configuration instance to merge on top of `self`.
+      # @return [Config] New merged configuration instance.
+      #
+      def merge(other)
+        result = self.class.new
+        [self, other].each do |obj|
+          obj.instance_variables.each do |key|
+            next if key.to_s.start_with?('@__')
+
+            val = obj.instance_variable_get(key)
+            result.instance_variable_set(key, val) if val != UNSET_VALUE
+          end
+        end
+        result
+      end
+
+      #
+      # Marks internal Vagrant 2 configuration finalization state.
+      #
+      # @return [Boolean] True once finalized.
+      #
+      def _finalize!
+        @__finalized = true
+      end
+
+      #
+      # Sets multiple configuration attributes from an options hash.
+      #
+      # @param [Hash<Symbol, Object>] options Key-value map of configuration attributes.
+      # @return [void]
+      #
+      def set_options(options)
+        options.each do |key, value|
+          send("#{key}=", value) if respond_to?("#{key}=")
+        end
+      end
+
+      #
       # Resolves unset attributes to their default values.
       #
       # @return [void]

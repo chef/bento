@@ -21,6 +21,9 @@ RSpec.describe Bento::VagrantMsdos::SyncedFolder do
 
       other = double('other', config: double('cfg', vm: double('vm', communicator: :ssh, guest: :linux)))
       expect(synced_folder.usable?(other)).to be(false)
+      expect(synced_folder._initialize).to be_nil
+      expect(synced_folder.capability?(:any)).to be(false)
+      expect(synced_folder.disable(machine, {})).to be_nil
     end
 
     it 'normalizes long filenames and paths to 8.3 in both hierarchical and flat (v1.25) modes' do
@@ -152,6 +155,40 @@ RSpec.describe Bento::VagrantMsdos::SyncedFolder do
         expect(described_class.sync_after_command(m)).to eq([])
       end
     end
+
+    it 'formats partitioned MBR+FAT16 images and round-trips empty, multi-cluster, deleted, and volume-label entries' do
+      Dir.mktmpdir do |tmpdir|
+        img_path = File.join(tmpdir, 'test_d.raw')
+        src_dir  = File.join(tmpdir, 'src_fat')
+        dst_dir  = File.join(tmpdir, 'dst_fat')
+        expect(synced_folder.valid_mbr_fat16_image?(img_path)).to be(false)
+        expect(synced_folder.write_directory_to_fat16(img_path, File.join(tmpdir, 'missing'))).to eq(0)
+        expect(synced_folder.extract_fat16_to_directory(img_path, dst_dir)).to eq([])
+
+        FileUtils.mkdir_p(src_dir)
+        File.binwrite(File.join(src_dir, 'EMPTY.TXT'), '')
+        File.binwrite(File.join(src_dir, 'README'), 'NO_EXT_FILE')
+        File.binwrite(File.join(src_dir, 'BIG.BIN'), 'A' * 5000)
+
+        expect(synced_folder.write_directory_to_fat16(img_path, src_dir)).to eq(3)
+        expect(synced_folder.valid_mbr_fat16_image?(img_path)).to be(true)
+
+        # Inject a deleted entry (0xE5), a volume label entry (attr 0x08), and a blank-name entry in root dir
+        root_offset = (63 + 1 + 64) * 512
+        File.open(img_path, 'r+b') do |f|
+          f.seek(root_offset + (3 * 32))
+          f.write("\xE5DELETED TXT" + ("\x00" * 20))
+          f.write("BENTO_VOL  \x08" + ("\x00" * 20))
+          f.write((' ' * 11) + "\x20" + ("\x00" * 20))
+        end
+
+        extracted = synced_folder.extract_fat16_to_directory(img_path, dst_dir)
+        expect(extracted).to include('EMPTY.TXT', 'README', 'BIG.BIN')
+        expect(File.binread(File.join(dst_dir, 'EMPTY.TXT'))).to eq('')
+        expect(File.binread(File.join(dst_dir, 'README'))).to eq('NO_EXT_FILE')
+        expect(File.binread(File.join(dst_dir, 'BIG.BIN'))).to eq('A' * 5000)
+      end
+    end
   end
 end
 
@@ -172,6 +209,15 @@ RSpec.describe Bento::VagrantMsdos::CommandSync do
 
       cmd_host = described_class.new(['--to-host'])
       expect(cmd_host.execute_for_machine(machine, host_dir: host_dir, stdout: out)).to eq(0)
+
+      expect(described_class.synopsis).to include('synchronizes files')
+      env_with_mach = double('env', active_machines: [[:default, :qemu]])
+      allow(env_with_mach).to receive(:machine).with(:default, :qemu).and_return(machine)
+      expect(described_class.new(['--to-host', 'default'], env_with_mach).execute(host_dir: host_dir, stdout: out)).to eq(0)
+      env_empty = double('env_empty', active_machines: [])
+      allow(env_empty).to receive(:machine)
+      expect(described_class.new(['--to-host'], env_empty).execute(host_dir: host_dir, stdout: out)).to eq(0)
+      expect(described_class.new(['--to-host'], nil).execute(host_dir: host_dir, stdout: out)).to eq(0)
 
       cmd_watch = described_class.new(['--watch', '--live', '--other'])
       parsed = cmd_watch.parse_argv(cmd_watch.argv)

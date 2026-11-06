@@ -108,15 +108,23 @@ locals {
   qemu_machine_type = var.qemu_machine_type == null ? (
     local.is_dos ? "pc" : (var.os_arch == "aarch64" ? "virt" : "q35")
   ) : var.qemu_machine_type
+  qemu_disk_image = var.qemu_disk_image || local.is_msdos
   qemuargs = var.qemuargs == null ? (
-    local.is_dos ? [
+    local.is_msdos ? [
       ["-vga", "std"],
       ["-rtc", "base=localtime"],
       ["-serial", "telnet:127.0.0.1:${local.dos_serial_port},server,nowait"],
       ["-monitor", "unix:${local.dos_monitor_sock},server,nowait"],
-      ["-boot", "order=c,once=d"],
+      ["-boot", "order=c"],
       ] : (
-      var.is_windows ? [
+      local.is_dos ? [
+        ["-vga", "std"],
+        ["-rtc", "base=localtime"],
+        ["-serial", "telnet:127.0.0.1:${local.dos_serial_port},server,nowait"],
+        ["-monitor", "unix:${local.dos_monitor_sock},server,nowait"],
+        ["-boot", "order=c,once=d"],
+        ] : (
+        var.is_windows ? [
         ["-device", "qemu-xhci"],
         ["-device", "virtio-tablet"],
         ["-drive", "file=${local.build_dir}/iso/virtio-win.iso,media=cdrom,index=3"],
@@ -135,7 +143,8 @@ locals {
         ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
         ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
         ["-boot", "strict=off"],
-      ]
+        ]
+      )
     )
   ) : var.qemuargs
 
@@ -440,7 +449,7 @@ source "qemu" "vm" {
   disk_compression    = var.qemu_disk_compression
   disk_detect_zeroes  = var.qemu_disk_detect_zeroes
   disk_discard        = var.qemu_disk_discard
-  disk_image          = var.qemu_disk_image
+  disk_image          = local.qemu_disk_image
   disk_interface      = var.qemu_disk_interface
   efi_boot            = local.qemu_efi_boot
   efi_firmware_code   = local.qemu_efi_firmware_code
