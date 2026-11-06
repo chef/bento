@@ -20,6 +20,46 @@ variable "is_windows" {
   default     = false
   description = "Determines to set setting for Windows or Linux"
 }
+variable "is_freedos" {
+  type        = bool
+  default     = false
+  description = "Determines whether to apply FreeDOS/DOS specific settings"
+}
+variable "freedos_serial_port" {
+  type        = number
+  default     = 2323
+  description = "TCP port used by the QEMU/UTM/VirtualBox Telnet-over-Serial bridge for FreeDOS"
+}
+variable "freedos_serial_socket" {
+  type        = string
+  default     = "/tmp/freedos-serial.sock"
+  description = "Unix domain socket path for FreeDOS COM1 serial communication"
+}
+variable "freedos_disk_format" {
+  type        = string
+  default     = "raw"
+  description = "Disk image format for FreeDOS standalone image (raw or qcow2)"
+}
+variable "is_msdos" {
+  type        = bool
+  default     = false
+  description = "Determines whether to apply Microsoft MS-DOS (1.25, 2.0, 4.0) specific settings"
+}
+variable "msdos_serial_port" {
+  type        = number
+  default     = 2324
+  description = "TCP port used by the QEMU/UTM/VirtualBox Telnet-over-Serial bridge for MS-DOS"
+}
+variable "msdos_serial_socket" {
+  type        = string
+  default     = "/tmp/msdos-serial.sock"
+  description = "Unix domain socket path for MS-DOS COM1 serial communication"
+}
+variable "msdos_disk_format" {
+  type        = string
+  default     = "raw"
+  description = "Disk image format for MS-DOS standalone image (raw or qcow2)"
+}
 variable "http_proxy" {
   type        = string
   default     = env("http_proxy")

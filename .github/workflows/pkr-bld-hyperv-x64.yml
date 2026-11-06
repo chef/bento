@@ -35,7 +35,7 @@ jobs:
         run: |
           chef shell-init powershell
           gem build bento.gemspec
-          gem install bento-*.gem
+          gem install bento-*.gem --no-document
       - name: Create VM Switch for Hyper-V
         shell: pwsh
         run: |

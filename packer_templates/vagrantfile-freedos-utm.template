@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+begin
+  require "bento/vagrant_freedos"
+rescue LoadError
+  bento_lib = File.expand_path("lib", __dir__)
+  $LOAD_PATH.unshift(bento_lib) if File.directory?(bento_lib) && !$LOAD_PATH.include?(bento_lib)
+  begin
+    require "bento/vagrant_freedos"
+  rescue LoadError
+    # Plugin can also be loaded from the workspace or installed gem
+  end
+end
+
+Vagrant.configure("2") do |config|
+  config.vagrant.plugins = "vagrant_utm"
+  config.vm.guest = :freedos
+  config.vm.communicator = :freedos
+  config.ssh.insert_key = false
+
+  if config.respond_to?(:freedos)
+    config.freedos.host = "127.0.0.1"
+    config.freedos.port = (ENV["FREEDOS_SERIAL_PORT"] || 2323).to_i
+    config.freedos.sync_drive = "D:"
+    config.freedos.work_dir = "D:"
+  end
+
+  config.vm.synced_folder ".", "/vagrant",
+    type: :freedos_sync,
+    drive: "D:",
+    sync_direction: :bidirectional,
+    exclude: [".git/", ".vagrant/", "builds/"]
+
+  config.vm.provider "utm" do |utm|
+    utm.check_guest_additions = false
+  end
+end

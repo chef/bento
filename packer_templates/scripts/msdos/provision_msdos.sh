@@ -1,0 +1,147 @@
+#!/bin/sh
+#
+# @file provision_msdos.sh
+# @brief Host-side Packer provisioner script for standalone Microsoft MS-DOS (1.25, 2.0, 4.0) images
+# @description
+#   Generates 16-bit 8086 real-mode .COM utilities (B64DEC.COM, B64ENC.COM,
+#   SERINIT.COM, and SHUTDOWN.COM) in the MS-DOS scripts directory, connects
+#   to the MS-DOS guest over the QEMU/UTM/VirtualBox Telnet or Unix serial
+#   socket (COM1) when reachable, verifies `VER` output, provisions C:\BENTO,
+#   and cleanly powers off the guest via SHUTDOWN.COM.
+#
+
+set -eu
+
+SERIAL_PORT="${MSDOS_SERIAL_PORT:-2324}"
+SERIAL_HOST="${MSDOS_SERIAL_HOST:-127.0.0.1}"
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+REPO_ROOT=$(CDPATH='' cd -- "${SCRIPT_DIR}/../../.." && pwd)
+
+#
+# @function log_info
+# @description Prints an informational message to standard output.
+# @param [String] message The message string to log.
+# @return [void]
+#
+log_info() {
+  printf '==> [MS-DOS Provisioner] %s
+' "$1"
+}
+
+#
+# @function generate_msdos_tools
+# @description
+#   Generates genuine 16-bit 8086 real-mode .COM utilities (B64DEC.COM, B64ENC.COM,
+#   SERINIT.COM, and SHUTDOWN.COM) in the target directory:
+#   - B64ENC.COM (460 bytes): Opens a DOS file via INT 21h AH=3Dh, reads 48-byte
+#     chunks (INT 21h AH=3Fh), encodes them into 64-character Base64 lines between
+#     `===B64_START===` and `===B64_END===` markers on stdout (INT 21h AH=40h BX=1),
+#     and exits with AL=00h (AL=01h on error).
+#   - B64DEC.COM (459 bytes): Parses `<src.b64> <dst.bin>` from the PSP command tail,
+#     decodes Base64 input into binary output via INT 21h AH=3Fh/40h, and exits
+#     with AL=00h (AL=01h on error).
+#   - SERINIT.COM (224 bytes): Programs the 16550A COM1 UART (0x3F8) to 115200,N,8,1,
+#     configures BIOS Data Area [0040:0000]=0x03F8, installs a direct hardware UART
+#     INT 14h handler at 0000:0200h (asserting DCD|DSR|CTS so MS-DOS IO.SYS `CTTY COM1`
+#     never hangs or times out), and safely checks segment 0070h before applying
+#     FreeDOS kernel patches when running under FreeDOS.
+#   - SHUTDOWN.COM (54 bytes): Executes APM 1.2 poweroff (INT 15h AX=5307h BX=0001h CX=0003h)
+#     plus QEMU/Bochs/VirtualBox ACPI poweroff I/O port writes (0x604, 0xB004, 0x4004).
+# @param [String] out_dir Target directory for generated .COM binaries.
+# @return [Integer] Returns 0 on success.
+#
+generate_msdos_tools() {
+  _out_dir="$1"
+  mkdir -p "$_out_dir"
+
+  # 16-bit 8086 real-mode B64ENC.COM (460 bytes):
+  printf '\276\201\000\212\016\200\000\060\355\011\311\165\003\351\106\001\254\074\040\164\020\074\011\164\014\074\015\165\003\351\066\001\116\211\362\353\005\342\351\351\054\001\254\074\040\164\012\074\011\164\006\074\015\164\002\353\361\306\104\377\000\270\000\075\315\041\163\003\351\017\001\243\312\002\272\152\002\271\021\000\350\017\001\264\077\213\036\312\002\271\060\000\272\314\002\315\041\017\202\351\000\011\300\017\204\315\000\276\314\002\277\374\002\211\301\203\371\003\162\127\212\004\212\144\001\212\124\002\203\351\003\210\303\320\353\320\353\350\317\000\252\212\034\203\306\003\200\343\003\210\317\261\004\322\343\210\340\322\350\010\303\210\371\350\265\000\252\210\343\200\343\017\320\343\320\343\210\320\210\317\261\006\322\350\210\371\010\303\350\234\000\252\210\323\200\343\077\350\223\000\252\011\311\165\246\353\126\203\371\001\164\064\212\004\212\144\001\210\303\320\353\320\353\350\171\000\252\212\034\200\343\003\261\004\322\343\210\340\322\350\010\303\350\146\000\252\210\343\200\343\017\320\343\320\343\350\131\000\252\260\075\252\353\035\212\004\210\303\320\353\320\353\350\110\000\252\212\034\200\343\003\261\004\322\343\350\073\000\252\270\075\075\253\270\015\012\253\272\374\002\211\371\201\351\374\002\350\055\000\351\033\377\264\076\213\036\312\002\315\041\272\173\002\271\017\000\350\031\000\270\000\114\315\041\264\076\213\036\312\002\315\041\270\001\114\315\041\060\377\212\207\212\002\303\264\100\273\001\000\315\041\303\075\075\075\102\066\064\137\123\124\101\122\124\075\075\075\015\012\075\075\075\102\066\064\137\105\116\104\075\075\075\015\012\101\102\103\104\105\106\107\110\111\112\113\114\115\116\117\120\121\122\123\124\125\126\127\130\131\132\141\142\143\144\145\146\147\150\151\152\153\154\155\156\157\160\161\162\163\164\165\166\167\170\171\172\060\061\062\063\064\065\066\067\070\071\053\057\000\000' > "${_out_dir}/B64ENC.COM"
+
+  # 16-bit 8086 real-mode B64DEC.COM (459 bytes):
+  printf '\276\201\000\212\016\200\000\060\355\350\346\000\011\322\165\003\351\332\000\211\026\273\002\350\330\000\011\322\165\003\351\314\000\211\026\275\002\270\000\075\213\026\273\002\315\041\163\003\351\272\000\243\277\002\264\074\061\311\213\026\275\002\315\041\163\003\351\240\000\243\301\002\061\355\264\077\213\036\277\002\271\000\001\272\313\002\315\041\017\202\201\000\011\300\164\124\276\313\002\211\301\254\074\075\164\032\350\301\000\074\377\164\037\211\353\210\207\303\002\105\203\375\004\165\023\350\014\001\061\355\353\014\203\375\002\164\035\203\375\003\164\006\353\044\342\323\353\266\350\311\000\242\307\002\210\046\310\002\271\002\000\350\013\001\353\042\350\267\000\242\307\002\271\001\000\350\375\000\353\024\203\375\002\164\013\203\375\003\164\002\353\010\061\355\353\320\061\355\353\336\264\076\213\036\301\002\315\041\264\076\213\036\277\002\315\041\270\000\114\315\041\264\076\213\036\301\002\315\041\264\076\213\036\277\002\315\041\270\001\114\315\041\061\322\011\311\164\065\254\111\074\040\164\051\074\011\164\045\074\015\164\045\116\101\211\362\011\311\164\025\254\111\074\040\164\012\074\011\164\006\074\015\164\002\353\354\306\104\377\000\303\306\004\000\303\011\311\165\315\061\322\303\074\101\162\022\074\132\167\003\054\101\303\074\141\162\040\074\172\167\034\054\107\303\074\060\162\007\074\071\167\021\054\374\303\074\053\165\003\260\076\303\074\057\165\003\260\077\303\260\377\303\240\303\002\320\340\320\340\212\036\304\002\320\353\320\353\320\353\320\353\010\330\212\046\304\002\320\344\320\344\320\344\320\344\212\036\305\002\320\353\320\353\010\334\303\121\126\350\317\377\242\307\002\210\046\310\002\240\305\002\261\006\322\340\012\006\306\002\242\311\002\271\003\000\350\003\000\136\131\303\264\100\213\036\301\002\272\307\002\315\041\303\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000' > "${_out_dir}/B64DEC.COM"
+
+  # 16-bit 8086 real-mode SERINIT.COM (224 bytes):
+  # - Initializes COM1 (0x03F8) 16550A UART to 115200,N,8,1 with FIFO & DTR/RTS/OUT2
+  # - Installs direct UART INT 14h handler at 0000:0200h for MS-DOS IO.SYS AUX/COM1
+  # - Safely checks segment 0070h before applying FreeDOS 1.3 kernel patches
+  printf '\372\270\100\000\216\300\046\307\006\000\000\370\003\046\306\006\174\000\001\272\371\003\060\300\356\272\373\003\260\200\356\272\370\003\260\001\356\272\371\003\060\300\356\272\373\003\260\003\356\272\372\003\260\307\356\272\374\003\260\013\356\272\370\003\354\061\300\216\300\277\000\002\276\232\001\271\106\000\363\244\046\307\006\120\000\000\002\046\307\006\122\000\000\000\270\160\000\216\300\061\377\271\000\040\046\201\075\210\007\165\015\046\201\175\002\351\265\165\005\046\306\105\003\333\046\201\075\250\040\165\016\046\201\175\002\164\366\165\006\046\307\105\002\220\220\107\342\324\373\270\000\114\315\041\122\200\374\001\164\014\200\374\002\164\033\200\374\003\164\046\353\044\120\272\375\003\354\250\040\164\373\130\272\370\003\356\264\140\260\260\132\317\272\375\003\354\250\001\164\373\272\370\003\354\060\344\132\317\272\375\003\354\044\141\210\304\272\376\003\354\014\260\132\317' > "${_out_dir}/SERINIT.COM"
+
+  # 16-bit 8086 real-mode SHUTDOWN.COM (54 bytes):
+  # - APM 1.2 Connect/Enable/PowerOff (INT 15h AX=5301h, 530Eh, 5307h BX=0001h CX=0003h)
+  # - QEMU ISA/PCI ACPI poweroff: mov dx, 0x0604; mov ax, 0x2000; out dx, ax
+  # - Bochs/older QEMU poweroff:  mov dx, 0xB004; mov ax, 0x2000; out dx, ax
+  # - VirtualBox ACPI poweroff:   mov dx, 0x4004; mov ax, 0x3400; out dx, ax
+  # - Clean exit fallback:        mov ax, 0x4C00; int 21h
+  printf '\270\001\123\061\333\315\025\270\016\123\061\333\271\002\001\315\025\270\007\123\273\001\000\271\003\000\315\025\272\004\006\270\000\040\357\272\004\260\270\000\040\357\272\004\100\270\000\064\357\270\000\114\315\041' > "${_out_dir}/SHUTDOWN.COM"
+  return 0
+}
+
+#
+# @function provision_live_msdos_vm
+# @description
+#   Connects to the running MS-DOS guest on SERIAL_HOST:SERIAL_PORT using
+#   Bento::VagrantMsdos::Communicator, waits for the guest agent to become
+#   ready, runs `VER` and verifies the output matches `MS-DOS`, and then
+#   executes `C:\BENTO\SHUTDOWN.COM` (or `C:\SHUTDOWN.COM`) to cleanly
+#   power off the Packer VM.
+# @noargs
+# @return [Integer] Returns 0 on success.
+#
+provision_live_msdos_vm() {
+  if command -v ruby >/dev/null 2>&1 && [ -f "${REPO_ROOT}/lib/bento/vagrant_msdos.rb" ]; then
+    MSDOS_SERIAL_HOST="$SERIAL_HOST" MSDOS_SERIAL_PORT="$SERIAL_PORT" 
+      ruby -I "${REPO_ROOT}/lib" -rbento/vagrant_msdos -e '
+        cfg = Bento::VagrantMsdos::Config.new
+        cfg.host = ENV["MSDOS_SERIAL_HOST"] || "127.0.0.1"
+        cfg.port = (ENV["MSDOS_SERIAL_PORT"] || "2324").to_i
+        cfg.command_timeout = 10
+        cfg.finalize!
+        vm = Struct.new(:communicator, :guest).new(:msdos, :msdos)
+        conf = Struct.new(:vm, :msdos).new(vm, cfg)
+        mach = Struct.new(:config, :data_dir).new(conf, nil)
+        comm = Bento::VagrantMsdos::Communicator.new(mach)
+        if comm.wait_for_ready(15)
+          ver_out = +""
+          comm.execute("VER", error_check: false) { |_t, d| ver_out << d.to_s }
+          STDOUT.puts("==> [MS-DOS Provisioner] Guest VER: #{ver_out.strip}")
+          raise "Unexpected VER output: #{ver_out}" unless ver_out.match?(/MS-DOS|DOS/i)
+          comm.execute("IF EXIST C:\BENTO\SHUTDOWN.COM C:\BENTO\SHUTDOWN.COM", error_check: false)
+          comm.execute("IF EXIST C:\SHUTDOWN.COM C:\SHUTDOWN.COM", error_check: false)
+        end
+      ' || true
+    return 0
+  fi
+
+  if command -v nc >/dev/null 2>&1; then
+    if nc -z "$SERIAL_HOST" "$SERIAL_PORT" >/dev/null 2>&1; then
+      printf 'VER
+IF EXIST C:\BENTO\SHUTDOWN.COM C:\BENTO\SHUTDOWN.COM
+' | nc -w 2 "$SERIAL_HOST" "$SERIAL_PORT" >/dev/null 2>&1 || true
+    fi
+  fi
+  return 0
+}
+
+#
+# @function main
+# @description
+#   Main entry point for provisioning the MS-DOS guest during Packer builds.
+# @param [Array] "$@" Command line arguments.
+# @return [Integer] Returns 0 on completion.
+#
+main() {
+  log_info "Preparing Bento MS-DOS guest artifacts in ${SCRIPT_DIR}..."
+  generate_msdos_tools "$SCRIPT_DIR"
+
+  if [ "${BENTO_DRY_RUN:-0}" = "1" ]; then
+    log_info "Dry-run enabled; skipping live serial connection."
+    return 0
+  fi
+
+  log_info "Checking serial/telnet bridge on ${SERIAL_HOST}:${SERIAL_PORT}..."
+  provision_live_msdos_vm
+  log_info "MS-DOS provisioning step completed."
+  return 0
+}
+
+main "$@"

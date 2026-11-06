@@ -2,14 +2,64 @@
 * text=auto
 
 # Force LF line ending on these files
-*.sh eol=lf
+*.sh text eol=lf
 
-ks.cfg eol=lf
-preseed.cfg eol=lf
+ks.cfg text eol=lf
+8ks.cfg text eol=lf
+preseed.cfg text eol=lf
 
-# Force CRLF line ending on these files
-*.bat eol=crlf
-Autounattend.xml eol=crlf
+# Force CRLF line ending on DOS and Windows files
+*.bat text eol=crlf
+*.BAT text eol=crlf
+*.cmd text eol=crlf
+*.CMD text eol=crlf
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
+*.sys text eol=crlf
+*.SYS text eol=crlf
+*.asm text eol=crlf
+*.ASM text eol=crlf
+*.inc text eol=crlf
+*.INC text eol=crlf
+*.mak text eol=crlf
+*.MAK text eol=crlf
+*.ini text eol=crlf
+*.INI text eol=crlf
+*.reg text eol=crlf
+*.vbs text eol=crlf
+Autounattend.xml text eol=crlf
+lib/bento/test_templates/freedos_openwatcom/*.C text eol=crlf
+lib/bento/test_templates/msdos_build/*.ASM text eol=crlf
 
-# Force binary on these files
+# Force binary on certificates, DOS/Windows executables, and disk images
 *.cer binary
+*.com binary
+*.COM binary
+*.exe binary
+*.EXE binary
+*.dll binary
+*.DLL binary
+*.obj binary
+*.OBJ binary
+*.lib binary
+*.LIB binary
+*.bin binary
+*.BIN binary
+*.img binary
+*.IMG binary
+*.ima binary
+*.IMA binary
+*.vfd binary
+*.VFD binary
+*.flp binary
+*.FLP binary
+*.iso binary
+*.ISO binary
+*.qcow2 binary
+*.raw binary
+*.vdi binary
+*.vmdk binary
+*.vhd binary
+*.vhdx binary
+*.box binary
