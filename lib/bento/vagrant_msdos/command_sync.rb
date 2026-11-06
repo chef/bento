@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
-#
-# @file command_sync.rb
-# @brief Vagrant CLI command `vagrant msdos-sync` for bidirectional MS-DOS folder synchronization
-# @description
-#   Provides the `vagrant msdos-sync` command supporting `--to-guest`,
-#   `--to-host`, `--live`, `--crlf`, and `--watch` options to synchronize files
-#   between the host workspace and the MS-DOS (1.25, 2.0, 4.0) `D:` synced drive on demand.
-#
-
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for Microsoft MS-DOS guests.
   module VagrantMsdos
-    #
-    # @class CommandSync
-    # @description
-    #   CLI handler for `vagrant msdos-sync` to push host files to MS-DOS (`--to-guest`),
-    #   pull guest build/test artifacts back to the host (`--to-host`), or run a watch cycle.
-    #
+    # CLI handler for `vagrant msdos-sync` to push host files to MS-DOS (`--to-guest`),
+    # pull guest build/test artifacts back to the host (`--to-host`), or run a watch cycle.
     class CommandSync
       # @return [Array<String>] Command-line arguments passed to `vagrant msdos-sync`.
       attr_reader :argv

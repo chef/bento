@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
-#
-# @file guest.rb
-# @brief Vagrant guest OS plugin and capabilities for FreeDOS (`config.vm.guest = :freedos`)
-# @description
-#   Implements FreeDOS guest detection (`VER` output inspection) and guest
-#   capabilities including clean APM poweroff (`FDAPM POWEROFF`), hostname
-#   assignment (`SET HOSTNAME=...`), and shared drive verification.
-#
-
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for FreeDOS guests.
   module VagrantFreedos
-    #
-    # @class Guest
-    # @description
-    #   Detects FreeDOS / MS-DOS guests over the active communicator and exposes
-    #   DOS-compatible guest lifecycle capabilities to Vagrant.
-    #
+    # Detects FreeDOS / MS-DOS guests over the active communicator and exposes
+    # DOS-compatible guest lifecycle capabilities to Vagrant.
     class Guest
       # @return [String] Backslash character.
       BS = 92.chr
@@ -79,10 +68,7 @@ module Bento
       end
     end
 
-    #
-    # @module GuestCapHalt
-    # @description Vagrant 2 `:halt` guest capability module for `:freedos`.
-    #
+    # Vagrant 2 `:halt` guest capability module for `:freedos`.
     module GuestCapHalt
       # @param [Object] machine The Vagrant machine instance.
       # @return [Integer] DOS exit code.
@@ -91,10 +77,7 @@ module Bento
       end
     end
 
-    #
-    # @module GuestCapChangeHostName
-    # @description Vagrant 2 `:change_host_name` guest capability module for `:freedos`.
-    #
+    # Vagrant 2 `:change_host_name` guest capability module for `:freedos`.
     module GuestCapChangeHostName
       # @param [Object] machine The Vagrant machine instance.
       # @param [String] name Desired hostname.
@@ -104,10 +87,7 @@ module Bento
       end
     end
 
-    #
-    # @module GuestCapMountSharedFolder
-    # @description Vagrant 2 `:mount_shared_folder` guest capability module for `:freedos`.
-    #
+    # Vagrant 2 `:mount_shared_folder` guest capability module for `:freedos`.
     module GuestCapMountSharedFolder
       # @param [Object] machine The Vagrant machine instance.
       # @param [String] name Shared folder name or drive.

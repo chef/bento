@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
-#
-# @file command_sync.rb
-# @brief Vagrant CLI command `vagrant freedos-sync` for bidirectional FreeDOS folder synchronization
-# @description
-#   Provides the `vagrant freedos-sync` command supporting `--to-guest`,
-#   `--to-host`, and `--watch` options to synchronize files between the host
-#   workspace and the FreeDOS `D:` synced drive on demand.
-#
-
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for FreeDOS guests.
   module VagrantFreedos
-    #
-    # @class CommandSync
-    # @description
-    #   CLI handler for `vagrant freedos-sync` to push host files to FreeDOS (`--to-guest`),
-    #   pull guest build/test artifacts back to the host (`--to-host`), or run a watch cycle.
-    #
+    # CLI handler for `vagrant freedos-sync` to push host files to FreeDOS (`--to-guest`),
+    # pull guest build/test artifacts back to the host (`--to-host`), or run a watch cycle.
     class CommandSync
       # @return [Array<String>] Command-line arguments passed to `vagrant freedos-sync`.
       attr_reader :argv

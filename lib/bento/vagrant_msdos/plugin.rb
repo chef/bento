@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-#
-# @file plugin.rb
-# @brief Vagrant Plugin registration for the Bento MS-DOS Suite (`Bento::VagrantMsdos::Plugin`)
-# @description
-#   Registers the `:msdos` configuration block, `:msdos` guest OS & capabilities,
-#   `:msdos` / `:msdos_serial` / `:msdos_telnet` communicator, `:msdos_sync`
-#   bidirectional synced folder implementation, `vagrant msdos-ssh` / `vagrant ssh`
-#   polyfill hooks, and `vagrant msdos-sync` CLI command for MS-DOS 1.25, 2.0, and 4.0.
-#
-
 require_relative 'config'
 require_relative 'guest'
 require_relative 'communicator'
@@ -17,14 +7,12 @@ require_relative 'command_ssh'
 require_relative 'synced_folder'
 require_relative 'command_sync'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for Microsoft MS-DOS guests.
   module VagrantMsdos
-    #
-    # @class Plugin
-    # @description
-    #   Provides unified registration metadata and Vagrant v2 plugin hooks for
-    #   Microsoft MS-DOS (1.25, 2.0, 4.0) guests.
-    #
+    # Provides unified registration metadata and Vagrant v2 plugin hooks for
+    # Microsoft MS-DOS (1.25, 2.0, 4.0) guests.
     class Plugin
       #
       # Returns the map of all registered plugin components for inspection and testing.

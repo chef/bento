@@ -1,33 +1,15 @@
 # frozen_string_literal: true
 
-#
-# @file synced_folder.rb
-# @brief Bidirectional synced folder plugin for FreeDOS (`type: :freedos_sync`)
-# @description
-#   Implements `Vagrant.plugin("2", :synced_folder)` for FreeDOS guests, supporting:
-#   1. Host -> Guest synchronization (`sync_to_guest`):
-#      - Creates/updates a secondary FAT16/FAT32 disk image (`freedos_sync_d.raw`)
-#        and stages files via `mtools` (`mformat` / `mcopy`) or live serial/telnet
-#        incremental upload.
-#      - Optional CRLF conversion for DOS text/source/batch files (`.BAT`, `.C`, `.H`, `.WAT`, `.MAK`).
-#   2. Guest -> Host synchronization (`sync_to_host`):
-#      - Flushes DOS file buffers and extracts newly created or modified build/test
-#        artifacts (`.EXE`, `.COM`, `.OBJ`, `.MAP`, `.LOG`, `.TXT`) from FreeDOS `D:`
-#        back into the host workspace directory after commands or before VM halt.
-#
-
 require 'fileutils'
 require 'digest'
 require 'json'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for FreeDOS guests.
   module VagrantFreedos
-    #
-    # @class SyncedFolder
-    # @description
-    #   Manages bidirectional directory synchronization between a host directory
-    #   and a FreeDOS guest drive (default `D:`).
-    #
+    # Manages bidirectional directory synchronization between a host directory
+    # and a FreeDOS guest drive (default `D:`).
     class SyncedFolder
       # @return [String] Backslash character.
       BS = 92.chr
@@ -42,16 +24,8 @@ module Bento
       TEXT_EXTENSIONS = %w[.bat .cmd .c .h .cpp .hpp .asm .inc .wat .mak .lnk .cfg .txt].freeze
 
       #
-      # Determines whether the `:freedos_sync` synced folder plugin is usable for `machine`.
-      #
-      # @param [Object] machine The Vagrant machine instance.
-      # @param [Boolean] _raise_error Whether to raise an exception if unusable.
-      # @return [Boolean] True when the machine is configured as a FreeDOS guest.
-      #
-      #
       # Initializes internal Vagrant 2 synced folder plugin state.
       #
-      # @param [Object] *_args Ignored initialization arguments.
       # @return [void]
       #
       def _initialize(*_args); end
@@ -76,6 +50,13 @@ module Bento
       #
       def disable(_machine, _folders, _opts = nil); end
 
+      #
+      # Determines whether the `:freedos_sync` synced folder plugin is usable for `machine`.
+      #
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [Boolean] _raise_error Whether to raise an exception if unusable.
+      # @return [Boolean] True when the machine is configured as a FreeDOS guest.
+      #
       def usable?(machine, _raise_error = false)
         CommandSsh.freedos_machine?(machine)
       end

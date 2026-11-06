@@ -1,36 +1,21 @@
 # frozen_string_literal: true
 
-#
-# @file communicator.rb
-# @brief Telnet / Serial Communicator plugin for FreeDOS (`config.vm.communicator = :freedos`)
-# @description
-#   Implements the Vagrant communicator interface (`ready?`, `wait_for_ready`,
-#   `execute`, `sudo`, `test`, `upload`, `download`, `reset!`) over a QEMU,
-#   UTM, or VirtualBox Telnet TCP socket or Unix domain serial socket connected
-#   to FreeDOS `COM1` (`CTTY COM1` / `VAGAGENT.BAT`).
-#
-
 require 'socket'
 require 'securerandom'
 require 'base64'
 require 'timeout'
 require 'fileutils'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for FreeDOS guests.
   module VagrantFreedos
-    #
-    # @class CommunicatorError
-    # @description Exception raised when a DOS command fails or serial communication times out.
-    #
+    # Exception raised when a DOS command fails or serial communication times out.
     class CommunicatorError < StandardError; end
 
-    #
-    # @class Communicator
-    # @description
-    #   Provides reliable command execution, exit-code (`%ERRORLEVEL%`) capture,
-    #   and binary file upload/download between Vagrant and a FreeDOS guest over
-    #   Telnet or Unix domain serial sockets.
-    #
+    # Provides reliable command execution, exit-code (`%ERRORLEVEL%`) capture,
+    # and binary file upload/download between Vagrant and a FreeDOS guest over
+    # Telnet or Unix domain serial sockets.
     class Communicator
       # @return [Integer] Telnet Interpret As Command (IAC) byte (255).
       IAC = 255

@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
-#
-# @file config.rb
-# @brief Configuration class for the Bento FreeDOS Vagrant plugin (`config.freedos`)
-# @description
-#   Defines all tunable settings for communicating with and synchronizing files
-#   to/from a standalone FreeDOS virtual machine over Telnet or Unix domain
-#   serial sockets.
-#
-
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for FreeDOS guests.
   module VagrantFreedos
-    #
-    # @class Config
-    # @description
-    #   Holds configuration attributes for the FreeDOS communicator, `vagrant ssh`
-    #   polyfill, and bidirectional folder synchronization (`:freedos_sync`).
-    #
+    # Holds configuration attributes for the FreeDOS communicator, `vagrant ssh`
+    # polyfill, and bidirectional folder synchronization (`:freedos_sync`).
     class Config
       # @return [Symbol] Sentinel value representing an unset configuration attribute.
       UNSET_VALUE = :__unset__

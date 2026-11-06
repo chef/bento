@@ -125,24 +125,24 @@ locals {
         ["-boot", "order=c,once=d"],
         ] : (
         var.is_windows ? [
-        ["-device", "qemu-xhci"],
-        ["-device", "virtio-tablet"],
-        ["-drive", "file=${local.build_dir}/iso/virtio-win.iso,media=cdrom,index=3"],
-        ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
-        ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
-        ["-boot", "order=c,order=d"]
-        ] : [
-        ["-device", "virtio-gpu-pci"],
-        ["-device", "qemu-xhci"],
-        ["-device", "virtio-tablet"],
-        ["-device", "driver=virtio-keyboard-pci"],
-        ["-device", "driver=virtio-mouse-pci"],
-        ["-device", "driver=usb-kbd"],
-        ["-device", "driver=usb-mouse"],
-        ["-device", "virtio-serial"],
-        ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
-        ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
-        ["-boot", "strict=off"],
+          ["-device", "qemu-xhci"],
+          ["-device", "virtio-tablet"],
+          ["-drive", "file=${local.build_dir}/iso/virtio-win.iso,media=cdrom,index=3"],
+          ["-drive", "file=${abspath(local.iso_target_path)},media=cdrom,index=2"],
+          ["-drive", "file=${local.build_dir}/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=${var.qemu_format},index=1"],
+          ["-boot", "order=c,order=d"]
+          ] : [
+          ["-device", "virtio-gpu-pci"],
+          ["-device", "qemu-xhci"],
+          ["-device", "virtio-tablet"],
+          ["-device", "driver=virtio-keyboard-pci"],
+          ["-device", "driver=virtio-mouse-pci"],
+          ["-device", "driver=usb-kbd"],
+          ["-device", "driver=usb-mouse"],
+          ["-device", "virtio-serial"],
+          ["-chardev", "socket,name=org.qemu.guest_agent.0,id=org.qemu.guest_agent,server=on,wait=off"],
+          ["-device", "virtserialport,chardev=org.qemu.guest_agent,name=org.qemu.guest_agent.0"],
+          ["-boot", "strict=off"],
         ]
       )
     )

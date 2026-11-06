@@ -1,33 +1,15 @@
 # frozen_string_literal: true
 
-#
-# @file command_ssh.rb
-# @brief `vagrant ssh` and `vagrant ssh -c` polyfill for Microsoft MS-DOS guests
-# @description
-#   Intercepts `vagrant ssh` and `vagrant msdos-ssh` (as well as Vagrant's
-#   built-in `SSHExec` and `SSHRun` actions) when the target machine uses the
-#   `:msdos` communicator or `:msdos` guest OS.
-#   - For `vagrant ssh -c "<DOS_CMD>"`: executes `<DOS_CMD>` via the MS-DOS
-#     communicator, streams stdout/stderr, triggers Guest-to-Host folder sync
-#     (so newly compiled `.COM`/`.EXE`/`.OBJ`/`.TXT` files appear on the host),
-#     and exits with the DOS `%ERRORLEVEL%`.
-#   - For interactive `vagrant ssh`: attaches the user's terminal (`$stdin`/`$stdout`)
-#     directly to the MS-DOS `COM1` Telnet/Serial console in raw mode until
-#     the user presses `Ctrl+]` (`0x1D`) or types `EXIT`.
-#
-
 require 'io/console'
 require 'socket'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for Microsoft MS-DOS guests.
   module VagrantMsdos
-    #
-    # @class CommandSsh
-    # @description
-    #   Implements both the Vagrant CLI command plugin interface and the
-    #   Vagrant Action middleware interface (`#call(env)`) to transparently
-    #   polyfill `vagrant ssh` and `vagrant ssh -c` for MS-DOS (1.25, 2.0, 4.0) VMs.
-    #
+    # Implements both the Vagrant CLI command plugin interface and the
+    # Vagrant Action middleware interface (`#call(env)`) to transparently
+    # polyfill `vagrant ssh` and `vagrant ssh -c` for MS-DOS (1.25, 2.0, 4.0) VMs.
     class CommandSsh
       # @return [Integer] ASCII code for `Ctrl+]` (0x1D) escape key to exit interactive console.
       CTRL_RIGHT_BRACKET = 0x1D

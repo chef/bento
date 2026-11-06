@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
-#
-# @file config.rb
-# @brief Configuration class for the Bento Microsoft MS-DOS Vagrant plugin (`config.msdos`)
-# @description
-#   Defines all tunable settings for communicating with and synchronizing files
-#   to/from a standalone Microsoft MS-DOS (v1.25, v2.0, or v4.0) virtual machine
-#   over Telnet or Unix domain serial sockets.
-#
-
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for Microsoft MS-DOS guests.
   module VagrantMsdos
-    #
-    # @class Config
-    # @description
-    #   Holds configuration attributes for the MS-DOS communicator, `vagrant ssh`
-    #   polyfill, and bidirectional folder synchronization (`:msdos_sync`).
-    #
+    # Holds configuration attributes for the MS-DOS communicator, `vagrant ssh`
+    # polyfill, and bidirectional folder synchronization (`:msdos_sync`).
     class Config
       # @return [Symbol] Sentinel value representing an unset configuration attribute.
       UNSET_VALUE = :__unset__

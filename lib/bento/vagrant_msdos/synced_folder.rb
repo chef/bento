@@ -1,35 +1,15 @@
 # frozen_string_literal: true
 
-#
-# @file synced_folder.rb
-# @brief Bidirectional synced folder plugin for Microsoft MS-DOS (`type: :msdos_sync`)
-# @description
-#   Implements `Vagrant.plugin("2", :synced_folder)` for MS-DOS (1.25, 2.0, 4.0) guests, supporting:
-#   1. Host -> Guest synchronization (`sync_to_guest`):
-#      - Creates/updates a secondary FAT12/FAT16 disk image (`msdos_sync_d.raw`)
-#        and stages files into `msdos_drive_d` or pushes live over the serial/telnet
-#        communicator.
-#      - Normalizes paths into DOS 8.3 format (`normalize_8_3_path`), supporting both
-#        flat root staging (for MS-DOS 1.25) and hierarchical directories (MS-DOS 2.0/4.0).
-#      - Optional CRLF conversion for DOS text/source/batch files (`.BAT`, `.ASM`, `.C`, `.H`, `.MAK`).
-#   2. Guest -> Host synchronization (`sync_to_host`):
-#      - Extracts newly created or modified build/test artifacts (`.COM`, `.EXE`, `.OBJ`,
-#        `.SYS`, `.MAP`, `.LST`, `.TXT`, `.LOG`) from MS-DOS `D:` back into the host
-#        workspace directory after commands or before VM halt.
-#
-
 require 'fileutils'
 require 'digest'
 require 'json'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for Microsoft MS-DOS guests.
   module VagrantMsdos
-    #
-    # @class SyncedFolder
-    # @description
-    #   Manages bidirectional directory synchronization between a host directory
-    #   and an MS-DOS (1.25, 2.0, 4.0) guest drive (default `D:`).
-    #
+    # Manages bidirectional directory synchronization between a host directory
+    # and an MS-DOS (1.25, 2.0, 4.0) guest drive (default `D:`).
     class SyncedFolder
       # @return [String] Backslash character.
       BS = 92.chr
@@ -44,16 +24,8 @@ module Bento
       TEXT_EXTENSIONS = %w[.bat .cmd .c .h .cpp .hpp .asm .inc .wat .mak .lnk .cfg .pas .bas .txt .doc].freeze
 
       #
-      # Determines whether the `:msdos_sync` synced folder plugin is usable for `machine`.
-      #
-      # @param [Object] machine The Vagrant machine instance.
-      # @param [Boolean] _raise_error Whether to raise an exception if unusable.
-      # @return [Boolean] True when the machine is configured as an MS-DOS guest.
-      #
-      #
       # Initializes internal Vagrant 2 synced folder plugin state.
       #
-      # @param [Object] *_args Ignored initialization arguments.
       # @return [void]
       #
       def _initialize(*_args); end
@@ -78,6 +50,13 @@ module Bento
       #
       def disable(_machine, _folders, _opts = nil); end
 
+      #
+      # Determines whether the `:msdos_sync` synced folder plugin is usable for `machine`.
+      #
+      # @param [Object] machine The Vagrant machine instance.
+      # @param [Boolean] _raise_error Whether to raise an exception if unusable.
+      # @return [Boolean] True when the machine is configured as an MS-DOS guest.
+      #
       def usable?(machine, _raise_error = false)
         CommandSsh.msdos_machine?(machine)
       end

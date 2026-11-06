@@ -1,37 +1,22 @@
 # frozen_string_literal: true
 
-#
-# @file communicator.rb
-# @brief Telnet / Serial Communicator plugin for Microsoft MS-DOS (`config.vm.communicator = :msdos`)
-# @description
-#   Implements the Vagrant communicator interface (`ready?`, `wait_for_ready`,
-#   `execute`, `sudo`, `test`, `upload`, `download`, `reset!`) over a QEMU,
-#   UTM, or VirtualBox Telnet TCP socket or Unix domain serial socket connected
-#   to MS-DOS (1.25, 2.0, or 4.0) `COM1` (`CTTY COM1` / `VAGAGENT.BAT`).
-#
-
 require 'socket'
 require 'securerandom'
 require 'base64'
 require 'timeout'
 require 'fileutils'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for Microsoft MS-DOS guests.
   module VagrantMsdos
-    #
-    # @class CommunicatorError
-    # @description Exception raised when an MS-DOS command fails or serial communication times out.
-    #
+    # Exception raised when an MS-DOS command fails or serial communication times out.
     class CommunicatorError < StandardError; end
 
-    #
-    # @class Communicator
-    # @description
-    #   Provides reliable command execution, exit-code (`%ERRORLEVEL%` and
-    #   MS-DOS 1.25/2.0 fallback error detection) capture, and binary file
-    #   upload/download between Vagrant and an MS-DOS (1.25, 2.0, 4.0) guest
-    #   over Telnet or Unix domain serial sockets.
-    #
+    # Provides reliable command execution, exit-code (`%ERRORLEVEL%` and
+    # MS-DOS 1.25/2.0 fallback error detection) capture, and binary file
+    # upload/download between Vagrant and an MS-DOS (1.25, 2.0, 4.0) guest
+    # over Telnet or Unix domain serial sockets.
     class Communicator
       # @return [Integer] Telnet Interpret As Command (IAC) byte (255).
       IAC = 255

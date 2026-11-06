@@ -1,16 +1,5 @@
 # frozen_string_literal: true
 
-#
-# @file plugin.rb
-# @brief Vagrant Plugin registration for the Bento FreeDOS Suite (`Bento::VagrantFreedos::Plugin`)
-# @description
-#   Registers the `:freedos` configuration block, `:freedos` guest OS & capabilities,
-#   `:freedos` / `:freedos_serial` / `:freedos_telnet` communicator, `:freedos_sync`
-#   bidirectional synced folder implementation, `vagrant freedos-ssh` / `vagrant ssh`
-#   polyfill hooks, and `vagrant freedos-sync` CLI command. Works both inside a live
-#   Vagrant runtime (`Vagrant.plugin("2")`) and in standalone Ruby/RSpec environments.
-#
-
 require_relative 'config'
 require_relative 'guest'
 require_relative 'communicator'
@@ -18,14 +7,12 @@ require_relative 'command_ssh'
 require_relative 'synced_folder'
 require_relative 'command_sync'
 
+# Top-level Bento namespace.
 module Bento
+  # Vagrant plugin suite for FreeDOS guests.
   module VagrantFreedos
-    #
-    # @class Plugin
-    # @description
-    #   Provides unified registration metadata and Vagrant v2 plugin hooks for
-    #   FreeDOS guests.
-    #
+    # Provides unified registration metadata and Vagrant v2 plugin hooks for
+    # FreeDOS guests.
     class Plugin
       #
       # Returns the map of all registered plugin components for inspection and testing.

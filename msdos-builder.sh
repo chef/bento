@@ -412,7 +412,7 @@ cmd_build() {
 
   if [ "$_use_packer" = "1" ]; then
     banner "Building MS-DOS ${MSDOS_VERSION} (${OS_ARCH}) via Packer..."
-    packer build -only=qemu.vm -var-file="$PKR_VARS_FILE" "${SCRIPT_DIR}/packer_templates"
+    packer build -only=qemu.vm -var="iso_url=${RAW_DISK}" -var="iso_checksum=none" -var-file="$PKR_VARS_FILE" "${SCRIPT_DIR}/packer_templates"
     return 0
   fi
 
