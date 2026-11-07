@@ -45,9 +45,24 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
+      - name: Cache Packer plugins
+        uses: actions/cache@v4
+        with:
+          path: ~/.config/packer/plugins
+          key: packer-plugins-${{ runner.os }}-${{ hashFiles('packer_templates/pkr-plugins.pkr.hcl') }}
       - name: Packer Init
         env:
           PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        run: packer init -upgrade packer_templates
+        run: |
+          for attempt in 1 2 3; do
+            packer init -upgrade packer_templates && break
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 5))
+          done
       - name: Packer Validate
-        run: packer validate --evaluate-datasources -var-file="${{ matrix.pkrvars }}" packer_templates
+        run: |
+          for attempt in 1 2 3; do
+            packer validate --evaluate-datasources -var-file="${{ matrix.pkrvars }}" packer_templates && break
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep $((attempt * 5))
+          done
